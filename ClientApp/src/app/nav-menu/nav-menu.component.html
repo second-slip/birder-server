@@ -26,23 +26,24 @@
     </div>
   </div> -->
 
-  <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
-    <a class="navbar-brand" [routerLink]='["/"]'>Angular</a>
-    <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
-      <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-              <a class="nav-link" [routerLink]='["/"]'>Home</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" [routerLink]='["/counter"]'>Counter</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" [routerLink]='["/fetch-data"]'>Weather</a>
-          </li>
-        <!-- <li class="nav-item dropdown" ngbDropdown>
+<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+  <a class="navbar-brand" [routerLink]='["/"]'>Angular</a>
+  <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed"
+    data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]='["/"]'>Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]='["/counter"]'>Counter</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]='["/fetch-data"]'>Weather</a>
+      </li>
+      <!-- <li class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" id="id01" href="#" ngbDropdownToggle>Files</a>
           <div class="dropdown-menu" aria-labelledby="id01" ngbDropdownMenu>
             <a class="dropdown-item" [routerLink]='["/"]'>Home</a>
@@ -50,49 +51,18 @@
             <a class="dropdown-item" [routerLink]='["/fetch-data"]'>Fetch</a>
           </div>
         </li> -->
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-                <!-- <li class="nav-item dropdown" ngbDropdown>
-                  <a class="nav-link dropdown-toggle" id="id01" href="#" ngbDropdownToggle>Files</a>
-                  <div class="dropdown-menu" aria-labelledby="id01" ngbDropdownMenu>
-                    <a class="dropdown-item" [routerLink]='["/"]'>Home</a>
-                    <a class="dropdown-item" [routerLink]='["/counter"]'>Counter</a>
-                    <a class="dropdown-item" [routerLink]='["/fetch-data"]'>Fetch</a>
-                  </div>
-                </li> -->
-           <li class="nav-item dropdown" ngbDropdown>
-              <a href="#" class="nav-link dropdown-toggle" id="id02" ngbDropdownToggle>
-                  <img src="https://angular.io/assets/images/logos/angular/logo-nav@2x.png" class="profile-img img-circle" style="resize:both">Andrew Cross<b class="caret"></b>
-                  <ul class="dropdown-menu" ngbDropdownMenu>
-                      <a class="dropdown-item" [routerLink]='["/"]'>My Account</a>
-                      <a class="dropdown-item" [routerLink]='["/counter"]'>Logout</a>
-                      <!-- <a class="dropdown-item" [routerLink]='["/fetch-data"]'>Fetch</a> -->
-                      <!-- <li><a asp-area="" asp-controller="Manage" asp-action="Index">My Account</a></li> -->
-                  </ul>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" [routerLink]='["/fetch-data"]'>Logout</a>
-          </li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a asp-area="" asp-controller="Observation" asp-action="Index" class="navbar-brand">Birder</a>
-        </div>
-        <div class="navbar-collapse collapse">
-             @await Html.PartialAsync("_NavbarPartial")
-
-            @await Html.PartialAsync("_LoginPartial")
-        </div>
-    </div>
-</nav> -->
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="nav-item dropdown" ngbDropdown>
+        <a href="#" class="nav-link dropdown-toggle" id="id02" ngbDropdownToggle>
+          <img src="https://angular.io/assets/images/logos/angular/logo-nav@2x.png" class="profile-img img-circle"
+            style="resize:both">Andrew Cross<b class="caret"></b>
+          <ul class="dropdown-menu" ngbDropdownMenu>
+            <a class="dropdown-item" [routerLink]='["/"]'>My Account</a>
+            <a class="dropdown-item" [routerLink]='["/counter"]'>Logout</a>
+          </ul>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
