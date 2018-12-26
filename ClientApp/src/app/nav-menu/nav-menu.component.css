@@ -1,4 +1,14 @@
 
+.profile-img {
+  margin-top: -5px;
+  margin-right: 5px;
+  float: left;
+  /*background: url('../images/if_099374-twitter-bird3_56010.png') 50% 50% no-repeat;
+  background-size: auto 100%; /* Interchange this value depending on prefering width vs. height  */
+  width: 30px;
+  height: 30px;
+}
+/* 
 li .fa {
     margin-right: 10px;
   }
@@ -23,7 +33,7 @@ li .fa {
     padding-left: 16px;
   }
   
-  /* Highlighting rules for nav menu items */
+   Highlighting rules for nav menu items 
   li.link-active a,
   li.link-active a:hover,
   li.link-active a:focus {
@@ -31,7 +41,7 @@ li .fa {
     color: white;
   }
   
-  /* Keep the nav menu independent of scrolling and on top of other items */
+   Keep the nav menu independent of scrolling and on top of other items 
   .main-nav {
     position: fixed;
     top: 0;
@@ -41,7 +51,7 @@ li .fa {
   }
   
   @media (min-width: 576px) {
-    /* On small screens, convert the nav menu to a vertical sidebar */
+     On small screens, convert the nav menu to a vertical sidebar 
     .main-nav {
       height: 100%;
       width: calc(25% - 20px);
@@ -72,10 +82,10 @@ li .fa {
       border-radius: 4px;
     }
     .navbar a {
-      /* If a menu item's text is too long, truncate it */
+       If a menu item's text is too long, truncate it 
       width: 100%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-  }
+  } */
