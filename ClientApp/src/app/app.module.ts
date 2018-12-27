@@ -10,6 +10,9 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SideMenuComponent } from './side-menu/side-menu.component';
+import { MatIconModule, MatPaginatorModule, PageEvent } from '@angular/material';
+import { BirdsListComponent } from './birds-list/birds-list.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    SideMenuComponent,
+    BirdsListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -25,7 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     NgbModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule, MatIconModule, MatPaginatorModule, PageEvent
   ],
   providers: [],
   bootstrap: [AppComponent]
