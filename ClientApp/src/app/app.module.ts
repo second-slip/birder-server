@@ -11,7 +11,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
-import { MatIconModule, MatPaginatorModule, PageEvent } from '@angular/material';
+import { MatIconModule} from '@angular/material';
 import { BirdsListComponent } from './birds-list/birds-list.component';
 
 @NgModule({
@@ -30,7 +30,7 @@ import { BirdsListComponent } from './birds-list/birds-list.component';
     FormsModule,
     NgbModule,
     AppRoutingModule,
-    BrowserAnimationsModule, MatIconModule, MatPaginatorModule, PageEvent
+    BrowserAnimationsModule, MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -13,11 +13,11 @@ export class BirdsListComponent implements OnInit {
     pageSizeOptions: number[] = [5, 10, 25, 100];
   
     // MatPaginator Output
-    pageEvent: PageEvent;
+    // pageEvent: PageEvent;
   
-    setPageSizeOptions(setPageSizeOptionsInput: string) {
-      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
-    }
+    // setPageSizeOptions(setPageSizeOptionsInput: string) {
+    //   this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+    // }
 
   constructor() { }
 
