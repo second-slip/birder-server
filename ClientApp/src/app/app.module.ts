@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MatIconModule} from '@angular/material';
 import { BirdsListComponent } from './birds-list/birds-list.component';
+import { ObservationsFeedComponent } from './observations-feed/observations-feed.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { BirdsListComponent } from './birds-list/birds-list.component';
     CounterComponent,
     FetchDataComponent,
     SideMenuComponent,
-    BirdsListComponent
+    BirdsListComponent,
+    ObservationsFeedComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
