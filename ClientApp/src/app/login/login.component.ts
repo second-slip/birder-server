@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { LocalStorageService } from '../local-storage.service';
 
 @Component({
   selector: 'login',
@@ -10,7 +11,7 @@ import { NgForm } from '@angular/forms';
 export class LoginComponent {
   invalidLogin: boolean;
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient, private localStorageService: LocalStorageService) { }
 
   login(form: NgForm) {
     let credentials = JSON.stringify(form.value);
@@ -20,7 +21,9 @@ export class LoginComponent {
       })
     }).subscribe(response => {
       let token = (<any>response).token;
-      localStorage.setItem('jwt', token);
+      this.localStorageService.addToken(token);
+      // localStorage.setItem('jwt', token);
+
       this.invalidLogin = false;
       console.log('successful login');
       this.router.navigate(['/']);
