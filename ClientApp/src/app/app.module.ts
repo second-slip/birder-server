@@ -17,6 +17,7 @@ import { ObservationsFeedComponent } from './observations-feed/observations-feed
 import { LoginComponent } from './login/login.component';
 
 import { JwtHelper } from 'angular2-jwt';
+import { AuthGuard } from './auth-guard.service';
 
 
 @NgModule({
@@ -39,7 +40,7 @@ import { JwtHelper } from 'angular2-jwt';
     AppRoutingModule,
     BrowserAnimationsModule, MatIconModule
   ],
-  providers: [JwtHelper],
+  providers: [JwtHelper, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

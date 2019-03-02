@@ -22,8 +22,10 @@ export class LoginComponent {
       let token = (<any>response).token;
       localStorage.setItem('jwt', token);
       this.invalidLogin = false;
+      console.log('successful login');
       this.router.navigate(['/']);
     }, err => {
+      console.log('UN-successful login');
       this.invalidLogin = true;
     });
   }
