@@ -11,18 +11,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Birder.Controllers
 {
-
-    //[Route("api/[controller]")]
-    //[ApiController]
-    //public class AccountController : ControllerBase
-    //{
-    //}
-    [Route("api/auth")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
         // GET api/values
-        [HttpPost, Route("login")]
+        [HttpPost, Route("login")] //[HttpPost("[action]")]
         public IActionResult Login([FromBody]LoginViewModel user)
         {
             if (user == null)
@@ -56,7 +50,7 @@ namespace Birder.Controllers
 
 
 
-
+    //Too: Move to separate file
     public class LoginViewModel
     {
         public string UserName { get; set; }
