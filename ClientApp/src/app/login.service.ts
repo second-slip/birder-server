@@ -1,33 +1,39 @@
-import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { JwtHelper } from 'angular2-jwt';
-
-@Injectable({
-  providedIn: 'root'
-})
-// export class LoginService {
-
-//   constructor() { }
-// }
+import { HttpClient } from 'selenium-webdriver/http';
 
 export class LoginService {
-  // isLoggedIn: boolean;
 
-  constructor(private jwtHelper: JwtHelper) { }
+  private isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoggedIn$: Observable<boolean> = this.isLoggedIn.asObservable();
 
-  // checkLoginStatus(): Observable<boolean> {
-   checkLoginStatus(): boolean {
-    var token = localStorage.getItem('jwt');
+  constructor(private jwtHelper: JwtHelper
+            , private http: HttpClient) { }
 
-    if (token && !this.jwtHelper.isTokenExpired(token)){
-      // console.log(this.jwtHelper.decodeToken(token));
-      alert('user is logged in');
-      // this.isLoggedIn = true;
 
-      return true;
-    } else {
-      // this.isLoggedIn = false;
-      alert('user is NOT logged in');
-      return false;
-    }
+
+   // ...
+
+  login() {
+
+
+
+    // When Login
+    this.isLoggedIn.next(true);
   }
+
+  // ...
+  logout() {
+
+    localStorage.removeItem('jwt');
+
+    // When Logout
+    this.isLoggedIn.next(false);
+  }
+
+  /* checkLoginStatus(): boolean {
+    var token = localStorage.getItem("jwt");
+
+    (token && !this.jwtHelper.isTokenExpired(token)) ? this.isLoggedIn.next(true): this.isLoggedIn.next(false);
+  } */
 }

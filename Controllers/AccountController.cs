@@ -32,25 +32,37 @@ namespace Birder.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Role, "Operator")
+                    new Claim(ClaimTypes.Role, "Administrator")
                 };
 
                 var tokeOptions = new JwtSecurityToken(
                     issuer: "http://localhost:53468",
                     audience: "http://localhost:53468",
-                    claims: new List<Claim>(),  //claims,
+                    claims: claims,  // new List<Claim>(),
                     expires: DateTime.Now.AddMinutes(5),
                     signingCredentials: signinCredentials
                 );
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+                
+                var uvm = new UserViewModel();
+                uvm.UserName = "Andrew Cross";
+                uvm.Token = tokenString;
+
                 return Ok(new { Token = tokenString });
+                //return Ok(uvm);
             }
             else
             {
                 return Unauthorized();
             }
         }
+    }
+
+    public class UserViewModel
+    {
+        public string UserName { get; set; }
+        public string Token { get; set; }
     }
 
 
