@@ -14,6 +14,10 @@ import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MatIconModule} from '@angular/material';
 import { BirdsListComponent } from './birds-list/birds-list.component';
 import { ObservationsFeedComponent } from './observations-feed/observations-feed.component';
+import { LoginComponent } from './login/login.component';
+
+import { JwtHelper } from 'angular2-jwt';
+
 
 @NgModule({
   declarations: [
@@ -24,7 +28,8 @@ import { ObservationsFeedComponent } from './observations-feed/observations-feed
     FetchDataComponent,
     SideMenuComponent,
     BirdsListComponent,
-    ObservationsFeedComponent
+    ObservationsFeedComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -34,7 +39,7 @@ import { ObservationsFeedComponent } from './observations-feed/observations-feed
     AppRoutingModule,
     BrowserAnimationsModule, MatIconModule
   ],
-  providers: [],
+  providers: [JwtHelper],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
