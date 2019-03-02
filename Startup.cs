@@ -38,8 +38,8 @@ namespace Birder
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
             
-                    ValidIssuer = "http://localhost:5000",
-                    ValidAudience = "http://localhost:5000",
+                    ValidIssuer = "http://localhost:55721",
+                    ValidAudience = "http://localhost:55721",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                 };
             });
