@@ -4,8 +4,9 @@ import { CanActivate, Router } from '@angular/router';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtHelper: JwtHelper, private router: Router) {
-  }
+  constructor(private jwtHelper: JwtHelper
+            , private router: Router) { }
+
   canActivate() {
     let token = localStorage.getItem('jwt');
 
