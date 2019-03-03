@@ -18,11 +18,11 @@ import {
 })
 export class ReactFormExampleComponent implements OnInit {
 
-  //userDetailsForm: FormGroup;
+  // userDetailsForm: FormGroup;
   accountDetailsForm: FormGroup;
 
   matching_passwords_group: FormGroup;
-  //country_phone_group: FormGroup;
+  // country_phone_group: FormGroup;
 
    parentErrorStateMatcher = new ParentErrorStateMatcher();
 
