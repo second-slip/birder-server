@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
@@ -11,13 +11,15 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
-import { MatIconModule} from '@angular/material';
+import { MatIconModule, MatButtonModule, MatInputModule, 
+  MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule} from '@angular/material';
 import { BirdsListComponent } from './birds-list/birds-list.component';
 import { ObservationsFeedComponent } from './observations-feed/observations-feed.component';
 import { LoginComponent } from './login/login.component';
 
 import { JwtHelper } from 'angular2-jwt';
 import { AuthGuard } from './auth-guard.service';
+import { ReactFormExampleComponent } from './react-form-example/react-form-example.component';
 
 
 @NgModule({
@@ -30,15 +32,28 @@ import { AuthGuard } from './auth-guard.service';
     SideMenuComponent,
     BirdsListComponent,
     ObservationsFeedComponent,
-    LoginComponent
+    LoginComponent,
+    ReactFormExampleComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    FormsModule,
+    FormsModule, ReactiveFormsModule,
     NgbModule,
     AppRoutingModule,
-    BrowserAnimationsModule, MatIconModule
+    BrowserAnimationsModule, MatIconModule,
+    // BrowserModule,
+    // FormsModule,
+    // RouterModule.forRoot(rootRouterConfig, { useHash: false }),
+    // ReactiveFormsModule,
+    // BrowserAnimationsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
+    // HttpClientModule,
+MatSelectModule
   ],
   providers: [JwtHelper, AuthGuard],
   bootstrap: [AppComponent]
