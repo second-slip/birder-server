@@ -128,7 +128,3 @@ export class HttpService {
   }
 }
 
-export class LoginViewModel {
-  userName: string;
-  password: string;
-}

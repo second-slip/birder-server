@@ -3,6 +3,9 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelper } from 'angular2-jwt';
 import { map } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { LoginViewModel } from './login/login.component';
+
+
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,10 +23,10 @@ export class AuthentificationService {
 
   constructor(private http: HttpClient) { }
 
-  login(viewModel: any) {
+  login(viewModel: LoginViewModel) {
+    // TODO: remove console log
     console.log('loginservice - LOGIN');
 
-    // return this.http.post<any>(`${config.apiUrl}/users/authenticate`, { username, password }, httpOptions)
     return this.http.post<any>(this.heroesUrl, viewModel, httpOptions)
       .pipe(map(user => {
         // login successful if there's a jwt token in the response
