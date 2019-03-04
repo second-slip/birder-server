@@ -11,7 +11,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
-import { MatIconModule, MatButtonModule, MatInputModule, 
+import { MatIconModule, MatButtonModule, MatInputModule,
   MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule} from '@angular/material';
 import { BirdsListComponent } from './birds-list/birds-list.component';
 import { ObservationsFeedComponent } from './observations-feed/observations-feed.component';
@@ -33,7 +33,7 @@ import { ReactFormExampleComponent } from './react-form-example/react-form-examp
     BirdsListComponent,
     ObservationsFeedComponent,
     LoginComponent,
-    ReactFormExampleComponent,
+    ReactFormExampleComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -26,6 +26,7 @@ export class AuthentificationService {
   login(viewModel: LoginViewModel) {
     // TODO: remove console log
     console.log('loginservice - LOGIN');
+    console.log(viewModel);
 
     return this.http.post<any>(this.heroesUrl, viewModel, httpOptions)
       .pipe(map(user => {

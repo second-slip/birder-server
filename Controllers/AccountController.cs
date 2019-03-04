@@ -24,7 +24,7 @@ namespace Birder.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            if (user.UserName == "johndoe" && user.Password == "def@123")
+            if (user.UserName == "a@b.com" && user.Password == "test")
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -73,5 +73,6 @@ namespace Birder.Controllers
     {
         public string UserName { get; set; }
         public string Password { get; set; }
+        public bool Remember { get; set; }
     }
 }
