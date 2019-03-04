@@ -45,15 +45,14 @@ export class AuthentificationService {
   checkLoginStatus(): boolean {
     var token = localStorage.getItem('jwt');
 
-    if (token && !this.jwtHelper.isTokenExpired(token)){
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
       // console.log(this.jwtHelper.decodeToken(token));
       // alert('user is logged in');
       // this.isLoggedIn = true;
       // this.loggedStatus.emit(true);
       this.isLoggedIn.next(true);
       return true;
-    }
-    else {
+    } else {
       // this.isLoggedIn = false;
       // alert('user is NOT logged in');
       // this.loggedStatus.emit(false);

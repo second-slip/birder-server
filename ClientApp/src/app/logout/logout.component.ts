@@ -22,5 +22,4 @@ export class LogoutComponent {
     // TODO: go back to last view
     alert('cancel');
   }
-
 }

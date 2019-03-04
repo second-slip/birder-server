@@ -21,24 +21,32 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]='["/react-form-example"]'>React</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]='["/login"]'>Login</a>
-      </li>
     </ul>
 
-    <div *ngIf="isLoggedIn==true">
-    <ul class="nav navbar-nav navbar-right">
-      <li class="nav-item dropdown" ngbDropdown>
-        <a href="#" class="nav-link dropdown-toggle" id="id02" ngbDropdownToggle>
-          <img src="https://avatars2.githubusercontent.com/u/35421339?s=460&v=4" class="profile-img img-circle" style="resize:both">Andrew
-          Cross<b class="caret"></b>
-          <ul class="dropdown-menu" ngbDropdownMenu>
-            <a class="dropdown-item" [routerLink]='["/counter"]'>My Account</a>
-            <a class="dropdown-item" [routerLink]='["/logout"]'>Logout</a>
-          </ul>
-        </a>
-      </li>
-    </ul>
-  </div>
+    <div *ngIf="isLoggedIn">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item dropdown" ngbDropdown>
+          <a href="#" class="nav-link dropdown-toggle" id="id02" ngbDropdownToggle>
+            <img src="https://avatars2.githubusercontent.com/u/35421339?s=460&v=4" class="profile-img img-circle"
+              style="resize:both">Andrew
+            Cross<b class="caret"></b>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <a class="dropdown-item" [routerLink]='["/counter"]'>My Account</a>
+              <a class="dropdown-item" [routerLink]='["/logout"]'>Logout</a>
+            </ul>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="!isLoggedIn">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]='["/login"]'>Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]='["/counter"]'>Register</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
