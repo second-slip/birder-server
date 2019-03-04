@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BirdsService } from '../birds.service';
 import { Bird } from '../../_models/Bird';
 import { ActivatedRoute } from '@angular/router';
@@ -10,21 +10,22 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BirdsDetailComponent implements OnInit {
 
+  // @Input() bird: Bird;
   bird: Bird;
 
   constructor(private birdsService: BirdsService
     , private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getHero();
+    this.getBird();
+    console.log(this.bird);
   }
 
-  getHero(): void {
+  getBird(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    alert(id);
     this.birdsService.getBird(id)
       .subscribe(bird => this.bird = bird);
-      alert(this.bird);
+      
   }
 
 }

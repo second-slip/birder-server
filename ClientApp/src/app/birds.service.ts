@@ -21,20 +21,12 @@ export class BirdsService {
       );
   }
 
-  //   /** GET hero by id. Will 404 if id not found */
-  //   getHero(id: number): Observable<Hero> {
-  //     const url = `${this.heroesUrl}/${id}`;
-  //     return this.http.get<Hero>(url).pipe(
-  //       tap(_ => this.log(`fetched hero id=${id}`)),
-  //       catchError(this.handleError<Hero>(`getHero id=${id}`))
-  //     );
-  // }
   getBird(id: number): Observable<Bird> {
-    const url = `${this.url}/${id}`;
-    alert(url);
-    return this.http.get<Bird>(this.url)
+    const url = `${this.url}/GetBird?id=${id}`;
+    // alert(url);
+    return this.http.get<Bird>(url)
       .pipe(
-        tap(_ => this.log('fetched bird')),
+        tap(bird => this.log('fetched bird')),
         catchError(this.handleError<Bird>('getBird'))
       );
   }

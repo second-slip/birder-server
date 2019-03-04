@@ -38,8 +38,10 @@ namespace Birder.Controllers
         }
 
         // GET: api/Birds/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetBird([FromRoute] int id)
+        //public async Task<IActionResult> GetBird([FromRoute] int id)
+        [HttpGet]
+        [Route("GetBird")]
+        public async Task<IActionResult> GetBird(int id)
         {
             if (!ModelState.IsValid)
             {
