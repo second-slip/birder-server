@@ -1,3 +1,10 @@
-<p>
-  birds-index works!
-</p>
+<h2>British Birds</h2>
+<p>This page is underdevelopment.  You will eventually be able to filter the list and adjust the results per page.</p>
+
+<ul class="heroes">
+  <li *ngFor="let bird of birds">
+    <!-- [class.selected]="hero === selectedHero"
+    (click)="onSelect(hero)"> -->
+    <span class="badge">{{bird.birdId}}</span> {{bird.englishName}}
+  </li>
+</ul>

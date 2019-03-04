@@ -1,5 +1,5 @@
 export interface LoginViewModel {
-    username: string;
-    password: string;
-    rememberMe: boolean;
-  }
+  username: string;
+  password: string;
+  rememberMe: boolean;
+}

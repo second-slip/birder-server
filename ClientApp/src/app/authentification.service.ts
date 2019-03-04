@@ -17,7 +17,7 @@ export class AuthentificationService {
 
   private isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoggedIn$: Observable<boolean> = this.isLoggedIn.asObservable();
-  private heroesUrl = 'api/Account/Login';
+  private url = 'api/Account/Login';
 
   constructor(private http: HttpClient
             , private jwtHelper: JwtHelper) { }
@@ -26,7 +26,7 @@ export class AuthentificationService {
     // TODO: remove console log
     console.log('loginservice - LOGIN');
 
-    return this.http.post<any>(this.heroesUrl, viewModel, httpOptions)
+    return this.http.post<any>(this.url, viewModel, httpOptions)
       .pipe(map(user => {
         // login successful if there's a jwt token in the response
         if (user && user.token) {

@@ -28,7 +28,7 @@ export class HttpService {
       );
   }
 
-  
+
   // /** POST: add a new hero to the server */
   // addHero (hero: Hero): Observable<Hero> {
   //   return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(

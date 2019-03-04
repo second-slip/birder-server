@@ -21,6 +21,7 @@ import { AuthGuard } from './auth-guard.service';
 import { ReactFormExampleComponent } from './react-form-example/react-form-example.component';
 import { LogoutComponent } from './logout/logout.component';
 import { BirdsIndexComponent } from './birds-index/birds-index.component';
+import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { BirdsIndexComponent } from './birds-index/birds-index.component';
     LoginComponent,
     ReactFormExampleComponent,
     LogoutComponent,
-    BirdsIndexComponent
+    BirdsIndexComponent,
+    BirdsDetailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

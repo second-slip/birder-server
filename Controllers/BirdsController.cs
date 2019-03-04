@@ -46,7 +46,19 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-            var bird = await _context.Birds.FindAsync(id);
+            var birds = new List<Bird>();
+            var bird1 = new Bird { BirdId = 1, EnglishName = "Oystercatcher" };
+            birds.Add(bird1);
+            var bird2 = new Bird { BirdId = 2, EnglishName = "Dipper" };
+            birds.Add(bird2);
+            var bird3 = new Bird { BirdId = 3, EnglishName = "Robin" };
+            birds.Add(bird3);
+
+            var bird = (from b in birds
+                        where(b.BirdId == id)
+                        select b).FirstOrDefault();
+
+            //var bird = await _context.Birds.FindAsync(id);
 
             if (bird == null)
             {

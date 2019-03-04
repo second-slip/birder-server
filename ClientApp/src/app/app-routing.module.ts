@@ -9,12 +9,14 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth-guard.service';
 import { ReactFormExampleComponent } from './react-form-example/react-form-example.component';
 import { LogoutComponent } from './logout/logout.component';
+import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },
   { path: 'birds-index', component: BirdsIndexComponent },
+  { path: 'birds-detail/:id', component: BirdsDetailComponent },
   { path: 'observations-feed', component: ObservationsFeedComponent },
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},
