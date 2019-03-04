@@ -40,12 +40,12 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-checkbox formControlName="terms">
+          <mat-checkbox formControlName="rememberMe">
             Remember Me?
           </mat-checkbox>
-          <mat-error *ngFor="let validation of login_validation_messages.terms">
+          <mat-error *ngFor="let validation of login_validation_messages.rememberMe">
             <mat-error class="error-message"
-              *ngIf="loginForm.get('terms').hasError(validation.type) && (loginForm.get('terms').dirty || loginForm.get('terms').touched)">
+              *ngIf="loginForm.get('rememberMe').hasError(validation.type) && (loginForm.get('rememberMe').dirty || loginForm.get('rememberMe').touched)">
               {{validation.message}}</mat-error>
           </mat-error>
 

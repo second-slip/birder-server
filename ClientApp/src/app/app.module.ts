@@ -20,6 +20,7 @@ import { LoginComponent } from './login/login.component';
 import { JwtHelper } from 'angular2-jwt';
 import { AuthGuard } from './auth-guard.service';
 import { ReactFormExampleComponent } from './react-form-example/react-form-example.component';
+import { LogoutComponent } from './logout/logout.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { ReactFormExampleComponent } from './react-form-example/react-form-examp
     BirdsListComponent,
     ObservationsFeedComponent,
     LoginComponent,
-    ReactFormExampleComponent
+    ReactFormExampleComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

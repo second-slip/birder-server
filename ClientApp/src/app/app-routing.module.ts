@@ -8,6 +8,7 @@ import { ObservationsFeedComponent } from './observations-feed/observations-feed
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth-guard.service';
 import { ReactFormExampleComponent } from './react-form-example/react-form-example.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'birds-list', component: BirdsListComponent },
   { path: 'observations-feed', component: ObservationsFeedComponent },
   { path: 'login', component: LoginComponent},
+  { path: 'logout', component: LogoutComponent},
   { path: 'react-form-example', component: ReactFormExampleComponent }
 ];
 

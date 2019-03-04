@@ -1,8 +1,6 @@
 import { AuthentificationService } from '../authentification.service';
 import { Router } from '@angular/router';
-// import { NgForm } from '@angular/forms';
 import { first } from 'rxjs/operators';
-
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ParentErrorStateMatcher } from '../../validators';
@@ -38,11 +36,11 @@ export class LoginComponent implements OnInit {
     //   { type: 'areEqual', message: 'Password mismatch' }
     // ],
     'password': [
-      { type: 'required', message: 'Password is required' },
-      { type: 'minlength', message: 'Password must be at least 5 characters long' }
+      { type: 'required', message: 'Password is required' }
+      // { type: 'minlength', message: 'Password must be at least 5 characters long' }
       // { type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number' }
     ],
-    'terms': [
+    'rememberMe': [
       { type: 'pattern', message: 'You must accept terms and conditions' }
     ]
   };
@@ -54,15 +52,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.authentificationService.logout();
     this.createForms();
-    // this.loginViewModel = new LoginViewModel();
-    // alert(this.loginViewModel.password);
     // TODO: get return url from route parameters or default to '/'
   }
 
   onSubmit(value) {
     // let credentials = JSON.stringify(form.value);
     // this.loginViewModel = form.value;
-    // console.log(this.eg);
     // var model: LoginViewModel;
     // model = value;
     // console.log('model data: ' + value);
@@ -98,19 +93,14 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', Validators.compose([
         Validators.required,
       ])),
-      terms: new FormControl(false, Validators.pattern('true'))
+      rememberMe: new FormControl(false)
     });
-
-
-    //   matching_passwords: this.matching_passwords_group,
-    //   terms: new FormControl(false, Validators.pattern('true'))
-    // });
   }
 }
 
 export interface LoginViewModel {
   username: string;
   password: string;
-  remember: boolean;
+  rememberMe: boolean;
 }
 

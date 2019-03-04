@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
-  <a class="navbar-brand" [routerLink]='["/"]'>Angular</a>
+  <a class="navbar-brand" [routerLink]='["/"]'>Birder</a>
   <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed"
     data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -25,17 +25,20 @@
         <a class="nav-link" [routerLink]='["/login"]'>Login</a>
       </li>
     </ul>
+
+    <div *ngIf="isLoggedIn==true">
     <ul class="nav navbar-nav navbar-right">
       <li class="nav-item dropdown" ngbDropdown>
         <a href="#" class="nav-link dropdown-toggle" id="id02" ngbDropdownToggle>
           <img src="https://avatars2.githubusercontent.com/u/35421339?s=460&v=4" class="profile-img img-circle" style="resize:both">Andrew
           Cross<b class="caret"></b>
           <ul class="dropdown-menu" ngbDropdownMenu>
-            <a class="dropdown-item" [routerLink]='["/"]'>My Account</a>
-            <a class="dropdown-item" [routerLink]='["/counter"]'>Logout</a>
+            <a class="dropdown-item" [routerLink]='["/counter"]'>My Account</a>
+            <a class="dropdown-item" [routerLink]='["/logout"]'>Logout</a>
           </ul>
         </a>
       </li>
     </ul>
+  </div>
   </div>
 </nav>

@@ -1,6 +1,9 @@
 app-login {
     .container {
       margin-top: 50px;
+      // margin-left: 50px;
+      // margin-right: 50px;
+      // overflow-wrap: true;
     }
   // Workaround for https://github.com/angular/material2/issues/4580.
     // mat-form-field .mat-form-field {
@@ -20,25 +23,6 @@ app-login {
     .login-container {
       padding: 20px;
       text-align: center;
-  
-      // .user-image {
-      //   width: 100%;
-      //   border-radius: 50%;
-      // }
-  
-    //   .user-title {
-    //     font-size: 14px;
-    //     font-weight: 500;
-    //     margin-top: 30px;
-    //     display: block;
-    //   }
-  
-    //   .user-bio {
-    //     font-size: 12px;
-    //     margin-top: 20px;
-    //     display: block;
-    //     color: rgba(0, 0, 0, 0.70);
-    //   }
     }
   
   
