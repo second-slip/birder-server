@@ -1,9 +1,7 @@
 app-login {
     .container {
       margin-top: 50px;
-      // margin-left: 50px;
-      // margin-right: 50px;
-      // overflow-wrap: true;
+      margin-right: 50px;
     }
   // Workaround for https://github.com/angular/material2/issues/4580.
     // mat-form-field .mat-form-field {
@@ -24,9 +22,7 @@ app-login {
       padding: 20px;
       text-align: center;
     }
-  
-  
-  
+    
     .full-width {
       width: 100%;
       margin-bottom: 10px;

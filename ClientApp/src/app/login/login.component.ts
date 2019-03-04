@@ -98,9 +98,3 @@ export class LoginComponent implements OnInit {
   }
 }
 
-export interface LoginViewModel {
-  username: string;
-  password: string;
-  rememberMe: boolean;
-}
-

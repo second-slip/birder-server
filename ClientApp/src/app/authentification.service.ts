@@ -3,9 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelper } from 'angular2-jwt';
 import { map } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { LoginViewModel } from './login/login.component';
-
-
+import { LoginViewModel } from '../_models/login-view-model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
