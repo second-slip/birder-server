@@ -25,7 +25,16 @@ namespace Birder.Controllers
         [HttpGet]
         public IEnumerable<Bird> GetBirds()
         {
-            return _context.Birds;
+            var birds = new List<Bird>();
+            var bird1 = new Bird { BirdId = 1, EnglishName = "Oystercatcher" };
+            birds.Add(bird1);
+            var bird2 = new Bird { BirdId = 2, EnglishName = "Dipper" };
+            birds.Add(bird2);
+            var bird3 = new Bird { BirdId = 3, EnglishName = "Robin" };
+            birds.Add(bird3);
+
+            return birds;
+            //return _context.Birds;
         }
 
         // GET: api/Birds/5

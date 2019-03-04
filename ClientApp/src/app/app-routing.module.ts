@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { BirdsListComponent } from './birds-list/birds-list.component';
+import { BirdsIndexComponent } from './birds-index/birds-index.component';
 import { ObservationsFeedComponent } from './observations-feed/observations-feed.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth-guard.service';
@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },
-  { path: 'birds-list', component: BirdsListComponent },
+  { path: 'birds-index', component: BirdsIndexComponent },
   { path: 'observations-feed', component: ObservationsFeedComponent },
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},

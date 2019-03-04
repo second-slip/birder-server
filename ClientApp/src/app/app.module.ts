@@ -13,7 +13,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MatIconModule, MatButtonModule, MatInputModule,
   MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule} from '@angular/material';
-import { BirdsListComponent } from './birds-list/birds-list.component';
 import { ObservationsFeedComponent } from './observations-feed/observations-feed.component';
 import { LoginComponent } from './login/login.component';
 
@@ -21,6 +20,7 @@ import { JwtHelper } from 'angular2-jwt';
 import { AuthGuard } from './auth-guard.service';
 import { ReactFormExampleComponent } from './react-form-example/react-form-example.component';
 import { LogoutComponent } from './logout/logout.component';
+import { BirdsIndexComponent } from './birds-index/birds-index.component';
 
 
 @NgModule({
@@ -31,11 +31,11 @@ import { LogoutComponent } from './logout/logout.component';
     CounterComponent,
     FetchDataComponent,
     SideMenuComponent,
-    BirdsListComponent,
     ObservationsFeedComponent,
     LoginComponent,
     ReactFormExampleComponent,
-    LogoutComponent
+    LogoutComponent,
+    BirdsIndexComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
