@@ -63,9 +63,9 @@ export class LoginComponent implements OnInit {
     // let credentials = JSON.stringify(form.value);
     // this.loginViewModel = form.value;
     // console.log(this.eg);
-    var model: LoginViewModel;
-    model = value;
-    console.log('model data: ' + value);
+    // var model: LoginViewModel;
+    // model = value;
+    // console.log('model data: ' + value);
 
     this.authentificationService.login(value)
       .pipe(first())
@@ -101,7 +101,6 @@ export class LoginComponent implements OnInit {
       terms: new FormControl(false, Validators.pattern('true'))
     });
 
-      
 
     //   matching_passwords: this.matching_passwords_group,
     //   terms: new FormControl(false, Validators.pattern('true'))
