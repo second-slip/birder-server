@@ -6,5 +6,9 @@
     <!-- [class.selected]="hero === selectedHero"
     (click)="onSelect(hero)"> -->
     <span class="badge">{{bird.birdId}}</span> {{bird.englishName}}
+    <a routerLink="/birds-detail/{{bird.birdId}}">
+      Details
+    </a>
+
   </li>
 </ul>

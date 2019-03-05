@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -22,6 +22,7 @@ import { ReactFormExampleComponent } from './react-form-example/react-form-examp
 import { LogoutComponent } from './logout/logout.component';
 import { BirdsIndexComponent } from './birds-index/birds-index.component';
 import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
+
 
 
 @NgModule({
@@ -59,7 +60,12 @@ import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
     // HttpClientModule,
 MatSelectModule
   ],
-  providers: [JwtHelper, AuthGuard],
+  providers: [JwtHelper, AuthGuard], 
+  // {
+  //   provide: HTTP_INTERCEPTORS,
+  //   useClass: HttpErrorInterceptor,
+  //   multi: true,
+  // }
   bootstrap: [AppComponent]
 })
 export class AppModule { }
