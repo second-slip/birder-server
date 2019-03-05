@@ -10,6 +10,7 @@ import { AuthGuard } from './auth-guard.service';
 import { ReactFormExampleComponent } from './react-form-example/react-form-example.component';
 import { LogoutComponent } from './logout/logout.component';
 import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -20,7 +21,8 @@ const routes: Routes = [
   { path: 'observations-feed', component: ObservationsFeedComponent },
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},
-  { path: 'react-form-example', component: ReactFormExampleComponent }
+  { path: 'react-form-example', component: ReactFormExampleComponent },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

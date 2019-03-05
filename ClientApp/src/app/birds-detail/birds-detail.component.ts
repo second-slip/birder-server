@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BirdsService } from '../birds.service';
 import { Bird } from '../../_models/Bird';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -14,10 +14,11 @@ export class BirdsDetailComponent implements OnInit {
 
   constructor(private birdsService: BirdsService
             , private route: ActivatedRoute
-            , private location: Location) { }
+            , private location: Location
+            , private router: Router) { }
 
   ngOnInit(): void {
-    this.getBird();
+    this.getBird2();
   }
 
   getBird(): void {
@@ -27,22 +28,23 @@ export class BirdsDetailComponent implements OnInit {
       // TODO: error - what to do if someone types route with bad id.. eg. 404
   }
 
-  // getBird2(): void {
-  //   const id = +this.route.snapshot.paramMap.get('id');
-  //   this.birdsService.getBird(id)
-  //     .subscribe(bird => { this.bird = bird; },
-  //       error => {
-  //         alert('bad request');
-  //       },
-  //       () => {
-  //         alert('');
-  //         // 'onCompleted' callback.
-  //         // No errors, route to new page here
-  //       }
-  //     );
+  getBird2(): void {
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.birdsService.getBird(id)
+      .subscribe(bird => { this.bird = bird; },
+        error => {
+          console.log('bad request');
+          this.router.navigate(['/page-not-found']);
+        },
+        () => {
+          // alert('');
+          // 'onCompleted' callback.
+          // No errors, route to new page here
+        }
+      );
 
-  //     // TODO: error - what to do if someone types route with bad id.. eg. 404
-  // }
+      // TODO: error - what to do if someone types route with bad id.. eg. 404
+  }
 
   goBack(): void {
     this.location.back();

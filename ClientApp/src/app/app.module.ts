@@ -15,15 +15,14 @@ import { MatIconModule, MatButtonModule, MatInputModule,
   MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule} from '@angular/material';
 import { ObservationsFeedComponent } from './observations-feed/observations-feed.component';
 import { LoginComponent } from './login/login.component';
-
 import { JwtHelper } from 'angular2-jwt';
 import { AuthGuard } from './auth-guard.service';
 import { ReactFormExampleComponent } from './react-form-example/react-form-example.component';
 import { LogoutComponent } from './logout/logout.component';
 import { BirdsIndexComponent } from './birds-index/birds-index.component';
 import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
-
-
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HttpErrorInterceptor } from './http-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,7 +37,8 @@ import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
     ReactFormExampleComponent,
     LogoutComponent,
     BirdsIndexComponent,
-    BirdsDetailComponent
+    BirdsDetailComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -54,12 +54,12 @@ import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
     MatCheckboxModule,
 MatSelectModule
   ],
-  providers: [JwtHelper, AuthGuard],
-  // {
-  //   provide: HTTP_INTERCEPTORS,
-  //   useClass: HttpErrorInterceptor,
-  //   multi: true,
-  // }
+  providers: [JwtHelper, AuthGuard,
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpErrorInterceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

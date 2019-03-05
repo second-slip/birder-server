@@ -23,8 +23,13 @@ namespace Birder.Controllers
 
         // GET: api/Birds
         [HttpGet]
-        public IEnumerable<Bird> GetBirds()
+        public async Task<IActionResult> GetBirds()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var birds = new List<Bird>();
             var bird1 = new Bird { BirdId = 1, EnglishName = "Oystercatcher" };
             birds.Add(bird1);
@@ -33,7 +38,13 @@ namespace Birder.Controllers
             var bird3 = new Bird { BirdId = 3, EnglishName = "Robin" };
             birds.Add(bird3);
 
-            return birds;
+            // if birds list == 0 does it show null or just empty?
+            if (birds == null) 
+            {
+                return BadRequest();
+            }
+
+            return Ok(birds);
             //return _context.Birds;
         }
 

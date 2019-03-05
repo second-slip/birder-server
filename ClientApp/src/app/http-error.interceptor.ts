@@ -18,7 +18,6 @@ import 'rxjs/add/observable/of';
 export class HttpErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-
     // remove this if in your application, this is just for testing purposes of this plnkr
     if (request.url === './error-and-bypass-interceptor.json') {
       return next.handle(request);

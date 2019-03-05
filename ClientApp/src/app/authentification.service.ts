@@ -35,6 +35,7 @@ export class AuthentificationService {
           this.isLoggedIn.next(true);
           // this.currentUserSubject.next(user);
         }
+        // TODO: handle error: looed by global intercept
 
         return user;
       }));
@@ -62,22 +63,13 @@ export class AuthentificationService {
     }
   }
 
-
-  // ...
   logout(): void {
-
+    // TODO: Remove console.log
     console.log('loginservice - LOGOUT');
 
     localStorage.removeItem('jwt');
 
-    // When Logout
     this.isLoggedIn.next(false);
   }
-
-  /* checkLoginStatus(): boolean {
-    var token = localStorage.getItem("jwt");
-
-    (token && !this.jwtHelper.isTokenExpired(token)) ? this.isLoggedIn.next(true): this.isLoggedIn.next(false);
-  } */
 }
 

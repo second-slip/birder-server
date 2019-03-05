@@ -26,8 +26,9 @@ export class BirdsService {
     // alert(url);
     return this.http.get<Bird>(url)
       .pipe(
-        tap(bird => this.log('fetched bird')),
-        catchError(this.handleError<Bird>('getBird'))
+        tap(bird => this.log('fetched bird'))
+        // ,
+        // catchError(this.handleError<Bird>('getBird'))
       );
   }
 
