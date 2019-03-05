@@ -14,13 +14,13 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'counter', component: CounterComponent },
-  { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },
-  { path: 'birds-index', component: BirdsIndexComponent },
-  { path: 'birds-detail/:id', component: BirdsDetailComponent },
-  { path: 'observations-feed', component: ObservationsFeedComponent },
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},
+  { path: 'counter', component: CounterComponent },  //
+  { path: 'observations-feed', component: ObservationsFeedComponent },
+  { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },  //
+  { path: 'birds-index', component: BirdsIndexComponent, canActivate: [AuthGuard] },
+  { path: 'birds-detail/:id', component: BirdsDetailComponent, canActivate: [AuthGuard] },
   { path: 'react-form-example', component: ReactFormExampleComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
