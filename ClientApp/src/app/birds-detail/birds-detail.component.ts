@@ -40,7 +40,7 @@ export class BirdsDetailComponent implements OnInit {
   //         // No errors, route to new page here
   //       }
   //     );
-      
+
   //     // TODO: error - what to do if someone types route with bad id.. eg. 404
   // }
 
