@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthentificationService } from '../authentification.service';
+import { AuthenticationService } from '../authentication.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,16 +13,16 @@ export class NavMenuComponent implements OnInit {
 
   subscription: Subscription;
 
-  constructor(private authentificationService: AuthentificationService) {}
+  constructor(private authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
-    this.subscription = this.authentificationService.isLoggedIn$
+    this.subscription = this.authenticationService.isLoggedIn$
       .subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
       // check login
       this.checkLoggedInStatus();
   }
 
   checkLoggedInStatus(): void {
-    this.authentificationService.checkLoginStatus();
+    this.authenticationService.checkLoginStatus();
   }
 }

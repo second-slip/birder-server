@@ -18,32 +18,30 @@ export class BirdsDetailComponent implements OnInit {
             , private router: Router) { }
 
   ngOnInit(): void {
-    this.getBird2();
+    this.getBird();
   }
+
+  // getBird(): void {
+  //   const id = +this.route.snapshot.paramMap.get('id');
+  //   this.birdsService.getBird(id)
+  //     .subscribe(bird => this.bird = bird);
+  //     // TODO: error - what to do if someone types route with bad id.. eg. 404
+  // }
 
   getBird(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.birdsService.getBird(id)
-      .subscribe(bird => this.bird = bird);
-      // TODO: error - what to do if someone types route with bad id.. eg. 404
-  }
 
-  getBird2(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
     this.birdsService.getBird(id)
       .subscribe(bird => { this.bird = bird; },
         error => {
           console.log('bad request');
-          this.router.navigate(['/page-not-found']);
-        },
-        () => {
-          // alert('');
-          // 'onCompleted' callback.
-          // No errors, route to new page here
-        }
-      );
-
-      // TODO: error - what to do if someone types route with bad id.. eg. 404
+          this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+        });
+    // ,() => {
+    //   // alert('');
+    //   // 'onCompleted' callback.
+    //   // No errors, route to new page here
+    // }
   }
 
   goBack(): void {

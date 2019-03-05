@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { AuthentificationService } from '../authentification.service';
+import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,11 +10,11 @@ import { Router } from '@angular/router';
 })
 export class LogoutComponent {
 
-  constructor(private authentificationService: AuthentificationService
+  constructor(private authenticationService: AuthenticationService
             , private router: Router) { }
 
   onLogout(): void {
-    this.authentificationService.logout();
+    this.authenticationService.logout();
     this.router.navigate(['/']);
   }
 

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -22,7 +22,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { BirdsIndexComponent } from './birds-index/birds-index.component';
 import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HttpErrorInterceptor } from './http-error.interceptor';
+import { httpInterceptorProviders } from '../_httpInterceptors';
 
 @NgModule({
   declarations: [
@@ -52,14 +52,13 @@ import { HttpErrorInterceptor } from './http-error.interceptor';
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
-MatSelectModule
+    MatSelectModule
   ],
-  providers: [JwtHelper, AuthGuard,
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: HttpErrorInterceptor,
-    multi: true,
-  }],
+  providers: [
+    JwtHelper,
+    AuthGuard,
+    httpInterceptorProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -16,9 +16,10 @@ export class BirdsService {
   getBirds(): Observable<Bird[]> {
     return this.http.get<Bird[]>(this.url)
       .pipe(
-        tap(birds => this.log('fetched birds')),
-        catchError(this.handleError('getBirds',  []))
-      );
+        tap(birds => this.log('fetched birds')));
+      //   ,
+      //   catchError(this.handleError('getBirds',  []))
+      // );
   }
 
   getBird(id: number): Observable<Bird> {

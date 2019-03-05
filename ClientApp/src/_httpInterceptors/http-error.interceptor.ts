@@ -22,9 +22,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     if (request.url === './error-and-bypass-interceptor.json') {
       return next.handle(request);
     }
-    console.log('hhhIntercepting Request:', request);
-
-
+    console.log('Intercepting Request:', request);
 
     return next.handle(request)
       .catch((err: HttpErrorResponse) => {
@@ -42,9 +40,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         // which could be a default value
         return Observable.of(new HttpResponse({body: [
           {name: 'Default values returned by Interceptor', id: 88},
-        //   {name: "Default values returned by Interceptor(2)", id: 89}
+          {name: 'Default values returned by Interceptor(2)', id: 89}
         ]}));
-
         // or simply an empty observable
         // return Observable.empty<HttpEvent<any>>();
       });

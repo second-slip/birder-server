@@ -4,6 +4,7 @@ import { JwtHelper } from 'angular2-jwt';
 import { map } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { LoginViewModel } from '../_models/login-view-model';
+import { Token } from '@angular/compiler';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,7 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 
-export class AuthentificationService {
+export class AuthenticationService {
 
   private isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoggedIn$: Observable<boolean> = this.isLoggedIn.asObservable();
@@ -41,8 +42,20 @@ export class AuthentificationService {
       }));
   }
 
+  getAuthorisationToken(): string {
+
+    const token = localStorage.getItem('jwt');
+
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      // console.log(this.jwtHelper.decodeToken(token));
+      return token;
+    } else {
+      return '';
+    }
+  }
+
   checkLoginStatus(): boolean {
-    var token = localStorage.getItem('jwt');
+    const token = localStorage.getItem('jwt');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       // console.log(this.jwtHelper.decodeToken(token));

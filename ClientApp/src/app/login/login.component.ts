@@ -1,4 +1,4 @@
-import { AuthentificationService } from '../authentification.service';
+import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
@@ -46,11 +46,11 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(private router: Router
-            , private authentificationService: AuthentificationService
+            , private authenticationService: AuthenticationService
             , private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.authentificationService.logout();
+    this.authenticationService.logout();
     this.createForms();
     // TODO: get return url from route parameters or default to '/'
   }
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
     // model = value;
     // console.log('model data: ' + value);
 
-    this.authentificationService.login(value)
+    this.authenticationService.login(value)
       .pipe(first())
       .subscribe(
         data => {
