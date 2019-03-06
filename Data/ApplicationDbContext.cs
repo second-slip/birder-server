@@ -1,7 +1,7 @@
 ﻿using Birder.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
+using System;
 
 namespace Birder.Data
 {
@@ -62,24 +62,32 @@ namespace Birder.Data
                 .HasOne(l => l.Follower)
                 .WithMany(a => a.Following)
                 .HasForeignKey(l => l.FollowerId);
+
+
+            //builder.Entity<NotificationTemplate>().HasData(new NotificationTemplate { Id = 1, Name = "Test", Body = "HTML<>", CreatedDate = DateTime.Now, IsInactive = false });
+
+            //builder.Entity<ConserverationStatus>().HasData(new ConserverationStatus { ConserverationStatusId = 1, ConservationStatus = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+            //builder.Entity<ConserverationStatus>().HasData(new ConserverationStatus { ConserverationStatusId = 2, ConservationStatus = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+            //builder.Entity<ConserverationStatus>().HasData(new ConserverationStatus { ConserverationStatusId = 3, ConservationStatus = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+
+            //builder.Entity<Bird>().HasData(new Bird {  });
+            // Note on first migration to change cascade delete in migration file to 'NoAction'
+
+            //migrationBuilder.CreateTable(
+            //  ....
+            //            table.ForeignKey(
+            //                name: "FK_Network_AspNetUsers_ApplicationUserId",
+            //                column: x => x.ApplicationUserId,
+            //                principalTable: "AspNetUsers",
+            //                principalColumn: "Id",
+            //                onDelete: ReferentialAction.Cascade);   <-- change to ReferentialAction.NoAction
+            //            table.ForeignKey(
+            //                name: "FK_Network_AspNetUsers_FollowerId",
+            //                column: x => x.FollowerId,
+            //                principalTable: "AspNetUsers",
+            //                principalColumn: "Id",
+            //                onDelete: ReferentialAction.Cascade);  <-- change to ReferentialAction.NoAction
+            //        });
         }
-
-        // Note on first migration to change cascade delete in migration file to 'NoAction'
-
-        //migrationBuilder.CreateTable(
-        //  ....
-        //            table.ForeignKey(
-        //                name: "FK_Network_AspNetUsers_ApplicationUserId",
-        //                column: x => x.ApplicationUserId,
-        //                principalTable: "AspNetUsers",
-        //                principalColumn: "Id",
-        //                onDelete: ReferentialAction.Cascade);   <-- change to ReferentialAction.NoAction
-        //            table.ForeignKey(
-        //                name: "FK_Network_AspNetUsers_FollowerId",
-        //                column: x => x.FollowerId,
-        //                principalTable: "AspNetUsers",
-        //                principalColumn: "Id",
-        //                onDelete: ReferentialAction.Cascade);  <-- change to ReferentialAction.NoAction
-        //        });
     }
 }
