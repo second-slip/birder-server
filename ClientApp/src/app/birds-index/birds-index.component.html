@@ -1,16 +1,23 @@
 <h2>British Birds</h2>
-<p>This page is underdevelopment.  You will eventually be able to filter the list and adjust the results per page.</p>
+
+<p>This page is underdevelopment. You will eventually be able to filter the list and adjust the results per page.</p>
 
 <p *ngIf="!birds"><em>Loading...</em></p>
 
-<ul class="heroes">
-  <li *ngFor="let bird of birds">
-    <!-- [class.selected]="hero === selectedHero"
-    (click)="onSelect(hero)"> -->
-    <span class="badge">{{bird.birdId}}</span> {{bird.englishName}}
-    <a routerLink="/birds-detail/{{bird.birdId}}">
-      Details
-    </a>
+<div *ngIf="birds">
 
-  </li>
-</ul>
+  <ul class="birds">
+    <p>{{ birds.length }} birds were returned: </p>
+
+    <li *ngFor="let bird of birds">
+      <!-- [class.selected]="hero === selectedHero"
+    (click)="onSelect(hero)"> -->
+      <span class="badge">{{bird.birdId}}</span> {{bird.englishName}}
+      <a routerLink="/birds-detail/{{bird.birdId}}">
+        Details
+      </a>
+
+    </li>
+  </ul>
+
+</div>

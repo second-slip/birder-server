@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Birder.Data;
 using Birder.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Birder.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class BirdsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -22,36 +25,28 @@ namespace Birder.Controllers
         }
 
         // GET: api/Birds
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
         public async Task<IActionResult> GetBirds()
         {
+            // TODO: Cache the birds list
+            // The birds list is a prime candidate to be put in the cache.
+            // The birds list is rarely updated.
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            // var birds = new List<Bird>();
-            // var bird1 = new Bird { BirdId = 1, EnglishName = "Oystercatcher" };
-            // birds.Add(bird1);
-            // var bird2 = new Bird { BirdId = 2, EnglishName = "Dipper" };
-            // birds.Add(bird2);
-            // var bird3 = new Bird { BirdId = 3, EnglishName = "Robin" };
-            // birds.Add(bird3);
+            var birds = _context.Birds.Where(x => x.BirderStatus == BirderStatus.Common);
 
-            var birds = _context.Birds;
-
-            // if birds list == 0 does it show null or just empty?
             if (birds == null) 
             {
                 return BadRequest();
             }
 
             return Ok(birds);
-            //return _context.Birds;
         }
 
-        // GET: api/Birds/5
-        //public async Task<IActionResult> GetBird([FromRoute] int id)
         [HttpGet]
         [Route("GetBird")]
         public async Task<IActionResult> GetBird(int id)
@@ -61,15 +56,7 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-            var birds = new List<Bird>();
-            var bird1 = new Bird { BirdId = 1, EnglishName = "Oystercatcher" };
-            birds.Add(bird1);
-            var bird2 = new Bird { BirdId = 2, EnglishName = "Dipper" };
-            birds.Add(bird2);
-            var bird3 = new Bird { BirdId = 3, EnglishName = "Robin" };
-            birds.Add(bird3);
-
-            var bird = (from b in birds
+            var bird = (from b in _context.Birds
                         where(b.BirdId == id)
                         select b).FirstOrDefault();
 
@@ -81,82 +68,6 @@ namespace Birder.Controllers
             }
 
             return Ok(bird);
-        }
-
-        // PUT: api/Birds/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBird([FromRoute] int id, [FromBody] Bird bird)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != bird.BirdId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(bird).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BirdExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Birds
-        [HttpPost]
-        public async Task<IActionResult> PostBird([FromBody] Bird bird)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _context.Birds.Add(bird);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetBird", new { id = bird.BirdId }, bird);
-        }
-
-        // DELETE: api/Birds/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBird([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var bird = await _context.Birds.FindAsync(id);
-            if (bird == null)
-            {
-                return NotFound();
-            }
-
-            _context.Birds.Remove(bird);
-            await _context.SaveChangesAsync();
-
-            return Ok(bird);
-        }
-
-        private bool BirdExists(int id)
-        {
-            return _context.Birds.Any(e => e.BirdId == id);
         }
     }
 }

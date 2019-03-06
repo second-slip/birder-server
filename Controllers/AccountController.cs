@@ -37,10 +37,10 @@ namespace Birder.Controllers
                 };
 
                 var tokeOptions = new JwtSecurityToken(
-                    issuer: "http://localhost:53468",
-                    audience: "http://localhost:53468",
+                    issuer: "http://localhost:55722",
+                    audience: "http://localhost:55722",
                     claims: claims,  // new List<Claim>(),
-                    expires: DateTime.Now.AddMinutes(5),
+                    expires: DateTime.Now.AddDays(2),
                     signingCredentials: signinCredentials
                 );
 
