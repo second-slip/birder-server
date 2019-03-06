@@ -30,13 +30,15 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-            var birds = new List<Bird>();
-            var bird1 = new Bird { BirdId = 1, EnglishName = "Oystercatcher" };
-            birds.Add(bird1);
-            var bird2 = new Bird { BirdId = 2, EnglishName = "Dipper" };
-            birds.Add(bird2);
-            var bird3 = new Bird { BirdId = 3, EnglishName = "Robin" };
-            birds.Add(bird3);
+            // var birds = new List<Bird>();
+            // var bird1 = new Bird { BirdId = 1, EnglishName = "Oystercatcher" };
+            // birds.Add(bird1);
+            // var bird2 = new Bird { BirdId = 2, EnglishName = "Dipper" };
+            // birds.Add(bird2);
+            // var bird3 = new Bird { BirdId = 3, EnglishName = "Robin" };
+            // birds.Add(bird3);
+
+            var birds = _context.Birds;
 
             // if birds list == 0 does it show null or just empty?
             if (birds == null) 
