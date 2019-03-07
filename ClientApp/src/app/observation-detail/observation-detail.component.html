@@ -1,3 +1,13 @@
-<p>
-  observation-detail works!
-</p>
+
+<div *ngIf="!observation" class="loading">
+  <p><em>Loading...</em></p>
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="observation">
+  <h2>Observation id: {{observation.observationId}}</h2>
+  <br>
+  <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}} observed at {{observation.observationDateTime}}
+  <br>
+  <button (click)="goBack()">go back</button>
+</div>

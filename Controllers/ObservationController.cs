@@ -57,11 +57,10 @@ namespace Birder.Controllers
             
             var ob = new Observation() { ObservationId = 1, Quantity = 1, ObservationDateTime = DateTime.Now, Bird = bird };
 
-
-            if (observation == null)
-            {
-                return NotFound();
-            }
+            // if (observation == null)
+            // {
+            //     return NotFound();
+            // }
 
             return Ok(ob);
 

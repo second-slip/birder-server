@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observation } from '../../_models/Observation';
+import { ObservationService } from '../observation.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-observation-detail',
@@ -6,10 +10,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./observation-detail.component.scss']
 })
 export class ObservationDetailComponent implements OnInit {
+  observation: Observation;
 
-  constructor() { }
+  constructor(private observationService: ObservationService
+            , private route: ActivatedRoute
+            , private location: Location
+            , private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getObservation();
+  }
+
+  getObservation(): void {
+    const id = +this.route.snapshot.paramMap.get('id');
+
+    this.observationService.getObservation(id)
+      .subscribe(observation => { this.observation = observation; },
+        error => {
+          this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+        });
+    // ,() => {
+    //   // alert('');
+    //   // 'onCompleted' callback.
+    //   // No errors, route to new page here
+    // }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }

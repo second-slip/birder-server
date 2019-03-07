@@ -17,6 +17,16 @@ export class ObservationService {
         tap(observations => this.log('fetched observations')));
   }
 
+  getObservation(id: number): Observable<Observation> {
+    const url = `api/Observation/GetObservation?id=${id}`;
+    return this.http.get<Observation>(url)
+      .pipe(
+        tap(observation => this.log(`fetched observation with id: ${id}`))
+        // ,
+        // catchError(this.handleError<Bird>('getBird'))
+      );
+  }
+
   /** Log a HeroService message with the MessageService */
   private log(message: string) {
     console.log(message);

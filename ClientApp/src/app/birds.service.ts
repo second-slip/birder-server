@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { Bird } from '../_models/Bird';
 import { tap, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { $ } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class BirdsService {
     const url = `${this.url}/GetBird?id=${id}`;
     return this.http.get<Bird>(url)
       .pipe(
-        tap(bird => this.log('fetched bird'))
+        tap(bird => this.log(`fetched bird with id: ${id}`))
         // ,
         // catchError(this.handleError<Bird>('getBird'))
       );

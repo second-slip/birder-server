@@ -11,6 +11,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ObservationFeedComponent } from './observation-feed/observation-feed.component';
+import { ObservationDetailComponent } from './observation-detail/observation-detail.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'logout', component: LogoutComponent},
   { path: 'counter', component: CounterComponent },  //
   { path: 'observation-feed', component: ObservationFeedComponent, canActivate: [AuthGuard] },
+  { path: 'observation-detail/:id', component: ObservationDetailComponent, canActivate: [AuthGuard] },
   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },  //
   { path: 'birds-index', component: BirdsIndexComponent, canActivate: [AuthGuard] },
   { path: 'birds-detail/:id', component: BirdsDetailComponent, canActivate: [AuthGuard] },

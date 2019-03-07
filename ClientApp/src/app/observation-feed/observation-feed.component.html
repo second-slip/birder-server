@@ -14,9 +14,9 @@
     
     <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}} observed at {{observation.observationDateTime}}
     
-      <!-- <a routerLink="/birds-detail/{{observation.birdId}}">
-        Details
-      </a> -->
+    <a routerLink="/observation-detail/{{observation.observationId}}">
+      Details
+    </a>
 
     </li>
   </ul>
