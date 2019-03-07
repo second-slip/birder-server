@@ -1,10 +1,13 @@
+
+<div *ngIf="!bird" class="loading">
+  <p><em>Loading...</em></p>
+  <mat-spinner></mat-spinner>
+</div>
+
 <div *ngIf="bird">
   <h2>{{bird.englishName | uppercase}} Details</h2>
+  <br>
   <div><span>id: </span>{{bird.birdId}}</div>
-  <!-- <div>
-    <label>name:
-      <input [(ngModel)]="hero.name" placeholder="name"/>
-    </label>
-  </div> -->
+  <br>
   <button (click)="goBack()">go back</button>
 </div>

@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MatIconModule, MatButtonModule, MatInputModule,
-  MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule} from '@angular/material';
+  MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule, MatProgressSpinnerModule} from '@angular/material';
 import { ObservationsFeedComponent } from './observations-feed/observations-feed.component';
 import { LoginComponent } from './login/login.component';
 import { JwtHelper } from 'angular2-jwt';
@@ -52,7 +52,8 @@ import { httpInterceptorProviders } from '../_httpInterceptors';
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     JwtHelper,

@@ -2,7 +2,11 @@
 
 <p>This page is underdevelopment. You will eventually be able to filter the list and adjust the results per page.</p>
 
-<p *ngIf="!birds"><em>Loading...</em></p>
+<div *ngIf="!birds" class="loading">
+  <p><em>Loading...</em></p>
+  <mat-spinner></mat-spinner>
+</div>
+
 
 <div *ngIf="birds">
 
