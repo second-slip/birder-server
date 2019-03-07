@@ -13,7 +13,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MatIconModule, MatButtonModule, MatInputModule,
   MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule, MatProgressSpinnerModule} from '@angular/material';
-import { ObservationsFeedComponent } from './observations-feed/observations-feed.component';
 import { LoginComponent } from './login/login.component';
 import { JwtHelper } from 'angular2-jwt';
 import { AuthGuard } from './auth-guard.service';
@@ -23,7 +22,7 @@ import { BirdsIndexComponent } from './birds-index/birds-index.component';
 import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { httpInterceptorProviders } from '../_httpInterceptors';
-import { ObservationIndexComponent } from './observation-index/observation-index.component';
+import { ObservationFeedComponent } from './observation-feed/observation-feed.component';
 
 @NgModule({
   declarations: [
@@ -33,14 +32,13 @@ import { ObservationIndexComponent } from './observation-index/observation-index
     CounterComponent,
     FetchDataComponent,
     SideMenuComponent,
-    ObservationsFeedComponent,
     LoginComponent,
     ReactFormExampleComponent,
     LogoutComponent,
     BirdsIndexComponent,
     BirdsDetailComponent,
     PageNotFoundComponent,
-    ObservationIndexComponent
+    ObservationFeedComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
