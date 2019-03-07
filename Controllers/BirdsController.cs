@@ -26,7 +26,7 @@ namespace Birder.Controllers
 
         // GET: api/Birds
         [HttpGet]
-        public async Task<IActionResult> GetBirds()
+        public async Task<ActionResult<IEnumerable<Bird>>> GetBirds()
         {
             // TODO: Cache the birds list
             // The birds list is a prime candidate to be put in the cache.
@@ -49,7 +49,7 @@ namespace Birder.Controllers
         // GET: api/Birds/GetBirdGetBird?id={x}
         [HttpGet]
         [Route("GetBird")]
-        public async Task<IActionResult> GetBird(int id)
+        public async Task<ActionResult<Bird>> GetBird(int id)
         {
             if (!ModelState.IsValid)
             {
