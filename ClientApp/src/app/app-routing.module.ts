@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'logout', component: LogoutComponent},
   { path: 'counter', component: CounterComponent },  //
-  { path: 'observation-feed', component: ObservationFeedComponent },
+  { path: 'observation-feed', component: ObservationFeedComponent, canActivate: [AuthGuard] },
   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },  //
   { path: 'birds-index', component: BirdsIndexComponent, canActivate: [AuthGuard] },
   { path: 'birds-detail/:id', component: BirdsDetailComponent, canActivate: [AuthGuard] },

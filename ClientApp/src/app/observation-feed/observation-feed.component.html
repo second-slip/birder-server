@@ -1,3 +1,23 @@
-<p>
-  observation-feed works!
-</p>
+<h2>Your observations feed</h2>
+
+<p>This page is under development. You will eventually be able to filter the list and adjust the results per page, <em>et cetera, et cetera...</em></p>
+
+<div *ngIf="!observations" class="loading">
+  <p><em>Loading...</em></p>
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="observations">
+  <ul class="observations">
+    <p>{{ observations.length }} observations were returned: </p>
+    <li *ngFor="let observation of observations">
+    
+    <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}} observed at {{observation.observationDateTime}}
+    
+      <!-- <a routerLink="/birds-detail/{{observation.birdId}}">
+        Details
+      </a> -->
+
+    </li>
+  </ul>
+</div>

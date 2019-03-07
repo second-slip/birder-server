@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Birder.Data;
 using Birder.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Birder.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class ObservationController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -26,21 +27,45 @@ namespace Birder.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Observation>>> GetObservations()
         {
-            return await _context.Observations.ToListAsync();
+            var obs = new List<Observation>();
+            var bird = await (from b in _context.Birds
+                              where (b.BirdId == 7)
+                              select b).FirstOrDefaultAsync();
+            
+            var ob = new Observation() { ObservationId = 1, Quantity = 1, ObservationDateTime = DateTime.Now, Bird = bird };
+
+            obs.Add(ob);
+
+            var ob2 = new Observation() { ObservationId = 2, Quantity = 5, ObservationDateTime = DateTime.Now, Bird = bird };
+
+            obs.Add(ob2);
+
+            return Ok(obs);
+
+            // return await _context.Observations.ToListAsync();
         }
 
         // GET: api/Observation/5
         [HttpGet("{id}")]
+        [Route("GetObservation")]
         public async Task<ActionResult<Observation>> GetObservation(int id)
         {
             var observation = await _context.Observations.FindAsync(id);
+            var bird = await (from b in _context.Birds
+                              where (b.BirdId == 7)
+                              select b).FirstOrDefaultAsync();
+            
+            var ob = new Observation() { ObservationId = 1, Quantity = 1, ObservationDateTime = DateTime.Now, Bird = bird };
+
 
             if (observation == null)
             {
                 return NotFound();
             }
 
-            return observation;
+            return Ok(ob);
+
+            //return observation;
         }
 
         // PUT: api/Observation/5

@@ -23,6 +23,7 @@ import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { httpInterceptorProviders } from '../_httpInterceptors';
 import { ObservationFeedComponent } from './observation-feed/observation-feed.component';
+import { ObservationDetailComponent } from './observation-detail/observation-detail.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ObservationFeedComponent } from './observation-feed/observation-feed.co
     BirdsIndexComponent,
     BirdsDetailComponent,
     PageNotFoundComponent,
-    ObservationFeedComponent
+    ObservationFeedComponent,
+    ObservationDetailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

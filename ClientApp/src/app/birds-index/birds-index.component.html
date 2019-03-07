@@ -9,13 +9,9 @@
 
 
 <div *ngIf="birds">
-
   <ul class="birds">
     <p>{{ birds.length }} birds were returned: </p>
-
     <li *ngFor="let bird of birds">
-      <!-- [class.selected]="hero === selectedHero"
-    (click)="onSelect(hero)"> -->
       <span class="badge">{{bird.birdId}}</span> {{bird.englishName}}
       <a routerLink="/birds-detail/{{bird.birdId}}">
         Details
@@ -23,5 +19,4 @@
 
     </li>
   </ul>
-
 </div>
