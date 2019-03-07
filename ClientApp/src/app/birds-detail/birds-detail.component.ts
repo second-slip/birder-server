@@ -21,13 +21,6 @@ export class BirdsDetailComponent implements OnInit {
     this.getBird();
   }
 
-  // getBird(): void {
-  //   const id = +this.route.snapshot.paramMap.get('id');
-  //   this.birdsService.getBird(id)
-  //     .subscribe(bird => this.bird = bird);
-  //     // TODO: error - what to do if someone types route with bad id.. eg. 404
-  // }
-
   getBird(): void {
     const id = +this.route.snapshot.paramMap.get('id');
 

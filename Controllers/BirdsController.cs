@@ -25,7 +25,6 @@ namespace Birder.Controllers
         }
 
         // GET: api/Birds
-        //[Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet]
         public async Task<IActionResult> GetBirds()
         {
@@ -47,6 +46,7 @@ namespace Birder.Controllers
             return Ok(birds);
         }
 
+        // GET: api/Birds/GetBirdGetBird?id={x}
         [HttpGet]
         [Route("GetBird")]
         public async Task<IActionResult> GetBird(int id)
@@ -56,9 +56,9 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-            var bird = (from b in _context.Birds
+            var bird = await (from b in _context.Birds
                         where(b.BirdId == id)
-                        select b).FirstOrDefault();
+                        select b).FirstOrDefaultAsync();
 
             //var bird = await _context.Birds.FindAsync(id);
 
