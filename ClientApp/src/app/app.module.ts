@@ -12,7 +12,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MatIconModule, MatButtonModule, MatInputModule,
-  MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule, MatProgressSpinnerModule, MatTextareaAutosize} from '@angular/material';
+              MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule,
+              MatProgressSpinnerModule, MAT_DATE_LOCALE} from '@angular/material';
 import { LoginComponent } from './login/login.component';
 import { JwtHelper } from 'angular2-jwt';
 import { AuthGuard } from './auth-guard.service';
@@ -62,7 +63,8 @@ import { ObservationAddComponent } from './observation-add/observation-add.compo
   providers: [
     JwtHelper,
     AuthGuard,
-    httpInterceptorProviders
+    httpInterceptorProviders,
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })

@@ -39,7 +39,7 @@
           </mat-form-field>
 
           <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="observationDateTime">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>          

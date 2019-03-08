@@ -72,7 +72,7 @@ export class ObservationAddComponent implements OnInit {
       birdId: new FormControl('', Validators.compose([
         Validators.required
       ])),
-      ObservationDateTime: new FormControl('', Validators.compose([
+      observationDateTime: new FormControl((new Date()).toISOString(), Validators.compose([
         Validators.required
       ])),
       noteGeneral: new FormControl(''),

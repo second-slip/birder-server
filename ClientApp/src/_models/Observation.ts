@@ -17,7 +17,7 @@ export interface Observation {
     CreationDate: Date | string;
     LastUpdateDate: Date | string;
     BirdId: number;
-    // ApplicationUserId: string;
+    ApplicationUserId: string;
     Bird: Bird;
     // ApplicationUser: ApplicationUser;
     // ObservationTags: ObservationTag[];
