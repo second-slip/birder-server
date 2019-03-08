@@ -11,7 +11,7 @@
         <!-- <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div> -->
         <form [formGroup]="addObservationForm" novalidate (ngSubmit)="onSubmit(addObservationForm.value)">
 
-          <mat-form-field class="full-width">
+          <mat-form-field class="half-width">
             <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
             <mat-error *ngFor="let validation of addObservation_validation_messages.quantity">
               <mat-error class="error-message"
@@ -19,6 +19,20 @@
                 {{validation.message}}</mat-error>
             </mat-error>
           </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Select species" formControlName="birdId" type="birdId" required>
+              <mat-option *ngFor="let bird of birdsSpecies" [value]="bird.birdId">
+                {{bird.birdId}}, {{bird.englishName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>          
 
           <mat-form-field class="full-width">
             <textarea matInput type="noteGeneral" placeholder="General comments" formControlName="noteGeneral"></textarea>

@@ -22,11 +22,16 @@ app-observation-add {
       padding: 20px;
       text-align: center;
       display: flex;
-      flex-direction: column;
+      flex-direction: column
     }
     
     .full-width {
       width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .half-width {
+      width: 50%;
       margin-bottom: 10px;
     }
   

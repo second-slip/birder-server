@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ParentErrorStateMatcher } from '../../validators';
 import { ObservationService } from '../observation.service';
 import { Router } from '@angular/router';
+import { Bird } from '../../_models/Bird';
 
 @Component({
   selector: 'app-observation-add',
@@ -12,6 +13,8 @@ import { Router } from '@angular/router';
 })
 export class ObservationAddComponent implements OnInit {
   addObservationForm: FormGroup;
+
+  birdsSpecies: Bird[];
 
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
@@ -49,6 +52,7 @@ export class ObservationAddComponent implements OnInit {
     , private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.getBirds();
     this.createForms();
   }
 
@@ -64,26 +68,29 @@ export class ObservationAddComponent implements OnInit {
       quantity: new FormControl(1, Validators.compose([
         Validators.required
       ])),
+      birdId: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
       noteGeneral: new FormControl(''),
       noteHabitat: new FormControl(''),
       noteWeather: new FormControl(''),
       noteAppearance: new FormControl(''),
       noteBehaviour: new FormControl(''),
       noteVocalisation: new FormControl(''),
-      // username: new FormControl('', Validators.compose([
-      //   Validators.required,
-      //   Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-      // ])),
-      // password: new FormControl('', Validators.compose([
-      //   Validators.required,
-      // ])),
-      // rememberMe: new FormControl(false)
     });
   }
 
   onSubmit(value): void {
-    alert('submitted');
     console.log(value);
+  }
+
+  getBirds(): void {
+    // TODO: Better implementation of this...
+    this.observationService.getBirds()
+    .subscribe(birds => { this.birdsSpecies = birds; },
+      error => {
+        console.log('could not get the birds ddl');
+      });
   }
 
 }
