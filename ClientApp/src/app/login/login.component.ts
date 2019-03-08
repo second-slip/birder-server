@@ -14,7 +14,7 @@ import { ParentErrorStateMatcher } from '../../validators';
 })
 export class LoginComponent implements OnInit {
   invalidLogin: boolean;
-  // loginViewModel: LoginViewModel;
+
   loginForm: FormGroup;
 
   parentErrorStateMatcher = new ParentErrorStateMatcher();

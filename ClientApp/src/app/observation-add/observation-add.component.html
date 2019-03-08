@@ -1,0 +1,57 @@
+
+<h2>Add an observation</h2>
+
+<div class="container">
+  <div class="row">
+      <div class='col-sm-2'>
+      </div>
+    <div class="col-sm-8">
+      <div class="observation-add-container">
+        <h2 class="section-title">Add</h2>
+        <!-- <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div> -->
+        <form [formGroup]="addObservationForm" novalidate (ngSubmit)="onSubmit(addObservationForm.value)">
+
+          <mat-form-field class="full-width">
+            <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
+            <mat-error *ngFor="let validation of addObservation_validation_messages.quantity">
+              <mat-error class="error-message"
+                *ngIf="addObservationForm.get('quantity').hasError(validation.type) && (addObservationForm.get('quantity').dirty || addObservationForm.get('quantity').touched)">
+                {{validation.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <textarea matInput type="noteGeneral" placeholder="General comments" formControlName="noteGeneral"></textarea>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <textarea matInput type="noteHabitat" placeholder="Comments on habitat" formControlName="noteHabitat"></textarea>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <textarea matInput type="noteWeather" placeholder="Comments on weather" formControlName="noteWeather"></textarea>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <textarea matInput type="noteAppearance" placeholder="Comments on appearance" formControlName="noteAppearance"></textarea>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <textarea matInput type="noteBehaviour" placeholder="Comments on behaviour" formControlName="noteBehaviour"></textarea>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <textarea matInput type="noteVocalisation" placeholder="Comments on song" formControlName="noteVocalisation"></textarea>
+          </mat-form-field>
+
+          <button class="submit-btn" color="primary" mat-raised-button type="submit" [disabled]="!addObservationForm.valid">
+            Sumbit
+          </button>
+
+        </form>
+      </div>
+    </div>
+    <div class='col-sm-2'>
+      </div>
+  </div>
+</div>

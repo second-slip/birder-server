@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MatIconModule, MatButtonModule, MatInputModule,
-  MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule, MatProgressSpinnerModule} from '@angular/material';
+  MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule, MatProgressSpinnerModule, MatTextareaAutosize} from '@angular/material';
 import { LoginComponent } from './login/login.component';
 import { JwtHelper } from 'angular2-jwt';
 import { AuthGuard } from './auth-guard.service';
@@ -24,6 +24,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { httpInterceptorProviders } from '../_httpInterceptors';
 import { ObservationFeedComponent } from './observation-feed/observation-feed.component';
 import { ObservationDetailComponent } from './observation-detail/observation-detail.component';
+import { ObservationAddComponent } from './observation-add/observation-add.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ObservationDetailComponent } from './observation-detail/observation-det
     BirdsDetailComponent,
     PageNotFoundComponent,
     ObservationFeedComponent,
-    ObservationDetailComponent
+    ObservationDetailComponent,
+    ObservationAddComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
