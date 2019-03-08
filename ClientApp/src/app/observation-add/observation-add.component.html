@@ -1,6 +1,11 @@
 
 <h2>Add an observation</h2>
 
+<!-- Still to do:
+  - Google maps API
+  - Bind datepicker and setup date locale
+  (set user at the controller level) -->
+
 <div class="container">
   <div class="row">
       <div class='col-sm-2'>
@@ -26,6 +31,11 @@
                 {{bird.birdId}}, {{bird.englishName}}
               </mat-option>
             </mat-select>
+            <mat-error *ngFor="let validation of addObservation_validation_messages.birdId">
+              <mat-error class="error-message"
+                *ngIf="addObservationForm.get('birdId').hasError(validation.type) && (addObservationForm.get('birdId').dirty || addObservationForm.get('birdId').touched)">
+                {{validation.message}}</mat-error>
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="full-width">

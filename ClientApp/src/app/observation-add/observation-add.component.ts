@@ -30,6 +30,9 @@ export class ObservationAddComponent implements OnInit {
       { type: 'required', message: 'Quantity is required' }
       // { type: 'pattern', message: 'Enter a valid email' }
     ],
+    'birdId': [
+      { type: 'required', message: 'The observed species is required' }
+    ]
     // 'noteGeneral': [
     //   { type: 'required', message: 'Quantity is required' }
     // ]
@@ -60,15 +63,16 @@ export class ObservationAddComponent implements OnInit {
     this.addObservationForm = this.formBuilder.group({
       // username: new FormControl('', Validators.compose([
       //  UsernameValidator.validUsername,
-      //  Validators.maxLength(25),
-      //  Validators.minLength(5),
+      //  Validators.maxLength(25), Validators.minLength(5),
       //  Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$'),
-      //  Validators.required
       // ])),
       quantity: new FormControl(1, Validators.compose([
         Validators.required
       ])),
       birdId: new FormControl('', Validators.compose([
+        Validators.required
+      ])),
+      ObservationDateTime: new FormControl('', Validators.compose([
         Validators.required
       ])),
       noteGeneral: new FormControl(''),
