@@ -27,6 +27,9 @@ namespace Birder.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Observation>>> GetObservations()
         {
+            var user = User.Identity.Name;
+
+
             var obs = new List<Observation>();
             var bird = await (from b in _context.Birds
                               where (b.BirdId == 7)

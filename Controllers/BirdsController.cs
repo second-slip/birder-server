@@ -47,7 +47,7 @@ namespace Birder.Controllers
         }
 
         // GET: api/Birds/GetBirdGetBird?id={x}
-        [HttpGet]
+        [HttpGet] // TODO: Consolidatte
         [Route("GetBird")]
         public async Task<ActionResult<Bird>> GetBird(int id)
         {

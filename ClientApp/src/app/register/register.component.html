@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="register-container">
+        <h2 class="section-title">Birder Registration Form</h2>
+
+        <form [formGroup]="userRegisterForm" novalidate (ngSubmit)="onSubmit(userRegisterForm.value)">
+
+          <mat-form-field class="full-width">
+            <input matInput maxlength="25" placeholder="Username" formControlName="username" required>
+            <mat-error *ngFor="let validation of userRegister_validation_messages.username">
+              <mat-error class="error-message"
+                *ngIf="userRegisterForm.get('username').hasError(validation.type) && (userRegisterForm.get('username').dirty || userRegisterForm.get('username').touched)">
+                {{validation.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <input matInput type="email" placeholder="Email" formControlName="email" required>
+            <mat-error *ngFor="let validation of userRegister_validation_messages.email">
+              <mat-error class="error-message"
+                *ngIf="userRegisterForm.get('email').hasError(validation.type) && (userRegisterForm.get('email').dirty || userRegisterForm.get('email').touched)">
+                {{validation.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+
+          <div formGroupName="matching_passwords">
+            <mat-form-field class="full-width">
+              <input matInput type="password" placeholder="Password" formControlName="password" required>
+              <mat-error *ngFor="let validation of userRegister_validation_messages.password">
+                <mat-error class="error-message"
+                  *ngIf="userRegisterForm.get('matching_passwords').get('password').hasError(validation.type) && (userRegisterForm.get('matching_passwords').get('password').dirty || userRegisterForm.get('matching_passwords').get('password').touched)">
+                  {{validation.message}}</mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <input matInput type="password" placeholder="Confirm Password" formControlName="confirm_password"
+                [errorStateMatcher]="parentErrorStateMatcher" required>
+              <mat-error *ngFor="let validation of userRegister_validation_messages.confirm_password">
+                <mat-error class="error-message"
+                  *ngIf="(userRegisterForm.get('matching_passwords').get('confirm_password').hasError(validation.type)|| userRegisterForm.get('matching_passwords').hasError(validation.type)) && (userRegisterForm.get('matching_passwords').get('confirm_password').dirty || userRegisterForm.get('matching_passwords').get('confirm_password').touched)">
+                  {{validation.message}}</mat-error>
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+
+          <mat-checkbox formControlName="terms">
+            I accept terms and conditions
+          </mat-checkbox>
+          <mat-error *ngFor="let validation of userRegister_validation_messages.terms">
+            <mat-error class="error-message"
+              *ngIf="userRegisterForm.get('terms').hasError(validation.type) && (userRegisterForm.get('terms').dirty || userRegisterForm.get('terms').touched)">
+              {{validation.message}}</mat-error>
+          </mat-error>
+
+          <button class="submit-btn" color="primary" mat-raised-button type="submit" [disabled]="!userRegisterForm.valid">
+            Submit
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+  </div>

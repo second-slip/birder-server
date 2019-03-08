@@ -13,10 +13,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ObservationFeedComponent } from './observation-feed/observation-feed.component';
 import { ObservationDetailComponent } from './observation-detail/observation-detail.component';
 import { ObservationAddComponent } from './observation-add/observation-add.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent},
   { path: 'logout', component: LogoutComponent},
   { path: 'counter', component: CounterComponent },  //
   { path: 'observation-feed', component: ObservationFeedComponent, canActivate: [AuthGuard] },

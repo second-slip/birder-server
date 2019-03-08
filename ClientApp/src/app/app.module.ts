@@ -26,6 +26,7 @@ import { httpInterceptorProviders } from '../_httpInterceptors';
 import { ObservationFeedComponent } from './observation-feed/observation-feed.component';
 import { ObservationDetailComponent } from './observation-detail/observation-detail.component';
 import { ObservationAddComponent } from './observation-add/observation-add.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ObservationAddComponent } from './observation-add/observation-add.compo
     PageNotFoundComponent,
     ObservationFeedComponent,
     ObservationDetailComponent,
-    ObservationAddComponent
+    ObservationAddComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
