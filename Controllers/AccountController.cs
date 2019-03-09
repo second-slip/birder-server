@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Birder.Data;
 using Birder.Models;
@@ -29,6 +30,7 @@ namespace Birder.Controllers
         {
             if (!ModelState.IsValid)
             {
+                // Log modelstate errors
                 return BadRequest(ModelState);
             }
 
@@ -39,7 +41,7 @@ namespace Birder.Controllers
                 Email = model.Email,
                 DefaultLocationLatitude = 54.972237,
                 DefaultLocationLongitude = -2.4608560000000352,
-                // ProfileImage = "https://birderstorage.blob.core.windows.net/profile/default.png",
+                ProfileImage = "", // "https://birderstorage.blob.core.windows.net/profile/default.png",
                 RegistrationDate = DateTime.Now // _systemClock.Now
             };
 
@@ -73,24 +75,24 @@ namespace Birder.Controllers
 
     public class RegisterViewModel
     {
-        // [Required]
-        // [Display(Name = "Username")]
+        [Required]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        // [Required]
-        // [EmailAddress]
-        // [Display(Name = "Email")]
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
-        // [Required]
-        // [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-        // [DataType(DataType.Password)]
-        // [Display(Name = "Password")]
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        // [DataType(DataType.Password)]
-        // [Display(Name = "Confirm password")]
-        // [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 }

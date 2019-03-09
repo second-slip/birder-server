@@ -7,10 +7,10 @@
         <form [formGroup]="userRegisterForm" novalidate (ngSubmit)="onSubmit(userRegisterForm.value)">
 
           <mat-form-field class="full-width">
-            <input matInput maxlength="25" placeholder="Username" formControlName="username" required>
-            <mat-error *ngFor="let validation of userRegister_validation_messages.username">
+            <input matInput maxlength="25" placeholder="UserName" formControlName="userName" required>
+            <mat-error *ngFor="let validation of userRegister_validation_messages.userName">
               <mat-error class="error-message"
-                *ngIf="userRegisterForm.get('username').hasError(validation.type) && (userRegisterForm.get('username').dirty || userRegisterForm.get('username').touched)">
+                *ngIf="userRegisterForm.get('userName').hasError(validation.type) && (userRegisterForm.get('userName').dirty || userRegisterForm.get('userName').touched)">
                 {{validation.message}}</mat-error>
             </mat-error>
           </mat-form-field>
@@ -35,25 +35,25 @@
             </mat-form-field>
 
             <mat-form-field class="full-width">
-              <input matInput type="password" placeholder="Confirm Password" formControlName="confirm_password"
+              <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword"
                 [errorStateMatcher]="parentErrorStateMatcher" required>
-              <mat-error *ngFor="let validation of userRegister_validation_messages.confirm_password">
+              <mat-error *ngFor="let validation of userRegister_validation_messages.confirmPassword">
                 <mat-error class="error-message"
-                  *ngIf="(userRegisterForm.get('matching_passwords').get('confirm_password').hasError(validation.type)|| userRegisterForm.get('matching_passwords').hasError(validation.type)) && (userRegisterForm.get('matching_passwords').get('confirm_password').dirty || userRegisterForm.get('matching_passwords').get('confirm_password').touched)">
+                  *ngIf="(userRegisterForm.get('matching_passwords').get('confirmPassword').hasError(validation.type)|| userRegisterForm.get('matching_passwords').hasError(validation.type)) && (userRegisterForm.get('matching_passwords').get('confirmPassword').dirty || userRegisterForm.get('matching_passwords').get('confirmPassword').touched)">
                   {{validation.message}}</mat-error>
               </mat-error>
             </mat-form-field>
 
           </div>
 
-          <mat-checkbox formControlName="terms">
+          <!-- <mat-checkbox formControlName="terms">
             I accept terms and conditions
           </mat-checkbox>
           <mat-error *ngFor="let validation of userRegister_validation_messages.terms">
             <mat-error class="error-message"
               *ngIf="userRegisterForm.get('terms').hasError(validation.type) && (userRegisterForm.get('terms').dirty || userRegisterForm.get('terms').touched)">
               {{validation.message}}</mat-error>
-          </mat-error>
+          </mat-error> -->
 
           <button class="submit-btn" color="primary" mat-raised-button type="submit" [disabled]="!userRegisterForm.valid">
             Submit

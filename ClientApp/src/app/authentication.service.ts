@@ -4,6 +4,7 @@ import { JwtHelper } from 'angular2-jwt';
 import { map } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { LoginViewModel } from '../_models/login-view-model';
+import { Token } from '@angular/compiler';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -21,7 +22,7 @@ export class AuthenticationService {
   constructor(private http: HttpClient
             , private jwtHelper: JwtHelper) { }
 
-  login(viewModel: LoginViewModel) {
+  login(viewModel: LoginViewModel): Observable<string> {
     // TODO: remove console log
     console.log('loginservice - LOGIN');
 

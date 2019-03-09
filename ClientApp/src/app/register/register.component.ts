@@ -2,6 +2,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { UsernameValidator, PasswordValidator, ParentErrorStateMatcher } from '../../validators';
 import { AccountService } from '../account.service';
+import { first } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { RegisterViewModel } from '../../_models/RegisterViewModel';
 
 @Component({
   selector: 'app-register',
@@ -18,9 +21,9 @@ export class RegisterComponent implements OnInit {
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
   userRegister_validation_messages = {
-    'username': [
+    'userName': [
       { type: 'required', message: 'Username is required' },
-      { type: 'minlength', message: 'Username must be at least 8 characters long' },
+      { type: 'minlength', message: 'Username must be at least 5 characters long' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       // { type: 'pattern', message: 'Your username must contain at least one number and one letter' },
       { type: 'validUsername', message: 'Your username has already been taken' }
@@ -29,23 +32,21 @@ export class RegisterComponent implements OnInit {
       { type: 'required', message: 'Email is required' },
       { type: 'pattern', message: 'Enter a valid email' }
     ],
-    'confirm_password': [
+    'confirmPassword': [
       { type: 'required', message: 'Confirm password is required' },
       { type: 'areEqual', message: 'Password mismatch' }
     ],
     'password': [
       { type: 'required', message: 'Password is required' },
       { type: 'minlength', message: 'Password must be at least 8 characters long' },
-      { type: 'pattern', message: 'Your password must contain at least one number and one letter' },
-      { type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number' }
-    ],
-    'terms': [
-      { type: 'pattern', message: 'You must accept terms and conditions' }
+      { type: 'pattern', message: 'Your password must contain at least one number and one letter' }
+      // { type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number' }
     ]
   };
 
   constructor(private formBuilder: FormBuilder
-            , private accountService: AccountService) { }
+            , private accountService: AccountService
+            , private router: Router) { }
 
   ngOnInit() {
     this.createForms();
@@ -56,33 +57,52 @@ export class RegisterComponent implements OnInit {
     this.matching_passwords_group = new FormGroup({
       password: new FormControl('', Validators.compose([
         Validators.minLength(8),
-        Validators.required,
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+        Validators.required, // regex: accept letters, numbers and !@#$%.  Must have at least one letter and number
+        Validators.pattern('^(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9!@#$%]+$') // ^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
       ])),
-      confirm_password: new FormControl('', Validators.required)
+      confirmPassword: new FormControl('', Validators.required)
     }, (formGroup: FormGroup) => {
       return PasswordValidator.areEqual(formGroup);
     });
 
     this.userRegisterForm = this.formBuilder.group({
-      username: new FormControl('', Validators.compose([
+      userName: new FormControl('', Validators.compose([
        UsernameValidator.validUsername,
        Validators.maxLength(25),
-       Validators.minLength(8),
-       Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$'),
+       Validators.minLength(5),
+       Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
        Validators.required
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
-      matching_passwords: this.matching_passwords_group,
-      terms: new FormControl(false, Validators.pattern('true'))
+      matching_passwords: this.matching_passwords_group
+      // terms: new FormControl(false, Validators.pattern('true'))
     });
   }
 
   onSubmit(value) {
-    console.log(value);
+
+    const viewModelObject = <RegisterViewModel> {
+      UserName: value.userName,
+      Email: value.email,
+      Password: value.matching_passwords.password,
+      ConfirmPassword: value.matching_passwords.confirmPassword
+    };
+
+    this.accountService.register(viewModelObject)
+    .pipe(first())
+    .subscribe(
+      data => {
+        console.log('successful registration');
+        this.router.navigate(['/login']);
+      },
+      error => {
+        // if (error.status === 400) { }
+        console.log('error: ' + error);
+        console.log('unsuccessful registration');
+      });
   }
 
 }
