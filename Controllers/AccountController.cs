@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Birder.Data;
 using Birder.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Birder.Controllers
 {
@@ -30,47 +23,9 @@ namespace Birder.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost, Route("login")] //[HttpPost("[action]")]
-        public IActionResult Login([FromBody]LoginViewModel user)
-        {
-            if (user == null)
-            {
-                return BadRequest("Invalid client request");
-            }
-
-            if (user.UserName == "a@b.com" && user.Password == "test")
-            {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Role, "Administrator")
-                };
-
-                var tokeOptions = new JwtSecurityToken(
-                    issuer: "http://localhost:55722",
-                    audience: "http://localhost:55722",
-                    claims: claims,  // new List<Claim>(),
-                    expires: DateTime.Now.AddDays(2),
-                    signingCredentials: signinCredentials
-                );
-
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-
-                return Ok(new { Token = tokenString });
-                //return Ok(uvm);
-            }
-            else
-            {
-                return Unauthorized();
-            }
-        }
-
         [HttpPost, Route("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewModel model) // , string returnUrl = null)
+        public async Task<IActionResult> Register([FromBody]RegisterViewModel model) // , string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
@@ -87,6 +42,8 @@ namespace Birder.Controllers
                 // ProfileImage = "https://birderstorage.blob.core.windows.net/profile/default.png",
                 RegistrationDate = DateTime.Now // _systemClock.Now
             };
+
+            // check passwords are equal... ?
 
             var result = await _userManager.CreateAsync(newUser, model.Password);
 
@@ -135,22 +92,5 @@ namespace Birder.Controllers
         // [Display(Name = "Confirm password")]
         // [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-    }
-
-    public class UserViewModel
-    {
-        public string UserName { get; set; }
-        public string Token { get; set; }
-    }
-
-
-
-
-    //Too: Move to separate file
-    public class LoginViewModel
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public bool RememberMe { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { UsernameValidator, PasswordValidator, ParentErrorStateMatcher } from '../../validators';
-import { RegisterService } from '../register.service';
+import { AccountService } from '../account.service';
 
 @Component({
   selector: 'app-register',
@@ -20,9 +20,9 @@ export class RegisterComponent implements OnInit {
   userRegister_validation_messages = {
     'username': [
       { type: 'required', message: 'Username is required' },
-      { type: 'minlength', message: 'Username must be at least 5 characters long' },
+      { type: 'minlength', message: 'Username must be at least 8 characters long' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
-      { type: 'pattern', message: 'Your username must contain only numbers and letters' },
+      // { type: 'pattern', message: 'Your username must contain at least one number and one letter' },
       { type: 'validUsername', message: 'Your username has already been taken' }
     ],
     'email': [
@@ -35,7 +35,8 @@ export class RegisterComponent implements OnInit {
     ],
     'password': [
       { type: 'required', message: 'Password is required' },
-      { type: 'minlength', message: 'Password must be at least 5 characters long' },
+      { type: 'minlength', message: 'Password must be at least 8 characters long' },
+      { type: 'pattern', message: 'Your password must contain at least one number and one letter' },
       { type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number' }
     ],
     'terms': [
@@ -44,7 +45,7 @@ export class RegisterComponent implements OnInit {
   };
 
   constructor(private formBuilder: FormBuilder
-            , private registerService: RegisterService) { }
+            , private accountService: AccountService) { }
 
   ngOnInit() {
     this.createForms();
@@ -54,7 +55,7 @@ export class RegisterComponent implements OnInit {
     // matching passwords validation
     this.matching_passwords_group = new FormGroup({
       password: new FormControl('', Validators.compose([
-        Validators.minLength(5),
+        Validators.minLength(8),
         Validators.required,
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
       ])),
@@ -67,7 +68,7 @@ export class RegisterComponent implements OnInit {
       username: new FormControl('', Validators.compose([
        UsernameValidator.validUsername,
        Validators.maxLength(25),
-       Validators.minLength(5),
+       Validators.minLength(8),
        Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$'),
        Validators.required
       ])),

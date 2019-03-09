@@ -4,7 +4,6 @@ import { JwtHelper } from 'angular2-jwt';
 import { map } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { LoginViewModel } from '../_models/login-view-model';
-import { Token } from '@angular/compiler';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -18,7 +17,6 @@ export class AuthenticationService {
 
   private isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isLoggedIn$: Observable<boolean> = this.isLoggedIn.asObservable();
-  private url = 'api/Account/Login';
 
   constructor(private http: HttpClient
             , private jwtHelper: JwtHelper) { }
@@ -27,7 +25,7 @@ export class AuthenticationService {
     // TODO: remove console log
     console.log('loginservice - LOGIN');
 
-    return this.http.post<any>(this.url, viewModel, httpOptions)
+    return this.http.post<any>('api/Authentication/Login', viewModel, httpOptions)
       .pipe(map(user => {
         // login successful if there's a jwt token in the response
         if (user && user.token) {
@@ -35,10 +33,8 @@ export class AuthenticationService {
           // let token = (<any>user).token;
           localStorage.setItem('jwt', user.token);
           this.isLoggedIn.next(true);
-          // this.currentUserSubject.next(user);
         }
         // TODO: handle error: looed by global intercept
-
         return user;
       }));
   }
@@ -54,6 +50,14 @@ export class AuthenticationService {
       return '';
     }
   }
+
+  logout(): void {
+    // TODO: Remove console.log
+    console.log('loginservice - LOGOUT');
+    localStorage.removeItem('jwt');
+    this.isLoggedIn.next(false);
+  }
+
 
   checkLoginStatus(): boolean {
     const token = localStorage.getItem('jwt');
@@ -77,13 +81,6 @@ export class AuthenticationService {
     }
   }
 
-  logout(): void {
-    // TODO: Remove console.log
-    console.log('loginservice - LOGOUT');
 
-    localStorage.removeItem('jwt');
-
-    this.isLoggedIn.next(false);
-  }
 }
 
