@@ -3,9 +3,16 @@
     <div class="col">
       <div class="register-container">
         <h2 class="section-title">Birder Registration Form</h2>
+        <div *ngIf="invalidRegistration" class="alert alert-danger">
+          <p>Invalid registration</p>
+            <ul>
+                <li *ngFor="let error of errorReport.modelStateErrors">
+                    {{ error }}
+                </li>
+            </ul>
+        </div>
 
         <form [formGroup]="userRegisterForm" novalidate (ngSubmit)="onSubmit(userRegisterForm.value)">
-
           <mat-form-field class="full-width">
             <input matInput maxlength="25" placeholder="UserName" formControlName="userName" required>
             <mat-error *ngFor="let validation of userRegister_validation_messages.userName">
@@ -14,6 +21,8 @@
                 {{validation.message}}</mat-error>
             </mat-error>
           </mat-form-field>
+
+          <p> The username is available</p>
 
           <mat-form-field class="full-width">
             <input matInput type="email" placeholder="Email" formControlName="email" required>

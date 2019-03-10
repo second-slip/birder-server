@@ -71,7 +71,45 @@ namespace Birder.Controllers
             return BadRequest();
             // return View(model);
         }
+
+        [HttpGet, Route("CheckUserName")]
+        [AllowAnonymous]
+        //public async Task<ActionResult<bool>> GetObservation(int id)
+        public async Task<ActionResult<Boolean>> CheckUserName(string userName)
+        {
+            // See documentation notes
+            // var userName = user.UserName;
+            // if (model.Username != userName)
+            // {
+                if (await _userManager.FindByNameAsync(userName) != null)
+                {
+                    ModelState.AddModelError("Username", $"Username '{userName}' is already taken.");
+                    
+                    return BadRequest(false);
+                }
+
+                return Ok(true);
+                // var setUserNameResult = await _userManager.SetUserNameAsync(user, model.Username);
+                // if (!setUserNameResult.Succeeded)
+                // {
+                //     throw new ApplicationException($"Unexpected error occurred setting username for user with ID '{user.Id}'.");
+                // }
+            // }
+            
+
+            // var email = user.Email;
+            // if (model.Email != email)
+            // {
+            //     var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+            //     if (!setEmailResult.Succeeded)
+            //     {
+            //         throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+            //     }
+            // }
+        }
     }
+
+
 
     public class RegisterViewModel
     {

@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { UsernameValidator, PasswordValidator, ParentErrorStateMatcher } from '../../validators';
 import { AccountService } from '../account.service';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { RegisterViewModel } from '../../_models/RegisterViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { UniqueAlterEgoValidator } from '../../validators/username2.validator';
+import { ValidateEmailNotTaken } from '../../validators/ValidateEmailNotTaken';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +16,10 @@ import { RegisterViewModel } from '../../_models/RegisterViewModel';
   encapsulation: ViewEncapsulation.None
 })
 export class RegisterComponent implements OnInit {
+  invalidRegistration: boolean;
+  isValid: boolean;
+
+  errorReport: ErrorReportViewModel;
 
   userRegisterForm: FormGroup;
 
@@ -26,7 +33,8 @@ export class RegisterComponent implements OnInit {
       { type: 'minlength', message: 'Username must be at least 5 characters long' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       // { type: 'pattern', message: 'Your username must contain at least one number and one letter' },
-      { type: 'validUsername', message: 'Your username has already been taken' }
+      { type: 'isValid', message: 'Your username has already been taken' },
+      // { type: 'alterEgoValidator', message: 'hello' }
     ],
     'email': [
       { type: 'required', message: 'Email is required' },
@@ -44,12 +52,30 @@ export class RegisterComponent implements OnInit {
     ]
   };
 
+
   constructor(private formBuilder: FormBuilder
             , private accountService: AccountService
-            , private router: Router) { }
+            , private router: Router
+            , private alterEgoValidator: UniqueAlterEgoValidator) { }
 
   ngOnInit() {
     this.createForms();
+  }
+
+
+
+  validateEmailNotTaken(control: AbstractControl) {
+    return this.accountService.checkValidUsername(control.value)
+    .subscribe(
+      (data) => {
+        this.isValid = true;
+        console.log('valid');
+      },
+      (error) => {
+        this.isValid = false;
+        console.log('invalid');
+      }
+    );
   }
 
   createForms() {
@@ -67,12 +93,21 @@ export class RegisterComponent implements OnInit {
 
     this.userRegisterForm = this.formBuilder.group({
       userName: new FormControl('', Validators.compose([
-       UsernameValidator.validUsername,
+        // this.validateEmailNotTaken.bind(this),
+       // ValidateEmailNotTaken.createValidator(this.accountService),
+       // this.validateEmailNotTaken.bind(this),
+      //  this.isValid,
+       // UsernameValidator.validUsername,
+       // this.alterEgoValidator.validate.bind(this.alterEgoValidator),
        Validators.maxLength(25),
        Validators.minLength(5),
        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
        Validators.required
       ])),
+      // 'alterEgo': new FormControl('', {
+      //   asyncValidators: [this.alterEgoValidator.validate.bind(this.alterEgoValidator)],
+      //   updateOn: 'blur'
+      // }),
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
@@ -87,20 +122,22 @@ export class RegisterComponent implements OnInit {
     const viewModelObject = <RegisterViewModel> {
       UserName: value.userName,
       Email: value.email,
-      Password: value.matching_passwords.password,
-      ConfirmPassword: value.matching_passwords.confirmPassword
+      Password: 'crick', // value.matching_passwords.password,
+      ConfirmPassword: 'cricket' // value.matching_passwords.confirmPassword
     };
 
     this.accountService.register(viewModelObject)
     .pipe(first())
     .subscribe(
-      data => {
-        console.log('successful registration');
-        this.router.navigate(['/login']);
-      },
-      error => {
+       (data: void) => {
+         console.log('successful registration');
+         this.router.navigate(['/login']);
+       },
+      (error: ErrorReportViewModel) => {
         // if (error.status === 400) { }
-        console.log('error: ' + error);
+        this.errorReport = error;
+        this.invalidRegistration = true;
+        console.log(error.friendlyMessage);
         console.log('unsuccessful registration');
       });
   }
