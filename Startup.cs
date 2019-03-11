@@ -43,7 +43,7 @@ namespace Birder
             services.AddIdentityCore<ApplicationUser>(options =>
             {
                 //options.SignIn.RequireConfirmedEmail = true;
-                // options.User.RequireUniqueEmail = true;
+                options.User.RequireUniqueEmail = true;
                 // Password settings: require any eight letters or numbers
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;

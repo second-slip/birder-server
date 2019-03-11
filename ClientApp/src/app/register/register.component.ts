@@ -32,9 +32,7 @@ export class RegisterComponent implements OnInit {
       { type: 'required', message: 'Username is required' },
       { type: 'minlength', message: 'Username must be at least 5 characters long' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
-      // { type: 'pattern', message: 'Your username must contain at least one number and one letter' },
-      { type: 'isValid', message: 'Your username has already been taken' },
-      // { type: 'alterEgoValidator', message: 'hello' }
+      { type: 'pattern', message: 'Your username must be alphanumeric (no special characters) and must not contain spaces' },
     ],
     'email': [
       { type: 'required', message: 'Email is required' },
@@ -100,21 +98,14 @@ export class RegisterComponent implements OnInit {
 
     this.userRegisterForm = this.formBuilder.group({
       userName: new FormControl('', Validators.compose([
-        // this.validateEmailNotTaken.bind(this),
        // ValidateEmailNotTaken.createValidator(this.accountService),
        // this.validateEmailNotTaken.bind(this),
-      //  this.isValid,
        // UsernameValidator.validUsername,
-       // this.alterEgoValidator.validate.bind(this.alterEgoValidator),
        Validators.maxLength(25),
        Validators.minLength(5),
        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
        Validators.required
       ])),
-      // 'alterEgo': new FormControl('', {
-      //   asyncValidators: [this.alterEgoValidator.validate.bind(this.alterEgoValidator)],
-      //   updateOn: 'blur'
-      // }),
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
@@ -135,8 +126,8 @@ export class RegisterComponent implements OnInit {
     const viewModelObject = <RegisterViewModel> {
       UserName: value.userName,
       Email: value.email,
-      Password: 'crick', // value.matching_passwords.password,
-      ConfirmPassword: 'cricket' // value.matching_passwords.confirmPassword
+      Password: value.matching_passwords.password,
+      ConfirmPassword: value.matching_passwords.confirmPassword
     };
 
     this.accountService.register(viewModelObject)
@@ -154,5 +145,4 @@ export class RegisterComponent implements OnInit {
         console.log('unsuccessful registration');
       });
   }
-
 }
