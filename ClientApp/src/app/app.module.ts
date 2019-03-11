@@ -27,6 +27,7 @@ import { ObservationFeedComponent } from './observation-feed/observation-feed.co
 import { ObservationDetailComponent } from './observation-detail/observation-detail.component';
 import { ObservationAddComponent } from './observation-add/observation-add.component';
 import { RegisterComponent } from './register/register.component';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { RegisterComponent } from './register/register.component';
     ObservationFeedComponent,
     ObservationDetailComponent,
     ObservationAddComponent,
-    RegisterComponent
+    RegisterComponent,
+    ConfirmEmailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

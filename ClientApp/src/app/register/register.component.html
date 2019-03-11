@@ -16,9 +16,9 @@
 
         <form [formGroup]="userRegisterForm" novalidate (ngSubmit)="onSubmit(userRegisterForm.value)">
           <mat-form-field class="full-width">
-            <input matInput maxlength="25" placeholder="Username" formControlName="userName" required (blur)="onBlurMethod()">
-            <mat-icon *ngIf="!isUsernameTaken" matSuffix color="primary" matTooltip="This username is available">check</mat-icon>
-            <mat-icon *ngIf="isUsernameTaken" matSuffix color="warn" matTooltip="This username is taken">cancel</mat-icon>
+            <input matInput maxlength="25" placeholder="Username" formControlName="userName" required (input)="checkUsernameIsAvailable()">
+            <mat-icon *ngIf="(isUsernameAvailable) && (userRegisterForm.get('userName').valid)" matSuffix color="primary" matTooltip="This username is available">check</mat-icon>
+            <mat-icon *ngIf="(!isUsernameAvailable) && (userRegisterForm.get('userName').valid)" matSuffix color="warn" matTooltip="This username is taken">cancel</mat-icon>
             <mat-error *ngFor="let validation of userRegister_validation_messages.userName">
               <mat-error class="error-message"
                 *ngIf="userRegisterForm.get('userName').hasError(validation.type) && (userRegisterForm.get('userName').dirty || userRegisterForm.get('userName').touched)">

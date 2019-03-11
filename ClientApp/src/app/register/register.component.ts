@@ -17,7 +17,7 @@ import { ValidateEmailNotTaken } from '../../validators/ValidateEmailNotTaken';
 })
 export class RegisterComponent implements OnInit {
   invalidRegistration: boolean;
-  isUsernameTaken: boolean;
+  isUsernameAvailable: boolean;
 
   errorReport: ErrorReportViewModel;
 
@@ -62,25 +62,26 @@ export class RegisterComponent implements OnInit {
     this.createForms();
   }
 
+
   validateEmailNotTaken(username: string) {
     return this.accountService.checkValidUsername(username)
     .subscribe(
-      (data) => {
-        this.isUsernameTaken = false;
-        console.log('valid');
+      (data: boolean) => {
+        this.isUsernameAvailable = true;
+        console.log('available');
       },
-      (error) => {
-        this.isUsernameTaken = true;
-        console.log('invalid');
+      (error: ErrorReportViewModel) => {
+        this.isUsernameAvailable = false;
+        console.log('not available');
       }
     );
   }
 
-  onBlurMethod() {
+  checkUsernameIsAvailable(): void {
     if (this.userRegisterForm.get('userName').valid) {
       this.validateEmailNotTaken(this.userRegisterForm.get('userName').value);
     } else {
-      alert('do nothing');
+      // alert('do nothing');
     }
   }
 
@@ -123,7 +124,13 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  onSubmit(value) {
+  onSubmit(value): void {
+
+    if (this.isUsernameAvailable === false) {
+      const unavailableUsername = this.userRegisterForm.get('userName').value;
+      alert(`The username '${unavailableUsername}' is not available.  Please choose a different username.`);
+      return;
+    }
 
     const viewModelObject = <RegisterViewModel> {
       UserName: value.userName,
@@ -137,7 +144,7 @@ export class RegisterComponent implements OnInit {
     .subscribe(
        (data: void) => {
          console.log('successful registration');
-         this.router.navigate(['/login']);
+         this.router.navigate(['/confirm-email']);
        },
       (error: ErrorReportViewModel) => {
         // if (error.status === 400) { }

@@ -14,6 +14,7 @@ import { ObservationFeedComponent } from './observation-feed/observation-feed.co
 import { ObservationDetailComponent } from './observation-detail/observation-detail.component';
 import { ObservationAddComponent } from './observation-add/observation-add.component';
 import { RegisterComponent } from './register/register.component';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'birds-index', component: BirdsIndexComponent, canActivate: [AuthGuard] },
   { path: 'birds-detail/:id', component: BirdsDetailComponent, canActivate: [AuthGuard] },
   { path: 'react-form-example', component: ReactFormExampleComponent },
+  { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
