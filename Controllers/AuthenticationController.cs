@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Birder.Data;
 using Birder.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Birder.Controllers
@@ -19,57 +21,107 @@ namespace Birder.Controllers
     {
         //private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IConfiguration _config;
 
-        public AuthenticationController(UserManager<ApplicationUser> userManager)
+        public AuthenticationController(UserManager<ApplicationUser> userManager
+                                        ,SignInManager<ApplicationUser> signInManager
+                                        ,IConfiguration config)
         {
             //_context = context;
+            _config = config;
+            _signInManager = signInManager;
             _userManager = userManager;
         }
 
         [HttpPost, Route("login")] //[HttpPost("[action]")]
-        public IActionResult Login([FromBody]LoginViewModel user)
+        public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (user == null)
-            {
-                return BadRequest("Invalid client request");
-            }
+            //if (user == null)
+            //{
+            //    return BadRequest("Invalid client request");
+            //}
+            //.FindByNameAsync(loginViewModel.Username);
 
-            if (user.UserName == "a@b.com" && user.Password == "test")
-            {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+            var user = await _userManager.FindByEmailAsync(loginViewModel.UserName);
 
-                var claims = new List<Claim>
+            if (user != null)
+            {
+                var result = await _signInManager.CheckPasswordSignInAsync(user, loginViewModel.Password, false);
+                // check for lockout / requires two factor login
+                if (result.Succeeded)
                 {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    
-                    new Claim(ClaimTypes.Role, "Administrator")
-                };
+                    var claims = new List<Claim>
+                    {
+                    //new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                    //new Claim(JwtRegisteredClaimNames., "Administrator"),
+                    //new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    };
 
-                var tokeOptions = new JwtSecurityToken(
-                    issuer: "http://localhost:55722",
-                    audience: "http://localhost:55722",
-                    claims: claims,  // new List<Claim>(),
-                    expires: DateTime.Now.AddDays(2),
-                    signingCredentials: signinCredentials
-                );
+                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+                    var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+                    //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+                    //var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+                    var tokenOptions = new JwtSecurityToken(
+                        issuer: "http://localhost:55722",
+                        audience: "http://localhost:55722",
+                        claims: claims,  // new List<Claim>(),
+                        expires: DateTime.Now.AddDays(2),
+                        signingCredentials: signinCredentials
+                        );
 
-                return Ok(new { Token = tokenString });
-                //return Ok(uvm);
+
+                    var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+                    return Ok(new { Token = tokenString });
+                }
             }
-            else
-            {
-                return Unauthorized();
-            }
+            return Unauthorized();
+            // return BadRequest();
         }
     }
+
+
+
+
+
+            //if (user.UserName == "a@b.com" && user.Password == "test")
+            //{
+            //    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+            //    var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+                //var claims = new List<Claim>
+                //{
+                //    //new Claim(ClaimTypes.Name, user.UserName),
+                //    new Claim(JwtRegisteredClaimNames.Email, user.UserName),
+                //    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                //    //new Claim(JwtRegisteredClaimNames., "Administrator"),
+                //    //new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),    
+                //};
+
+                //var tokeOptions = new JwtSecurityToken(
+                //    issuer: "http://localhost:55722",
+                //    audience: "http://localhost:55722",
+                //    claims: claims,  // new List<Claim>(),
+                //    expires: DateTime.Now.AddDays(2),
+                //    signingCredentials: signinCredentials
+                //);
+
+                //var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+
+                //return Ok(new { Token = tokenString });
+                ////return Ok(uvm);
+
 
     //Too: Move to separate file
     public class LoginViewModel
