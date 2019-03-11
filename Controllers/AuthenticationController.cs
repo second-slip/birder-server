@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -16,28 +17,22 @@ namespace Birder.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    // [AllowAnonymous]
+    [AllowAnonymous]
     public class AuthenticationController : ControllerBase
     {
         //private readonly ApplicationDbContext _context;
-         private readonly UserManager<ApplicationUser> _userManager;
-         private readonly SignInManager<ApplicationUser> _signInManager;
-        //private readonly IConfiguration _config;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IConfiguration _config;
 
         public AuthenticationController(UserManager<ApplicationUser> userManager
-                                        ,SignInManager<ApplicationUser> signInManager)
-                                        //,IConfiguration config)
+                                        , SignInManager<ApplicationUser> signInManager
+                                        , IConfiguration config)
         {
             //_context = context;
-            //_config = config;
+            _config = config;
             _signInManager = signInManager;
             _userManager = userManager;
-        }
-
-        [HttpGet]
-        public IActionResult Hello()
-        {
-            return Ok();
         }
 
         [HttpPost, Route("login")] //[HttpPost("[action]")]
@@ -48,12 +43,7 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-            // if (user == null)
-            // {
-            //    return BadRequest("Invalid client request");
-            // }
             // .FindByNameAsync(loginViewModel.Username);
-
             var user = await _userManager.FindByEmailAsync(loginViewModel.UserName);
 
             if (user != null)
@@ -78,7 +68,7 @@ namespace Birder.Controllers
                     //var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                     var tokenOptions = new JwtSecurityToken(
-                        issuer: "http://localhost:55722",
+                        issuer: _config["Tokens:Issuer"],
                         audience: "http://localhost:55722",
                         claims: claims,  // new List<Claim>(),
                         expires: DateTime.Now.AddDays(2),
@@ -91,7 +81,7 @@ namespace Birder.Controllers
                     return Ok(new { Token = tokenString });
                 }
             }
-            return Unauthorized();
+            return Unauthorized(ModelState);
             // return BadRequest();
         }
     }
@@ -100,40 +90,55 @@ namespace Birder.Controllers
 
 
 
-            //if (user.UserName == "a@b.com" && user.Password == "test")
-            //{
-            //    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-            //    var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+    //if (user.UserName == "a@b.com" && user.Password == "test")
+    //{
+    //    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+    //    var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-                //var claims = new List<Claim>
-                //{
-                //    //new Claim(ClaimTypes.Name, user.UserName),
-                //    new Claim(JwtRegisteredClaimNames.Email, user.UserName),
-                //    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                //    //new Claim(JwtRegisteredClaimNames., "Administrator"),
-                //    //new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),    
-                //};
+    //var claims = new List<Claim>
+    //{
+    //    //new Claim(ClaimTypes.Name, user.UserName),
+    //    new Claim(JwtRegisteredClaimNames.Email, user.UserName),
+    //    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+    //    //new Claim(JwtRegisteredClaimNames., "Administrator"),
+    //    //new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+    //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),    
+    //};
 
-                //var tokeOptions = new JwtSecurityToken(
-                //    issuer: "http://localhost:55722",
-                //    audience: "http://localhost:55722",
-                //    claims: claims,  // new List<Claim>(),
-                //    expires: DateTime.Now.AddDays(2),
-                //    signingCredentials: signinCredentials
-                //);
+    //var tokeOptions = new JwtSecurityToken(
+    //    issuer: "http://localhost:55722",
+    //    audience: "http://localhost:55722",
+    //    claims: claims,  // new List<Claim>(),
+    //    expires: DateTime.Now.AddDays(2),
+    //    signingCredentials: signinCredentials
+    //);
 
-                //var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+    //var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 
-                //return Ok(new { Token = tokenString });
-                ////return Ok(uvm);
+    //return Ok(new { Token = tokenString });
+    ////return Ok(uvm);
 
 
     //Too: Move to separate file
+    // public class LoginViewModel
+    // {
+    //     public string UserName { get; set; }
+    //     public string Password { get; set; }
+    //     public bool RememberMe { get; set; }
+    // }
     public class LoginViewModel
     {
+        [Required]
+        //[EmailAddress]
+        //[Display(Name = "E-mail or Username")]
         public string UserName { get; set; }
+        //public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        //[Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
 }

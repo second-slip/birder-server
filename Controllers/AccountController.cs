@@ -11,7 +11,7 @@ namespace Birder.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class AccountController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
