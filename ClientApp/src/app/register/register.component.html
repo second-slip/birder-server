@@ -1,6 +1,8 @@
 <div class="container">
   <div class="row">
-    <div class="col">
+      <div class='col-sm-2'>
+        </div>
+    <div class="col-sm-8">
       <div class="register-container">
         <h2 class="section-title">Birder Registration Form</h2>
         <div *ngIf="invalidRegistration" class="alert alert-danger">
@@ -14,15 +16,16 @@
 
         <form [formGroup]="userRegisterForm" novalidate (ngSubmit)="onSubmit(userRegisterForm.value)">
           <mat-form-field class="full-width">
-            <input matInput maxlength="25" placeholder="UserName" formControlName="userName" required>
+            <input matInput maxlength="25" placeholder="Username" formControlName="userName" required (blur)="onBlurMethod()">
+            <mat-icon *ngIf="!isUsernameTaken" matSuffix color="primary" matTooltip="This username is available">check</mat-icon>
+            <mat-icon *ngIf="isUsernameTaken" matSuffix color="warn" matTooltip="This username is taken">cancel</mat-icon>
             <mat-error *ngFor="let validation of userRegister_validation_messages.userName">
               <mat-error class="error-message"
                 *ngIf="userRegisterForm.get('userName').hasError(validation.type) && (userRegisterForm.get('userName').dirty || userRegisterForm.get('userName').touched)">
-                {{validation.message}}</mat-error>
+                {{validation.message}}
+              </mat-error>
             </mat-error>
           </mat-form-field>
-
-          <p> The username is available</p>
 
           <mat-form-field class="full-width">
             <input matInput type="email" placeholder="Email" formControlName="email" required>
@@ -72,4 +75,6 @@
 
       </div>
     </div>
+    <div class='col-sm-2'>
+      </div>
   </div>

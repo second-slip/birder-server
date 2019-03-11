@@ -34,7 +34,6 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-
             var newUser = new ApplicationUser
             {
                 UserName = model.UserName,
@@ -45,10 +44,8 @@ namespace Birder.Controllers
                 RegistrationDate = DateTime.Now // _systemClock.Now
             };
 
-            // check passwords are equal... ?
-
             var result = await _userManager.CreateAsync(newUser, model.Password);
-
+            
             if (result.Succeeded)
             {
                 //_logger.LogInformation("User created a new account with password.");
@@ -65,10 +62,14 @@ namespace Birder.Controllers
                 return Ok();
             }
                 //AddErrors(result);
-            
+            // username or email already taken, add to modelstate errors
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(error.Code, error.Description);
+            }
 
             // If we got this far, something failed, redisplay form
-            return BadRequest();
+            return BadRequest(ModelState);
             // return View(model);
         }
 

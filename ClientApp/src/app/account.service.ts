@@ -45,11 +45,6 @@ export class AccountService {
     .pipe(
       catchError(err => this.handleHttpError(err))
     );
-
-    // return this.http.post<void>('api/Account/', viewModel, httpOptions)
-    // .pipe(
-    //   catchError(err => this.handleHttpError(err))
-    // );
   }
 
   private handleHttpError(error: HttpErrorResponse): Observable<ErrorReportViewModel> {

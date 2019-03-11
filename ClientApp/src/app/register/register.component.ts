@@ -17,7 +17,7 @@ import { ValidateEmailNotTaken } from '../../validators/ValidateEmailNotTaken';
 })
 export class RegisterComponent implements OnInit {
   invalidRegistration: boolean;
-  isValid: boolean;
+  isUsernameTaken: boolean;
 
   errorReport: ErrorReportViewModel;
 
@@ -62,20 +62,26 @@ export class RegisterComponent implements OnInit {
     this.createForms();
   }
 
-
-
-  validateEmailNotTaken(control: AbstractControl) {
-    return this.accountService.checkValidUsername(control.value)
+  validateEmailNotTaken(username: string) {
+    return this.accountService.checkValidUsername(username)
     .subscribe(
       (data) => {
-        this.isValid = true;
+        this.isUsernameTaken = false;
         console.log('valid');
       },
       (error) => {
-        this.isValid = false;
+        this.isUsernameTaken = true;
         console.log('invalid');
       }
     );
+  }
+
+  onBlurMethod() {
+    if (this.userRegisterForm.get('userName').valid) {
+      this.validateEmailNotTaken(this.userRegisterForm.get('userName').value);
+    } else {
+      alert('do nothing');
+    }
   }
 
   createForms() {
