@@ -22,11 +22,12 @@ export class AuthenticationService {
   constructor(private http: HttpClient
             , private jwtHelper: JwtHelper) { }
 
-  login(viewModel: LoginViewModel): Observable<string> {
+  login(viewModel: LoginViewModel): Observable<any> {
     // TODO: remove console log
     console.log('loginservice - LOGIN');
+    console.log(viewModel);
 
-    return this.http.post<any>('api/Authentication/Login', viewModel, httpOptions)
+    return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
       .pipe(map(user => {
         // login successful if there's a jwt token in the response
         if (user && user.token) {

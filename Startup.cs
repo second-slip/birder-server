@@ -28,7 +28,7 @@ namespace Birder
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -53,7 +53,10 @@ namespace Birder
                 options.Password.RequireUppercase = false;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                    .AddDefaultTokenProviders();
+                .AddSignInManager<SignInManager<ApplicationUser>>();
+                    //.AddDefaultTokenProviders();
+
+                    //services.AddSignInManager<SignInManager<IdentityUser>>();
 
          services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

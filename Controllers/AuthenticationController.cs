@@ -16,22 +16,28 @@ namespace Birder.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    // [AllowAnonymous]
     public class AuthenticationController : ControllerBase
     {
         //private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IConfiguration _config;
+         private readonly UserManager<ApplicationUser> _userManager;
+         private readonly SignInManager<ApplicationUser> _signInManager;
+        //private readonly IConfiguration _config;
 
         public AuthenticationController(UserManager<ApplicationUser> userManager
-                                        ,SignInManager<ApplicationUser> signInManager
-                                        ,IConfiguration config)
+                                        ,SignInManager<ApplicationUser> signInManager)
+                                        //,IConfiguration config)
         {
             //_context = context;
-            _config = config;
+            //_config = config;
             _signInManager = signInManager;
             _userManager = userManager;
+        }
+
+        [HttpGet]
+        public IActionResult Hello()
+        {
+            return Ok();
         }
 
         [HttpPost, Route("login")] //[HttpPost("[action]")]
@@ -42,11 +48,11 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-            //if (user == null)
-            //{
+            // if (user == null)
+            // {
             //    return BadRequest("Invalid client request");
-            //}
-            //.FindByNameAsync(loginViewModel.Username);
+            // }
+            // .FindByNameAsync(loginViewModel.Username);
 
             var user = await _userManager.FindByEmailAsync(loginViewModel.UserName);
 
