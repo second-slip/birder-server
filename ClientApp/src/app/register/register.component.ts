@@ -6,8 +6,6 @@ import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { RegisterViewModel } from '../../_models/RegisterViewModel';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { UniqueAlterEgoValidator } from '../../validators/username2.validator';
-import { ValidateEmailNotTaken } from '../../validators/ValidateEmailNotTaken';
 
 @Component({
   selector: 'app-register',
@@ -18,13 +16,9 @@ import { ValidateEmailNotTaken } from '../../validators/ValidateEmailNotTaken';
 export class RegisterComponent implements OnInit {
   invalidRegistration: boolean;
   isUsernameAvailable: boolean;
-
   errorReport: ErrorReportViewModel;
-
   userRegisterForm: FormGroup;
-
   matching_passwords_group: FormGroup;
-
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
   userRegister_validation_messages = {
@@ -53,31 +47,27 @@ export class RegisterComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder
             , private accountService: AccountService
-            , private router: Router
-            , private alterEgoValidator: UniqueAlterEgoValidator) { }
+            , private router: Router) { }
 
   ngOnInit() {
     this.createForms();
   }
 
-
-  validateEmailNotTaken(username: string) {
+  validateUsernameIsAvailable(username: string) {
     return this.accountService.checkValidUsername(username)
     .subscribe(
       (data: boolean) => {
-        this.isUsernameAvailable = true;
-        console.log('available');
+        this.isUsernameAvailable = data;
       },
       (error: ErrorReportViewModel) => {
         this.isUsernameAvailable = false;
-        console.log('not available');
       }
     );
   }
 
   checkUsernameIsAvailable(): void {
     if (this.userRegisterForm.get('userName').valid) {
-      this.validateEmailNotTaken(this.userRegisterForm.get('userName').value);
+      this.validateUsernameIsAvailable(this.userRegisterForm.get('userName').value);
     } else {
       // alert('do nothing');
     }
@@ -119,7 +109,7 @@ export class RegisterComponent implements OnInit {
 
     if (this.isUsernameAvailable === false) {
       const unavailableUsername = this.userRegisterForm.get('userName').value;
-      alert(`The username '${unavailableUsername}' is not available.  Please choose a different username.`);
+      alert(`The username '${unavailableUsername}' is already taken.  Please choose a different username.`);
       return;
     }
 

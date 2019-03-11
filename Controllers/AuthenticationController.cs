@@ -47,6 +47,7 @@ namespace Birder.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                    
                     new Claim(ClaimTypes.Role, "Administrator")
                 };
 

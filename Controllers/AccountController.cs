@@ -11,7 +11,7 @@ namespace Birder.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -73,44 +73,20 @@ namespace Birder.Controllers
             // return View(model);
         }
 
-        [HttpGet, Route("CheckUserName")]
+        [HttpGet, Route("IsUsernameAvailable")]
         [AllowAnonymous]
-        //public async Task<ActionResult<bool>> GetObservation(int id)
-        public async Task<ActionResult<Boolean>> CheckUserName(string userName)
+        public async Task<ActionResult<Boolean>> IsUsernameAvailable(string userName)
         {
-            // See documentation notes
-            // var userName = user.UserName;
-            // if (model.Username != userName)
-            // {
-                if (await _userManager.FindByNameAsync(userName) != null)
-                {
-                    ModelState.AddModelError("Username", $"Username '{userName}' is already taken.");
-                    
-                    return BadRequest(false);
-                }
+            if (await _userManager.FindByNameAsync(userName) != null)
+            {
+                ModelState.AddModelError("Username", $"Username '{userName}' is already taken.");
 
-                return Ok(true);
-                // var setUserNameResult = await _userManager.SetUserNameAsync(user, model.Username);
-                // if (!setUserNameResult.Succeeded)
-                // {
-                //     throw new ApplicationException($"Unexpected error occurred setting username for user with ID '{user.Id}'.");
-                // }
-            // }
-            
+                return BadRequest(ModelState);
+            }
 
-            // var email = user.Email;
-            // if (model.Email != email)
-            // {
-            //     var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
-            //     if (!setEmailResult.Succeeded)
-            //     {
-            //         throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
-            //     }
-            // }
+            return Ok(true);
         }
     }
-
-
 
     public class RegisterViewModel
     {

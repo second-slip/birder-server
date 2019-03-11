@@ -41,7 +41,7 @@ export class AccountService {
     const options = userName ?
     { params: new HttpParams().set('userName', userName) } : {};
 
-    return this.http.get<boolean>('api/Account/CheckUserName', options)
+    return this.http.get<boolean>('api/Account/IsUsernameAvailable', options)
     .pipe(
       catchError(err => this.handleHttpError(err))
     );
