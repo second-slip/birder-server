@@ -58,8 +58,7 @@ namespace Birder.Controllers
         }
 
         // GET: api/Observation/5
-        [HttpGet("{id}")]
-        [Route("GetObservation")]
+        [HttpGet("{id}"), Route("GetObservation")]
         public async Task<ActionResult<Observation>> GetObservation(int id)
         {
             var observation = await _context.Observations.FindAsync(id);
@@ -80,16 +79,50 @@ namespace Birder.Controllers
         }
 
         // POST: api/Observation
-        [HttpPost]
+        [HttpPost, Route("PostObservation")]
         public async Task<ActionResult<Observation>> PostObservation(ObservationViewModel model)
         {
-            var username = User.Identity.Name;
-            var user = await _userManager.FindByNameAsync(username);
+            try
+            {
+            if (!ModelState.IsValid)
+            {
+                var newObservation = _mapper.Map<ObservationViewModel, Observation>(model);
 
-            //_context.Observations.Add(model);
-            await _context.SaveChangesAsync();
+                var username = User.Identity.Name;
+                var user = await _userManager.FindByNameAsync(username);
+                newObservation.ApplicationUser = user;
 
-            return CreatedAtAction("GetObservation", new { id = model.ObservationId }, model);
+                var observedBird = await (from b in _context.Birds
+                                where (b.BirdId == newObservation.BirdId)
+                                select b).FirstOrDefaultAsync();
+                newObservation.Bird = observedBird;
+
+                // temporary
+                newObservation.LocationLatitude = 0;
+                newObservation.LocationLongitude = 0;
+                //
+                newObservation.CreationDate = DateTime.Now;
+                newObservation.LastUpdateDate = DateTime.Now;
+
+
+                _context.Observations.Add(newObservation);
+                await _context.SaveChangesAsync();
+
+                var test = _mapper.Map<Observation, ObservationViewModel>(newObservation);
+
+                return Created("", test);
+            }
+            else 
+            {
+                return BadRequest(ModelState);
+            }
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError($"Failed to save a new order: {ex}");
+            }
+
+            return BadRequest("Failed to save new order");
         }
 
         // PUT: api/Observation/5

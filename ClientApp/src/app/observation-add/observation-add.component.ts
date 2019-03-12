@@ -4,6 +4,8 @@ import { ParentErrorStateMatcher } from '../../validators';
 import { ObservationService } from '../observation.service';
 import { Router } from '@angular/router';
 import { Bird } from '../../_models/Bird';
+import { ErrorReportViewModel } from 'src/_models/ErrorReportViewModel';
+import { ObservationViewModel } from 'src/_models/ObservationViewModel';
 
 @Component({
   selector: 'app-observation-add',
@@ -85,14 +87,20 @@ export class ObservationAddComponent implements OnInit {
   }
 
   onSubmit(value): void {
-    console.log(value);
+    // console.log(value);
+    this.observationService.addObservation(value)
+    .subscribe(
+      (data: ObservationViewModel) => { },
+      (error: ErrorReportViewModel) => { }
+    );
   }
 
   getBirds(): void {
     // TODO: Better implementation of this...
     this.observationService.getBirds()
-    .subscribe(birds => { this.birdsSpecies = birds; },
-      error => {
+    .subscribe(
+      (data: Bird[]) => { this.birdsSpecies = data; },
+      (error: ErrorReportViewModel) => {
         console.log('could not get the birds ddl');
       });
   }
