@@ -1,6 +1,7 @@
 import { Bird } from './Bird';
+import { UserViewModel } from './UserViewModel';
 
-export interface Observation {
+export interface ObservationViewModel {
     ObservationId: number;
     LocationLatitude: number;
     LocationLongitude: number;
@@ -17,8 +18,9 @@ export interface Observation {
     CreationDate: Date | string;
     LastUpdateDate: Date | string;
     BirdId: number;
-    ApplicationUserId: string;
+    // ApplicationUserId: string; // not required, but do need a vanilla user object
     Bird: Bird;
     // ApplicationUser: ApplicationUser;
+    User: UserViewModel;
     // ObservationTags: ObservationTag[];
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observation } from '../../_models/Observation';
+import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { ObservationService } from '../observation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -11,7 +11,7 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
   styleUrls: ['./observation-detail.component.scss']
 })
 export class ObservationDetailComponent implements OnInit {
-  observation: Observation;
+  observation: ObservationViewModel;
 
   constructor(private observationService: ObservationService
             , private route: ActivatedRoute
@@ -27,7 +27,7 @@ export class ObservationDetailComponent implements OnInit {
 
     this.observationService.getObservation(id)
       .subscribe(
-        (observation: Observation) => { this.observation = observation; },
+        (observation: ObservationViewModel) => { this.observation = observation; },
         (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });

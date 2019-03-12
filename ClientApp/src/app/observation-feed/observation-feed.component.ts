@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observation } from '../../_models/Observation';
+import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { ObservationService } from '../observation.service';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
@@ -11,7 +11,7 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 })
 export class ObservationFeedComponent implements OnInit {
 
-  observations: Observation[];
+  observations: ObservationViewModel[];
 
   constructor(private observationService: ObservationService
     , private router: Router) { }
@@ -23,7 +23,7 @@ export class ObservationFeedComponent implements OnInit {
   getObservations(): void {
     this.observationService.getObservations()
     .subscribe(
-      (response: Observation[]) => { this.observations = response; },
+      (response: ObservationViewModel[]) => { this.observations = response; },
       (error: ErrorReportViewModel) => {
         this.router.navigate(['/page-not-found']);
       });
