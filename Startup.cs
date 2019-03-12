@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using AutoMapper;
 
 namespace Birder
 {
@@ -27,7 +28,7 @@ namespace Birder
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
@@ -36,6 +37,7 @@ namespace Birder
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -54,11 +56,13 @@ namespace Birder
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddSignInManager<SignInManager<ApplicationUser>>();
-                    //.AddDefaultTokenProviders();
+            //.AddDefaultTokenProviders();
 
-                    //services.AddSignInManager<SignInManager<IdentityUser>>();
 
-         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddAutoMapper();
+            //services.AddSignInManager<SignInManager<IdentityUser>>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
