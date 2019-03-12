@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Birder.Data;
 using Birder.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Birder.Controllers
 {
@@ -17,17 +18,21 @@ namespace Birder.Controllers
     public class ObservationController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ObservationController(ApplicationDbContext context)
+        public ObservationController(ApplicationDbContext context
+                                   , UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: api/Observation
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Observation>>> GetObservations()
         {
-            var user = User.Identity.Name;
+            var username = User.Identity.Name;
+            var user = await _userManager.FindByNameAsync(username);
 
 
             var obs = new List<Observation>();
@@ -35,11 +40,11 @@ namespace Birder.Controllers
                               where (b.BirdId == 7)
                               select b).FirstOrDefaultAsync();
             
-            var ob = new Observation() { ObservationId = 1, Quantity = 1, ObservationDateTime = DateTime.Now, Bird = bird };
+            var ob = new Observation() { ObservationId = 1, Quantity = 1, ObservationDateTime = DateTime.Now, Bird = bird, ApplicationUser = user };
 
             obs.Add(ob);
 
-            var ob2 = new Observation() { ObservationId = 2, Quantity = 5, ObservationDateTime = DateTime.Now, Bird = bird };
+            var ob2 = new Observation() { ObservationId = 2, Quantity = 5, ObservationDateTime = DateTime.Now, Bird = bird, ApplicationUser = user };
 
             obs.Add(ob2);
 
@@ -104,6 +109,9 @@ namespace Birder.Controllers
         [HttpPost]
         public async Task<ActionResult<Observation>> PostObservation(Observation observation)
         {
+            var username = User.Identity.Name;
+            var user = await _userManager.FindByNameAsync(username);
+
             _context.Observations.Add(observation);
             await _context.SaveChangesAsync();
 
