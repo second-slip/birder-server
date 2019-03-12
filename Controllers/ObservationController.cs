@@ -84,7 +84,7 @@ namespace Birder.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     var newObservation = _mapper.Map<ObservationViewModel, Observation>(model);
 

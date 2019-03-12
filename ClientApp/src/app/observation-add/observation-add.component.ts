@@ -4,8 +4,8 @@ import { ParentErrorStateMatcher } from '../../validators';
 import { ObservationService } from '../observation.service';
 import { Router } from '@angular/router';
 import { Bird } from '../../_models/Bird';
-import { ErrorReportViewModel } from 'src/_models/ErrorReportViewModel';
-import { ObservationViewModel } from 'src/_models/ObservationViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { ObservationViewModel } from '../../_models/ObservationViewModel';
 
 @Component({
   selector: 'app-observation-add',
