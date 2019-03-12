@@ -16,8 +16,9 @@ namespace Birder.Data
               .ForMember(o => o.ObservationId, ex => ex.MapFrom(o => o.ObservationId))
               .ReverseMap();
 
-            //CreateMap<OrderItem, OrderItemViewModel>()
-            //  .ReverseMap();
+            CreateMap<ApplicationUser, UserViewModel>()
+                .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
+              .ReverseMap();
         }
     }
 }
