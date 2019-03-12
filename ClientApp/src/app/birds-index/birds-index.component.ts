@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BirdsService } from '../birds.service';
 import { Bird } from '../../_models/Bird';
 import { Router } from '@angular/router';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-birds-index',
@@ -13,7 +14,7 @@ export class BirdsIndexComponent implements OnInit {
   birds: Bird[];
 
   constructor(private birdsService: BirdsService
-            , private router: Router) { }
+    , private router: Router) { }
 
   ngOnInit() {
     this.getBirds();
@@ -21,8 +22,9 @@ export class BirdsIndexComponent implements OnInit {
 
   getBirds(): void {
     this.birdsService.getBirds()
-      .subscribe(birds => { this.birds = birds; },
-        error => {
+      .subscribe(
+        (data: Bird[]) => { this.birds = data; },
+        (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);
         });
   }

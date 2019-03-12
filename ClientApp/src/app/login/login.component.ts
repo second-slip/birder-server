@@ -4,7 +4,8 @@ import { first } from 'rxjs/operators';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ParentErrorStateMatcher } from '../../validators';
-
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -14,31 +15,16 @@ import { ParentErrorStateMatcher } from '../../validators';
 })
 export class LoginComponent implements OnInit {
   invalidLogin: boolean;
-
   loginForm: FormGroup;
-
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
   login_validation_messages = {
-    // 'username': [
-    //   { type: 'required', message: 'Username is required' },
-    //   { type: 'minlength', message: 'Username must be at least 5 characters long' },
-    //   { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
-    //   { type: 'pattern', message: 'Your username must contain only numbers and letters' },
-    //   { type: 'validUsername', message: 'Your username has already been taken' }
-    // ],
     'username': [
       { type: 'required', message: 'Email is required' },
       { type: 'pattern', message: 'Enter a valid email' }
     ],
-    // 'confirm_password': [
-    //   { type: 'required', message: 'Confirm password is required' },
-    //   { type: 'areEqual', message: 'Password mismatch' }
-    // ],
     'password': [
       { type: 'required', message: 'Password is required' }
-      // { type: 'minlength', message: 'Password must be at least 5 characters long' }
-      // { type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number' }
     ],
     'rememberMe': [
       { type: 'pattern', message: 'You must accept terms and conditions' }
@@ -47,7 +33,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router
             , private authenticationService: AuthenticationService
-            , private formBuilder: FormBuilder) { }
+            , private formBuilder: FormBuilder
+            , private location: Location) { }
 
   ngOnInit() {
     this.authenticationService.logout();
@@ -55,37 +42,21 @@ export class LoginComponent implements OnInit {
     // TODO: get return url from route parameters or default to '/'
   }
 
-  onSubmit(value) {
-    // let credentials = JSON.stringify(form.value);
-    // this.loginViewModel = form.value;
-    // var model: LoginViewModel;
-    // model = value;
-    // console.log('model data: ' + value);
-
+  onSubmit(value): void {
     this.authenticationService.login(value)
       .pipe(first())
       .subscribe(
-        data => {
-          // TODO: remove console log
-          console.log('successful login');
+        (data: any) => {
+          this.invalidLogin = false;
           this.router.navigate(['/']);
         },
-        error => {
+        (error: ErrorReportViewModel) => {
           this.invalidLogin = true;
-          // TODO: remove console log
-          console.log('UN-successful login');
         });
   }
 
-  createForms() {
+  createForms(): void {
     this.loginForm = this.formBuilder.group({
-      // username: new FormControl('', Validators.compose([
-      //  UsernameValidator.validUsername,
-      //  Validators.maxLength(25),
-      //  Validators.minLength(5),
-      //  Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$'),
-      //  Validators.required
-      // ])),
       username: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
@@ -97,4 +68,3 @@ export class LoginComponent implements OnInit {
     });
   }
 }
-

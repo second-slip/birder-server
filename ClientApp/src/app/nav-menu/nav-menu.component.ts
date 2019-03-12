@@ -16,13 +16,13 @@ export class NavMenuComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {
-    this.subscription = this.authenticationService.isLoggedIn$
+    this.subscription = this.authenticationService.isAuthenticated$
       .subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
       // check login
       this.checkLoggedInStatus();
   }
 
   checkLoggedInStatus(): void {
-    this.authenticationService.checkLoginStatus();
+    this.authenticationService.checkIsAuthenticated();
   }
 }

@@ -3,6 +3,7 @@ import { Observation } from '../../_models/Observation';
 import { ObservationService } from '../observation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-observation-detail',
@@ -25,8 +26,9 @@ export class ObservationDetailComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
 
     this.observationService.getObservation(id)
-      .subscribe(observation => { this.observation = observation; },
-        error => {
+      .subscribe(
+        (observation: Observation) => { this.observation = observation; },
+        (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
     // ,() => {

@@ -1,56 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Bird } from '../_models/Bird';
 import { tap, catchError } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { $ } from 'protractor';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpErrorHandlerService } from './http-error-handler.service';
+import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BirdsService {
 
-  private url = 'api/Birds';
+  constructor(private http: HttpClient
+            , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  constructor(private http: HttpClient) { }
-
-  getBirds(): Observable<Bird[]> {
-    return this.http.get<Bird[]>(this.url)
+  getBirds(): Observable<Bird[] | ErrorReportViewModel> {
+    return this.http.get<Bird[]>('api/Birds')
       .pipe(
-        tap(birds => this.log('fetched birds')));
-      //   ,
-      //   catchError(this.handleError('getBirds',  []))
-      // );
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getBird(id: number): Observable<Bird> {
-    const url = `${this.url}/GetBird?id=${id}`;
-    return this.http.get<Bird>(url)
+  getBird(id: number): Observable<Bird | ErrorReportViewModel> {
+    const options = id ?
+    { params: new HttpParams().set('id', id.toString()) } : {};
+
+    return this.http.get<Bird>('api/Birds/GetBird', options)
       .pipe(
-        tap(bird => this.log(`fetched bird with id: ${id}`))
-        // ,
-        // catchError(this.handleError<Bird>('getBird'))
-      );
-  }
-
-  /**
-* Handle Http operation that failed.
-* Let the app continue.
-* @param operation - name of the operation that failed
-* @param result - optional value to return as the observable result
-*/
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   /** Log a HeroService message with the MessageService */

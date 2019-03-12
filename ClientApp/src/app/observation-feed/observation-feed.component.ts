@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observation } from '../../_models/Observation';
 import { ObservationService } from '../observation.service';
 import { Router } from '@angular/router';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-observation-feed',
@@ -21,8 +22,9 @@ export class ObservationFeedComponent implements OnInit {
 
   getObservations(): void {
     this.observationService.getObservations()
-    .subscribe(response => { this.observations = response; },
-      error => {
+    .subscribe(
+      (response: Observation[]) => { this.observations = response; },
+      (error: ErrorReportViewModel) => {
         this.router.navigate(['/page-not-found']);
       });
   }

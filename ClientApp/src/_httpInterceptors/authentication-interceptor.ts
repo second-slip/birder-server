@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { AuthenticationService } from '../app/authentication.service';
 
 
@@ -10,7 +10,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // Get the auth token from the service.
-    const authToken = this.authenticationService.getAuthorisationToken();
+    const authToken = this.authenticationService.getAuthenticationToken();
 
     /*
     * The verbose way:
