@@ -18,6 +18,8 @@
     
     <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}} observed at {{observation.observationDateTime}}
     
+     observed by {{observation.user.userName }} ,
+
     <a routerLink="/observation-detail/{{observation.observationId}}">
       Details
     </a>

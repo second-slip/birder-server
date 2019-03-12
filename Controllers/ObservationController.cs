@@ -36,7 +36,7 @@ namespace Birder.Controllers
 
         // GET: api/Observation
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Observation>>> GetObservations()
+        public async Task<ActionResult<IEnumerable<ObservationViewModel>>> GetObservations()
         {
             var username = User.Identity.Name;
             var user = await _userManager.FindByNameAsync(username);
@@ -55,7 +55,7 @@ namespace Birder.Controllers
 
             var x = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(obs);
 
-            return Ok(obs);
+            return Ok(x);
 
             // return await _context.Observations.ToListAsync();
         }
