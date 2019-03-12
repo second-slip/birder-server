@@ -84,38 +84,38 @@ namespace Birder.Controllers
         {
             try
             {
-            if (!ModelState.IsValid)
-            {
-                var newObservation = _mapper.Map<ObservationViewModel, Observation>(model);
+                if (!ModelState.IsValid)
+                {
+                    var newObservation = _mapper.Map<ObservationViewModel, Observation>(model);
 
-                var username = User.Identity.Name;
-                var user = await _userManager.FindByNameAsync(username);
-                newObservation.ApplicationUser = user;
+                    var username = User.Identity.Name;
+                    var user = await _userManager.FindByNameAsync(username);
+                    newObservation.ApplicationUser = user;
 
-                var observedBird = await (from b in _context.Birds
-                                where (b.BirdId == newObservation.BirdId)
-                                select b).FirstOrDefaultAsync();
-                newObservation.Bird = observedBird;
+                    var observedBird = await (from b in _context.Birds
+                                              where (b.BirdId == newObservation.BirdId)
+                                              select b).FirstOrDefaultAsync();
+                    newObservation.Bird = observedBird;
 
-                // temporary
-                newObservation.LocationLatitude = 0;
-                newObservation.LocationLongitude = 0;
-                //
-                newObservation.CreationDate = DateTime.Now;
-                newObservation.LastUpdateDate = DateTime.Now;
+                    // temporary
+                    newObservation.LocationLatitude = 0;
+                    newObservation.LocationLongitude = 0;
+                    //
+                    newObservation.CreationDate = DateTime.Now;
+                    newObservation.LastUpdateDate = DateTime.Now;
 
 
-                _context.Observations.Add(newObservation);
-                await _context.SaveChangesAsync();
+                    _context.Observations.Add(newObservation);
+                    await _context.SaveChangesAsync();
 
-                var test = _mapper.Map<Observation, ObservationViewModel>(newObservation);
+                    var test = _mapper.Map<Observation, ObservationViewModel>(newObservation);
 
-                return Created("", test);
-            }
-            else 
-            {
-                return BadRequest(ModelState);
-            }
+                    return Created("", test);
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
             }
             catch (Exception ex)
             {
