@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Birder.Models
+namespace Birder.Data.Model
 {
     public class ConserverationStatus
     {

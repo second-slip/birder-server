@@ -1,4 +1,4 @@
-﻿namespace Birder.Models
+﻿namespace Birder.Data.Model
 {
     public enum BirderStatus
     {

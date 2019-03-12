@@ -1,6 +1,6 @@
 ﻿//using System.ComponentModel.DataAnnotations;
 
-//namespace Birder2.Models
+//namespace Birder2.Model
 //{
 //    public class Photograph
 //    {

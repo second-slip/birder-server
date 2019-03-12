@@ -1,7 +1,6 @@
-﻿using Birder.Models;
+﻿using Birder.Data.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Birder.Data
 {

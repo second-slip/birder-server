@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace Birder.Models
+namespace Birder.Data.Model
 {
     public class ApplicationUser : IdentityUser
     {
