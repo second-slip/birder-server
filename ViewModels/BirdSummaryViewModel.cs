@@ -50,7 +50,7 @@ namespace Birder.ViewModels
 
         //public ICollection<Observation> Observations { get; set; }
 
-        public string BirdConserverationStatus { get; set; }
+        public string ConserverationStatus { get; set; }
 
         public string BirderStatus { get; set; }
         //public BirderStatus BirderStatus { get; set; }
