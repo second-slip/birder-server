@@ -110,7 +110,7 @@ namespace Birder.Controllers
                 //_logger.LogError($"Failed to save a new order: {ex}");
             }
 
-            return BadRequest("Failed to save new order");
+            return BadRequest("An error occurred.  Could not add the observation.");
         }
 
         // PUT: api/Observation/5

@@ -12,4 +12,13 @@
   observed by {{observation.user.userName }}
   <br>
   <button (click)="goBack()">go back</button>
+
+
+  <a routerLink="/observation-edit/{{observation.observationId}}">
+    Edit
+  </a>
+  <a routerLink="/observation-delete/{{observation.observationId}}">
+    Delete
+  </a>
+
 </div>

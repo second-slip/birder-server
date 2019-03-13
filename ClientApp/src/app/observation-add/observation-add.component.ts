@@ -63,12 +63,14 @@ export class ObservationAddComponent implements OnInit {
     this.observationService.addObservation(value)
     .subscribe(
       (data: ObservationViewModel) => {
+        this.addObservationForm.reset();
         this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
       },
       (error: ErrorReportViewModel) => {
         // console.log(error); alert('hello');
         this.errorReport = error;
         this.invalidAddObservation = true;
+        console.log(error);
         console.log(error.friendlyMessage);
         console.log('unsuccessful add observation');
       }

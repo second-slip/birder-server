@@ -24,14 +24,18 @@ export class HttpErrorHandlerService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong
-      if (error.status === 400) {
+      if (error.status === 400 && (typeof(error.error) !== 'string') ) {
         // Bad request (modelstate not valid) with server modelstate errors
+        errorReport.serverCustomMessage = 'See model state array';
+
         const validationErrorDictionary = error.error;
         for (const fieldName in validationErrorDictionary) {
           if (validationErrorDictionary.hasOwnProperty(fieldName)) {
             errorReport.modelStateErrors.push(validationErrorDictionary[fieldName]);
           }
         }
+      } else {
+        errorReport.serverCustomMessage = error.error;
       }
       errorReport.type = 'unsuccessful response code';
       errorReport.errorNumber = error.status;

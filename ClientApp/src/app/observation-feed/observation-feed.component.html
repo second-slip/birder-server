@@ -1,6 +1,7 @@
 <h2>Your observations feed</h2>
 
-<p>This page is under development. You will eventually be able to filter the list and adjust the results per page, <em>et cetera, et cetera...</em></p>
+<p>This page is under development. You will eventually be able to filter the list and adjust the results per page,
+  <em>et cetera, et cetera...</em></p>
 
 <div>
   <a class="nav-link" [routerLink]='["/observation-add"]'>Add Observation</a>
@@ -15,14 +16,21 @@
   <ul class="observations">
     <p>{{ observations.length }} observations were returned: </p>
     <li *ngFor="let observation of observations">
-    
-    <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}} observed at {{observation.observationDateTime}}
-    
-     observed by {{observation.user.userName }} ,
 
-    <a routerLink="/observation-detail/{{observation.observationId}}">
-      Details
-    </a>
+      <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
+      observed at {{observation.observationDateTime}}
+
+      observed by {{observation.user.userName }} ,
+
+      <a routerLink="/observation-detail/{{observation.observationId}}">
+        View
+      </a>
+      <a routerLink="/observation-edit/{{observation.observationId}}">
+        Edit
+      </a>
+      <a routerLink="/observation-delete/{{observation.observationId}}">
+        Delete
+      </a>
 
     </li>
   </ul>

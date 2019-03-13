@@ -32,7 +32,7 @@ export class ObservationService {
 
     return this.http.get<ObservationViewModel>('api/Observation/GetObservation', options)
       .pipe(
-        tap(observation => this.log(`fetched observation with id: ${observation.ObservationId}`)),
+        tap(observation => this.log(`fetched observation with id: ${observation.observationId}`)),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 

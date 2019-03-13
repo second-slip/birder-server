@@ -15,6 +15,8 @@ import { ObservationDetailComponent } from './observation-detail/observation-det
 import { ObservationAddComponent } from './observation-add/observation-add.component';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { ObservationEditComponent } from './observation-edit/observation-edit.component';
+import { ObservationDeleteComponent } from './observation-delete/observation-delete.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -25,6 +27,8 @@ const routes: Routes = [
   { path: 'observation-feed', component: ObservationFeedComponent, canActivate: [AuthGuard] },
   { path: 'observation-add', component: ObservationAddComponent, canActivate: [AuthGuard] },
   { path: 'observation-detail/:id', component: ObservationDetailComponent, canActivate: [AuthGuard] },
+  { path: 'observation-edit/:id', component: ObservationEditComponent, canActivate: [AuthGuard] },
+  { path: 'observation-delete/:id', component: ObservationDeleteComponent, canActivate: [AuthGuard] },
   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },  //
   { path: 'birds-index', component: BirdsIndexComponent, canActivate: [AuthGuard] },
   { path: 'birds-detail/:id', component: BirdsDetailComponent, canActivate: [AuthGuard] },
