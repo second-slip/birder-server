@@ -80,7 +80,7 @@ namespace Birder.Controllers
 
         // POST: api/Observation
         [HttpPost, Route("PostObservation")]
-        public async Task<ActionResult<Observation>> PostObservation(ObservationViewModel model)
+        public async Task<IActionResult> PostObservation(ObservationViewModel model)
         {
             try
             {
@@ -110,7 +110,9 @@ namespace Birder.Controllers
 
                     var test = _mapper.Map<Observation, ObservationViewModel>(newObservation);
 
-                    return Created("", test);
+                    test.Bird = null;
+
+                    return Ok(test);
                 }
                 else
                 {

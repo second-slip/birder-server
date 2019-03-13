@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Birder.Data;
 using Microsoft.AspNetCore.Authorization;
 using Birder.Data.Model;
+using AutoMapper;
+using Birder.ViewModels;
 
 namespace Birder.Controllers
 {
@@ -15,10 +17,13 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class BirdsController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly ApplicationDbContext _context;
 
-        public BirdsController(ApplicationDbContext context)
+        public BirdsController(IMapper mapper
+                             , ApplicationDbContext context)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -56,6 +61,8 @@ namespace Birder.Controllers
             var bird = await (from b in _context.Birds
                         where(b.BirdId == id)
                         select b).FirstOrDefaultAsync();
+
+            var viewmodel = _mapper.Map<Bird, BirdSummaryViewModel>(bird);
 
             //var bird = await _context.Birds.FindAsync(id);
 

@@ -39,6 +39,7 @@ export class ObservationService {
   addObservation(viewModel: ObservationViewModel): Observable<ObservationViewModel | ErrorReportViewModel> {
     return this.http.post<ObservationViewModel>('api/Observation/PostObservation', viewModel, httpOptions)
     .pipe(
+      tap(observations => this.log('fetched added bird')),
       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 

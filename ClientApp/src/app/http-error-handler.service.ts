@@ -12,12 +12,13 @@ export class HttpErrorHandlerService {
 
   handleHttpError(error: HttpErrorResponse): Observable<ErrorReportViewModel> {
     const errorReport = new ErrorReportViewModel();
+    console.log(error);
 
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       errorReport.type = 'client-side or network error occurred';
       errorReport.errorNumber = error.status;
-      errorReport.message = error.statusText;
+      errorReport.message = error.message;
       errorReport.friendlyMessage = 'An error occurred retrieving data.';
       // console.log(errorReport);
     } else {

@@ -90,8 +90,8 @@ export class ObservationAddComponent implements OnInit {
     // console.log(value);
     this.observationService.addObservation(value)
     .subscribe(
-      (data: ObservationViewModel) => { },
-      (error: ErrorReportViewModel) => { }
+      (data: ObservationViewModel) => { console.log(data); alert('success'); },
+      (error: ErrorReportViewModel) => { console.log(error); alert('hello'); }
     );
   }
 

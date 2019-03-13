@@ -11,11 +11,20 @@ namespace Birder.Data
             CreateMap<Observation, ObservationViewModel>()
               .ForMember(o => o.ObservationId, ex => ex.MapFrom(o => o.ObservationId))
               .ForMember(a => a.User, b => b.MapFrom(a => a.ApplicationUser))
+              .ForMember(d => d.Bird, m => m.MapFrom(d => d.Bird))
               .ReverseMap();
 
             CreateMap<ApplicationUser, UserViewModel>()
                 .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
-              .ReverseMap();
+                .ReverseMap();
+
+            CreateMap<Bird, BirdSummaryViewModel>()
+                .ForMember(a => a.BirdConserverationStatus, b => b.MapFrom(a => a.BirdConserverationStatus.ConservationStatus))
+                .ForMember(a => a.BirderStatus, b => b.MapFrom(a => a.BirderStatus))
+                .ReverseMap();
+
+
+
         }
     }
 }
