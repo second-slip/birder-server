@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Birder.Data.Model;
+﻿using Birder.Data.Model;
+using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {
@@ -125,19 +125,5 @@ namespace Birder.Controllers
     //     public string Password { get; set; }
     //     public bool RememberMe { get; set; }
     // }
-    public class LoginViewModel
-    {
-        [Required]
-        //[EmailAddress]
-        //[Display(Name = "E-mail or Username")]
-        public string UserName { get; set; }
-        //public string Email { get; set; }
 
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-
-        //[Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
-    }
 }
