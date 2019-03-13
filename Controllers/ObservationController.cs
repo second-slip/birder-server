@@ -36,46 +36,32 @@ namespace Birder.Controllers
         public async Task<ActionResult<IEnumerable<ObservationViewModel>>> GetObservations()
         {
             var username = User.Identity.Name;
-            var user = await _userManager.FindByNameAsync(username);
+            //var user = await _userManager.FindByNameAsync(username);
 
+            var observations = await (from o in _context.Observations
+                                        .Include(o => o.Bird)
+                                        .Include(u => u.ApplicationUser)
+                                      where (o.ApplicationUser.UserName == username)
+                                      select o).ToListAsync();
 
-            var obs = new List<Observation>();
-            var bird = await (from b in _context.Birds
-                              where (b.BirdId == 7)
-                              select b).FirstOrDefaultAsync();
-            
-            var ob = new Observation() { ObservationId = 1, Quantity = 1, ObservationDateTime = DateTime.Now, Bird = bird, ApplicationUser = user };
-            obs.Add(ob);
+            var viewModel = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations);
 
-            var ob2 = new Observation() { ObservationId = 2, Quantity = 5, ObservationDateTime = DateTime.Now, Bird = bird, ApplicationUser = user };
-            obs.Add(ob2);
-
-            var x = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(obs);
-
-            return Ok(x);
-
-            // return await _context.Observations.ToListAsync();
+            return Ok(viewModel);
         }
 
         // GET: api/Observation/5
-        [HttpGet("{id}"), Route("GetObservation")]
-        public async Task<ActionResult<Observation>> GetObservation(int id)
+        [HttpGet, Route("GetObservation")]
+        public async Task<ActionResult<ObservationViewModel>> GetObservation(int id)
         {
-            var observation = await _context.Observations.FindAsync(id);
-            var bird = await (from b in _context.Birds
-                              where (b.BirdId == 7)
-                              select b).FirstOrDefaultAsync();
-            
-            var ob = new Observation() { ObservationId = 1, Quantity = 1, ObservationDateTime = DateTime.Now, Bird = bird };
+            var observation = await (from o in _context.Observations
+                                        .Include(o => o.Bird)
+                                        .Include(u => u.ApplicationUser)
+                                      where (o.ObservationId == id)
+                                      select o).FirstOrDefaultAsync();
 
-            // if (observation == null)
-            // {
-            //     return NotFound();
-            // }
+            var viewModel = _mapper.Map<Observation, ObservationViewModel>(observation);
 
-            return Ok(ob);
-
-            //return observation;
+            return Ok(viewModel);
         }
 
         // POST: api/Observation

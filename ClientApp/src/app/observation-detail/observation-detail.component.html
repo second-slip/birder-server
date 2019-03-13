@@ -9,5 +9,7 @@
   <br>
   <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}} observed at {{observation.observationDateTime}}
   <br>
+   observed by {{observation.user.userName }}
+  <br>
   <button (click)="goBack()">go back</button>
 </div>

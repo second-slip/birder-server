@@ -22,7 +22,7 @@ export class ObservationService {
   getObservations(): Observable<ObservationViewModel[] | ErrorReportViewModel> {
     return this.http.get<ObservationViewModel[]>('api/Observation')
       .pipe(
-        tap(observations => this.log('fetched observations')),
+        // tap(observations => this.log('fetched observations')),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
