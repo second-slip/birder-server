@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelper } from 'angular2-jwt';
 import { tap, catchError } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { LoginViewModel } from '../_models/login-view-model';
+import { LoginViewModel } from '../_models/LoginViewModel';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 
@@ -26,8 +26,8 @@ export class AuthenticationService {
 
   login(viewModel: LoginViewModel): Observable<any | ErrorReportViewModel> {
     // TODO: remove console log
-    console.log('loginservice - LOGIN');
-    console.log(viewModel);
+    // console.log('loginservice - LOGIN');
+    // console.log(viewModel);
 
     return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
       .pipe(
