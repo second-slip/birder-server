@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
-import { Bird } from '../_models/Bird';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { ObservationViewModel } from '../_models/ObservationViewModel';
+import { BirdSummaryViewModel } from '../_models/BirdSummaryViewModel';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -44,8 +44,8 @@ export class ObservationService {
   }
 
   // ************TEMPORARY **********
-  getBirds(): Observable<Bird[]> {
-    return this.http.get<Bird[]>('api/Birds')
+  getBirds(): Observable<BirdSummaryViewModel[]> {
+    return this.http.get<BirdSummaryViewModel[]>('api/Birds')
       .pipe(
         tap(birds => this.log('fetched birds for ddl')));
       //   ,

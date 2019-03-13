@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BirdsService } from '../birds.service';
-import { Bird } from '../../_models/Bird';
+import { BirdDetailViewModel } from '../../_models/BirdDetailViewModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
@@ -11,7 +11,7 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
   styleUrls: ['./birds-detail.component.scss']
 })
 export class BirdsDetailComponent implements OnInit {
-  bird: Bird;
+  bird: BirdDetailViewModel;
 
   constructor(private birdsService: BirdsService
     , private route: ActivatedRoute
@@ -27,7 +27,7 @@ export class BirdsDetailComponent implements OnInit {
 
     this.birdsService.getBird(id)
       .subscribe(
-        (data: Bird) => {
+        (data: BirdDetailViewModel) => {
           this.bird = data;
         },
         (error: ErrorReportViewModel) => {

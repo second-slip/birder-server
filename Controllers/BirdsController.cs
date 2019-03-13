@@ -69,7 +69,7 @@ namespace Birder.Controllers
                 return NotFound();
             }
 
-            var viewmodel = _mapper.Map<Bird, BirdSummaryViewModel>(bird);
+            var viewmodel = _mapper.Map<Bird, BirdDetailViewModel>(bird);
 
             return Ok(viewmodel);
         }

@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ParentErrorStateMatcher } from '../../validators';
 import { ObservationService } from '../observation.service';
 import { Router } from '@angular/router';
-import { Bird } from '../../_models/Bird';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
+import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
 
 @Component({
   selector: 'app-observation-add',
@@ -16,7 +16,7 @@ import { ObservationViewModel } from '../../_models/ObservationViewModel';
 export class ObservationAddComponent implements OnInit {
   addObservationForm: FormGroup;
 
-  birdsSpecies: Bird[];
+  birdsSpecies: BirdSummaryViewModel[];
 
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
@@ -99,7 +99,7 @@ export class ObservationAddComponent implements OnInit {
     // TODO: Better implementation of this...
     this.observationService.getBirds()
     .subscribe(
-      (data: Bird[]) => { this.birdsSpecies = data; },
+      (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
       (error: ErrorReportViewModel) => {
         console.log('could not get the birds ddl');
       });

@@ -1,4 +1,3 @@
-import { Bird } from './Bird';
 import { UserViewModel } from './UserViewModel';
 import { BirdSummaryViewModel } from './BirdSummaryViewModel';
 
