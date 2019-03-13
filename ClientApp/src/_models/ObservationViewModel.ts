@@ -1,5 +1,6 @@
 import { Bird } from './Bird';
 import { UserViewModel } from './UserViewModel';
+import { BirdSummaryViewModel } from './BirdSummaryViewModel';
 
 export interface ObservationViewModel {
     ObservationId: number;
@@ -19,7 +20,7 @@ export interface ObservationViewModel {
     LastUpdateDate: Date | string;
     BirdId: number;
     // ApplicationUserId: string; // not required, but do need a vanilla user object
-    Bird: Bird;
+    Bird: BirdSummaryViewModel;
     // ApplicationUser: ApplicationUser;
     User: UserViewModel;
     // ObservationTags: ObservationTag[];

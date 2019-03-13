@@ -14,7 +14,22 @@ export interface Bird {
     LastUpdateDate: Date | string;
     ConserverationStatusId: number;
     // Observations: Observation[];
-    // BirdConserverationStatus: ConserverationStatus;
+    BirdConserverationStatus: ConserverationStatus;
     // BirderStatus: BirderStatus;
     // TweetDay: TweetDay[];
+}
+
+export interface ConserverationStatus
+{
+    ConserverationStatusId: number;
+
+    ConservationStatus: string;
+
+    Description: string;
+
+    CreationDate: Date | string;
+
+    LastUpdateDate: Date | string;
+
+    Birds: Bird[];
 }

@@ -110,7 +110,7 @@ namespace Birder.Controllers
 
                     var test = _mapper.Map<Observation, ObservationViewModel>(newObservation);
 
-                    test.Bird = null;
+                    // test.Bird = null;
 
                     return Ok(test);
                 }

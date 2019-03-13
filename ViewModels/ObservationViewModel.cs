@@ -60,7 +60,7 @@ namespace Birder.ViewModels
         public int BirdId { get; set; }
         //public string ApplicationUserId { get; set; }
 
-        public Bird Bird { get; set; }
+        public BirdSummaryViewModel Bird { get; set; }
         //public ApplicationUser ApplicationUser { get; set; }
         public UserViewModel User { get; set; }
         //public ICollection<ObservationTag> ObservationTags { get; set; }

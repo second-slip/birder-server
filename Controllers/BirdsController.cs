@@ -59,10 +59,11 @@ namespace Birder.Controllers
             }
 
             var bird = await (from b in _context.Birds
+                            .Include(cs => cs.BirdConserverationStatus)
                         where(b.BirdId == id)
                         select b).FirstOrDefaultAsync();
 
-            var viewmodel = _mapper.Map<Bird, BirdSummaryViewModel>(bird);
+            //var viewmodel = _mapper.Map<Bird, BirdSummaryViewModel>(bird);
 
             //var bird = await _context.Birds.FindAsync(id);
 
