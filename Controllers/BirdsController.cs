@@ -11,7 +11,6 @@ using Birder.ViewModels;
 
 namespace Birder.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
@@ -51,28 +50,28 @@ namespace Birder.Controllers
 
         // GET: api/Birds/GetBirdGetBird?id={x}
         [HttpGet, Route("GetBird")]
-        public async Task<ActionResult<Bird>> GetBird(int id)
+        //public async Task<ActionResult<Bird>> GetBird(int id)
+        public async Task<IActionResult> GetBird(int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            // nb lazy load Observations (see separate action)
             var bird = await (from b in _context.Birds
-                            .Include(cs => cs.BirdConserverationStatus)
-                        where(b.BirdId == id)
-                        select b).FirstOrDefaultAsync();
-
-            //var viewmodel = _mapper.Map<Bird, BirdSummaryViewModel>(bird);
-
-            //var bird = await _context.Birds.FindAsync(id);
+                                 .Include(cs => cs.BirdConserverationStatus)
+                              where(b.BirdId == id)
+                              select b).FirstOrDefaultAsync();
 
             if (bird == null)
             {
                 return NotFound();
             }
 
-            return Ok(bird);
+            var viewmodel = _mapper.Map<Bird, BirdSummaryViewModel>(bird);
+
+            return Ok(viewmodel);
         }
     }
 }

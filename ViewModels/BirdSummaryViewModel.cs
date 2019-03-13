@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Birder.ViewModels
+﻿namespace Birder.ViewModels
 {
+    /// <summary>
+    /// A lightweight viewmodel containing Bird summary info only.  Used for drop down lists and
+    /// in the observation viewmodel (which just needs to show the species observered.
+    /// </summary>
     public class BirdSummaryViewModel
     {
         public int BirdId { get; set; }
@@ -24,37 +22,12 @@ namespace Birder.ViewModels
 
         public string InternationalName { get; set; }
 
-        public string Category { get; set; } //Primary only
+        public string Category { get; set; }
 
-        //public string PopulationSize { get; set; }
-
-
-        //public string BtoStatusInBritain { get; set; }
-
-        // validation removed - causes faults on Model.Validate if url is empty
-        //[Url]
         public string ThumbnailUrl { get; set; }
-
-        //[Url]
-        //public string SongUrl { get; set; }
-
-        //public DateTime CreationDate { get; set; }
-
-        //public DateTime LastUpdateDate { get; set; }
-
-        //
-
-        //public int ConserverationStatusId { get; set; }
-
-        //public int BritishStatusId { get; set; }
-
-        //public ICollection<Observation> Observations { get; set; }
 
         public string ConserverationStatus { get; set; }
 
         public string BirderStatus { get; set; }
-        //public BirderStatus BirderStatus { get; set; }
-
-        //public ICollection<TweetDay> TweetDay { get; set; }
     }
 }

@@ -15,16 +15,16 @@ namespace Birder.Data
               .ReverseMap();
 
             CreateMap<ApplicationUser, UserViewModel>()
-                .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
-                .ReverseMap();
+              .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
+              .ReverseMap();
+
+            CreateMap<Bird, BirdDetailViewModel>()
+              .ReverseMap();
 
             CreateMap<Bird, BirdSummaryViewModel>()
-                .ForMember(a => a.ConserverationStatus, b => b.MapFrom(a => a.BirdConserverationStatus.ConservationStatus))
-                .ForMember(a => a.BirderStatus, b => b.MapFrom(a => a.BirderStatus))
-                .ReverseMap();
-
-
-
+              .ForMember(a => a.ConserverationStatus, b => b.MapFrom(a => a.BirdConserverationStatus.ConservationStatus))
+              .ForMember(a => a.BirderStatus, b => b.MapFrom(a => a.BirderStatus))
+              .ReverseMap();
         }
     }
 }
