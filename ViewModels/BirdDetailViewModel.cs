@@ -46,7 +46,7 @@ namespace Birder.ViewModels
 
         public ConserverationStatus BirdConserverationStatus { get; set; }
 
-        public BirderStatus BirderStatus { get; set; }
+        public string BirderStatus { get; set; }
 
         //public ICollection<TweetDay> TweetDay { get; set; }
     }
