@@ -28,6 +28,8 @@ import { ObservationDetailComponent } from './observation-detail/observation-det
 import { ObservationAddComponent } from './observation-add/observation-add.component';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { ObservationEditComponent } from './observation-edit/observation-edit.component';
+import { ObservationDeleteComponent } from './observation-delete/observation-delete.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
     ObservationDetailComponent,
     ObservationAddComponent,
     RegisterComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    ObservationEditComponent,
+    ObservationDeleteComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

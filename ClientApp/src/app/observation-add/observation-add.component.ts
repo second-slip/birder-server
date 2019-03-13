@@ -15,41 +15,18 @@ import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
 })
 export class ObservationAddComponent implements OnInit {
   addObservationForm: FormGroup;
-
   birdsSpecies: BirdSummaryViewModel[];
-
   parentErrorStateMatcher = new ParentErrorStateMatcher();
+  errorReport: ErrorReportViewModel;
+  invalidAddObservation: boolean;
 
   addObservation_validation_messages = {
-    // 'username': [
-    //   { type: 'required', message: 'Username is required' },
-    //   { type: 'minlength', message: 'Username must be at least 5 characters long' },
-    //   { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
-    //   { type: 'pattern', message: 'Your username must contain only numbers and letters' },
-    //   { type: 'validUsername', message: 'Your username has already been taken' }
-    // ],
     'quantity': [
       { type: 'required', message: 'Quantity is required' }
-      // { type: 'pattern', message: 'Enter a valid email' }
     ],
     'birdId': [
       { type: 'required', message: 'The observed species is required' }
     ]
-    // 'noteGeneral': [
-    //   { type: 'required', message: 'Quantity is required' }
-    // ]
-    // 'confirm_password': [
-    //   { type: 'required', message: 'Confirm password is required' },
-    //   { type: 'areEqual', message: 'Password mismatch' }
-    // ],
-    // 'password': [
-    //   { type: 'required', message: 'Password is required' }
-    //   // { type: 'minlength', message: 'Password must be at least 5 characters long' }
-    //   // { type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number' }
-    // ],
-    // 'rememberMe': [
-    //   { type: 'pattern', message: 'You must accept terms and conditions' }
-    // ]
   };
 
   constructor(private router: Router
@@ -63,11 +40,6 @@ export class ObservationAddComponent implements OnInit {
 
   createForms(): void {
     this.addObservationForm = this.formBuilder.group({
-      // username: new FormControl('', Validators.compose([
-      //  UsernameValidator.validUsername,
-      //  Validators.maxLength(25), Validators.minLength(5),
-      //  Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$'),
-      // ])),
       quantity: new FormControl(1, Validators.compose([
         Validators.required
       ])),
@@ -90,8 +62,16 @@ export class ObservationAddComponent implements OnInit {
     // console.log(value);
     this.observationService.addObservation(value)
     .subscribe(
-      (data: ObservationViewModel) => { console.log(data); alert('success'); },
-      (error: ErrorReportViewModel) => { console.log(error); alert('hello'); }
+      (data: ObservationViewModel) => {
+        this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
+      },
+      (error: ErrorReportViewModel) => {
+        // console.log(error); alert('hello');
+        this.errorReport = error;
+        this.invalidAddObservation = true;
+        console.log(error.friendlyMessage);
+        console.log('unsuccessful add observation');
+      }
     );
   }
 

@@ -2,6 +2,7 @@ import { UserViewModel } from './UserViewModel';
 import { BirdSummaryViewModel } from './BirdSummaryViewModel';
 
 export interface ObservationViewModel {
+   [x: string]: any;
     ObservationId: number;
     LocationLatitude: number;
     LocationLongitude: number;

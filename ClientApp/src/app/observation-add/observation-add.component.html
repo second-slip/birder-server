@@ -12,8 +12,16 @@
       </div>
     <div class="col-sm-8">
       <div class="observation-add-container">
-        <h2 class="section-title">Add</h2>
-        <!-- <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div> -->
+        <h2 class="section-title">Add an observation</h2>
+        <div *ngIf="invalidAddObservation" class="alert alert-danger">
+          <p>There is an error in your observation</p>
+            <ul>
+                <li *ngFor="let error of errorReport.modelStateErrors">
+                    {{ error }}
+                </li>
+            </ul>
+        </div>
+
         <form [formGroup]="addObservationForm" novalidate (ngSubmit)="onSubmit(addObservationForm.value)">
 
           <mat-form-field class="half-width">

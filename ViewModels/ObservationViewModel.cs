@@ -57,6 +57,7 @@ namespace Birder.ViewModels
         public DateTime LastUpdateDate { get; set; }
 
         //[Display(Name = "Observed species")]
+        [Required]
         public int BirdId { get; set; }
         //public string ApplicationUserId { get; set; }
 

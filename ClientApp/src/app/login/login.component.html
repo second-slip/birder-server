@@ -22,6 +22,7 @@
       <div class="login-container">
         <h2 class="section-title">Login</h2>
         <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div>
+        
         <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit(loginForm.value)">
 
           <mat-form-field class="full-width">
