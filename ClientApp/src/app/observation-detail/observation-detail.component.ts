@@ -31,11 +31,6 @@ export class ObservationDetailComponent implements OnInit {
         (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
-    // ,() => {
-    //   // alert('');
-    //   // 'onCompleted' callback.
-    //   // No errors, route to new page here
-    // }
   }
 
   goBack(): void {

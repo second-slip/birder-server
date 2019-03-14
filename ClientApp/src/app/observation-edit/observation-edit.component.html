@@ -1,3 +1,106 @@
-<p>
-  observation-edit works!
-</p>
+<h2>Edit observation</h2>
+
+<!-- Still to do:
+  - Google maps API
+  - Bind datepicker and setup date locale
+  (set user at the controller level) -->
+
+<div class="container">
+  <div class="row">
+    <div class='col-sm-2'>
+    </div>
+    <div class="col-sm-8">
+      <div class="observation-edit-container">
+        <h2 class="section-title">Edit observation</h2>
+        <div *ngIf="errorReport" class="alert alert-danger">
+          <p>There is an error in your observation</p>
+          <ul>
+            <li *ngFor="let error of errorReport.modelStateErrors">
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+
+
+        <div *ngIf="observation">
+
+
+          <form [formGroup]="editObservationForm" novalidate (ngSubmit)="onSubmit(editObservationForm.value)">
+
+            <mat-form-field class="full-width" hidden>
+              <input matInput type="number" placeholder="observationId" formControlName="observationId">
+            </mat-form-field>
+
+            <mat-form-field class="half-width">
+              <input matInput type="number" placeholder="Quantity" formControlName="quantity" required>
+              <mat-error *ngFor="let validation of editObservation_validation_messages.quantity">
+                <mat-error class="error-message"
+                  *ngIf="editObservationForm.get('quantity').hasError(validation.type) && (editObservationForm.get('quantity').dirty || editObservationForm.get('quantity').touched)">
+                  {{validation.message}}</mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Select species" formControlName="birdId" type="number" required>
+                <mat-option *ngFor="let bird of birdsSpecies" [value]="bird.birdId">
+                  {{bird.birdId}}, {{bird.englishName}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngFor="let validation of editObservation_validation_messages.birdId">
+                <mat-error class="error-message"
+                  *ngIf="editObservationForm.get('birdId').hasError(validation.type) && (editObservationForm.get('birdId').dirty || editObservationForm.get('birdId').touched)">
+                  {{validation.message}}</mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <input matInput [matDatepicker]="picker" placeholder="Choose a date"
+                formControlName="observationDateTime">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <textarea matInput type="text" placeholder="General comments"
+                formControlName="noteGeneral"></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <textarea matInput type="text" placeholder="Comments on habitat"
+                formControlName="noteHabitat"></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <textarea matInput type="text" placeholder="Comments on weather"
+                formControlName="noteWeather"></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <textarea matInput type="text" placeholder="Comments on appearance"
+                formControlName="noteAppearance"></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <textarea matInput type="text" placeholder="Comments on behaviour"
+                formControlName="noteBehaviour"></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <textarea matInput type="hj" placeholder="Comments on song"
+                formControlName="noteVocalisation"></textarea>
+            </mat-form-field>
+
+
+            <button class="submit-btn" color="primary" mat-raised-button type="submit"
+              [disabled]="!editObservationForm.valid">
+              Sumbit
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class='col-sm-2'>
+    </div>
+  </div>
+</div>
