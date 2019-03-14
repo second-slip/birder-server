@@ -63,20 +63,7 @@ export class ObservationEditComponent implements OnInit {
 
   onSubmit(value): void {
 
-    // const editedObservation = <ObservationViewModel>() {
-    //   // UserName: value.userName,
-    //   // Email: value.email,
-    //   // Password: value.matching_passwords.password,
-    //   // ConfirmPassword: value.matching_passwords.confirmPassword
-    // };
-
-
-
-
-
-
-
-    console.log(value);
+    // console.log(value);
     this.observationService.updateObservation(this.observation.observationId, value)
     .subscribe(
       (data: ObservationViewModel) => {

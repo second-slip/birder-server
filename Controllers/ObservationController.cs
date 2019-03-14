@@ -180,8 +180,8 @@ namespace Birder.Controllers
                 }
             }
 
-            //return NoContent();
-            return BadRequest("An error occurred.  Could not edit the observation.");
+            return Ok();
+            // return BadRequest("An error occurred.  Could not edit the observation.");
         }
 
         // DELETE: api/Observation/5
