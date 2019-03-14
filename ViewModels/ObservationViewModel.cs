@@ -20,6 +20,7 @@ namespace Birder.ViewModels
 
         //[Range(1, 1000, ErrorMessage = "The value must be greater than 0")]
         //[Display(Name = "Individuals")]
+        [Range(1, int.MaxValue, ErrorMessage = "The observation count should be at least one individual")]
         public int Quantity { get; set; }
 
         //[Display(Name = "General notes")]
@@ -57,7 +58,7 @@ namespace Birder.ViewModels
         public DateTime LastUpdateDate { get; set; }
 
         //[Display(Name = "Observed species")]
-        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "You must choose the bird species you observed")]
         public int BirdId { get; set; }
         //public string ApplicationUserId { get; set; }
 

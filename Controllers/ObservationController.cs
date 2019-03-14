@@ -114,33 +114,57 @@ namespace Birder.Controllers
         }
 
         // PUT: api/Observation/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutObservation(int id, Observation observation)
+        [HttpPut, Route("UpdateObservation")]
+        public async Task<IActionResult> PutObservation(int id, ObservationViewModel model)
         {
-            if (id != observation.ObservationId)
+
+            if (id != model.ObservationId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(observation).State = EntityState.Modified;
+            
+            // user checks
 
-            try
+            if (ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ObservationExists(id))
+                var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
+
+                var username = User.Identity.Name;
+                var user = await _userManager.FindByNameAsync(username);
+
+                var observedBird = await (from b in _context.Birds
+                                          where (b.BirdId == editedObservation.BirdId)
+                                          select b).FirstOrDefaultAsync();
+                editedObservation.Bird = observedBird;
+
+
+
+
+
+
+
+                _context.Entry(editedObservation).State = EntityState.Modified;
+
+                try
                 {
-                    return NotFound();
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!ObservationExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
 
-            return NoContent();
+            //return NoContent();
+            return BadRequest("An error occurred.  Could not add the observation.");
         }
 
         // DELETE: api/Observation/5
