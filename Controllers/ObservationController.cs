@@ -124,28 +124,44 @@ namespace Birder.Controllers
                 return BadRequest("An error occurred.  Could not edit the observation.");
             }
 
-            
-            // user checks
-
             if (ModelState.IsValid)
             {
-                var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
+                //var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
 
                 var username = User.Identity.Name;
-                if (username != model.User.UserName)
-                {
-                    return BadRequest("An error occurred.  Could not edit the observation.");
-                }
-
                 var user = await _userManager.FindByNameAsync(username);
 
+                // we need to get the server observation anyway to check users are the same
+                var observation = await (from o in _context.Observations
+                                        // .Include(o => o.Bird)
+                                .Include(u => u.ApplicationUser)
+                                where (o.ObservationId == id)
+                                select o).FirstOrDefaultAsync();
+
+                if (user.Id != observation.ApplicationUser.Id)
+                {
+                    return BadRequest("An error occurred.  You can only edit your own observations.");
+                }
+
                 var observedBird = await (from b in _context.Birds
-                                          where (b.BirdId == editedObservation.BirdId)
+                                          where (b.BirdId == model.BirdId)
                                           select b).FirstOrDefaultAsync();
-                editedObservation.Bird = observedBird;
+                observation.Bird = observedBird;
 
+                observation.LocationLatitude = model.LocationLatitude;
+                observation.LocationLongitude = model.LocationLongitude;
+                observation.NoteAppearance = model.NoteAppearance;
+                observation.NoteBehaviour = model.NoteBehaviour;
+                observation.NoteGeneral = model.NoteGeneral;
+                observation.NoteHabitat = model.NoteHabitat;
+                observation.NoteVocalisation = model.NoteVocalisation;
+                observation.NoteWeather = model.NoteWeather;
+                observation.ObservationDateTime = model.ObservationDateTime;
+                observation.Quantity = model.Quantity;
 
-                //_context.Entry(editedObservation).State = EntityState.Modified;
+                observation.LastUpdateDate = DateTime.Now;
+
+                _context.Entry(observation).State = EntityState.Modified;
 
                 try
                 {

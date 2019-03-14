@@ -62,22 +62,36 @@ export class ObservationEditComponent implements OnInit {
   }
 
   onSubmit(value): void {
+
+    // const editedObservation = <ObservationViewModel>() {
+    //   // UserName: value.userName,
+    //   // Email: value.email,
+    //   // Password: value.matching_passwords.password,
+    //   // ConfirmPassword: value.matching_passwords.confirmPassword
+    // };
+
+
+
+
+
+
+
     console.log(value);
-    // this.observationService.addObservation(value)
-    // .subscribe(
-    //   (data: ObservationViewModel) => {
-    //     this.editObservationForm.reset();
-    //     this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
-    //   },
-    //   (error: ErrorReportViewModel) => {
-    //     // console.log(error); alert('hello');
-    //     this.errorReport = error;
-    //     this.invalidEditObservation = true;
-    //     console.log(error);
-    //     console.log(error.friendlyMessage);
-    //     console.log('unsuccessful add observation');
-    //   }
-    // );
+    this.observationService.updateObservation(this.observation.observationId, value)
+    .subscribe(
+      (data: ObservationViewModel) => {
+        this.editObservationForm.reset();
+        this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
+      },
+      (error: ErrorReportViewModel) => {
+        // console.log(error); alert('hello');
+        this.errorReport = error;
+        // this.invalidEditObservation = true;
+        console.log(error);
+        console.log(error.friendlyMessage);
+        console.log('unsuccessful add observation');
+      }
+    );
   }
 
   getObservation(): void {

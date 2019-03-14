@@ -28,7 +28,7 @@ export class ObservationService {
 
   getObservation(id: number): Observable<ObservationViewModel | ErrorReportViewModel> {
     const options = id ?
-    { params: new HttpParams().set('id', id.toString()) } : {};
+    { params: new HttpParams().set('id', id.toString()) } : { };
 
     return this.http.get<ObservationViewModel>('api/Observation/GetObservation', options)
       .pipe(
@@ -40,6 +40,17 @@ export class ObservationService {
     return this.http.post<ObservationViewModel>('api/Observation/PostObservation', viewModel, httpOptions)
     .pipe(
       tap(observations => this.log('fetched added bird')),
+      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
+  updateObservation(id: number, viewModel: ObservationViewModel): Observable<ObservationViewModel | ErrorReportViewModel> {
+    // alert(id);
+    const options = id ?
+    { params: new HttpParams().set('id', id.toString()) } :
+    { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+    return this.http.put<ObservationViewModel>('api/Observation/UpdateObservation', viewModel, options)
+    .pipe(
       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
