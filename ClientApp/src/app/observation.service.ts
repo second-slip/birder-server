@@ -17,7 +17,7 @@ const httpOptions = {
 export class ObservationService {
 
   constructor(private http: HttpClient
-            , private httpErrorHandlerService: HttpErrorHandlerService) { }
+    , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
   getObservations(): Observable<ObservationViewModel[] | ErrorReportViewModel> {
     return this.http.get<ObservationViewModel[]>('api/Observation')
@@ -28,7 +28,7 @@ export class ObservationService {
 
   getObservation(id: number): Observable<ObservationViewModel | ErrorReportViewModel> {
     const options = id ?
-    { params: new HttpParams().set('id', id.toString()) } : { };
+      { params: new HttpParams().set('id', id.toString()) } : {};
 
     return this.http.get<ObservationViewModel>('api/Observation/GetObservation', options)
       .pipe(
@@ -38,20 +38,29 @@ export class ObservationService {
 
   addObservation(viewModel: ObservationViewModel): Observable<ObservationViewModel | ErrorReportViewModel> {
     return this.http.post<ObservationViewModel>('api/Observation/PostObservation', viewModel, httpOptions)
-    .pipe(
-      tap(observations => this.log('fetched added bird')),
-      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe(
+        tap(observations => this.log('fetched added bird')),
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   updateObservation(id: number, viewModel: ObservationViewModel): Observable<ObservationViewModel | ErrorReportViewModel> {
     // alert(id);
     const options = id ?
-    { params: new HttpParams().set('id', id.toString()) } :
-    { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+      { params: new HttpParams().set('id', id.toString()) } :
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
     return this.http.put<ObservationViewModel>('api/Observation/UpdateObservation', viewModel, options)
-    .pipe(
-      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
+  deleteObservation(id: number): Observable<ObservationViewModel | ErrorReportViewModel> {
+    const options = id ?
+      { params: new HttpParams().set('id', id.toString()) } : {};
+
+    return this.http.delete<ObservationViewModel>('api/Observation/UpdateObservation', options)
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   // ************TEMPORARY **********
@@ -59,9 +68,9 @@ export class ObservationService {
     return this.http.get<BirdSummaryViewModel[]>('api/Birds')
       .pipe(
         tap(birds => this.log('fetched birds for ddl')));
-      //   ,
-      //   catchError(this.handleError('getBirds',  []))
-      // );
+    //   ,
+    //   catchError(this.handleError('getBirds',  []))
+    // );
   }
   // ************TEMPORARY **********
 
