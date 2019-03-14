@@ -178,10 +178,14 @@ namespace Birder.Controllers
                         throw;
                     }
                 }
-            }
+            
 
-            return Ok();
-            // return BadRequest("An error occurred.  Could not edit the observation.");
+            var editedObservation = _mapper.Map<Observation, ObservationViewModel>(observation);
+
+            return Ok(editedObservation);
+            }
+            
+            return BadRequest("An error occurred.  Could not edit the observation.");
         }
 
         // DELETE: api/Observation/5
