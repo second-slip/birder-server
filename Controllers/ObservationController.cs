@@ -11,6 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+//TODO: Observation controller
+//    - tidy up return messages, et cetera
+//    - repository
+//    - logging
+
 namespace Birder.Controllers
 {
     [Route("api/[controller]")]
@@ -117,73 +122,81 @@ namespace Birder.Controllers
         [HttpPut, Route("UpdateObservation")]
         public async Task<IActionResult> PutObservation(int id, ObservationViewModel model)
         {
-
-            if (id != model.ObservationId)
+            try
             {
-                return BadRequest("An error occurred.  Could not edit the observation.");
-            }
-
-            if (ModelState.IsValid)
-            {
-                //var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
-
-                var username = User.Identity.Name;
-                var user = await _userManager.FindByNameAsync(username);
-
-                // we need to get the server observation anyway to check users are the same
-                var observation = await (from o in _context.Observations
-                                        // .Include(o => o.Bird)
-                                .Include(u => u.ApplicationUser)
-                                where (o.ObservationId == id)
-                                select o).FirstOrDefaultAsync();
-
-                if (user.Id != observation.ApplicationUser.Id)
+                if (id != model.ObservationId)
                 {
-                    return BadRequest("An error occurred.  You can only edit your own observations.");
+                    return BadRequest("An error occurred.  Could not edit the observation.");
                 }
 
-                var observedBird = await (from b in _context.Birds
-                                          where (b.BirdId == model.BirdId)
-                                          select b).FirstOrDefaultAsync();
-                observation.Bird = observedBird;
-
-                observation.LocationLatitude = model.LocationLatitude;
-                observation.LocationLongitude = model.LocationLongitude;
-                observation.NoteAppearance = model.NoteAppearance;
-                observation.NoteBehaviour = model.NoteBehaviour;
-                observation.NoteGeneral = model.NoteGeneral;
-                observation.NoteHabitat = model.NoteHabitat;
-                observation.NoteVocalisation = model.NoteVocalisation;
-                observation.NoteWeather = model.NoteWeather;
-                observation.ObservationDateTime = model.ObservationDateTime;
-                observation.Quantity = model.Quantity;
-
-                observation.LastUpdateDate = DateTime.Now;
-
-                _context.Entry(observation).State = EntityState.Modified;
-
-                try
+                if (ModelState.IsValid)
                 {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ObservationExists(id))
+                    //var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
+
+                    var username = User.Identity.Name;
+                    var user = await _userManager.FindByNameAsync(username);
+
+                    // we need to get the server observation anyway to check users are the same
+                    var observation = await (from o in _context.Observations
+                                    // .Include(o => o.Bird)
+                                    .Include(u => u.ApplicationUser)
+                                             where (o.ObservationId == id)
+                                             select o).FirstOrDefaultAsync();
+                    if (observation == null)
                     {
                         return NotFound();
                     }
-                    else
+
+                    if (user.Id != observation.ApplicationUser.Id)
                     {
-                        throw;
+                        return BadRequest("An error occurred.  You can only edit your own observations.");
                     }
+
+                    var observedBird = await (from b in _context.Birds
+                                              where (b.BirdId == model.BirdId)
+                                              select b).FirstOrDefaultAsync();
+                    observation.Bird = observedBird;
+
+                    observation.LocationLatitude = model.LocationLatitude;
+                    observation.LocationLongitude = model.LocationLongitude;
+                    observation.NoteAppearance = model.NoteAppearance;
+                    observation.NoteBehaviour = model.NoteBehaviour;
+                    observation.NoteGeneral = model.NoteGeneral;
+                    observation.NoteHabitat = model.NoteHabitat;
+                    observation.NoteVocalisation = model.NoteVocalisation;
+                    observation.NoteWeather = model.NoteWeather;
+                    observation.ObservationDateTime = model.ObservationDateTime;
+                    observation.Quantity = model.Quantity;
+
+                    observation.LastUpdateDate = DateTime.Now;
+
+                    _context.Entry(observation).State = EntityState.Modified;
+
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!ObservationExists(id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+                    var editedObservation = _mapper.Map<Observation, ObservationViewModel>(observation);
+
+                    return Ok(editedObservation);
                 }
-            
-
-            var editedObservation = _mapper.Map<Observation, ObservationViewModel>(observation);
-
-            return Ok(editedObservation);
             }
-
+            catch (Exception ex)
+            {
+                // logging
+            }
             return BadRequest("An error occurred.  Could not edit the observation.");
         }
 
@@ -200,7 +213,7 @@ namespace Birder.Controllers
             _context.Observations.Remove(observation);
             await _context.SaveChangesAsync();
 
-            return observation;
+            return Ok(observation);
         }
 
         private bool ObservationExists(int id)
