@@ -74,7 +74,7 @@ export class ObservationEditComponent implements OnInit {
         // console.log(error); alert('hello');
         this.errorReport = error;
         // this.invalidEditObservation = true;
-        console.log(error);
+        // console.log(error);
         console.log(error.friendlyMessage);
         console.log('unsuccessful add observation');
       }

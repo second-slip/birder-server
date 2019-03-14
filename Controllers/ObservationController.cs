@@ -115,7 +115,6 @@ namespace Birder.Controllers
 
         // PUT: api/Observation/5
         [HttpPut, Route("UpdateObservation")]
-        //public async Task<IActionResult> PutObservation(int id, ObservationViewModel model)
         public async Task<IActionResult> PutObservation(int id, ObservationViewModel model)
         {
 
@@ -184,7 +183,7 @@ namespace Birder.Controllers
 
             return Ok(editedObservation);
             }
-            
+
             return BadRequest("An error occurred.  Could not edit the observation.");
         }
 
