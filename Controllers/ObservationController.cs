@@ -115,12 +115,13 @@ namespace Birder.Controllers
 
         // PUT: api/Observation/5
         [HttpPut, Route("UpdateObservation")]
+        //public async Task<IActionResult> PutObservation(int id, ObservationViewModel model)
         public async Task<IActionResult> PutObservation(int id, ObservationViewModel model)
         {
 
             if (id != model.ObservationId)
             {
-                return BadRequest();
+                return BadRequest("An error occurred.  Could not edit the observation.");
             }
 
             
@@ -131,6 +132,11 @@ namespace Birder.Controllers
                 var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
 
                 var username = User.Identity.Name;
+                if (username != model.User.UserName)
+                {
+                    return BadRequest("An error occurred.  Could not edit the observation.");
+                }
+
                 var user = await _userManager.FindByNameAsync(username);
 
                 var observedBird = await (from b in _context.Birds
@@ -139,12 +145,7 @@ namespace Birder.Controllers
                 editedObservation.Bird = observedBird;
 
 
-
-
-
-
-
-                _context.Entry(editedObservation).State = EntityState.Modified;
+                //_context.Entry(editedObservation).State = EntityState.Modified;
 
                 try
                 {
@@ -164,7 +165,7 @@ namespace Birder.Controllers
             }
 
             //return NoContent();
-            return BadRequest("An error occurred.  Could not add the observation.");
+            return BadRequest("An error occurred.  Could not edit the observation.");
         }
 
         // DELETE: api/Observation/5
