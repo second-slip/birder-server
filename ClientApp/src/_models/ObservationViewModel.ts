@@ -3,25 +3,25 @@ import { BirdSummaryViewModel } from './BirdSummaryViewModel';
 
 export interface ObservationViewModel {
    [x: string]: any;
-    ObservationId: number;
-    LocationLatitude: number;
-    LocationLongitude: number;
-    Quantity: number;
-    NoteGeneral: string;
-    NoteHabitat: string;
-    NoteWeather: string;
-    NoteAppearance: string;
-    NoteBehaviour: string;
-    NoteVocalisation: string;
-    HasPhotos: boolean;
+    observationId: number;
+    locationLatitude: number;
+    locationLongitude: number;
+    quantity: number;
+    noteGeneral: string;
+    noteHabitat: string;
+    noteWeather: string;
+    noteAppearance: string;
+    noteBehaviour: string;
+    noteVocalisation: string;
+    hasPhotos: boolean;
     // SelectedPrivacyLevel: PrivacyLevel;
-    ObservationDateTime: Date | string;
-    CreationDate: Date | string;
-    LastUpdateDate: Date | string;
-    BirdId: number;
+    observationDateTime: Date | string;
+    creationDate: Date | string;
+    lastUpdateDate: Date | string;
+    birdId: number;
     // ApplicationUserId: string; // not required, but do need a vanilla user object
-    Bird: BirdSummaryViewModel;
+    bird: BirdSummaryViewModel;
     // ApplicationUser: ApplicationUser;
-    User: UserViewModel;
+    user: UserViewModel;
     // ObservationTags: ObservationTag[];
 }

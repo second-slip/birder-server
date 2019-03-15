@@ -1,4 +1,4 @@
 export interface UserViewModel {
-   UserName: string;
-   ProfileImage: string;
+   userName: string;
+   profileImage: string;
 }

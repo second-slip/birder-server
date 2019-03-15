@@ -1,13 +1,13 @@
 export interface BirdSummaryViewModel {
-    BirdId: number;
-    Class: string;
-    Order: string;
-    Family: string;
-    Genus: string;
-    Species: string;
-    EnglishName: string;
-    InternationalName: string;
-    Category: string;
-    ConserverationStatus: string;
-    BirderStatus: string;
+    birdId: number;
+    class: string;
+    order: string;
+    family: string;
+    genus: string;
+    species: string;
+    englishName: string;
+    internationalName: string;
+    category: string;
+    bonserverationStatus: string;
+    birderStatus: string;
 }

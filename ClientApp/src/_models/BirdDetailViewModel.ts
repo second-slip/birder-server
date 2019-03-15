@@ -1,21 +1,21 @@
 import { ConserverationStatus } from './ConserverationStatus';
 
 export interface BirdDetailViewModel {
-    BirdId: number;
-    Class: string;
-    Order: string;
-    Family: string;
-    Genus: string;
-    Species: string;
-    EnglishName: string;
-    InternationalName: string;
-    Category: string;
-    PopulationSize: string;
-    BtoStatusInBritain: string;
-    ThumbnailUrl: string;
-    SongUrl: string;
-    CreationDate: Date | string;
-    LastUpdateDate: Date | string;
-    BirdConserverationStatus: ConserverationStatus;
-    BirderStatus: string;
+    birdId: number;
+    class: string;
+    order: string;
+    family: string;
+    genus: string;
+    species: string;
+    englishName: string;
+    internationalName: string;
+    category: string;
+    populationSize: string;
+    btoStatusInBritain: string;
+    thumbnailUrl: string;
+    songUrl: string;
+    creationDate: Date | string;
+    lastUpdateDate: Date | string;
+    birdConserverationStatus: ConserverationStatus;
+    birderStatus: string;
 }
