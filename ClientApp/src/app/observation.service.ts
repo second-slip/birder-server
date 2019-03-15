@@ -58,7 +58,7 @@ export class ObservationService {
     const options = id ?
       { params: new HttpParams().set('id', id.toString()) } : {};
 
-    return this.http.delete<ObservationViewModel>('api/Observation/UpdateObservation', options)
+    return this.http.delete<ObservationViewModel>('api/Observation/DeleteObservation', options)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

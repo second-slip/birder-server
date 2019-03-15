@@ -1,3 +1,29 @@
-<p>
-  observation-delete works!
-</p>
+
+<div *ngIf="!observation" class="loading">
+  <p><em>Loading...</em></p>
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="errorReport" class="alert alert-danger">
+  <p>{{errorReport.friendlyMessage}}</p>
+</div>
+
+<div *ngIf="observation">
+  <h2>Observation id: {{observation.observationId}}</h2>
+  <br>
+  <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}} observed at {{observation.observationDateTime}}
+  <br>
+  observed by {{observation.user.userName }}
+  <br>
+  <button (click)="goBack()">go back</button>
+  <button (click)="deleteObservation()">Delete this observation</button>
+
+
+  <a routerLink="/observation-edit/{{observation.observationId}}">
+    Edit
+  </a>
+  <a routerLink="/observation-delete/{{observation.observationId}}">
+    Delete
+  </a>
+
+</div>
