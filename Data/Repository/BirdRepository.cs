@@ -14,55 +14,20 @@ namespace Birder.Data.Repository
             _dbContext = dbContext;
         }
 
-        public IEnumerable<Bird> AllBirdsDropDownList()
+        public Task<Bird> GetBirdDetail(int id)
         {
-            var birds = _dbContext.Birds
-                            .OrderBy(ob => ob.BirderStatus)
-                                .ThenBy(a => a.EnglishName)
-                                    .ToList();
-
-            var defaultOption = new Bird()
-            {
-                BirdId = 0,
-                EnglishName = "Choose a bird species..."
-            };
-            birds.Insert(0, defaultOption);
-
-            return birds;
+            return (from b in _dbContext.Birds
+                    .Include(cs => cs.BirdConserverationStatus)
+                    where (b.BirdId == id)
+                    select b).FirstOrDefaultAsync();
         }
 
-        public IQueryable<Bird> AllBirdsList()
+        public Task<List<Bird>> GetBirdSummaryList(BirderStatus birderStatusFilter)
         {
-            return _dbContext.Birds
-                .Include(bcs => bcs.BirdConserverationStatus)
-                     .OrderBy(bs => bs.BirderStatus)
-                        .ThenBy(en => en.EnglishName)
-                            .AsNoTracking();
-        }
-
-        public IQueryable<Bird> AllBirdsList(int birdId)
-        {
-            return _dbContext.Birds.Where(b => b.BirdId == birdId)
-                .Include(bcs => bcs.BirdConserverationStatus)
-                        .OrderByDescending(v => v.EnglishName)
-                            .AsNoTracking();
-        }
-
-        public IQueryable<Bird> CommonBirdsList()
-        {
-            return _dbContext.Birds
-                .Include(bcs => bcs.BirdConserverationStatus)
-                    .Where(b => b.BirderStatus == BirderStatus.Common)
-                     .OrderBy(bs => bs.BirderStatus)
-                        .ThenBy(en => en.EnglishName)
-                            .AsNoTracking();
-        }
-
-        public async Task<Bird> GetBirdDetails(int? id)
-        {
-            return await _dbContext.Birds
-                            .Include(bcs => bcs.BirdConserverationStatus)
-                                .SingleOrDefaultAsync(m => m.BirdId == id);
+            return (from b in _dbContext.Birds
+                    .Include(cs => cs.BirdConserverationStatus)
+                    where (b.BirderStatus == birderStatusFilter)
+                    select b).ToListAsync();
         }
     }
 }

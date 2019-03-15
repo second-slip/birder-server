@@ -32,7 +32,8 @@ namespace Birder.Controllers
 
         // GET: api/Birds
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bird>>> GetBirds()
+        //public async Task<ActionResult<IEnumerable<Bird>>> GetBirds()
+        public async Task<IActionResult> GetBirds()
         {
             // TODO: Cache the birds list
             // The birds list is a prime candidate to be put in the cache.
@@ -42,14 +43,20 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-            var birds = _context.Birds.Where(x => x.BirderStatus == BirderStatus.Common);
+            // var birds = await _context.Birds
+            //             .Where(x => x.BirderStatus == BirderStatus.Common)
+            //             .ToListAsync();
+
+            var birds = await _birdRepository.GetBirdSummaryList(BirderStatus.Common);
 
             if (birds == null) 
             {
                 return BadRequest();
             }
 
-            return Ok(birds);
+            var viewmodel = _mapper.Map<List<Bird>, List<BirdDetailViewModel>>(birds);
+
+            return Ok(viewmodel);
         }
 
         // GET: api/Birds/GetBirdGetBird?id={x}
@@ -63,10 +70,11 @@ namespace Birder.Controllers
             }
 
             // nb lazy load Observations (see separate action)
-            var bird = await (from b in _context.Birds
-                                 .Include(cs => cs.BirdConserverationStatus)
-                              where(b.BirdId == id)
-                              select b).FirstOrDefaultAsync();
+            var bird = await _birdRepository.GetBirdDetail(id);
+            // var bird = await (from b in _context.Birds
+            //                      .Include(cs => cs.BirdConserverationStatus)
+            //                   where(b.BirdId == id)
+            //                   select b).FirstOrDefaultAsync();
 
             if (bird == null)
             {

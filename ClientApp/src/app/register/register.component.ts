@@ -114,10 +114,10 @@ export class RegisterComponent implements OnInit {
     }
 
     const viewModelObject = <RegisterViewModel> {
-      UserName: value.userName,
-      Email: value.email,
-      Password: value.matching_passwords.password,
-      ConfirmPassword: value.matching_passwords.confirmPassword
+      userName: value.userName,
+      email: value.email,
+      password: value.matching_passwords.password,
+      confirmPassword: value.matching_passwords.confirmPassword
     };
 
     this.accountService.register(viewModelObject)

@@ -7,10 +7,7 @@ namespace Birder.Data.Repository
 {
     public interface IBirdRepository
     {
-        IEnumerable<Bird> AllBirdsDropDownList();
-        IQueryable<Bird> AllBirdsList();
-        IQueryable<Bird> AllBirdsList(int birdId);
-        IQueryable<Bird> CommonBirdsList();
-        Task<Bird> GetBirdDetails(int? id);
+        Task<List<Bird>> GetBirdSummaryList(BirderStatus birderStatusFilter);
+        Task<Bird> GetBirdDetail(int id);
     }
 }
