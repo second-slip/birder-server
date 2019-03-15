@@ -7,8 +7,6 @@ namespace Birder.Data.Repository
 {
     public interface IObservationRepository
     {
-        Task<IEnumerable<Bird>> AllBirdsList();
-        Task<Bird> GetSelectedBird(int id);
         IQueryable<Observation> GetUsersObservationsList(string userId);
         IQueryable<Observation> GetUsersNetworkObservationsList(string userId);
         IQueryable<Observation> GetPublicObservationsList();

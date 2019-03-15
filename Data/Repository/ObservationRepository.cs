@@ -9,6 +9,7 @@ namespace Birder.Data.Repository
     public class ObservationRepository : IObservationRepository
     {
         private readonly ApplicationDbContext _dbContext;
+
         public ObservationRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -47,19 +48,6 @@ namespace Birder.Data.Repository
         //                  select observations.BirdId).Distinct().CountAsync();
         //}
 
-        //ToDo: DRY - This is repeated verbatim in two repositories - create a 'service'
-        public async Task<IEnumerable<Bird>> AllBirdsList()
-        {
-            return await _dbContext.Birds
-                .OrderBy(ob => ob.BirderStatus)
-                    .ThenBy(a => a.EnglishName)
-                        .ToListAsync();
-        }
-
-        public async Task<Bird> GetSelectedBird(int id)
-        {
-            return await _dbContext.Birds.SingleOrDefaultAsync(m => m.BirdId == id);
-        }
 
         public IQueryable<Observation> GetUsersObservationsList(string userId)
         {

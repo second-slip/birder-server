@@ -20,6 +20,7 @@ namespace Birder.Data.Repository
                     .Include(cs => cs.BirdConserverationStatus)
                     where (b.BirdId == id)
                     select b).FirstOrDefaultAsync();
+            //return await _dbContext.Birds.SingleOrDefaultAsync(m => m.BirdId == id);
         }
 
         public Task<List<Bird>> GetBirdSummaryList(BirderStatus birderStatusFilter)
@@ -28,6 +29,11 @@ namespace Birder.Data.Repository
                     .Include(cs => cs.BirdConserverationStatus)
                     where (b.BirderStatus == birderStatusFilter)
                     select b).ToListAsync();
+
+    //        return await _dbContext.Birds
+                    //.OrderBy(ob => ob.BirderStatus)
+                    //    .ThenBy(a => a.EnglishName)
+                    //        .ToListAsync();
         }
     }
 }
