@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Birder.Data.Model;
 using AutoMapper;
 using Birder.ViewModels;
+using Birder.Data.Repository;
 
 namespace Birder.Controllers
 {
@@ -17,13 +18,16 @@ namespace Birder.Controllers
     public class BirdsController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly IBirdRepository _birdRepository;
         private readonly ApplicationDbContext _context;
 
         public BirdsController(IMapper mapper
+                             , IBirdRepository birdRepository
                              , ApplicationDbContext context)
         {
             _mapper = mapper;
             _context = context;
+            _birdRepository = birdRepository;
         }
 
         // GET: api/Birds

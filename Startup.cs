@@ -1,6 +1,7 @@
 using AutoMapper;
 using Birder.Data;
 using Birder.Data.Model;
+using Birder.Data.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -65,6 +66,8 @@ namespace Birder
 
             services.AddAutoMapper();
             //services.AddSignInManager<SignInManager<IdentityUser>>();
+            services.AddScoped<IBirdRepository, BirdRepository>();
+
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
