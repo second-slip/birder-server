@@ -5,7 +5,6 @@ import { tap, catchError } from 'rxjs/operators';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { ObservationViewModel } from '../_models/ObservationViewModel';
-import { BirdSummaryViewModel } from '../_models/BirdSummaryViewModel';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -62,17 +61,6 @@ export class ObservationService {
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
-
-  // ************TEMPORARY **********
-  getBirds(): Observable<BirdSummaryViewModel[]> {
-    return this.http.get<BirdSummaryViewModel[]>('api/Birds')
-      .pipe(
-        tap(birds => this.log('fetched birds for ddl')));
-    //   ,
-    //   catchError(this.handleError('getBirds',  []))
-    // );
-  }
-  // ************TEMPORARY **********
 
   /** Log a HeroService message with the MessageService */
   private log(message: string) {

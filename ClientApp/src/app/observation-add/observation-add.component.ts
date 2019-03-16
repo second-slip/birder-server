@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
+import { BirdsService } from '../birds.service';
 
 @Component({
   selector: 'app-observation-add',
@@ -31,6 +32,7 @@ export class ObservationAddComponent implements OnInit {
 
   constructor(private router: Router
     , private observationService: ObservationService
+    , private birdsService: BirdsService
     , private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -59,7 +61,6 @@ export class ObservationAddComponent implements OnInit {
   }
 
   onSubmit(value): void {
-    // console.log(value);
     this.observationService.addObservation(value)
     .subscribe(
       (data: ObservationViewModel) => {
@@ -78,8 +79,7 @@ export class ObservationAddComponent implements OnInit {
   }
 
   getBirds(): void {
-    // TODO: Better implementation of this...
-    this.observationService.getBirds()
+    this.birdsService.getBirds()
     .subscribe(
       (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
       (error: ErrorReportViewModel) => {

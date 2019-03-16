@@ -15,7 +15,6 @@ import { MatIconModule, MatButtonModule, MatInputModule,
               MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule,
               MatProgressSpinnerModule, MAT_DATE_LOCALE, MatTooltipModule} from '@angular/material';
 import { LoginComponent } from './login/login.component';
-// import { JwtHelper } from 'angular2-jwt';
 import { AuthGuard } from './auth-guard.service';
 import { LogoutComponent } from './logout/logout.component';
 import { BirdsIndexComponent } from './birds-index/birds-index.component';
@@ -29,7 +28,11 @@ import { RegisterComponent } from './register/register.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { ObservationEditComponent } from './observation-edit/observation-edit.component';
 import { ObservationDeleteComponent } from './observation-delete/observation-delete.component';
-import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('jwt');
+}
 
 @NgModule({
   declarations: [
@@ -72,8 +75,7 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
     MatProgressSpinnerModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: function  tokenGetter() {
-             return localStorage.getItem('jwt'); },
+        tokenGetter: tokenGetter,
         whitelistedDomains: ['localhost:55722'],
         blacklistedRoutes: ['http://localhost:55722/Authentication/Login']
       }

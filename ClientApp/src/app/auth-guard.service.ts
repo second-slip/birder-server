@@ -1,4 +1,3 @@
-// import { JwtHelper } from 'angular2-jwt';
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -18,7 +17,6 @@ export class AuthGuard implements CanActivate {
       return true;
     }
     this.router.navigate(['/login']);
-    // update login subscription?
     return false;
   }
 }
