@@ -17,7 +17,6 @@ import { MatIconModule, MatButtonModule, MatInputModule,
 import { LoginComponent } from './login/login.component';
 import { JwtHelper } from 'angular2-jwt';
 import { AuthGuard } from './auth-guard.service';
-import { ReactFormExampleComponent } from './react-form-example/react-form-example.component';
 import { LogoutComponent } from './logout/logout.component';
 import { BirdsIndexComponent } from './birds-index/birds-index.component';
 import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
@@ -40,7 +39,6 @@ import { ObservationDeleteComponent } from './observation-delete/observation-del
     FetchDataComponent,
     SideMenuComponent,
     LoginComponent,
-    ReactFormExampleComponent,
     LogoutComponent,
     BirdsIndexComponent,
     BirdsDetailComponent,

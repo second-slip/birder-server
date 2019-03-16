@@ -6,7 +6,6 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { BirdsIndexComponent } from './birds-index/birds-index.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth-guard.service';
-import { ReactFormExampleComponent } from './react-form-example/react-form-example.component';
 import { LogoutComponent } from './logout/logout.component';
 import { BirdsDetailComponent } from './birds-detail/birds-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -32,7 +31,6 @@ const routes: Routes = [
   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },  //
   { path: 'birds-index', component: BirdsIndexComponent, canActivate: [AuthGuard] },
   { path: 'birds-detail/:id', component: BirdsDetailComponent, canActivate: [AuthGuard] },
-  { path: 'react-form-example', component: ReactFormExampleComponent },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
