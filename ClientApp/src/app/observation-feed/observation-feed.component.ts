@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { ObservationService } from '../observation.service';
 import { Router } from '@angular/router';
@@ -10,7 +10,6 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
   styleUrls: ['./observation-feed.component.scss']
 })
 export class ObservationFeedComponent implements OnInit {
-
   observations: ObservationViewModel[];
 
   constructor(private observationService: ObservationService
@@ -19,6 +18,7 @@ export class ObservationFeedComponent implements OnInit {
   ngOnInit() {
     this.getObservations();
   }
+
 
   getObservations(): void {
     this.observationService.getObservations()

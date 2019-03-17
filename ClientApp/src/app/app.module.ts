@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -29,6 +29,7 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { ObservationEditComponent } from './observation-edit/observation-edit.component';
 import { ObservationDeleteComponent } from './observation-delete/observation-delete.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { MglTimelineModule } from 'angular-mgl-timeline';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -53,7 +54,17 @@ export function tokenGetter() {
     RegisterComponent,
     ConfirmEmailComponent,
     ObservationEditComponent,
-    ObservationDeleteComponent
+    ObservationDeleteComponent,
+    
+
+    // MdToolbarModule,
+    //  MdTabsModule,
+    //   MdButtonModule,
+    //    MdInputModule, 
+    //    MdDatepickerModule,
+    //     MdNativeDateModule, 
+    //     MdCheckboxModule, 
+    //     MdRadioModule
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -73,6 +84,7 @@ export function tokenGetter() {
     MatCheckboxModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    MglTimelineModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -87,7 +99,8 @@ export function tokenGetter() {
     // JwtModule,
     AuthGuard,
     httpInterceptorProviders,
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    { provide: LOCALE_ID, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })
