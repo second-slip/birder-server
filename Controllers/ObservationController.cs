@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Birder.Data;
 using Birder.Data.Model;
+using Birder.Data.Repository;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -26,14 +27,17 @@ namespace Birder.Controllers
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IObservationRepository _observationRepository;
 
         public ObservationController(IMapper mapper
                                    , ApplicationDbContext context
-                                   , UserManager<ApplicationUser> userManager)
+                                   , UserManager<ApplicationUser> userManager
+                                   , IObservationRepository observationRepository)
         {
             _mapper = mapper;
             _context = context;
             _userManager = userManager;
+            _observationRepository = observationRepository;
         }
 
         // GET: api/Observation
