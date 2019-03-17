@@ -1,38 +1,33 @@
-<h2>Your observations feed</h2>
-
 <div *ngIf="!observations" class="loading">
   <p><em>Loading...</em></p>
   <mat-spinner></mat-spinner>
 </div>
 
-<div *ngIf="observations">
+<div class="container" *ngIf="observations">
 
-<p>This page is under development. You will eventually be able to filter the list and adjust the results per page,
-  <em>et cetera, et cetera...</em></p>
+  <h2>Your observations feed</h2>
 
-<div>
-  <a class="nav-link" [routerLink]='["/observation-add"]'>Add Observation</a>
-</div>
+  <p>This page is under development. You will eventually be able to filter the list and adjust the results per page,
+    <em>et cetera, et cetera...</em></p>
 
+  <div>
+    <a class="nav-link" [routerLink]='["/observation-add"]'>Add Observation</a>
+  </div>
 
-<div class="container">
   <div *ngFor="let observation of observations">
-    <div class="timeline-item" attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
+    <div class="timeline-item"
+      attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
       <h1><b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
         spotted by {{observation.user.userName}}</h1>
 
       <a routerLink="/observation-detail/{{observation.observationId}}">
-        View
+        View |
       </a>
       <a routerLink="/observation-edit/{{observation.observationId}}">
-        Edit
+        Edit |
       </a>
       <a routerLink="/observation-delete/{{observation.observationId}}">
         Delete
       </a>
     </div>
   </div>
-
-
-</div>
-
