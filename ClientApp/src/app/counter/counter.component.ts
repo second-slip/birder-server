@@ -2,7 +2,6 @@ import { Component, ViewEncapsulation, OnInit, ChangeDetectorRef } from '@angula
 import { GeocodeService } from '../geocode.service';
 import { LocationViewModel } from '../../_models/LocationViewModel';
 
-
 @Component({
   selector: 'app-counter-component',
   templateUrl: './counter.component.html',
@@ -73,20 +72,15 @@ export class CounterComponent implements OnInit {
       }
       );
   }
-  //
 
   public incrementCounter() {
     this.currentCount++;
-  }
-
-  positionChanged($pos) {
-    console.log($pos);
-    // pos = { lat: 1, lng: 1 };
   }
 
   placeMarker($event) {
     // console.log($event.coords.lat);
     // console.log($event.coords.lng);
     // alert($event.coords.lat + ',' + $event.coords.lng);
+    this.addressToCoordinates($event.coords.lat + ',' + $event.coords.lng);
   }
 }

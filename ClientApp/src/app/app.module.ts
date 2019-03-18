@@ -85,14 +85,11 @@ export function tokenGetter() {
       }
     }),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCC5kPNdH7hA7CPDrKV0-qISEKYtpwMlT0'
+      apiKey: 'AIzaSyD4IghqI4x7Sld9KP3sP6FtbN7wCPGySmY'
     })
 
   ],
   providers: [
-    // JwtHelper,
-    // JwtHelperService,
-    // JwtModule,
     [GeocodeService],
     AuthGuard,
     httpInterceptorProviders,
