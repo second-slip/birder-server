@@ -21,7 +21,6 @@ export class CounterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.addressToCoordinates('54.972237,-2.460856');
     // this.addressToCoordinates(this.location.lat.toString() + ',' + this.location.lng.toString());  // call from getObservation, etc...
   }
@@ -59,13 +58,13 @@ export class CounterComponent implements OnInit {
 
   addressToCoordinates(searchValue: string) {
     // alert(searchValue);
-    this.loading = true;
+    // this.loading = true;
     this.geocodeService.geocodeAddress(searchValue)
       .subscribe((location: LocationViewModel) => {
         // alert('success');
         this.location = location;
         // console.log(location);
-        this.loading = false;
+        // this.loading = false;
         this.searchAddress = '';
         this.ref.detectChanges();
         // this.geocodeService.reverseGeocode(this.location);
@@ -81,6 +80,22 @@ export class CounterComponent implements OnInit {
     // console.log($event.coords.lat);
     // console.log($event.coords.lng);
     // alert($event.coords.lat + ',' + $event.coords.lng);
-    this.addressToCoordinates($event.coords.lat + ',' + $event.coords.lng);
+    // const model = <LocationViewModel>{
+    //   latitude: $event.coords.lat,
+    //   longitude: $event.coords.lng,
+    //   formattedAddress: ''
+    // };
+    // this.loading = true;
+    this.geocodeService.reverseGeocode($event.coords.lat, $event.coords.lng)
+      .subscribe((location: LocationViewModel) => {
+        // alert('success');
+        this.location = location;
+        // console.log(location);
+        // this.loading = false;
+        this.searchAddress = '';
+        this.ref.detectChanges();
+        // this.geocodeService.reverseGeocode(this.location);
+      }
+      );
   }
 }

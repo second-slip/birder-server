@@ -32,23 +32,25 @@ export class GeocodeService {
     }
     return of(true);
   }
-
-  reverseGeocode(model: LocationViewModel): Observable<any> {
-    const latlng = { lat: model.latitude, lng: model.longitude };
+  // reverseGeocode(model: LocationViewModel): Observable<LocationViewModel> {
+  reverseGeocode(latitude: number, longitude: number): Observable<LocationViewModel> {
+    const latlng = { lat: latitude, lng: longitude };
 
     console.log('Start geocoding!');
     return this.waitForMapsToLoad().pipe(
       switchMap(() => {
-        return new Observable<any>(observer => {
+        return new Observable<LocationViewModel>(observer => {
           this.geocoder.geocode({ 'location': latlng }, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
               console.log('Geocoding complete!');
               observer.next({
-                formattedAddress: results[0].formatted_address,
+                latitude: results[0].geometry.location.lat(),
+                longitude: results[0].geometry.location.lng(),
+                formattedAddress: results[0].formatted_address
               });
             } else {
               console.log('Error - ', results, ' & Status - ', status);
-              observer.next({ x: 'lat: 0, lng: 0' });
+              observer.next({ latitude: 0, longitude: 0, formattedAddress: '' });
             }
             observer.complete();
           });

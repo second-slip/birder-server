@@ -93,8 +93,8 @@ namespace Birder.Controllers
                     newObservation.Bird = observedBird;
 
                     // temporary
-                    newObservation.LocationLatitude = 0;
-                    newObservation.LocationLongitude = 0;
+                    newObservation.LocationLatitude = 54.972237;
+                    newObservation.LocationLongitude = -2.460856;
                     //
                     newObservation.CreationDate = DateTime.Now;
                     newObservation.LastUpdateDate = DateTime.Now;
