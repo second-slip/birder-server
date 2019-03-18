@@ -1,4 +1,3 @@
-
 <div *ngIf="!observation" class="loading">
   <p><em>Loading...</em></p>
   <mat-spinner></mat-spinner>
@@ -6,13 +5,33 @@
 
 <div *ngIf="observation">
   <h2>Observation id: {{observation.observationId}}</h2>
-  <br>
-  <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}} observed at {{observation.observationDateTime}}
-  <br>
+  <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
+  observed at {{observation.observationDateTime}}
   observed by {{observation.user.userName }}
-  <br>
-  <button (click)="goBack()">go back</button>
 
+  <!-- <p>latitude: {{observation.locationLatitude}}; longitude: {{observation.locationLongitude}}; address: {{geolocation}} -->
+  <!-- </p> -->
+  <div class="container">
+    <h4>Location map</h4>
+    <agm-map [latitude]="observation?.locationLatitude"
+             [longitude]="observation?.locationLongitude"
+             [zoom]="8"
+             [disableDefaultUI]="false"
+             [zoomControl]="true">
+      <agm-marker [latitude]="observation?.locationLatitude"
+                  [longitude]="observation?.locationLongitude">
+        <agm-info-window [isOpen]="true"><b>Information:</b><br>{{observation.quantity}}
+          {{observation.bird.englishName}}
+          spotted at {{geolocation}}</agm-info-window>
+      </agm-marker>
+    </agm-map>
+    <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon"><small><em>You can change the location in the <a
+          routerLink="/observation-edit/{{observation.observationId}}">edit observation</a> page</em></small></span>
+          <!-- <mat-icon>home</mat-icon><span class="aligned-with-icon">Sample Text</span> -->
+        </div>
+  <br>
+
+  <button (click)="goBack()">go back</button>
 
   <a routerLink="/observation-edit/{{observation.observationId}}">
     Edit

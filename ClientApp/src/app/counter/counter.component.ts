@@ -58,13 +58,13 @@ export class CounterComponent implements OnInit {
 
   addressToCoordinates(searchValue: string) {
     // alert(searchValue);
-    // this.loading = true;
+    this.loading = true;
     this.geocodeService.geocodeAddress(searchValue)
       .subscribe((location: LocationViewModel) => {
         // alert('success');
         this.location = location;
         // console.log(location);
-        // this.loading = false;
+        this.loading = false;
         this.searchAddress = '';
         this.ref.detectChanges();
         // this.geocodeService.reverseGeocode(this.location);
