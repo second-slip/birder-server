@@ -30,6 +30,8 @@ import { ObservationEditComponent } from './observation-edit/observation-edit.co
 import { ObservationDeleteComponent } from './observation-delete/observation-delete.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { MglTimelineModule } from 'angular-mgl-timeline';
+import { AgmCoreModule } from '@agm/core';
+import { GeocodeService } from './geocode.service';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -54,17 +56,7 @@ export function tokenGetter() {
     RegisterComponent,
     ConfirmEmailComponent,
     ObservationEditComponent,
-    ObservationDeleteComponent,
-    
-
-    // MdToolbarModule,
-    //  MdTabsModule,
-    //   MdButtonModule,
-    //    MdInputModule, 
-    //    MdDatepickerModule,
-    //     MdNativeDateModule, 
-    //     MdCheckboxModule, 
-    //     MdRadioModule
+    ObservationDeleteComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -91,12 +83,17 @@ export function tokenGetter() {
         whitelistedDomains: ['localhost:55722'],
         blacklistedRoutes: ['http://localhost:55722/Authentication/Login']
       }
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCC5kPNdH7hA7CPDrKV0-qISEKYtpwMlT0'
     })
+
   ],
   providers: [
     // JwtHelper,
     // JwtHelperService,
     // JwtModule,
+    [GeocodeService],
     AuthGuard,
     httpInterceptorProviders,
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

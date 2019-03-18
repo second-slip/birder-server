@@ -5,3 +5,49 @@
 <p>Current count: <strong>{{ currentCount }}</strong></p>
 
 <button (click)="incrementCounter()">Increment</button>
+
+
+<h1>Angular Google Maps (AGM) Demo</h1>
+
+<form (ngSubmit)="addressToCoordinates(searchAddress)">
+  <input type="text" name="searchAddress" placeholder="Type location here" required [(ngModel)]="searchAddress" [ngModelOptions]="{standalone: true}">
+  <button type="submit">Show Location</button>
+  <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
+</form>
+<p>latitude: {{location.latitude}}; longitude: {{location.longitude}}; address: {{location.formattedAddress}}</p>
+<p *ngIf="geoError">
+    <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
+      <strong>Warning!</strong> Better check yourself, you're not looking too good.
+    </ngb-alert>
+  </p>
+<!--  -->
+<agm-map *ngIf="!loading" 
+  [latitude]="location?.latitude"
+  [longitude]="location?.longitude"
+  [zoom]="8"
+  [disableDefaultUI]="false"
+  [zoomControl]="true">
+  <agm-marker 
+      [latitude]="location?.latitude"
+      [longitude]="location?.longitude">
+  <agm-info-window><b>Information:</b><br>14 Kestrel spotted at {{location.formattedAddress}}</agm-info-window>
+</agm-marker>
+</agm-map>
+<p *ngIf="loading">Loading...</p>
+
+<!-- <h1>Map</h1> -->
+
+<!-- this creates a google map on the page with the given lat/lng from -->
+<!-- the component as the initial center of the map: -->
+<!-- <agm-map [latitude]="lat"
+         [longitude]="lng">
+    <agm-marker [latitude]="lat"
+                [longitude]="lng"
+                [label]="'Hello'"
+                [markerDraggable]="true" 
+                (dragEnd)="placeMarker($event)"
+                (positionChanged)="positionChanged($event)">
+        <agm-info-window>Latitude: {{lat}}<br/>Longitude: {{lng}}</agm-info-window>
+        
+    </agm-marker>
+</agm-map> -->
