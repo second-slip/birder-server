@@ -27,6 +27,38 @@
 
           <form [formGroup]="editObservationForm" novalidate (ngSubmit)="onSubmit(editObservationForm.value)">
 
+          <!-- Google map control -->
+          <div class="container">
+              <h4>Location map</h4>
+              <form (ngSubmit)="useGeolocation(searchAddress)">
+                <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress" [ngModelOptions]="{standalone: true}" required>
+                <button type="submit" triggers="mouseenter:mouseleave"
+                  ngbPopover='- Type a place name (e.g. Canterbury, UK); or an specific address (e.g. 1 High St, Canterbury CT1 2JH)' 
+                  popoverTitle="Search help">Show Location</button>
+                <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
+              </form>
+              
+              <p *ngIf="geoError">
+                  <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
+                    <strong>Warning!</strong> Better check yourself, you're not looking too good.
+                  </ngb-alert>
+                </p>
+              <!-- <p>latitude: {{editObservationForm.get('locationLatitude').value}}; longitude: {{editObservationForm.get('locationLongitude').value}}; address: {{geolocation}}</p> -->
+              <agm-map [latitude]="editObservationForm.get('locationLatitude').value"
+                       [longitude]="editObservationForm.get('locationLongitude').value"
+                       [zoom]="8"
+                       [disableDefaultUI]="false"
+                       [zoomControl]="true">
+                <agm-marker [latitude]="editObservationForm.get('locationLatitude').value"
+                            [longitude]="editObservationForm.get('locationLongitude').value"
+                            [markerDraggable]="true" 
+                            (dragEnd)="placeMarker($event)">
+                  <agm-info-window [isOpen]="true">Observed at {{geolocation}}</agm-info-window>
+                </agm-marker>
+              </agm-map>
+            </div>
+          <!-- Google map control -->
+
             <mat-form-field class="full-width" hidden>
               <input matInput type="number" placeholder="observationId" formControlName="observationId">
             </mat-form-field>

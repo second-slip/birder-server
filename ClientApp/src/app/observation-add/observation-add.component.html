@@ -39,7 +39,7 @@
                   <strong>Warning!</strong> Better check yourself, you're not looking too good.
                 </ngb-alert>
               </p>
-            <p>latitude: {{addObservationForm.get('locationLatitude').value}}; longitude: {{addObservationForm.get('locationLongitude').value}}; address: {{geolocation}}</p>
+            
             <agm-map [latitude]="addObservationForm.get('locationLatitude').value"
                      [longitude]="addObservationForm.get('locationLongitude').value"
                      [zoom]="8"
@@ -52,9 +52,7 @@
                 <agm-info-window [isOpen]="true">Observed at {{geolocation}}</agm-info-window>
               </agm-marker>
             </agm-map>
-            <!-- <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon"><small><em>You can change the location in
-                  the <a routerLink="/observation-edit/{{observation.observationId}}">edit observation</a>
-                  page</em></small></span> -->
+
           </div>
           <!--  -->
           <mat-form-field class="half-width">
