@@ -11,7 +11,7 @@
       <div class='col-sm-2'>
       </div>
     <div class="col-sm-8">
-      <div class="observation-add-container">
+      <div class="observation-add-container" *ngIf="addObservationForm">
         <h2 class="section-title">Add an observation</h2>
         <div *ngIf="invalidAddObservation" class="alert alert-danger">
           <p>There is an error in your observation</p>

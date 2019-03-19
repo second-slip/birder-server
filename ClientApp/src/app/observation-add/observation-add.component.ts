@@ -7,6 +7,8 @@ import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
 import { BirdsService } from '../birds.service';
 import { LocationViewModel } from '../../_models/LocationViewModel';
 import { GeocodeService } from '../geocode.service';
+import { UserService } from '../user.service';
+import { UserViewModel } from '../../_models/UserViewModel';
 
 @Component({
   selector: 'app-observation-add',
@@ -24,6 +26,7 @@ export class ObservationAddComponent implements OnInit {
   geolocation: string;
   searchAddress = '';
   geoError: string;
+  user: UserViewModel;
   //
 
   addObservation_validation_messages = {
@@ -37,16 +40,28 @@ export class ObservationAddComponent implements OnInit {
 
   constructor(private router: Router
             , private birdsService: BirdsService
+            , private userService: UserService
             , private formBuilder: FormBuilder
             , private geocodeService: GeocodeService
             , private ref: ChangeDetectorRef) { }
 
   ngOnInit() {
-    // ****
-    this.useGeolocation('54.972237,-2.460856');
-    // ****
+    this.getUser();
     this.getBirds();
-    this.createForms();
+  }
+
+  getGeolocation(): void {
+    this.geocodeService.reverseGeocode(this.user.defaultLocationLatitude, this.user.defaultLocationLongitude)
+    .subscribe(
+      (data: LocationViewModel) => {
+      this.geolocation = data.formattedAddress;
+
+      this.ref.detectChanges();
+    },
+    (error: any) => {
+      //
+    }
+    );
   }
 
   useGeolocation(searchValue: string) {
@@ -108,8 +123,8 @@ export class ObservationAddComponent implements OnInit {
 
   createForms(): void {
     this.addObservationForm = this.formBuilder.group({
-      lat: new FormControl(54.972237),
-      lng: new FormControl(-2.460856),
+      lat: new FormControl(this.user.defaultLocationLatitude),
+      lng: new FormControl(this.user.defaultLocationLongitude),
       quantity: new FormControl(1, Validators.compose([
         Validators.required
       ])),
@@ -156,4 +171,33 @@ export class ObservationAddComponent implements OnInit {
       });
   }
 
+  getUser(): void {
+    this.userService.getUser()
+    .subscribe(
+      (data: UserViewModel) => {
+
+        this.user = data;
+        this.createForms();
+        this.getGeolocation();
+      },
+      (error: ErrorReportViewModel) => {
+        console.log('could not get the user, using default coordinates');
+
+        const userTemp = <UserViewModel> {
+          userName = '',
+          profileImage = '',
+          defaultLocationLatitude = 54.972237,
+          defaultLocationLongitude = -2.460856
+        };
+        // const viewModelObject = <RegisterViewModel> {
+        //   userName: value.userName,
+        //   email: value.email,
+        //   password: value.matching_passwords.password,
+        //   confirmPassword: value.matching_passwords.confirmPassword
+        // };
+        this.user = userTemp;
+        this.createForms();
+        this.getGeolocation();
+      });
+  }
 }
