@@ -1,59 +1,7 @@
-<!-- <h1>That page isn't ready yet...</h1>
+<h1>That page isn't ready yet...</h1>
 
 <p>But you can play with the Counter instead:</p>
 
-<p>Current count: <strong>{{ currentCount }}</strong></p> -->
+<p>Current count: <strong>{{ currentCount }}</strong></p>
 
-<!-- <button (click)="incrementCounter()">Increment</button> -->
-
-
-<h1>Google Maps (AGM)</h1>
-
-<form (ngSubmit)="addressToCoordinates(searchAddress)">
-  <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress" [ngModelOptions]="{standalone: true}" required>
-  <button type="submit" triggers="mouseenter:mouseleave"
-    ngbPopover='- Type a place name (e.g. Canterbury, UK); or an specific address (e.g. 1 High St, Canterbury CT1 2JH)' 
-    popoverTitle="Search help">Show Location</button>
-  <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
-</form>
-<p>add boostrap 'popover' to display search help text</p>
-<p>latitude: {{location.latitude}}; longitude: {{location.longitude}}; address: {{location.formattedAddress}}</p>
-<p *ngIf="geoError">
-    <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
-      <strong>Warning!</strong> Better check yourself, you're not looking too good.
-    </ngb-alert>
-  </p>
-
-<agm-map *ngIf="!loading" 
-  [latitude]="location?.latitude"
-  [longitude]="location?.longitude"
-  [zoom]="8"
-  [disableDefaultUI]="false"
-  [zoomControl]="true">
-  <agm-marker
-      [latitude]="location?.latitude"
-      [longitude]="location?.longitude"
-      [markerDraggable]="true" 
-      (dragEnd)="placeMarker($event)">
-  <agm-info-window [isOpen]="true"><b>Information:</b><br>14 Kestrel spotted at {{location.formattedAddress}}</agm-info-window>
-</agm-marker>
-</agm-map>
-<p *ngIf="loading">Loading...</p>
-
-
-
-<!-- this creates a google map on the page with the given lat/lng from
- the component as the initial center of the map: -->
-<!-- <agm-map [latitude]="location?.latitude"
-         [longitude]="location?.longitude">
-    <agm-marker [latitude]="location?.latitude"
-                [longitude]="location?.longitude"
-                [label]="'Hello'"
-                [markerDraggable]="true" 
-                (dragEnd)="placeMarker($event)"
-                (positionChanged)="positionChanged($event)">
-         <agm-info-window>Latitude: {{lat}}<br/>Longitude: {{lng}}</agm-info-window>
-
-        
-    </agm-marker>
-</agm-map> -->
+<button (click)="incrementCounter()">Increment</button>
