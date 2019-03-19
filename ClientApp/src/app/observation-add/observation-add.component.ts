@@ -183,21 +183,26 @@ export class ObservationAddComponent implements OnInit {
       (error: ErrorReportViewModel) => {
         console.log('could not get the user, using default coordinates');
 
-        const userTemp = <UserViewModel> {
-          userName = '',
-          profileImage = '',
-          defaultLocationLatitude = 54.972237,
-          defaultLocationLongitude = -2.460856
-        };
+
         // const viewModelObject = <RegisterViewModel> {
         //   userName: value.userName,
         //   email: value.email,
         //   password: value.matching_passwords.password,
         //   confirmPassword: value.matching_passwords.confirmPassword
         // };
-        this.user = userTemp;
+        // this.user = userTemp;
         this.createForms();
         this.getGeolocation();
       });
+  }
+
+  hghg() {
+    const userTemp = <UserViewModel> {
+      userName = '',
+      profileImage = '',
+      defaultLocationLatitude = 54.972237,
+      defaultLocationLongitude = -2.460856
+
+    };
   }
 }
