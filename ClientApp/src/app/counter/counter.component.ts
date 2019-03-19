@@ -15,6 +15,7 @@ export class CounterComponent implements OnInit {
   loading: boolean;
   geoError: string;
 
+  
   constructor(
     private geocodeService: GeocodeService,
     private ref: ChangeDetectorRef,

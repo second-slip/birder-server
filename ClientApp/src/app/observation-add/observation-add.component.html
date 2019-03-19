@@ -23,7 +23,40 @@
         </div>
 
         <form [formGroup]="addObservationForm" novalidate (ngSubmit)="onSubmit(addObservationForm.value)">
-
+          <!--  -->
+          <div class="container">
+            <h4>Location map</h4>
+            <form (ngSubmit)="useGeolocation(searchAddress)">
+              <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress" [ngModelOptions]="{standalone: true}" required>
+              <button type="submit" triggers="mouseenter:mouseleave"
+                ngbPopover='- Type a place name (e.g. Canterbury, UK); or an specific address (e.g. 1 High St, Canterbury CT1 2JH)' 
+                popoverTitle="Search help">Show Location</button>
+              <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
+            </form>
+            
+            <p *ngIf="geoError">
+                <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
+                  <strong>Warning!</strong> Better check yourself, you're not looking too good.
+                </ngb-alert>
+              </p>
+            <p>latitude: {{addObservationForm.get('lat').value}}; longitude: {{addObservationForm.get('lng').value}}; address: {{geolocation}}</p>
+            <agm-map [latitude]="addObservationForm.get('lat').value"
+                     [longitude]="addObservationForm.get('lng').value"
+                     [zoom]="8"
+                     [disableDefaultUI]="false"
+                     [zoomControl]="true">
+              <agm-marker [latitude]="addObservationForm.get('lat').value"
+                          [longitude]="addObservationForm.get('lng').value"
+                          [markerDraggable]="true" 
+                          (dragEnd)="placeMarker($event)">
+                <agm-info-window [isOpen]="true">Observed at {{geolocation}}</agm-info-window>
+              </agm-marker>
+            </agm-map>
+            <!-- <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon"><small><em>You can change the location in
+                  the <a routerLink="/observation-edit/{{observation.observationId}}">edit observation</a>
+                  page</em></small></span> -->
+          </div>
+          <!--  -->
           <mat-form-field class="half-width">
             <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
             <mat-error *ngFor="let validation of addObservation_validation_messages.quantity">
@@ -82,6 +115,7 @@
 
         </form>
       </div>
+
     </div>
     <div class='col-sm-2'>
       </div>

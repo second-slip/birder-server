@@ -3,6 +3,7 @@ app-observation-add {
       margin-top: 50px;
       margin-right: 50px;
     }
+
   // Workaround for https://github.com/angular/material2/issues/4580.
     // mat-form-field .mat-form-field {
     //   &-underline {
@@ -53,3 +54,7 @@ app-observation-add {
       margin-top: 30px;
     }
   }
+
+  agm-map {
+    height: 300px;
+}
