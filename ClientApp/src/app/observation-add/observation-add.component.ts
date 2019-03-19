@@ -41,12 +41,12 @@ export class ObservationAddComponent implements OnInit {
   };
 
   constructor(private router: Router
-            , private birdsService: BirdsService
-            , private observationService: ObservationService
-            , private userService: UserService
-            , private formBuilder: FormBuilder
-            , private geocodeService: GeocodeService
-            , private ref: ChangeDetectorRef) { }
+    , private birdsService: BirdsService
+    , private observationService: ObservationService
+    , private userService: UserService
+    , private formBuilder: FormBuilder
+    , private geocodeService: GeocodeService
+    , private ref: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.getUser();
@@ -55,21 +55,19 @@ export class ObservationAddComponent implements OnInit {
 
   getGeolocation(): void {
     this.geocodeService.reverseGeocode(this.user.defaultLocationLatitude, this.user.defaultLocationLongitude)
-    .subscribe(
-      (data: LocationViewModel) => {
-      this.geolocation = data.formattedAddress;
+      .subscribe(
+        (data: LocationViewModel) => {
+          this.geolocation = data.formattedAddress;
 
-      this.ref.detectChanges();
-    },
-    (error: any) => {
-      //
-    }
-    );
+          this.ref.detectChanges();
+        },
+        (error: any) => {
+          //
+        }
+      );
   }
 
   useGeolocation(searchValue: string) {
-    // alert(searchValue);
-    // this.loading = true;
     this.geocodeService.geocodeAddress(searchValue)
       .subscribe((location: LocationViewModel) => {
         this.addObservationForm.get('locationLatitude').setValue(location.latitude);
@@ -77,7 +75,6 @@ export class ObservationAddComponent implements OnInit {
         this.geolocation = location.formattedAddress;
         this.searchAddress = '';
         this.ref.detectChanges();
-        // this.geocodeService.reverseGeocode(this.location);
       }
       );
   }
@@ -115,12 +112,12 @@ export class ObservationAddComponent implements OnInit {
     this.geocodeService.reverseGeocode($event.coords.lat, $event.coords.lng)
       .subscribe(
         (location: LocationViewModel) => {
-        this.addObservationForm.get('locationLatitude').setValue(location.latitude);
-        this.addObservationForm.get('locationLongitude').setValue(location.longitude);
-        this.geolocation = location.formattedAddress;
-        this.ref.detectChanges();
-      },
-      (error: any) => {}
+          this.addObservationForm.get('locationLatitude').setValue(location.latitude);
+          this.addObservationForm.get('locationLongitude').setValue(location.longitude);
+          this.geolocation = location.formattedAddress;
+          this.ref.detectChanges();
+        },
+        (error: any) => { }
       );
   }
 
@@ -148,52 +145,50 @@ export class ObservationAddComponent implements OnInit {
 
   onSubmit(value): void {
     this.observationService.addObservation(value)
-    .subscribe(
-      (data: ObservationViewModel) => {
-        this.addObservationForm.reset();
-        this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
-      },
-      (error: ErrorReportViewModel) => {
-        // console.log(error); alert('hello');
-        this.errorReport = error;
-        this.invalidAddObservation = true;
-        console.log(error);
-        console.log(error.friendlyMessage);
-        console.log('unsuccessful add observation');
-      }
-    );
+      .subscribe(
+        (data: ObservationViewModel) => {
+          this.addObservationForm.reset();
+          this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
+        },
+        (error: ErrorReportViewModel) => {
+          // console.log(error); alert('hello');
+          this.errorReport = error;
+          this.invalidAddObservation = true;
+          console.log(error);
+          console.log(error.friendlyMessage);
+          console.log('unsuccessful add observation');
+        }
+      );
   }
 
   getBirds(): void {
     this.birdsService.getBirds()
-    .subscribe(
-      (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
-      (error: ErrorReportViewModel) => {
-        console.log('could not get the birds ddl');
-      });
+      .subscribe(
+        (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
+        (error: ErrorReportViewModel) => {
+          console.log('could not get the birds ddl');
+        });
   }
 
   getUser(): void {
     this.userService.getUser()
-    .subscribe(
-      (data: UserViewModel) => {
-
-        this.user = data;
-        this.createForms();
-        this.getGeolocation();
-      },
-      (error: ErrorReportViewModel) => {
-        console.log('could not get the user, using default coordinates');
-        const userTemp = <UserViewModel> {
-          userName: '',
-          profileImage: '',
-          defaultLocationLatitude: 54.972237,
-          defaultLocationLongitude: -2.4608560000000352,
-        };
-        this.user = userTemp;
-        this.createForms();
-        this.getGeolocation();
-      });
+      .subscribe(
+        (data: UserViewModel) => {
+          this.user = data;
+          this.createForms();
+          this.getGeolocation();
+        },
+        (error: ErrorReportViewModel) => {
+          console.log('could not get the user, using default coordinates');
+          const userTemp = <UserViewModel>{
+            userName: '',
+            profileImage: '',
+            defaultLocationLatitude: 54.972237,
+            defaultLocationLongitude: -2.4608560000000352,
+          };
+          this.user = userTemp;
+          this.createForms();
+          this.getGeolocation();
+        });
   }
-
 }
