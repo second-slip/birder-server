@@ -92,13 +92,12 @@ namespace Birder.Controllers
                                               select b).FirstOrDefaultAsync();
                     newObservation.Bird = observedBird;
 
-                    // temporary
-                    newObservation.LocationLatitude = 54.972237;
-                    newObservation.LocationLongitude = -2.460856;
-                    //
+                    // // temporary
+                    // newObservation.LocationLatitude = 54.972237;
+                    // newObservation.LocationLongitude = -2.460856;
+                    // //
                     newObservation.CreationDate = DateTime.Now;
                     newObservation.LastUpdateDate = DateTime.Now;
-
 
                     _context.Observations.Add(newObservation);
                     await _context.SaveChangesAsync();

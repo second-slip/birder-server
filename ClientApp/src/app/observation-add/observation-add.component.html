@@ -39,14 +39,14 @@
                   <strong>Warning!</strong> Better check yourself, you're not looking too good.
                 </ngb-alert>
               </p>
-            <p>latitude: {{addObservationForm.get('lat').value}}; longitude: {{addObservationForm.get('lng').value}}; address: {{geolocation}}</p>
-            <agm-map [latitude]="addObservationForm.get('lat').value"
-                     [longitude]="addObservationForm.get('lng').value"
+            <p>latitude: {{addObservationForm.get('locationLatitude').value}}; longitude: {{addObservationForm.get('locationLongitude').value}}; address: {{geolocation}}</p>
+            <agm-map [latitude]="addObservationForm.get('locationLatitude').value"
+                     [longitude]="addObservationForm.get('locationLongitude').value"
                      [zoom]="8"
                      [disableDefaultUI]="false"
                      [zoomControl]="true">
-              <agm-marker [latitude]="addObservationForm.get('lat').value"
-                          [longitude]="addObservationForm.get('lng').value"
+              <agm-marker [latitude]="addObservationForm.get('locationLatitude').value"
+                          [longitude]="addObservationForm.get('locationLongitude').value"
                           [markerDraggable]="true" 
                           (dragEnd)="placeMarker($event)">
                 <agm-info-window [isOpen]="true">Observed at {{geolocation}}</agm-info-window>

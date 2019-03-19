@@ -9,6 +9,8 @@ import { LocationViewModel } from '../../_models/LocationViewModel';
 import { GeocodeService } from '../geocode.service';
 import { UserService } from '../user.service';
 import { UserViewModel } from '../../_models/UserViewModel';
+import { ObservationViewModel } from '../../_models/ObservationViewModel';
+import { ObservationService } from '../observation.service';
 
 @Component({
   selector: 'app-observation-add',
@@ -40,6 +42,7 @@ export class ObservationAddComponent implements OnInit {
 
   constructor(private router: Router
             , private birdsService: BirdsService
+            , private observationService: ObservationService
             , private userService: UserService
             , private formBuilder: FormBuilder
             , private geocodeService: GeocodeService
@@ -69,8 +72,8 @@ export class ObservationAddComponent implements OnInit {
     // this.loading = true;
     this.geocodeService.geocodeAddress(searchValue)
       .subscribe((location: LocationViewModel) => {
-        this.addObservationForm.get('lat').setValue(location.latitude);
-        this.addObservationForm.get('lng').setValue(location.longitude);
+        this.addObservationForm.get('locationLatitude').setValue(location.latitude);
+        this.addObservationForm.get('locationLongitude').setValue(location.longitude);
         this.geolocation = location.formattedAddress;
         this.searchAddress = '';
         this.ref.detectChanges();
@@ -112,8 +115,8 @@ export class ObservationAddComponent implements OnInit {
     this.geocodeService.reverseGeocode($event.coords.lat, $event.coords.lng)
       .subscribe(
         (location: LocationViewModel) => {
-        this.addObservationForm.get('lat').setValue(location.latitude);
-        this.addObservationForm.get('lng').setValue(location.longitude);
+        this.addObservationForm.get('locationLatitude').setValue(location.latitude);
+        this.addObservationForm.get('locationLongitude').setValue(location.longitude);
         this.geolocation = location.formattedAddress;
         this.ref.detectChanges();
       },
@@ -123,8 +126,8 @@ export class ObservationAddComponent implements OnInit {
 
   createForms(): void {
     this.addObservationForm = this.formBuilder.group({
-      lat: new FormControl(this.user.defaultLocationLatitude),
-      lng: new FormControl(this.user.defaultLocationLongitude),
+      locationLatitude: new FormControl(this.user.defaultLocationLatitude),
+      locationLongitude: new FormControl(this.user.defaultLocationLongitude),
       quantity: new FormControl(1, Validators.compose([
         Validators.required
       ])),
@@ -144,22 +147,21 @@ export class ObservationAddComponent implements OnInit {
   }
 
   onSubmit(value): void {
-    console.log(value);
-    // this.observationService.addObservation(value)
-    // .subscribe(
-    //   (data: ObservationViewModel) => {
-    //     this.addObservationForm.reset();
-    //     this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
-    //   },
-    //   (error: ErrorReportViewModel) => {
-    //     // console.log(error); alert('hello');
-    //     this.errorReport = error;
-    //     this.invalidAddObservation = true;
-    //     console.log(error);
-    //     console.log(error.friendlyMessage);
-    //     console.log('unsuccessful add observation');
-    //   }
-    // );
+    this.observationService.addObservation(value)
+    .subscribe(
+      (data: ObservationViewModel) => {
+        this.addObservationForm.reset();
+        this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
+      },
+      (error: ErrorReportViewModel) => {
+        // console.log(error); alert('hello');
+        this.errorReport = error;
+        this.invalidAddObservation = true;
+        console.log(error);
+        console.log(error.friendlyMessage);
+        console.log('unsuccessful add observation');
+      }
+    );
   }
 
   getBirds(): void {
@@ -182,27 +184,16 @@ export class ObservationAddComponent implements OnInit {
       },
       (error: ErrorReportViewModel) => {
         console.log('could not get the user, using default coordinates');
-
-
-        // const viewModelObject = <RegisterViewModel> {
-        //   userName: value.userName,
-        //   email: value.email,
-        //   password: value.matching_passwords.password,
-        //   confirmPassword: value.matching_passwords.confirmPassword
-        // };
-        // this.user = userTemp;
+        const userTemp = <UserViewModel> {
+          userName: '',
+          profileImage: '',
+          defaultLocationLatitude: 54.972237,
+          defaultLocationLongitude: -2.4608560000000352,
+        };
+        this.user = userTemp;
         this.createForms();
         this.getGeolocation();
       });
   }
 
-  hghg() {
-    const userTemp = <UserViewModel> {
-      userName = '',
-      profileImage = '',
-      defaultLocationLatitude = 54.972237,
-      defaultLocationLongitude = -2.460856
-
-    };
-  }
 }

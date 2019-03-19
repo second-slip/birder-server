@@ -37,7 +37,6 @@ namespace Birder.Controllers
             _userRepository = userRepository;
         }
 
-        // GET: api/User
         [HttpGet, Route("GetUser")]
         public async Task<IActionResult> GetUser()
         {
