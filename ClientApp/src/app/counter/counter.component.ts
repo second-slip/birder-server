@@ -24,6 +24,8 @@ export class CounterComponent implements OnInit {
   fruits: string[] = ['Lemon'];
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
+  panelOpenState = true;
+
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
