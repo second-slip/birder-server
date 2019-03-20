@@ -30,6 +30,7 @@ export class ObservationAddComponent implements OnInit {
   geoError: string;
   user: UserViewModel;
   //
+  hideAlert = false;
 
   addObservation_validation_messages = {
     'quantity': [
@@ -190,5 +191,10 @@ export class ObservationAddComponent implements OnInit {
           this.createForms();
           this.getGeolocation();
         });
+  }
+
+  dismissAlert(): void {
+    alert(this.hideAlert);
+    this.hideAlert = true;
   }
 }
