@@ -26,7 +26,23 @@ namespace Birder.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Observation>>> GetObservations()
         {
+            //var viewModel = new ObservationsAnalysisDto();
+            //viewModel.TotalObservations = await (from observations in _dbContext.Observations
+            //                                     where (observations.ApplicationUserId == user.Id)
+            //                                     select observations).CountAsync();
+
+            //viewModel.TotalSpecies = await (from observations in _dbContext.Observations
+            //                                where (observations.ApplicationUserId == user.Id)
+            //                                select observations.BirdId).Distinct().CountAsync();
+            //return viewModel;
             return Ok(); // await _context.Observations.ToListAsync();
         }       
+    }
+
+    public class ObservationAnalysisViewModel
+    {
+        public int TotalObservationsCount { get; set; }
+
+        public int UniqueSpeciesCount { get; set; }
     }
 }
