@@ -26,7 +26,7 @@ namespace Birder.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Observation>>> GetObservations()
         {
-            return await _context.Observations.ToListAsync();
+            return Ok(); // await _context.Observations.ToListAsync();
         }       
     }
 }
