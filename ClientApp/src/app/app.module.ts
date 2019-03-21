@@ -31,6 +31,7 @@ import { ObservationDeleteComponent } from './observation-delete/observation-del
 import { JwtModule } from '@auth0/angular-jwt';
 import { AgmCoreModule } from '@agm/core';
 import { GeocodeService } from './geocode.service';
+import { InfoObservationCountComponent } from './info-observation-count/info-observation-count.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -55,7 +56,8 @@ export function tokenGetter() {
     RegisterComponent,
     ConfirmEmailComponent,
     ObservationEditComponent,
-    ObservationDeleteComponent
+    ObservationDeleteComponent,
+    InfoObservationCountComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

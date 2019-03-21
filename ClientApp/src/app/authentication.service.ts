@@ -21,14 +21,10 @@ export class AuthenticationService {
   isAuthenticated$: Observable<boolean> = this.isAuthenticated.asObservable();
 
   constructor(private http: HttpClient
-    //, private jwtHelper: JwtHelper
     , private jwtHelper: JwtHelperService
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
   login(viewModel: LoginViewModel): Observable<any | ErrorReportViewModel> {
-    // TODO: remove console log
-    // console.log('loginservice - LOGIN');
-    // console.log(viewModel);
 
     return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
       .pipe(
