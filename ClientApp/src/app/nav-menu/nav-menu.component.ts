@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs';
 export class NavMenuComponent implements OnInit {
   isNavbarCollapsed = true;
   isLoggedIn: boolean;
-
   subscription: Subscription;
 
   constructor(private authenticationService: AuthenticationService) {}
@@ -18,7 +17,6 @@ export class NavMenuComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = this.authenticationService.isAuthenticated$
       .subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
-      // check login
       this.checkLoggedInStatus();
   }
 
