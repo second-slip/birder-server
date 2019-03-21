@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { HttpErrorHandlerService } from './http-error-handler.service';
@@ -15,8 +15,14 @@ const httpOptions = {
 })
 export class ObservationService {
 
+  private observationsChanged = new Subject<any>();
+
+  observationsChanged$ = this.observationsChanged.asObservable();
+
   constructor(private http: HttpClient
-    , private httpErrorHandlerService: HttpErrorHandlerService) { }
+    , private httpErrorHandlerService: HttpErrorHandlerService) {
+
+  }
 
   getObservations(): Observable<ObservationViewModel[] | ErrorReportViewModel> {
     return this.http.get<ObservationViewModel[]>('api/Observation')
@@ -31,14 +37,14 @@ export class ObservationService {
 
     return this.http.get<ObservationViewModel>('api/Observation/GetObservation', options)
       .pipe(
-        tap(observation => this.log(`fetched observation with id: ${observation.observationId}`)),
+        // tap(observation => this.log(`fetched observation with id: ${observation.observationId}`)),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   addObservation(viewModel: ObservationViewModel): Observable<ObservationViewModel | ErrorReportViewModel> {
     return this.http.post<ObservationViewModel>('api/Observation/PostObservation', viewModel, httpOptions)
       .pipe(
-        tap(observations => this.log('fetched added bird')),
+        tap(observations => { this.announceObservationsChanged(); }),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
@@ -50,6 +56,7 @@ export class ObservationService {
 
     return this.http.put<ObservationViewModel>('api/Observation/UpdateObservation', viewModel, options)
       .pipe(
+        tap(observations => { this.announceObservationsChanged(); }),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
@@ -59,12 +66,11 @@ export class ObservationService {
 
     return this.http.delete<ObservationViewModel>('api/Observation/DeleteObservation', options)
       .pipe(
+        tap(observations => { this.announceObservationsChanged(); }),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  /** Log a HeroService message with the MessageService */
-  private log(message: string) {
-    console.log(message);
-    // this.messageService.add(`HeroService: ${message}`);
+  announceObservationsChanged(): void {
+    this.observationsChanged.next();
   }
 }
