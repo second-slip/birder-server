@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ObservationService } from '../observation.service';
 import { ObservationsAnalysisService } from '../observations-analysis.service';
-import { ObservationAnalysisViewModel } from 'src/_models/ObservationAnalysisViewModel';
-import { ErrorReportViewModel } from 'src/_models/ErrorReportViewModel';
+import { ObservationAnalysisViewModel } from '../../_models/ObservationAnalysisViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-info-observation-count',
@@ -22,25 +22,23 @@ export class InfoObservationCountComponent implements OnInit {
       .subscribe(data => {
         this.onObservationsChanged();
       });
-
     this.getObservationAnalysis();
   }
 
   onObservationsChanged(): void {
-    alert('An observation was added or edited or deleted');
     this.getObservationAnalysis();
   }
 
   getObservationAnalysis(): void {
-    alert('1');
     this.observationsAnalysisService.getObservationAnalysis()
       .subscribe(
         (data: ObservationAnalysisViewModel) => {
           this.analysis = data;
-          alert('');
-         },
-        (error: ErrorReportViewModel) => { }
+        },
+        (error: ErrorReportViewModel) => {
+          console.log(error);
+          // ToDo: Something with the error (perhaps show a message)
+        }
       );
   }
-
 }

@@ -69,6 +69,7 @@ namespace Birder
             services.AddScoped<IBirdRepository, BirdRepository>();
             services.AddScoped<IObservationRepository, ObservationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IObservationsAnalysisRepository, ObservationsAnalysisRepository>();
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

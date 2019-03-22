@@ -30,7 +30,7 @@ namespace Birder.Controllers
         {
             var username = User.Identity.Name;
 
-            if (username != null)
+            if (username == null)
             {
                 return Unauthorized();
             }

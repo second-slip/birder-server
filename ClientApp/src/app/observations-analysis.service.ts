@@ -16,7 +16,7 @@ export class ObservationsAnalysisService {
   }
 
   getObservationAnalysis(): Observable<ObservationAnalysisViewModel | ErrorReportViewModel> {
-    return this.http.get<ObservationAnalysisViewModel>('api/ObservationAnalysis/GetObservationsAnalysis')
+    return this.http.get<ObservationAnalysisViewModel>('api/ObservationAnalysis/GetObservationAnalysis')
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
