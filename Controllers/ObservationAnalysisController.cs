@@ -25,8 +25,8 @@ namespace Birder.Controllers
 
         }
 
-        [HttpGet, Route("GetObservationsAnalysis")]
-        public async Task<IActionResult> GetObservationsAnalysis()
+        [HttpGet, Route("GetObservationAnalysis")]
+        public async Task<IActionResult> GetObservationAnalysis()
         {
             var username = User.Identity.Name;
 
