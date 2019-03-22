@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Birder.Data;
 using Birder.Data.Model;
 using Microsoft.AspNetCore.Authorization;
+using Birder.Data.Repository;
 
 namespace Birder.Controllers
 {
@@ -16,26 +17,27 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ObservationAnalysisController : ControllerBase
     {
+        private readonly IObservationsAnalysisRepository _observationsAnalysisRepository;
 
-
-        public ObservationAnalysisController()
+        public ObservationAnalysisController(IObservationsAnalysisRepository observationsAnalysisRepository)
         {
+            _observationsAnalysisRepository = observationsAnalysisRepository;
 
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Observation>>> GetObservations()
+        [HttpGet, Route("GetObservationsAnalysis")]
+        public async Task<IActionResult> GetObservationsAnalysis()
         {
-            //var viewModel = new ObservationsAnalysisDto();
-            //viewModel.TotalObservations = await (from observations in _dbContext.Observations
-            //                                     where (observations.ApplicationUserId == user.Id)
-            //                                     select observations).CountAsync();
+            var username = User.Identity.Name;
 
-            //viewModel.TotalSpecies = await (from observations in _dbContext.Observations
-            //                                where (observations.ApplicationUserId == user.Id)
-            //                                select observations.BirdId).Distinct().CountAsync();
-            //return viewModel;
-            return Ok(); // await _context.Observations.ToListAsync();
+            if (username != null)
+            {
+                return Unauthorized();
+            }
+
+            var viewModel = await _observationsAnalysisRepository.GetObservationsAnalysis(username);
+
+            return Ok(viewModel);
         }       
     }
 
