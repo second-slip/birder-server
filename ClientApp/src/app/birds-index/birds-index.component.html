@@ -2,6 +2,8 @@
 
 <p>This page is underdevelopment. You will eventually be able to filter the list and adjust the results per page.</p>
 
+<p>Use mat-gris-list: https://material.angular.io/components/grid-list/examples</p>
+
 <div *ngIf="!birds" class="loading">
   <p><em>Loading...</em></p>
   <mat-spinner></mat-spinner>
@@ -9,6 +11,7 @@
 
 
 <div *ngIf="birds">
+     
   <ul class="birds">
     <p>{{ birds.length }} birds were returned: </p>
     <li *ngFor="let bird of birds">

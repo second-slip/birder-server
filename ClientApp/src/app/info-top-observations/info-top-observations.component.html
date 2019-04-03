@@ -1,26 +1,59 @@
 <div class="container">
-  <p>Top 5 observed species list...</p>
-</div>
 
-<div *ngIf="!analysis" class="loading">
-  <p><em>Loading...</em></p>
-  <mat-spinner></mat-spinner>
-</div>
+  <p>Top Observations</p>
 
-
-<div *ngIf="analysis">
-  <ul class="birds">
-    <p>{{ analysis.topObservations.length }} all time records were returned: </p>
-    <li *ngFor="let observation of analysis.topObservations">
-      <span class="badge">{{observation.name}}</span> {{observation.count}}
-    </li>
-  </ul>
-
-  <ul class="birds">
-    <p>{{ analysis.topMonthlyObservations.length }} month records were returned: </p>
-    <li *ngFor="let observation of analysis.topMonthlyObservations">
-      <span class="badge">{{observation.name}}</span> {{observation.count}}
-    </li>
-  </ul>
-
+  <div *ngIf="!analysis" class="loading">
+    <p><em>Loading...</em></p>
+    <mat-spinner></mat-spinner>
   </div>
+
+  <div *ngIf="analysis">
+    <ngb-tabset justify="fill">
+      <ngb-tab title="All Time">
+        <ng-template ngbTabContent>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Species</th>
+                <th scope="col">Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let record of analysis.topObservations; index as i">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ record.name }}</td>
+                <td>{{ record.count | number }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Month">
+        <ng-template ngbTabContent>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Species</th>
+                <th scope="col">Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let record of analysis.topMonthlyObservations; index as i">
+                <th scope="row">{{ i + 1 }}</th>
+                <!-- <td>
+                        <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2" style="width: 20px">
+                        {{ country.name }}
+                      </td> -->
+                <td>{{ record.name }}</td>
+                <td>{{ record.count | number }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>
