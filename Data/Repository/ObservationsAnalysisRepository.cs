@@ -44,34 +44,33 @@ namespace Birder.Data.Repository
         //    return tweet;
         //}
 
-        //public IQueryable<TopObservationsViewModel> GetTopObservations(ApplicationUser user)
-        //{
-        //    return (from observations in _dbContext.Observations
-        //         .Include(b => b.Bird)
-        //         .Where(u => u.ApplicationUser.Id == user.Id)
-        //            group observations by observations.Bird into species
-        //            orderby species.Count() descending
-        //            select new TopObservationsViewModel
-        //            {
-        //                Vernacular = species.FirstOrDefault().Bird.EnglishName,
-        //                Count = species.Count()
-        //            }).Take(5);
-        //}
+        public IQueryable<TopObservationsViewModel> GetTopObservations(string username)
+        {
+            return (from observations in _dbContext.Observations
+                 .Include(b => b.Bird)
+                 .Where(u => u.ApplicationUser.UserName == username)
+                    group observations by observations.Bird into species
+                    orderby species.Count() descending
+                    select new TopObservationsViewModel
+                    {
+                        Name = species.FirstOrDefault().Bird.EnglishName,
+                        Count = species.Count()
+                    }).Take(5);
+        }
 
-        //public IQueryable<TopObservationsViewModel> GetTopObservations(ApplicationUser user, DateTime date)
-        //{
-        //    DateTime startDate = date.AddDays(-30);
-        //    return (from observations in _dbContext.Observations
-        //            .Include(b => b.Bird)                                                                     
-        //                where (observations.ApplicationUserId == user.Id && (observations.ObservationDateTime >= startDate))
-        //                        group observations by observations.Bird into species
-        //                        orderby species.Count() descending
-        //                            select new TopObservationsViewModel
-        //                            {
-        //                                Vernacular = species.FirstOrDefault().Bird.EnglishName,
-        //                                Count = species.Count()
-        //                            }).Take(5);
-        //}
-
+        public IQueryable<TopObservationsViewModel> GetTopObservations(string username, DateTime date)
+        {
+            DateTime startDate = date.AddDays(-30);
+            return (from observations in _dbContext.Observations
+                    .Include(b => b.Bird)
+                    where (observations.ApplicationUser.UserName == username && (observations.ObservationDateTime >= startDate))
+                    group observations by observations.Bird into species
+                    orderby species.Count() descending
+                    select new TopObservationsViewModel
+                    {
+                        Name = species.FirstOrDefault().Bird.EnglishName,
+                        Count = species.Count()
+                    }).Take(5);
+        }
     }
 }

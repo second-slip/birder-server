@@ -8,9 +8,8 @@ namespace Birder.Data.Repository
 {
     public interface IObservationsAnalysisRepository
     {
-        //Task<TweetDay> GetTweetOfTheDayAsync(DateTime date);
         Task<ObservationAnalysisViewModel> GetObservationsAnalysis(string username);
-        //IQueryable<TopObservationsViewModel> GetTopObservations(ApplicationUser user);
-        //IQueryable<TopObservationsViewModel> GetTopObservations(ApplicationUser user, DateTime date);
+        IQueryable<TopObservationsViewModel> GetTopObservations(string username);
+        IQueryable<TopObservationsViewModel> GetTopObservations(string username, DateTime date);
     }
 }
