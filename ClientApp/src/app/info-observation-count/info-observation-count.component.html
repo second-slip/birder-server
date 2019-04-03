@@ -1,1 +1,4 @@
-<h2><small>You have spotted </small> {{analysis.uniqueSpeciesCount}} <small> bird species in</small> {{analysis.totalObservationsCount}} <small> observation(s) </small></h2>
+<div class="container" *ngIf="analysis">
+    <h2><small>You have spotted </small> {{analysis.uniqueSpeciesCount}} <small> bird species in</small>
+        {{analysis.totalObservationsCount}} <small> observation(s) </small></h2>
+</div>

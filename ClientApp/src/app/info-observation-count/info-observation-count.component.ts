@@ -18,11 +18,12 @@ export class InfoObservationCountComponent implements OnInit {
     , private observationsAnalysisService: ObservationsAnalysisService) { }
 
   ngOnInit() {
+    this.getObservationAnalysis();
     this.subscription = this.observationService.observationsChanged$
-      .subscribe(data => {
+      .subscribe(_ => {
         this.onObservationsChanged();
       });
-    this.getObservationAnalysis();
+    // this.getObservationAnalysis();
   }
 
   onObservationsChanged(): void {
