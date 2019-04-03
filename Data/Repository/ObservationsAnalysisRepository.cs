@@ -1,5 +1,4 @@
-﻿using Birder.Controllers;
-using Birder.Data.Model;
+﻿using Birder.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;

@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Birder.Data;
-using Birder.Data.Model;
 using Microsoft.AspNetCore.Authorization;
 using Birder.Data.Repository;
-using System.Data;
+using Birder.ViewModels;
 
 namespace Birder.Controllers
 {
@@ -59,24 +53,5 @@ namespace Birder.Controllers
 
             return Ok(viewModel);
         }
-    }
-
-    public class ObservationAnalysisViewModel
-    {
-        public int TotalObservationsCount { get; set; }
-
-        public int UniqueSpeciesCount { get; set; }
-    }
-
-    public class TopObservationsAnalysisViewModel
-    {
-        public IEnumerable<TopObservationsViewModel> TopObservations { get; set; }
-        public IEnumerable<TopObservationsViewModel> TopMonthlyObservations { get; set; }
-    }
-
-    public class TopObservationsViewModel
-    {
-        public string Name { get; set; }
-        public int Count { get; set; }
     }
 }
