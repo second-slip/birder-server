@@ -10,7 +10,7 @@ import { ObservationsAnalysisService } from '../observations-analysis.service';
 export class InfoTopObservationsComponent implements OnInit {
 
   constructor(private observationService: ObservationService
-            , private observationsAnalysisService: ObservationsAnalysisService) { }
+    , private observationsAnalysisService: ObservationsAnalysisService) { }
 
   ngOnInit() {
   }
