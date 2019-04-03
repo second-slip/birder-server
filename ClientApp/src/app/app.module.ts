@@ -32,6 +32,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AgmCoreModule } from '@agm/core';
 import { GeocodeService } from './geocode.service';
 import { InfoObservationCountComponent } from './info-observation-count/info-observation-count.component';
+import { InfoTopObservationsComponent } from './info-top-observations/info-top-observations.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -57,7 +58,8 @@ export function tokenGetter() {
     ConfirmEmailComponent,
     ObservationEditComponent,
     ObservationDeleteComponent,
-    InfoObservationCountComponent
+    InfoObservationCountComponent,
+    InfoTopObservationsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

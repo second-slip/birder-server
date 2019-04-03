@@ -15,7 +15,7 @@ export class InfoObservationCountComponent implements OnInit {
   subscription: Subscription;
 
   constructor(private observationService: ObservationService
-    , private observationsAnalysisService: ObservationsAnalysisService) { }
+            , private observationsAnalysisService: ObservationsAnalysisService) { }
 
   ngOnInit() {
     this.getObservationAnalysis();
