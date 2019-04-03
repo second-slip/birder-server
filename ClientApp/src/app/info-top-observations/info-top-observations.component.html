@@ -1,3 +1,26 @@
 <div class="container">
   <p>Top 5 observed species list...</p>
 </div>
+
+<div *ngIf="!analysis" class="loading">
+  <p><em>Loading...</em></p>
+  <mat-spinner></mat-spinner>
+</div>
+
+
+<div *ngIf="analysis">
+  <ul class="birds">
+    <p>{{ analysis.topObservations.length }} all time records were returned: </p>
+    <li *ngFor="let observation of analysis.topObservations">
+      <span class="badge">{{observation.name}}</span> {{observation.count}}
+    </li>
+  </ul>
+
+  <ul class="birds">
+    <p>{{ analysis.topMonthlyObservations.length }} month records were returned: </p>
+    <li *ngFor="let observation of analysis.topMonthlyObservations">
+      <span class="badge">{{observation.name}}</span> {{observation.count}}
+    </li>
+  </ul>
+
+  </div>
