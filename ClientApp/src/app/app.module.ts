@@ -35,6 +35,7 @@ import { GeocodeService } from './geocode.service';
 import { InfoObservationCountComponent } from './info-observation-count/info-observation-count.component';
 import { InfoTopObservationsComponent } from './info-top-observations/info-top-observations.component';
 import { InfoTweetDayComponent } from './info-tweet-day/info-tweet-day.component';
+import { InfoNetworkComponent } from './info-network/info-network.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -62,7 +63,8 @@ export function tokenGetter() {
     ObservationDeleteComponent,
     InfoObservationCountComponent,
     InfoTopObservationsComponent,
-    InfoTweetDayComponent
+    InfoTweetDayComponent,
+    InfoNetworkComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
