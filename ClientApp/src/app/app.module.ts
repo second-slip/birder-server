@@ -34,6 +34,7 @@ import { AgmCoreModule } from '@agm/core';
 import { GeocodeService } from './geocode.service';
 import { InfoObservationCountComponent } from './info-observation-count/info-observation-count.component';
 import { InfoTopObservationsComponent } from './info-top-observations/info-top-observations.component';
+import { InfoTweetDayComponent } from './info-tweet-day/info-tweet-day.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -60,7 +61,8 @@ export function tokenGetter() {
     ObservationEditComponent,
     ObservationDeleteComponent,
     InfoObservationCountComponent,
-    InfoTopObservationsComponent
+    InfoTopObservationsComponent,
+    InfoTweetDayComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
