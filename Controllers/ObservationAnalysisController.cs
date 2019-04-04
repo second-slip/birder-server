@@ -3,7 +3,6 @@ using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -70,8 +69,7 @@ namespace Birder.Controllers
 
             var viewModel = new LifeListViewModel()
             {
-                LifeList = _observationsAnalysisRepository.GetLifeList(username),
-                //ObservationsAnalysis = await _observationsAnalysisRepository.GetObservationsAnalysis(username)
+                LifeList = _observationsAnalysisRepository.GetLifeList(username)
             };
 
             return Ok(viewModel);

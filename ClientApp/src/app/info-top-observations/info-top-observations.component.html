@@ -23,9 +23,7 @@
             <tbody>
               <tr *ngFor="let record of analysis.topObservations; index as i">
                 <th scope="row">{{ i + 1 }}</th>
-                <td>
-                    <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.name }}</a>
-                </td>
+                <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.name }}</a></td>
                 <td>{{ record.count | number }}</td>
               </tr>
             </tbody>

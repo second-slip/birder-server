@@ -46,7 +46,6 @@ namespace Birder.Data.Repository
 
         public IQueryable<TopObservationsViewModel> GetTopObservations(string username, DateTime date)
         {
-            DateTime startDate = date.AddDays(-30);
             return (from observations in _dbContext.Observations
                     .Include(b => b.Bird)
                     where (observations.ApplicationUser.UserName == username && (observations.ObservationDateTime >= date))
@@ -81,22 +80,5 @@ namespace Birder.Data.Repository
 
             return lifeList;
         }
-    }
-
-    public class LifeListViewModel
-    {
-        public string UserName { get; set; }
-        public IQueryable<SpeciesSummaryViewModel> LifeList { get; set; }
-    }
-
-    public class SpeciesSummaryViewModel
-    {
-        public int BirdId { get; set; }
-        public string EnglishName { get; set; }
-        public string Species { get; set; }
-        public string PopulationSize { get; set; }
-        public string BtoStatusInBritain { get; set; }
-        public string ConservationStatus { get; set; }
-        public int Count { get; set; }
     }
 }

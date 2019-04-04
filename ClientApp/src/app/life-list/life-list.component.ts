@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ObservationsAnalysisService } from '../observations-analysis.service';
 import { LifeListViewModel } from '../../_models/LifeListViewModels';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { ObservationAnalysisViewModel } from 'src/_models/ObservationAnalysisViewModel';
+import { ObservationAnalysisViewModel } from '../../_models/ObservationAnalysisViewModel';
 
 @Component({
   selector: 'app-life-list',
