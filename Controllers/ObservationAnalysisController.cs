@@ -67,10 +67,15 @@ namespace Birder.Controllers
                 return Unauthorized();
             }
 
-            var viewModel = _observationsAnalysisRepository.GetLifeList(username);
+            var viewModel = new LifeListViewModel()
+            {
+                LifeList = await _observationsAnalysisRepository.GetLifeList(username),
+                ObservationsAnalysis = await _observationsAnalysisRepository.GetObservationsAnalysis(username)
+            };
+
+
 
             return Ok(viewModel);
-
         }
     }
 }

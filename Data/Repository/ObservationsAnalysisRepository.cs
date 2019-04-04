@@ -58,19 +58,19 @@ namespace Birder.Data.Repository
                     }).Take(5);
         }
 
-        public async Task<LifeListViewModel> GetLifeList(string userName)
+        public async Task<IEnumerable<SpeciesSummaryViewModel>> GetLifeList(string userName)
         {
             var viewModel = new LifeListViewModel();
-            viewModel.UserName = userName;
-            viewModel.TotalObservations = (from observations in _dbContext.Observations
-                                           where (observations.ApplicationUser.UserName == userName)
-                                           select observations).Count();
+            //viewModel.UserName = userName;
+            //viewModel.TotalObservations = (from observations in _dbContext.Observations
+            //                               where (observations.ApplicationUser.UserName == userName)
+            //                               select observations).Count();
 
-            viewModel.TotalSpecies = (from observations in _dbContext.Observations
-                                      where (observations.ApplicationUser.UserName == userName)
-                                      select observations.BirdId).Distinct().Count();
+            //viewModel.TotalSpecies = (from observations in _dbContext.Observations
+            //                          where (observations.ApplicationUser.UserName == userName)
+            //                          select observations.BirdId).Distinct().Count();
 
-            viewModel.LifeList = (from observations in _dbContext.Observations
+            var t = (from observations in _dbContext.Observations
                  .Include(b => b.Bird)
                     .ThenInclude(u => u.BirdConserverationStatus)
                  .Where(u => u.ApplicationUser.UserName == userName)
@@ -78,15 +78,15 @@ namespace Birder.Data.Repository
                                   orderby species.Count() descending
                                   select new SpeciesSummaryViewModel
                                   {
-                                      Vernacular = species.FirstOrDefault().Bird.EnglishName,
-                                      ScientificName = species.FirstOrDefault().Bird.Species,
-                                      PopSize = species.FirstOrDefault().Bird.PopulationSize,
-                                      BtoStatus = species.FirstOrDefault().Bird.BtoStatusInBritain,
+                                      EnglishName = species.FirstOrDefault().Bird.EnglishName,
+                                      Species = species.FirstOrDefault().Bird.Species,
+                                      PopulationSize = species.FirstOrDefault().Bird.PopulationSize,
+                                      BtoStatusInBritain = species.FirstOrDefault().Bird.BtoStatusInBritain,
                                       ConservationStatus = species.FirstOrDefault().Bird.BirdConserverationStatus.ConservationStatus,
                                       Count = species.Count()
-                                  });
+                                  }).ToListAsync();
 
-            return viewModel;
+            return await t;
         }
     }
 
@@ -94,16 +94,17 @@ namespace Birder.Data.Repository
     {
         public string UserName { get; set; }
         public IEnumerable<SpeciesSummaryViewModel> LifeList { get; set; }
-        public int TotalObservations { get; set; }
-        public int TotalSpecies { get; set; }
+        public ObservationAnalysisViewModel ObservationsAnalysis { get; set; }
+        //public int TotalObservations { get; set; }
+        //public int TotalSpecies { get; set; }
     }
 
     public class SpeciesSummaryViewModel
     {
-        public string Vernacular { get; set; }
-        public string ScientificName { get; set; }
-        public string PopSize { get; set; }
-        public string BtoStatus { get; set; }
+        public string EnglishName { get; set; }
+        public string Species { get; set; }
+        public string PopulationSize { get; set; }
+        public string BtoStatusInBritain { get; set; }
         public string ConservationStatus { get; set; }
         public int Count { get; set; }
     }
