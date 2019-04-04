@@ -12,7 +12,6 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
   encapsulation: ViewEncapsulation.None
 })
 export class InfoTopObservationsComponent implements OnInit {
-
   analysis: TopObservationsAnalysisViewModel;
   subscription: Subscription;
 

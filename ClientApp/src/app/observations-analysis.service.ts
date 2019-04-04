@@ -5,6 +5,7 @@ import { ObservationAnalysisViewModel, TopObservationsAnalysisViewModel } from '
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { LifeListViewModel } from '../_models/LifeListViewModels';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,12 @@ export class ObservationsAnalysisService {
 
   getTopObservationsAnalysis(): Observable<TopObservationsAnalysisViewModel | ErrorReportViewModel> {
     return this.http.get<TopObservationsAnalysisViewModel>('api/ObservationAnalysis/GetTopObservationAnalysis')
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
+  getLifeList(): Observable<LifeListViewModel | ErrorReportViewModel> {
+    return this.http.get<LifeListViewModel>('api/ObservationAnalysis/GetLifeList')
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

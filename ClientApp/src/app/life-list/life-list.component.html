@@ -1,3 +1,30 @@
-<p>
-  life-list works!
-</p>
+<h4 class="title">Your Life List</h4>
+<br>
+
+<div *ngIf="!model" class="loading">
+  <p><em>Loading...</em></p>
+  <mat-spinner></mat-spinner>
+</div>
+
+<div class="container" *ngIf="model">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Count</th>
+          <th scope="col">Species</th>
+          <th scope="col">Status / Population</th>
+          <th scope="col">Risk Flag</th> 
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of model.lifeList; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ record.count | number }}</td>
+          <td>{{ record.englishName }}<br><small><em>{{ record.species }}</em></small></td>
+          <td><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
+          <td><small>{{ record.conservationStatus }}</small></td>
+        </tr>
+      </tbody>
+    </table>
+</div>
