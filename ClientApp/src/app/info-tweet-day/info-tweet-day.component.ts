@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { TweetDay } from '../../_models/TweetDay';
 import { TweetsService } from '../tweets.service';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
@@ -6,7 +6,8 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 @Component({
   selector: 'app-info-tweet-day',
   templateUrl: './info-tweet-day.component.html',
-  styleUrls: ['./info-tweet-day.component.scss']
+  styleUrls: ['./info-tweet-day.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class InfoTweetDayComponent implements OnInit {
   tweet: TweetDay;
@@ -22,7 +23,6 @@ export class InfoTweetDayComponent implements OnInit {
       .subscribe(
         (data: TweetDay) => {
           this.tweet = data;
-          console.log(data);
         },
         (error: ErrorReportViewModel) => {
           console.log(error);

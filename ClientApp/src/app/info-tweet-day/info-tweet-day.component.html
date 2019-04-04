@@ -1,13 +1,18 @@
 <div class="container" *ngIf="tweet">
-<p>
-  Tweet of the Day
-</p>
-<p>{{tweet.bird.englishName}}</p>
-<small><em>{{tweet.bird.species}}</em></small>
-
-<audio controls>
-  <!-- <source src="horse.ogg" type="audio/ogg"> -->
-  <source src={{tweet.bird.songUrl}} type="audio/mpeg">
-Your browser does not support the audio element.
-</audio> 
+  <div class="title">
+    <h4>Tweet of the Day</h4>
+    <span class="bird">
+      <h4><a routerLink="/birds-detail/{{tweet.bird.birdId}}">
+          {{tweet.bird.englishName}}
+        </a></h4>
+      <small><em>{{tweet.bird.species}}</em></small>
+    </span>
+  </div>
+  <br>
+  <div class="container">
+    <audio controls>
+      <source src={{tweet.bird.songUrl}} type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
 </div>

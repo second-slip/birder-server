@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ObservationService } from '../observation.service';
 import { ObservationsAnalysisService } from '../observations-analysis.service';
 import { Subscription } from 'rxjs';
@@ -8,7 +8,8 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 @Component({
   selector: 'app-info-top-observations',
   templateUrl: './info-top-observations.component.html',
-  styleUrls: ['./info-top-observations.component.scss']
+  styleUrls: ['./info-top-observations.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class InfoTopObservationsComponent implements OnInit {
 
