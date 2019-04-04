@@ -1,5 +1,6 @@
 ﻿using Birder.Data;
 using Birder.Data.Model;
+using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,12 +16,15 @@ namespace Birder.Controllers
     public class AccountController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ISystemClock _systemClock;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public AccountController(ApplicationDbContext context,
-                                 UserManager<ApplicationUser> userManager )
+                                ISystemClock systemClock,
+                                UserManager<ApplicationUser> userManager )
         {
             _context = context;
+            _systemClock = systemClock;
             _userManager = userManager;
         }
 
@@ -41,7 +45,7 @@ namespace Birder.Controllers
                 DefaultLocationLatitude = 54.972237,
                 DefaultLocationLongitude = -2.4608560000000352,
                 ProfileImage = "", // "https://birderstorage.blob.core.windows.net/profile/default.png",
-                RegistrationDate = DateTime.Now // _systemClock.Now
+                RegistrationDate = _systemClock.Now 
             };
 
             var result = await _userManager.CreateAsync(newUser, model.Password);

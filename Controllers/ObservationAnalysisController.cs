@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Birder.Data.Repository;
+﻿using Birder.Data.Repository;
+using Birder.Services;
 using Birder.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {
@@ -12,10 +12,13 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ObservationAnalysisController : ControllerBase
     {
+        private readonly ISystemClock _systemClock;
         private readonly IObservationsAnalysisRepository _observationsAnalysisRepository;
 
-        public ObservationAnalysisController(IObservationsAnalysisRepository observationsAnalysisRepository)
+        public ObservationAnalysisController(IObservationsAnalysisRepository observationsAnalysisRepository
+                                            ,ISystemClock systemClock)
         {
+            _systemClock = systemClock;
             _observationsAnalysisRepository = observationsAnalysisRepository;
 
         }
@@ -48,7 +51,7 @@ namespace Birder.Controllers
             var viewModel = new TopObservationsAnalysisViewModel()
             {
                 TopObservations = _observationsAnalysisRepository.GetTopObservations(username),
-                TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, DateTime.Today) // _systemClock.Today)
+                TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.Today)
             };
 
             return Ok(viewModel);

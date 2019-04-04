@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Birder.Data;
 using Birder.Data.Model;
 using Microsoft.AspNetCore.Authorization;
 using Birder.Data.Repository;
 using Birder.ViewModels;
 using AutoMapper;
+using Birder.Services;
 
 namespace Birder.Controllers
 {
@@ -20,11 +16,15 @@ namespace Birder.Controllers
     public class TweetsController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly ISystemClock _systemClock;
         private readonly ITweetDayRepository _tweetDayRepository;
 
-        public TweetsController(ITweetDayRepository tweetDayRepository, IMapper mapper)
+        public TweetsController(ITweetDayRepository tweetDayRepository,
+                                ISystemClock systemClock,
+                                IMapper mapper)
         {
             _mapper = mapper;
+            _systemClock = systemClock;
             _tweetDayRepository = tweetDayRepository;
         }
 
@@ -34,7 +34,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var tweet = await _tweetDayRepository.GetTweetOfTheDayAsync(DateTime.Today);
+                var tweet = await _tweetDayRepository.GetTweetOfTheDayAsync(_systemClock.Today);
 
                 if (tweet == null)
                 {

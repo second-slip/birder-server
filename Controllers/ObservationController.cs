@@ -2,6 +2,7 @@
 using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
+using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -25,16 +26,19 @@ namespace Birder.Controllers
     public class ObservationController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly ISystemClock _systemClock;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
 
         public ObservationController(IMapper mapper
+                                   , ISystemClock systemClock
                                    , ApplicationDbContext context
                                    , UserManager<ApplicationUser> userManager
                                    , IObservationRepository observationRepository)
         {
             _mapper = mapper;
+            _systemClock = systemClock;
             _context = context;
             _userManager = userManager;
             _observationRepository = observationRepository;
@@ -96,8 +100,8 @@ namespace Birder.Controllers
                     // newObservation.LocationLatitude = 54.972237;
                     // newObservation.LocationLongitude = -2.460856;
                     // //
-                    newObservation.CreationDate = DateTime.Now;
-                    newObservation.LastUpdateDate = DateTime.Now;
+                    newObservation.CreationDate = _systemClock.Now;
+                    newObservation.LastUpdateDate = _systemClock.Now;
 
                     _context.Observations.Add(newObservation);
                     await _context.SaveChangesAsync();
@@ -171,7 +175,7 @@ namespace Birder.Controllers
                     observation.ObservationDateTime = model.ObservationDateTime;
                     observation.Quantity = model.Quantity;
 
-                    observation.LastUpdateDate = DateTime.Now;
+                    observation.LastUpdateDate = _systemClock.Now;
 
                     _context.Entry(observation).State = EntityState.Modified;
 

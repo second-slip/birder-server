@@ -2,6 +2,7 @@ using AutoMapper;
 using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
+using Birder.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -71,6 +72,8 @@ namespace Birder
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IObservationsAnalysisRepository, ObservationsAnalysisRepository>();
             services.AddScoped<ITweetDayRepository, TweetDayRepository>();
+
+            services.AddSingleton<ISystemClock, SystemClock>();
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

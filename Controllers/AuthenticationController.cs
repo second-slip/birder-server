@@ -1,4 +1,5 @@
 ﻿using Birder.Data.Model;
+using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -22,13 +23,15 @@ namespace Birder.Controllers
         //private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ISystemClock _systemClock;
         private readonly IConfiguration _config;
 
         public AuthenticationController(UserManager<ApplicationUser> userManager
                                         , SignInManager<ApplicationUser> signInManager
+                                        , ISystemClock systemClock
                                         , IConfiguration config)
         {
-            //_context = context;
+            _systemClock = systemClock;
             _config = config;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -70,7 +73,7 @@ namespace Birder.Controllers
                         issuer: _config["Tokens:Issuer"],
                         audience: "http://localhost:55722",
                         claims: claims,  // new List<Claim>(),
-                        expires: DateTime.Now.AddDays(2),
+                        expires: _systemClock.Now.AddDays(2),
                         signingCredentials: signinCredentials
                         );
 
