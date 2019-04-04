@@ -26,6 +26,8 @@
 
         public string ThumbnailUrl { get; set; }
 
+        public string SongUrl { get; set; }
+
         public string ConserverationStatus { get; set; }
 
         public string BirderStatus { get; set; }
