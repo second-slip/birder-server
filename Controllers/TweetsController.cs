@@ -24,7 +24,7 @@ namespace Birder.Controllers
             _tweetDayRepository = tweetDayRepository;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet, Route("GetTweetDay")]
         [AllowAnonymous]
         public async Task<IActionResult> GetTweetDay()
         {
