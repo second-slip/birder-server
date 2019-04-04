@@ -22,6 +22,7 @@ export class InfoTweetDayComponent implements OnInit {
       .subscribe(
         (data: TweetDay) => {
           this.tweet = data;
+          console.log(data);
         },
         (error: ErrorReportViewModel) => {
           console.log(error);
