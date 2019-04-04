@@ -70,6 +70,7 @@ namespace Birder
             services.AddScoped<IObservationRepository, ObservationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IObservationsAnalysisRepository, ObservationsAnalysisRepository>();
+            services.AddScoped<ITweetDayRepository, TweetDayRepository>();
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
