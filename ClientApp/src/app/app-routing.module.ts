@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { BirdsIndexComponent } from './birds-index/birds-index.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth-guard.service';
@@ -28,7 +27,6 @@ const routes: Routes = [
   { path: 'observation-detail/:id', component: ObservationDetailComponent, canActivate: [AuthGuard] },
   { path: 'observation-edit/:id', component: ObservationEditComponent, canActivate: [AuthGuard] },
   { path: 'observation-delete/:id', component: ObservationDeleteComponent, canActivate: [AuthGuard] },
-  { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },  //
   { path: 'birds-index', component: BirdsIndexComponent, canActivate: [AuthGuard] },
   { path: 'birds-detail/:id', component: BirdsDetailComponent, canActivate: [AuthGuard] },
   { path: 'confirm-email', component: ConfirmEmailComponent },
