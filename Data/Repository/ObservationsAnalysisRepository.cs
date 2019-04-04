@@ -58,7 +58,7 @@ namespace Birder.Data.Repository
                     }).Take(5);
         }
 
-        public async Task<IEnumerable<SpeciesSummaryViewModel>> GetLifeList(string userName)
+        public IQueryable<SpeciesSummaryViewModel> GetLifeList(string userName)
         {
             var viewModel = new LifeListViewModel();
 
@@ -76,9 +76,9 @@ namespace Birder.Data.Repository
                                       BtoStatusInBritain = species.FirstOrDefault().Bird.BtoStatusInBritain,
                                       ConservationStatus = species.FirstOrDefault().Bird.BirdConserverationStatus.ConservationStatus,
                                       Count = species.Count()
-                                  }).ToListAsync();
+                                  }).ToList();
 
-            return await lifeList;
+            return lifeList;
         }
     }
 
@@ -87,8 +87,6 @@ namespace Birder.Data.Repository
         public string UserName { get; set; }
         public IEnumerable<SpeciesSummaryViewModel> LifeList { get; set; }
         public ObservationAnalysisViewModel ObservationsAnalysis { get; set; }
-        //public int TotalObservations { get; set; }
-        //public int TotalSpecies { get; set; }
     }
 
     public class SpeciesSummaryViewModel

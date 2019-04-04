@@ -11,6 +11,6 @@ namespace Birder.Data.Repository
         Task<ObservationAnalysisViewModel> GetObservationsAnalysis(string username);
         IQueryable<TopObservationsViewModel> GetTopObservations(string username);
         IQueryable<TopObservationsViewModel> GetTopObservations(string username, DateTime date);
-        Task<IEnumerable<SpeciesSummaryViewModel>> GetLifeList(string userName);
+        IQueryable<SpeciesSummaryViewModel> GetLifeList(string userName);
     }
 }
