@@ -25,6 +25,10 @@ namespace Birder.Data
               .ForMember(a => a.ConserverationStatus, b => b.MapFrom(a => a.BirdConserverationStatus.ConservationStatus))
               .ForMember(a => a.BirderStatus, b => b.MapFrom(a => a.BirderStatus))
               .ReverseMap();
+
+            CreateMap<TweetDay, TweetDayViewModel>()
+              .ForMember(d => d.Bird, m => m.MapFrom(d => d.Bird))
+             .ReverseMap();
         }
     }
 }

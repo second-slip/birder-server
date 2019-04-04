@@ -9,6 +9,8 @@ using Birder.Data;
 using Birder.Data.Model;
 using Microsoft.AspNetCore.Authorization;
 using Birder.Data.Repository;
+using Birder.ViewModels;
+using AutoMapper;
 
 namespace Birder.Controllers
 {
@@ -17,10 +19,12 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class TweetsController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly ITweetDayRepository _tweetDayRepository;
 
-        public TweetsController(ITweetDayRepository tweetDayRepository)
+        public TweetsController(ITweetDayRepository tweetDayRepository, IMapper mapper)
         {
+            _mapper = mapper;
             _tweetDayRepository = tweetDayRepository;
         }
 
@@ -30,12 +34,15 @@ namespace Birder.Controllers
         {
             try
             {
-                var viewModel = await _tweetDayRepository.GetTweetOfTheDayAsync(DateTime.Today);
+                var tweet = await _tweetDayRepository.GetTweetOfTheDayAsync(DateTime.Today);
 
-                if (viewModel == null)
+                if (tweet == null)
                 {
                     return BadRequest();
                 }
+
+                var viewModel = _mapper.Map<TweetDay, TweetDayViewModel>(tweet);
+
                 return Ok(viewModel);
             }
             catch (Exception ex)
