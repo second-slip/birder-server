@@ -66,17 +66,17 @@ namespace Birder.Data.Repository
                  .Include(b => b.Bird)
                     .ThenInclude(u => u.BirdConserverationStatus)
                  .Where(u => u.ApplicationUser.UserName == userName)
-                                  group observations by observations.Bird into species
-                                  orderby species.Count() descending
-                                  select new SpeciesSummaryViewModel
-                                  {
-                                      EnglishName = species.FirstOrDefault().Bird.EnglishName,
-                                      Species = species.FirstOrDefault().Bird.Species,
-                                      PopulationSize = species.FirstOrDefault().Bird.PopulationSize,
-                                      BtoStatusInBritain = species.FirstOrDefault().Bird.BtoStatusInBritain,
-                                      ConservationStatus = species.FirstOrDefault().Bird.BirdConserverationStatus.ConservationStatus,
-                                      Count = species.Count()
-                                  }).ToList();
+                            group observations by observations.Bird into species
+                            orderby species.Count() descending
+                            select new SpeciesSummaryViewModel
+                            {
+                                EnglishName = species.FirstOrDefault().Bird.EnglishName,
+                                Species = species.FirstOrDefault().Bird.Species,
+                                PopulationSize = species.FirstOrDefault().Bird.PopulationSize,
+                                BtoStatusInBritain = species.FirstOrDefault().Bird.BtoStatusInBritain,
+                                ConservationStatus = species.FirstOrDefault().Bird.BirdConserverationStatus.ConservationStatus,
+                                Count = species.Count()
+                            });
 
             return lifeList;
         }
@@ -85,7 +85,7 @@ namespace Birder.Data.Repository
     public class LifeListViewModel
     {
         public string UserName { get; set; }
-        public IEnumerable<SpeciesSummaryViewModel> LifeList { get; set; }
+        public IQueryable<SpeciesSummaryViewModel> LifeList { get; set; }
         public ObservationAnalysisViewModel ObservationsAnalysis { get; set; }
     }
 
