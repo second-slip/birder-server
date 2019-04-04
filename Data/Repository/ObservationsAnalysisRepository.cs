@@ -60,8 +60,6 @@ namespace Birder.Data.Repository
 
         public IQueryable<SpeciesSummaryViewModel> GetLifeList(string userName)
         {
-            var viewModel = new LifeListViewModel();
-
             var lifeList = (from observations in _dbContext.Observations
                  .Include(b => b.Bird)
                     .ThenInclude(u => u.BirdConserverationStatus)
