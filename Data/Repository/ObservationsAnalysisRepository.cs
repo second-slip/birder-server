@@ -61,16 +61,8 @@ namespace Birder.Data.Repository
         public async Task<IEnumerable<SpeciesSummaryViewModel>> GetLifeList(string userName)
         {
             var viewModel = new LifeListViewModel();
-            //viewModel.UserName = userName;
-            //viewModel.TotalObservations = (from observations in _dbContext.Observations
-            //                               where (observations.ApplicationUser.UserName == userName)
-            //                               select observations).Count();
 
-            //viewModel.TotalSpecies = (from observations in _dbContext.Observations
-            //                          where (observations.ApplicationUser.UserName == userName)
-            //                          select observations.BirdId).Distinct().Count();
-
-            var t = (from observations in _dbContext.Observations
+            var lifeList = (from observations in _dbContext.Observations
                  .Include(b => b.Bird)
                     .ThenInclude(u => u.BirdConserverationStatus)
                  .Where(u => u.ApplicationUser.UserName == userName)
@@ -86,7 +78,7 @@ namespace Birder.Data.Repository
                                       Count = species.Count()
                                   }).ToListAsync();
 
-            return await t;
+            return await lifeList;
         }
     }
 
