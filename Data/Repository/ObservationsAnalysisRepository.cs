@@ -28,21 +28,6 @@ namespace Birder.Data.Repository
             return viewModel;
         }
 
-        //public async Task<TweetDay> GetTweetOfTheDayAsync(DateTime date)
-        //{
-        //    var tweet = await (from td in _dbContext.TweetDays
-        //                           .Include(b => b.Bird)
-        //                                where (td.DisplayDay == date)
-        //                                    select td).FirstOrDefaultAsync();
-        //    if (tweet == null)
-        //    {
-        //        tweet = await (from td in _dbContext.TweetDays
-        //                           .Include(b => b.Bird)
-        //                                select td).FirstOrDefaultAsync();
-        //    }
-        //    return tweet;
-        //}
-
         public IQueryable<TopObservationsViewModel> GetTopObservations(string username)
         {
             return (from observations in _dbContext.Observations

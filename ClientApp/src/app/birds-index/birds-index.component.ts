@@ -10,8 +10,8 @@ import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
   styleUrls: ['./birds-index.component.scss']
 })
 export class BirdsIndexComponent implements OnInit {
-
   birds: BirdSummaryViewModel[];
+  gridView: boolean;
 
   constructor(private birdsService: BirdsService
     , private router: Router) { }
