@@ -68,6 +68,7 @@ namespace Birder.Data.Repository
                             orderby species.Count() descending
                             select new SpeciesSummaryViewModel
                             {
+                                BirdId = species.FirstOrDefault().Bird.BirdId,
                                 EnglishName = species.FirstOrDefault().Bird.EnglishName,
                                 Species = species.FirstOrDefault().Bird.Species,
                                 PopulationSize = species.FirstOrDefault().Bird.PopulationSize,
@@ -84,11 +85,12 @@ namespace Birder.Data.Repository
     {
         public string UserName { get; set; }
         public IQueryable<SpeciesSummaryViewModel> LifeList { get; set; }
-        public ObservationAnalysisViewModel ObservationsAnalysis { get; set; }
+        //public ObservationAnalysisViewModel ObservationsAnalysis { get; set; }
     }
 
     public class SpeciesSummaryViewModel
     {
+        public int BirdId { get; set; }
         public string EnglishName { get; set; }
         public string Species { get; set; }
         public string PopulationSize { get; set; }

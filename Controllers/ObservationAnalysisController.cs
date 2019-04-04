@@ -71,7 +71,7 @@ namespace Birder.Controllers
             var viewModel = new LifeListViewModel()
             {
                 LifeList = _observationsAnalysisRepository.GetLifeList(username),
-                ObservationsAnalysis = await _observationsAnalysisRepository.GetObservationsAnalysis(username)
+                //ObservationsAnalysis = await _observationsAnalysisRepository.GetObservationsAnalysis(username)
             };
 
             return Ok(viewModel);
