@@ -15,6 +15,7 @@ import { RegisterComponent } from './register/register.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { ObservationEditComponent } from './observation-edit/observation-edit.component';
 import { ObservationDeleteComponent } from './observation-delete/observation-delete.component';
+import { LifeListComponent } from './life-list/life-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'observation-delete/:id', component: ObservationDeleteComponent, canActivate: [AuthGuard] },
   { path: 'birds-index', component: BirdsIndexComponent, canActivate: [AuthGuard] },
   { path: 'birds-detail/:id', component: BirdsDetailComponent, canActivate: [AuthGuard] },
+  { path: 'life-list', component: LifeListComponent, canActivate: [AuthGuard] },
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: '**', component: PageNotFoundComponent }
 ];

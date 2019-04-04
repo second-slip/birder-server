@@ -56,5 +56,21 @@ namespace Birder.Controllers
 
             return Ok(viewModel);
         }
+
+        [HttpGet, Route("GetLifeList")]
+        public async Task<IActionResult> GetLifeList()
+        {
+            var username = User.Identity.Name;
+
+            if (username == null)
+            {
+                return Unauthorized();
+            }
+
+            var viewModel = _observationsAnalysisRepository.GetLifeList(username);
+
+            return Ok(viewModel);
+
+        }
     }
 }
