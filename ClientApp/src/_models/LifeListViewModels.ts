@@ -1,7 +1,6 @@
 export interface LifeListViewModel {
     userName: string;
     lifeList: SpeciesSummaryViewModel[];
-    // observationsAnalysis: ObservationAnalysisViewModel;
 }
 
 export interface SpeciesSummaryViewModel {

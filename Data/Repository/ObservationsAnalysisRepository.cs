@@ -38,6 +38,7 @@ namespace Birder.Data.Repository
                     orderby species.Count() descending
                     select new TopObservationsViewModel
                     {
+                        BirdId = species.FirstOrDefault().Bird.BirdId,
                         Name = species.FirstOrDefault().Bird.EnglishName,
                         Count = species.Count()
                     }).Take(5);
@@ -48,11 +49,12 @@ namespace Birder.Data.Repository
             DateTime startDate = date.AddDays(-30);
             return (from observations in _dbContext.Observations
                     .Include(b => b.Bird)
-                    where (observations.ApplicationUser.UserName == username && (observations.ObservationDateTime >= startDate))
+                    where (observations.ApplicationUser.UserName == username && (observations.ObservationDateTime >= date))
                     group observations by observations.Bird into species
                     orderby species.Count() descending
                     select new TopObservationsViewModel
                     {
+                        BirdId = species.FirstOrDefault().Bird.BirdId,
                         Name = species.FirstOrDefault().Bird.EnglishName,
                         Count = species.Count()
                     }).Take(5);
@@ -85,7 +87,6 @@ namespace Birder.Data.Repository
     {
         public string UserName { get; set; }
         public IQueryable<SpeciesSummaryViewModel> LifeList { get; set; }
-        //public ObservationAnalysisViewModel ObservationsAnalysis { get; set; }
     }
 
     public class SpeciesSummaryViewModel

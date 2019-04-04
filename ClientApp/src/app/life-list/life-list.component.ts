@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ObservationsAnalysisService } from '../observations-analysis.service';
 import { LifeListViewModel } from '../../_models/LifeListViewModels';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { ObservationAnalysisViewModel } from 'src/_models/ObservationAnalysisViewModel';
 
 @Component({
   selector: 'app-life-list',
@@ -10,20 +11,34 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
   encapsulation: ViewEncapsulation.None
 })
 export class LifeListComponent implements OnInit {
-  model: LifeListViewModel;
+  lifeList: LifeListViewModel;
+  analysis: ObservationAnalysisViewModel;
 
   constructor(private observationsAnalysisService: ObservationsAnalysisService) { }
 
   ngOnInit() {
     this.getLifeList();
+    this.getObservationAnalysis();
   }
 
   getLifeList(): void {
     this.observationsAnalysisService.getLifeList()
       .subscribe(
         (data: LifeListViewModel) => {
-          this.model = data;
-          console.log(this.model);
+          this.lifeList = data;
+        },
+        (error: ErrorReportViewModel) => {
+          console.log(error);
+          // ToDo: Something with the error (perhaps show a message)
+        }
+      );
+  }
+
+  getObservationAnalysis(): void {
+    this.observationsAnalysisService.getObservationAnalysis()
+      .subscribe(
+        (data: ObservationAnalysisViewModel) => {
+          this.analysis = data;
         },
         (error: ErrorReportViewModel) => {
           console.log(error);

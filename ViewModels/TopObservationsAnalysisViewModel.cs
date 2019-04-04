@@ -10,6 +10,7 @@ namespace Birder.ViewModels
 
     public class TopObservationsViewModel
     {
+        public int BirdId { get; set; }
         public string Name { get; set; }
         public int Count { get; set; }
     }
