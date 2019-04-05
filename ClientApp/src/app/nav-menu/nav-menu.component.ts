@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { Subscription } from 'rxjs';
 import { UserViewModel } from '../../_models/UserViewModel';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { TokenService } from '../token.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -16,7 +16,7 @@ export class NavMenuComponent implements OnInit {
   authenticatedUser: UserViewModel;
 
   constructor(private authenticationService: AuthenticationService
-    , private jwtHelper: JwtHelperService) { }
+    , private tokenService: TokenService) { }
 
   ngOnInit(): void {
     this.subscription = this.authenticationService.isAuthenticated$
@@ -27,30 +27,20 @@ export class NavMenuComponent implements OnInit {
     this.authenticationService.checkIsAuthenticated();
   }
 
-  // checkLoggedInStatus(): void {
-  //   this.authenticationService.checkIsAuthenticated();
-  // }
-
-
-
   updateAuthenticatedUser(): void {
-    // const token = localStorage.getItem('jwt');
     if (this.isLoggedIn === true) {
-      const token = localStorage.getItem('jwt');
-      if (token && !this.jwtHelper.isTokenExpired(token)) {
-        const tokenDecoded = this.jwtHelper.decodeToken(token);
-        const user = <UserViewModel>{
-          userName: tokenDecoded.unique_name,
-          profileImage: tokenDecoded.ImageUrl,
-          defaultLocationLatitude: tokenDecoded.DefaultLatitude,
-          defaultLocationLongitude: tokenDecoded.DefaultLongitude
-        };
-        this.authenticatedUser = user;
-      }
+      this.tokenService.getAuthenticatedUserDetails()
+      .subscribe(
+        (data: UserViewModel) => {
+          this.authenticatedUser = data;
+        },
+        (error: any) => {
+          this.authenticatedUser = null;
+          // ToDo: redirect to login?
+        }
+      );
     } else {
       this.authenticatedUser = null;
     }
   }
 }
-
-
