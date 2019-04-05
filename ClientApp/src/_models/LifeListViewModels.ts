@@ -1,5 +1,4 @@
 export interface LifeListViewModel {
-    userName: string;
     lifeList: SpeciesSummaryViewModel[];
 }
 

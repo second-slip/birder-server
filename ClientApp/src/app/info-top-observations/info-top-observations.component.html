@@ -44,11 +44,7 @@
             <tbody>
               <tr *ngFor="let record of analysis.topMonthlyObservations; index as i">
                 <th scope="row">{{ i + 1 }}</th>
-                <!-- <td>
-                        <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2" style="width: 20px">
-                        {{ country.name }}
-                      </td> -->
-                <td>{{ record.name }}</td>
+                <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.name }}</a></td>
                 <td>{{ record.count | number }}</td>
               </tr>
             </tbody>
@@ -56,5 +52,10 @@
         </ng-template>
       </ngb-tab>
     </ngb-tabset>
+    <div>
+      <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon">
+        <small><em>  See a full summary in your
+            <a routerLink="/life-list">Life List</a> page</em></small></span>
+        </div>
   </div>
 </div>
