@@ -25,7 +25,6 @@ export class AuthenticationService {
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
   login(viewModel: LoginViewModel): Observable<any | ErrorReportViewModel> {
-
     return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
       .pipe(
         tap(response => this.setAuthenticationToken(response)),

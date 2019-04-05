@@ -11,6 +11,7 @@ import { UserService } from '../user.service';
 import { UserViewModel } from '../../_models/UserViewModel';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { ObservationService } from '../observation.service';
+import { TokenService } from '../token.service';
 
 @Component({
   selector: 'app-observation-add',
@@ -44,7 +45,8 @@ export class ObservationAddComponent implements OnInit {
   constructor(private router: Router
     , private birdsService: BirdsService
     , private observationService: ObservationService
-    , private userService: UserService
+    // , private userService: UserService
+    , private tokenService: TokenService
     , private formBuilder: FormBuilder
     , private geocodeService: GeocodeService
     , private ref: ChangeDetectorRef) { }
@@ -172,14 +174,15 @@ export class ObservationAddComponent implements OnInit {
   }
 
   getUser(): void {
-    this.userService.getUser()
+    this.tokenService.getAuthenticatedUserDetails()
       .subscribe(
         (data: UserViewModel) => {
           this.user = data;
+          console.log(data);
           this.createForms();
           this.getGeolocation();
         },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           console.log('could not get the user, using default coordinates');
           const userTemp = <UserViewModel>{
             userName: '',

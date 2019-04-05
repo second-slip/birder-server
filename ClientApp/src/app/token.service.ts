@@ -20,8 +20,8 @@ export class TokenService {
         user.next({
           userName: tokenDecoded.unique_name,
           profileImage: tokenDecoded.ImageUrl,
-          defaultLocationLatitude: tokenDecoded.DefaultLatitude,
-          defaultLocationLongitude: tokenDecoded.DefaultLongitude
+          defaultLocationLatitude: parseFloat(tokenDecoded.DefaultLatitude),
+          defaultLocationLongitude: parseFloat(tokenDecoded.DefaultLongitude)
         });
       } else {
         this.authenticationService.logout();
