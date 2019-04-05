@@ -60,6 +60,7 @@ export class AuthenticationService {
     const token = localStorage.getItem('jwt');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {
+      // console.log(this.jwtHelper.decodeToken(token));
       this.isAuthenticated.next(true);
       return true;
     } else {

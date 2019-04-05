@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ObservationsAnalysisService } from '../observations-analysis.service';
+import { AuthenticationService } from '../authentication.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-side-menu',
@@ -7,11 +9,14 @@ import { ObservationsAnalysisService } from '../observations-analysis.service';
   styleUrls: ['./side-menu.component.scss']
 })
 export class SideMenuComponent implements OnInit {
+  isLoggedIn: boolean;
+  subscription: Subscription;
 
+  constructor(private authenticationService: AuthenticationService) { }
 
-  constructor() { }
-
-  ngOnInit() {
+  ngOnInit(): void {
+    this.subscription = this.authenticationService.isAuthenticated$
+      .subscribe(isLoggedIn => { this.isLoggedIn = isLoggedIn; });
+    this.authenticationService.checkIsAuthenticated();
   }
-
 }

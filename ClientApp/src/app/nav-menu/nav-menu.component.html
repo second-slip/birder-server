@@ -28,9 +28,10 @@
         <li class="nav-item dropdown" ngbDropdown>
           <a style='cursor:pointer' class="nav-link dropdown-toggle" id="id02" ngbDropdownToggle>
             <img src="https://avatars2.githubusercontent.com/u/35421339?s=460&v=4" class="profile-img img-circle"
-              style="resize:both">Andrew Cross<b class="caret"></b>
+              style="resize:both">{{authenticatedUser.userName}}<b class="caret"></b>
             <ul class="dropdown-menu" ngbDropdownMenu>
               <a class="dropdown-item" [routerLink]='["/counter"]'>My Account</a>
+              <a class="dropdown-item" [routerLink]='["/counter"]'>My Network</a>
               <a class="dropdown-item" [routerLink]='["/logout"]'>Logout</a>
             </ul>
           </a>

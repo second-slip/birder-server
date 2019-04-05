@@ -1,6 +1,6 @@
 <div class="container">
   <h4 class="title">Your Life List</h4>
-  <p>You have spotted {{analysis.uniqueSpeciesCount}} species in {{analysis.totalObservationsCount}} observations:</p>
+  <p *ngIf="analysis">You have spotted {{analysis.uniqueSpeciesCount}} species in {{analysis.totalObservationsCount}} observations:</p>
 
   <div *ngIf="!lifeList" class="loading">
     <p><em>Loading...</em></p>
