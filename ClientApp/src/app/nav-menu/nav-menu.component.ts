@@ -41,9 +41,9 @@ export class NavMenuComponent implements OnInit {
         const tokenDecoded = this.jwtHelper.decodeToken(token);
         const user = <UserViewModel>{
           userName: tokenDecoded.unique_name,
-          profileImage: '',
-          defaultLocationLatitude: 0,
-          defaultLocationLongitude: 0
+          profileImage: tokenDecoded.ImageUrl,
+          defaultLocationLatitude: tokenDecoded.DefaultLatitude,
+          defaultLocationLongitude: tokenDecoded.DefaultLongitude
         };
         this.authenticatedUser = user;
       }
