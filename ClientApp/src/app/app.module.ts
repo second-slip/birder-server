@@ -36,6 +36,7 @@ import { InfoTopObservationsComponent } from './info-top-observations/info-top-o
 import { InfoTweetDayComponent } from './info-tweet-day/info-tweet-day.component';
 import { InfoNetworkComponent } from './info-network/info-network.component';
 import { LifeListComponent } from './life-list/life-list.component';
+import { InfoAwardsComponent } from './info-awards/info-awards.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -64,7 +65,8 @@ export function tokenGetter() {
     InfoTopObservationsComponent,
     InfoTweetDayComponent,
     InfoNetworkComponent,
-    LifeListComponent
+    LifeListComponent,
+    InfoAwardsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
