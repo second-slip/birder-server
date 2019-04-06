@@ -44,7 +44,7 @@ namespace Birder.Controllers
                 Email = model.Email,
                 DefaultLocationLatitude = 54.972237,
                 DefaultLocationLongitude = -2.4608560000000352,
-                ProfileImage = "", // "https://birderstorage.blob.core.windows.net/profile/default.png",
+                ProfileImage = "https://img.icons8.com/color/96/000000/user.png", // "https://birderstorage.blob.core.windows.net/profile/default.png",
                 RegistrationDate = _systemClock.Now 
             };
 

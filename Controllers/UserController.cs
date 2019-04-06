@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using Birder.Data;
 using Birder.Data.Model;
-using System.Net;
-using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Birder.ViewModels;
 using Birder.Data.Repository;
+using Birder.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {

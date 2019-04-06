@@ -20,7 +20,6 @@ namespace Birder.Controllers
     [AllowAnonymous]
     public class AuthenticationController : ControllerBase
     {
-        //private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ISystemClock _systemClock;
@@ -56,15 +55,14 @@ namespace Birder.Controllers
                 {
                     var claims = new List<Claim>
                     {
-                    //new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                    new Claim("ImageUrl", "https://avatars2.githubusercontent.com/u/35421339?s=460&v=4"), //user.ProfileImage),
-                    new Claim("DefaultLatitude", user.DefaultLocationLatitude.ToString()),
-                    new Claim("DefaultLongitude", user.DefaultLocationLongitude.ToString()),
-                    //new Claim(JwtRegisteredClaimNames., "Administrator"),
-                    //new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        //new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                        new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                        new Claim("ImageUrl", user.ProfileImage),
+                        new Claim("DefaultLatitude", user.DefaultLocationLatitude.ToString()),
+                        new Claim("DefaultLongitude", user.DefaultLocationLongitude.ToString()),
+                        //new Claim(JwtRegisteredClaimNames., "Administrator"),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
                     var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
@@ -90,46 +88,4 @@ namespace Birder.Controllers
             // return BadRequest();
         }
     }
-
-
-
-
-
-    //if (user.UserName == "a@b.com" && user.Password == "test")
-    //{
-    //    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
-    //    var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-    //var claims = new List<Claim>
-    //{
-    //    //new Claim(ClaimTypes.Name, user.UserName),
-    //    new Claim(JwtRegisteredClaimNames.Email, user.UserName),
-    //    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-    //    //new Claim(JwtRegisteredClaimNames., "Administrator"),
-    //    //new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-    //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),    
-    //};
-
-    //var tokeOptions = new JwtSecurityToken(
-    //    issuer: "http://localhost:55722",
-    //    audience: "http://localhost:55722",
-    //    claims: claims,  // new List<Claim>(),
-    //    expires: DateTime.Now.AddDays(2),
-    //    signingCredentials: signinCredentials
-    //);
-
-    //var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
-
-    //return Ok(new { Token = tokenString });
-    ////return Ok(uvm);
-
-
-    //Too: Move to separate file
-    // public class LoginViewModel
-    // {
-    //     public string UserName { get; set; }
-    //     public string Password { get; set; }
-    //     public bool RememberMe { get; set; }
-    // }
-
 }
