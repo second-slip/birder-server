@@ -66,7 +66,7 @@ export function tokenGetter() {
     InfoTweetDayComponent,
     InfoNetworkComponent,
     LifeListComponent,
-    InfoAwardsComponent
+    InfoAwardsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
