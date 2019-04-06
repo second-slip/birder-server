@@ -178,7 +178,6 @@ export class ObservationAddComponent implements OnInit {
       .subscribe(
         (data: UserViewModel) => {
           this.user = data;
-          console.log(data);
           this.createForms();
           this.getGeolocation();
         },
