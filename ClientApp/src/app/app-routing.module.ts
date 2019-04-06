@@ -16,8 +16,8 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { ObservationEditComponent } from './observation-edit/observation-edit.component';
 import { ObservationDeleteComponent } from './observation-delete/observation-delete.component';
 import { LifeListComponent } from './life-list/life-list.component';
-import { LayoutNoSidebarComponent } from './layout-no-sidebar/layout-no-sidebar.component';
-import { LayoutSidebarComponent } from './layout-sidebar/layout-sidebar.component';
+import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
+import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 
 const routes: Routes = [
   {
