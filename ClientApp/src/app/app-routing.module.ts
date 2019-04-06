@@ -27,11 +27,8 @@ const routes: Routes = [
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'logout', component: LogoutComponent },
       { path: 'counter', component: CounterComponent },  //
       { path: 'confirm-email', component: ConfirmEmailComponent },
-      { path: 'observation-add', component: ObservationAddComponent, canActivate: [AuthGuard] },
-      { path: 'observation-edit/:id', component: ObservationEditComponent, canActivate: [AuthGuard] }
     ]
   },
   {
@@ -42,9 +39,12 @@ const routes: Routes = [
       { path: 'observation-feed', component: ObservationFeedComponent },
       { path: 'observation-detail/:id', component: ObservationDetailComponent },
       { path: 'observation-delete/:id', component: ObservationDeleteComponent },
+      { path: 'observation-add', component: ObservationAddComponent, },
+      { path: 'observation-edit/:id', component: ObservationEditComponent },
       { path: 'birds-index', component: BirdsIndexComponent },
       { path: 'birds-detail/:id', component: BirdsDetailComponent },
       { path: 'life-list', component: LifeListComponent },
+      { path: 'logout', component: LogoutComponent },
     ]
   },
   { path: '**', redirectTo: '' }
