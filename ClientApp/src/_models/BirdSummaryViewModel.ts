@@ -8,6 +8,8 @@ export interface BirdSummaryViewModel {
     englishName: string;
     internationalName: string;
     category: string;
+    populationSize: string;
+    btoStatusInBritain: string;
     thumbnailUrl: string;
     songUrl: string;
     conserverationStatus: string;
