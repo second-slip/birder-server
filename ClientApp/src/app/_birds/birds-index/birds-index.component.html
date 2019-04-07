@@ -1,48 +1,33 @@
-<h2>British Birds</h2>
+<div class="container">
+  <h4>British Birds</h4>
+  <p>This page is underdevelopment. You will eventually be able to filter the list and adjust the results per page.
+  <br>Use mat-gris-list: https://material.angular.io/components/grid-list/examples
+  <br>Switch between list view or grid view</p>
 
-<p>This page is underdevelopment. You will eventually be able to filter the list and adjust the results per page.</p>
+  <div *ngIf="!birds" class="loading">
+    <p><em>Loading the list of British bird species...</em></p>
+    <mat-spinner></mat-spinner>
+  </div>
 
-<p>Use mat-gris-list: https://material.angular.io/components/grid-list/examples</p>
-<p>Switch between list view or grid view</p>
-
-<div *ngIf="!birds" class="loading">
-  <p><em>Loading...</em></p>
-  <mat-spinner></mat-spinner>
-</div>
-
-
-<div *ngIf="birds">
-
+  <div *ngIf="birds">
     <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <!-- <th scope="col">Count</th> -->
-            <th scope="col">Species</th>
-            <th scope="col">Status / Population</th>
-            <th scope="col">Risk Flag</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let record of birds; index as i">
-            <th scope="row">{{ i + 1 }}</th>
-            <!-- <td>{{ record.count | number }}</td> -->
-            <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
-              <br><small><em>{{ record.species }}</em></small></td>
-            <td><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
-            <td><small>{{ record.conservationStatus }}</small></td>
-          </tr>
-        </tbody>
-      </table>
-     
-  <!-- <ul class="birds">
-    <p>{{ birds.length }} birds were returned: </p>
-    <li *ngFor="let bird of birds">
-      <span class="badge">{{bird.birdId}}</span> {{bird.englishName}}
-      <a routerLink="/birds-detail/{{bird.birdId}}">
-        Details
-      </a>
-
-    </li>
-  </ul> -->
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Species</th>
+          <th scope="col">Status / Population</th>
+          <th scope="col">Risk Flag</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of birds; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
+            <br><small><em>{{ record.species }}</em></small></td>
+          <td><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
+          <td><small>{{ record.conservationStatus }}</small></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -23,7 +23,7 @@ export class BirdsIndexComponent implements OnInit {
   getBirds(): void {
     this.birdsService.getBirds()
       .subscribe(
-        (data: BirdSummaryViewModel[]) => { this.birds = data; console.log(data); },
+        (data: BirdSummaryViewModel[]) => { this.birds = data; },
         (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);
         });
