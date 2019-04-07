@@ -39,6 +39,7 @@ import { LifeListComponent } from './life-list/life-list.component';
 import { InfoAwardsComponent } from './_info/info-awards/info-awards.component';
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -71,6 +72,7 @@ export function tokenGetter() {
     InfoAwardsComponent,
     LayoutSidebarComponent,
     LayoutNoSidebarComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

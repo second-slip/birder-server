@@ -18,6 +18,7 @@ import { ObservationDeleteComponent } from './_observations/observation-delete/o
 import { LifeListComponent } from './life-list/life-list.component';
 import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -51,6 +52,7 @@ const routes: Routes = [
           { path: 'birds-index', component: BirdsIndexComponent },
           { path: 'birds-detail/:id', component: BirdsDetailComponent },
           { path: 'life-list', component: LifeListComponent },
+          { path: 'user-profile/:username', component: UserProfileComponent },
           { path: 'logout', component: LogoutComponent },
         ]
       }
