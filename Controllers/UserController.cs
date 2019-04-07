@@ -6,6 +6,7 @@ using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -41,5 +42,17 @@ namespace Birder.Controllers
             return Ok(viewModel);
 
         }
+    }
+
+    public class UserProfileViewModel
+    {
+        public string UserName { get; set; }
+        public string ProfileImage { get; set; }
+        public DateTime RegistrationDate { get; set; }
+        public bool IsFollowing { get; set; }
+        public int Followers { get; set; }
+        public int Following { get; set; }
+        //public double DefaultLocationLatitude { get; set; }
+        //public double DefaultLocationLongitude { get; set; }
     }
 }

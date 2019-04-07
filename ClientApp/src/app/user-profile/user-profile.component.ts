@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserService } from '../user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserViewModel } from 'src/_models/UserViewModel';
+import { UserViewModel } from '../../_models/UserViewModel';
+import { ObservationViewModel } from '../../_models/ObservationViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+  styleUrls: ['./user-profile.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UserProfileComponent implements OnInit {
   user: UserViewModel;
+  observations: ObservationViewModel[]; // lazy load on demand
 
   constructor(private userService: UserService
     , private route: ActivatedRoute
@@ -19,13 +23,24 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-getUser(): void {
-  const username = +this.route.snapshot.paramMap.get('username');
+  getUser(): void {
+    const username = this.route.snapshot.paramMap.get('username');
+
+    this.userService.getUser(username)
+    .subscribe(
+      (data: UserViewModel) => {
+        this.user = data;
+      },
+      (error: ErrorReportViewModel) => {
+        console.log('bad request');
+        this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+      });
 
 
   }
+
+  getObservations(): void { }
 
   ngOnInit() {
   }
-
 }
