@@ -36,11 +36,11 @@ namespace Birder.Controllers
         public async Task<IActionResult> GetUser(string username)
         {
             //var username = User.Identity.Name;
-            var user = await _userManager.FindByNameAsync(username);
-            var viewModel = _mapper.Map<ApplicationUser, UserViewModel>(user);
+            //var user = await _userManager.FindByNameAsync(username);
+            var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+            var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
 
             return Ok(viewModel);
-
         }
     }
 
@@ -50,8 +50,8 @@ namespace Birder.Controllers
         public string ProfileImage { get; set; }
         public DateTime RegistrationDate { get; set; }
         public bool IsFollowing { get; set; }
-        public int Followers { get; set; }
-        public int Following { get; set; }
+        public int FollowersCount { get; set; }
+        public int FollowingCount { get; set; }
         //public double DefaultLocationLatitude { get; set; }
         //public double DefaultLocationLongitude { get; set; }
     }
