@@ -22,7 +22,7 @@ namespace Birder.Data
               .ReverseMap();
 
             CreateMap<Bird, BirdSummaryViewModel>()
-              .ForMember(a => a.ConserverationStatus, b => b.MapFrom(a => a.BirdConserverationStatus.ConservationStatus))
+              .ForMember(a => a.ConservationStatus, b => b.MapFrom(a => a.BirdConservationStatus.ConservationList))
               .ForMember(a => a.BirderStatus, b => b.MapFrom(a => a.BirderStatus))
               .ReverseMap();
 

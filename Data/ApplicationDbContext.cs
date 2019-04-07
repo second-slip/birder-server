@@ -13,7 +13,7 @@ namespace Birder.Data
 
         public DbSet<Observation> Observations { get; set; }
         public DbSet<Bird> Birds { get; set; }
-        public DbSet<ConserverationStatus> ConservationStatuses { get; set; }
+        public DbSet<ConservationStatus> ConservationStatuses { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<ObservationTag> ObservationTags { get; set; }
         public DbSet<TweetDay> TweetDays { get; set; }
@@ -29,7 +29,7 @@ namespace Birder.Data
             base.OnModelCreating(builder);
             builder.Entity<Observation>().ToTable("Observation");
             builder.Entity<Bird>().ToTable("Bird");
-            builder.Entity<ConserverationStatus>().ToTable("ConservationStatus");
+            builder.Entity<ConservationStatus>().ToTable("ConservationStatus");
             //builder.Entity<BritishStatus>().ToTable("BritishStatus");
             builder.Entity<Tag>().ToTable("Tag");
             builder.Entity<ObservationTag>().ToTable("ObservationTag");

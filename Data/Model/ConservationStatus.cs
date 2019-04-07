@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Birder.Data.Model
 {
-    public class ConserverationStatus
+    public class ConservationStatus
     {
         [Key]
-        public int ConserverationStatusId { get; set; }
+        public int ConservationStatusId { get; set; }
 
         [Required]
-        public string ConservationStatus { get; set; }
+        public string ConservationList { get; set; }
 
         public string Description { get; set; }
 

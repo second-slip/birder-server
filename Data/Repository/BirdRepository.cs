@@ -17,7 +17,7 @@ namespace Birder.Data.Repository
         public Task<Bird> GetBirdDetail(int id)
         {
             return (from b in _dbContext.Birds
-                    .Include(cs => cs.BirdConserverationStatus)
+                    .Include(cs => cs.BirdConservationStatus)
                     where (b.BirdId == id)
                     select b).FirstOrDefaultAsync();
             //return await _dbContext.Birds.SingleOrDefaultAsync(m => m.BirdId == id);
@@ -26,7 +26,7 @@ namespace Birder.Data.Repository
         public Task<List<Bird>> GetBirdSummaryList(BirderStatus birderStatusFilter)
         {
             return (from b in _dbContext.Birds
-                    .Include(cs => cs.BirdConserverationStatus)
+                    .Include(cs => cs.BirdConservationStatus)
                     where (b.BirderStatus == birderStatusFilter)
                     select b).ToListAsync();
 

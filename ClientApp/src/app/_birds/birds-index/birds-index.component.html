@@ -12,8 +12,30 @@
 
 
 <div *ngIf="birds">
+
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <!-- <th scope="col">Count</th> -->
+            <th scope="col">Species</th>
+            <th scope="col">Status / Population</th>
+            <th scope="col">Risk Flag</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of birds; index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <!-- <td>{{ record.count | number }}</td> -->
+            <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
+              <br><small><em>{{ record.species }}</em></small></td>
+            <td><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
+            <td><small>{{ record.conservationList }}</small></td>
+          </tr>
+        </tbody>
+      </table>
      
-  <ul class="birds">
+  <!-- <ul class="birds">
     <p>{{ birds.length }} birds were returned: </p>
     <li *ngFor="let bird of birds">
       <span class="badge">{{bird.birdId}}</span> {{bird.englishName}}
@@ -22,5 +44,5 @@
       </a>
 
     </li>
-  </ul>
+  </ul> -->
 </div>

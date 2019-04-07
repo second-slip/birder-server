@@ -57,13 +57,13 @@ namespace Birder.Data.Model
 
         //
 
-        public int ConserverationStatusId { get; set; }
+        public int ConservationStatusId { get; set; }
 
         //public int BritishStatusId { get; set; }
 
         public ICollection<Observation> Observations { get; set; }
 
-        public ConserverationStatus BirdConserverationStatus { get; set; }
+        public ConservationStatus BirdConservationStatus { get; set; }
 
         public BirderStatus BirderStatus { get; set; }
 

@@ -1,9 +1,5 @@
 export interface BirdSummaryViewModel {
     birdId: number;
-    // class: string;
-    // order: string;
-    // family: string;
-    // genus: string;
     species: string;
     englishName: string;
     internationalName: string;
@@ -12,6 +8,6 @@ export interface BirdSummaryViewModel {
     btoStatusInBritain: string;
     thumbnailUrl: string;
     songUrl: string;
-    conserverationStatus: string;
+    conservationStatus: string;
     birderStatus: string;
 }

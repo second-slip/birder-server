@@ -63,7 +63,7 @@ namespace Birder.Data.Repository
         {
             var lifeList = (from observations in _dbContext.Observations
                  .Include(b => b.Bird)
-                    .ThenInclude(u => u.BirdConserverationStatus)
+                    .ThenInclude(u => u.BirdConservationStatus)
                  .Where(u => u.ApplicationUser.UserName == userName)
                             group observations by observations.Bird into species
                             orderby species.Count() descending
@@ -74,7 +74,7 @@ namespace Birder.Data.Repository
                                 Species = species.FirstOrDefault().Bird.Species,
                                 PopulationSize = species.FirstOrDefault().Bird.PopulationSize,
                                 BtoStatusInBritain = species.FirstOrDefault().Bird.BtoStatusInBritain,
-                                ConservationStatus = species.FirstOrDefault().Bird.BirdConserverationStatus.ConservationStatus,
+                                ConservationStatus = species.FirstOrDefault().Bird.BirdConservationStatus.ConservationList,
                                 Count = species.Count()
                             });
 
