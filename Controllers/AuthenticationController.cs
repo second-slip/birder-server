@@ -73,7 +73,7 @@ namespace Birder.Controllers
                     var tokenOptions = new JwtSecurityToken(
                         issuer: _config["Tokens:Issuer"],
                         audience: "http://localhost:55722",
-                        claims: claims,  // new List<Claim>(),
+                        claims: claims,
                         expires: _systemClock.Now.AddDays(2),
                         signingCredentials: signinCredentials
                         );

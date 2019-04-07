@@ -6,19 +6,16 @@
   </button>
   <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]='["/"]'>Home</a>
-      </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="isLoggedIn">
         <a class="nav-link" [routerLink]='["/observation-feed"]'>Observations</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]='["/counter"]'>Counter</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="isLoggedIn">
         <a class="nav-link" [routerLink]='["/birds-index"]'>Birds</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="isLoggedIn">
           <a class="nav-link" [routerLink]='["/life-list"]'>Life List</a>
         </li>
     </ul>

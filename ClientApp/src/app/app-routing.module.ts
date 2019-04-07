@@ -20,31 +20,41 @@ import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: LayoutNoSidebarComponent,
-    children: [
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'counter', component: CounterComponent },  //
-      { path: 'confirm-email', component: ConfirmEmailComponent },
-    ]
-  },
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   {
     path: '',
     component: LayoutSidebarComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'observation-feed', component: ObservationFeedComponent },
-      { path: 'observation-detail/:id', component: ObservationDetailComponent },
-      { path: 'observation-delete/:id', component: ObservationDeleteComponent },
-      { path: 'observation-add', component: ObservationAddComponent, },
-      { path: 'observation-edit/:id', component: ObservationEditComponent },
-      { path: 'birds-index', component: BirdsIndexComponent },
-      { path: 'birds-detail/:id', component: BirdsDetailComponent },
-      { path: 'life-list', component: LifeListComponent },
-      { path: 'logout', component: LogoutComponent },
+      {
+        path: '',
+        canActivateChild: [AuthGuard],
+        children: [
+          { path: '', redirectTo: 'home', pathMatch: 'full' },
+          { path: 'observation-feed', component: ObservationFeedComponent },
+          { path: 'observation-detail/:id', component: ObservationDetailComponent },
+          { path: 'observation-delete/:id', component: ObservationDeleteComponent },
+          { path: 'observation-add', component: ObservationAddComponent, },
+          { path: 'observation-edit/:id', component: ObservationEditComponent },
+          { path: 'birds-index', component: BirdsIndexComponent },
+          { path: 'birds-detail/:id', component: BirdsDetailComponent },
+          { path: 'life-list', component: LifeListComponent },
+          { path: 'logout', component: LogoutComponent },
+        ]
+      }
+
+    ]
+  },
+  {
+    path: '',
+    component: LayoutNoSidebarComponent,
+    children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent, pathMatch: 'full' },
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: 'counter', component: CounterComponent },  //
+      { path: 'confirm-email', component: ConfirmEmailComponent },
     ]
   },
   { path: '**', redirectTo: '' }

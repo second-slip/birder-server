@@ -15,7 +15,7 @@ export class LogoutComponent {
 
   onLogout(): void {
     this.authenticationService.logout();
-    this.router.navigate(['/']);
+    this.router.navigate(['home']);
   }
 
   onCancel(): void {

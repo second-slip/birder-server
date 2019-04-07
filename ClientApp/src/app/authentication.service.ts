@@ -55,6 +55,19 @@ export class AuthenticationService {
     this.isAuthenticated.next(false);
   }
 
+  checkIsAuthenticatedObservable(): Observable<boolean> {
+
+    return new Observable<boolean>(isAuthenticated => {
+      const token = localStorage.getItem('jwt');
+      if (token && !this.jwtHelper.isTokenExpired(token)) {
+        return isAuthenticated.next(true);
+
+      } else {
+        return isAuthenticated.next(false);
+      }
+    });
+  }
+
   checkIsAuthenticated(): boolean {
     const token = localStorage.getItem('jwt');
 
