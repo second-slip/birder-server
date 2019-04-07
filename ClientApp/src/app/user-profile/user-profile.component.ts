@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserViewModel } from 'src/_models/UserViewModel';
 
 @Component({
   selector: 'app-user-profile',
@@ -8,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
+  user: UserViewModel;
 
   constructor(private userService: UserService
     , private route: ActivatedRoute
@@ -20,7 +22,7 @@ export class UserProfileComponent implements OnInit {
 getUser(): void {
   const username = +this.route.snapshot.paramMap.get('username');
 
-  
+
   }
 
   ngOnInit() {

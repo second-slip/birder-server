@@ -32,9 +32,9 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetUser")]
-        public async Task<IActionResult> GetUser()
+        public async Task<IActionResult> GetUser(string username)
         {
-            var username = User.Identity.Name;
+            //var username = User.Identity.Name;
             var user = await _userManager.FindByNameAsync(username);
             var viewModel = _mapper.Map<ApplicationUser, UserViewModel>(user);
 
