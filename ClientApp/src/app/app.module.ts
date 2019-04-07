@@ -31,12 +31,12 @@ import { ObservationDeleteComponent } from './_observations/observation-delete/o
 import { JwtModule } from '@auth0/angular-jwt';
 import { AgmCoreModule } from '@agm/core';
 import { GeocodeService } from './geocode.service';
-import { InfoObservationCountComponent } from './info-observation-count/info-observation-count.component';
-import { InfoTopObservationsComponent } from './info-top-observations/info-top-observations.component';
-import { InfoTweetDayComponent } from './info-tweet-day/info-tweet-day.component';
-import { InfoNetworkComponent } from './info-network/info-network.component';
+import { InfoObservationCountComponent } from './_info/info-observation-count/info-observation-count.component';
+import { InfoTopObservationsComponent } from './_info/info-top-observations/info-top-observations.component';
+import { InfoTweetDayComponent } from './_info/info-tweet-day/info-tweet-day.component';
+import { InfoNetworkComponent } from './_info/info-network/info-network.component';
 import { LifeListComponent } from './life-list/life-list.component';
-import { InfoAwardsComponent } from './info-awards/info-awards.component';
+import { InfoAwardsComponent } from './_info/info-awards/info-awards.component';
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
 

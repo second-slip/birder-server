@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ObservationService } from '../observation.service';
-import { ObservationsAnalysisService } from '../observations-analysis.service';
+import { ObservationService } from '../../observation.service';
+import { ObservationsAnalysisService } from '../../observations-analysis.service';
 import { Subscription } from 'rxjs';
-import { TopObservationsAnalysisViewModel } from '../../_models/ObservationAnalysisViewModel';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { TopObservationsAnalysisViewModel } from '../../../_models/ObservationAnalysisViewModel';
+import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-info-top-observations',

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { TweetDay } from '../../_models/TweetDay';
-import { TweetsService } from '../tweets.service';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { TweetDay } from '../../../_models/TweetDay';
+import { TweetsService } from '../../tweets.service';
+import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-info-tweet-day',
