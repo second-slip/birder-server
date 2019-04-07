@@ -52,7 +52,7 @@ namespace Birder.Controllers
                 return BadRequest();
             }
 
-            var viewmodel = _mapper.Map<List<Bird>, List<BirdDetailViewModel>>(birds);
+            var viewmodel = _mapper.Map<List<Bird>, List<BirdSummaryViewModel>>(birds);
 
             return Ok(viewmodel);
         }

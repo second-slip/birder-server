@@ -1,4 +1,4 @@
-import { ConserverationStatus } from './ConserverationStatus';
+import { ConservationStatus } from './ConserverationStatus';
 
 export interface BirdDetailViewModel {
     birdId: number;
@@ -16,6 +16,6 @@ export interface BirdDetailViewModel {
     songUrl: string;
     creationDate: Date | string;
     lastUpdateDate: Date | string;
-    birdConserverationStatus: ConserverationStatus;
+    birdConserverationStatus: ConservationStatus;
     birderStatus: string;
 }
