@@ -1,5 +1,5 @@
 import { AuthenticationService } from '../authentication.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   invalidLogin: boolean;
   loginForm: FormGroup;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
+  returnUrl: string;
 
   login_validation_messages = {
     'username': [
@@ -32,11 +33,13 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(private router: Router
+            , private route: ActivatedRoute
             , private authenticationService: AuthenticationService
             , private formBuilder: FormBuilder
             , private location: Location) { }
 
   ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.authenticationService.logout();
     this.createForms();
     // TODO: get return url from route parameters or default to '/'
@@ -48,7 +51,8 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.invalidLogin = false;
-          this.router.navigate(['/']);
+          // this.router.navigate(['/']);
+          this.router.navigate([this.returnUrl]);
         },
         (error: ErrorReportViewModel) => {
           this.invalidLogin = true;
