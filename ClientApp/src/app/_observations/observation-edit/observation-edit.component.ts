@@ -22,12 +22,9 @@ export class ObservationEditComponent implements OnInit {
   birdsSpecies: BirdSummaryViewModel[];
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
-
-    //
     geolocation: string;
     searchAddress = '';
     geoError: string;
-    //
 
   editObservation_validation_messages = {
     'quantity': [
@@ -76,8 +73,6 @@ export class ObservationEditComponent implements OnInit {
   }
 
   onSubmit(value): void {
-
-    // console.log(value);
     this.observationService.updateObservation(this.observation.observationId, value)
     .subscribe(
       (data: ObservationViewModel) => {
@@ -85,10 +80,7 @@ export class ObservationEditComponent implements OnInit {
         this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
       },
       (error: ErrorReportViewModel) => {
-        // console.log(error); alert('hello');
         this.errorReport = error;
-        // this.invalidEditObservation = true;
-        // console.log(error);
         console.log(error.friendlyMessage);
         console.log('unsuccessful add observation');
       }
@@ -189,5 +181,4 @@ export class ObservationEditComponent implements OnInit {
         (error: any) => { }
       );
   }
-  // new google maps methods...
 }

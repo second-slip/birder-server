@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BirdsService } from '../../birds.service';
 import { BirdDetailViewModel } from '../../../_models/BirdDetailViewModel';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,17 +10,17 @@ import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
   templateUrl: './birds-detail.component.html',
   styleUrls: ['./birds-detail.component.scss']
 })
-export class BirdsDetailComponent implements OnInit {
+export class BirdsDetailComponent {
   bird: BirdDetailViewModel;
 
   constructor(private birdsService: BirdsService
     , private route: ActivatedRoute
     , private location: Location
-    , private router: Router) { }
-
-  ngOnInit(): void {
-    this.getBird();
-  }
+    , private router: Router) {
+      route.params.subscribe(val => {
+        this.getBird();
+      });
+    }
 
   getBird(): void {
     const id = +this.route.snapshot.paramMap.get('id');
