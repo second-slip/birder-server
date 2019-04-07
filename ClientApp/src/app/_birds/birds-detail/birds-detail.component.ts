@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { BirdsService } from '../birds.service';
-import { BirdDetailViewModel } from '../../_models/BirdDetailViewModel';
+import { BirdsService } from '../../birds.service';
+import { BirdDetailViewModel } from '../../../_models/BirdDetailViewModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-birds-detail',
