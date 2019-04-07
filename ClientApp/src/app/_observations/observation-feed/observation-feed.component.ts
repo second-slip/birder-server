@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { ObservationService } from '../observation.service';
+import { ObservationViewModel } from '../../../_models/ObservationViewModel';
+import { ObservationService } from '../../observation.service';
 import { Router } from '@angular/router';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-observation-feed',

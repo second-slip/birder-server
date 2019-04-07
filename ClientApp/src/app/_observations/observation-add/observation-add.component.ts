@@ -1,17 +1,17 @@
 import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ParentErrorStateMatcher } from '../../validators';
+import { ParentErrorStateMatcher } from '../../../validators';
 import { Router } from '@angular/router';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
-import { BirdsService } from '../birds.service';
-import { LocationViewModel } from '../../_models/LocationViewModel';
-import { GeocodeService } from '../geocode.service';
-import { UserService } from '../user.service';
-import { UserViewModel } from '../../_models/UserViewModel';
-import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { ObservationService } from '../observation.service';
-import { TokenService } from '../token.service';
+import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
+import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
+import { BirdsService } from '../../birds.service';
+import { LocationViewModel } from '../../../_models/LocationViewModel';
+import { GeocodeService } from '../../geocode.service';
+import { UserService } from '../../user.service';
+import { UserViewModel } from '../../../_models/UserViewModel';
+import { ObservationViewModel } from '../../../_models/ObservationViewModel';
+import { ObservationService } from '../../observation.service';
+import { TokenService } from '../../token.service';
 
 @Component({
   selector: 'app-observation-add',

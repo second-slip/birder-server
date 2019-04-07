@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
-import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { ObservationService } from '../observation.service';
+import { ObservationViewModel } from '../../../_models/ObservationViewModel';
+import { ObservationService } from '../../observation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { GeocodeService } from '../geocode.service';
-import { LocationViewModel } from '../../_models/LocationViewModel';
+import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
+import { GeocodeService } from '../../geocode.service';
+import { LocationViewModel } from '../../../_models/LocationViewModel';
 
 @Component({
   selector: 'app-observation-detail',
