@@ -20,7 +20,19 @@ import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: '', redirectTo: '/', pathMatch: 'full' },
+  {
+    path: '',
+    component: LayoutNoSidebarComponent,
+    children: [
+      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'home', component: HomeComponent, pathMatch: 'full' },
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: 'counter', component: CounterComponent },  //
+      { path: 'confirm-email', component: ConfirmEmailComponent },
+    ]
+  },
   {
     path: '',
     component: LayoutSidebarComponent,
@@ -30,7 +42,7 @@ const routes: Routes = [
         path: '',
         canActivateChild: [AuthGuard],
         children: [
-          { path: '', redirectTo: 'home', pathMatch: 'full' },
+          { path: '', component: HomeComponent, pathMatch: 'full' },
           { path: 'observation-feed', component: ObservationFeedComponent },
           { path: 'observation-detail/:id', component: ObservationDetailComponent },
           { path: 'observation-delete/:id', component: ObservationDeleteComponent },
@@ -43,18 +55,6 @@ const routes: Routes = [
         ]
       }
 
-    ]
-  },
-  {
-    path: '',
-    component: LayoutNoSidebarComponent,
-    children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent, pathMatch: 'full' },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'counter', component: CounterComponent },  //
-      { path: 'confirm-email', component: ConfirmEmailComponent },
     ]
   },
   { path: '**', redirectTo: '' }
