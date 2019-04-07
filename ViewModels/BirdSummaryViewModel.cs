@@ -8,14 +8,6 @@
     {
         public int BirdId { get; set; }
 
-        public string Class { get; set; }
-
-        public string Order { get; set; }
-
-        public string Family { get; set; }
-
-        public string Genus { get; set; }
-
         public string Species { get; set; }
 
         public string EnglishName { get; set; }
@@ -23,6 +15,10 @@
         public string InternationalName { get; set; }
 
         public string Category { get; set; }
+
+        public string PopulationSize { get; set; }
+
+        public string BtoStatusInBritain { get; set; }
 
         public string ThumbnailUrl { get; set; }
 
