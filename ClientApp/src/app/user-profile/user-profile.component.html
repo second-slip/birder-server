@@ -1,3 +1,15 @@
 <p>
   user-profile works!
 </p>
+
+<div *ngIf="user">
+
+  <img src={{user.profileImage}} alt="Smiley face" height="126" width="126">
+
+  {{ user.userName }}
+  {{ user.registrationDate }}
+  {{ user.isFollowing }}
+  {{ user.followersCount }}
+  {{ user.followingCount }}
+
+</div>

@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserService } from '../user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserViewModel } from '../../_models/UserViewModel';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { UserProfileViewModel } from '../../_models/UserProfileViewModel';
 
 @Component({
   selector: 'app-user-profile',
@@ -12,7 +12,7 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
   encapsulation: ViewEncapsulation.None
 })
 export class UserProfileComponent implements OnInit {
-  user: UserViewModel;
+  user: UserProfileViewModel;
   observations: ObservationViewModel[]; // lazy load on demand
 
   constructor(private userService: UserService
@@ -28,7 +28,7 @@ export class UserProfileComponent implements OnInit {
 
     this.userService.getUser(username)
     .subscribe(
-      (data: UserViewModel) => {
+      (data: UserProfileViewModel) => {
         this.user = data;
       },
       (error: ErrorReportViewModel) => {
