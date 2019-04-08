@@ -49,10 +49,9 @@ namespace Birder.Controllers
         public string UserName { get; set; }
         public string ProfileImage { get; set; }
         public DateTime RegistrationDate { get; set; }
+        public bool IsLoggedInUser { get; set; }
         public bool IsFollowing { get; set; }
         public int FollowersCount { get; set; }
         public int FollowingCount { get; set; }
-        //public double DefaultLocationLatitude { get; set; }
-        //public double DefaultLocationLongitude { get; set; }
     }
 }
