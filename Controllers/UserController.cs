@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -35,10 +36,18 @@ namespace Birder.Controllers
         [HttpGet, Route("GetUser")]
         public async Task<IActionResult> GetUser(string username)
         {
-            //var username = User.Identity.Name;
-            //var user = await _userManager.FindByNameAsync(username);
             var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
             var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
+
+            var currentUser = User.Identity.Name;
+            if (String.Equals(currentUser, username, StringComparison.InvariantCultureIgnoreCase))
+            {
+                viewModel.IsOwnProfile = true;
+            }
+            else
+            {
+                viewModel.IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == username);
+            }
 
             return Ok(viewModel);
         }
@@ -49,7 +58,7 @@ namespace Birder.Controllers
         public string UserName { get; set; }
         public string ProfileImage { get; set; }
         public DateTime RegistrationDate { get; set; }
-        public bool IsLoggedInUser { get; set; }
+        public bool IsOwnProfile { get; set; }
         public bool IsFollowing { get; set; }
         public int FollowersCount { get; set; }
         public int FollowingCount { get; set; }
