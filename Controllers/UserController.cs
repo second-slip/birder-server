@@ -36,6 +36,7 @@ namespace Birder.Controllers
         [HttpGet, Route("GetUser")]
         public async Task<IActionResult> GetUser(string username)
         {
+            // need defensive programming.  Username is url parameter
             var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
             var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
 
