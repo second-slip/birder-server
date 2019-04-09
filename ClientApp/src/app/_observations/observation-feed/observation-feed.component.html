@@ -18,7 +18,9 @@
     <div class="timeline-item"
       attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
       <h1><b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
-        spotted by {{observation.user.userName}}</h1>
+        spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
+          {{observation.user.userName}}
+        </a></h1>
 
       <a routerLink="/observation-detail/{{observation.observationId}}">
         View |

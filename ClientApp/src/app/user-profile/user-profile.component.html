@@ -30,10 +30,6 @@
             <div class="profile-text">
               <p>Joined on {{ user.registrationDate | date: 'EEEE, d MMMM yyyy'}}</p>
               <p>Followers: {{ user.followersCount }} | Following: {{ user.followingCount }}</p>
-              <!-- <p>
-                {{ user.isOwnProfile }}
-                {{ user.isFollowing }}
-              </p> -->
             </div>
             <p *ngIf="user.isOwnProfile == true"><button mat-stroked-button color="primary">
               {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></p>
