@@ -13,7 +13,7 @@ import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MatIconModule, MatButtonModule, MatInputModule,
               MatDatepickerModule, MatNativeDateModule, MatCheckboxModule, MatSelectModule,
               MatProgressSpinnerModule, MAT_DATE_LOCALE, MatTooltipModule, MatChipsModule,
-              MatAutocompleteModule, MatExpansionModule, MatTabsModule} from '@angular/material';
+              MatAutocompleteModule, MatExpansionModule, MatTabsModule, MatCardModule} from '@angular/material';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth-guard.service';
 import { LogoutComponent } from './logout/logout.component';
@@ -96,6 +96,7 @@ export function tokenGetter() {
     MatAutocompleteModule,
     MatExpansionModule,
     MatTabsModule,
+    MatCardModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
