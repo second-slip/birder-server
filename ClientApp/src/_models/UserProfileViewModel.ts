@@ -1,9 +1,11 @@
+import { UserViewModel } from './UserViewModel';
+
 export interface UserProfileViewModel {
     userName: string;
     profileImage: string;
     registrationDate: Date | string;
     isOwnProfile: boolean;
     isFollowing: boolean;
-    followersCount: number;
-    followingCount: number;
+    followers: UserViewModel[];
+    following: UserViewModel[];
 }

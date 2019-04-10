@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -61,7 +62,7 @@ namespace Birder.Controllers
         public DateTime RegistrationDate { get; set; }
         public bool IsOwnProfile { get; set; }
         public bool IsFollowing { get; set; }
-        public int FollowersCount { get; set; }
-        public int FollowingCount { get; set; }
+        public IEnumerable<UserViewModel> Followers { get; set; }
+        public IEnumerable<UserViewModel> Following { get; set; }
     }
 }
