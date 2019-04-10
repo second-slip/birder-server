@@ -40,6 +40,7 @@ import { InfoAwardsComponent } from './_info/info-awards/info-awards.component';
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserNetworkComponent } from './user-network/user-network.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -73,6 +74,7 @@ export function tokenGetter() {
     LayoutSidebarComponent,
     LayoutNoSidebarComponent,
     UserProfileComponent,
+    UserNetworkComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
