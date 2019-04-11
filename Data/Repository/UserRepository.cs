@@ -1,4 +1,5 @@
-﻿using Birder.Data.Model;
+﻿using Birder.Controllers;
+using Birder.Data.Model;
 using Birder.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace Birder.Data.Repository
             return followerList;
         }
 
-        public IEnumerable<UserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user)
+        public List<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user)
         {
             var followerList = from follower in user.Followers
                                select follower.Follower.UserName;
@@ -73,45 +74,51 @@ namespace Birder.Data.Repository
                                 select following.ApplicationUser.UserName;
 
             IEnumerable<string> followersNotBeingFollowed = followerList.Except(followingList);
-            IEnumerable<UserViewModel> suggestedBirders = new List<UserViewModel>();
+            IEnumerable<NetworkUserViewModel> suggestedBirders = new List<NetworkUserViewModel>();
 
             if (followersNotBeingFollowed.Count() != 0)
             {
                 suggestedBirders = from users in _dbContext.Users
                            .Where(users => followersNotBeingFollowed.Contains(users.UserName))
-                                       select new UserViewModel
+                                       select new NetworkUserViewModel
                                        {
                                            UserName = users.UserName,
-                                           ProfileImage = users.ProfileImage
-                                       };
+                                           ProfileImage = users.ProfileImage,
+                                           IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == user.UserName)
+            };
             }
             else
             {
                 suggestedBirders = from users in _dbContext.Users
                                    .Where(users => !followingList.Contains(users.UserName) && users.UserName != user.UserName)
-                                   select new UserViewModel
-                                       {
-                                           UserName = users.UserName,
-                                           ProfileImage = users.ProfileImage
-                                       };
+                                   select new NetworkUserViewModel
+                                   {
+                                       UserName = users.UserName,
+                                       ProfileImage = users.ProfileImage,
+                                       IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == user.UserName)
+                                   };
             }
-            return suggestedBirders;
+            
+            return suggestedBirders.ToList();
         }
 
-        public IEnumerable<UserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion)
+        public List<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion)
         {
             var followingList = from following in user.Following
                                 select following.ApplicationUser.UserName;
 
-            IEnumerable<UserViewModel> suggestedBirders = new List<UserViewModel>();
+            IEnumerable<NetworkUserViewModel> suggestedBirders = new List<NetworkUserViewModel>();
             suggestedBirders = from users in _dbContext.Users
                                where (users.UserName.ToUpper().Contains(searchCriterion.ToUpper()) && !followingList.Contains(users.UserName) && users.UserName != user.UserName) // .Contains(users.UserName) // != user.UserName)
-                               select new UserViewModel
+                               select new NetworkUserViewModel
                                {
                                    UserName = users.UserName,
-                                   ProfileImage = users.ProfileImage
+                                   ProfileImage = users.ProfileImage,
+                                   IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == user.UserName)
                                };
-            return suggestedBirders;
+        
+
+            return suggestedBirders.ToList();
         }
 
 

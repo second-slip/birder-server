@@ -61,6 +61,27 @@ namespace Birder.Controllers
 
             return Ok(viewModel);
         }
+
+        [HttpGet, Route("GetNetwork")]
+        public async Task<IActionResult> GetNetwork(string searchCriterion)
+        {
+            var username = User.Identity.Name;
+            var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+            // ApplicationUser loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(await _userAccessor.GetUser());
+            var viewModel = new List<NetworkUserViewModel>();
+
+            if (String.IsNullOrEmpty(searchCriterion))
+            {
+                viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser);
+                // followUserViewModel.SearchCriterion = searchCriterion;
+            }
+            else
+            {
+                viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser, searchCriterion);
+                //followUserViewModel.SearchCriterion = searchCriterion;
+            }
+            return Ok(viewModel);
+        }
     }
 
     public class UserProfileViewModel
@@ -70,15 +91,15 @@ namespace Birder.Controllers
         public DateTime RegistrationDate { get; set; }
         public bool IsOwnProfile { get; set; }
         public bool IsFollowing { get; set; }
-        public IEnumerable<FollowerViewModel> Followers { get; set; }
-        public IEnumerable<UserViewModel> Following { get; set; }
+        public IEnumerable<NetworkUserViewModel> Followers { get; set; }
+        public IEnumerable<NetworkUserViewModel> Following { get; set; }
     }
 
-    public class FollowerViewModel
+    public class NetworkUserViewModel
     {
         public string UserName { get; set; }
         public string ProfileImage { get; set; }
-        public bool IsFollowing { get; set; }
+        public bool IsFollowing { get; set; } = true;
     }
 
 

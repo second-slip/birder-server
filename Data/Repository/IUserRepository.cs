@@ -1,4 +1,5 @@
-﻿using Birder.Data.Model;
+﻿using Birder.Controllers;
+using Birder.Data.Model;
 using Birder.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,8 @@ namespace Birder.Data.Repository
         IEnumerable<UserViewModel> GetFollowersList(ApplicationUser user);
         void Follow(ApplicationUser loggedinUser, ApplicationUser userToFollow);
         void UnFollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow);
-        IEnumerable<UserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user);
-        IEnumerable<UserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion);
+        List<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user);
+        List<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion);
         IQueryable<Observation> GetUsersObservationsList(string userId);
         Task<int> UniqueSpeciesCount(ApplicationUser user);
     }
