@@ -84,7 +84,7 @@ namespace Birder.Data.Repository
                                        {
                                            UserName = users.UserName,
                                            ProfileImage = users.ProfileImage,
-                                           IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == user.UserName)
+                                           IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == users.UserName)
             };
             }
             else
@@ -95,7 +95,7 @@ namespace Birder.Data.Repository
                                    {
                                        UserName = users.UserName,
                                        ProfileImage = users.ProfileImage,
-                                       IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == user.UserName)
+                                       IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == users.UserName)
                                    };
             }
             
