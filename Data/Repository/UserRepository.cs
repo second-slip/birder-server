@@ -60,7 +60,7 @@ namespace Birder.Data.Repository
                                   select new UserViewModel
                                   {
                                       UserName = follower.Follower.UserName,
-                                      ProfileImage = follower.Follower.ProfileImage
+                                      ProfileImage = follower.Follower.ProfileImage,
                                   };
             return followerList;
         }

@@ -6,6 +6,12 @@ export interface UserProfileViewModel {
     registrationDate: Date | string;
     isOwnProfile: boolean;
     isFollowing: boolean;
-    followers: UserViewModel[];
+    followers: FollowerViewModel[];
     following: UserViewModel[];
+}
+
+export interface FollowerViewModel {
+    userName: string;
+    profileImage: string;
+    isFollowing: boolean;
 }
