@@ -19,6 +19,7 @@ import { LifeListComponent } from './life-list/life-list.component';
 import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserNetworkComponent } from './user-network/user-network.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -53,6 +54,7 @@ const routes: Routes = [
           { path: 'birds-detail/:id', component: BirdsDetailComponent },
           { path: 'life-list', component: LifeListComponent },
           { path: 'user-profile/:username', component: UserProfileComponent },
+          { path: 'user-network', component: UserNetworkComponent },
           { path: 'logout', component: LogoutComponent },
         ]
       }

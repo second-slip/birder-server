@@ -1,5 +1,21 @@
 <p>
   user-network works!
 </p>
+<!-- <p><button mat-stroked-button color="primary" (click)="honker($event.target)">Honker</button></p> -->
+<!-- <button (click)="setSaving($event.target, 'saving')">save</button> -->
+  <br>
+
+<div *ngFor="let user of users">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <img mat-card-avatar class="example-header-image" src="{{user.profileImage}}">
+      <mat-card-title>{{user.userName}}</mat-card-title>
+      <mat-card-subtitle>
+      <p><button mat-stroked-button color="primary" (click)="honker($event.target)">
+        {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></p>
+      </mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</div>
 
 
