@@ -104,7 +104,8 @@ namespace Birder.Controllers
                 {
                     _userRepository.Follow(loggedinUser, userToFollow);
                     var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToFollow);
-                    // viewModel.IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == username);
+                    loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
+                    viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == username);
                     return Ok(viewModel);
                     // return RedirectToAction("Details", new { userName = userName, page = currentPage });
                 }
@@ -139,6 +140,8 @@ namespace Birder.Controllers
                 {
                     _userRepository.UnFollow(loggedinUser, userToUnfollow);
                     var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToUnfollow);
+                    loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
+                    viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == username);
                     return Ok(viewModel);
                     // return RedirectToAction("Details", new { userName = userName, page = currentPage });
                 }
