@@ -82,6 +82,74 @@ namespace Birder.Controllers
             }
             return Ok(viewModel);
         }
+
+
+        [HttpPost, Route("Follow")]
+        public async Task<IActionResult> Follow(string username)
+        {
+            //_logger.LogInformation(LoggingEvents.UpdateItem, "Follow action called");
+            try
+            {
+                //var username = User.Identity.Name;
+                var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
+                // var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(await _userAccessor.GetUser());
+                var userToFollow = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+
+                if (loggedinUser == userToFollow)
+                {
+                    //return RedirectToAction("Details", new { userName = userName, page = currentPage });
+                    return BadRequest("Trying to follow yourself");
+                }
+                else
+                {
+                    _userRepository.Follow(loggedinUser, userToFollow);
+                    var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToFollow);
+                    // viewModel.IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == username);
+                    return Ok(viewModel);
+                    // return RedirectToAction("Details", new { userName = userName, page = currentPage });
+                }
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
+                return BadRequest(String.Format("An error occurred trying to follow user: {0}", username));
+                //return RedirectToAction("Details", new { userName = userName, page = currentPage });
+            }
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //ToDo : Add validation
+        [HttpPost, Route("Unfollow")]
+        public async Task<IActionResult> Unfollow(string username) //, int currentPage)
+        {
+            //_logger.LogInformation(LoggingEvents.UpdateItem, "Unfollow action called");
+            try
+            {
+                //var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(await _userAccessor.GetUser());
+                var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
+                var userToUnfollow = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+
+                if (loggedinUser == userToUnfollow)
+                {
+                    //return RedirectToAction("Details", new { userName = userName, page = currentPage });
+                    return BadRequest("Trying to unfollow yourself");
+                }
+                else
+                {
+                    _userRepository.UnFollow(loggedinUser, userToUnfollow);
+                    var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToUnfollow);
+                    return Ok(viewModel);
+                    // return RedirectToAction("Details", new { userName = userName, page = currentPage });
+                }
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(LoggingEvents.GetItemNotFound, ex, "Unfollow action error");
+                return BadRequest(String.Format("An error occurred trying to unfollow user: {0}", username));
+                //return RedirectToAction("Details", new { userName = userName, page = currentPage });
+            }
+        }
     }
 
     public class UserProfileViewModel
