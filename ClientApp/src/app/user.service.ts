@@ -31,4 +31,22 @@ export class UserService {
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
+
+  postFollowUser(username: string): Observable<NetworkUserViewModel | ErrorReportViewModel> {
+    const options = username ?
+    { params: new HttpParams().set('username', username) } : {};
+
+    return this.http.post<NetworkUserViewModel>('api/User/Follow', options)
+    .pipe(
+      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
+  postUnfollowUser(username: string): Observable<NetworkUserViewModel | ErrorReportViewModel> {
+    const options = username ?
+    { params: new HttpParams().set('username', username) } : {};
+
+    return this.http.post<NetworkUserViewModel>('api/User/Unfollow', options)
+    .pipe(
+      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
 }

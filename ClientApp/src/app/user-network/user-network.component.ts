@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NetworkUserViewModel } from '../../_models/UserProfileViewModel';
 import { UserService } from '../user.service';
-import { ErrorReportViewModel } from 'src/_models/ErrorReportViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-user-network',
@@ -17,22 +17,33 @@ export class UserNetworkComponent implements OnInit {
     this.getNetwork();
   }
 
-  honker(element) {
-    // alert(element.textContent);
-     const action = element.innerText;
-    // alert(f);
+  followOrUnfollow(element, user: NetworkUserViewModel) {
+    console.log(user);
+    const action = element.innerText;
 
     if (action === 'Follow') {
-      //alert('Follow');
-       element.innerText = 'Unfollow';
-       return;
+      this.userService.postFollowUser(user.userName)
+        .subscribe(
+          (data: NetworkUserViewModel) => {
+            // this.user = data;
+            console.log(data);
+            element.innerText = 'Unfollow';
+          },
+          (error: ErrorReportViewModel) => {
+            console.log(error);
+            // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+          });
+      //
+      // element.innerText = 'Unfollow';
+      return;
     } else {
-      //alert('Unfollow');
-       element.innerText = 'Follow';
-       return;
-    }
+      //
 
-    // this.users.splice()
+
+      //
+      element.innerText = 'Follow';
+      return;
+    }
   }
 
   getNetwork(): void {

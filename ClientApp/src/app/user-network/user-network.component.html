@@ -11,7 +11,7 @@
       <img mat-card-avatar class="example-header-image" src="{{user.profileImage}}">
       <mat-card-title>{{user.userName}}</mat-card-title>
       <mat-card-subtitle>
-      <p><button mat-stroked-button color="primary" (click)="honker($event.target)">
+      <p><button mat-stroked-button color="primary" (click)="followOrUnfollow($event.target, user)">
         {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></p>
       </mat-card-subtitle>
     </mat-card-header>
