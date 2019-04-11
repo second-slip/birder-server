@@ -42,9 +42,11 @@ namespace Birder.Controllers
             var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
             var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
 
-            foreach (var item in viewModel.Followers)
+            // foreach (var item in viewModel.Followers)
+            for(int i = 0; i < viewModel.Followers.Count(); i++) 
             {
-                item.IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == item.UserName);
+                viewModel.Followers.ElementAt(i).IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Followers.ElementAt(i).UserName);
+                // item.IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == item.UserName);
             }
 
             var currentUser = User.Identity.Name;
