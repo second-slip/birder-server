@@ -17,6 +17,9 @@ namespace Birder.Data
 
             CreateMap<ApplicationUser, UserViewModel>()
               .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
+              .ForMember(x => x.ProfileImage, y => y.MapFrom(x => x.ProfileImage))
+              .ForMember(x => x.DefaultLocationLatitude, y => y.MapFrom(x => x.DefaultLocationLatitude))
+              .ForMember(x => x.DefaultLocationLongitude, y => y.MapFrom(x => x.DefaultLocationLongitude))
               .ReverseMap();
 
             CreateMap<ApplicationUser, NetworkUserViewModel>()

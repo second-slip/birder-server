@@ -105,7 +105,7 @@ namespace Birder.Controllers
                     _userRepository.Follow(loggedinUser, userToFollow);
                     var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToFollow);
                     loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
-                    viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
+                   viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
                     return Ok(viewModel);
                     // return RedirectToAction("Details", new { userName = userName, page = currentPage });
                 }
@@ -141,7 +141,7 @@ namespace Birder.Controllers
                     _userRepository.UnFollow(loggedinUser, userToUnfollow);
                     var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToUnfollow);
                     loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
-                    viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
+                   viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
                     return Ok(viewModel);
                     // return RedirectToAction("Details", new { userName = userName, page = currentPage });
                 }
@@ -162,8 +162,8 @@ namespace Birder.Controllers
         public DateTime RegistrationDate { get; set; }
         public bool IsOwnProfile { get; set; }
         public bool IsFollowing { get; set; }
-        // public IEnumerable<UserViewModel> Followers { get; set; }
-        // public IEnumerable<UserViewModel> Following { get; set; }
+        public IEnumerable<UserViewModel> Followers { get; set; }
+        public IEnumerable<UserViewModel> Following { get; set; }
     }
 
     public class NetworkUserViewModel
