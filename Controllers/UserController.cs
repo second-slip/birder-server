@@ -44,7 +44,7 @@ namespace Birder.Controllers
 
             for(int i = 0; i < viewModel.Followers.Count(); i++) 
             {
-                viewModel.Followers.ElementAt(i).IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Followers.ElementAt(i).UserName);
+                viewModel.Followers.ElementAt(i).IsFollowing = user.Following.Any(cus => cus.Follower.UserName == viewModel.Followers.ElementAt(i).UserName);
                 // item.IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == item.UserName);
             }
 
@@ -55,7 +55,7 @@ namespace Birder.Controllers
             }
             else
             {
-                viewModel.IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == username);
+                viewModel.IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == currentUser);
             }
 
             return Ok(viewModel);
@@ -161,7 +161,7 @@ namespace Birder.Controllers
         public DateTime RegistrationDate { get; set; }
         public bool IsOwnProfile { get; set; }
         public bool IsFollowing { get; set; }
-        public IEnumerable<NetworkUserViewModel> Followers { get; set; }
+        public IEnumerable<FollowerViewModel> Followers { get; set; }
         public IEnumerable<NetworkUserViewModel> Following { get; set; }
     }
 
@@ -171,6 +171,15 @@ namespace Birder.Controllers
         public string ProfileImage { get; set; }
         public bool IsFollowing { get; set; } = true;
     }
+
+    public class FollowerViewModel
+    {
+        public string UserName { get; set; }
+        public string ProfileImage { get; set; }
+        public bool IsFollowing { get; set; } = true;
+    }
+
+
 
 
 }
