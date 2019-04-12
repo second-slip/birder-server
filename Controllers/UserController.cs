@@ -178,8 +178,4 @@ namespace Birder.Controllers
         public string ProfileImage { get; set; }
         public bool IsFollowing { get; set; } = true;
     }
-
-
-
-
 }
