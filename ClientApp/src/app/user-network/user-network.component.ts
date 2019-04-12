@@ -38,10 +38,20 @@ export class UserNetworkComponent implements OnInit {
       return;
     } else {
       //
-
+      this.userService.postUnfollowUser(user.userName)
+        .subscribe(
+          (data: NetworkUserViewModel) => {
+            // this.user = data;
+            console.log(data);
+            element.innerText = 'Follow';
+          },
+          (error: ErrorReportViewModel) => {
+            console.log(error);
+            // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+          });
 
       //
-      element.innerText = 'Follow';
+      // element.innerText = 'Follow';
       return;
     }
   }

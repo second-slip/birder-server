@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { HttpErrorHandlerService } from './http-error-handler.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { UserProfileViewModel, NetworkUserViewModel } from '../_models/UserProfileViewModel';
@@ -34,7 +34,7 @@ export class UserService {
 
   postFollowUser(username: string): Observable<NetworkUserViewModel | ErrorReportViewModel> {
     const options = username ?
-    { params: new HttpParams().set('username', username) } : {};
+      { params: new HttpParams().set('username', username) } : {};
 
     return this.http.post<NetworkUserViewModel>('api/User/Follow', options)
     .pipe(
