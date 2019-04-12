@@ -34,8 +34,8 @@ namespace Birder.Data
 
             CreateMap<ApplicationUser, UserProfileViewModel>()
               .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
-              .ForMember(x => x.Followers, y => y.MapFrom(x => x.Followers))
-              .ForMember(x => x.Following, y => y.MapFrom(x => x.Following))
+              //.ForMember(x => x.Followers, y => y.MapFrom(x => x.Followers))
+              //.ForMember(x => x.Following, y => y.MapFrom(x => x.Following))
               .ReverseMap();
 
 
