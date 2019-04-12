@@ -162,8 +162,8 @@ namespace Birder.Controllers
         public DateTime RegistrationDate { get; set; }
         public bool IsOwnProfile { get; set; }
         public bool IsFollowing { get; set; }
-        public IEnumerable<NetworkUserViewModel> Followers { get; set; }
-        public IEnumerable<NetworkUserViewModel> Following { get; set; }
+        public IEnumerable<UserViewModel> Followers { get; set; }
+        public IEnumerable<UserViewModel> Following { get; set; }
     }
 
     public class NetworkUserViewModel
