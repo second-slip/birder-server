@@ -42,12 +42,6 @@ namespace Birder.Controllers
             var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
             var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
 
-            for(int i = 0; i < viewModel.Followers.Count(); i++) 
-            {
-                viewModel.Followers.ElementAt(i).IsFollowing = user.Following.Any(cus => cus.Follower.UserName == viewModel.Followers.ElementAt(i).UserName);
-                // item.IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == item.UserName);
-            }
-
             var currentUser = User.Identity.Name;
             if (String.Equals(currentUser, username, StringComparison.InvariantCultureIgnoreCase))
             {
@@ -56,6 +50,12 @@ namespace Birder.Controllers
             else
             {
                 viewModel.IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == currentUser);
+            }
+
+            for(int i = 0; i < viewModel.Followers.Count(); i++) 
+            {
+                viewModel.Followers.ElementAt(i).IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == viewModel.Followers.ElementAt(i).UserName);
+                // item.IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == item.UserName);
             }
 
             return Ok(viewModel);

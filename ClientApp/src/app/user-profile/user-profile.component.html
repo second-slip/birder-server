@@ -21,14 +21,14 @@
         </ng-template>
         <p><em>Find Birders to follow</em></p>
         <!-- // -->
-        <div *ngFor="let user of user.following">
+        <div *ngFor="let f of user.following">
           <mat-card class="example-card">
             <mat-card-header>
-              <img mat-card-avatar class="example-header-image" src="{{user.profileImage}}">
-              <mat-card-title>{{user.userName}}</mat-card-title>
+              <img mat-card-avatar class="example-header-image" src="{{f.profileImage}}">
+              <mat-card-title>{{f.userName}}</mat-card-title>
               <mat-card-subtitle>
-                <p><button mat-stroked-button color="primary" (click)="followOrUnfollow($event.target, user)">
-                    {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></p>
+                <p><button mat-stroked-button color="primary" (click)="followOrUnfollow($event.target, f)">
+                    {{ f.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></p>
               </mat-card-subtitle>
             </mat-card-header>
           </mat-card>
