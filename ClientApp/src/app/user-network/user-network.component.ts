@@ -10,6 +10,7 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 })
 export class UserNetworkComponent implements OnInit {
   users: NetworkUserViewModel[];
+  searchTerm: string;
 
   constructor(private userService: UserService) { }
 
