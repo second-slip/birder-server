@@ -33,7 +33,7 @@ export class ObservationService {
 
   getObservation(id: number): Observable<ObservationViewModel | ErrorReportViewModel> {
     const options = id ?
-      { params: new HttpParams().set('id', id.toString()) } : {};
+      { params: new HttpParams().append('id', id.toString()) } : {};
 
     return this.http.get<ObservationViewModel>('api/Observation/GetObservation', options)
       .pipe(

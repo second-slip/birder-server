@@ -18,11 +18,11 @@ export class UserNetworkComponent implements OnInit {
   }
 
   followOrUnfollow(element, user: NetworkUserViewModel) {
-    console.log(user);
+    // console.log(user);
     const action = element.innerText;
 
     if (action === 'Follow') {
-      this.userService.postFollowUser(user.userName)
+      this.userService.postFollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
             // this.user = data;
@@ -38,7 +38,7 @@ export class UserNetworkComponent implements OnInit {
       return;
     } else {
       //
-      this.userService.postUnfollowUser(user.userName)
+      this.userService.postUnfollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
             // this.user = data;
