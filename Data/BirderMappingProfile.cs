@@ -34,11 +34,20 @@ namespace Birder.Data
              .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
              .ReverseMap();
 
+             CreateMap<ApplicationUser, Network>()
+             //.ForMember(x => x.ApplicationUser, y => y.MapFrom(x => x.))
+             .ReverseMap();
+
+             CreateMap<Network, UserViewModel>()
+
+             .ForMember(x => x.UserName, y => y.MapFrom(x => x.ApplicationUser.UserName))
+             .ReverseMap();
+
 
             CreateMap<ApplicationUser, UserProfileViewModel>()
               .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
-              //.ForMember(x => x.Followers, y => y.MapFrom(x => x.Followers))
-              //.ForMember(x => x.Following, y => y.MapFrom(x => x.Following))
+              .ForMember(x => x.Followers, y => y.MapFrom(x => x.Followers))
+              .ForMember(x => x.Following, y => y.MapFrom(x => x.Following))
               .ReverseMap();
 
 
