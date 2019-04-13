@@ -21,14 +21,16 @@
         </ng-template>
         <p><em>Find Birders to follow</em></p>
         <!-- // -->
-        <div *ngFor="let f of user.following">
+        <div *ngFor="let following of user.following">
           <mat-card class="example-card">
             <mat-card-header>
-              <img mat-card-avatar class="example-header-image" src="{{f.profileImage}}">
-              <mat-card-title>{{f.userName}}</mat-card-title>
-              <mat-card-subtitle *ngIf="f.isOwnProfile == false">
-                <p><button mat-stroked-button color="primary" (click)="followOrUnfollow($event.target, f)">
-                    {{ f.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></p>
+              <img mat-card-avatar class="example-header-image" src="{{following.profileImage}}">
+              <mat-card-title>{{following.userName}}</mat-card-title>
+              <mat-card-subtitle>
+                <div *ngIf="following.isOwnProfile == false"><button mat-stroked-button color="primary"
+                    (click)="followOrUnfollow($event.target, following)">
+                    {{ following.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+                <div *ngIf="following.isOwnProfile == true"><em>You</em></div>
               </mat-card-subtitle>
             </mat-card-header>
           </mat-card>
@@ -40,15 +42,17 @@
         <ng-template mat-tab-label>
           <span matBadge={{user.followers.length}} matBadgeOverlap="false">Followers</span>
         </ng-template>
-                <!-- // -->
+        <!-- // -->
         <div *ngFor="let follower of user.followers">
           <mat-card class="example-card">
             <mat-card-header>
               <img mat-card-avatar class="example-header-image" src="{{follower.profileImage}}">
               <mat-card-title>{{follower.userName}}</mat-card-title>
-              <mat-card-subtitle *ngIf="follower.isOwnProfile == false">
-                <p><button mat-stroked-button color="primary" (click)="followOrUnfollow($event.target, follower)">
-                    {{ follower.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></p>
+              <mat-card-subtitle>
+                <div *ngIf="follower.isOwnProfile == false"><button mat-stroked-button color="primary"
+                    (click)="followOrUnfollow($event.target, follower)">
+                    {{ follower.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+                <div *ngIf="follower.isOwnProfile == true"><em>You</em></div>
               </mat-card-subtitle>
             </mat-card-header>
           </mat-card>
