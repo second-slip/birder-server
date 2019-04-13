@@ -65,7 +65,7 @@ namespace Birder.Controllers
             for(int i = 0; i < viewModel.Followers.Count(); i++) 
             {
                 //viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Followers.Any(cus => cus.Follower.UserName == viewModel.Followers.ElementAt(i).UserName);
-                viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.Follower.UserName == viewModel.Followers.ElementAt(i).UserName);
+                viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Followers.ElementAt(i).UserName);
                 viewModel.Followers.ElementAt(i).IsOwnProfile = viewModel.Followers.ElementAt(i).UserName == loggedinUsername;
             }
 
