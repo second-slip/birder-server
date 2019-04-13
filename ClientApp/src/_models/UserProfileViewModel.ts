@@ -14,10 +14,12 @@ export interface NetworkUserViewModel {
     userName: string;
     profileImage: string;
     isFollowing: boolean;
+    isOwnProfile: boolean;
 }
 
 export interface FollowerViewModel {
     userName: string;
     profileImage: string;
     isFollowing: boolean;
+    isOwnProfile: boolean;
 }

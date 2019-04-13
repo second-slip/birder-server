@@ -42,20 +42,30 @@ namespace Birder.Controllers
             var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
             var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
 
-            var currentUser = User.Identity.Name;
-            if (String.Equals(currentUser, username, StringComparison.InvariantCultureIgnoreCase))
+            var loggedinUsername = User.Identity.Name;
+            var loggedinUser = new ApplicationUser();
+            if (String.Equals(loggedinUsername, username, StringComparison.InvariantCultureIgnoreCase))
             {
                 viewModel.IsOwnProfile = true;
+                loggedinUser = user;
             }
             else
             {
-                viewModel.IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == currentUser);
+                viewModel.IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == loggedinUsername);
+                loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(loggedinUsername);
+            }
+
+            // Check Following / Followers collections from the point of view of the loggedin user
+            for(int i = 0; i < viewModel.Following.Count(); i++) 
+            {
+                viewModel.Following.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Following.ElementAt(i).UserName);
+                viewModel.Following.ElementAt(i).IsOwnProfile = viewModel.Following.ElementAt(i).UserName == loggedinUsername;
             }
 
             for(int i = 0; i < viewModel.Followers.Count(); i++) 
             {
-                viewModel.Followers.ElementAt(i).IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == viewModel.Followers.ElementAt(i).UserName);
-                // item.IsFollowing = user.Following.Any(cus => cus.ApplicationUser.UserName == item.UserName);
+                viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Followers.Any(cus => cus.Follower.UserName == viewModel.Followers.ElementAt(i).UserName);
+                viewModel.Followers.ElementAt(i).IsOwnProfile = viewModel.Followers.ElementAt(i).UserName == loggedinUsername;
             }
 
             return Ok(viewModel);
@@ -170,6 +180,7 @@ namespace Birder.Controllers
         public string UserName { get; set; }
         public string ProfileImage { get; set; }
         public bool IsFollowing { get; set; } = true;
+        public bool IsOwnProfile { get; set; }
     }
 
     public class FollowerViewModel
@@ -177,5 +188,6 @@ namespace Birder.Controllers
         public string UserName { get; set; }
         public string ProfileImage { get; set; }
         public bool IsFollowing { get; set; } = true;
+        public bool IsOwnProfile { get; set; }
     }
 }
