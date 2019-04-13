@@ -27,14 +27,14 @@ export class UserProfileComponent implements OnInit {
     const username = this.route.snapshot.paramMap.get('username');
 
     this.userService.getUser(username)
-    .subscribe(
-      (data: UserProfileViewModel) => {
-        this.user = data;
-      },
-      (error: ErrorReportViewModel) => {
-        console.log('bad request');
-        this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
-      });
+      .subscribe(
+        (data: UserProfileViewModel) => {
+          this.user = data;
+        },
+        (error: ErrorReportViewModel) => {
+          console.log('bad request');
+          this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+        });
   }
 
   followOrUnfollow(element, user: NetworkUserViewModel) {
@@ -46,7 +46,7 @@ export class UserProfileComponent implements OnInit {
         .subscribe(
           (data: NetworkUserViewModel) => {
             // this.user = data;
-            console.log(data);
+            // console.log(data);
             element.innerText = 'Unfollow';
           },
           (error: ErrorReportViewModel) => {
@@ -62,7 +62,7 @@ export class UserProfileComponent implements OnInit {
         .subscribe(
           (data: NetworkUserViewModel) => {
             // this.user = data;
-            console.log(data);
+            // console.log(data);
             element.innerText = 'Follow';
           },
           (error: ErrorReportViewModel) => {
