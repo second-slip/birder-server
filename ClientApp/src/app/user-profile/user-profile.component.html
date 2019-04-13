@@ -25,7 +25,7 @@
           <mat-card class="example-card">
             <mat-card-header>
               <img mat-card-avatar class="example-header-image" src="{{following.profileImage}}">
-              <mat-card-title>{{following.userName}}</mat-card-title>
+              <mat-card-title><a routerLink="/user-profile/{{following.userName}}">{{following.userName}}</a></mat-card-title>
               <mat-card-subtitle>
                 <div *ngIf="following.isOwnProfile == false"><button mat-stroked-button color="primary"
                     (click)="followOrUnfollow($event.target, following)">
@@ -47,7 +47,7 @@
           <mat-card class="example-card">
             <mat-card-header>
               <img mat-card-avatar class="example-header-image" src="{{follower.profileImage}}">
-              <mat-card-title>{{follower.userName}}</mat-card-title>
+              <mat-card-title><a routerLink="/user-profile/{{follower.userName}}">{{follower.userName}}</a></mat-card-title>
               <mat-card-subtitle>
                 <div *ngIf="follower.isOwnProfile == false"><button mat-stroked-button color="primary"
                     (click)="followOrUnfollow($event.target, follower)">

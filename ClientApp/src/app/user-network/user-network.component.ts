@@ -27,7 +27,7 @@ export class UserNetworkComponent implements OnInit {
         .subscribe(
           (data: NetworkUserViewModel) => {
             // this.user = data;
-            console.log(data);
+            // console.log(data);
             element.innerText = 'Unfollow';
           },
           (error: ErrorReportViewModel) => {
@@ -43,7 +43,7 @@ export class UserNetworkComponent implements OnInit {
         .subscribe(
           (data: NetworkUserViewModel) => {
             // this.user = data;
-            console.log(data);
+            // console.log(data);
             element.innerText = 'Follow';
           },
           (error: ErrorReportViewModel) => {
