@@ -180,7 +180,7 @@ namespace Birder.Controllers
     {
         public string UserName { get; set; }
         public string ProfileImage { get; set; }
-        public bool IsFollowing { get; set; } = true;
+        public bool IsFollowing { get; set; }
         public bool IsOwnProfile { get; set; }
     }
 
@@ -188,7 +188,7 @@ namespace Birder.Controllers
     {
         public string UserName { get; set; }
         public string ProfileImage { get; set; }
-        public bool IsFollowing { get; set; } = true;
+        public bool IsFollowing { get; set; }
         public bool IsOwnProfile { get; set; }
     }
 }
