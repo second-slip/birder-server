@@ -5,6 +5,14 @@
 <!-- <button (click)="setSaving($event.target, 'saving')">save</button> -->
   <br>
 
+  <div>
+    <form (ngSubmit)="search()">
+      <input type="text" name="find" placeholder="Type location here" [(ngModel)]="searchTerm"
+        [ngModelOptions]="{standalone: true}" required>
+      <button type="submit">Find users</button>
+    </form>
+  </div>
+
 <div *ngFor="let user of users">
   <mat-card class="example-card">
     <mat-card-header>

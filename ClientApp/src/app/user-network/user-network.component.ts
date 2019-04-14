@@ -15,10 +15,26 @@ export class UserNetworkComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.getNetwork();
+    this.getNetwork('');
   }
 
-  followOrUnfollow(element, user: NetworkUserViewModel) {
+  search(): void {
+    this.getNetwork(this.searchTerm);
+  }
+
+  getNetwork(searchTerm: string): void {
+    this.userService.getNetwork(searchTerm)
+      .subscribe(
+        (data: NetworkUserViewModel[]) => {
+          this.users = data;
+        },
+        (error: ErrorReportViewModel) => {
+          console.log('bad request');
+          // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+        });
+  }
+
+  followOrUnfollow(element, user: NetworkUserViewModel): void {
     // console.log(user);
     const action = element.innerText;
 
@@ -56,21 +72,4 @@ export class UserNetworkComponent implements OnInit {
       return;
     }
   }
-
-  getNetwork(): void {
-    // const username = this.route.snapshot.paramMap.get('username');
-
-    this.userService.getNetwork('')
-    .subscribe(
-      (data: NetworkUserViewModel[]) => {
-        this.users = data;
-      },
-      (error: ErrorReportViewModel) => {
-        console.log('bad request');
-        // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
-      });
-
-
-  }
-
 }
