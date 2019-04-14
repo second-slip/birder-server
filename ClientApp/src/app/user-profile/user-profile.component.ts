@@ -16,11 +16,11 @@ export class UserProfileComponent implements OnInit {
   observations: ObservationViewModel[]; // lazy load on demand
 
   constructor(private userService: UserService
-    , private route: ActivatedRoute
-    , private router: Router) {
-    route.params.subscribe(_ => {
-      this.getUser();
-    });
+            , private route: ActivatedRoute
+            , private router: Router) {
+                route.params.subscribe(_ => {
+                  this.getUser();
+                });
   }
 
   getUser(): void {
@@ -37,7 +37,7 @@ export class UserProfileComponent implements OnInit {
         });
   }
 
-  followOrUnfollow(element, user: NetworkUserViewModel) {
+  followOrUnfollow(element, user: NetworkUserViewModel): void {
     // console.log(user);
     const action = element.innerText;
 
@@ -45,24 +45,24 @@ export class UserProfileComponent implements OnInit {
       this.userService.postFollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
-            // this.user = data;
-            // console.log(data);
+
             element.innerText = 'Unfollow';
           },
           (error: ErrorReportViewModel) => {
             console.log(error);
             // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
           });
-      //
-      // element.innerText = 'Unfollow';
       return;
     } else {
       //
       this.userService.postUnfollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
-            // this.user = data;
-            // console.log(data);
+            const index = this.user.following.findIndex(i => i.userName === data.userName);
+            if (index >= 0) {
+              // console.log('>=');
+            this.user.following.splice(index, 1);
+            }
             element.innerText = 'Follow';
           },
           (error: ErrorReportViewModel) => {
@@ -70,8 +70,6 @@ export class UserProfileComponent implements OnInit {
             // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
           });
 
-      //
-      // element.innerText = 'Follow';
       return;
     }
   }

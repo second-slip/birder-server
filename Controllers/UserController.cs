@@ -2,7 +2,6 @@
 using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
-using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -110,15 +109,14 @@ namespace Birder.Controllers
                     //return RedirectToAction("Details", new { userName = userName, page = currentPage });
                     return BadRequest("Trying to follow yourself");
                 }
-                else
-                {
-                    _userRepository.Follow(loggedinUser, userToFollow);
-                    var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToFollow);
-                    loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
-                   viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
-                    return Ok(viewModel);
-                    // return RedirectToAction("Details", new { userName = userName, page = currentPage });
-                }
+
+                _userRepository.Follow(loggedinUser, userToFollow);
+                var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToFollow);
+                loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
+                viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
+                return Ok(viewModel);
+                // return RedirectToAction("Details", new { userName = userName, page = currentPage });
+                
             }
             catch (Exception ex)
             {
@@ -146,15 +144,13 @@ namespace Birder.Controllers
                     //return RedirectToAction("Details", new { userName = userName, page = currentPage });
                     return BadRequest("Trying to unfollow yourself");
                 }
-                else
-                {
-                    _userRepository.UnFollow(loggedinUser, userToUnfollow);
-                    var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToUnfollow);
-                    loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
-                   viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
-                    return Ok(viewModel);
-                    // return RedirectToAction("Details", new { userName = userName, page = currentPage });
-                }
+
+                _userRepository.UnFollow(loggedinUser, userToUnfollow);
+                var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToUnfollow);
+                loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
+                viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
+                return Ok(viewModel);
+                // return RedirectToAction("Details", new { userName = userName, page = currentPage });
             }
             catch (Exception ex)
             {
