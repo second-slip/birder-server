@@ -41,6 +41,7 @@ import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.
 import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserNetworkComponent } from './user-network/user-network.component';
+import { ToastrModule } from 'ngx-toastr';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -100,6 +101,7 @@ export function tokenGetter() {
     MatTabsModule,
     MatCardModule,
     MatBadgeModule,
+    ToastrModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
