@@ -45,8 +45,8 @@ export class UserProfileComponent implements OnInit {
       this.userService.postFollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
-
-            element.innerText = 'Unfollow';
+            this.getUser();
+            // element.innerText = 'Unfollow';
           },
           (error: ErrorReportViewModel) => {
             console.log(error);
@@ -58,12 +58,8 @@ export class UserProfileComponent implements OnInit {
       this.userService.postUnfollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
-            const index = this.user.following.findIndex(i => i.userName === data.userName);
-            if (index >= 0) {
-              // console.log('>=');
-            this.user.following.splice(index, 1);
-            }
-            element.innerText = 'Follow';
+            this.getUser();
+            // element.innerText = 'Follow';
           },
           (error: ErrorReportViewModel) => {
             console.log(error);
@@ -79,3 +75,16 @@ export class UserProfileComponent implements OnInit {
   ngOnInit() {
   }
 }
+
+            // const index = this.user.following.findIndex(i => i.userName === data.userName);
+            // if (index >= 0) {
+            //   // this.user.following.splice(index, 1);
+            //   this.user.following[index].isFollowing = false;
+            // }
+            // const index1 = this.user.followers.findIndex(i => i.userName === data.userName);
+            // if (index >= 0) {
+            //   // this.user.following.splice(index, 1);
+            //   // alert(this.user.followers[index1].userName + '; ' + this.user.followers[index1].isFollowing);
+            //   this.user.followers[index1].isFollowing = false;
+            //   // alert(this.user.followers[index1].userName + '; ' + this.user.followers[index1].isFollowing);
+            // }
