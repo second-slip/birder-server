@@ -34,7 +34,7 @@ export class UserProfileComponent {
           this.user = data;
         },
         (error: ErrorReportViewModel) => {
-          console.log(error);
+          // console.log(error);
           this.toast.error(error.serverCustomMessage, 'An error occurred');
           this.router.navigate(['/']);
         });
@@ -68,7 +68,6 @@ export class UserProfileComponent {
             // console.log(error);
             this.toast.error(error.serverCustomMessage, 'An error occurred');
           });
-
       return;
     }
   }
