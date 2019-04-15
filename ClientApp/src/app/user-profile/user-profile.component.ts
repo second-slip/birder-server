@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { UserService } from '../user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
@@ -41,7 +41,6 @@ export class UserProfileComponent {
   }
 
   followOrUnfollow(element, user: NetworkUserViewModel): void {
-    // console.log(user);
     const action = element.innerText;
 
     if (action === 'Follow') {
@@ -55,7 +54,6 @@ export class UserProfileComponent {
           (error: ErrorReportViewModel) => {
             // console.log(error);
             this.toast.error(error.serverCustomMessage, 'An error occurred');
-            // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
           });
       return;
     } else {
@@ -69,7 +67,6 @@ export class UserProfileComponent {
           (error: ErrorReportViewModel) => {
             // console.log(error);
             this.toast.error(error.serverCustomMessage, 'An error occurred');
-            // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
           });
 
       return;
