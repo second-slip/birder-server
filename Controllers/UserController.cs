@@ -38,42 +38,51 @@ namespace Birder.Controllers
         public async Task<IActionResult> GetUser(string username)
         {
             // need defensive programming.  Username is url parameter
-            var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
-            if (user != null)
+            try
             {
-                return BadRequest("There is an error getting the user");
+                var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+                if (user == null)
+                {
+                    return BadRequest("There was an error getting the user");
+                }
+
+                var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
+
+                var loggedinUsername = User.Identity.Name;
+                var loggedinUser = new ApplicationUser();
+                if (String.Equals(loggedinUsername, username, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    viewModel.IsOwnProfile = true;
+                    loggedinUser = user;
+                }
+                else
+                {
+                    viewModel.IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == loggedinUsername);
+                    loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(loggedinUsername);
+                }
+
+                // Check Following / Followers collections from the point of view of the loggedin user
+                for (int i = 0; i < viewModel.Following.Count(); i++)
+                {
+                    viewModel.Following.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Following.ElementAt(i).UserName);
+                    viewModel.Following.ElementAt(i).IsOwnProfile = viewModel.Following.ElementAt(i).UserName == loggedinUsername;
+                }
+
+                for (int i = 0; i < viewModel.Followers.Count(); i++)
+                {
+                    //viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Followers.Any(cus => cus.Follower.UserName == viewModel.Followers.ElementAt(i).UserName);
+                    viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Followers.ElementAt(i).UserName);
+                    viewModel.Followers.ElementAt(i).IsOwnProfile = viewModel.Followers.ElementAt(i).UserName == loggedinUsername;
+                }
+
+                return Ok(viewModel);
             }
-
-            var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
-
-            var loggedinUsername = User.Identity.Name;
-            var loggedinUser = new ApplicationUser();
-            if (String.Equals(loggedinUsername, username, StringComparison.InvariantCultureIgnoreCase))
+            catch (Exception ex)
             {
-                viewModel.IsOwnProfile = true;
-                loggedinUser = user;
+                // _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
+                return BadRequest("There was an error getting the user");
+                //return RedirectToAction("Details", new { userName = userName, page = currentPage });
             }
-            else
-            {
-                viewModel.IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == loggedinUsername);
-                loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(loggedinUsername);
-            }
-
-            // Check Following / Followers collections from the point of view of the loggedin user
-            for(int i = 0; i < viewModel.Following.Count(); i++) 
-            {
-                viewModel.Following.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Following.ElementAt(i).UserName);
-                viewModel.Following.ElementAt(i).IsOwnProfile = viewModel.Following.ElementAt(i).UserName == loggedinUsername;
-            }
-
-            for(int i = 0; i < viewModel.Followers.Count(); i++) 
-            {
-                //viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Followers.Any(cus => cus.Follower.UserName == viewModel.Followers.ElementAt(i).UserName);
-                viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Followers.ElementAt(i).UserName);
-                viewModel.Followers.ElementAt(i).IsOwnProfile = viewModel.Followers.ElementAt(i).UserName == loggedinUsername;
-            }
-
-            return Ok(viewModel);
         }
 
         [HttpGet, Route("GetNetwork")]
@@ -81,7 +90,7 @@ namespace Birder.Controllers
         {
             var username = User.Identity.Name;
             var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
-            // ApplicationUser loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(await _userAccessor.GetUser());
+
             var viewModel = new List<NetworkUserViewModel>();
 
             if (String.IsNullOrEmpty(searchCriterion))
