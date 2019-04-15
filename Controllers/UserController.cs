@@ -37,9 +37,13 @@ namespace Birder.Controllers
         [HttpGet, Route("GetUser")]
         public async Task<IActionResult> GetUser(string username)
         {
-            // need defensive programming.  Username is url parameter
             try
             {
+                var loggedinUsername = User.Identity.Name;
+                if (String.IsNullOrEmpty(username))
+                {
+                    username = loggedinUsername;
+                }
                 var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
                 if (user == null)
                 {
@@ -48,7 +52,6 @@ namespace Birder.Controllers
 
                 var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
 
-                var loggedinUsername = User.Identity.Name;
                 var loggedinUser = new ApplicationUser();
                 if (String.Equals(loggedinUsername, username, StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -106,7 +109,6 @@ namespace Birder.Controllers
             return Ok(viewModel);
         }
 
-
         [HttpPost, Route("Follow")]
         public async Task<IActionResult> Follow(NetworkUserViewModel userToFollowDetails)
         {
@@ -140,9 +142,6 @@ namespace Birder.Controllers
             }
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //ToDo : Add validation
         [HttpPost, Route("Unfollow")]
         public async Task<IActionResult> Unfollow(NetworkUserViewModel userToFollowDetails) //, int currentPage)
         {
