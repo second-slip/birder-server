@@ -115,14 +115,12 @@ namespace Birder.Controllers
             //_logger.LogInformation(LoggingEvents.UpdateItem, "Follow action called");
             try
             {
-                //var username = User.Identity.Name;
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
-                // var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(await _userAccessor.GetUser());
+
                 var userToFollow = await _userRepository.GetUserAndNetworkAsyncByUserName(userToFollowDetails.UserName);
 
                 if (loggedinUser == userToFollow)
                 {
-                    //return RedirectToAction("Details", new { userName = userName, page = currentPage });
                     return BadRequest("Trying to follow yourself");
                 }
 
@@ -131,14 +129,12 @@ namespace Birder.Controllers
                 loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
                 viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
                 return Ok(viewModel);
-                // return RedirectToAction("Details", new { userName = userName, page = currentPage });
                 
             }
             catch (Exception ex)
             {
                 // _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
                 return BadRequest(String.Format("An error occurred trying to follow user: {0}", userToFollowDetails.UserName));
-                //return RedirectToAction("Details", new { userName = userName, page = currentPage });
             }
         }
 
@@ -148,13 +144,11 @@ namespace Birder.Controllers
             //_logger.LogInformation(LoggingEvents.UpdateItem, "Unfollow action called");
             try
             {
-                //var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(await _userAccessor.GetUser());
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
                 var userToUnfollow = await _userRepository.GetUserAndNetworkAsyncByUserName(userToFollowDetails.UserName);
 
                 if (loggedinUser == userToUnfollow)
                 {
-                    //return RedirectToAction("Details", new { userName = userName, page = currentPage });
                     return BadRequest("Trying to unfollow yourself");
                 }
 
@@ -163,13 +157,11 @@ namespace Birder.Controllers
                 loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
                 viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
                 return Ok(viewModel);
-                // return RedirectToAction("Details", new { userName = userName, page = currentPage });
             }
             catch (Exception ex)
             {
                 //_logger.LogError(LoggingEvents.GetItemNotFound, ex, "Unfollow action error");
                 return BadRequest(String.Format("An error occurred trying to unfollow user: {0}", userToFollowDetails.UserName));
-                //return RedirectToAction("Details", new { userName = userName, page = currentPage });
             }
         }
     }
