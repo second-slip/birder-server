@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { UserProfileViewModel, NetworkUserViewModel } from '../../_models/UserProfileViewModel';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-profile',
@@ -11,12 +12,13 @@ import { UserProfileViewModel, NetworkUserViewModel } from '../../_models/UserPr
   styleUrls: ['./user-profile.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent {
   user: UserProfileViewModel;
   observations: ObservationViewModel[]; // lazy load on demand
 
   constructor(private userService: UserService
             , private route: ActivatedRoute
+            , private toast: ToastrService
             , private router: Router) {
                 route.params.subscribe(_ => {
                   this.getUser();
@@ -32,8 +34,9 @@ export class UserProfileComponent implements OnInit {
           this.user = data;
         },
         (error: ErrorReportViewModel) => {
-          console.log('bad request');
-          this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+          console.log(error);
+          this.toast.error(error.serverCustomMessage, 'An error occurred');
+          this.router.navigate(['/']);
         });
   }
 
@@ -45,24 +48,27 @@ export class UserProfileComponent implements OnInit {
       this.userService.postFollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
+            this.toast.info('You are now following ' + data.userName, 'Success');
             this.getUser();
             // element.innerText = 'Unfollow';
           },
           (error: ErrorReportViewModel) => {
-            console.log(error);
+            // console.log(error);
+            this.toast.error(error.serverCustomMessage, 'An error occurred');
             // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
           });
       return;
     } else {
-      //
       this.userService.postUnfollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
+            this.toast.info('You have unfollowed ' + data.userName, 'Success');
             this.getUser();
             // element.innerText = 'Follow';
           },
           (error: ErrorReportViewModel) => {
-            console.log(error);
+            // console.log(error);
+            this.toast.error(error.serverCustomMessage, 'An error occurred');
             // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
           });
 
@@ -72,8 +78,6 @@ export class UserProfileComponent implements OnInit {
 
   getObservations(): void { }
 
-  ngOnInit() {
-  }
 }
 
             // const index = this.user.following.findIndex(i => i.userName === data.userName);

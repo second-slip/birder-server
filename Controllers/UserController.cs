@@ -39,6 +39,11 @@ namespace Birder.Controllers
         {
             // need defensive programming.  Username is url parameter
             var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+            if (user != null)
+            {
+                return BadRequest("There is an error getting the user");
+            }
+
             var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
 
             var loggedinUsername = User.Identity.Name;
