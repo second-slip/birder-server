@@ -67,16 +67,16 @@ namespace Birder.Controllers
             }
 
             var userName = user.UserName;
-            if (model.Username != userName)
+            if (model.UserName != userName)
             {
-                if (await _userManager.FindByNameAsync(model.Username) != null)
+                if (await _userManager.FindByNameAsync(model.UserName) != null)
                 {
                     // Can use this in check username...
-                    ModelState.AddModelError("Username", $"Username '{model.Username}' is already taken.");
+                    ModelState.AddModelError("Username", $"Username '{model.UserName}' is already taken.");
 
                     return BadRequest(ModelState);
                 }
-                var setUserNameResult = await _userManager.SetUserNameAsync(user, model.Username);
+                var setUserNameResult = await _userManager.SetUserNameAsync(user, model.UserName);
                 if (!setUserNameResult.Succeeded)
                 {
                     //throw new ApplicationException($"Unexpected error occurred setting username for user with ID '{user.Id}'.");
