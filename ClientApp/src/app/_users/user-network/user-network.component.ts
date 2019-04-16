@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { NetworkUserViewModel } from '../../_models/UserProfileViewModel';
-import { UserService } from '../user.service';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
+import { UserService } from '../../user.service';
+import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 

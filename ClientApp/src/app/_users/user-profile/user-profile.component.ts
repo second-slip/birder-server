@@ -1,9 +1,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { UserService } from '../user.service';
+import { UserService } from '../../user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { UserProfileViewModel, NetworkUserViewModel } from '../../_models/UserProfileViewModel';
+import { ObservationViewModel } from '../../../_models/ObservationViewModel';
+import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
+import { UserProfileViewModel, NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

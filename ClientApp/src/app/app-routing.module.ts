@@ -18,8 +18,8 @@ import { ObservationDeleteComponent } from './_observations/observation-delete/o
 import { LifeListComponent } from './life-list/life-list.component';
 import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { UserNetworkComponent } from './user-network/user-network.component';
+import { UserProfileComponent } from './_users/user-profile/user-profile.component';
+import { UserNetworkComponent } from './_users/user-network/user-network.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
