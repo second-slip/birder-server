@@ -45,6 +45,9 @@ namespace Birder.Data
               .ForMember(x => x.Following, y => y.MapFrom(x => x.Following))
               .ReverseMap();
 
+            CreateMap<ApplicationUser, ManageProfileViewModel>()
+                .ReverseMap();
+
             CreateMap<Bird, BirdDetailViewModel>()
               .ReverseMap();
 

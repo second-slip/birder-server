@@ -20,6 +20,7 @@ import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 import { UserProfileComponent } from './_users/user-profile/user-profile.component';
 import { UserNetworkComponent } from './_users/user-network/user-network.component';
+import { AccountManageComponent } from './account-manage/account-manage.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -54,6 +55,7 @@ const routes: Routes = [
           { path: 'birds-detail/:id', component: BirdsDetailComponent },
           { path: 'life-list', component: LifeListComponent },
           { path: 'user-profile/:username', component: UserProfileComponent },
+          { path: 'account-manage', component: AccountManageComponent},
           { path: 'user-network', component: UserNetworkComponent },
           { path: 'logout', component: LogoutComponent },
         ]

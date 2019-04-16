@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Birder.Data;
 using Birder.Data.Model;
 using Birder.Services;
@@ -19,16 +20,34 @@ namespace Birder.Controllers
     public class ManageController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
         private readonly ISystemClock _systemClock;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ManageController(ApplicationDbContext context,
+                                IMapper mapper,
                                 ISystemClock systemClock,
                                 UserManager<ApplicationUser> userManager)
         {
+            _mapper = mapper;
             _context = context;
             _systemClock = systemClock;
             _userManager = userManager;
+        }
+
+        [HttpGet, Route("GetUserProfile")]
+        public async Task<IActionResult> GetUserProfile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var viewModel = Mapper.Map<ApplicationUser, ManageProfileViewModel>(user);
+
+            return Ok(viewModel);
+
         }
 
         [HttpPost, Route("UpdateProfile")]
@@ -43,7 +62,8 @@ namespace Birder.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                ModelState.AddModelError("GetUser", $"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return BadRequest(ModelState);
             }
 
             var userName = user.UserName;
