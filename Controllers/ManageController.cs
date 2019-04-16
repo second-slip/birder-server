@@ -121,8 +121,10 @@ namespace Birder.Controllers
 
             await _userManager.UpdateAsync(user);
 
+            return Ok(model);
+
             //StatusMessage = "Your profile has been updated";
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
         }
 
     }
