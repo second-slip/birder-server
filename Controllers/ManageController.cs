@@ -37,7 +37,7 @@ namespace Birder.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return BadRequest(ModelState);
             }
 
             var user = await _userManager.GetUserAsync(User);
@@ -51,14 +51,17 @@ namespace Birder.Controllers
             {
                 if (await _userManager.FindByNameAsync(model.Username) != null)
                 {
+                    // Can use this in check username...
                     ModelState.AddModelError("Username", $"Username '{model.Username}' is already taken.");
 
-                    return View(model);
+                    return BadRequest(ModelState);
                 }
                 var setUserNameResult = await _userManager.SetUserNameAsync(user, model.Username);
                 if (!setUserNameResult.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting username for user with ID '{user.Id}'.");
+                    //throw new ApplicationException($"Unexpected error occurred setting username for user with ID '{user.Id}'.");
+                    ModelState.AddModelError("Username", $"Unexpected error occurred setting username for user with ID '{user.Id}'.");
+                    return BadRequest(ModelState);
                 }
             }
 
@@ -69,19 +72,10 @@ namespace Birder.Controllers
                 var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
                 if (!setEmailResult.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+                    ModelState.AddModelError("Email", $"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+                    return BadRequest(ModelState);
                 }
             }
-
-            //var phoneNumber = user.PhoneNumber;
-            //if (model.PhoneNumber != phoneNumber)
-            //{
-            //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
-            //    if (!setPhoneResult.Succeeded)
-            //    {
-            //        throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
-            //    }
-            //}
 
             //if (model.ProfileImage != null)
             //{
@@ -100,7 +94,8 @@ namespace Birder.Controllers
             //    }
             //    catch
             //    {
-            //        throw new ApplicationException($"Unexpected error occurred processing the profile photo for user with ID '{user.Id}'.");
+            //        ModelState.AddModelError("ProfileImage", $"Unexpected error occurred processing the profile photo for user with ID '{user.Id}'.");
+                    //return BadRequest(ModelState);
             //    }
             //}
 
