@@ -21,7 +21,7 @@ namespace Birder.Controllers
 
         public AccountController(ApplicationDbContext context,
                                 ISystemClock systemClock,
-                                UserManager<ApplicationUser> userManager )
+                                UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _systemClock = systemClock;
