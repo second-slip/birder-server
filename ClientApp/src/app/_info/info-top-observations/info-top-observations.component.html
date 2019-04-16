@@ -10,27 +10,6 @@
 
   <div class="container" *ngIf="analysis">
     <ngb-tabset justify="fill">
-      <ngb-tab title="All Time">
-        <ng-template ngbTabContent>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Species</th>
-                <th scope="col">Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let record of analysis.topObservations; index as i">
-                <th scope="row">{{ i + 1 }}</th>
-                <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.name }}</a></td>
-                <td>{{ record.count | number }}</td>
-              </tr>
-            </tbody>
-          </table>
-
-        </ng-template>
-      </ngb-tab>
       <ngb-tab title="Last 30 Days">
         <ng-template ngbTabContent>
           <table class="table table-striped">
@@ -51,6 +30,26 @@
           </table>
         </ng-template>
       </ngb-tab>
+      <ngb-tab title="All Time">
+          <ng-template ngbTabContent>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Species</th>
+                  <th scope="col">Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let record of analysis.topObservations; index as i">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.name }}</a></td>
+                  <td>{{ record.count | number }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-template>
+        </ngb-tab>
     </ngb-tabset>
     <div>
       <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon">

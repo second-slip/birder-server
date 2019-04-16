@@ -10,18 +10,21 @@
     </form>
     <br>
   </div>
-
-<div>
+  <p>Change algorithm to ensure there are always suggested Birders...</p>
+  <div *ngIf="users">
     <h5>{{ customSearch == true ? 'Search Results' : 'Suggested Birders to follow' }}</h5>
 
-  <div *ngFor="let user of users">
-    <div class="flex-container network-list">
-      <img class="avatar" src="{{user.profileImage}}">
-      <a class="avatar-title" routerLink="/user-profile/{{user.userName}}">{{user.userName}}</a>
-      <div><button mat-button color="primary" (click)="followOrUnfollow($event.target, user)">
-          {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+    <div *ngFor="let user of users">
+      <div class="flex-container network-list">
+        <img class="avatar" src="{{user.profileImage}}">
+        <a class="avatar-title" routerLink="/user-profile/{{user.userName}}">{{user.userName}}</a>
+        <div><button mat-button color="primary" (click)="followOrUnfollow($event.target, user)">
+            {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+      </div>
     </div>
+
+    <p *ngIf="users.length == 0 && customSearch == true">We found no search results</p>
+
   </div>
-</div>
 
 </div>
