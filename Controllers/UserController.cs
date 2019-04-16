@@ -91,6 +91,12 @@ namespace Birder.Controllers
         [HttpGet, Route("GetNetwork")]
         public async Task<IActionResult> GetNetwork(string searchCriterion)
         {
+            if (!ModelState.IsValid)
+            {
+                // Log modelstate errors
+                return BadRequest(ModelState);
+            }
+
             var username = User.Identity.Name;
             var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
 
