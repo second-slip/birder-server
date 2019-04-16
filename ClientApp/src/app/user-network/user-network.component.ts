@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class UserNetworkComponent implements OnInit {
   users: NetworkUserViewModel[];
   searchTerm: string;
+  customSearch: boolean;
 
   constructor(private userService: UserService
     , private router: Router
@@ -25,6 +26,7 @@ export class UserNetworkComponent implements OnInit {
 
   search(): void {
     this.getNetwork(this.searchTerm);
+    this.customSearch = true;
   }
 
   getNetwork(searchTerm: string): void {

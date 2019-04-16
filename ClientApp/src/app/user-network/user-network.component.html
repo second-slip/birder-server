@@ -1,31 +1,27 @@
+<div class="container">
+  <h4>Build your Birder network</h4>
 
   <div>
+    <p></p>
     <form (ngSubmit)="search()">
       <input type="text" name="find" placeholder="Type location here" [(ngModel)]="searchTerm"
         [ngModelOptions]="{standalone: true}" required>
       <button type="submit">Find users</button>
     </form>
+    <br>
   </div>
 
-<div *ngFor="let user of users">
+<div>
+    <h5>{{ customSearch == true ? 'Search Results' : 'Suggested Birders to follow' }}</h5>
+
+  <div *ngFor="let user of users">
     <div class="flex-container network-list">
-        <img class="avatar" src="{{user.profileImage}}">
-        <a class="avatar-title" routerLink="/user-profile/{{user.userName}}">{{user.userName}}</a>
-        <div><button mat-button color="primary"
-          (click)="followOrUnfollow($event.target, user)">
+      <img class="avatar" src="{{user.profileImage}}">
+      <a class="avatar-title" routerLink="/user-profile/{{user.userName}}">{{user.userName}}</a>
+      <div><button mat-button color="primary" (click)="followOrUnfollow($event.target, user)">
           {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
-      <!-- <div *ngIf="following.isOwnProfile == true"><em>You</em></div> -->
-      </div>
-  <!-- <mat-card class="example-card">
-    <mat-card-header>
-      <img mat-card-avatar class="example-header-image" src="{{user.profileImage}}">
-      <mat-card-title><a routerLink="/user-profile/{{user.userName}}">{{user.userName}}</a></mat-card-title>
-      <mat-card-subtitle>
-      <p><button mat-stroked-button color="primary" (click)="followOrUnfollow($event.target, user)">
-        {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></p>
-      </mat-card-subtitle>
-    </mat-card-header>
-  </mat-card> -->
+    </div>
+  </div>
 </div>
 
-
+</div>
