@@ -42,6 +42,7 @@ import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserNetworkComponent } from './user-network/user-network.component';
 import { ToastrModule } from 'ngx-toastr';
+import { AccountManageComponent } from './account-manage/account-manage.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -76,6 +77,7 @@ export function tokenGetter() {
     LayoutNoSidebarComponent,
     UserProfileComponent,
     UserNetworkComponent,
+    AccountManageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
