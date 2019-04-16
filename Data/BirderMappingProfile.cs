@@ -46,6 +46,7 @@ namespace Birder.Data
               .ReverseMap();
 
             CreateMap<ApplicationUser, ManageProfileViewModel>()
+                .ForMember(x => x.ProfileImage, y => y.MapFrom(x => x.ProfileImage))
                 .ReverseMap();
 
             CreateMap<Bird, BirdDetailViewModel>()
