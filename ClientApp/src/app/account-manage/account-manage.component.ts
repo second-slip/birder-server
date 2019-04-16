@@ -20,7 +20,7 @@ export class AccountManageComponent implements OnInit {
   manageProfileForm: FormGroup;
   errorReport: ErrorReportViewModel;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
-  isUsernameAvailable: boolean;
+  isUsernameAvailable: boolean = true;
 
   manageProfile_validation_messages = {
     'userName': [
@@ -90,6 +90,10 @@ export class AccountManageComponent implements OnInit {
   }
 
   checkUsernameIsAvailable(): void {
+    if (this.manageProfileForm.get('userName').value === this.user.userName) {
+      // this.isUsernameAvailable = true;
+      return;
+    }
     if (this.manageProfileForm.get('userName').valid) {
       this.validateUsernameIsAvailable(this.manageProfileForm.get('userName').value);
     } else {
