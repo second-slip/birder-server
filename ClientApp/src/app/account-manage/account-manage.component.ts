@@ -18,6 +18,7 @@ export class AccountManageComponent implements OnInit {
             , private accountManager: AccountManagerService) { }
 
   ngOnInit() {
+    this.getUserProfile();
   }
 
   getUserProfile() {

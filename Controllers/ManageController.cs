@@ -38,7 +38,7 @@ namespace Birder.Controllers
         [HttpGet, Route("GetUserProfile")]
         public async Task<IActionResult> GetUserProfile()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
