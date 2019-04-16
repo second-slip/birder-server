@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NetworkUserViewModel } from '../../_models/UserProfileViewModel';
 import { UserService } from '../user.service';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-network',
   templateUrl: './user-network.component.html',
-  styleUrls: ['./user-network.component.scss']
+  styleUrls: ['./user-network.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UserNetworkComponent implements OnInit {
   users: NetworkUserViewModel[];
