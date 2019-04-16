@@ -19,18 +19,18 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ManageController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly ISystemClock _systemClock;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ManageController(ApplicationDbContext context,
+        public ManageController(
                                 IMapper mapper,
                                 ISystemClock systemClock,
                                 UserManager<ApplicationUser> userManager)
         {
             _mapper = mapper;
-            _context = context;
+            //_context = context;
             _systemClock = systemClock;
             _userManager = userManager;
         }
@@ -44,7 +44,7 @@ namespace Birder.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var viewModel = Mapper.Map<ApplicationUser, ManageProfileViewModel>(user);
+            var viewModel = _mapper.Map<ApplicationUser, ManageProfileViewModel>(user);
 
             return Ok(viewModel);
 
