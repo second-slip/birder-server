@@ -1,5 +1,5 @@
 export interface ManageProfileViewModel {
-    username: string;
+    userName: string;
     isEmailConfirmed: boolean;
     email: string;
     profileImage: string;

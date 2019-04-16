@@ -6,7 +6,7 @@ namespace Birder.ViewModels
     public class ManageProfileViewModel
     {
         [Required]
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
 
