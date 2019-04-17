@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AccountService } from '../account.service';
 import { ParentErrorStateMatcher } from '../../validators';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-account-manage',
@@ -46,17 +47,6 @@ export class AccountManageComponent implements OnInit {
   }
 
   createForms() {
-    // matching passwords validation
-    // this.matching_passwords_group = new FormGroup({
-    //   password: new FormControl('', Validators.compose([
-    //     Validators.minLength(8),
-    //     Validators.required, // regex: accept letters, numbers and !@#$%.  Must have at least one letter and number
-    //     Validators.pattern('^(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9!@#$%]+$') // ^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
-    //   ])),
-    //   confirmPassword: new FormControl('', Validators.required)
-    // }, (formGroup: FormGroup) => {
-    //   return PasswordValidator.areEqual(formGroup);
-    // });
 
     this.manageProfileForm = this.formBuilder.group({
       userName: new FormControl(this.user.userName, Validators.compose([
@@ -112,6 +102,38 @@ export class AccountManageComponent implements OnInit {
         // console.log(error);
         this.toast.error(error.serverCustomMessage, 'An error occurred');
         // this.router.navigate(['/']);
+      });
+  }
+
+  onSubmit(value): void {
+
+    if (this.isUsernameAvailable === false) {
+      const unavailableUsername = this.manageProfileForm.get('userName').value;
+      alert(`The username '${unavailableUsername}' is already taken.  Please choose a different username.`);
+      return;
+    }
+
+    const model = <ManageProfileViewModel> {
+      userName: value.userName,
+      email: value.email,
+      // password: value.matching_passwords.password,
+      // confirmPassword: value.matching_passwords.confirmPassword
+    };
+
+    this.accountManager.postUpdateProfile(model)
+    .pipe(first())
+    .subscribe(
+       (data: ManageProfileViewModel) => {
+         this.user = data;
+         console.log('successful registration');
+        //  this.router.navigate(['/confirm-email']);
+       },
+      (error: ErrorReportViewModel) => {
+        // if (error.status === 400) { }
+        this.errorReport = error;
+        this.invalidRegistration = true;
+        console.log(error.friendlyMessage);
+        console.log('unsuccessful registration');
       });
   }
 }

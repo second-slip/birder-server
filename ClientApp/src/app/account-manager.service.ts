@@ -23,4 +23,10 @@ export class AccountManagerService {
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
+
+  postUpdateProfile(viewModel: ManageProfileViewModel): Observable<ManageProfileViewModel | ErrorReportViewModel> {
+    return this.http.post<ManageProfileViewModel>('api/User/UpdateProfile', viewModel, httpOptions)
+    .pipe(
+      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
 }
