@@ -37,7 +37,7 @@ export class AccountManageComponent implements OnInit {
 
   constructor(private toast: ToastrService
             , private formBuilder: FormBuilder
-            , private accountService: AccountService // validate username nees to be separate service...
+            , private accountService: AccountService // validate username needs to be separate service...
             , private router: Router
             , private accountManager: AccountManagerService) { }
 
