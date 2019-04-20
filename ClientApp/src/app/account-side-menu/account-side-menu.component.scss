@@ -1,6 +1,24 @@
-.menu {
-  background: #fff12c; // #dce513;
-  //padding: 10px;
-  margin-bottom: 30px;
-  border-radius: 10px;
+app-account-side-menu {
+  .menu {
+    // background: #fff12c; // #dce513;
+    //padding: 10px;
+    border: 1px solid gray;
+    // border-radius: 12px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+  }
+
+  .title {
+    text-align: center;
+  }
+
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    // background-color: DodgerBlue;
+  }
+
+  .link {
+    margin-bottom: 10px;
+  }
 }
