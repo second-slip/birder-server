@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, take } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { LoginViewModel } from '../_models/LoginViewModel';
 import { HttpErrorHandlerService } from './http-error-handler.service';
@@ -27,6 +27,7 @@ export class AuthenticationService {
   login(viewModel: LoginViewModel): Observable<any | ErrorReportViewModel> {
     return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
       .pipe(
+        take(1),
         tap(response => this.setAuthenticationToken(response)),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
