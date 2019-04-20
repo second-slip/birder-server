@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Birder.Data;
+﻿using AutoMapper;
 using Birder.Data.Model;
 using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {
@@ -59,7 +56,8 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            //var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 ModelState.AddModelError("GetUser", $"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -127,5 +125,138 @@ namespace Birder.Controllers
             //return RedirectToAction(nameof(Index));
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> SetLocation()
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user == null)
+        //    {
+        //        throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+        //    }
+
+        //    var model = new SetLocationViewModel
+        //    {
+        //        DefaultLocationLatitude = user.DefaultLocationLatitude,
+        //        DefaultLocationLongitude = user.DefaultLocationLongitude,
+        //        StatusMessage = StatusMessage
+        //    };
+
+        //    return View(model);
+        //}
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> SetLocation(SetLocationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                //return View(model);
+            }
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            //var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var coOrdinate = user.DefaultLocationLatitude + "," + user.DefaultLocationLongitude;
+            if (model.DefaultLocationLatitude + "," + model.DefaultLocationLongitude != coOrdinate)
+            {
+                user.DefaultLocationLatitude = model.DefaultLocationLatitude;
+                user.DefaultLocationLongitude = model.DefaultLocationLongitude;
+
+                var setCoOrdinate = await _userManager.UpdateAsync(user);
+                if (!setCoOrdinate.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                }
+            }
+
+            //StatusMessage = "Your default location has been updated";
+            return RedirectToAction(nameof(SetLocation));
+        }
+
+        //[HttpGet]
+        //public async Task<IActionResult> ChangePassword()
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user == null)
+        //    {
+        //        throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+        //    }
+
+        //    var hasPassword = await _userManager.HasPasswordAsync(user);
+        //    if (!hasPassword)
+        //    {
+        //        return RedirectToAction(nameof(SetPassword));
+        //    }
+
+        //    var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
+        //    return View(model);
+        //}
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                //return View(model);
+            }
+
+            //var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (!changePasswordResult.Succeeded)
+            {
+                // invalidate current login?
+
+                //AddErrors(changePasswordResult);
+                //return View(model);
+            }
+
+            //await _signInManager.SignInAsync(user, isPersistent: false);
+            //_logger.LogInformation("User changed their password successfully.");
+            //StatusMessage = "Your password has been changed.";
+
+            return RedirectToAction(nameof(ChangePassword));
+        }
+
     }
+
+    // models
+    public class ChangePasswordViewModel
+    {
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Current password")]
+        public string OldPassword { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New password")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm new password")]
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+    }
+    //
+    public class SetLocationViewModel
+    {
+        [Required]
+        public double DefaultLocationLatitude { get; set; }
+
+        [Required]
+        public double DefaultLocationLongitude { get; set; }
+    }
+
 }
