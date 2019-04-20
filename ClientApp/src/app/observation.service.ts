@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, take } from 'rxjs/operators';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { ObservationViewModel } from '../_models/ObservationViewModel';
@@ -27,6 +27,7 @@ export class ObservationService {
   getObservations(): Observable<ObservationViewModel[] | ErrorReportViewModel> {
     return this.http.get<ObservationViewModel[]>('api/Observation')
       .pipe(
+        // (take(1)),
         // tap(observations => this.log('fetched observations')),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
