@@ -43,7 +43,7 @@ import { UserProfileComponent } from './_users/user-profile/user-profile.compone
 import { UserNetworkComponent } from './_users/user-network/user-network.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AccountManageComponent } from './account-manage/account-manage.component';
-import { AccountSidebarComponent } from './account-sidebar/account-sidebar.component';
+import { AccountSideMenuComponent } from './account-side-menu/account-side-menu.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -79,7 +79,8 @@ export function tokenGetter() {
     UserProfileComponent,
     UserNetworkComponent,
     AccountManageComponent,
-    AccountSidebarComponent,
+    AccountSideMenuComponent,
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
