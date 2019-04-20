@@ -20,8 +20,8 @@ import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 import { UserProfileComponent } from './_users/user-profile/user-profile.component';
 import { UserNetworkComponent } from './_users/user-network/user-network.component';
-import { AccountManageComponent } from './account-manage/account-manage.component';
 import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/layout-account-manager.component';
+import { AccountManagerProfileComponent } from './account-manager-profile/account-manager-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -73,7 +73,7 @@ const routes: Routes = [
         canActivateChild: [AuthGuard],
         children: [
           // { path: '', component: HomeComponent, pathMatch: 'full' },
-          { path: 'account-manage', component: AccountManageComponent},
+          { path: 'account-manager-profile', component: AccountManagerProfileComponent},
           // { path: 'user-network', component: UserNetworkComponent },
           // { path: 'logout', component: LogoutComponent },
         ]

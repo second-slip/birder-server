@@ -42,7 +42,7 @@ import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-
 import { UserProfileComponent } from './_users/user-profile/user-profile.component';
 import { UserNetworkComponent } from './_users/user-network/user-network.component';
 import { ToastrModule } from 'ngx-toastr';
-import { AccountManageComponent } from './account-manage/account-manage.component';
+import { AccountManagerProfileComponent } from './account-manager-profile/account-manager-profile.component';
 import { AccountSideMenuComponent } from './account-side-menu/account-side-menu.component';
 import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/layout-account-manager.component';
 
@@ -79,7 +79,7 @@ export function tokenGetter() {
     LayoutNoSidebarComponent,
     UserProfileComponent,
     UserNetworkComponent,
-    AccountManageComponent,
+    AccountManagerProfileComponent,
     AccountSideMenuComponent,
     LayoutAccountManagerComponent,
 

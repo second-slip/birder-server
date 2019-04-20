@@ -10,12 +10,12 @@ import { ParentErrorStateMatcher } from '../../validators';
 import { first } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-account-manage',
-  templateUrl: './account-manage.component.html',
-  styleUrls: ['./account-manage.component.scss'],
+  selector: 'app-account-manager-profile',
+  templateUrl: './account-manager-profile.component.html',
+  styleUrls: ['./account-manager-profile.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AccountManageComponent implements OnInit {
+export class AccountManagerProfileComponent implements OnInit {
   user: ManageProfileViewModel;
   invalidRegistration: boolean; //
   manageProfileForm: FormGroup;
