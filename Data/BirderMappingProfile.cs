@@ -29,7 +29,7 @@ namespace Birder.Data
              CreateMap<ApplicationUser, Network>()
              .ReverseMap();
 
-             CreateMap<Network, NetworkUserViewModel>()
+             CreateMap<Network, FollowingViewModel>()
              .ForMember(x => x.UserName, y => y.MapFrom(x => x.ApplicationUser.UserName))
              .ForMember(x => x.ProfileImage, y => y.MapFrom(x => x.ApplicationUser.ProfileImage))
              .ReverseMap();

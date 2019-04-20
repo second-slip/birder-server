@@ -191,11 +191,11 @@ namespace Birder.Controllers
         public bool IsOwnProfile { get; set; }
     }
 
-    public class FollowerViewModel
+    public class FollowingViewModel : NetworkUserViewModel
     {
-        public string UserName { get; set; }
-        public string ProfileImage { get; set; }
-        public bool IsFollowing { get; set; }
-        public bool IsOwnProfile { get; set; }
+    }
+
+    public class FollowerViewModel : NetworkUserViewModel
+    {
     }
 }
