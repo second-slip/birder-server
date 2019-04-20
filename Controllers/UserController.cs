@@ -180,7 +180,7 @@ namespace Birder.Controllers
         public bool IsOwnProfile { get; set; }
         public bool IsFollowing { get; set; }
         public IEnumerable<FollowerViewModel> Followers { get; set; }
-        public IEnumerable<NetworkUserViewModel> Following { get; set; }
+        public IEnumerable<FollowingViewModel> Following { get; set; }
     }
 
     public class NetworkUserViewModel
