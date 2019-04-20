@@ -196,25 +196,27 @@ namespace Birder.Controllers
         //    return View(model);
         //}
 
-        [HttpPost]
+        [HttpPost, Route("ChangePassword")]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                //return View(model);
+                return BadRequest(ModelState);
             }
 
             //var user = await _userManager.GetUserAsync(User);
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                ModelState.AddModelError("Cannot Get User", $"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return BadRequest(ModelState);
             }
 
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
+                return BadRequest();
                 // invalidate current login?
 
                 //AddErrors(changePasswordResult);
@@ -225,7 +227,7 @@ namespace Birder.Controllers
             //_logger.LogInformation("User changed their password successfully.");
             //StatusMessage = "Your password has been changed.";
 
-            return RedirectToAction(nameof(ChangePassword));
+            return Ok(model);
         }
 
     }
