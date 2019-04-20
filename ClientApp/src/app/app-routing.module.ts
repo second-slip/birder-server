@@ -21,9 +21,9 @@ import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.
 import { UserProfileComponent } from './_users/user-profile/user-profile.component';
 import { UserNetworkComponent } from './_users/user-network/user-network.component';
 import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/layout-account-manager.component';
-import { AccountManagerProfileComponent } from './account-manager-profile/account-manager-profile.component';
-import { AccountManagerLocationComponent } from './account-manager-location/account-manager-location.component';
-import { AccountManagerPasswordComponent } from './account-manager-password/account-manager-password.component';
+import { AccountManagerProfileComponent } from './_accountManager/account-manager-profile/account-manager-profile.component';
+import { AccountManagerLocationComponent } from './_accountManager/account-manager-location/account-manager-location.component';
+import { AccountManagerPasswordComponent } from './_accountManager/account-manager-password/account-manager-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
