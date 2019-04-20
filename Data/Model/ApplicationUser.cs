@@ -11,7 +11,6 @@ namespace Birder.Data.Model
 
         public double DefaultLocationLongitude { get; set; }
 
-        [Display(Name = "Upload new profile image")]
         public string ProfileImage { get; set; }
 
         public DateTime RegistrationDate { get; set; }

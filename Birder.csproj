@@ -37,6 +37,8 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20190314110549_observation model adjustment.cs" />
     <Compile Remove="Data\Migrations\20190314110549_observation model adjustment.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190420122624_App user.cs" />
+    <Compile Remove="Data\Migrations\20190420122624_App user.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
