@@ -22,6 +22,8 @@ import { UserProfileComponent } from './_users/user-profile/user-profile.compone
 import { UserNetworkComponent } from './_users/user-network/user-network.component';
 import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/layout-account-manager.component';
 import { AccountManagerProfileComponent } from './account-manager-profile/account-manager-profile.component';
+import { AccountManagerLocationComponent } from './account-manager-location/account-manager-location.component';
+import { AccountManagerPasswordComponent } from './account-manager-password/account-manager-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -74,8 +76,8 @@ const routes: Routes = [
         children: [
           // { path: '', component: HomeComponent, pathMatch: 'full' },
           { path: 'account-manager-profile', component: AccountManagerProfileComponent},
-          // { path: 'user-network', component: UserNetworkComponent },
-          // { path: 'logout', component: LogoutComponent },
+          { path: 'account-manager-location', component: AccountManagerLocationComponent},
+          { path: 'account-manager-password', component: AccountManagerPasswordComponent},
         ]
       },
     ]

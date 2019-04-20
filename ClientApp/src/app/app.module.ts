@@ -45,6 +45,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AccountManagerProfileComponent } from './account-manager-profile/account-manager-profile.component';
 import { AccountSideMenuComponent } from './account-side-menu/account-side-menu.component';
 import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/layout-account-manager.component';
+import { AccountManagerLocationComponent } from './account-manager-location/account-manager-location.component';
+import { AccountManagerPasswordComponent } from './account-manager-password/account-manager-password.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -82,6 +84,8 @@ export function tokenGetter() {
     AccountManagerProfileComponent,
     AccountSideMenuComponent,
     LayoutAccountManagerComponent,
+    AccountManagerLocationComponent,
+    AccountManagerPasswordComponent,
 
   ],
   imports: [
