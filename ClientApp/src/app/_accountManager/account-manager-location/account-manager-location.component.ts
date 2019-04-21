@@ -128,8 +128,19 @@ export class AccountManagerLocationComponent implements OnInit {
       );
   }
 
-  // onSubmit: void {
-  //   // redirec to login form if successful
-  // }
+  onSubmit(value: SetLocationViewModel): void {
+    // console.log(value);
+    // redirect to login form if successful
+    // const viewModel = <SetLocationViewModel>{
+    //   defaultLocationLatitude: value.locationLatitude,
+    //   defaultLocationLongitude: value.locationLongitude
+    // };
+
+    console.log(value);
+
+
+
+  }
+
 
 }
