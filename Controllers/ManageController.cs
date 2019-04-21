@@ -144,20 +144,20 @@ namespace Birder.Controllers
         //    return View(model);
         //}
 
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [HttpPost, Route("SetLocation")]
         public async Task<IActionResult> SetLocation(SetLocationViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                //return View(model);
+                return BadRequest(ModelState);
             }
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             //var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                // throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return BadRequest(ModelState);
             }
 
             var coOrdinate = user.DefaultLocationLatitude + "," + user.DefaultLocationLongitude;
@@ -169,32 +169,15 @@ namespace Birder.Controllers
                 var setCoOrdinate = await _userManager.UpdateAsync(user);
                 if (!setCoOrdinate.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                    //throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                    return BadRequest(ModelState);
                 }
             }
 
             //StatusMessage = "Your default location has been updated";
-            return RedirectToAction(nameof(SetLocation));
+            return Ok(model);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> ChangePassword()
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-        //    if (user == null)
-        //    {
-        //        throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-        //    }
-
-        //    var hasPassword = await _userManager.HasPasswordAsync(user);
-        //    if (!hasPassword)
-        //    {
-        //        return RedirectToAction(nameof(SetPassword));
-        //    }
-
-        //    var model = new ChangePasswordViewModel { StatusMessage = StatusMessage };
-        //    return View(model);
-        //}
 
         [HttpPost, Route("ChangePassword")]
         //[ValidateAntiForgeryToken]

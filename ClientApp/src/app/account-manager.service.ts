@@ -6,6 +6,7 @@ import { HttpErrorHandlerService } from './http-error-handler.service';
 import { Observable } from 'rxjs';
 import { ManageProfileViewModel } from '../_models/ManageProfileViewModel';
 import { ChangePasswordViewModel } from '../_models/ChangePasswordViewModel';
+import { SetLocationViewModel } from 'src/_models/SetLocationViewModel';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -33,6 +34,12 @@ export class AccountManagerService {
 
   postChangePassword(viewModel: ChangePasswordViewModel): Observable<ChangePasswordViewModel | ErrorReportViewModel> {
     return this.http.post<ChangePasswordViewModel>('api/Manage/ChangePassword', viewModel, httpOptions)
+    .pipe(
+      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
+  postSetLocation(viewModel: SetLocationViewModel): Observable<SetLocationViewModel | ErrorReportViewModel> {
+    return this.http.post<SetLocationViewModel>('api/Manage/ChangePassword', viewModel, httpOptions)
     .pipe(
       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

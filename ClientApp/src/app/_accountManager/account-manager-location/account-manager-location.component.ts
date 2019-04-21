@@ -7,6 +7,7 @@ import { LocationViewModel } from '../../../_models/LocationViewModel';
 import { SetLocationViewModel } from '../../../_models/SetLocationViewModel';
 import { UserViewModel } from '../../../_models/UserViewModel';
 import { TokenService } from '../../../app/token.service';
+import { AccountManagerService } from 'src/app/account-manager.service';
 
 @Component({
   selector: 'app-account-manager-location',
@@ -25,6 +26,7 @@ export class AccountManagerLocationComponent implements OnInit {
 
   constructor(private router: Router
     , private tokenService: TokenService
+    , private accountManager: AccountManagerService
     // , private route: ActivatedRoute
     // , private observationService: ObservationService
     // , private birdsService: BirdsService
