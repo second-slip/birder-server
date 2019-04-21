@@ -7,7 +7,7 @@ import { LocationViewModel } from '../../../_models/LocationViewModel';
 import { SetLocationViewModel } from '../../../_models/SetLocationViewModel';
 import { UserViewModel } from '../../../_models/UserViewModel';
 import { TokenService } from '../../../app/token.service';
-import { AccountManagerService } from 'src/app/account-manager.service';
+import { AccountManagerService } from '../../../app/account-manager.service';
 
 @Component({
   selector: 'app-account-manager-location',
@@ -130,19 +130,27 @@ export class AccountManagerLocationComponent implements OnInit {
       );
   }
 
-  onSubmit(value: SetLocationViewModel): void {
-    // console.log(value);
-    // redirect to login form if successful
-    // const viewModel = <SetLocationViewModel>{
-    //   defaultLocationLatitude: value.locationLatitude,
-    //   defaultLocationLongitude: value.locationLongitude
-    // };
+  onSubmit(value): void {
 
-    console.log(value);
+    const model = <SetLocationViewModel> {
+      defaultLocationLatitude: value.locationLatitude,
+      defaultLocationLongitude: value.locationLongitude,
+    };
 
+// console.log(model);
 
-
+    this.accountManager.postSetLocation(model)
+    .subscribe(
+       (data: SetLocationViewModel) => {
+         console.log('successful registration');
+         this.router.navigate(['login']);
+       },
+      (error: ErrorReportViewModel) => {
+        // if (error.status === 400) { }
+        // this.errorReport = error;
+        // this.unsuccessful = true;
+        console.log(error.friendlyMessage);
+        console.log('unsuccessful registration');
+      });
   }
-
-
 }
