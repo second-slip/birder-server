@@ -67,6 +67,11 @@ namespace Birder.Data.Repository
             return observations;
         }
 
+        public async Task<Observation> GetObservation(int? id)
+        {
+            return await _dbContext.Observations.SingleOrDefaultAsync(m => m.ObservationId == id);
+        }
+
         public async Task<Observation> GetObservationDetail(int? id)
         {
             return await _dbContext.Observations
@@ -96,9 +101,9 @@ namespace Birder.Data.Repository
             return await _dbContext.Observations.AnyAsync(e => e.ObservationId == id);
         }
 
-        public async Task<Observation> DeleteObservation(int id)
+        public async Task<Observation> DeleteObservation(Observation observation)
         {
-            var observation = await _dbContext.Observations.SingleOrDefaultAsync(m => m.ObservationId == id);
+            //var observation = await _dbContext.Observations.SingleOrDefaultAsync(m => m.ObservationId == id);
             _dbContext.Observations.Remove(observation);
             await _dbContext.SaveChangesAsync();
             return observation;

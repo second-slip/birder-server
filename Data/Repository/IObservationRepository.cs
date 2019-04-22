@@ -9,11 +9,13 @@ namespace Birder.Data.Repository
         IQueryable<Observation> GetUsersObservationsList(string userId);
         IQueryable<Observation> GetUsersNetworkObservationsList(string userId);
         IQueryable<Observation> GetPublicObservationsList();
+
+        Task<Observation> GetObservation(int? id);
         Task<Observation> GetObservationDetail(int? id);
         Task<Observation> AddObservation(Observation observation);
         Task<Observation> UpdateObservation(Observation observation);
         Task<bool> ObservationExists(int id);
-        Task<Observation> DeleteObservation(int id);
+        Task<Observation> DeleteObservation(Observation observation);
         //IQueryable<SpeciesSummaryViewModel> GetLifeList(string userId);
         //Task<int> TotalObservationsCount(ApplicationUser user);
         //Task<int> UniqueSpeciesCount(ApplicationUser user);
