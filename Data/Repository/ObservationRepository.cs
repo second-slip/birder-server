@@ -1,6 +1,5 @@
 ﻿using Birder.Data.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -68,7 +67,7 @@ namespace Birder.Data.Repository
             return observations;
         }
 
-        public async Task<Observation> GetObservationDetails(int? id)
+        public async Task<Observation> GetObservationDetail(int? id)
         {
             return await _dbContext.Observations
                 .Include(b => b.Bird)

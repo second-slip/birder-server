@@ -60,13 +60,9 @@ namespace Birder.Controllers
 
         // GET: api/Observation/5
         [HttpGet, Route("GetObservation")]
-        public async Task<ActionResult<ObservationViewModel>> GetObservation(int id)
+        public async Task<IActionResult> GetObservation(int id)
         {
-            var observation = await (from o in _context.Observations
-                                        .Include(o => o.Bird)
-                                        .Include(u => u.ApplicationUser)
-                                      where (o.ObservationId == id)
-                                      select o).FirstOrDefaultAsync();
+            var observation = await _observationRepository.GetObservationDetail(id);
 
             var viewModel = _mapper.Map<Observation, ObservationViewModel>(observation);
 
@@ -92,10 +88,6 @@ namespace Birder.Controllers
                                               select b).FirstOrDefaultAsync();
                     newObservation.Bird = observedBird;
 
-                    // // temporary
-                    // newObservation.LocationLatitude = 54.972237;
-                    // newObservation.LocationLongitude = -2.460856;
-                    // //
                     newObservation.CreationDate = _systemClock.Now;
                     newObservation.LastUpdateDate = _systemClock.Now;
 
@@ -207,14 +199,15 @@ namespace Birder.Controllers
         [HttpDelete, Route("DeleteObservation")]
         public async Task<ActionResult<ObservationViewModel>> DeleteObservation(int id)
         {
-            var observation = await _context.Observations.FindAsync(id);
-            if (observation == null)
-            {
-                return NotFound();
-            }
+            //var observation = await _context.Observations.FindAsync(id);
+            //if (observation == null)
+            //{
+            //    return NotFound();
+            //}
 
-            _context.Observations.Remove(observation);
-            await _context.SaveChangesAsync();
+            //_context.Observations.Remove(observation);
+            var observation = await _observationRepository.DeleteObservation(id);
+            //await _context.SaveChangesAsync();
 
             return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
         }
