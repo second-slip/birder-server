@@ -16,8 +16,11 @@
         <a class="nav-link" [routerLink]='["/birds-index"]'>Birds</a>
       </li>
       <li class="nav-item" *ngIf="isLoggedIn">
-          <a class="nav-link" [routerLink]='["/life-list"]'>Life List</a>
-        </li>
+        <a class="nav-link" [routerLink]='["/life-list"]'>Life List</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <a class="nav-link" [routerLink]='["/user-network"]'>Network</a>
+      </li>
     </ul>
 
     <div *ngIf="isLoggedIn">
@@ -28,7 +31,6 @@
               style="resize:both">{{authenticatedUser.userName}}<b class="caret"></b>
             <ul class="dropdown-menu" ngbDropdownMenu>
               <a class="dropdown-item" routerLink="/user-profile/{{authenticatedUser.userName}}">My Profile</a>
-              <a class="dropdown-item" [routerLink]='["/user-network"]'>My Network</a>
               <a class="dropdown-item" [routerLink]='["/account-manager-profile"]'>Manage Account</a>
               <a class="dropdown-item" [routerLink]='["/logout"]'>Logout</a>
             </ul>
