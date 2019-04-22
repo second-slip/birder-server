@@ -90,7 +90,7 @@ namespace Birder.Controllers
                     //var observedBird = await (from b in _context.Birds
                     //                          where (b.BirdId == model.BirdId)
                     //                          select b).FirstOrDefaultAsync();
-                    var observedBird = await _birdRepository.GetBirdDetail(model.BirdId);
+                    var observedBird = await _birdRepository.GetBird(model.BirdId);
                     newObservation.Bird = observedBird;
 
                     newObservation.CreationDate = _systemClock.Now;
@@ -153,7 +153,7 @@ namespace Birder.Controllers
                         return BadRequest("An error occurred.  You can only edit your own observations.");
                     }
 
-                    var observedBird = await _birdRepository.GetBirdDetail(model.BirdId);
+                    var observedBird = await _birdRepository.GetBird(model.BirdId);
                     // check if bird == null
                     //var observedBird = await (from b in _context.Birds
                     //                          where (b.BirdId == model.BirdId)

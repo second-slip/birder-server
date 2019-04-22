@@ -14,7 +14,7 @@ namespace Birder.Data.Repository
             _dbContext = dbContext;
         }
 
-        public Task<Bird> GetBirdDetail(int id)
+        public Task<Bird> GetBird(int id)
         {
             return (from b in _dbContext.Birds
                     .Include(cs => cs.BirdConservationStatus)

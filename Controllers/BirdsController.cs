@@ -68,7 +68,7 @@ namespace Birder.Controllers
             }
 
             // nb lazy load Observations (see separate action)
-            var bird = await _birdRepository.GetBirdDetail(id);
+            var bird = await _birdRepository.GetBird(id);
             // var bird = await (from b in _context.Birds
             //                      .Include(cs => cs.BirdConserverationStatus)
             //                   where(b.BirdId == id)
