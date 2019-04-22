@@ -15,44 +15,10 @@ namespace Birder.Data.Repository
             _dbContext = dbContext;
         }
 
-        //public IQueryable<SpeciesSummaryViewModel> GetLifeList(string userId)
-        //{
-        //    return (from observations in _dbContext.Observations
-        //         .Include(b => b.Bird)
-        //            .ThenInclude(u => u.BirdConserverationStatus)
-        //         .Where(u => u.ApplicationUser.Id == userId)
-        //            group observations by observations.Bird into species
-        //            orderby species.Count() descending
-        //            select new SpeciesSummaryViewModel
-        //            {
-        //                Vernacular = species.FirstOrDefault().Bird.EnglishName,
-        //                ScientificName = species.FirstOrDefault().Bird.Species,
-        //                PopSize = species.FirstOrDefault().Bird.PopulationSize,
-        //                BtoStatus = species.FirstOrDefault().Bird.BtoStatusInBritain,
-        //                ConservationStatus = species.FirstOrDefault().Bird.BirdConserverationStatus.ConservationStatus,
-        //                Count = species.Count()
-        //            });
-        //}
-
-        //public async Task<int> TotalObservationsCount(ApplicationUser user)
-        //{
-        //    return await (from observations in _dbContext.Observations
-        //                  where (observations.ApplicationUserId == user.Id)
-        //                  select observations).CountAsync();
-        //}
-
-        //public async Task<int> UniqueSpeciesCount(ApplicationUser user)
-        //{
-        //    return await (from observations in _dbContext.Observations
-        //                  where (observations.ApplicationUserId == user.Id)
-        //                  select observations.BirdId).Distinct().CountAsync();
-        //}
-
-
-        public IQueryable<Observation> GetUsersObservationsList(string userId)
+        public IQueryable<Observation> GetUsersObservationsList(string username)
         {
             var observations = _dbContext.Observations
-                .Where(o => o.ApplicationUserId == userId)
+                .Where(o => o.ApplicationUser.UserName == username)
                     .Include(au => au.ApplicationUser)
                     .Include(b => b.Bird)
                     //.Include(ot => ot.ObservationTags)

@@ -46,16 +46,12 @@ namespace Birder.Controllers
 
         // GET: api/Observation
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ObservationViewModel>>> GetObservations()
+        public async Task<IActionResult> GetObservations()
         {
             var username = User.Identity.Name;
             //var user = await _userManager.FindByNameAsync(username);
 
-            var observations = await (from o in _context.Observations
-                                        .Include(o => o.Bird)
-                                        .Include(u => u.ApplicationUser)
-                                      where (o.ApplicationUser.UserName == username)
-                                      select o).ToListAsync();
+            var observations =_observationRepository.GetUsersObservationsList(username);
 
             var viewModel = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations);
 
