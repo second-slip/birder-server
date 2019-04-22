@@ -69,7 +69,9 @@ namespace Birder.Data.Repository
 
         public async Task<Observation> GetObservation(int? id)
         {
-            return await _dbContext.Observations.SingleOrDefaultAsync(m => m.ObservationId == id);
+            return await _dbContext.Observations
+                            .Include(au => au.ApplicationUser)
+                            .SingleOrDefaultAsync(m => m.ObservationId == id);
         }
 
         public async Task<Observation> GetObservationDetail(int? id)
@@ -91,6 +93,7 @@ namespace Birder.Data.Repository
 
         public async Task<Observation> UpdateObservation(Observation observation)
         {
+            _dbContext.Entry(observation).State = EntityState.Modified;
             _dbContext.Observations.Update(observation);
             await _dbContext.SaveChangesAsync();
             return(observation);

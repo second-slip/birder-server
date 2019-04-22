@@ -29,18 +29,21 @@ namespace Birder.Controllers
         private readonly ISystemClock _systemClock;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IBirdRepository _birdRepository;
         private readonly IObservationRepository _observationRepository;
 
         public ObservationController(IMapper mapper
                                    , ISystemClock systemClock
-                                   , ApplicationDbContext context
+                                   //, ApplicationDbContext context
                                    , UserManager<ApplicationUser> userManager
+                                   , IBirdRepository birdRepository
                                    , IObservationRepository observationRepository)
         {
             _mapper = mapper;
             _systemClock = systemClock;
-            _context = context;
+            //_context = context;
             _userManager = userManager;
+            _birdRepository = birdRepository;
             _observationRepository = observationRepository;
         }
 
@@ -79,13 +82,15 @@ namespace Birder.Controllers
                 {
                     var newObservation = _mapper.Map<ObservationViewModel, Observation>(model);
 
-                    var username = User.Identity.Name;
-                    var user = await _userManager.FindByNameAsync(username);
+                    //var username = User.Identity.Name;
+                    var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                    //check if user == null
                     newObservation.ApplicationUser = user;
 
-                    var observedBird = await (from b in _context.Birds
-                                              where (b.BirdId == newObservation.BirdId)
-                                              select b).FirstOrDefaultAsync();
+                    //var observedBird = await (from b in _context.Birds
+                    //                          where (b.BirdId == model.BirdId)
+                    //                          select b).FirstOrDefaultAsync();
+                    var observedBird = await _birdRepository.GetBirdDetail(model.BirdId);
                     newObservation.Bird = observedBird;
 
                     newObservation.CreationDate = _systemClock.Now;
@@ -132,11 +137,12 @@ namespace Birder.Controllers
                     var user = await _userManager.FindByNameAsync(username);
 
                     // we need to get the server observation anyway to check users are the same
-                    var observation = await (from o in _context.Observations
-                                    // .Include(o => o.Bird)
-                                    .Include(u => u.ApplicationUser)
-                                             where (o.ObservationId == id)
-                                             select o).FirstOrDefaultAsync();
+                    //var observation = await (from o in _context.Observations
+                    //                // .Include(o => o.Bird)
+                    //                .Include(u => u.ApplicationUser)
+                    //                         where (o.ObservationId == id)
+                    //                         select o).FirstOrDefaultAsync();
+                    var observation = await _observationRepository.GetObservation(id);
                     if (observation == null)
                     {
                         return NotFound();
@@ -147,9 +153,11 @@ namespace Birder.Controllers
                         return BadRequest("An error occurred.  You can only edit your own observations.");
                     }
 
-                    var observedBird = await (from b in _context.Birds
-                                              where (b.BirdId == model.BirdId)
-                                              select b).FirstOrDefaultAsync();
+                    var observedBird = await _birdRepository.GetBirdDetail(model.BirdId);
+                    // check if bird == null
+                    //var observedBird = await (from b in _context.Birds
+                    //                          where (b.BirdId == model.BirdId)
+                    //                          select b).FirstOrDefaultAsync();
                     observation.Bird = observedBird;
 
                     observation.LocationLatitude = model.LocationLatitude;
@@ -165,11 +173,12 @@ namespace Birder.Controllers
 
                     observation.LastUpdateDate = _systemClock.Now;
 
-                    _context.Entry(observation).State = EntityState.Modified;
+                    //_context.Entry(observation).State = EntityState.Modified;
 
                     try
                     {
-                        await _context.SaveChangesAsync();
+                        //await _context.SaveChangesAsync();
+                        await _observationRepository.UpdateObservation(observation);
                     }
                     catch (DbUpdateConcurrencyException)
                     {
