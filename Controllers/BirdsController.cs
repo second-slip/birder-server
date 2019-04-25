@@ -5,6 +5,8 @@ using Birder.Data.Repository;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,72 +18,69 @@ namespace Birder.Controllers
     public class BirdsController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
         private readonly IBirdRepository _birdRepository;
-        private readonly ApplicationDbContext _context;
 
         public BirdsController(IMapper mapper
-                             , IBirdRepository birdRepository
-                             , ApplicationDbContext context)
+                             , ILogger<BirdsController> logger
+                             , IBirdRepository birdRepository)
         {
             _mapper = mapper;
-            _context = context;
+            _logger = logger;
             _birdRepository = birdRepository;
         }
 
-        // GET: api/Birds
         [HttpGet]
-        //public async Task<ActionResult<IEnumerable<Bird>>> GetBirds()
         public async Task<IActionResult> GetBirds()
         {
             // TODO: Cache the birds list
             // The birds list is a prime candidate to be put in the cache.
             // The birds list is rarely updated.
-            if (!ModelState.IsValid)
+
+            try
             {
-                return BadRequest(ModelState);
+
+                var birds = await _birdRepository.GetBirdSummaryList(BirderStatus.Common);
+
+                if (birds == null)
+                {
+                    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
+                    return BadRequest();
+                }
+
+                var viewmodel = _mapper.Map<List<Bird>, List<BirdSummaryViewModel>>(birds);
+
+                return Ok(viewmodel);
             }
-
-            // var birds = await _context.Birds
-            //             .Where(x => x.BirderStatus == BirderStatus.Common)
-            //             .ToListAsync();
-
-            var birds = await _birdRepository.GetBirdSummaryList(BirderStatus.Common);
-
-            if (birds == null) 
+            catch (Exception ex)
             {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the birds list");
                 return BadRequest();
             }
-
-            var viewmodel = _mapper.Map<List<Bird>, List<BirdSummaryViewModel>>(birds);
-
-            return Ok(viewmodel);
         }
 
-        // GET: api/Birds/GetBirdGetBird?id={x}
-        [HttpGet, Route("GetBird")]
-        //public async Task<ActionResult<Bird>> GetBird(int id)
+        [HttpGet("{id}"), Route("GetBird")]
         public async Task<IActionResult> GetBird(int id)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                var bird = await _birdRepository.GetBird(id);
+
+                if (bird == null)
+                {
+                    _logger.LogWarning(LoggingEvents.GetItemNotFound, "GetBird({ID}) NOT FOUND", id);
+                    return NotFound();
+                }
+
+                var viewmodel = _mapper.Map<Bird, BirdDetailViewModel>(bird);
+
+                return Ok(viewmodel);
             }
-
-            // nb lazy load Observations (see separate action)
-            var bird = await _birdRepository.GetBird(id);
-            // var bird = await (from b in _context.Birds
-            //                      .Include(cs => cs.BirdConserverationStatus)
-            //                   where(b.BirdId == id)
-            //                   select b).FirstOrDefaultAsync();
-
-            if (bird == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "An error occurred getting bird with {ID}", id);
+                return BadRequest();
             }
-
-            var viewmodel = _mapper.Map<Bird, BirdDetailViewModel>(bird);
-
-            return Ok(viewmodel);
         }
     }
 }
