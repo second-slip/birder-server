@@ -1,4 +1,4 @@
-﻿namespace Birder
+﻿namespace Birder.Helpers
 {
     public class LoggingEvents
     {
