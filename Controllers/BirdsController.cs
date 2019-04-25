@@ -59,7 +59,7 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpGet("{id}"), Route("GetBird")]
+        [HttpGet, Route("GetBird")]
         public async Task<IActionResult> GetBird(int id)
         {
             try
