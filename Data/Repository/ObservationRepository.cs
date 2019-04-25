@@ -52,6 +52,8 @@ namespace Birder.Data.Repository
 
             // PROBLEM WHEN FOLLOWERS = 0 -- cannot append own Id
 
+            // TODO - why not just use if to check if following == 0?
+
             var userNetwork = (from p in loggedinUser.Following
                                select p.ApplicationUser.Id.ToString());
             //Therefore changed to less efficient || in LINQ WHERE
@@ -106,7 +108,6 @@ namespace Birder.Data.Repository
 
         public async Task<Observation> DeleteObservation(Observation observation)
         {
-            //var observation = await _dbContext.Observations.SingleOrDefaultAsync(m => m.ObservationId == id);
             _dbContext.Observations.Remove(observation);
             await _dbContext.SaveChangesAsync();
             return observation;

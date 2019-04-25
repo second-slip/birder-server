@@ -41,12 +41,10 @@ namespace Birder.Controllers
             _observationRepository = observationRepository;
         }
 
-        // GET: api/Observation
         [HttpGet]
         public async Task<IActionResult> GetObservations()
         {
             var username = User.Identity.Name;
-            //var user = await _userManager.FindByNameAsync(username);
 
             var observations =_observationRepository.GetUsersObservationsList(username);
 
@@ -55,7 +53,6 @@ namespace Birder.Controllers
             return Ok(viewModel);
         }
 
-        // GET: api/Observation/5
         [HttpGet, Route("GetObservation")]
         public async Task<IActionResult> GetObservation(int id)
         {
@@ -66,7 +63,6 @@ namespace Birder.Controllers
             return Ok(viewModel);
         }
 
-        // POST: api/Observation
         [HttpPost, Route("PostObservation")]
         public async Task<IActionResult> PostObservation(ObservationViewModel model)
         {
@@ -81,17 +77,11 @@ namespace Birder.Controllers
                     //check if user == null
                     newObservation.ApplicationUser = user;
 
-                    //var observedBird = await (from b in _context.Birds
-                    //                          where (b.BirdId == model.BirdId)
-                    //                          select b).FirstOrDefaultAsync();
                     var observedBird = await _birdRepository.GetBird(model.BirdId);
                     newObservation.Bird = observedBird;
 
                     newObservation.CreationDate = _systemClock.Now;
                     newObservation.LastUpdateDate = _systemClock.Now;
-
-                    //_context.Observations.Add(newObservation);
-                    //await _context.SaveChangesAsync();
 
                     var save = _observationRepository.AddObservation(newObservation);
                     save.Wait();
@@ -118,7 +108,6 @@ namespace Birder.Controllers
             return BadRequest("An error occurred.  Could not add the observation.");
         }
 
-        // PUT: api/Observation/5
         [HttpPut, Route("UpdateObservation")]
         public async Task<IActionResult> PutObservation(int id, ObservationViewModel model)
         {
@@ -136,12 +125,6 @@ namespace Birder.Controllers
                     var username = User.Identity.Name;
                     var user = await _userManager.FindByNameAsync(username);
 
-                    // we need to get the server observation anyway to check users are the same
-                    //var observation = await (from o in _context.Observations
-                    //                // .Include(o => o.Bird)
-                    //                .Include(u => u.ApplicationUser)
-                    //                         where (o.ObservationId == id)
-                    //                         select o).FirstOrDefaultAsync();
                     var observation = await _observationRepository.GetObservation(id);
                     if (observation == null)
                     {
@@ -154,10 +137,7 @@ namespace Birder.Controllers
                     }
 
                     var observedBird = await _birdRepository.GetBird(model.BirdId);
-                    // check if bird == null
-                    //var observedBird = await (from b in _context.Birds
-                    //                          where (b.BirdId == model.BirdId)
-                    //                          select b).FirstOrDefaultAsync();
+
                     observation.Bird = observedBird;
 
                     observation.LocationLatitude = model.LocationLatitude;
@@ -173,11 +153,8 @@ namespace Birder.Controllers
 
                     observation.LastUpdateDate = _systemClock.Now;
 
-                    //_context.Entry(observation).State = EntityState.Modified;
-
                     try
                     {
-                        //await _context.SaveChangesAsync();
                         await _observationRepository.UpdateObservation(observation);
                     }
                     catch (DbUpdateConcurrencyException)
@@ -204,7 +181,6 @@ namespace Birder.Controllers
             return BadRequest("An error occurred.  Could not edit the observation.");
         }
 
-        // DELETE: api/Observation/5
         [HttpDelete, Route("DeleteObservation")]
         public async Task<ActionResult<ObservationViewModel>> DeleteObservation(int id)
         {
@@ -214,10 +190,8 @@ namespace Birder.Controllers
                 return NotFound();
             }
 
-            //_context.Observations.Remove(observation);
             var operation = _observationRepository.DeleteObservation(observation);
 
-            //await _context.SaveChangesAsync();
             if (!operation.IsCompletedSuccessfully)
             {
                 return BadRequest();
