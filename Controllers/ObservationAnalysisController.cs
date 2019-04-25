@@ -16,7 +16,7 @@ namespace Birder.Controllers
         private readonly IObservationsAnalysisRepository _observationsAnalysisRepository;
 
         public ObservationAnalysisController(IObservationsAnalysisRepository observationsAnalysisRepository
-                                            ,ISystemClock systemClock)
+                                            , ISystemClock systemClock)
         {
             _systemClock = systemClock;
             _observationsAnalysisRepository = observationsAnalysisRepository;

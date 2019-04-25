@@ -5,6 +5,7 @@ using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -16,14 +17,17 @@ namespace Birder.Controllers
     public class TweetsController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
         private readonly ISystemClock _systemClock;
         private readonly ITweetDayRepository _tweetDayRepository;
 
         public TweetsController(ITweetDayRepository tweetDayRepository,
                                 ISystemClock systemClock,
+                                ILogger<TweetsController> logger,
                                 IMapper mapper)
         {
             _mapper = mapper;
+            _logger = logger;
             _systemClock = systemClock;
             _tweetDayRepository = tweetDayRepository;
         }
@@ -38,6 +42,7 @@ namespace Birder.Controllers
 
                 if (tweet == null)
                 {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting tweet with date: {Date}", _systemClock.Today);
                     return BadRequest();
                 }
 
@@ -47,6 +52,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting tweet with date: {Date}", _systemClock.Today);
                 return BadRequest();
             }
         }

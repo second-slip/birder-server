@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.ViewModels;

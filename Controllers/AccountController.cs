@@ -24,7 +24,7 @@ namespace Birder.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost, Route("register")]
+        [HttpPost, Route("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
