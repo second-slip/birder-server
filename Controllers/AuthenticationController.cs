@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -22,15 +23,18 @@ namespace Birder.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ILogger _logger;
         private readonly ISystemClock _systemClock;
         private readonly IConfiguration _config;
 
         public AuthenticationController(UserManager<ApplicationUser> userManager
                                         , SignInManager<ApplicationUser> signInManager
+                                        , ILogger<AuthenticationController> logger
                                         , ISystemClock systemClock
                                         , IConfiguration config)
         {
             _systemClock = systemClock;
+            _logger = logger;
             _config = config;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -41,6 +45,7 @@ namespace Birder.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError(LoggingEvents.InvalidModelState, "LoginViewModel ModelState is invalid");
                 return BadRequest(ModelState);
             }
 
@@ -84,8 +89,9 @@ namespace Birder.Controllers
                     return Ok(new { Token = tokenString });
                 }
             }
-            return Unauthorized(ModelState);
-            // return BadRequest();
+
+            _logger.LogError(LoggingEvents.GetItemNotFound, "Login failed: User not found");
+            return BadRequest(ModelState);
         }
     }
 }
