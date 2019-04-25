@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,18 +24,21 @@ namespace Birder.Controllers
     public class ObservationController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
         private readonly ISystemClock _systemClock;
         private readonly IBirdRepository _birdRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
 
         public ObservationController(IMapper mapper
+                                   , ILogger<ObservationController> logger
                                    , ISystemClock systemClock
                                    , IBirdRepository birdRepository
                                    , UserManager<ApplicationUser> userManager
                                    , IObservationRepository observationRepository)
         {
             _mapper = mapper;
+            _logger = logger;
             _userManager = userManager;
             _systemClock = systemClock;
             _birdRepository = birdRepository;
@@ -44,6 +48,7 @@ namespace Birder.Controllers
         [HttpGet]
         public async Task<IActionResult> GetObservations()
         {
+            _logger.LogInformation("Getting Observations Feed");
             var username = User.Identity.Name;
 
             var observations =_observationRepository.GetUsersObservationsList(username);
@@ -102,7 +107,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                //_logger.LogError($"Failed to save a new order: {ex}");
+                _logger.LogError($"Failed to save a new order: {ex}");
             }
 
             return BadRequest("An error occurred.  Could not add the observation.");
