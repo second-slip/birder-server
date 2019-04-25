@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 
 //TODO: Observation controller
 //    - tidy up return messages, et cetera
-//    - repository
 //    - logging
 
 namespace Birder.Controllers
@@ -27,22 +26,19 @@ namespace Birder.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ISystemClock _systemClock;
-        private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IBirdRepository _birdRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
 
         public ObservationController(IMapper mapper
                                    , ISystemClock systemClock
-                                   //, ApplicationDbContext context
-                                   , UserManager<ApplicationUser> userManager
                                    , IBirdRepository birdRepository
+                                   , UserManager<ApplicationUser> userManager
                                    , IObservationRepository observationRepository)
         {
             _mapper = mapper;
-            _systemClock = systemClock;
-            //_context = context;
             _userManager = userManager;
+            _systemClock = systemClock;
             _birdRepository = birdRepository;
             _observationRepository = observationRepository;
         }
@@ -96,14 +92,20 @@ namespace Birder.Controllers
                     newObservation.CreationDate = _systemClock.Now;
                     newObservation.LastUpdateDate = _systemClock.Now;
 
-                    _context.Observations.Add(newObservation);
-                    await _context.SaveChangesAsync();
+                    //_context.Observations.Add(newObservation);
+                    //await _context.SaveChangesAsync();
 
-                    var test = _mapper.Map<Observation, ObservationViewModel>(newObservation);
+                    var save = _observationRepository.AddObservation(newObservation);
+                    save.Wait();
 
-                    // test.Bird = null;
+                    if (!save.IsCompletedSuccessfully)
+                    {
+                        return BadRequest(ModelState);
+                    }
 
-                    return Ok(test);
+                    var viewModel = _mapper.Map<Observation, ObservationViewModel>(newObservation);
+
+                    return Ok(viewModel);
                 }
                 else
                 {
@@ -182,7 +184,7 @@ namespace Birder.Controllers
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!ObservationExists(id))
+                        if (await _observationRepository.ObservationExists(id)) // !ObservationExists(id))
                         {
                             return NotFound();
                         }
@@ -224,11 +226,6 @@ namespace Birder.Controllers
             }
 
             return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
-        }
-
-        private bool ObservationExists(int id)
-        {
-            return _context.Observations.Any(e => e.ObservationId == id);
         }
     }
 }
