@@ -19,18 +19,12 @@ namespace Birder.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly ApplicationDbContext _context;
         private readonly IUserRepository _userRepository;
-        private readonly UserManager<ApplicationUser> _userManager;
 
         public UserController(IMapper mapper
-                            , ApplicationDbContext context
-                            , IUserRepository userRepository
-                            , UserManager<ApplicationUser> userManager)
+                            , IUserRepository userRepository)
         {
             _mapper = mapper;
-            _context = context;
-            _userManager = userManager;
             _userRepository = userRepository;
         }
 

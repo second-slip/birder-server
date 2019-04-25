@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.Services;
@@ -10,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 //TODO: Observation controller
