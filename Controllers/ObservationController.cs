@@ -48,7 +48,7 @@ namespace Birder.Controllers
         [HttpGet]
         public async Task<IActionResult> GetObservations()
         {
-            _logger.LogInformation("Getting Observations Feed");
+            _logger.LogInformation(LoggingEvents.ListItems, "Getting Observations Feed");
             var username = User.Identity.Name;
 
             var observations =_observationRepository.GetUsersObservationsList(username);
