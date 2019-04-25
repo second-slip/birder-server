@@ -1,5 +1,4 @@
-﻿using Birder.Data;
-using Birder.Data.Model;
+﻿using Birder.Data.Model;
 using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -15,22 +14,19 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class AccountController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
         private readonly ISystemClock _systemClock;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountController(ApplicationDbContext context,
-                                ISystemClock systemClock,
+        public AccountController(ISystemClock systemClock,
                                 UserManager<ApplicationUser> userManager)
         {
-            _context = context;
             _systemClock = systemClock;
             _userManager = userManager;
         }
 
         [HttpPost, Route("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody]RegisterViewModel model) // , string returnUrl = null)
+        public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
