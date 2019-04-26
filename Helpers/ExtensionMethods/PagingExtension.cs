@@ -7,6 +7,7 @@ namespace Birder.Helpers
 {
     public static class PagingExtension
     {
+        // var paged = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged(1, 5);
         public static PagedResult<T> GetPaged<T>(this IQueryable<T> query,
                                          int page, int pageSize) where T : class
         {
@@ -24,6 +25,7 @@ namespace Birder.Helpers
             return result;
         }
 
+        // var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper); 
         public static PagedResult<U> GetPaged<T, U>(this IQueryable<T> query,
                                             int page, int pageSize, IMapper _mapper) where U : class
         {

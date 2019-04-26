@@ -7,7 +7,7 @@ namespace Birder.Data.Repository
 {
     public interface IBirdRepository
     {
-        IQueryable<Bird> GetBirdSummaryList(BirderStatus birderStatusFilter);
+        Task<IEnumerable<Bird>> GetBirdSummaryList(BirderStatus birderStatusFilter);
         Task<Bird> GetBird(int id);
     }
 }

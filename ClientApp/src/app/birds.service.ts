@@ -6,8 +6,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../_models/BirdSummaryViewModel';
-import { PagedResult } from '../_models/PagedResult';
-import { BirdIndexOptions } from '../_models/BirdIndexOptions';
+import { BirderStatus } from '../_models/BirdIndexOptions';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -21,20 +20,23 @@ export class BirdsService {
   constructor(private http: HttpClient
             , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  getBirds(): Observable<BirdSummaryViewModel[] | ErrorReportViewModel> {
-    return this.http.get<BirdSummaryViewModel[]>('api/Birds')
+  getBirds(filter: BirderStatus): Observable<BirdSummaryViewModel[] | ErrorReportViewModel> {
+    const options = filter ?
+    { params: new HttpParams().set('filter', filter.toString()) } : {};
+
+    return this.http.get<BirdSummaryViewModel[]>('api/Birds', options)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getPagedBirds(pageIndex: number, pageSize: number): Observable<PagedResult<BirdSummaryViewModel> | ErrorReportViewModel> {
-    const options = 
-    { params:  new HttpParams().set('pageIndex', pageIndex.toString()).set('pageSize', pageSize.toString()) };
+  // getPagedBirds(pageIndex: number, pageSize: number): Observable<PagedResult<BirdSummaryViewModel> | ErrorReportViewModel> {
+  //   const options = 
+  //   { params:  new HttpParams().set('pageIndex', pageIndex.toString()).set('pageSize', pageSize.toString()) };
 
-    return this.http.get<PagedResult<BirdSummaryViewModel>>('api/Birds', options)
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
-  }
+  //   return this.http.get<PagedResult<BirdSummaryViewModel>>('api/Birds', options)
+  //     .pipe(
+  //       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  // }
 
   getBird(id: number): Observable<BirdDetailViewModel | ErrorReportViewModel> {
     const options = id ?

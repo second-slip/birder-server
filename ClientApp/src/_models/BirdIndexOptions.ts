@@ -1,5 +1,4 @@
-export interface BirdIndexOptions {
-    pageIndex: number;
-    pageSize: number;
-    // filterStatus: string;
-}
+ export enum BirderStatus {
+     Common = 0,
+     Uncommon = 1
+ }

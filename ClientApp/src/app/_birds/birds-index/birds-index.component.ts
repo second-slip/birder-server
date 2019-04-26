@@ -3,8 +3,8 @@ import { BirdsService } from '../../birds.service';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
-import { PagedResult } from '../../../_models/PagedResult';
 import { PageEvent } from '@angular/material';
+import { BirderStatus } from '../../../_models/BirdIndexOptions';
 
 @Component({
   selector: 'app-birds-index',
@@ -13,7 +13,7 @@ import { PageEvent } from '@angular/material';
   encapsulation: ViewEncapsulation.None
 })
 export class BirdsIndexComponent implements OnInit {
-  birds: PagedResult<BirdSummaryViewModel>;
+  birds: BirdSummaryViewModel[];
   pageEvent: PageEvent;
   gridView: boolean;
 
@@ -21,18 +21,18 @@ export class BirdsIndexComponent implements OnInit {
     , private router: Router) { }
 
   ngOnInit() {
-    this.getBirds(0, 0);
+    this.getBirds(BirderStatus.Common);
   }
 
   public handlePage(e: any) {
     console.log(e);
-    this.getBirds(e.pageIndex + 1, e.pageSize);
+    // this.getBirds(e.pageIndex + 1, e.pageSize);
   }
 
-  getBirds(pageIndex: number, pageSize: number): void {
-    this.birdsService.getPagedBirds(pageIndex, pageSize)
+  getBirds(filter: BirderStatus): void {
+    this.birdsService.getBirds(filter)
       .subscribe(
-        (data: PagedResult<BirdSummaryViewModel>) => { this.birds = data; },
+        (data: BirdSummaryViewModel[]) => { this.birds = data; },
         (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);
         });

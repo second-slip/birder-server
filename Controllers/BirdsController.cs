@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -30,46 +29,29 @@ namespace Birder.Controllers
             _logger = logger;
             _birdRepository = birdRepository;
         }
+        
+        // No need for server side pagination.  Birds list is the same as the request for the drop down lists!
 
         [HttpGet]
-        public async Task<IActionResult> GetBirds(BirdIndexOptions options) // int pageIndex, int pageSize)
+        public async Task<IActionResult> GetBirds(BirderStatus filter) // int pageIndex, int pageSize)
         {
             // TODO: Cache the birds list
             // The birds list is a prime candidate to be put in the cache.
             // The birds list is rarely updated.
 
-            //if (pageIndex == 0)
-            //{
-            //    pageIndex = 1;
-            //}
-
-            //if (pageSize == 0)
-            //{
-            //    pageSize = 25;
-            //}
-
-            //if (!ModelState.IsValid)
-            //{
-            //    _logger.LogError(LoggingEvents.InvalidModelState, "BirdIndexOptions ModelState is invalid");
-            //    return BadRequest(ModelState);
-            //}
-
             try
             {
-                // var birds = _birdRepository.GetBirdSummaryList(BirderStatus.Common);
-                // var paged = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged(1, 5);
-                var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper);
+                var birds = await _birdRepository.GetBirdSummaryList(filter);
 
-                if (viewModel.Results == null)
+                if (birds == null)
                 {
                    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
                    return BadRequest();
                 }
 
+                var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);
+
                 return Ok(viewModel);
-                // var viewmodel = _mapper.Map<PagedResult<Bird>, PagedResult<BirdSummaryViewModel>>(paged);
-                // var viewmodel = _mapper.Map<List<Bird>, List<BirdSummaryViewModel>>(birds);
-                // var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper); 
             }
             catch (Exception ex)
             {
@@ -101,12 +83,5 @@ namespace Birder.Controllers
                 return BadRequest();
             }
         }
-    }
-
-    public class BirdIndexOptions
-    {
-        public int PageIndex { get; set; }
-        public int PageSize { get; set; }
-        //public BirderStatus FilterStatus { get; set; }
     }
 }
