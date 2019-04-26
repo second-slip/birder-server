@@ -32,21 +32,21 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBirds(int pageIndex, int pageSize)
+        public async Task<IActionResult> GetBirds(BirdIndexOptions options) // int pageIndex, int pageSize)
         {
             // TODO: Cache the birds list
             // The birds list is a prime candidate to be put in the cache.
             // The birds list is rarely updated.
 
-            if (pageIndex == 0)
-            {
-                pageIndex = 1;
-            }
+            //if (pageIndex == 0)
+            //{
+            //    pageIndex = 1;
+            //}
 
-            if (pageSize == 0)
-            {
-                pageSize = 25;
-            }
+            //if (pageSize == 0)
+            //{
+            //    pageSize = 25;
+            //}
 
             //if (!ModelState.IsValid)
             //{
@@ -58,7 +58,7 @@ namespace Birder.Controllers
             {
                 // var birds = _birdRepository.GetBirdSummaryList(BirderStatus.Common);
                 // var paged = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged(1, 5);
-                var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(pageIndex, pageSize, _mapper);
+                var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper);
 
                 if (viewModel.Results == null)
                 {
