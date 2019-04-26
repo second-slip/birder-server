@@ -52,7 +52,7 @@ namespace Birder.Controllers
 
                 var viewmodel = _mapper.Map<PagedResult<Bird>, PagedResult<BirdSummaryViewModel>>(paged);
                 // var viewmodel = _mapper.Map<List<Bird>, List<BirdSummaryViewModel>>(birds);
-                var paged2 = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5);
+                var paged2 = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper);
 
 
                 return Ok(paged2);

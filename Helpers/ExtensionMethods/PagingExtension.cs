@@ -1,4 +1,5 @@
-﻿using AutoMapper.QueryableExtensions;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using System;
 using System.Linq;
 
@@ -24,7 +25,7 @@ namespace Birder.Helpers
         }
 
         public static PagedResult<U> GetPaged<T, U>(this IQueryable<T> query,
-                                            int page, int pageSize) where U : class
+                                            int page, int pageSize, IMapper _mapper) where U : class
         {
             var result = new PagedResult<U>();
             result.CurrentPage = page;
@@ -37,7 +38,7 @@ namespace Birder.Helpers
             var skip = (page - 1) * pageSize;
             result.Results = query.Skip(skip)
                                   .Take(pageSize)
-                                  .ProjectTo<U>()
+                                  .ProjectTo<U>(_mapper.ConfigurationProvider)
                                   .ToList();
 
             return result;
