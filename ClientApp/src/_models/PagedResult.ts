@@ -3,7 +3,6 @@ export interface PagedResultBase {
     pageCount: number;
     pageSize: number;
     rowCount: number;
-
     firstRowOnPage: number;
     lastRowOnPage: number;
 }
