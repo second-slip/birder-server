@@ -58,7 +58,7 @@ namespace Birder.Controllers
             {
                 // var birds = _birdRepository.GetBirdSummaryList(BirderStatus.Common);
                 // var paged = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged(1, 5);
-                var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper);
+                var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(pageIndex, pageSize, _mapper);
 
                 if (viewModel.Results == null)
                 {

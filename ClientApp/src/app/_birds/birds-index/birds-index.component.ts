@@ -22,24 +22,16 @@ export class BirdsIndexComponent implements OnInit {
     , private router: Router) { }
 
   ngOnInit() {
-    const x = <BirdIndexOptions> {
-      pageIndex: 1,
-      pageSize: 5
-    };
-    this.getBirds(x);
+    this.getBirds(0, 0);
   }
 
   public handlePage(e: any) {
     console.log(e);
-    const x = <BirdIndexOptions> {
-      pageIndex: e.pageIndex,
-      pageSize: e.pageSize
-    };
-    this.getBirds(x);
+    this.getBirds(e.pageIndex, e.pageSize);
   }
 
-  getBirds(model: BirdIndexOptions): void {
-    this.birdsService.getPagedBirds(model)
+  getBirds(pageIndex: number, pageSize: number): void {
+    this.birdsService.getPagedBirds(pageIndex, pageSize)
       .subscribe(
         (data: PagedResult<BirdSummaryViewModel>) => { this.birds = data; },
         (error: ErrorReportViewModel) => {
