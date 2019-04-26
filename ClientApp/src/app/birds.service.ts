@@ -28,10 +28,10 @@ export class BirdsService {
   }
 
   getPagedBirds(model: BirdIndexOptions): Observable<PagedResult<BirdSummaryViewModel> | ErrorReportViewModel> {
-    const options = model ?
-    { params: new HttpParams().set('options', JSON.stringify(model)) } : {};
+    // const options = model ?
+    // { body: new HttpParams(). .set('options', JSON.stringify(model)) } : {};
 
-    return this.http.get<PagedResult<BirdSummaryViewModel>>('api/Birds', options)
+    return this.http.get<PagedResult<BirdSummaryViewModel>>('api/Birds')
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

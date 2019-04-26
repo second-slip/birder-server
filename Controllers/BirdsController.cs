@@ -32,22 +32,27 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBirds(BirdIndexOptions options)
+        public async Task<IActionResult> GetBirds(int pageIndex, int pageSize)
         {
             // TODO: Cache the birds list
             // The birds list is a prime candidate to be put in the cache.
             // The birds list is rarely updated.
 
-            if (options.PageIndex == 0)
+            if (pageIndex == 0)
             {
-                options.PageIndex = 1;
+                pageIndex = 1;
             }
 
-            if (!ModelState.IsValid)
+            if (pageSize == 0)
             {
-                _logger.LogError(LoggingEvents.InvalidModelState, "BirdIndexOptions ModelState is invalid");
-                return BadRequest(ModelState);
+                pageSize = 5;
             }
+
+            //if (!ModelState.IsValid)
+            //{
+            //    _logger.LogError(LoggingEvents.InvalidModelState, "BirdIndexOptions ModelState is invalid");
+            //    return BadRequest(ModelState);
+            //}
 
             try
             {
