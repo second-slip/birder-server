@@ -30,6 +30,6 @@
       </tbody>
     </table>
   </div>
-  <mat-paginator [length]="birds.rowCount" [pageSize]="birds.pageSize"
-  [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+  <mat-paginator [length]="birds.rowCount" [pageSize]="birds.pageSize" [pageSizeOptions]="[3, 5, 10]"
+      (page)="pageEvent = handlePage($event)"></mat-paginator>
 </div>

@@ -23,6 +23,12 @@ export class BirdsIndexComponent implements OnInit {
     this.getBirds();
   }
 
+  public handlePage(e: any) {
+    console.log(e);
+    console.log('page index: ' + e.pageIndex);
+    console.log('page index: ' + e.pageSize);
+  }
+
   getBirds(): void {
     this.birdsService.getPagedBirds()
       .subscribe(

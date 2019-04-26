@@ -32,7 +32,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBirds()
+        public async Task<IActionResult> GetBirds() //BirdIndexOptions options)
         {
             // TODO: Cache the birds list
             // The birds list is a prime candidate to be put in the cache.
@@ -86,5 +86,12 @@ namespace Birder.Controllers
                 return BadRequest();
             }
         }
+    }
+
+    public class BirdIndexOptions
+    {
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
+        public BirderStatus FilterStatus { get; set; }
     }
 }
