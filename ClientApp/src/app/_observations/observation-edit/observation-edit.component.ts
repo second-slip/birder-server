@@ -9,6 +9,7 @@ import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
 import { BirdsService } from '../../birds.service';
 import { GeocodeService } from '../../geocode.service';
 import { LocationViewModel } from '../../../_models/LocationViewModel';
+import { BirderStatus } from '../../../_models/BirdIndexOptions';
 
 @Component({
   selector: 'app-observation-edit',
@@ -105,7 +106,7 @@ export class ObservationEditComponent implements OnInit {
 
   getBirds(): void {
     // TODO: Better implementation of this...
-    this.birdsService.getBirds()
+    this.birdsService.getBirds(BirderStatus.Common)
     .subscribe(
       (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
       (error: ErrorReportViewModel) => {

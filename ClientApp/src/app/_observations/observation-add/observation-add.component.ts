@@ -12,6 +12,7 @@ import { UserViewModel } from '../../../_models/UserViewModel';
 import { ObservationViewModel } from '../../../_models/ObservationViewModel';
 import { ObservationService } from '../../observation.service';
 import { TokenService } from '../../token.service';
+import { BirderStatus } from '../../../_models/BirdIndexOptions';
 
 @Component({
   selector: 'app-observation-add',
@@ -165,7 +166,7 @@ export class ObservationAddComponent implements OnInit {
   }
 
   getBirds(): void {
-    this.birdsService.getBirds()
+    this.birdsService.getBirds(BirderStatus.Common)
       .subscribe(
         (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
         (error: ErrorReportViewModel) => {
