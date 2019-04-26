@@ -41,21 +41,20 @@ namespace Birder.Controllers
             try
             {
 
-                //var birds = _birdRepository.GetBirdSummaryList(BirderStatus.Common);
-                var paged = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged(1, 5);
+                // var birds = _birdRepository.GetBirdSummaryList(BirderStatus.Common);
+                // var paged = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged(1, 5);
+                var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper);
 
-                //if (birds == null)
-                //{
-                //    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                //    return BadRequest();
-                //}
+                if (viewModel.Results == null)
+                {
+                   _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
+                   return BadRequest();
+                }
 
-                var viewmodel = _mapper.Map<PagedResult<Bird>, PagedResult<BirdSummaryViewModel>>(paged);
+                return Ok(viewModel);
+                // var viewmodel = _mapper.Map<PagedResult<Bird>, PagedResult<BirdSummaryViewModel>>(paged);
                 // var viewmodel = _mapper.Map<List<Bird>, List<BirdSummaryViewModel>>(birds);
-                var paged2 = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper);
-
-
-                return Ok(paged2);
+                // var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper); 
             }
             catch (Exception ex)
             {

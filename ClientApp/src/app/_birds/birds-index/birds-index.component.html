@@ -20,7 +20,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let record of birds; index as i">
+        <tr *ngFor="let record of birds.results; index as i">
           <th scope="row">{{ i + 1 }}</th>
           <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
             <br><small><em>{{ record.species }}</em></small></td>
@@ -30,4 +30,6 @@
       </tbody>
     </table>
   </div>
+  <mat-paginator [length]="birds.rowCount" [pageSize]="birds.pageSize"
+  [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
 </div>

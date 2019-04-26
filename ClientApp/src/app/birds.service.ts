@@ -6,6 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../_models/BirdSummaryViewModel';
+import { PagedResult } from '../_models/PagedResult';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,12 @@ export class BirdsService {
 
   getBirds(): Observable<BirdSummaryViewModel[] | ErrorReportViewModel> {
     return this.http.get<BirdSummaryViewModel[]>('api/Birds')
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
+  getPagedBirds(): Observable<PagedResult<BirdSummaryViewModel> | ErrorReportViewModel> {
+    return this.http.get<PagedResult<BirdSummaryViewModel>>('api/Birds')
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

@@ -3,6 +3,8 @@ import { BirdsService } from '../../birds.service';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
+import { PagedResult } from '../../../_models/PagedResult';
+import { PageEvent } from '@angular/material';
 
 @Component({
   selector: 'app-birds-index',
@@ -10,7 +12,8 @@ import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
   styleUrls: ['./birds-index.component.scss']
 })
 export class BirdsIndexComponent implements OnInit {
-  birds: BirdSummaryViewModel[];
+  birds: PagedResult<BirdSummaryViewModel>;
+  pageEvent: PageEvent;
   gridView: boolean;
 
   constructor(private birdsService: BirdsService
@@ -21,9 +24,9 @@ export class BirdsIndexComponent implements OnInit {
   }
 
   getBirds(): void {
-    this.birdsService.getBirds()
+    this.birdsService.getPagedBirds()
       .subscribe(
-        (data: BirdSummaryViewModel[]) => { this.birds = data; },
+        (data: PagedResult<BirdSummaryViewModel>) => { this.birds = data; },
         (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);
         });
