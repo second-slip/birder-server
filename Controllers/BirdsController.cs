@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using Birder.Data.Model;
 using Birder.Data.Repository;
+using Birder.Helpers;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -39,17 +41,20 @@ namespace Birder.Controllers
             try
             {
 
-                var birds = await _birdRepository.GetBirdSummaryList(BirderStatus.Common);
+                //var birds = _birdRepository.GetBirdSummaryList(BirderStatus.Common);
+                //var paged = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged(1, 5);
 
-                if (birds == null)
-                {
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                    return BadRequest();
-                }
+                //if (birds == null)
+                //{
+                //    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
+                //    return BadRequest();
+                //}
 
-                var viewmodel = _mapper.Map<List<Bird>, List<BirdSummaryViewModel>>(birds);
+                //var viewmodel = _mapper.Map<PagedResult<Bird>, PagedResult<BirdSummaryViewModel>>(paged);
+                var paged2 = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5);
 
-                return Ok(viewmodel);
+
+                return Ok(paged2);
             }
             catch (Exception ex)
             {

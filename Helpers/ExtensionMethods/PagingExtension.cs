@@ -14,7 +14,6 @@ namespace Birder.Helpers
             result.PageSize = pageSize;
             result.RowCount = query.Count();
 
-
             var pageCount = (double)result.RowCount / pageSize;
             result.PageCount = (int)Math.Ceiling(pageCount);
 

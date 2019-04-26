@@ -23,12 +23,12 @@ namespace Birder.Data.Repository
             //return await _dbContext.Birds.SingleOrDefaultAsync(m => m.BirdId == id);
         }
 
-        public Task<List<Bird>> GetBirdSummaryList(BirderStatus birderStatusFilter)
+        public IQueryable<Bird> GetBirdSummaryList(BirderStatus birderStatusFilter)
         {
             return (from b in _dbContext.Birds
                     .Include(cs => cs.BirdConservationStatus)
                     where (b.BirderStatus == birderStatusFilter)
-                    select b).ToListAsync();
+                    select b).AsNoTracking();
 
     //        return await _dbContext.Birds
                     //.OrderBy(ob => ob.BirderStatus)
