@@ -1,7 +1,6 @@
 <div class="container">
   <h4>British Birds</h4>
-  <p>This page is underdevelopment. You will eventually be able to filter the list and adjust the results per page.
-  <br>Use mat-gris-list: https://material.angular.io/components/grid-list/examples
+  <p>Use mat-gris-list: https://material.angular.io/components/grid-list/examples
   <br>Switch between list view or grid view</p>
 
   <div *ngIf="!birds" class="loading">
@@ -29,7 +28,7 @@
         </tr>
       </tbody>
     </table>
+    <mat-paginator [length]="birds.rowCount" [pageSize]="birds.pageSize" [pageSizeOptions]="[3, 5, 10]"
+    (page)="pageEvent = handlePage($event)"></mat-paginator>
   </div>
-  <mat-paginator [length]="birds.rowCount" [pageSize]="birds.pageSize" [pageSizeOptions]="[3, 5, 10]"
-      (page)="pageEvent = handlePage($event)"></mat-paginator>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BirdsService } from '../../birds.service';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
@@ -9,7 +9,8 @@ import { PageEvent } from '@angular/material';
 @Component({
   selector: 'app-birds-index',
   templateUrl: './birds-index.component.html',
-  styleUrls: ['./birds-index.component.scss']
+  styleUrls: ['./birds-index.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class BirdsIndexComponent implements OnInit {
   birds: PagedResult<BirdSummaryViewModel>;
@@ -26,7 +27,7 @@ export class BirdsIndexComponent implements OnInit {
   public handlePage(e: any) {
     console.log(e);
     console.log('page index: ' + e.pageIndex);
-    console.log('page index: ' + e.pageSize);
+    console.log('page size: ' + e.pageSize);
   }
 
   getBirds(): void {
