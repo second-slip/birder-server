@@ -32,15 +32,25 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBirds() //BirdIndexOptions options)
+        public async Task<IActionResult> GetBirds(BirdIndexOptions options)
         {
             // TODO: Cache the birds list
             // The birds list is a prime candidate to be put in the cache.
             // The birds list is rarely updated.
 
+            if (options.PageIndex == 0)
+            {
+                options.PageIndex = 1;
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError(LoggingEvents.InvalidModelState, "BirdIndexOptions ModelState is invalid");
+                return BadRequest(ModelState);
+            }
+
             try
             {
-
                 // var birds = _birdRepository.GetBirdSummaryList(BirderStatus.Common);
                 // var paged = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged(1, 5);
                 var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper);
@@ -90,7 +100,7 @@ namespace Birder.Controllers
 
     public class BirdIndexOptions
     {
-        public int PageNumber { get; set; }
+        public int PageIndex { get; set; }
         public int PageSize { get; set; }
         public BirderStatus FilterStatus { get; set; }
     }
