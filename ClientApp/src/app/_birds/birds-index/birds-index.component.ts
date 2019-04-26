@@ -5,6 +5,7 @@ import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
 import { PagedResult } from '../../../_models/PagedResult';
 import { PageEvent } from '@angular/material';
+import { BirdIndexOptions } from '../../../_models/BirdIndexOptions';
 
 @Component({
   selector: 'app-birds-index',
@@ -21,17 +22,24 @@ export class BirdsIndexComponent implements OnInit {
     , private router: Router) { }
 
   ngOnInit() {
-    this.getBirds();
+    const x = <BirdIndexOptions> {
+      pageIndex: 1,
+      pageSize: 5
+    };
+    this.getBirds(x);
   }
 
   public handlePage(e: any) {
     console.log(e);
-    console.log('page index: ' + e.pageIndex);
-    console.log('page size: ' + e.pageSize);
+    const x = <BirdIndexOptions> {
+      pageIndex: e.pageIndex,
+      pageSize: e.pageSize
+    };
+    this.getBirds(x);
   }
 
-  getBirds(): void {
-    this.birdsService.getPagedBirds()
+  getBirds(model: BirdIndexOptions): void {
+    this.birdsService.getPagedBirds(model)
       .subscribe(
         (data: PagedResult<BirdSummaryViewModel>) => { this.birds = data; },
         (error: ErrorReportViewModel) => {

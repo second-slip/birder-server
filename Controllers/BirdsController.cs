@@ -102,6 +102,6 @@ namespace Birder.Controllers
     {
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
-        public BirderStatus FilterStatus { get; set; }
+        //public BirderStatus FilterStatus { get; set; }
     }
 }

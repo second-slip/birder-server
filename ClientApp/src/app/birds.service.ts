@@ -2,11 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BirdDetailViewModel } from '../_models/BirdDetailViewModel';
 import { catchError } from 'rxjs/operators';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../_models/BirdSummaryViewModel';
 import { PagedResult } from '../_models/PagedResult';
+import { BirdIndexOptions } from '../_models/BirdIndexOptions';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +27,12 @@ export class BirdsService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getPagedBirds(): Observable<PagedResult<BirdSummaryViewModel> | ErrorReportViewModel> {
-    return this.http.get<PagedResult<BirdSummaryViewModel>>('api/Birds')
+  getPagedBirds(model: BirdIndexOptions): Observable<PagedResult<BirdSummaryViewModel> | ErrorReportViewModel> {
+    const options = model ?
+    { params: new HttpParams().set('PageIndex', model.pageIndex.toString()) } :
+    { params: new HttpParams().set('PageSize', model.pageSize.toString()) } ;
+
+    return this.http.get<PagedResult<BirdSummaryViewModel>>('api/Birds', options)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
