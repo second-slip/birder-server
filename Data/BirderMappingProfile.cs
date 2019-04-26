@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Birder.Controllers;
 using Birder.Data.Model;
+using Birder.Helpers;
 using Birder.ViewModels;
 
 namespace Birder.Data

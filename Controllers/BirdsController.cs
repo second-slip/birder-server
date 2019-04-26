@@ -42,7 +42,7 @@ namespace Birder.Controllers
             {
 
                 //var birds = _birdRepository.GetBirdSummaryList(BirderStatus.Common);
-                //var paged = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged(1, 5);
+                var paged = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged(1, 5);
 
                 //if (birds == null)
                 //{
@@ -50,7 +50,8 @@ namespace Birder.Controllers
                 //    return BadRequest();
                 //}
 
-                //var viewmodel = _mapper.Map<PagedResult<Bird>, PagedResult<BirdSummaryViewModel>>(paged);
+                var viewmodel = _mapper.Map<PagedResult<Bird>, PagedResult<BirdSummaryViewModel>>(paged);
+                // var viewmodel = _mapper.Map<List<Bird>, List<BirdSummaryViewModel>>(birds);
                 var paged2 = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5);
 
 
