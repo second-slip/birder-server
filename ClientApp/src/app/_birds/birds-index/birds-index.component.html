@@ -28,7 +28,7 @@
         </tr>
       </tbody>
     </table>
-    <mat-paginator [length]="birds.rowCount" [pageSize]="birds.pageSize" [pageSizeOptions]="[3, 5, 10]"
+    <mat-paginator [length]="birds.rowCount" [pageSize]="birds.pageSize" [pageSizeOptions]="[25, 50, 100]"
     (page)="pageEvent = handlePage($event)"></mat-paginator>
   </div>
 </div>

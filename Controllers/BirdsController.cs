@@ -45,7 +45,7 @@ namespace Birder.Controllers
 
             if (pageSize == 0)
             {
-                pageSize = 5;
+                pageSize = 25;
             }
 
             //if (!ModelState.IsValid)

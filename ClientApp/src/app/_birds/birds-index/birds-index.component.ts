@@ -5,7 +5,6 @@ import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
 import { PagedResult } from '../../../_models/PagedResult';
 import { PageEvent } from '@angular/material';
-import { BirdIndexOptions } from '../../../_models/BirdIndexOptions';
 
 @Component({
   selector: 'app-birds-index',
@@ -27,7 +26,7 @@ export class BirdsIndexComponent implements OnInit {
 
   public handlePage(e: any) {
     console.log(e);
-    this.getBirds(e.pageIndex, e.pageSize);
+    this.getBirds(e.pageIndex + 1, e.pageSize);
   }
 
   getBirds(pageIndex: number, pageSize: number): void {
