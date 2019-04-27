@@ -12,7 +12,8 @@
       <mat-checkbox (change)="hello($event)">Show all bird species</mat-checkbox>
   </div>
   
-
+<!-- Removed *ngIf check because it causes all sorts of problems and causes sort and paginater to be
+undefined.  see https://stackoverflow.com/questions/48785965/angular-matpaginator-not-working -->
   
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Type to filter or search the birds list...">
@@ -20,8 +21,7 @@
 
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
-      <div *ngIf="dataSource">
-        
+       
         <!-- Species names -->
         <ng-container matColumnDef="englishName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Species </th>
@@ -47,7 +47,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let bird; columns: displayedColumns;">
         </tr>
-      </div>
+
     </table>
 
     <mat-paginator [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons></mat-paginator>

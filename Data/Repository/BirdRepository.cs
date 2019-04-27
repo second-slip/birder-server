@@ -27,20 +27,22 @@ namespace Birder.Data.Repository
         {
             if (birderStatusFilter == BirderStatus.Common)
             {
-                return _dbContext.Birds
+                return await _dbContext.Birds
                                 .Include(cs => cs.BirdConservationStatus)
                                 .Where(f => f.BirderStatus == birderStatusFilter)
                                 .OrderBy(ob => ob.BirderStatus)
                                 .ThenBy(a => a.EnglishName)
-                                .AsEnumerable();
+                                .ToListAsync();
+                                // .AsEnumerable();
             }
             else
             {
-                return _dbContext.Birds
+                return await _dbContext.Birds
                                 .Include(cs => cs.BirdConservationStatus)
                                 .OrderBy(ob => ob.BirderStatus)
                                 .ThenBy(a => a.EnglishName)
-                                .AsEnumerable();
+                                .ToListAsync();
+                                // .AsEnumerable();
             }
         }
     }
