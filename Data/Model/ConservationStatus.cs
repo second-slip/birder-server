@@ -12,6 +12,8 @@ namespace Birder.Data.Model
         [Required]
         public string ConservationList { get; set; }
 
+        public string ConservationListColourCode { get; set; }
+
         public string Description { get; set; }
 
         public DateTime CreationDate { get; set; }

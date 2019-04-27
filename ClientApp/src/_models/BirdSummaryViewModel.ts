@@ -9,5 +9,6 @@ export interface BirdSummaryViewModel {
     thumbnailUrl: string;
     songUrl: string;
     conservationStatus: string;
+    conservationListColourCode: string;
     birderStatus: string;
 }

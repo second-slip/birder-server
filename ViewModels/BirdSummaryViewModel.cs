@@ -26,6 +26,8 @@
 
         public string ConservationStatus { get; set; }
 
+        public string ConservationListColourCode { get; set; }
+
         public string BirderStatus { get; set; }
     }
 }
