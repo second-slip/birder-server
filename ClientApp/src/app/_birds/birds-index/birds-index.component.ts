@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { BirdsService } from '../../birds.service';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
-import { PageEvent } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { BirderStatus } from '../../../_models/BirdIndexOptions';
 
 @Component({
@@ -13,9 +13,11 @@ import { BirderStatus } from '../../../_models/BirdIndexOptions';
   encapsulation: ViewEncapsulation.None
 })
 export class BirdsIndexComponent implements OnInit {
-  birds: BirdSummaryViewModel[];
-  pageEvent: PageEvent;
-  gridView: boolean;
+  displayedColumns: string[] = ['englishName', 'btoStatusInBritain', 'conservationStatus'];
+  dataSource: MatTableDataSource<BirdSummaryViewModel>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private birdsService: BirdsService
     , private router: Router) { }
@@ -24,18 +26,32 @@ export class BirdsIndexComponent implements OnInit {
     this.getBirds(BirderStatus.Common);
   }
 
-  public handlePage(e: any) {
-    console.log(e);
-    // this.getBirds(e.pageIndex + 1, e.pageSize);
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   getBirds(filter: BirderStatus): void {
     this.birdsService.getBirds(filter)
       .subscribe(
-        (data: BirdSummaryViewModel[]) => { this.birds = data; },
+        (data: BirdSummaryViewModel[]) => {
+          this.dataSource = new MatTableDataSource(data);
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+          // this.dataSource = new MatTableDataSource(this.birds);
+         },
         (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);
-        });
+        },
+        () => {
+          // operations when URL request is completed
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+       });
   }
 }
 
