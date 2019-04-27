@@ -35,7 +35,7 @@ undefined.  see https://stackoverflow.com/questions/48785965/angular-matpaginato
 
       <!-- Status & population in UK -->
       <ng-container matColumnDef="btoStatusInBritain">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status / Population in UK </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status in UK / Population in UK<sup>1</sup> </th>
         <td mat-cell *matCellDef="let bird"> {{bird.btoStatusInBritain}}
           <br> {{ bird.populationSize }}
         </td>
@@ -43,7 +43,7 @@ undefined.  see https://stackoverflow.com/questions/48785965/angular-matpaginato
 
       <!-- Risk -->
       <ng-container matColumnDef="conservationStatus">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Risk </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Risk Assessment<sup>2</sup> </th>
         <td mat-cell *matCellDef="let bird" [style.color]="bird.conservationListColourCode">
           {{bird.conservationStatus}} </td>
       </ng-container>
@@ -51,9 +51,12 @@ undefined.  see https://stackoverflow.com/questions/48785965/angular-matpaginato
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let bird; columns: displayedColumns;">
       </tr>
-
     </table>
 
     <mat-paginator [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+  <div>
+      <small><br><sup>1</sup> The British list of 616 species occurring in Britain is kept by the British Ornithologists' Union (BOU).  See <a href="https://www.bto.org/about-birds/birdfacts/british-list" target="_blank"> here</a> for the full data and the explanation.
+        <br><sup>2</sup> Data are from <i>Birds of Conservation Concern 4: the population status of birds in the UK, Channel Islands and Isle of Man.</i>  View a summary <a href="https://www.bto.org/sites/default/files/publications/state-of-uk-birds-2016.pdf" target="_blank"> here</a>.</small>
   </div>
 </div>
