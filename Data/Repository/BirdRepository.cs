@@ -32,7 +32,6 @@ namespace Birder.Data.Repository
                                 .Where(f => f.BirderStatus == birderStatusFilter)
                                 .OrderBy(a => a.EnglishName)
                                 .ToListAsync();
-                                // .AsEnumerable();
             }
             else
             {
@@ -41,7 +40,6 @@ namespace Birder.Data.Repository
                                 .OrderBy(ob => ob.BirderStatus)
                                 .ThenBy(a => a.EnglishName)
                                 .ToListAsync();
-                                // .AsEnumerable();
             }
         }
     }
