@@ -8,6 +8,12 @@
     <mat-spinner></mat-spinner>
   </div>
 
+  <div>
+      <mat-checkbox (change)="hello($event)">Show all bird species</mat-checkbox>
+  </div>
+  
+
+  
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Type to filter or search the birds list...">
   </mat-form-field>

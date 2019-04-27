@@ -26,6 +26,17 @@ export class BirdsIndexComponent implements OnInit {
     this.getBirds(BirderStatus.Common);
   }
 
+  hello(e) {
+    console.log(e);
+    if (e.checked) {
+      alert('I have been checked');
+      this.getBirds(BirderStatus.Uncommon);
+    } else {
+      alert('I have been unchecked');
+      this.getBirds(BirderStatus.Common);
+    }
+  }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
