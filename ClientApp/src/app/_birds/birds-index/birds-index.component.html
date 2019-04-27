@@ -34,8 +34,7 @@
         <!-- Risk -->
         <ng-container matColumnDef="conservationStatus">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Risk </th>
-          <td mat-cell *matCellDef="let bird"
-            style.color="{{ bird.conservationStatus == 'Amber' ? 'Yellow' : bird.conservationStatus }}">
+          <td mat-cell *matCellDef="let bird" [style.color]="bird.conservationListColourCode">
             {{bird.conservationStatus}} </td>
         </ng-container>
 

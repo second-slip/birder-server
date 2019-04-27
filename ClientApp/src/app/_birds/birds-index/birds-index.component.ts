@@ -26,7 +26,6 @@ export class BirdsIndexComponent implements OnInit {
     this.getBirds(BirderStatus.Common);
   }
 
-
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -40,9 +39,6 @@ export class BirdsIndexComponent implements OnInit {
       .subscribe(
         (data: BirdSummaryViewModel[]) => {
           this.dataSource = new MatTableDataSource(data);
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
-          // this.dataSource = new MatTableDataSource(this.birds);
          },
         (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);
