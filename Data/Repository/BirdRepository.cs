@@ -30,8 +30,7 @@ namespace Birder.Data.Repository
                 return await _dbContext.Birds
                                 .Include(cs => cs.BirdConservationStatus)
                                 .Where(f => f.BirderStatus == birderStatusFilter)
-                                .OrderBy(ob => ob.BirderStatus)
-                                .ThenBy(a => a.EnglishName)
+                                .OrderBy(a => a.EnglishName)
                                 .ToListAsync();
                                 // .AsEnumerable();
             }
