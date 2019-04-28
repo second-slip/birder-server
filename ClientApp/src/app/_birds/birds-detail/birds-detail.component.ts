@@ -14,43 +14,38 @@ import { ObservationViewModel } from '../../../_models/ObservationViewModel';
 })
 export class BirdsDetailComponent {
   bird: BirdDetailViewModel;
-  observations: ObservationViewModel[]; // lazy load
+  observations: ObservationViewModel[];
   executed = false;
 
   constructor(private birdsService: BirdsService
     , private route: ActivatedRoute
     , private location: Location
     , private router: Router) {
-      route.params.subscribe(val => {
-        this.getBird();
-      });
-    }
+    route.params.subscribe(val => {
+      this.getBird();
+    });
+  }
 
-    // _lazyContent: string;
+  // _lazyContent: string;
   get lazyObservations() {
 
     if (!this.observations && !this.executed) {
       this.executed = true;
       this.getObservations();
-      // this.executed = true;
     }
     return;
   }
 
   getObservations() {
-    // if (this.executed) {
-    //   return;
-    // }
-    console.log('hello');
     this.birdsService.getObservations(this.bird.birdId)
-    .subscribe(
-      (data: ObservationViewModel[]) => {
-        this.observations = data;
-      },
-      (error: ErrorReportViewModel) => {
-        console.log('bad request');
-        this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
-      });
+      .subscribe(
+        (data: ObservationViewModel[]) => {
+          this.observations = data;
+        },
+        (error: ErrorReportViewModel) => {
+          console.log('bad request');
+          this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+        });
   }
 
   getBird(): void {
