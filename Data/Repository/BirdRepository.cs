@@ -27,7 +27,7 @@ namespace Birder.Data.Repository
         {
             return await _dbContext.Observations
                 .Include(cs => cs.Bird)
-                .Where(cs => cs.BirdId == 1)
+                .Where(cs => cs.BirdId == birdId)
                 .ToListAsync();
         }
 
