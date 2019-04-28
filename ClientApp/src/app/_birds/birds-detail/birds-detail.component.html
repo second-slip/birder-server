@@ -4,14 +4,13 @@
   <mat-spinner></mat-spinner>
 </div>
 
-<div *ngIf="bird">
-  <h2>{{bird.englishName | uppercase}} Details</h2>
+<div class="container" *ngIf="bird">
+        <h4>{{ bird.englishName }} <small><i>{{ bird.species }}</i></small></h4>
   <br>
-  <div><span>id: </span>{{bird.birdId}}</div>
+
+  conservation status: {{ bird.birdConserverationStatus.conservationList }}
   <br>
-  conservation status: {{bird.birdConserverationStatus.conservationStatus}}
-  <br>
-  birder status: {{bird.birderStatus}}
+  birder status: {{ bird.birderStatus }}
   <br>
   <button (click)="goBack()">go back</button>
 

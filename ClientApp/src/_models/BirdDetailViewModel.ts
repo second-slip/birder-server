@@ -16,6 +16,6 @@ export interface BirdDetailViewModel {
     songUrl: string;
     creationDate: Date | string;
     lastUpdateDate: Date | string;
-    birdConserverationStatus: ConservationStatus;
+    ConservationStatus: ConservationStatus;
     birderStatus: string;
 }

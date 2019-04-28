@@ -46,10 +46,4 @@ export class BirdsService {
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
-
-  /** Log a HeroService message with the MessageService */
-  private log(message: string) {
-    console.log(message);
-    // this.messageService.add(`HeroService: ${message}`);
-  }
 }

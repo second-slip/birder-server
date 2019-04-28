@@ -44,7 +44,7 @@ namespace Birder.ViewModels
         // lazy load observations
         //public ICollection<Observation> Observations { get; set; }
 
-        public ConservationStatus BirdConserverationStatus { get; set; }
+        public ConservationStatus ConservationStatus { get; set; }
 
         public string BirderStatus { get; set; }
 
