@@ -26,15 +26,27 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="flex-container">
-    
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Class" value="{{ bird.class }}" disabled>
-        </mat-form-field>
-    
-        <mat-form-field class="full-width">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Class" value="{{ bird.class }}" disabled>
+          </mat-form-field>
+        
+          <mat-form-field class="full-width">
             <input matInput placeholder="Order" value="{{ bird.order }}" disabled>
           </mat-form-field>
-      </div>
+        
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Family" value="{{ bird.family }}" disabled>
+          </mat-form-field>
+        
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Genus" value="{{ bird.genus }}" disabled>
+          </mat-form-field>
+        
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Species" value="{{ bird.species }}" disabled>
+          </mat-form-field>
+        
+        </div>
       </mat-expansion-panel>
       <!--  -->
       <mat-expansion-panel>
