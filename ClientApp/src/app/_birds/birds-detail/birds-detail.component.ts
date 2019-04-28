@@ -17,7 +17,7 @@ export class BirdsDetailComponent {
   bird: BirdDetailViewModel;
   // observations: ObservationViewModel[];
   executed = false;
-  displayedColumns: string[] = ['quantity', 'bird', 'user'];
+  displayedColumns: string[] = ['quantity', 'bird', 'user', 'date'];
   dataSource: MatTableDataSource<ObservationViewModel>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -28,6 +28,12 @@ export class BirdsDetailComponent {
     , private router: Router) {
     route.params.subscribe(val => {
       this.getBird();
+      if (this.dataSource != null) {
+
+        this.executed = false;
+        this.dataSource = null;
+      }
+
     });
   }
 
@@ -36,13 +42,13 @@ export class BirdsDetailComponent {
 
     if (!this.dataSource && !this.executed) {
       this.executed = true;
-      this.getObservations();
+      this.getObservations(this.bird.birdId);
     }
     return;
   }
 
-  getObservations() {
-    this.birdsService.getObservations(this.bird.birdId)
+  getObservations(birdId: number) {
+    this.birdsService.getObservations(birdId)
       .subscribe(
         (data: ObservationViewModel[]) => {
           // this.observations = data;
@@ -56,8 +62,8 @@ export class BirdsDetailComponent {
           // operations when URL request is completed
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
-       });
-        // );
+        });
+    // );
   }
 
   getBird(): void {
@@ -67,6 +73,7 @@ export class BirdsDetailComponent {
       .subscribe(
         (data: BirdDetailViewModel) => {
           this.bird = data;
+          this.executed = false;
         },
         (error: ErrorReportViewModel) => {
           console.log('bad request');
