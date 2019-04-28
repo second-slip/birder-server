@@ -1,10 +1,11 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 import { BirdsService } from '../../birds.service';
 import { BirdDetailViewModel } from '../../../_models/BirdDetailViewModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { ObservationViewModel } from '../../../_models/ObservationViewModel';
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-birds-detail',
@@ -14,8 +15,12 @@ import { ObservationViewModel } from '../../../_models/ObservationViewModel';
 })
 export class BirdsDetailComponent {
   bird: BirdDetailViewModel;
-  observations: ObservationViewModel[];
+  // observations: ObservationViewModel[];
   executed = false;
+  displayedColumns: string[] = ['quantity', 'bird', 'user'];
+  dataSource: MatTableDataSource<ObservationViewModel>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private birdsService: BirdsService
     , private route: ActivatedRoute
@@ -29,7 +34,7 @@ export class BirdsDetailComponent {
   // _lazyContent: string;
   get lazyObservations() {
 
-    if (!this.observations && !this.executed) {
+    if (!this.dataSource && !this.executed) {
       this.executed = true;
       this.getObservations();
     }
@@ -40,12 +45,19 @@ export class BirdsDetailComponent {
     this.birdsService.getObservations(this.bird.birdId)
       .subscribe(
         (data: ObservationViewModel[]) => {
-          this.observations = data;
+          // this.observations = data;
+          this.dataSource = new MatTableDataSource(data);
         },
         (error: ErrorReportViewModel) => {
           console.log('bad request');
           this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
-        });
+        },
+        () => {
+          // operations when URL request is completed
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+       });
+        // );
   }
 
   getBird(): void {

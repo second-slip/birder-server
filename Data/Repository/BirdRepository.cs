@@ -27,6 +27,7 @@ namespace Birder.Data.Repository
         {
             return await _dbContext.Observations
                 .Include(cs => cs.Bird)
+                .Include(au => au.ApplicationUser)
                 .Where(cs => cs.BirdId == birdId)
                 .OrderByDescending(d => d.ObservationDateTime)
                 .ToListAsync();
