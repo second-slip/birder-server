@@ -23,6 +23,14 @@ namespace Birder.Data.Repository
             //return await _dbContext.Birds.SingleOrDefaultAsync(m => m.BirdId == id);
         }
 
+        public async Task<IEnumerable<Observation>> GetBirdObservationsAsync(int birdId)
+        {
+            return await _dbContext.Observations
+                .Include(cs => cs.Bird)
+                .Where(cs => cs.BirdId == 1)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Bird>> GetBirdSummaryList(BirderStatus birderStatusFilter)
         {
             if (birderStatusFilter == BirderStatus.Common)

@@ -116,7 +116,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Tags
+          Latest Observations
         </mat-panel-title>
         <mat-panel-description>
           <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
@@ -124,6 +124,12 @@
           <mat-icon>local_offer</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
+
+      <ng-template matExpansionPanelContent>
+          Some deferred content 
+          {{ lazyObservations }}
+          {{ observations.length }}
+        </ng-template>
 
     </mat-expansion-panel>
     <!--  -->

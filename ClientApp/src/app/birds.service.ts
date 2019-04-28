@@ -2,15 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BirdDetailViewModel } from '../_models/BirdDetailViewModel';
 import { catchError } from 'rxjs/operators';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../_models/BirdSummaryViewModel';
 import { BirderStatus } from '../_models/BirdIndexOptions';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+import { ObservationViewModel } from '../_models/ObservationViewModel';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +40,15 @@ export class BirdsService {
     { params: new HttpParams().set('id', id.toString()) } : {};
 
     return this.http.get<BirdDetailViewModel>('api/Birds/GetBird', options)
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
+  getObservations(birdId: number): Observable<ObservationViewModel[] | ErrorReportViewModel> {
+    const options = birdId ?
+    { params: new HttpParams().set('birdId', birdId.toString()) } : {};
+
+    return this.http.get<ObservationViewModel[]>('api/Bird/GetObservations', options)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

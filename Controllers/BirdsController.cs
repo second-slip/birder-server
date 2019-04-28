@@ -29,7 +29,7 @@ namespace Birder.Controllers
             _logger = logger;
             _birdRepository = birdRepository;
         }
-        
+
         // No need for server side pagination.  Birds list is the same as the request for the drop down lists!
 
         [HttpGet]
@@ -45,8 +45,8 @@ namespace Birder.Controllers
 
                 if (birds == null)
                 {
-                   _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                   return BadRequest();
+                    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
+                    return BadRequest();
                 }
 
                 var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);
@@ -80,6 +80,31 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, "An error occurred getting bird with {ID}", id);
+                return BadRequest();
+            }
+        }
+
+        [HttpGet, Route("GetObservations")]
+        public async Task<IActionResult> GetBirdObservations(int birdId)
+        {
+            try
+            {
+                var observations = await _birdRepository.GetBirdObservationsAsync(birdId);
+
+                if (observations == null)
+                {
+                    _logger.LogWarning(LoggingEvents.GetListNotFound, "GetBirdObservations({ID}) NOT FOUND", birdId);
+                    return NotFound();
+                }
+
+                var viewModel = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations);
+
+                return Ok(viewModel);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the bird observations list");
                 return BadRequest();
             }
         }
