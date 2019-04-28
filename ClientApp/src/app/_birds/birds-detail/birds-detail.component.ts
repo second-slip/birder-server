@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { BirdsService } from '../../birds.service';
 import { BirdDetailViewModel } from '../../../_models/BirdDetailViewModel';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,7 +8,8 @@ import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 @Component({
   selector: 'app-birds-detail',
   templateUrl: './birds-detail.component.html',
-  styleUrls: ['./birds-detail.component.scss']
+  styleUrls: ['./birds-detail.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class BirdsDetailComponent {
   bird: BirdDetailViewModel;
