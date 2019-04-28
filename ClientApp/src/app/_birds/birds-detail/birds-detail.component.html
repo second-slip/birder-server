@@ -6,11 +6,6 @@
 <div class="container" *ngIf="bird">
   <h4>{{ bird.englishName }} <small><i>{{ bird.species }}</i></small></h4>
   <br>
-
-  conservation status: {{ bird.birdConservationStatus.conservationList }}
-  <br>
-  birder status: {{ bird.birderStatus }}
-  <br>
   <button (click)="goBack()">go back</button>
 
   <div class="example-headers-align">
@@ -126,10 +121,13 @@
       </mat-expansion-panel-header>
 
       <ng-template matExpansionPanelContent>
-          Some deferred content 
           {{ lazyObservations }}
-          {{ observations.length }}
         </ng-template>
+          <div *ngIf="observations">
+          <p *ngIf="observations.length < 1">The {{ bird.englishName }} has never been observed.</p>
+          <p *ngIf="observations.length > 1">The {{ bird.englishName }} has been observed {{ observations.length }} times:</p>
+        </div>
+        
 
     </mat-expansion-panel>
     <!--  -->

@@ -15,6 +15,7 @@ import { ObservationViewModel } from '../../../_models/ObservationViewModel';
 export class BirdsDetailComponent {
   bird: BirdDetailViewModel;
   observations: ObservationViewModel[]; // lazy load
+  executed = false;
 
   constructor(private birdsService: BirdsService
     , private route: ActivatedRoute
@@ -27,14 +28,20 @@ export class BirdsDetailComponent {
 
     // _lazyContent: string;
   get lazyObservations() {
-    if (!this.observations) {
+
+    if (!this.observations && !this.executed) {
+      this.executed = true;
       this.getObservations();
+      // this.executed = true;
     }
-    return this.observations;
+    return;
   }
 
   getObservations() {
-    alert('hello');
+    // if (this.executed) {
+    //   return;
+    // }
+    console.log('hello');
     this.birdsService.getObservations(this.bird.birdId)
     .subscribe(
       (data: ObservationViewModel[]) => {
