@@ -47,12 +47,12 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetObservations()
+        public IActionResult GetObservations()
         {
             _logger.LogInformation(LoggingEvents.ListItems, "Getting Observations Feed");
             var username = User.Identity.Name;
 
-            var observations =_observationRepository.GetUsersObservationsList(username);
+            var observations = _observationRepository.GetUsersObservationsList(username);
 
             var viewModel = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations);
 
@@ -179,12 +179,13 @@ namespace Birder.Controllers
 
                     return Ok(editedObservation);
                 }
+                return BadRequest("An error occurred.  Could not edit the observation.");
             }
             catch (Exception ex)
             {
-                // logging
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred updating (PUT) observation with id: {ID}", id);
+                return BadRequest("An error occurred.  Could not edit the observation.");
             }
-            return BadRequest("An error occurred.  Could not edit the observation.");
         }
 
         [HttpDelete, Route("DeleteObservation")]

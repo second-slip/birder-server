@@ -23,8 +23,8 @@ namespace Birder.Controllers
         private readonly ITweetDayRepository _tweetDayRepository;
 
         public TweetsController(ITweetDayRepository tweetDayRepository,
-                                ISystemClock systemClock,
                                 ILogger<TweetsController> logger,
+                                ISystemClock systemClock,
                                 IMapper mapper)
         {
             _mapper = mapper;

@@ -74,7 +74,6 @@ namespace Birder.Controllers
                     var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                     var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
                     //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
-                    //var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                     var tokenOptions = new JwtSecurityToken(
                         issuer: _config["Tokens:Issuer"],

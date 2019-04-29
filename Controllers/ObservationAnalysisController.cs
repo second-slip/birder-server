@@ -39,7 +39,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetTopObservationAnalysis")]
-        public async Task<IActionResult> GetTopObservationAnalysis()
+        public IActionResult GetTopObservationAnalysis()
         {
             var username = User.Identity.Name;
 
@@ -58,7 +58,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetLifeList")]
-        public async Task<IActionResult> GetLifeList()
+        public IActionResult GetLifeList()
         {
             var username = User.Identity.Name;
 
