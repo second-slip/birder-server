@@ -53,7 +53,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting tweet with date: {Date}", _systemClock.Today);
+                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "An error occurred getting tweet with date: {Date}", _systemClock.Today);
                 return BadRequest();
             }
         }
