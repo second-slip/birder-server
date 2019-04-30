@@ -51,7 +51,7 @@ namespace Birder.Controllers
                     var e = (from x in birdsCache
                              where x.BirderStatus == "Common"
                             select x);
-                    return Ok(birdsCache);
+                    return Ok(e);
                 }
                 else
                 {
