@@ -33,23 +33,43 @@ namespace Birder.Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Bird>> GetBirdSummaryList(BirderStatus birderStatusFilter)
+        //public async Task<IEnumerable<Bird>> GetBirdSummaryList(BirderStatus birderStatusFilter)
+        public IQueryable<Bird> GetBirdSummaryList(BirderStatus birderStatusFilter)
         {
             if (birderStatusFilter == BirderStatus.Common)
             {
-                return await _dbContext.Birds
-                                .Include(cs => cs.BirdConservationStatus)
-                                .Where(f => f.BirderStatus == birderStatusFilter)
-                                .OrderBy(a => a.EnglishName)
-                                .ToListAsync();
+                //        var observations = _dbContext.Observations
+                //.Include(au => au.ApplicationUser)
+                //.Include(b => b.Bird)
+                ////.Include(ot => ot.ObservationTags)
+                ////    .ThenInclude(t => t.Tag)
+                //.OrderByDescending(d => d.ObservationDateTime)
+                //.AsNoTracking();
+                //        //.Take(100);
+                //        return observations;
+                //return _dbContext.Birds
+                //                .Include(cs => cs.BirdConservationStatus)
+                //                .Where(f => f.BirderStatus == birderStatusFilter)
+                //                .OrderBy(a => a.EnglishName)
+                //                .ToListAsync();
+                return _dbContext.Birds
+                .Include(cs => cs.BirdConservationStatus)
+                .Where(f => f.BirderStatus == birderStatusFilter)
+                .OrderBy(a => a.EnglishName)
+                .AsNoTracking();
             }
             else
             {
-                return await _dbContext.Birds
+                //return await _dbContext.Birds
+                //                .Include(cs => cs.BirdConservationStatus)
+                //                .OrderBy(ob => ob.BirderStatus)
+                //                .ThenBy(a => a.EnglishName)
+                //                .ToListAsync();
+                return _dbContext.Birds
                                 .Include(cs => cs.BirdConservationStatus)
                                 .OrderBy(ob => ob.BirderStatus)
                                 .ThenBy(a => a.EnglishName)
-                                .ToListAsync();
+                                .AsNoTracking();
             }
         }
     }

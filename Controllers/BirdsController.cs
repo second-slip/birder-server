@@ -41,7 +41,7 @@ namespace Birder.Controllers
 
             try
             {
-                var birds = await _birdRepository.GetBirdSummaryList(filter);
+                var birds = _birdRepository.GetBirdSummaryList(filter);
 
                 if (birds == null)
                 {
