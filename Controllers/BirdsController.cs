@@ -5,6 +5,7 @@ using Birder.Helpers;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,16 +18,19 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class BirdsController : ControllerBase
     {
+        private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly IBirdRepository _birdRepository;
 
         public BirdsController(IMapper mapper
+                             , IMemoryCache memoryCache
                              , ILogger<BirdsController> logger
                              , IBirdRepository birdRepository)
         {
             _mapper = mapper;
             _logger = logger;
+            _cache = memoryCache;
             _birdRepository = birdRepository;
         }
 
@@ -41,17 +45,26 @@ namespace Birder.Controllers
 
             try
             {
-                var birds = _birdRepository.GetBirdSummaryList(filter);
-
-                if (birds == null)
+                if (_cache.TryGetValue("AllBirdsList", out IEnumerable<BirdSummaryViewModel> birdsCache))
                 {
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                    return BadRequest();
+                    return Ok(birdsCache);
                 }
+                else
+                {
+                    var birds = _birdRepository.GetBirdSummaryList(filter);
 
-                var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);
+                    if (birds == null)
+                    {
+                        _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
+                        return BadRequest();
+                    }
 
-                return Ok(viewModel);
+                    var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);
+
+                    _cache.Set("AllBirdsList", viewModel, TimeSpan.FromMinutes(10));
+
+                    return Ok(viewModel);
+                }
             }
             catch (Exception ex)
             {
