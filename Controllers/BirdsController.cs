@@ -85,11 +85,11 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetObservations")]
-        public async Task<IActionResult> GetBirdObservations(int birdId)
+        public IActionResult GetBirdObservations(int birdId)
         {
             try
             {
-                var observations = await _birdRepository.GetBirdObservationsAsync(birdId);
+                var observations = _birdRepository.GetBirdObservationsAsync(birdId);
 
                 if (observations == null)
                 {

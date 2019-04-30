@@ -43,6 +43,7 @@ namespace Birder.Controllers
                 {
                     username = loggedinUsername;
                 }
+
                 var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
                 if (user == null)
                 {
@@ -83,37 +84,45 @@ namespace Birder.Controllers
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
                 return BadRequest("There was an error getting the user");
-                //return RedirectToAction("Details", new { userName = userName, page = currentPage });
             }
         }
 
         [HttpGet, Route("GetNetwork")]
         public async Task<IActionResult> GetNetwork(string searchCriterion)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                // Log modelstate errors
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    // Log modelstate errors
+                    return BadRequest(ModelState);
+                }
+
+                var username = User.Identity.Name;
+                var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+
+                //var viewModel = new List<NetworkUserViewModel>();
+
+                if (String.IsNullOrEmpty(searchCriterion))
+                {
+                    var viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser);
+                    return Ok(viewModel);
+                    // followUserViewModel.SearchCriterion = searchCriterion;
+                }
+                else
+                {
+                    var viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser, searchCriterion);
+                    return Ok(viewModel);
+                    //followUserViewModel.SearchCriterion = searchCriterion;
+                }
+                //return Ok(viewModel);
             }
-
-            var username = User.Identity.Name;
-            var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
-
-            //var viewModel = new List<NetworkUserViewModel>();
-
-            if (String.IsNullOrEmpty(searchCriterion))
+            catch (Exception ex)
             {
-                var viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser);
-                return Ok(viewModel);
-                // followUserViewModel.SearchCriterion = searchCriterion;
+                //_logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
+                return BadRequest();
+                //return BadRequest(String.Format("An error occurred trying to follow user: {0}", userToFollowDetails.UserName));
             }
-            else
-            {
-                var viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser, searchCriterion);
-                return Ok(viewModel);
-                //followUserViewModel.SearchCriterion = searchCriterion;
-            }
-            //return Ok(viewModel);
         }
 
         [HttpPost, Route("Follow")]
