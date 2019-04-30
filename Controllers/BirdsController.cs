@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Birder.Controllers
 {
@@ -47,6 +48,9 @@ namespace Birder.Controllers
             {
                 if (_cache.TryGetValue("AllBirdsList", out IEnumerable<BirdSummaryViewModel> birdsCache))
                 {
+                    var e = (from x in birdsCache
+                             where x.BirderStatus == "Common"
+                            select x);
                     return Ok(birdsCache);
                 }
                 else
