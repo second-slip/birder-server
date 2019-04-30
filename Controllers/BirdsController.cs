@@ -33,7 +33,7 @@ namespace Birder.Controllers
         // No need for server side pagination.  Birds list is the same as the request for the drop down lists!
 
         [HttpGet]
-        public async Task<IActionResult> GetBirds(BirderStatus filter) // int pageIndex, int pageSize)
+        public IActionResult GetBirds(BirderStatus filter) // int pageIndex, int pageSize)
         {
             // TODO: Cache the birds list
             // The birds list is a prime candidate to be put in the cache.

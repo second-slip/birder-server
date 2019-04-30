@@ -38,38 +38,19 @@ namespace Birder.Data.Repository
         {
             if (birderStatusFilter == BirderStatus.Common)
             {
-                //        var observations = _dbContext.Observations
-                //.Include(au => au.ApplicationUser)
-                //.Include(b => b.Bird)
-                ////.Include(ot => ot.ObservationTags)
-                ////    .ThenInclude(t => t.Tag)
-                //.OrderByDescending(d => d.ObservationDateTime)
-                //.AsNoTracking();
-                //        //.Take(100);
-                //        return observations;
-                //return _dbContext.Birds
-                //                .Include(cs => cs.BirdConservationStatus)
-                //                .Where(f => f.BirderStatus == birderStatusFilter)
-                //                .OrderBy(a => a.EnglishName)
-                //                .ToListAsync();
                 return _dbContext.Birds
-                .Include(cs => cs.BirdConservationStatus)
-                .Where(f => f.BirderStatus == birderStatusFilter)
-                .OrderBy(a => a.EnglishName)
-                .AsNoTracking();
+                    .Include(cs => cs.BirdConservationStatus)
+                    .Where(f => f.BirderStatus == birderStatusFilter)
+                    .OrderBy(a => a.EnglishName)
+                    .AsNoTracking();
             }
             else
             {
-                //return await _dbContext.Birds
-                //                .Include(cs => cs.BirdConservationStatus)
-                //                .OrderBy(ob => ob.BirderStatus)
-                //                .ThenBy(a => a.EnglishName)
-                //                .ToListAsync();
                 return _dbContext.Birds
-                                .Include(cs => cs.BirdConservationStatus)
-                                .OrderBy(ob => ob.BirderStatus)
-                                .ThenBy(a => a.EnglishName)
-                                .AsNoTracking();
+                    .Include(cs => cs.BirdConservationStatus)
+                    .OrderBy(ob => ob.BirderStatus)
+                    .ThenBy(a => a.EnglishName)
+                    .AsNoTracking();
             }
         }
     }
