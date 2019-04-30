@@ -48,6 +48,7 @@ import { AccountSideMenuComponent } from './account-side-menu/account-side-menu.
 import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/layout-account-manager.component';
 import { AccountManagerLocationComponent } from './_accountManager/account-manager-location/account-manager-location.component';
 import { AccountManagerPasswordComponent } from './_accountManager/account-manager-password/account-manager-password.component';
+import { RequestCache, RequestCacheWithMap } from './request-cache.service';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -129,8 +130,10 @@ export function tokenGetter() {
   ],
   providers: [
     [GeocodeService],
+    // { provide: RequestCache, useClass: RequestCacheWithMap },
+    // httpInterceptorProviders,
     AuthGuard,
-    httpInterceptorProviders,
+
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: LOCALE_ID, useValue: 'en-GB' }
   ],
