@@ -55,7 +55,7 @@ namespace Birder.Controllers
                 }
                 else
                 {
-                    var birds = _birdRepository.GetBirdSummaryList(filter);
+                    var birds = _birdRepository.GetBirdSummaryList();
 
                     if (birds == null)
                     {
