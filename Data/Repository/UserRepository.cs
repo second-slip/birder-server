@@ -44,29 +44,29 @@ namespace Birder.Data.Repository
                          .FirstOrDefaultAsync();
         }
 
-        public IEnumerable<UserViewModel> GetFollowingList(ApplicationUser user)
-        {
-            var followingList = from following in user.Following
-                                    select new UserViewModel
-                                    {
-                                        UserName = following.ApplicationUser.UserName,
-                                        ProfileImage = following.ApplicationUser.ProfileImage
-                                    };
-            return followingList;
-        }
+        //public IEnumerable<UserViewModel> GetFollowingList(ApplicationUser user)
+        //{
+        //    var followingList = from following in user.Following
+        //                            select new UserViewModel
+        //                            {
+        //                                UserName = following.ApplicationUser.UserName,
+        //                                ProfileImage = following.ApplicationUser.ProfileImage
+        //                            };
+        //    return followingList;
+        //}
 
-        public IEnumerable<UserViewModel> GetFollowersList(ApplicationUser user)
-        {
-            var followerList = from follower in user.Followers
-                                  select new UserViewModel
-                                  {
-                                      UserName = follower.Follower.UserName,
-                                      ProfileImage = follower.Follower.ProfileImage,
-                                  };
-            return followerList;
-        }
+        //public IEnumerable<UserViewModel> GetFollowersList(ApplicationUser user)
+        //{
+        //    var followerList = from follower in user.Followers
+        //                          select new UserViewModel
+        //                          {
+        //                              UserName = follower.Follower.UserName,
+        //                              ProfileImage = follower.Follower.ProfileImage,
+        //                          };
+        //    return followerList;
+        //}
 
-        public List<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user)
+        public IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user)
         {
             var followerList = from follower in user.Followers
                                select follower.Follower.UserName;
@@ -74,11 +74,11 @@ namespace Birder.Data.Repository
                                 select following.ApplicationUser.UserName;
 
             IEnumerable<string> followersNotBeingFollowed = followerList.Except(followingList);
-            IEnumerable<NetworkUserViewModel> suggestedBirders = new List<NetworkUserViewModel>();
+            //IEnumerable<NetworkUserViewModel> suggestedBirders = new List<NetworkUserViewModel>();
 
             if (followersNotBeingFollowed.Count() != 0)
             {
-                suggestedBirders = from users in _dbContext.Users
+                var suggestedBirders = from users in _dbContext.Users
                            .Where(users => followersNotBeingFollowed.Contains(users.UserName))
                                        select new NetworkUserViewModel
                                        {
@@ -86,10 +86,11 @@ namespace Birder.Data.Repository
                                            ProfileImage = users.ProfileImage,
                                            IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == users.UserName)
             };
+                return suggestedBirders;
             }
             else
             {
-                suggestedBirders = from users in _dbContext.Users
+                var suggestedBirders = from users in _dbContext.Users
                                    .Where(users => !followingList.Contains(users.UserName) && users.UserName != user.UserName)
                                    select new NetworkUserViewModel
                                    {
@@ -97,18 +98,21 @@ namespace Birder.Data.Repository
                                        ProfileImage = users.ProfileImage,
                                        IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == users.UserName)
                                    };
+                return suggestedBirders;
             }
             
-            return suggestedBirders.ToList();
+            ////return suggestedBirders.ToList();
         }
 
-        public List<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion)
+        //public List<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion)
+        public IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion)
         {
             var followingList = from following in user.Following
                                 select following.ApplicationUser.UserName;
 
-            IEnumerable<NetworkUserViewModel> suggestedBirders = new List<NetworkUserViewModel>();
-            suggestedBirders = from users in _dbContext.Users
+            //IEnumerable<NetworkUserViewModel> suggestedBirders = new List<NetworkUserViewModel>();
+            //var suggestedBirders = new List<NetworkUserViewModel>();
+            var suggestedBirders = from users in _dbContext.Users
                                where (users.UserName.ToUpper().Contains(searchCriterion.ToUpper()) && !followingList.Contains(users.UserName) && users.UserName != user.UserName) // .Contains(users.UserName) // != user.UserName)
                                select new NetworkUserViewModel
                                {
@@ -118,7 +122,7 @@ namespace Birder.Data.Repository
                                };
         
 
-            return suggestedBirders.ToList();
+            return suggestedBirders;
         }
 
 

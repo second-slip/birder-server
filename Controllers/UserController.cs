@@ -2,10 +2,12 @@
 using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
+using Birder.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +21,15 @@ namespace Birder.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
         private readonly IUserRepository _userRepository;
 
         public UserController(IMapper mapper
+                             , ILogger<UserController> logger
                             , IUserRepository userRepository)
         {
             _mapper = mapper;
+            _logger = logger;
             _userRepository = userRepository;
         }
 
@@ -76,7 +81,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                // _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
+                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
                 return BadRequest("There was an error getting the user");
                 //return RedirectToAction("Details", new { userName = userName, page = currentPage });
             }
@@ -94,19 +99,21 @@ namespace Birder.Controllers
             var username = User.Identity.Name;
             var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
 
-            var viewModel = new List<NetworkUserViewModel>();
+            //var viewModel = new List<NetworkUserViewModel>();
 
             if (String.IsNullOrEmpty(searchCriterion))
             {
-                viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser);
+                var viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser);
+                return Ok(viewModel);
                 // followUserViewModel.SearchCriterion = searchCriterion;
             }
             else
             {
-                viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser, searchCriterion);
+                var viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser, searchCriterion);
+                return Ok(viewModel);
                 //followUserViewModel.SearchCriterion = searchCriterion;
             }
-            return Ok(viewModel);
+            //return Ok(viewModel);
         }
 
         [HttpPost, Route("Follow")]
@@ -133,7 +140,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                // _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
+                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
                 return BadRequest(String.Format("An error occurred trying to follow user: {0}", userToFollowDetails.UserName));
             }
         }
@@ -160,7 +167,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                //_logger.LogError(LoggingEvents.GetItemNotFound, ex, "Unfollow action error");
+                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Unfollow action error");
                 return BadRequest(String.Format("An error occurred trying to unfollow user: {0}", userToFollowDetails.UserName));
             }
         }

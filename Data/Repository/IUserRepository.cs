@@ -12,12 +12,12 @@ namespace Birder.Data.Repository
         Task<ApplicationUser> GetUserByEmail(string email);
         Task<ApplicationUser> GetUserAndNetworkAsyncByUserName(ApplicationUser user);
         Task<ApplicationUser> GetUserAndNetworkAsyncByUserName(string userName);
-        IEnumerable<UserViewModel> GetFollowingList(ApplicationUser user);
-        IEnumerable<UserViewModel> GetFollowersList(ApplicationUser user);
+        //IEnumerable<UserViewModel> GetFollowingList(ApplicationUser user);
+        //IEnumerable<UserViewModel> GetFollowersList(ApplicationUser user);
         void Follow(ApplicationUser loggedinUser, ApplicationUser userToFollow);
         void UnFollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow);
-        List<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user);
-        List<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion);
+        IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user);
+        IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion);
         IQueryable<Observation> GetUsersObservationsList(string userId);
         Task<int> UniqueSpeciesCount(ApplicationUser user);
     }
