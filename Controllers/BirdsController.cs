@@ -68,11 +68,11 @@ namespace Birder.Controllers
 
                     var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);
 
-                    _cache.Set("AllBirdsList", viewModel, TimeSpan.FromMinutes(10));
+                    _cache.Set("AllBirdsList", viewModel, TimeSpan.FromMinutes(2));
 
                     if (filter == BirderStatus.Common)
                     {
-                        var filteredViewModel = (from items in birdsCache
+                        var filteredViewModel = (from items in viewModel
                                            where items.BirderStatus == "Common"
                                            select items);
                         return Ok(filteredViewModel);
