@@ -44,17 +44,17 @@ namespace Birder.Controllers
             {
                 if (_cache.TryGetValue("AllBirdsList", out IEnumerable<BirdSummaryViewModel> birdsCache))
                 {
-                    //if (filter == BirderStatus.Common)
-                    //{
-                    //    var commonBirdsCache = (from birds in birdsCache
-                    //                       where birds.BirderStatus == "Common"
-                    //                       select birds);
-                    //    return Ok(commonBirdsCache);
-                    //}
-                    //else
-                    //{
+                    if (filter == BirderStatus.Common)
+                    {
+                        var commonBirdsCache = (from birds in birdsCache
+                                                where birds.BirderStatus == "Common"
+                                                select birds);
+                        return Ok(commonBirdsCache);
+                    }
+                    else
+                    {
                         return Ok(birdsCache);
-                    //}
+                    }
                 }
                 else
                 {
@@ -70,13 +70,13 @@ namespace Birder.Controllers
 
                     _cache.Set("AllBirdsList", viewModel, TimeSpan.FromMinutes(2));
 
-                    //if (filter == BirderStatus.Common)
-                    //{
-                    //    var filteredViewModel = (from items in viewModel
-                    //                       where items.BirderStatus == "Common"
-                    //                       select items);
-                    //    return Ok(filteredViewModel);
-                    //}
+                    if (filter == BirderStatus.Common)
+                    {
+                        var filteredViewModel = (from items in viewModel
+                                                 where items.BirderStatus == "Common"
+                                                 select items);
+                        return Ok(filteredViewModel);
+                    }
 
                     return Ok(viewModel);
                 }
