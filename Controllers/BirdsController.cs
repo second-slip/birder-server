@@ -38,7 +38,7 @@ namespace Birder.Controllers
         // No need for server side pagination.  Birds list is the same as the request for the drop down lists!
 
         [HttpGet]
-        public async Task<IActionResult> GetBirdsAsync(BirderStatus filter) // int pageIndex, int pageSize)
+        public IActionResult GetBirds(BirderStatus filter) // int pageIndex, int pageSize)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Birder.Controllers
                 }
                 else
                 {
-                    var birds = await _birdRepository.GetBirdSummaryList();
+                    var birds = _birdRepository.GetBirdSummaryList();
 
                     if (birds == null)
                     {
