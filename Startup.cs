@@ -68,11 +68,11 @@ namespace Birder
 
             services.AddAutoMapper();
             //services.AddSignInManager<SignInManager<IdentityUser>>();
-            services.AddScoped<IBirdRepository, BirdRepository>();
-            services.AddScoped<IObservationRepository, ObservationRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IObservationsAnalysisRepository, ObservationsAnalysisRepository>();
-            services.AddScoped<ITweetDayRepository, TweetDayRepository>();
+            services.AddTransient<IBirdRepository, BirdRepository>();
+            services.AddTransient<IObservationRepository, ObservationRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IObservationsAnalysisRepository, ObservationsAnalysisRepository>();
+            services.AddTransient<ITweetDayRepository, TweetDayRepository>();
 
             services.AddSingleton<ISystemClock, SystemClock>();
 

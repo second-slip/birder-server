@@ -54,6 +54,8 @@ namespace Birder.Controllers
 
             var observations = _observationRepository.GetUsersObservationsList(username);
 
+            // observations.ToListAsync();
+
             var viewModel = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations);
 
             return Ok(viewModel);
