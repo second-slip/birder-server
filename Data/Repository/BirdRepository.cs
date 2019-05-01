@@ -23,15 +23,33 @@ namespace Birder.Data.Repository
             //return await _dbContext.Birds.SingleOrDefaultAsync(m => m.BirdId == id);
         }
 
-        //public IQueryable<Bird> GetBirdSummaryList() //BirderStatus birderStatusFilter)
-        public async Task<IEnumerable<Bird>> GetBirdSummaryListAsync()
+        public IQueryable<Bird> GetBirdSummaryList(BirderStatus birderStatusFilter)
         {
-            return await _dbContext.Birds
-                .Include(cs => cs.BirdConservationStatus)
-                .OrderBy(ob => ob.BirderStatus)
-                .ThenBy(a => a.EnglishName)
-                .ToListAsync();
+            if (birderStatusFilter == BirderStatus.Common)
+            {
+                return _dbContext.Birds
+                                .Include(cs => cs.BirdConservationStatus)
+                                .Where(f => f.BirderStatus == birderStatusFilter)
+                                .OrderBy(a => a.EnglishName)
+                                .AsNoTracking();
+            }
+            else
+            {
+                return _dbContext.Birds
+                                .Include(cs => cs.BirdConservationStatus)
+                                .OrderBy(ob => ob.BirderStatus)
+                                .ThenBy(a => a.EnglishName)
+                                .AsNoTracking();
+            }
         }
+        //public async Task<IEnumerable<Bird>> GetBirdSummaryListAsync()
+        //{
+        //    return await _dbContext.Birds
+        //        .Include(cs => cs.BirdConservationStatus)
+        //        .OrderBy(ob => ob.BirderStatus)
+        //        .ThenBy(a => a.EnglishName)
+        //        .ToListAsync();
+        //}
 
         public IQueryable<Observation> GetBirdObservations(int birdId)
         {

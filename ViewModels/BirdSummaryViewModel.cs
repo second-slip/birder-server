@@ -12,10 +12,6 @@
 
         public string EnglishName { get; set; }
 
-        //public string InternationalName { get; set; }
-
-        //public string Category { get; set; }
-
         public string PopulationSize { get; set; }
 
         public string BtoStatusInBritain { get; set; }
