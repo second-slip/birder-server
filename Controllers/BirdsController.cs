@@ -50,10 +50,10 @@ namespace Birder.Controllers
                 {
                     if (filter == BirderStatus.Common)
                     {
-                        var commonBirds = (from x in birdsCache
+                        var commonBirdsCache = (from x in birdsCache
                                            where x.BirderStatus == "Common"
                                            select x);
-                        return Ok(commonBirds);
+                        return Ok(commonBirdsCache);
                     }
                     else
                     {
@@ -76,10 +76,10 @@ namespace Birder.Controllers
 
                     if (filter == BirderStatus.Common)
                     {
-                        var commonBirds = (from x in birdsCache
+                        var filteredViewModel = (from x in birdsCache
                                            where x.BirderStatus == "Common"
                                            select x);
-                        return Ok(commonBirds);
+                        return Ok(filteredViewModel);
                     }
 
                     return Ok(viewModel);
