@@ -38,21 +38,17 @@ namespace Birder.Controllers
         // No need for server side pagination.  Birds list is the same as the request for the drop down lists!
 
         [HttpGet]
-        public IActionResult GetBirds(BirderStatus filter) // int pageIndex, int pageSize)
+        public async Task<IActionResult> GetBirdsAsync(BirderStatus filter) // int pageIndex, int pageSize)
         {
-            // TODO: Cache the birds list
-            // The birds list is a prime candidate to be put in the cache.
-            // The birds list is rarely updated.
-
             try
             {
                 if (_cache.TryGetValue("AllBirdsList", out IEnumerable<BirdSummaryViewModel> birdsCache))
                 {
                     if (filter == BirderStatus.Common)
                     {
-                        var commonBirdsCache = (from x in birdsCache
-                                           where x.BirderStatus == "Common"
-                                           select x);
+                        var commonBirdsCache = (from birds in birdsCache
+                                           where birds.BirderStatus == "Common"
+                                           select birds);
                         return Ok(commonBirdsCache);
                     }
                     else
@@ -62,7 +58,7 @@ namespace Birder.Controllers
                 }
                 else
                 {
-                    var birds = _birdRepository.GetBirdSummaryList();
+                    var birds = await _birdRepository.GetBirdSummaryList();
 
                     if (birds == null)
                     {
@@ -76,9 +72,9 @@ namespace Birder.Controllers
 
                     if (filter == BirderStatus.Common)
                     {
-                        var filteredViewModel = (from x in birdsCache
-                                           where x.BirderStatus == "Common"
-                                           select x);
+                        var filteredViewModel = (from items in birdsCache
+                                           where items.BirderStatus == "Common"
+                                           select items);
                         return Ok(filteredViewModel);
                     }
 
