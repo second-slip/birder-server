@@ -4,6 +4,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthenticationInterceptor } from './authentication-interceptor';
 import { HttpErrorInterceptor } from './http-error.interceptor';
 import { CachingInterceptor } from './cachinginterceptor';
+import { CacheInterceptor } from './cache.interceptor';
 // import { CachingInterceptor } from './caching-interceptor';
 // import { EnsureHttpsInterceptor } from './ensure-https-interceptor';
 // import { LoggingInterceptor } from './logging-interceptor';
@@ -21,6 +22,7 @@ export const httpInterceptorProviders = [
  // { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true }
 //   { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true },
 //   { provide: HTTP_INTERCEPTORS, useClass: UploadInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
+  // { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
 
 ];
