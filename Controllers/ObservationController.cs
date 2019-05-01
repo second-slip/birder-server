@@ -49,16 +49,27 @@ namespace Birder.Controllers
         [HttpGet]
         public IActionResult GetObservations()
         {
-            _logger.LogInformation(LoggingEvents.ListItems, "Getting Observations Feed");
-            var username = User.Identity.Name;
+            try
+            {
+                var username = User.Identity.Name;
 
-            var observations = _observationRepository.GetUsersObservationsList(username);
+                var observations = _observationRepository.GetUsersObservationsList(username);
 
-            // observations.ToListAsync();
+                if (observations == null)
+                {
+                    _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
+                    return BadRequest();
+                }
 
-            var viewModel = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations);
+                var viewModel = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations);
 
-            return Ok(viewModel);
+                return Ok(viewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the observations feed");
+                return BadRequest("An error occurred getting the observations feed.");
+            }
         }
 
         [HttpGet, Route("GetObservation")]

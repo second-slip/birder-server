@@ -54,8 +54,8 @@ namespace Birder.Controllers
                     else
                     {
                         return Ok(birdsCache);
+                    }
                 }
-            }
                 else
                 {
                     var birds = await _birdRepository.GetBirdSummaryListAsync();
