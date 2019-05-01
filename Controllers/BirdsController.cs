@@ -48,10 +48,17 @@ namespace Birder.Controllers
             {
                 if (_cache.TryGetValue("AllBirdsList", out IEnumerable<BirdSummaryViewModel> birdsCache))
                 {
-                    var e = (from x in birdsCache
-                             where x.BirderStatus == "Common"
-                            select x);
-                    return Ok(e);
+                    if (filter == BirderStatus.Common)
+                    {
+                        var commonBirds = (from x in birdsCache
+                                           where x.BirderStatus == "Common"
+                                           select x);
+                        return Ok(commonBirds);
+                    }
+                    else
+                    {
+                        return Ok(birdsCache);
+                    }
                 }
                 else
                 {
@@ -66,6 +73,14 @@ namespace Birder.Controllers
                     var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);
 
                     _cache.Set("AllBirdsList", viewModel, TimeSpan.FromMinutes(10));
+
+                    if (filter == BirderStatus.Common)
+                    {
+                        var commonBirds = (from x in birdsCache
+                                           where x.BirderStatus == "Common"
+                                           select x);
+                        return Ok(commonBirds);
+                    }
 
                     return Ok(viewModel);
                 }
