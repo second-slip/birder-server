@@ -13,10 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-//TODO: Observation controller
-//    - tidy up return messages, et cetera
-//    - logging
-
 namespace Birder.Controllers
 {
     [Route("api/[controller]")]
@@ -75,11 +71,26 @@ namespace Birder.Controllers
         [HttpGet, Route("GetObservation")]
         public async Task<IActionResult> GetObservation(int id)
         {
-            var observation = await _observationRepository.GetObservationDetail(id);
+            try
+            {
+                var observation = await _observationRepository.GetObservationDetail(id);
 
-            var viewModel = _mapper.Map<Observation, ObservationViewModel>(observation);
+                if (observation == null)
+                {
+                    _logger.LogWarning(LoggingEvents.GetItemNotFound, "Observation with id: {ID} was not found.", id);
+                    return BadRequest();
+                }
 
-            return Ok(viewModel);
+                var viewModel = _mapper.Map<Observation, ObservationViewModel>(observation);
+
+                return Ok(viewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Observation with id: {ID} was not found.", id);
+                return BadRequest("Observation was not found.");
+            }
+
         }
 
         [HttpPost, Route("PostObservation")]
