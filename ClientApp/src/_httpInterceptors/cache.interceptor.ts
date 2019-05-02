@@ -23,6 +23,7 @@ export class CacheInterceptor implements HttpInterceptor {
       tap(event => {
         if (event instanceof HttpResponse) {
           this.cache.set(request.url, event);
+          console.log(this.cache);
         }
       })
     );
