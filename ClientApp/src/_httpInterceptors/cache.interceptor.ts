@@ -8,10 +8,11 @@ export class CacheInterceptor implements HttpInterceptor {
   private cache = new Map<string, any>();
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // if cacheable
     if (request.method !== 'GET') {
       return next.handle(request);
     }
-    
+
     console.warn('CacheInterceptor');
 
     const cachedResponse = this.cache.get(request.url);

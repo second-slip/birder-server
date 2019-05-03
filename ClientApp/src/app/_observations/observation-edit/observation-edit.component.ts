@@ -47,7 +47,6 @@ export class ObservationEditComponent implements OnInit {
   ngOnInit() {
     this.getObservation();
     this.getBirds(BirderStatus.Common);
-    // this.createForms();
   }
 
   createForms(): void {
