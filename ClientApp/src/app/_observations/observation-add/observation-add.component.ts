@@ -54,7 +54,7 @@ export class ObservationAddComponent implements OnInit {
 
   ngOnInit() {
     this.getUser();
-    this.getBirds();
+    this.getBirds(BirderStatus.Common);
   }
 
   getGeolocation(): void {
@@ -165,8 +165,8 @@ export class ObservationAddComponent implements OnInit {
       );
   }
 
-  getBirds(): void {
-    this.birdsService.getBirds(BirderStatus.Common)
+  getBirds(filter: BirderStatus): void {
+    this.birdsService.getBirds(filter)
       .subscribe(
         (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
         (error: ErrorReportViewModel) => {

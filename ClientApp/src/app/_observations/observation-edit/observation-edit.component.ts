@@ -23,9 +23,9 @@ export class ObservationEditComponent implements OnInit {
   birdsSpecies: BirdSummaryViewModel[];
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
-    geolocation: string;
-    searchAddress = '';
-    geoError: string;
+  geolocation: string;
+  searchAddress = '';
+  geoError: string;
 
   editObservation_validation_messages = {
     'quantity': [
@@ -37,16 +37,16 @@ export class ObservationEditComponent implements OnInit {
   };
 
   constructor(private router: Router
-            , private route: ActivatedRoute
-            , private observationService: ObservationService
-            , private birdsService: BirdsService
-            , private formBuilder: FormBuilder
-            , private geocodeService: GeocodeService
-            , private ref: ChangeDetectorRef) { }
+    , private route: ActivatedRoute
+    , private observationService: ObservationService
+    , private birdsService: BirdsService
+    , private formBuilder: FormBuilder
+    , private geocodeService: GeocodeService
+    , private ref: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.getObservation();
-    this.getBirds();
+    this.getBirds(BirderStatus.Common);
     // this.createForms();
   }
 
@@ -75,47 +75,45 @@ export class ObservationEditComponent implements OnInit {
 
   onSubmit(value): void {
     this.observationService.updateObservation(this.observation.observationId, value)
-    .subscribe(
-      (data: ObservationViewModel) => {
-        this.editObservationForm.reset();
-        this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
-      },
-      (error: ErrorReportViewModel) => {
-        this.errorReport = error;
-        console.log(error.friendlyMessage);
-        console.log('unsuccessful add observation');
-      }
-    );
+      .subscribe(
+        (data: ObservationViewModel) => {
+          this.editObservationForm.reset();
+          this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
+        },
+        (error: ErrorReportViewModel) => {
+          this.errorReport = error;
+          console.log(error.friendlyMessage);
+          console.log('unsuccessful add observation');
+        }
+      );
   }
 
   getObservation(): void {
     const id = +this.route.snapshot.paramMap.get('id');
 
     this.observationService.getObservation(id)
-    .subscribe(
-      (observation: ObservationViewModel) => {
-        this.observation = observation;
-        this.createForms();
-        this.getGeolocation();
-      },
-      (error: ErrorReportViewModel) => {
-        this.errorReport = error;
-        // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
-      });
+      .subscribe(
+        (observation: ObservationViewModel) => {
+          this.observation = observation;
+          this.createForms();
+          this.getGeolocation();
+        },
+        (error: ErrorReportViewModel) => {
+          this.errorReport = error;
+          // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+        });
   }
 
-  getBirds(): void {
-    // TODO: Better implementation of this...
-    this.birdsService.getBirds(BirderStatus.Common)
-    .subscribe(
-      (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
-      (error: ErrorReportViewModel) => {
-        console.log('could not get the birds ddl');
-      });
+  getBirds(filter: BirderStatus): void {
+    this.birdsService.getBirds(filter)
+      .subscribe(
+        (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
+        (error: ErrorReportViewModel) => {
+          console.log('could not get the birds ddl');
+        });
   }
 
   // new google maps methods...
-
   getGeolocation(): void {
     this.geocodeService.reverseGeocode(this.observation.locationLatitude, this.observation.locationLongitude)
       .subscribe(
