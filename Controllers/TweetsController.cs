@@ -6,6 +6,7 @@ using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -17,16 +18,19 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class TweetsController : ControllerBase
     {
+        private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly ISystemClock _systemClock;
         private readonly ITweetDayRepository _tweetDayRepository;
 
         public TweetsController(ITweetDayRepository tweetDayRepository,
+                                IMemoryCache memoryCache,
                                 ILogger<TweetsController> logger,
                                 ISystemClock systemClock,
                                 IMapper mapper)
         {
+            _cache = memoryCache;
             _mapper = mapper;
             _logger = logger;
             _systemClock = systemClock;
@@ -39,6 +43,11 @@ namespace Birder.Controllers
         {
             try
             {
+                if (_cache.TryGetValue("TweetOfDay", out TweetDayViewModel tweetDayCache))
+                {
+                    return Ok(tweetDayCache);
+                }
+
                 var tweet = await _tweetDayRepository.GetTweetOfTheDayAsync(_systemClock.Today);
 
                 if (tweet == null)
@@ -48,6 +57,8 @@ namespace Birder.Controllers
                 }
 
                 var viewModel = _mapper.Map<TweetDay, TweetDayViewModel>(tweet);
+
+                _cache.Set("TweetOfDay", viewModel, DateTime.UtcNow.Date.AddDays(1).AddTicks(-1));
 
                 return Ok(viewModel);
             }
