@@ -21,7 +21,6 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ObservationController : ControllerBase
     {
-        private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly ISystemClock _systemClock;
@@ -30,7 +29,6 @@ namespace Birder.Controllers
         private readonly IObservationRepository _observationRepository;
 
         public ObservationController(IMapper mapper
-                                   , IMemoryCache memoryCache
                                    , ILogger<ObservationController> logger
                                    , ISystemClock systemClock
                                    , IBirdRepository birdRepository
@@ -39,7 +37,6 @@ namespace Birder.Controllers
         {
             _mapper = mapper;
             _logger = logger;
-            _cache = memoryCache;
             _userManager = userManager;
             _systemClock = systemClock;
             _birdRepository = birdRepository;
