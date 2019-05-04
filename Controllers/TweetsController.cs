@@ -58,7 +58,9 @@ namespace Birder.Controllers
 
                 var viewModel = _mapper.Map<TweetDay, TweetDayViewModel>(tweet);
 
-                _cache.Set("TweetOfDay", viewModel, DateTime.UtcNow.Date.AddDays(1).AddTicks(-1));
+                var cacheEntryExpiry = DateTime.UtcNow.Date.AddDays(1).AddTicks(-1);
+
+                _cache.Set("TweetOfDay", viewModel, cacheEntryExpiry);
 
                 return Ok(viewModel);
             }
