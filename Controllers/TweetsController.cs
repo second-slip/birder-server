@@ -43,7 +43,7 @@ namespace Birder.Controllers
         {
             try
             {
-                if (_cache.TryGetValue("TweetOfDay", out TweetDayViewModel tweetDayCache))
+                if (_cache.TryGetValue(nameof(TweetDayViewModel), out TweetDayViewModel tweetDayCache))
                 {
                     return Ok(tweetDayCache);
                 }
@@ -60,7 +60,7 @@ namespace Birder.Controllers
 
                 var cacheEntryExpiryDate = DateTime.UtcNow.Date.AddDays(1).AddTicks(-1);
 
-                _cache.Set("TweetOfDay", viewModel, cacheEntryExpiryDate);
+                _cache.Set(nameof(TweetDayViewModel), viewModel, cacheEntryExpiryDate);
 
                 return Ok(viewModel);
             }
