@@ -4,6 +4,7 @@ using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -27,38 +28,73 @@ namespace Birder.Controllers
 
         }
 
+        /*
+         * Cache
+         * Try / Catch
+         * Logging
+         */
+
+
+
         [HttpGet, Route("GetObservationAnalysis")]
         public async Task<IActionResult> GetObservationAnalysis()
         {
-            var username = User.Identity.Name;
-
-            if (username == null)
+            try
             {
-                return Unauthorized();
+                var username = User.Identity.Name;
+
+                if (username == null)
+                {
+                    return Unauthorized();
+                }
+
+                _cache.Remove(nameof(ObservationAnalysisViewModel));
+
+                if (_cache.TryGetValue(nameof(ObservationAnalysisViewModel), out ObservationAnalysisViewModel observationAnalysisCache))
+                {
+                    return Ok(observationAnalysisCache);
+                }
+
+                var viewModel = await _observationsAnalysisRepository.GetObservationsAnalysis(username);
+
+                var cacheEntryExpiryDate = TimeSpan.FromDays(1);
+
+                _cache.Set(nameof(ObservationAnalysisViewModel), viewModel, cacheEntryExpiryDate);
+
+                return Ok(viewModel);
             }
-
-            var viewModel = await _observationsAnalysisRepository.GetObservationsAnalysis(username);
-
-            return Ok(viewModel);
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet, Route("GetTopObservationAnalysis")]
         public IActionResult GetTopObservationAnalysis()
         {
-            var username = User.Identity.Name;
-
-            if (username == null)
+            try
             {
-                return Unauthorized();
+
+
+                var username = User.Identity.Name;
+
+                if (username == null)
+                {
+                    return Unauthorized();
+                }
+
+                var viewModel = new TopObservationsAnalysisViewModel()
+                {
+                    TopObservations = _observationsAnalysisRepository.GetTopObservations(username),
+                    TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.GetToday.AddDays(-30))
+                };
+
+                return Ok(viewModel);
             }
-
-            var viewModel = new TopObservationsAnalysisViewModel()
+            catch (Exception ex)
             {
-                TopObservations = _observationsAnalysisRepository.GetTopObservations(username),
-                TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.GetToday.AddDays(-30))
-            };
-
-            return Ok(viewModel);
+                return BadRequest();
+            }
         }
 
         [HttpGet, Route("GetLifeList")]
