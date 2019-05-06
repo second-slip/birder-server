@@ -9,6 +9,7 @@ namespace Birder.Data.Repository
     {
         Task<ObservationAnalysisViewModel> GetObservationsAnalysis(string username);
         IQueryable<TopObservationsViewModel> GetTopObservations(string username);
+        TopObservationsAnalysisViewModel gt(string username, DateTime date);
         IQueryable<TopObservationsViewModel> GetTopObservations(string username, DateTime date);
         IQueryable<SpeciesSummaryViewModel> GetLifeList(string userName);
     }

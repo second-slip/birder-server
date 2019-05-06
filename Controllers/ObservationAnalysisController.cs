@@ -86,8 +86,8 @@ namespace Birder.Controllers
                     return Ok(topObservationsCache);
                 }
 
-                var viewModel = new TopObservationsAnalysisViewModel();
-                viewModel.TopObservations = _observationsAnalysisRepository.GetTopObservations(username);
+                var viewModel = _observationsAnalysisRepository.gt(username, _systemClock.GetToday.AddDays(-30));
+                //viewModel.TopObservations = _observationsAnalysisRepository.GetTopObservations(username);
                 viewModel.TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.GetToday.AddDays(-30));
                 //{
                 //    TopObservations = _observationsAnalysisRepository.GetTopObservations(username),
