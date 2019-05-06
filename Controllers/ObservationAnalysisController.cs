@@ -86,17 +86,18 @@ namespace Birder.Controllers
                     return Ok(topObservationsCache);
                 }
 
-                var viewModel = await _observationsAnalysisRepository.gtAsync(username, _systemClock.GetToday.AddDays(-30));
+                //var viewModel = await _observationsAnalysisRepository.gtAsync(username, _systemClock.GetToday.AddDays(-30));
                 //viewModel.TopObservations = _observationsAnalysisRepository.GetTopObservations(username);
-                //viewModel.TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.GetToday.AddDays(-30));
-                //{
-                //    TopObservations = _observationsAnalysisRepository.GetTopObservations(username),
-                //    // TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.GetToday.AddDays(-30))
-                //};
+
+                var viewModel = new TopObservationsAnalysisViewModel
+                {
+                    TopObservations = _observationsAnalysisRepository.GetTopObservations(username),
+                    TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.GetToday.AddDays(-30))
+                };
 
                 var cacheEntryExpiryDate = TimeSpan.FromDays(1);
 
-                // _cache.Set(nameof(TopObservationsAnalysisViewModel), viewModel, cacheEntryExpiryDate);
+                _cache.Set(nameof(TopObservationsAnalysisViewModel), viewModel, cacheEntryExpiryDate);
 
                 return Ok(viewModel);
             }

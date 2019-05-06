@@ -89,7 +89,7 @@ namespace Birder.Data.Repository
                         BirdId = species.FirstOrDefault().Bird.BirdId,
                         Name = species.FirstOrDefault().Bird.EnglishName,
                         Count = species.Count()
-                    }).Take(5);
+                    }).Take(5).AsNoTracking();
         }
 
         public IQueryable<SpeciesSummaryViewModel> GetLifeList(string userName)
@@ -109,7 +109,7 @@ namespace Birder.Data.Repository
                                 BtoStatusInBritain = species.FirstOrDefault().Bird.BtoStatusInBritain,
                                 ConservationStatus = species.FirstOrDefault().Bird.BirdConservationStatus.ConservationList,
                                 Count = species.Count()
-                            });
+                            }).AsNoTracking();
 
             return lifeList;
         }
