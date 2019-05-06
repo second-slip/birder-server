@@ -3,6 +3,7 @@ using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -12,12 +13,15 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ObservationAnalysisController : ControllerBase
     {
+        private IMemoryCache _cache;
         private readonly ISystemClock _systemClock;
         private readonly IObservationsAnalysisRepository _observationsAnalysisRepository;
 
         public ObservationAnalysisController(IObservationsAnalysisRepository observationsAnalysisRepository
+                                            , IMemoryCache memoryCache
                                             , ISystemClock systemClock)
         {
+            _cache = memoryCache;
             _systemClock = systemClock;
             _observationsAnalysisRepository = observationsAnalysisRepository;
 
