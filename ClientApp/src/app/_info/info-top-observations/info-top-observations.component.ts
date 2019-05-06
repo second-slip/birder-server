@@ -35,6 +35,7 @@ export class InfoTopObservationsComponent implements OnInit {
     this.observationsAnalysisService.getTopObservationsAnalysis()
       .subscribe(
         (data: TopObservationsAnalysisViewModel) => {
+          console.log(data);
           this.analysis = data;
         },
         (error: ErrorReportViewModel) => {
