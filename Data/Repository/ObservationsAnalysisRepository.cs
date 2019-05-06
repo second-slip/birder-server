@@ -109,7 +109,7 @@ namespace Birder.Data.Repository
                                 BtoStatusInBritain = species.FirstOrDefault().Bird.BtoStatusInBritain,
                                 ConservationStatus = species.FirstOrDefault().Bird.BirdConservationStatus.ConservationList,
                                 Count = species.Count()
-                            }).AsNoTracking();
+                            });
 
             return lifeList;
         }

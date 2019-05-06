@@ -121,6 +121,7 @@ namespace Birder.Controllers
 
                 if (_cache.TryGetValue(nameof(LifeListViewModel), out LifeListViewModel lifeListCache))
                 {
+
                     return Ok(lifeListCache);
                 }
 
@@ -129,9 +130,12 @@ namespace Birder.Controllers
                     LifeList = _observationsAnalysisRepository.GetLifeList(username)
                 };
 
-                var cacheEntryExpiryDate = TimeSpan.FromDays(1);
+                // var cacheEntryExpiryDate = TimeSpan.FromDays(1);
 
-                _cache.Set(nameof(LifeListViewModel), viewModel, cacheEntryExpiryDate);
+                // var t = viewModel.GetType();
+                // var y = viewModel.LifeList.GetType();
+
+                // _cache.Set(nameof(LifeListViewModel), viewModel, cacheEntryExpiryDate);
 
                 return Ok(viewModel);
             }
