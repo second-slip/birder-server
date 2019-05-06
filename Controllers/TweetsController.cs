@@ -59,6 +59,7 @@ namespace Birder.Controllers
                 var viewModel = _mapper.Map<TweetDay, TweetDayViewModel>(tweet);
 
                 var cacheEntryExpiryDate = DateTime.UtcNow.Date.AddDays(1).AddTicks(-1);
+                var t = _systemClock.Now.Date.AddDays(1).AddTicks(-1);
 
                 _cache.Set(nameof(TweetDayViewModel), viewModel, cacheEntryExpiryDate);
 
