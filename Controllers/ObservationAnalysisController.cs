@@ -48,8 +48,6 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                _cache.Remove(nameof(ObservationAnalysisViewModel));
-
                 if (_cache.TryGetValue(nameof(ObservationAnalysisViewModel), out ObservationAnalysisViewModel observationAnalysisCache))
                 {
                     return Ok(observationAnalysisCache);
@@ -74,8 +72,6 @@ namespace Birder.Controllers
         {
             try
             {
-
-
                 var username = User.Identity.Name;
 
                 if (username == null)
@@ -83,11 +79,20 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
+                if (_cache.TryGetValue(nameof(TopObservationsAnalysisViewModel), out TopObservationsAnalysisViewModel topObservationsCache))
+                {
+                    return Ok(topObservationsCache);
+                }
+
                 var viewModel = new TopObservationsAnalysisViewModel()
                 {
                     TopObservations = _observationsAnalysisRepository.GetTopObservations(username),
                     TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.GetToday.AddDays(-30))
                 };
+
+                var cacheEntryExpiryDate = TimeSpan.FromDays(1);
+
+                _cache.Set(nameof(TopObservationsAnalysisViewModel), viewModel, cacheEntryExpiryDate);
 
                 return Ok(viewModel);
             }
@@ -100,19 +105,35 @@ namespace Birder.Controllers
         [HttpGet, Route("GetLifeList")]
         public IActionResult GetLifeList()
         {
-            var username = User.Identity.Name;
-
-            if (username == null)
+            try
             {
-                return Unauthorized();
+                var username = User.Identity.Name;
+
+                if (username == null)
+                {
+                    return Unauthorized();
+                }
+
+                if (_cache.TryGetValue(nameof(LifeListViewModel), out LifeListViewModel lifeListCache))
+                {
+                    return Ok(lifeListCache);
+                }
+
+                var viewModel = new LifeListViewModel()
+                {
+                    LifeList = _observationsAnalysisRepository.GetLifeList(username)
+                };
+
+                var cacheEntryExpiryDate = TimeSpan.FromDays(1);
+
+                _cache.Set(nameof(LifeListViewModel), viewModel, cacheEntryExpiryDate);
+
+                return Ok(viewModel);
             }
-
-            var viewModel = new LifeListViewModel()
+            catch (Exception ex)
             {
-                LifeList = _observationsAnalysisRepository.GetLifeList(username)
-            };
-
-            return Ok(viewModel);
+                return BadRequest();
+            }
         }
     }
 }
