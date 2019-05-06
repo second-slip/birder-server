@@ -74,7 +74,7 @@ namespace Birder.Data.Repository
                         BirdId = species.FirstOrDefault().Bird.BirdId,
                         Name = species.FirstOrDefault().Bird.EnglishName,
                         Count = species.Count()
-                    }).Take(5);
+                    }).Take(5).AsNoTracking();
         }
 
         public IQueryable<TopObservationsViewModel> GetTopObservations(string username, DateTime date)
