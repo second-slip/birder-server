@@ -21,6 +21,7 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ObservationController : ControllerBase
     {
+        private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly ISystemClock _systemClock;
@@ -29,6 +30,7 @@ namespace Birder.Controllers
         private readonly IObservationRepository _observationRepository;
 
         public ObservationController(IMapper mapper
+                                   , IMemoryCache memoryCache
                                    , ILogger<ObservationController> logger
                                    , ISystemClock systemClock
                                    , IBirdRepository birdRepository
@@ -37,6 +39,7 @@ namespace Birder.Controllers
         {
             _mapper = mapper;
             _logger = logger;
+            _cache = memoryCache;
             _userManager = userManager;
             _systemClock = systemClock;
             _birdRepository = birdRepository;
@@ -122,6 +125,10 @@ namespace Birder.Controllers
                         return BadRequest(ModelState);
                     }
 
+                    _cache.Remove(nameof(LifeListViewModel));
+                    _cache.Remove(nameof(ObservationAnalysisViewModel));
+                    _cache.Remove(nameof(TopObservationsAnalysisViewModel));
+
                     var viewModel = _mapper.Map<Observation, ObservationViewModel>(newObservation);
 
                     return Ok(viewModel);
@@ -200,6 +207,10 @@ namespace Birder.Controllers
                         }
                     }
 
+                    _cache.Remove(nameof(LifeListViewModel));
+                    _cache.Remove(nameof(ObservationAnalysisViewModel));
+                    _cache.Remove(nameof(TopObservationsAnalysisViewModel));
+
                     var editedObservation = _mapper.Map<Observation, ObservationViewModel>(observation);
 
                     return Ok(editedObservation);
@@ -228,6 +239,10 @@ namespace Birder.Controllers
             {
                 return BadRequest();
             }
+
+            _cache.Remove(nameof(LifeListViewModel));
+            _cache.Remove(nameof(ObservationAnalysisViewModel));
+            _cache.Remove(nameof(TopObservationsAnalysisViewModel));
 
             return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
         }
