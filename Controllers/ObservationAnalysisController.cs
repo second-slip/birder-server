@@ -68,7 +68,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetTopObservationAnalysis")]
-        public IActionResult GetTopObservationAnalysis()
+        public async Task<IActionResult> GetTopObservationAnalysisAsync()
         {
             try
             {
