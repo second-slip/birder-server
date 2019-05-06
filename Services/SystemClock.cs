@@ -4,7 +4,8 @@ namespace Birder.Services
 {
     public class SystemClock : ISystemClock
     {
-        public DateTime Now { get { return DateTime.Now; } }
-        public DateTime Today { get { return DateTime.Today; } }
+        public DateTime GetNow { get { return DateTime.Now; } }
+        public DateTime GetToday { get { return DateTime.Today; } }
+        public DateTime GetEndOfToday { get { return DateTime.Today.Date.AddDays(1).AddTicks(-1); } }
     }
 }

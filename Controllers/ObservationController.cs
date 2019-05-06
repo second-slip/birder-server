@@ -111,8 +111,8 @@ namespace Birder.Controllers
                     var observedBird = await _birdRepository.GetBird(model.BirdId);
                     newObservation.Bird = observedBird;
 
-                    newObservation.CreationDate = _systemClock.Now;
-                    newObservation.LastUpdateDate = _systemClock.Now;
+                    newObservation.CreationDate = _systemClock.GetNow;
+                    newObservation.LastUpdateDate = _systemClock.GetNow;
 
                     var save = _observationRepository.AddObservation(newObservation);
                     save.Wait();
@@ -182,7 +182,7 @@ namespace Birder.Controllers
                     observation.ObservationDateTime = model.ObservationDateTime;
                     observation.Quantity = model.Quantity;
 
-                    observation.LastUpdateDate = _systemClock.Now;
+                    observation.LastUpdateDate = _systemClock.GetNow;
 
                     try
                     {

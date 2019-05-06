@@ -48,18 +48,17 @@ namespace Birder.Controllers
                     return Ok(tweetDayCache);
                 }
 
-                var tweet = await _tweetDayRepository.GetTweetOfTheDayAsync(_systemClock.Today);
+                var tweet = await _tweetDayRepository.GetTweetOfTheDayAsync(_systemClock.GetToday);
 
                 if (tweet == null)
                 {
-                    _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting tweet with date: {Date}", _systemClock.Today);
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting tweet with date: {Date}", _systemClock.GetToday);
                     return BadRequest();
                 }
 
                 var viewModel = _mapper.Map<TweetDay, TweetDayViewModel>(tweet);
 
-                var cacheEntryExpiryDate = DateTime.UtcNow.Date.AddDays(1).AddTicks(-1);
-                var t = _systemClock.Now.Date.AddDays(1).AddTicks(-1);
+                var cacheEntryExpiryDate = _systemClock.GetEndOfToday;
 
                 _cache.Set(nameof(TweetDayViewModel), viewModel, cacheEntryExpiryDate);
 
@@ -67,7 +66,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "An error occurred getting tweet with date: {Date}", _systemClock.Today);
+                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "An error occurred getting tweet with date: {Date}", _systemClock.GetToday);
                 return BadRequest();
             }
         }

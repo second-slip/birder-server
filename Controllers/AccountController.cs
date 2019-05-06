@@ -41,7 +41,7 @@ namespace Birder.Controllers
                 DefaultLocationLatitude = 54.972237,
                 DefaultLocationLongitude = -2.4608560000000352,
                 ProfileImage = "https://img.icons8.com/color/96/000000/user.png", // "https://birderstorage.blob.core.windows.net/profile/default.png",
-                RegistrationDate = _systemClock.Now 
+                RegistrationDate = _systemClock.GetNow 
             };
 
             var result = await _userManager.CreateAsync(newUser, model.Password);

@@ -51,7 +51,7 @@ namespace Birder.Controllers
             var viewModel = new TopObservationsAnalysisViewModel()
             {
                 TopObservations = _observationsAnalysisRepository.GetTopObservations(username),
-                TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.Today.AddDays(-30))
+                TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.GetToday.AddDays(-30))
             };
 
             return Ok(viewModel);

@@ -79,7 +79,7 @@ namespace Birder.Controllers
                         issuer: _config["Tokens:Issuer"],
                         audience: "http://localhost:55722",
                         claims: claims,
-                        expires: _systemClock.Now.AddDays(2),
+                        expires: _systemClock.GetNow.AddDays(2),
                         signingCredentials: signinCredentials
                         );
 
