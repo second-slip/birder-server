@@ -29,11 +29,11 @@ namespace Birder.Data.Repository
             return viewModel;
         }
 
-        public TopObservationsAnalysisViewModel gt(string username, DateTime date)
+        public async Task<TopObservationsAnalysisViewModel> gtAsync(string username, DateTime date)
         {
             var model = new TopObservationsAnalysisViewModel();
 
-            model.TopObservations = (from observations in _dbContext.Observations
+            model.TopObservations = await (from observations in _dbContext.Observations
                  .Include(b => b.Bird)
                  .Where(u => u.ApplicationUser.UserName == username)
                                      group observations by observations.Bird into species
@@ -43,9 +43,9 @@ namespace Birder.Data.Repository
                                          BirdId = species.FirstOrDefault().Bird.BirdId,
                                          Name = species.FirstOrDefault().Bird.EnglishName,
                                          Count = species.Count()
-                                     }).Take(5);
+                                     }).Take(5).ToListAsync();
 
-            model.TopMonthlyObservations = (from observations in _dbContext.Observations
+            model.TopMonthlyObservations = await (from observations in _dbContext.Observations
                     .Include(b => b.Bird)
                                             where (observations.ApplicationUser.UserName == username && (observations.ObservationDateTime >= date))
                                             group observations by observations.Bird into species
@@ -55,7 +55,7 @@ namespace Birder.Data.Repository
                                                 BirdId = species.FirstOrDefault().Bird.BirdId,
                                                 Name = species.FirstOrDefault().Bird.EnglishName,
                                                 Count = species.Count()
-                                            }).Take(5);
+                                            }).Take(5).ToListAsync();
 
             return model;
 
