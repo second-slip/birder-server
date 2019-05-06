@@ -71,7 +71,7 @@ namespace Birder
             services.AddTransient<IBirdRepository, BirdRepository>();
             services.AddTransient<IObservationRepository, ObservationRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IObservationsAnalysisRepository, ObservationsAnalysisRepository>();
+            services.AddScoped<IObservationsAnalysisRepository, ObservationsAnalysisRepository>();
             services.AddTransient<ITweetDayRepository, TweetDayRepository>();
 
             services.AddSingleton<ISystemClock, SystemClock>();

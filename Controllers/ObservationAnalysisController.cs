@@ -117,6 +117,8 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
+                // _cache.Remove(nameof(LifeListViewModel));
+
                 if (_cache.TryGetValue(nameof(LifeListViewModel), out LifeListViewModel lifeListCache))
                 {
                     return Ok(lifeListCache);
