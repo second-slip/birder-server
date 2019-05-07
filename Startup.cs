@@ -66,7 +66,14 @@ namespace Birder
             //.AddDefaultTokenProviders();
 
 
-            services.AddAutoMapper();
+            //services.AddAutoMapper();
+            services.AddAutoMapper(GetType().Assembly);
+
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<BirderMappingProfile>();
+            });
+
             //services.AddSignInManager<SignInManager<IdentityUser>>();
             services.AddTransient<IBirdRepository, BirdRepository>();
             services.AddTransient<IObservationRepository, ObservationRepository>();
