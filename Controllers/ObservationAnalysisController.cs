@@ -7,6 +7,9 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.Generic;
+using Birder.Data.Model;
+using AutoMapper;
 
 namespace Birder.Controllers
 {
@@ -16,13 +19,15 @@ namespace Birder.Controllers
     public class ObservationAnalysisController : ControllerBase
     {
         private IMemoryCache _cache;
+        private readonly IMapper _mapper;
         private readonly ISystemClock _systemClock;
         private readonly IObservationsAnalysisRepository _observationsAnalysisRepository;
 
         public ObservationAnalysisController(IObservationsAnalysisRepository observationsAnalysisRepository
                                             , IMemoryCache memoryCache
-                                            , ISystemClock systemClock)
+                                            , ISystemClock systemClock, IMapper mapper)
         {
+            _mapper = mapper;
             _cache = memoryCache;
             _systemClock = systemClock;
             _observationsAnalysisRepository = observationsAnalysisRepository;
@@ -57,12 +62,12 @@ namespace Birder.Controllers
                 // }
 
                 var observations = await _observationsAnalysisRepository.FindAsync(x => x.ApplicationUser.UserName == username);
-
-                
-
                 var viewModel = new ObservationAnalysisViewModel();
-                viewModel.TotalObservationsCount = observations.Count();
-                viewModel.UniqueSpeciesCount = observations.Select(i => i.BirdId).Distinct().Count();
+                var mapTest = _mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observations);
+
+                //var viewModel = new ObservationAnalysisViewModel();
+                //viewModel.TotalObservationsCount = observations.Count();
+                //viewModel.UniqueSpeciesCount = observations.Select(i => i.BirdId).Distinct().Count();
 
                 // var viewModel = await _observationsAnalysisRepository.GetObservationsAnalysis(username);
 

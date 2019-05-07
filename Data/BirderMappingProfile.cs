@@ -3,6 +3,8 @@ using Birder.Controllers;
 using Birder.Data.Model;
 using Birder.Helpers;
 using Birder.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Birder.Data
 {
@@ -15,6 +17,13 @@ namespace Birder.Data
               .ForMember(a => a.User, b => b.MapFrom(a => a.ApplicationUser))
               .ForMember(d => d.Bird, m => m.MapFrom(d => d.Bird))
               .ReverseMap();
+
+
+
+            CreateMap<List<Observation>, ObservationAnalysisViewModel>()
+                .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count()))
+                .ForMember(a => a.UniqueSpeciesCount, b => b.MapFrom(a => a.Count())); // Select(i => i.BirdId).Distinct().Count()));
+
 
             CreateMap<ApplicationUser, UserViewModel>()
               .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
