@@ -10,13 +10,11 @@ namespace Birder.Data.Repository
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        TEntity Get(int id);
-        IEnumerable<TEntity> GetAll();
-        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
-
+        Task<TEntity> GetAsync(int id);
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
         // This method was not in the videos, but I thought it would be useful to add.
-        Task<TEntity> SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
-
+        Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
         void Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);
 
@@ -28,26 +26,21 @@ namespace Birder.Data.Repository
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         //private readonly DbContext Context;
-
-        //public Repository(DbContext context)
-        //{
-        //    Context = context;
-        //}
         protected readonly ApplicationDbContext _dbContext;
         public Repository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public TEntity Get(int id)
+        public async Task<TEntity> GetAsync(int id)
         {
             // Here we are working with a DbContext, not PlutoContext. So we don't have DbSets 
             // such as Courses or Authors, and we need to use the generic Set() method to access them.
             //return Context.Set<TEntity>().Find(id);
-            return _dbContext.Set<TEntity>().Find(id);
+            return await _dbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             // Note that here I've repeated Context.Set<TEntity>() in every method and this is causing
             // too much noise. I could get a reference to the DbSet returned from this method in the 
@@ -61,16 +54,16 @@ namespace Birder.Data.Repository
             // I didn't change it because I wanted the code to look like the videos. But feel free to change
             // this on your own.
             //return Context.Set<TEntity>().ToList();
-            return _dbContext.Set<TEntity>().ToList();
+            return await _dbContext.Set<TEntity>().ToListAsync();
         }
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
         {
             //return Context.Set<TEntity>().Where(predicate);
-            return _dbContext.Set<TEntity>().Where(predicate);
+            return await _dbContext.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public async Task<TEntity> SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
             //return Context.Set<TEntity>().SingleOrDefault(predicate);
             return await _dbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
