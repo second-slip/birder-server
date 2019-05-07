@@ -11,10 +11,10 @@ namespace Birder.Data.Repository
     public interface IObservationsAnalysisRepository : IRepository<Observation>
     {
         Task<IEnumerable<Observation>> ObservationsWithBird(Expression<Func<Observation, bool>> predicate);
-        Task<ObservationAnalysisViewModel> GetObservationsAnalysis(string username);
-        IQueryable<TopObservationsViewModel> GetTopObservations(string username);
-        Task<TopObservationsAnalysisViewModel> gtAsync(string username, DateTime date);
-        IQueryable<TopObservationsViewModel> GetTopObservations(string username, DateTime date);
-        IQueryable<SpeciesSummaryViewModel> GetLifeList(string userName);
+        // Task<ObservationAnalysisViewModel> GetObservationsAnalysis(string username);
+        // IQueryable<TopObservationsViewModel> GetTopObservations(string username);
+        // Task<TopObservationsAnalysisViewModel> gtAsync(string username, DateTime date);
+        // IQueryable<TopObservationsViewModel> GetTopObservations(string username, DateTime date);
+        // IQueryable<SpeciesSummaryViewModel> GetLifeList(string userName);
     }
 }

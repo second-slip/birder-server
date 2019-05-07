@@ -32,8 +32,8 @@ export class ObservationsAnalysisService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getLifeList(): Observable<LifeListViewModel | ErrorReportViewModel> {
-    return this.http.get<LifeListViewModel>('api/ObservationAnalysis/GetLifeList')
+  getLifeList(): Observable<LifeListViewModel[] | ErrorReportViewModel> {
+    return this.http.get<LifeListViewModel[]>('api/ObservationAnalysis/GetLifeList')
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

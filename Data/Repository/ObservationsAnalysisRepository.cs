@@ -20,105 +20,103 @@ namespace Birder.Data.Repository
 
         public async Task<IEnumerable<Observation>> ObservationsWithBird(Expression<Func<Observation, bool>> predicate)
         {
-            return await _dbContext.Observations.Include(y => y.Bird).Where(predicate).ToListAsync();
+            return await _dbContext.Observations.Include(y => y.Bird).ThenInclude(u => u.BirdConservationStatus).Where(predicate).ToListAsync();
         }
 
-        public async Task<ObservationAnalysisViewModel> GetObservationsAnalysis(string username)
-        {
-            var viewModel = new ObservationAnalysisViewModel();
-            viewModel.TotalObservationsCount = await (from observations in _dbContext.Observations
-                                                 where (observations.ApplicationUser.UserName == username)
-                                                 select observations).CountAsync();
+        // public async Task<ObservationAnalysisViewModel> GetObservationsAnalysis(string username)
+        // {
+        //     var viewModel = new ObservationAnalysisViewModel();
+        //     viewModel.TotalObservationsCount = await (from observations in _dbContext.Observations
+        //                                          where (observations.ApplicationUser.UserName == username)
+        //                                          select observations).CountAsync();
 
-            viewModel.UniqueSpeciesCount = await (from observations in _dbContext.Observations
-                                            where (observations.ApplicationUser.UserName == username)
-                                            select observations.BirdId).Distinct().CountAsync();
-            return viewModel;
-        }
+        //     viewModel.UniqueSpeciesCount = await (from observations in _dbContext.Observations
+        //                                     where (observations.ApplicationUser.UserName == username)
+        //                                     select observations.BirdId).Distinct().CountAsync();
+        //     return viewModel;
+        // }
 
-        public async Task<TopObservationsAnalysisViewModel> gtAsync(string username, DateTime date)
-        {
-            var model = new TopObservationsAnalysisViewModel();
+        // public async Task<TopObservationsAnalysisViewModel> gtAsync(string username, DateTime date)
+        // {
+        //     var model = new TopObservationsAnalysisViewModel();
 
-            model.TopObservations = await (from observations in _dbContext.Observations
-                 .Include(b => b.Bird)
-                 .Where(u => u.ApplicationUser.UserName == username)
-                                     group observations by observations.Bird into species
-                                     orderby species.Count() descending
-                                     select new TopObservationsViewModel
-                                     {
-                                         BirdId = species.FirstOrDefault().Bird.BirdId,
-                                         Name = species.FirstOrDefault().Bird.EnglishName,
-                                         Count = species.Count()
-                                     }).Take(5).ToListAsync();
+        //     model.TopObservations = await (from observations in _dbContext.Observations
+        //          .Include(b => b.Bird)
+        //          .Where(u => u.ApplicationUser.UserName == username)
+        //                              group observations by observations.Bird into species
+        //                              orderby species.Count() descending
+        //                              select new TopObservationsViewModel
+        //                              {
+        //                                  BirdId = species.FirstOrDefault().Bird.BirdId,
+        //                                  Name = species.FirstOrDefault().Bird.EnglishName,
+        //                                  Count = species.Count()
+        //                              }).Take(5).ToListAsync();
 
-            model.TopMonthlyObservations = await (from observations in _dbContext.Observations
-                    .Include(b => b.Bird)
-                                            where (observations.ApplicationUser.UserName == username && (observations.ObservationDateTime >= date))
-                                            group observations by observations.Bird into species
-                                            orderby species.Count() descending
-                                            select new TopObservationsViewModel
-                                            {
-                                                BirdId = species.FirstOrDefault().Bird.BirdId,
-                                                Name = species.FirstOrDefault().Bird.EnglishName,
-                                                Count = species.Count()
-                                            }).Take(5).ToListAsync();
+        //     model.TopMonthlyObservations = await (from observations in _dbContext.Observations
+        //             .Include(b => b.Bird)
+        //                                     where (observations.ApplicationUser.UserName == username && (observations.ObservationDateTime >= date))
+        //                                     group observations by observations.Bird into species
+        //                                     orderby species.Count() descending
+        //                                     select new TopObservationsViewModel
+        //                                     {
+        //                                         BirdId = species.FirstOrDefault().Bird.BirdId,
+        //                                         Name = species.FirstOrDefault().Bird.EnglishName,
+        //                                         Count = species.Count()
+        //                                     }).Take(5).ToListAsync();
 
-            return model;
+        //     return model;
+        // }
 
+        // public IQueryable<TopObservationsViewModel> GetTopObservations(string username)
+        // {
+        //     return (from observations in _dbContext.Observations
+        //          .Include(b => b.Bird)
+        //          .Where(u => u.ApplicationUser.UserName == username)
+        //             group observations by observations.Bird into species
+        //             orderby species.Count() descending
+        //             select new TopObservationsViewModel
+        //             {
+        //                 BirdId = species.FirstOrDefault().Bird.BirdId,
+        //                 Name = species.FirstOrDefault().Bird.EnglishName,
+        //                 Count = species.Count()
+        //             }).Take(5).AsNoTracking();
+        // }
 
-        }
+        // public IQueryable<TopObservationsViewModel> GetTopObservations(string username, DateTime date)
+        // {
+        //     return (from observations in _dbContext.Observations
+        //             .Include(b => b.Bird)
+        //             where (observations.ApplicationUser.UserName == username && (observations.ObservationDateTime >= date))
+        //             group observations by observations.Bird into species
+        //             orderby species.Count() descending
+        //             select new TopObservationsViewModel
+        //             {
+        //                 BirdId = species.FirstOrDefault().Bird.BirdId,
+        //                 Name = species.FirstOrDefault().Bird.EnglishName,
+        //                 Count = species.Count()
+        //             }).Take(5).AsNoTracking();
+        // }
 
-        public IQueryable<TopObservationsViewModel> GetTopObservations(string username)
-        {
-            return (from observations in _dbContext.Observations
-                 .Include(b => b.Bird)
-                 .Where(u => u.ApplicationUser.UserName == username)
-                    group observations by observations.Bird into species
-                    orderby species.Count() descending
-                    select new TopObservationsViewModel
-                    {
-                        BirdId = species.FirstOrDefault().Bird.BirdId,
-                        Name = species.FirstOrDefault().Bird.EnglishName,
-                        Count = species.Count()
-                    }).Take(5).AsNoTracking();
-        }
+        // public IQueryable<SpeciesSummaryViewModel> GetLifeList(string userName)
+        // {
+        //     var lifeList = (from observations in _dbContext.Observations
+        //          .Include(b => b.Bird)
+        //             .ThenInclude(u => u.BirdConservationStatus)
+        //          .Where(u => u.ApplicationUser.UserName == userName)
+        //                     group observations by observations.Bird into species
+        //                     orderby species.Count() descending
+        //                     select new SpeciesSummaryViewModel
+        //                     {
+        //                         BirdId = species.FirstOrDefault().Bird.BirdId,
+        //                         EnglishName = species.FirstOrDefault().Bird.EnglishName,
+        //                         Species = species.FirstOrDefault().Bird.Species,
+        //                         PopulationSize = species.FirstOrDefault().Bird.PopulationSize,
+        //                         BtoStatusInBritain = species.FirstOrDefault().Bird.BtoStatusInBritain,
+        //                         ConservationStatus = species.FirstOrDefault().Bird.BirdConservationStatus.ConservationList,
+        //                         Count = species.Count()
+        //                     });
 
-        public IQueryable<TopObservationsViewModel> GetTopObservations(string username, DateTime date)
-        {
-            return (from observations in _dbContext.Observations
-                    .Include(b => b.Bird)
-                    where (observations.ApplicationUser.UserName == username && (observations.ObservationDateTime >= date))
-                    group observations by observations.Bird into species
-                    orderby species.Count() descending
-                    select new TopObservationsViewModel
-                    {
-                        BirdId = species.FirstOrDefault().Bird.BirdId,
-                        Name = species.FirstOrDefault().Bird.EnglishName,
-                        Count = species.Count()
-                    }).Take(5).AsNoTracking();
-        }
-
-        public IQueryable<SpeciesSummaryViewModel> GetLifeList(string userName)
-        {
-            var lifeList = (from observations in _dbContext.Observations
-                 .Include(b => b.Bird)
-                    .ThenInclude(u => u.BirdConservationStatus)
-                 .Where(u => u.ApplicationUser.UserName == userName)
-                            group observations by observations.Bird into species
-                            orderby species.Count() descending
-                            select new SpeciesSummaryViewModel
-                            {
-                                BirdId = species.FirstOrDefault().Bird.BirdId,
-                                EnglishName = species.FirstOrDefault().Bird.EnglishName,
-                                Species = species.FirstOrDefault().Bird.Species,
-                                PopulationSize = species.FirstOrDefault().Bird.PopulationSize,
-                                BtoStatusInBritain = species.FirstOrDefault().Bird.BtoStatusInBritain,
-                                ConservationStatus = species.FirstOrDefault().Bird.BirdConservationStatus.ConservationList,
-                                Count = species.Count()
-                            });
-
-            return lifeList;
-        }
+        //     return lifeList;
+        // }
     }
 }

@@ -59,7 +59,7 @@ namespace Birder.Controllers
                     return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
                 }
 
-                var observations = await _observationsAnalysisRepository.FindAsync(x => x.ApplicationUser.UserName == username);
+                var observations = await _observationsAnalysisRepository.ObservationsWithBird(x => x.ApplicationUser.UserName == username);
 
                 _cache.Set("Observations", observations, _systemClock.GetEndOfToday);
 
@@ -85,12 +85,14 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                //if (_cache.TryGetValue(nameof(TopObservationsAnalysisViewModel), out TopObservationsAnalysisViewModel topObservationsCache))
-                //{
-                //    return Ok(topObservationsCache);
-                //}
+                if (_cache.TryGetValue("Observations", out IEnumerable<Observation> observationsCache))
+                {
+                   return Ok(_mapper.Map<IEnumerable<Observation>, TopObservationsAnalysisViewModel>(observationsCache, opt => opt.Items["Date"] = _systemClock.GetToday.AddDays(-30)));
+                }
 
                 var observations = await _observationsAnalysisRepository.ObservationsWithBird(a => a.ApplicationUser.UserName == username);
+
+                _cache.Set("Observations", observations, _systemClock.GetEndOfToday);
 
                 var date = _systemClock.GetToday.AddDays(-30);
 
@@ -126,7 +128,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetLifeList")]
-        public IActionResult GetLifeList()
+        public async Task<IActionResult> GetLifeList()
         {
             try
             {
@@ -139,16 +141,33 @@ namespace Birder.Controllers
 
                 // _cache.Remove(nameof(LifeListViewModel));
 
-                if (_cache.TryGetValue(nameof(LifeListViewModel), out LifeListViewModel lifeListCache))
-                {
+                // if (_cache.TryGetValue(nameof(LifeListViewModel), out LifeListViewModel lifeListCache))
+                // {
+                //     return Ok(lifeListCache);
+                // }
 
-                    return Ok(lifeListCache);
-                }
+                var observations = await _observationsAnalysisRepository.ObservationsWithBird(a => a.ApplicationUser.UserName == username);
 
-                var viewModel = new LifeListViewModel()
-                {
-                    LifeList = _observationsAnalysisRepository.GetLifeList(username)
-                };
+                // var viewModel = new List<LifeListViewModel>();
+                // {
+                //     LifeList = _observationsAnalysisRepository.GetLifeList(username)
+                // };
+
+
+                var viewModel = observations
+                    .GroupBy(n => n.Bird)
+                    .Select(n => new LifeListViewModel
+                            {
+                                BirdId = n.Key.BirdId,
+                                EnglishName = n.Key.EnglishName,
+                                Species = n.Key.Species,
+                                PopulationSize = n.Key.PopulationSize,
+                                BtoStatusInBritain = n.Key.BtoStatusInBritain,
+                                ConservationStatus = n.Key.BirdConservationStatus.ConservationList,
+                                Count = n.Count()
+                            }).OrderByDescending(n => n.Count);
+
+
 
                 // var cacheEntryExpiryDate = TimeSpan.FromDays(1);
 

@@ -39,6 +39,9 @@ namespace Birder.Data
                         Count = n.Count()
                     }).OrderByDescending(n => n.Count).Take(5)));
 
+            CreateMap<List<Observation>, List<LifeListViewModel>>();
+              // .ForMember(a => a.
+
 
             CreateMap<ApplicationUser, UserViewModel>()
               .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))

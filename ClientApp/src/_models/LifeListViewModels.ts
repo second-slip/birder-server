@@ -1,8 +1,8 @@
 export interface LifeListViewModel {
-    lifeList: SpeciesSummaryViewModel[];
-}
+//     lifeList: SpeciesSummaryViewModel[];
+// }
 
-export interface SpeciesSummaryViewModel {
+// export interface SpeciesSummaryViewModel {
     birdId: number;
     englishName: string;
     species: string;

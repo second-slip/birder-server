@@ -11,7 +11,7 @@ import { ObservationAnalysisViewModel } from '../../_models/ObservationAnalysisV
   encapsulation: ViewEncapsulation.None
 })
 export class LifeListComponent implements OnInit {
-  lifeList: LifeListViewModel;
+  lifeList: LifeListViewModel[];
   analysis: ObservationAnalysisViewModel;
 
   constructor(private observationsAnalysisService: ObservationsAnalysisService) { }
@@ -24,7 +24,7 @@ export class LifeListComponent implements OnInit {
   getLifeList(): void {
     this.observationsAnalysisService.getLifeList()
       .subscribe(
-        (data: LifeListViewModel) => {
+        (data: LifeListViewModel[]) => {
           this.lifeList = data;
         },
         (error: ErrorReportViewModel) => {
