@@ -42,8 +42,6 @@ namespace Birder.Controllers
         {
             try
             {
-                
-
                 var username = User.Identity.Name;
 
                 if (username == null)
@@ -51,22 +49,24 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                if (_cache.TryGetValue(nameof(ObservationAnalysisViewModel), out ObservationAnalysisViewModel observationAnalysisCache))
-                {
-                    return Ok(observationAnalysisCache);
-                }
+                // ToDo: Mapping logic. IEnumerable<Observations> => ObservationAnalysisViewModel
+
+                // if (_cache.TryGetValue(nameof(ObservationAnalysisViewModel), out ObservationAnalysisViewModel observationAnalysisCache))
+                // {
+                //     return Ok(observationAnalysisCache);
+                // }
 
                 var observations = await _observationsAnalysisRepository.FindAsync(x => x.ApplicationUser.UserName == username);
 
-                var newApproach = new ObservationAnalysisViewModel();
-                newApproach.TotalObservationsCount = observations.Count();
-                newApproach.UniqueSpeciesCount = observations.Select(i => i.BirdId).Distinct().Count();
+                var viewModel = new ObservationAnalysisViewModel();
+                viewModel.TotalObservationsCount = observations.Count();
+                viewModel.UniqueSpeciesCount = observations.Select(i => i.BirdId).Distinct().Count();
 
-                var viewModel = await _observationsAnalysisRepository.GetObservationsAnalysis(username);
+                // var viewModel = await _observationsAnalysisRepository.GetObservationsAnalysis(username);
 
-                var cacheEntryExpiryDate = TimeSpan.FromDays(1);
+                // var cacheEntryExpiryDate = TimeSpan.FromDays(1);
 
-                _cache.Set(nameof(ObservationAnalysisViewModel), viewModel, cacheEntryExpiryDate);
+                // _cache.Set(nameof(ObservationAnalysisViewModel), viewModel, cacheEntryExpiryDate);
 
                 return Ok(viewModel);
             }
