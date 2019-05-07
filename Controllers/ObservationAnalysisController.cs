@@ -41,6 +41,8 @@ namespace Birder.Controllers
         {
             try
             {
+                
+
                 var username = User.Identity.Name;
 
                 if (username == null)
@@ -52,6 +54,8 @@ namespace Birder.Controllers
                 {
                     return Ok(observationAnalysisCache);
                 }
+
+                var test = _observationsAnalysisRepository.FindAsync(x => x.ApplicationUser.UserName == username);
 
                 var viewModel = await _observationsAnalysisRepository.GetObservationsAnalysis(username);
 

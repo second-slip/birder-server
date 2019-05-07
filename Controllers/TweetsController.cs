@@ -48,8 +48,6 @@ namespace Birder.Controllers
                     return Ok(tweetDayCache);
                 }
 
-                var tweetTest = await _tweetDayRepository.SingleOrDefaultAsync(date => date.DisplayDay == _systemClock.GetToday);
-
                 var tweet = await _tweetDayRepository.GetTweetOfTheDayAsync(_systemClock.GetToday);
 
                 if (tweet == null)

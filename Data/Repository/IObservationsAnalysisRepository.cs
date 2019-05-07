@@ -1,11 +1,12 @@
-﻿using Birder.ViewModels;
+﻿using Birder.Data.Model;
+using Birder.ViewModels;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
-    public interface IObservationsAnalysisRepository
+    public interface IObservationsAnalysisRepository : IRepository<Observation>
     {
         Task<ObservationAnalysisViewModel> GetObservationsAnalysis(string username);
         IQueryable<TopObservationsViewModel> GetTopObservations(string username);

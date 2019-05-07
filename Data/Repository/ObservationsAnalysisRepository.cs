@@ -1,4 +1,5 @@
-﻿using Birder.ViewModels;
+﻿using Birder.Data.Model;
+using Birder.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
-    public class ObservationsAnalysisRepository : IObservationsAnalysisRepository
+    public class ObservationsAnalysisRepository : Repository<Observation>, IObservationsAnalysisRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        //private readonly ApplicationDbContext _dbContext;
 
-        public ObservationsAnalysisRepository(ApplicationDbContext dbContext)
+        public ObservationsAnalysisRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
-            _dbContext = dbContext;
+            //_dbContext = dbContext;
         }
 
         public async Task<ObservationAnalysisViewModel> GetObservationsAnalysis(string username)
