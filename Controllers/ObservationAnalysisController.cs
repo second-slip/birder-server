@@ -54,27 +54,16 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                // ToDo: Mapping logic. IEnumerable<Observations> => ObservationAnalysisViewModel
-
                 if (_cache.TryGetValue("Observations",  out IEnumerable<Observation> observationsCache))
                 {
                     return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
                 }
 
                 var observations = await _observationsAnalysisRepository.FindAsync(x => x.ApplicationUser.UserName == username);
-                // var viewModel = new ObservationAnalysisViewModel();
+
+                _cache.Set("Observations", observations, _systemClock.GetEndOfToday);
+
                 var viewModel = _mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observations);
-
-
-                //var viewModel = new ObservationAnalysisViewModel();
-                //viewModel.TotalObservationsCount = observations.Count();
-                //viewModel.UniqueSpeciesCount = observations.Select(i => i.BirdId).Distinct().Count();
-
-                // var viewModel = await _observationsAnalysisRepository.GetObservationsAnalysis(username);
-
-                 var cacheEntryExpiryDate = TimeSpan.FromDays(1);
-
-                 _cache.Set("Observations", viewModel, cacheEntryExpiryDate);
 
                 return Ok(viewModel);
             }
