@@ -94,7 +94,7 @@ namespace Birder.Controllers
 
                 var date = _systemClock.GetToday.AddDays(-30);
 
-                var viewModel = _mapper.Map<IEnumerable<Observation>, TopObservationsAnalysisViewModel>(observations); //, opt => opt.Items["Foo"] = date);
+                var viewModel = _mapper.Map<IEnumerable<Observation>, TopObservationsAnalysisViewModel>(observations, opt => opt.Items["Date"] = date);
 
                 // var viewModel = new TopObservationsAnalysisViewModel();
 
