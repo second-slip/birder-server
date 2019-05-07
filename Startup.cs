@@ -74,13 +74,12 @@ namespace Birder
                 cfg.AddProfile<BirderMappingProfile>();
             });
 
-            //services.AddTransient<IRepository, Repository>();
             //services.AddSignInManager<SignInManager<IdentityUser>>();
             services.AddTransient<IBirdRepository, BirdRepository>();
             services.AddTransient<IObservationRepository, ObservationRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddScoped<IObservationsAnalysisRepository, ObservationsAnalysisRepository>();
-            //services.AddTransient<ITweetDayRepository, TweetDayRepository>();
+            services.AddTransient<ITweetDayRepository, TweetDayRepository>();
 
             services.AddSingleton<ISystemClock, SystemClock>();
 
