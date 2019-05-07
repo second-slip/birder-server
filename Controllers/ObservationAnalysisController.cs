@@ -85,6 +85,8 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
+                var observations = await _observationsAnalysisRepository.FindAsync(x => x.ApplicationUser.UserName == username);
+
                 if (_cache.TryGetValue(nameof(TopObservationsAnalysisViewModel), out TopObservationsAnalysisViewModel topObservationsCache))
                 {
                     return Ok(topObservationsCache);

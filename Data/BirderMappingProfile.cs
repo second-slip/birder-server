@@ -18,11 +18,10 @@ namespace Birder.Data
               .ForMember(d => d.Bird, m => m.MapFrom(d => d.Bird))
               .ReverseMap();
 
-
-
             CreateMap<List<Observation>, ObservationAnalysisViewModel>()
                 .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count()))
                 .ForMember(a => a.UniqueSpeciesCount, b => b.MapFrom(a => a.Select(i => i.BirdId).Distinct().Count()));
+
 
 
             CreateMap<ApplicationUser, UserViewModel>()
@@ -36,13 +35,13 @@ namespace Birder.Data
               .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
               .ReverseMap();
 
-             CreateMap<ApplicationUser, Network>()
-             .ReverseMap();
+            CreateMap<ApplicationUser, Network>()
+            .ReverseMap();
 
-             CreateMap<Network, FollowingViewModel>()
-             .ForMember(x => x.UserName, y => y.MapFrom(x => x.ApplicationUser.UserName))
-             .ForMember(x => x.ProfileImage, y => y.MapFrom(x => x.ApplicationUser.ProfileImage))
-             .ReverseMap();
+            CreateMap<Network, FollowingViewModel>()
+            .ForMember(x => x.UserName, y => y.MapFrom(x => x.ApplicationUser.UserName))
+            .ForMember(x => x.ProfileImage, y => y.MapFrom(x => x.ApplicationUser.ProfileImage))
+            .ReverseMap();
 
             CreateMap<Network, FollowerViewModel>()
             .ForMember(x => x.UserName, y => y.MapFrom(x => x.Follower.UserName))
