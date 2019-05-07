@@ -80,7 +80,7 @@ namespace Birder
             services.AddTransient<IObservationRepository, ObservationRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddScoped<IObservationsAnalysisRepository, ObservationsAnalysisRepository>();
-            services.AddTransient<ITweetDayRepository, TweetDayRepository>();
+            //services.AddTransient<ITweetDayRepository, TweetDayRepository>();
 
             services.AddSingleton<ISystemClock, SystemClock>();
 
