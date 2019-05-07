@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
@@ -15,6 +16,11 @@ namespace Birder.Data.Repository
         public ObservationsAnalysisRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
             //_dbContext = dbContext;
+        }
+
+        public async Task<IEnumerable<Observation>> ObservationsWithBird(Expression<Func<Observation, bool>> predicate)
+        {
+            return await _dbContext.Observations.Include(y => y.Bird).Where(predicate).ToListAsync();
         }
 
         public async Task<ObservationAnalysisViewModel> GetObservationsAnalysis(string username)

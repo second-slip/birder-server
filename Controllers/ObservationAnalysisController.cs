@@ -85,14 +85,12 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                var observations = await _observationsAnalysisRepository.FindAsync(x => x.ApplicationUser.UserName == username);
+                //if (_cache.TryGetValue(nameof(TopObservationsAnalysisViewModel), out TopObservationsAnalysisViewModel topObservationsCache))
+                //{
+                //    return Ok(topObservationsCache);
+                //}
 
-                if (_cache.TryGetValue(nameof(TopObservationsAnalysisViewModel), out TopObservationsAnalysisViewModel topObservationsCache))
-                {
-                    return Ok(topObservationsCache);
-                }
-
-                var viewModel = await _observationsAnalysisRepository.gtAsync(username, _systemClock.GetToday.AddDays(-30));
+                //var viewModel = await _observationsAnalysisRepository.gtAsync(username, _systemClock.GetToday.AddDays(-30));
                 //viewModel.TopObservations = _observationsAnalysisRepository.GetTopObservations(username);
 
                 // var viewModel = new TopObservationsAnalysisViewModel
@@ -100,10 +98,46 @@ namespace Birder.Controllers
                 //     TopObservations = _observationsAnalysisRepository.GetTopObservations(username),
                 //     TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.GetToday.AddDays(-30))
                 // };
+                var observations = await _observationsAnalysisRepository.ObservationsWithBird(a => a.ApplicationUser.UserName == username);
 
-                var cacheEntryExpiryDate = TimeSpan.FromDays(1);
+                var viewModel = new TopObservationsAnalysisViewModel();
+                //viewModel.TopObservations = observations.GroupBy(o => o.Bird).Take(5); //.ToListAsync();
 
-                _cache.Set(nameof(TopObservationsAnalysisViewModel), viewModel, cacheEntryExpiryDate);
+
+                var groups = observations
+            .GroupBy(n => n.Bird)
+            .Select(n => new
+            {
+                MetricName = n.Key,
+                MetricCount = n.Count()
+            }
+            ).OrderBy(n => n.MetricCount);
+                //    .Select(new TopObservationsViewModel
+                //{
+                //    BirdId = observations.B species.FirstOrDefault().Bird.BirdId,
+                //    Name = species.FirstOrDefault().Bird.EnglishName,
+                //    Count = species.Count()
+                //})
+                //.Take(5).ToListAsync();
+
+                //group observations by observations.Bird into species
+                //orderby species.Count     
+                //               await (from observations in _dbContext.Observations
+                //.Include(b => b.Bird)
+                //.Where(u => u.ApplicationUser.UserName == username)() descending
+                //Select new TopObservationsViewModel
+                //                               {
+                //                                   BirdId = species.FirstOrDefault().Bird.BirdId,
+                //                                   Name = species.FirstOrDefault().Bird.EnglishName,
+                //                                   Count = species.Count()
+                //                               }).Take(5).ToListAsync();
+
+
+
+
+                //var cacheEntryExpiryDate = TimeSpan.FromDays(1);
+
+                //_cache.Set(nameof(TopObservationsAnalysisViewModel), viewModel, cacheEntryExpiryDate);
 
                 return Ok(viewModel);
             }
