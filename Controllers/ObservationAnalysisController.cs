@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Birder.Controllers
 {
@@ -55,7 +56,11 @@ namespace Birder.Controllers
                     return Ok(observationAnalysisCache);
                 }
 
-                var test = _observationsAnalysisRepository.FindAsync(x => x.ApplicationUser.UserName == username);
+                var observations = await _observationsAnalysisRepository.FindAsync(x => x.ApplicationUser.UserName == username);
+
+                var newApproach = new ObservationAnalysisViewModel();
+                newApproach.TotalObservationsCount = observations.Count();
+                newApproach.UniqueSpeciesCount = observations.Select(i => i.BirdId).Distinct().Count();
 
                 var viewModel = await _observationsAnalysisRepository.GetObservationsAnalysis(username);
 
