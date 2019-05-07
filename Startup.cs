@@ -75,11 +75,13 @@ namespace Birder
             });
 
             //services.AddSignInManager<SignInManager<IdentityUser>>();
-            services.AddTransient<IBirdRepository, BirdRepository>();
-            services.AddTransient<IObservationRepository, ObservationRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IBirdRepository, BirdRepository>();
+            services.AddScoped<IObservationRepository, ObservationRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IObservationsAnalysisRepository, ObservationsAnalysisRepository>();
-            services.AddTransient<ITweetDayRepository, TweetDayRepository>();
+            services.AddScoped<ITweetDayRepository, TweetDayRepository>();
 
             services.AddSingleton<ISystemClock, SystemClock>();
 

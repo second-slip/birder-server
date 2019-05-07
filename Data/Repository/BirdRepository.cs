@@ -52,6 +52,7 @@ namespace Birder.Data.Repository
                 .ToListAsync();
         }
 
+        //ToDo: This belongs to the observations repo
         public IQueryable<Observation> GetBirdObservations(int birdId)
         {
             return _dbContext.Observations

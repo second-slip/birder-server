@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+
 
 namespace Birder.Data.Repository
 {
@@ -12,7 +15,7 @@ namespace Birder.Data.Repository
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
 
         // This method was not in the videos, but I thought it would be useful to add.
-        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
 
         void Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);
@@ -24,7 +27,7 @@ namespace Birder.Data.Repository
 
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        //protected readonly DbContext Context;
+        //private readonly DbContext Context;
 
         //public Repository(DbContext context)
         //{
@@ -67,10 +70,10 @@ namespace Birder.Data.Repository
             return _dbContext.Set<TEntity>().Where(predicate);
         }
 
-        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
             //return Context.Set<TEntity>().SingleOrDefault(predicate);
-            return _dbContext.Set<TEntity>().SingleOrDefault(predicate);
+            return await _dbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
 
         public void Add(TEntity entity)

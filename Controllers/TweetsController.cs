@@ -48,6 +48,8 @@ namespace Birder.Controllers
                     return Ok(tweetDayCache);
                 }
 
+                var tweetsTest = _tweetDayRepository.GetAll();
+
                 var tweet = await _tweetDayRepository.GetTweetOfTheDayAsync(_systemClock.GetToday);
 
                 if (tweet == null)
@@ -55,8 +57,6 @@ namespace Birder.Controllers
                     _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting tweet with date: {Date}", _systemClock.GetToday);
                     return BadRequest();
                 }
-
-                var test = _tweetDayRepository.GetAll();
 
                 var viewModel = _mapper.Map<TweetDay, TweetDayViewModel>(tweet);
 
