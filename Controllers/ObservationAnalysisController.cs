@@ -56,14 +56,15 @@ namespace Birder.Controllers
 
                 // ToDo: Mapping logic. IEnumerable<Observations> => ObservationAnalysisViewModel
 
-                // if (_cache.TryGetValue(nameof(ObservationAnalysisViewModel), out ObservationAnalysisViewModel observationAnalysisCache))
-                // {
-                //     return Ok(observationAnalysisCache);
-                // }
+                if (_cache.TryGetValue("Observations",  out IEnumerable<Observation> observationsCache))
+                {
+                    return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
+                }
 
                 var observations = await _observationsAnalysisRepository.FindAsync(x => x.ApplicationUser.UserName == username);
-                var viewModel = new ObservationAnalysisViewModel();
-                var mapTest = _mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observations);
+                // var viewModel = new ObservationAnalysisViewModel();
+                var viewModel = _mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observations);
+
 
                 //var viewModel = new ObservationAnalysisViewModel();
                 //viewModel.TotalObservationsCount = observations.Count();
@@ -71,9 +72,9 @@ namespace Birder.Controllers
 
                 // var viewModel = await _observationsAnalysisRepository.GetObservationsAnalysis(username);
 
-                // var cacheEntryExpiryDate = TimeSpan.FromDays(1);
+                 var cacheEntryExpiryDate = TimeSpan.FromDays(1);
 
-                // _cache.Set(nameof(ObservationAnalysisViewModel), viewModel, cacheEntryExpiryDate);
+                 _cache.Set("Observations", viewModel, cacheEntryExpiryDate);
 
                 return Ok(viewModel);
             }
