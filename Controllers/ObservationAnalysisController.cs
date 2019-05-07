@@ -58,6 +58,8 @@ namespace Birder.Controllers
 
                 var observations = await _observationsAnalysisRepository.FindAsync(x => x.ApplicationUser.UserName == username);
 
+                
+
                 var viewModel = new ObservationAnalysisViewModel();
                 viewModel.TotalObservationsCount = observations.Count();
                 viewModel.UniqueSpeciesCount = observations.Select(i => i.BirdId).Distinct().Count();
