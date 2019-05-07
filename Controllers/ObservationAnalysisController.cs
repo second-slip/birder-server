@@ -54,7 +54,7 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                if (_cache.TryGetValue("Observations",  out IEnumerable<Observation> observationsCache))
+                if (_cache.TryGetValue("Observations", out IEnumerable<Observation> observationsCache))
                 {
                     return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
                 }
@@ -90,56 +90,34 @@ namespace Birder.Controllers
                 //    return Ok(topObservationsCache);
                 //}
 
-                //var viewModel = await _observationsAnalysisRepository.gtAsync(username, _systemClock.GetToday.AddDays(-30));
-                //viewModel.TopObservations = _observationsAnalysisRepository.GetTopObservations(username);
-
-                // var viewModel = new TopObservationsAnalysisViewModel
-                // {
-                //     TopObservations = _observationsAnalysisRepository.GetTopObservations(username),
-                //     TopMonthlyObservations = _observationsAnalysisRepository.GetTopObservations(username, _systemClock.GetToday.AddDays(-30))
-                // };
                 var observations = await _observationsAnalysisRepository.ObservationsWithBird(a => a.ApplicationUser.UserName == username);
 
-                var viewModel = new TopObservationsAnalysisViewModel();
-                //viewModel.TopObservations = observations.GroupBy(o => o.Bird).Take(5); //.ToListAsync();
+                var date = _systemClock.GetToday.AddDays(-30);
 
+                var viewModel = _mapper.Map<IEnumerable<Observation>, TopObservationsAnalysisViewModel>(observations); //, opt => opt.Items["Foo"] = date);
 
-                var groups = observations
-            .GroupBy(n => n.Bird)
-            .Select(n => new
-            {
-                MetricName = n.Key,
-                MetricCount = n.Count()
-            }
-            ).OrderBy(n => n.MetricCount);
-                //    .Select(new TopObservationsViewModel
-                //{
-                //    BirdId = observations.B species.FirstOrDefault().Bird.BirdId,
-                //    Name = species.FirstOrDefault().Bird.EnglishName,
-                //    Count = species.Count()
-                //})
-                //.Take(5).ToListAsync();
+                // var viewModel = new TopObservationsAnalysisViewModel();
 
-                //group observations by observations.Bird into species
-                //orderby species.Count     
-                //               await (from observations in _dbContext.Observations
-                //.Include(b => b.Bird)
-                //.Where(u => u.ApplicationUser.UserName == username)() descending
-                //Select new TopObservationsViewModel
-                //                               {
-                //                                   BirdId = species.FirstOrDefault().Bird.BirdId,
-                //                                   Name = species.FirstOrDefault().Bird.EnglishName,
-                //                                   Count = species.Count()
-                //                               }).Take(5).ToListAsync();
+                // viewModel.TopObservations = observations
+                //     .GroupBy(n => n.Bird)
+                //     .Select(n => new TopObservationsViewModel
+                //     {
+                //         BirdId = n.Key.BirdId,
+                //         Name = n.Key.EnglishName,
+                //         Count = n.Count()
+                //     }).OrderByDescending(n => n.Count).Take(5);
 
+                // viewModel.TopMonthlyObservations = observations
+                //     .Where(o => o.ObservationDateTime >= date)
+                //     .GroupBy(n => n.Bird)
+                //     .Select(n => new TopObservationsViewModel
+                //     {
+                //         BirdId = n.Key.BirdId,
+                //         Name = n.Key.EnglishName,
+                //         Count = n.Count()
+                //     }).OrderByDescending(n => n.Count).Take(5);
 
-
-
-                //var cacheEntryExpiryDate = TimeSpan.FromDays(1);
-
-                //_cache.Set(nameof(TopObservationsAnalysisViewModel), viewModel, cacheEntryExpiryDate);
-
-                return Ok(viewModel);
+               return Ok(viewModel);
             }
             catch (Exception ex)
             {

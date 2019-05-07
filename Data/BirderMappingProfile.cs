@@ -22,6 +22,21 @@ namespace Birder.Data
                 .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count()))
                 .ForMember(a => a.UniqueSpeciesCount, b => b.MapFrom(a => a.Select(i => i.BirdId).Distinct().Count()));
 
+            CreateMap<List<Observation>, TopObservationsAnalysisViewModel>()
+                 .ForMember(a => a.TopObservations, opt => opt.MapFrom(a => a.GroupBy(n => n.Bird)
+                    .Select(n => new TopObservationsViewModel
+                    {
+                        BirdId = n.Key.BirdId,
+                        Name = n.Key.EnglishName,
+                        Count = n.Count()
+                    }).OrderByDescending(n => n.Count).Take(5)))
+                .ForMember(a => a.TopMonthlyObservations, b => b.MapFrom(a => a.GroupBy(n => n.Bird)
+                    .Select(n => new TopObservationsViewModel
+                    {
+                        BirdId = n.Key.BirdId,
+                        Name = n.Key.EnglishName,
+                        Count = n.Count()
+                    }).OrderByDescending(n => n.Count).Take(5)));
 
 
             CreateMap<ApplicationUser, UserViewModel>()
