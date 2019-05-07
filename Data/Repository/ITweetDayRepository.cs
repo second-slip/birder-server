@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
-    public interface ITweetDayRepository
+    public interface ITweetDayRepository: IRepository<TweetDay>
     {
         Task<TweetDay> GetTweetOfTheDayAsync(DateTime date);
     }

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
-    public class TweetDayRepository: ITweetDayRepository
+    public class TweetDayRepository: Repository<TweetDay>, ITweetDayRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        //private readonly ApplicationDbContext _dbContext;
 
-        public TweetDayRepository(ApplicationDbContext dbContext)
+        public TweetDayRepository(ApplicationDbContext dbContext): base(dbContext)
         {
-            _dbContext = dbContext;
+            //_dbContext = dbContext;
         }
 
         public async Task<TweetDay> GetTweetOfTheDayAsync(DateTime date)
@@ -29,6 +29,11 @@ namespace Birder.Data.Repository
                                select td).FirstOrDefaultAsync();
             }
             return tweet;
+        }
+
+        public ApplicationDbContext ApplicationDbContext
+        {
+            get { return _dbContext as ApplicationDbContext; }
         }
     }
 }

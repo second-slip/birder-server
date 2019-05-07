@@ -56,6 +56,8 @@ namespace Birder.Controllers
                     return BadRequest();
                 }
 
+                var test = _tweetDayRepository.GetAll();
+
                 var viewModel = _mapper.Map<TweetDay, TweetDayViewModel>(tweet);
 
                 var cacheEntryExpiryDate = _systemClock.GetEndOfToday;
