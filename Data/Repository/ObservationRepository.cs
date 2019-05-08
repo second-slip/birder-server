@@ -22,33 +22,28 @@ namespace Birder.Data.Repository
             return await _dbContext.Observations.Include(y => y.Bird).ThenInclude(u => u.BirdConservationStatus).Where(predicate).ToListAsync();
         }
 
-        public IQueryable<Observation> GetUsersObservationsList(string username)
+        public async Task<IEnumerable<Observation>> GetUsersObservationsList(string username)
         {
-            var observations = _dbContext.Observations
+            return await _dbContext.Observations
                 .Where(o => o.ApplicationUser.UserName == username)
                     .Include(au => au.ApplicationUser)
                     .Include(b => b.Bird)
-                    //.Include(ot => ot.ObservationTags)
-                    //    .ThenInclude(t => t.Tag)
                     .OrderByDescending(d => d.ObservationDateTime)
-                    .AsNoTracking();
-            return observations;
+                    .AsNoTracking()
+                    .ToListAsync();
         }
 
-        public IQueryable<Observation> GetPublicObservationsList()
+        public async Task<IEnumerable<Observation>> GetPublicObservationsList()
         {
-            var observations = _dbContext.Observations
+             return await _dbContext.Observations
                     .Include(au => au.ApplicationUser)
                     .Include(b => b.Bird)
-                    //.Include(ot => ot.ObservationTags)
-                    //    .ThenInclude(t => t.Tag)
                     .OrderByDescending(d => d.ObservationDateTime)
-                    .AsNoTracking();
-                    //.Take(100);
-            return observations;
+                    .AsNoTracking()
+                    .ToListAsync();
         }
 
-        public IQueryable<Observation> GetUsersNetworkObservationsList(string userId)
+        public async Task<IEnumerable<Observation>> GetUsersNetworkObservationsList(string userId)
         {
             var loggedinUser = _dbContext.Users
                 //.Include(x => x.Followers)
@@ -74,7 +69,7 @@ namespace Birder.Data.Repository
                         .ThenInclude(t => t.Tag)
                             .OrderByDescending(d => d.ObservationDateTime)
                                 .AsNoTracking();
-            return observations;
+            return await observations.ToListAsync();
         }
 
         public async Task<Observation> GetObservation(int? id)

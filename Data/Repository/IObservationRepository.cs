@@ -9,13 +9,12 @@ namespace Birder.Data.Repository
 {
     public interface IObservationRepository : IRepository<Observation>
     {
-        // ToDo: - remove IQueryable returns
         // ToDo: - remove Update/Add/Delete methods; use generic ones instead
 
         Task<IEnumerable<Observation>> ObservationsWithBird(Expression<Func<Observation, bool>> predicate);
-        IQueryable<Observation> GetUsersObservationsList(string userId);
-        IQueryable<Observation> GetUsersNetworkObservationsList(string userId);
-        IQueryable<Observation> GetPublicObservationsList();
+        Task<IEnumerable<Observation>> GetUsersObservationsList(string userId);
+        Task<IEnumerable<Observation>> GetUsersNetworkObservationsList(string userId);
+        Task<IEnumerable<Observation>> GetPublicObservationsList();
 
         Task<Observation> GetObservation(int? id);
         Task<Observation> GetObservationDetail(int? id);
@@ -23,8 +22,5 @@ namespace Birder.Data.Repository
         Task<Observation> UpdateObservation(Observation observation);
         Task<bool> ObservationExists(int id);
         Task<Observation> DeleteObservation(Observation observation);
-        //IQueryable<SpeciesSummaryViewModel> GetLifeList(string userId);
-        //Task<int> TotalObservationsCount(ApplicationUser user);
-        //Task<int> UniqueSpeciesCount(ApplicationUser user);
     }
 }
