@@ -23,25 +23,6 @@ namespace Birder.Data.Repository
             //return await _dbContext.Birds.SingleOrDefaultAsync(m => m.BirdId == id);
         }
 
-        //public IQueryable<Bird> GetBirdSummaryList(BirderStatus birderStatusFilter)
-        //{
-        //    if (birderStatusFilter == BirderStatus.Common)
-        //    {
-        //        return _dbContext.Birds
-        //                        .Include(cs => cs.BirdConservationStatus)
-        //                        .Where(f => f.BirderStatus == birderStatusFilter)
-        //                        .OrderBy(a => a.EnglishName)
-        //                        .AsNoTracking();
-        //    }
-        //    else
-        //    {
-        //        return _dbContext.Birds
-        //                        .Include(cs => cs.BirdConservationStatus)
-        //                        .OrderBy(ob => ob.BirderStatus)
-        //                        .ThenBy(a => a.EnglishName)
-        //                        .AsNoTracking();
-        //    }
-        //}
         public async Task<IEnumerable<Bird>> GetBirdSummaryListAsync()
         {
             return await _dbContext.Birds
@@ -50,17 +31,6 @@ namespace Birder.Data.Repository
                 .ThenBy(a => a.EnglishName)
                 .AsNoTracking()
                 .ToListAsync();
-        }
-
-        //ToDo: This belongs to the observations repo
-        public IQueryable<Observation> GetBirdObservations(int birdId)
-        {
-            return _dbContext.Observations
-                .Include(cs => cs.Bird)
-                .Include(au => au.ApplicationUser)
-                .Where(cs => cs.BirdId == birdId)
-                .OrderByDescending(d => d.ObservationDateTime)
-                .AsNoTracking();
         }
     }
 }

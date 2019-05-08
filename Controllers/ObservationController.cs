@@ -94,7 +94,30 @@ namespace Birder.Controllers
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Observation with id: {ID} was not found.", id);
                 return BadRequest("Observation was not found.");
             }
+        }
 
+        [HttpGet, Route("GetBirdObservations")]
+        public async Task<IActionResult> GetBirdObservationsAsync(int birdId)
+        {
+            try
+            {
+                var observations = await _observationRepository.GetBirdObservations(birdId);
+
+                if (observations == null)
+                {
+                    _logger.LogWarning(LoggingEvents.GetListNotFound, "GetBirdObservations({ID}) NOT FOUND", birdId);
+                    return NotFound();
+                }
+
+                var viewModel = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations);
+
+                return Ok(viewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the bird observations list");
+                return BadRequest();
+            }
         }
 
         [HttpPost, Route("PostObservation")]

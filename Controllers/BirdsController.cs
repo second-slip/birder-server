@@ -111,29 +111,5 @@ namespace Birder.Controllers
                 return BadRequest();
             }
         }
-
-        [HttpGet, Route("GetObservations")]
-        public IActionResult GetBirdObservations(int birdId)
-        {
-            try
-            {
-                var observations = _birdRepository.GetBirdObservations(birdId);
-
-                if (observations == null)
-                {
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, "GetBirdObservations({ID}) NOT FOUND", birdId);
-                    return NotFound();
-                }
-
-                var viewModel = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations);
-
-                return Ok(viewModel);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the bird observations list");
-                return BadRequest();
-            }
-        }
     }
 }

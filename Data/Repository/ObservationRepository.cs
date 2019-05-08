@@ -17,6 +17,17 @@ namespace Birder.Data.Repository
             //_dbContext = dbContext;
         }
 
+        public async Task<IEnumerable<Observation>> GetBirdObservations(int birdId)
+        {
+            return await _dbContext.Observations
+                .Include(cs => cs.Bird)
+                .Include(au => au.ApplicationUser)
+                .Where(cs => cs.BirdId == birdId)
+                .OrderByDescending(d => d.ObservationDateTime)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Observation>> ObservationsWithBird(Expression<Func<Observation, bool>> predicate)
         {
             return await _dbContext.Observations.Include(y => y.Bird).ThenInclude(u => u.BirdConservationStatus).Where(predicate).ToListAsync();
