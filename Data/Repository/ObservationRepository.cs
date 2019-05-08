@@ -83,7 +83,7 @@ namespace Birder.Data.Repository
             return await observations.ToListAsync();
         }
 
-        public async Task<Observation> GetObservation(int? id)
+        public async Task<Observation> GetObservation(int? id, bool includeRelated = true)
         {
             return await _dbContext.Observations
                             .Include(au => au.ApplicationUser)
@@ -99,14 +99,6 @@ namespace Birder.Data.Repository
                     .ThenInclude(t => t.Tag)
                         .SingleOrDefaultAsync(m => m.ObservationId == id);
         }
-
-        //public async Task<Observation> UpdateObservation(Observation observation)
-        //{
-        //    _dbContext.Entry(observation).State = EntityState.Modified;
-        //    _dbContext.Observations.Update(observation);
-        //    await _dbContext.SaveChangesAsync();
-        //    return(observation);
-        //}
 
         public async Task<bool> ObservationExists(int id)
         {

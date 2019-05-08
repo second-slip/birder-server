@@ -185,9 +185,10 @@ namespace Birder.Controllers
                         return BadRequest("An error occurred.  You can only edit your own observations.");
                     }
 
-                    //var observedBird = await _birdRepository.GetBird(model.BirdId);
-
-                    observation.Bird = await _birdRepository.GetBird(model.BirdId);
+                    if (observation.BirdId != model.BirdId) // only reset Bird if it is changed
+                    {
+                        observation.Bird = await _birdRepository.GetBird(model.BirdId);
+                    }
 
                     observation.LocationLatitude = model.LocationLatitude;
                     observation.LocationLongitude = model.LocationLongitude;

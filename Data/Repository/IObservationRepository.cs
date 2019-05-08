@@ -15,12 +15,8 @@ namespace Birder.Data.Repository
         Task<IEnumerable<Observation>> GetUsersObservationsList(string userId);
         Task<IEnumerable<Observation>> GetUsersNetworkObservationsList(string userId);
         Task<IEnumerable<Observation>> GetPublicObservationsList();
-
-        Task<Observation> GetObservation(int? id);
+        Task<Observation> GetObservation(int? id, bool includeRelated = true);
         Task<Observation> GetObservationDetail(int? id);
-        // Task<Observation> AddObservation(Observation observation);
-        //Task<Observation> UpdateObservation(Observation observation);
         Task<bool> ObservationExists(int id);
-        //Task<Observation> DeleteObservation(Observation observation);
     }
 }
