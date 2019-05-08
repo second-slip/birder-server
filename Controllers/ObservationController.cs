@@ -125,7 +125,7 @@ namespace Birder.Controllers
                         return BadRequest(ModelState);
                     }
 
-                    _cache.Remove("Observations");
+                    _cache.Remove(CacheEntries.ObservationsList);
 
                     var viewModel = _mapper.Map<Observation, ObservationViewModel>(newObservation);
 
@@ -205,7 +205,7 @@ namespace Birder.Controllers
                         }
                     }
 
-                    _cache.Remove("Observations");
+                    _cache.Remove(CacheEntries.ObservationsList);
 
                     var editedObservation = _mapper.Map<Observation, ObservationViewModel>(observation);
 
@@ -236,7 +236,7 @@ namespace Birder.Controllers
                 return BadRequest();
             }
 
-            _cache.Remove("Observations");
+            _cache.Remove(CacheEntries.ObservationsList);
 
             return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
         }
