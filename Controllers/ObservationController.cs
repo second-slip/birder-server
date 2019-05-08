@@ -174,6 +174,8 @@ namespace Birder.Controllers
                     var username = User.Identity.Name;
                     //var user = await _userManager.FindByNameAsync(username);
 
+                    var obsTest = await _observationRepository.GetAsync(id);
+
                     var observation = await _observationRepository.GetObservation(id);
                     if (observation == null)
                     {
