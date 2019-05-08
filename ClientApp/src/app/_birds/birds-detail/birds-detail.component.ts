@@ -16,7 +16,8 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 export class BirdsDetailComponent {
   bird: BirdDetailViewModel;
   // observations: ObservationViewModel[];
-  executed: boolean;
+  expanded: boolean;
+  // executed: boolean;
   displayedColumns: string[] = ['quantity', 'bird', 'user', 'date'];
   dataSource: MatTableDataSource<ObservationViewModel>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -29,18 +30,19 @@ export class BirdsDetailComponent {
     route.params.subscribe(_ => {
       this.getBird();
       if (this.dataSource != null) {
-        this.executed = false;
-        this.dataSource = null;
+        this.expanded = false;
+        // this.executed = false;
+        this.dataSource = new MatTableDataSource();
+        // this.dataSource = null;anded
       }
     });
   }
 
   // _lazyContent: string;
-  get lazyObservations() {
-    console.warn();
-
-    if (!this.dataSource && !this.executed) {
-      this.executed = true;
+  lazyLoadObservations() {
+    if (!this.expanded) {
+      // console.warn();
+      this.expanded = true;
       this.getObservations(this.bird.birdId);
     }
     return;
@@ -72,7 +74,7 @@ export class BirdsDetailComponent {
       .subscribe(
         (data: BirdDetailViewModel) => {
           this.bird = data;
-          this.executed = false;
+          // this.executed = false;
         },
         (error: ErrorReportViewModel) => {
           console.log('bad request');
