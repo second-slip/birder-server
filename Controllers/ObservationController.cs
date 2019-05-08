@@ -104,7 +104,6 @@ namespace Birder.Controllers
         {
             try
             {
-                //var observations = await _observationRepository.GetBirdObservations(birdId);
                 var observations = await _observationRepository.ObservationsWithBird(cs => cs.BirdId == birdId);
 
                 if (observations == null)
