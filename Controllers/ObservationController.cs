@@ -47,13 +47,13 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetObservations()
+        public async Task<IActionResult> GetObservationsAsync()
         {
             try
             {
                 var username = User.Identity.Name;
 
-                var observations = _observationRepository.GetUsersObservationsList(username);
+                var observations = await _observationRepository.GetUsersObservationsList(username);
 
                 if (observations == null)
                 {
