@@ -1,15 +1,15 @@
-﻿using Birder.Data.Repository;
+﻿using AutoMapper;
+using Birder.Data.Model;
+using Birder.Data.Repository;
 using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Threading.Tasks;
-using System.Linq;
 using System.Collections.Generic;
-using Birder.Data.Model;
-using AutoMapper;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {
@@ -21,16 +21,18 @@ namespace Birder.Controllers
         private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ISystemClock _systemClock;
-        private readonly IObservationsAnalysisRepository _observationsAnalysisRepository;
+        //private readonly IObservationsAnalysisRepository _observationsAnalysisRepository;
+        private readonly IObservationRepository _observationRepository;
 
-        public ObservationAnalysisController(IObservationsAnalysisRepository observationsAnalysisRepository
+        public ObservationAnalysisController(IObservationRepository observationRepository
                                             , IMemoryCache memoryCache
                                             , ISystemClock systemClock, IMapper mapper)
         {
             _mapper = mapper;
             _cache = memoryCache;
             _systemClock = systemClock;
-            _observationsAnalysisRepository = observationsAnalysisRepository;
+            _observationRepository = observationRepository;
+            //_observationsAnalysisRepository = observationsAnalysisRepository;
 
         }
 
@@ -59,7 +61,7 @@ namespace Birder.Controllers
                     return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
                 }
 
-                var observations = await _observationsAnalysisRepository.ObservationsWithBird(x => x.ApplicationUser.UserName == username);
+                var observations = await _observationRepository.ObservationsWithBird(x => x.ApplicationUser.UserName == username);
 
                 _cache.Set("Observations", observations, _systemClock.GetEndOfToday);
 
@@ -90,7 +92,7 @@ namespace Birder.Controllers
                    return Ok(_mapper.Map<IEnumerable<Observation>, TopObservationsAnalysisViewModel>(observationsCache, opt => opt.Items["Date"] = _systemClock.GetToday.AddDays(-30)));
                 }
 
-                var observations = await _observationsAnalysisRepository.ObservationsWithBird(a => a.ApplicationUser.UserName == username);
+                var observations = await _observationRepository.ObservationsWithBird(a => a.ApplicationUser.UserName == username);
 
                 _cache.Set("Observations", observations, _systemClock.GetEndOfToday);
 
@@ -141,18 +143,26 @@ namespace Birder.Controllers
 
                 // _cache.Remove(nameof(LifeListViewModel));
 
-                // if (_cache.TryGetValue(nameof(LifeListViewModel), out LifeListViewModel lifeListCache))
-                // {
-                //     return Ok(lifeListCache);
-                // }
+                if (_cache.TryGetValue("Observations", out IEnumerable<Observation> observationsCache))
+                {
+                    var viewModelCache = observationsCache
+                        .GroupBy(n => n.Bird)
+                        .Select(n => new LifeListViewModel
+                        {
+                            BirdId = n.Key.BirdId,
+                            EnglishName = n.Key.EnglishName,
+                            Species = n.Key.Species,
+                            PopulationSize = n.Key.PopulationSize,
+                            BtoStatusInBritain = n.Key.BtoStatusInBritain,
+                            ConservationStatus = n.Key.BirdConservationStatus.ConservationList,
+                            Count = n.Count()
+                        }).OrderByDescending(n => n.Count);
+                    return Ok(viewModelCache);
+                }
 
-                var observations = await _observationsAnalysisRepository.ObservationsWithBird(a => a.ApplicationUser.UserName == username);
+                var observations = await _observationRepository.ObservationsWithBird(a => a.ApplicationUser.UserName == username);
 
-                // var viewModel = new List<LifeListViewModel>();
-                // {
-                //     LifeList = _observationsAnalysisRepository.GetLifeList(username)
-                // };
-
+                _cache.Set("Observations", observations, _systemClock.GetEndOfToday);
 
                 var viewModel = observations
                     .GroupBy(n => n.Bird)
@@ -166,15 +176,6 @@ namespace Birder.Controllers
                                 ConservationStatus = n.Key.BirdConservationStatus.ConservationList,
                                 Count = n.Count()
                             }).OrderByDescending(n => n.Count);
-
-
-
-                // var cacheEntryExpiryDate = TimeSpan.FromDays(1);
-
-                // var t = viewModel.GetType();
-                // var y = viewModel.LifeList.GetType();
-
-                // _cache.Set(nameof(LifeListViewModel), viewModel, cacheEntryExpiryDate);
 
                 return Ok(viewModel);
             }

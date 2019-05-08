@@ -1,17 +1,25 @@
 ﻿using Birder.Data.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
-    public class ObservationRepository : IObservationRepository
+    public class ObservationRepository : Repository<Observation>, IObservationRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        //private readonly ApplicationDbContext _dbContext;
 
-        public ObservationRepository(ApplicationDbContext dbContext)
+        public ObservationRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
-            _dbContext = dbContext;
+            //_dbContext = dbContext;
+        }
+
+        public async Task<IEnumerable<Observation>> ObservationsWithBird(Expression<Func<Observation, bool>> predicate)
+        {
+            return await _dbContext.Observations.Include(y => y.Bird).ThenInclude(u => u.BirdConservationStatus).Where(predicate).ToListAsync();
         }
 
         public IQueryable<Observation> GetUsersObservationsList(string username)

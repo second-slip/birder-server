@@ -1,11 +1,15 @@
 ﻿using Birder.Data.Model;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
-    public interface IObservationRepository
+    public interface IObservationRepository : IRepository<Observation>
     {
+        Task<IEnumerable<Observation>> ObservationsWithBird(Expression<Func<Observation, bool>> predicate);
         IQueryable<Observation> GetUsersObservationsList(string userId);
         IQueryable<Observation> GetUsersNetworkObservationsList(string userId);
         IQueryable<Observation> GetPublicObservationsList();
