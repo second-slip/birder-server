@@ -13,11 +13,9 @@ namespace Birder.Data.Repository
         Task<TEntity> GetAsync(int id);
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
-        // This method was not in the videos, but I thought it would be useful to add.
         Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
         void Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);
-
         void Remove(TEntity entity);
         void RemoveRange(IEnumerable<TEntity> entities);
     }
