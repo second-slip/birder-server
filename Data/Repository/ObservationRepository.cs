@@ -100,12 +100,12 @@ namespace Birder.Data.Repository
                         .SingleOrDefaultAsync(m => m.ObservationId == id);
         }
 
-        public async Task<Observation> AddObservation(Observation observation)
-        {
-            _dbContext.Observations.Add(observation);
-            await _dbContext.SaveChangesAsync();
-            return(observation);  
-        }
+        // public async Task<Observation> AddObservation(Observation observation)
+        // {
+        //     _dbContext.Observations.Add(observation);
+        //     await _dbContext.SaveChangesAsync();
+        //     return(observation);  
+        // }
 
         public async Task<Observation> UpdateObservation(Observation observation)
         {
