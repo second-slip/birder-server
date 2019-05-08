@@ -21,6 +21,6 @@ namespace Birder.Data.Repository
         // Task<Observation> AddObservation(Observation observation);
         Task<Observation> UpdateObservation(Observation observation);
         Task<bool> ObservationExists(int id);
-        Task<Observation> DeleteObservation(Observation observation);
+        //Task<Observation> DeleteObservation(Observation observation);
     }
 }

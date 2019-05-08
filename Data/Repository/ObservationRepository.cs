@@ -120,11 +120,11 @@ namespace Birder.Data.Repository
             return await _dbContext.Observations.AnyAsync(e => e.ObservationId == id);
         }
 
-        public async Task<Observation> DeleteObservation(Observation observation)
-        {
-            _dbContext.Observations.Remove(observation);
-            await _dbContext.SaveChangesAsync();
-            return observation;
-        }
+        //public async Task<Observation> DeleteObservation(Observation observation)
+        //{
+        //    _dbContext.Observations.Remove(observation);
+        //    await _dbContext.SaveChangesAsync();
+        //    return observation;
+        //}
     }
 }

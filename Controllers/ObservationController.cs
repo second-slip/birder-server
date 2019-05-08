@@ -236,22 +236,27 @@ namespace Birder.Controllers
         [HttpDelete, Route("DeleteObservation")]
         public async Task<ActionResult<ObservationViewModel>> DeleteObservation(int id)
         {
-            var observation = await _observationRepository.GetObservation(id);
+            var observation = await _observationRepository.GetAsync(id); // await _observationRepository.GetObservation(id);
             if (observation == null)
             {
                 return NotFound();
             }
 
-            var operation = _observationRepository.DeleteObservation(observation);
+            _observationRepository.Remove(observation);
+            await _unitOfWork.CompleteAsync();
 
-            if (!operation.IsCompletedSuccessfully)
-            {
-                return BadRequest();
-            }
+            //var operation = _observationRepository.DeleteObservation(observation);
+
+            //if (!operation.IsCompletedSuccessfully)
+            //{
+            //    return BadRequest();
+            //}
 
             _cache.Remove(CacheEntries.ObservationsList);
 
-            return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
+            return Ok(id);
+
+            //return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
         }
     }
 }

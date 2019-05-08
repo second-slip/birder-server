@@ -36,8 +36,7 @@ export class ObservationDeleteComponent implements OnInit {
 
   deleteObservation(): void {
     this.observationService.deleteObservation(this.observation.observationId)
-      .subscribe(
-        (observation: ObservationViewModel) => {
+      .subscribe(_ => {
           this.router.navigate(['/observation-feed']);
         },
         (error: ErrorReportViewModel) => {

@@ -57,7 +57,7 @@ export class ObservationService {
 
     return this.http.put<ObservationViewModel>('api/Observation/UpdateObservation', viewModel, options)
       .pipe(
-        tap(observations => { this.announceObservationsChanged(); }),
+        tap(_ => { this.announceObservationsChanged(); }),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
@@ -67,7 +67,7 @@ export class ObservationService {
 
     return this.http.delete<ObservationViewModel>('api/Observation/DeleteObservation', options)
       .pipe(
-        tap(observations => { this.announceObservationsChanged(); }),
+        tap(_ => { this.announceObservationsChanged(); }),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
