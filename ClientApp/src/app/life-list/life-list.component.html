@@ -18,7 +18,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let record of lifeList.lifeList; index as i">
+      <tr *ngFor="let record of lifeList; index as i">
         <th scope="row">{{ i + 1 }}</th>
         <td>{{ record.count | number }}</td>
         <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>

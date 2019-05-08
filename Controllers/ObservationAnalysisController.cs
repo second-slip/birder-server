@@ -154,6 +154,7 @@ namespace Birder.Controllers
                             ConservationStatus = n.Key.BirdConservationStatus.ConservationList,
                             Count = n.Count()
                         }).OrderByDescending(n => n.Count);
+                        
                     return Ok(viewModelCache);
                 }
 

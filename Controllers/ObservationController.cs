@@ -125,9 +125,7 @@ namespace Birder.Controllers
                         return BadRequest(ModelState);
                     }
 
-                    _cache.Remove(nameof(LifeListViewModel));
-                    _cache.Remove(nameof(ObservationAnalysisViewModel));
-                    _cache.Remove(nameof(TopObservationsAnalysisViewModel));
+                    _cache.Remove("Observations");
 
                     var viewModel = _mapper.Map<Observation, ObservationViewModel>(newObservation);
 
@@ -207,9 +205,7 @@ namespace Birder.Controllers
                         }
                     }
 
-                    _cache.Remove(nameof(LifeListViewModel));
-                    _cache.Remove(nameof(ObservationAnalysisViewModel));
-                    _cache.Remove(nameof(TopObservationsAnalysisViewModel));
+                    _cache.Remove("Observations");
 
                     var editedObservation = _mapper.Map<Observation, ObservationViewModel>(observation);
 
@@ -240,9 +236,7 @@ namespace Birder.Controllers
                 return BadRequest();
             }
 
-            _cache.Remove(nameof(LifeListViewModel));
-            _cache.Remove(nameof(ObservationAnalysisViewModel));
-            _cache.Remove(nameof(TopObservationsAnalysisViewModel));
+            _cache.Remove("Observations");
 
             return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
         }
