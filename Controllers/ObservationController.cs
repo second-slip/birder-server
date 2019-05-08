@@ -130,32 +130,18 @@ namespace Birder.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var newObservation = _mapper.Map<ObservationViewModel, Observation>(model);
-
                     var username = User.Identity.Name;
-                    //var user = await _userManager.FindByNameAsync(username);
-                    //check if user == null
+
+                    var newObservation = _mapper.Map<ObservationViewModel, Observation>(model);
                     newObservation.ApplicationUser = await _userManager.FindByNameAsync(username);
-
-                    //var observedBird = await _birdRepository.GetBird(model.BirdId);
                     newObservation.Bird = await _birdRepository.GetBird(model.BirdId);
-
                     newObservation.CreationDate = _systemClock.GetNow;
                     newObservation.LastUpdateDate = _systemClock.GetNow;
 
                     _observationRepository.Add(newObservation);
                     await _unitOfWork.CompleteAsync();
-                    //var save = _observationRepository.AddObservation(newObservation);
-                    //save.Wait();
-
-                    //if (!save.IsCompletedSuccessfully)
-                    //{
-                    //    return BadRequest(ModelState);
-                    //}
 
                     _cache.Remove(CacheEntries.ObservationsList);
-
-                    //var viewModel = _mapper.Map<Observation, ObservationViewModel>(newObservation);
 
                     return Ok(_mapper.Map<Observation, ObservationViewModel>(newObservation));
                 }
@@ -167,9 +153,8 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to save a new order: {ex}");
-            }
-
-            return BadRequest("An error occurred.  Could not add the observation.");
+                return BadRequest("An error occurred.  Could not add the observation.");
+            }     
         }
 
         [HttpPut, Route("UpdateObservation")]
