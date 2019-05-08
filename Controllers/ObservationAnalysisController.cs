@@ -25,21 +25,14 @@ namespace Birder.Controllers
 
         public ObservationAnalysisController(IObservationRepository observationRepository
                                             , IMemoryCache memoryCache
-                                            , ISystemClock systemClock, IMapper mapper)
+                                            , ISystemClock systemClock
+                                            , IMapper mapper)
         {
             _mapper = mapper;
             _cache = memoryCache;
             _systemClock = systemClock;
             _observationRepository = observationRepository;
         }
-
-        /*
-         * Cache
-         * Try / Catch
-         * Logging
-         */
-
-
 
         [HttpGet, Route("GetObservationAnalysis")]
         public async Task<IActionResult> GetObservationAnalysis()
@@ -138,8 +131,6 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                // _cache.Remove(nameof(LifeListViewModel));
-
                 if (_cache.TryGetValue("Observations", out IEnumerable<Observation> observationsCache))
                 {
                     var viewModelCache = observationsCache
@@ -154,7 +145,7 @@ namespace Birder.Controllers
                             ConservationStatus = n.Key.BirdConservationStatus.ConservationList,
                             Count = n.Count()
                         }).OrderByDescending(n => n.Count);
-                        
+
                     return Ok(viewModelCache);
                 }
 
