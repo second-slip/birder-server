@@ -80,9 +80,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var observation = await _observationRepository.GetObservationDetail(id);
-
-                var obsTest = await _observationRepository.GetAsync(id);
+                var observation = await _observationRepository.GetObservation(id, true);
 
                 if (observation == null)
                 {
@@ -106,7 +104,8 @@ namespace Birder.Controllers
         {
             try
             {
-                var observations = await _observationRepository.GetBirdObservations(birdId);
+                //var observations = await _observationRepository.GetBirdObservations(birdId);
+                var observations = await _observationRepository.ObservationsWithBird(cs => cs.BirdId == birdId);
 
                 if (observations == null)
                 {
@@ -173,16 +172,13 @@ namespace Birder.Controllers
                 {
                     var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
 
-                    var username = User.Identity.Name;
-                    //var user = await _userManager.FindByNameAsync(username);
-
-                    
-
-                    var observation = await _observationRepository.GetObservation(id);
+                    var observation = await _observationRepository.GetObservation(id, true);
                     if (observation == null)
                     {
                         return NotFound();
                     }
+
+                    var username = User.Identity.Name;
 
                     if (username != observation.ApplicationUser.UserName)
                     {

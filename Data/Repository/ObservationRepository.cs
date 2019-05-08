@@ -10,27 +10,30 @@ namespace Birder.Data.Repository
 {
     public class ObservationRepository : Repository<Observation>, IObservationRepository
     {
-        //private readonly ApplicationDbContext _dbContext;
-
         public ObservationRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
-            //_dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Observation>> GetBirdObservations(int birdId)
-        {
-            return await _dbContext.Observations
-                .Include(cs => cs.Bird)
-                .Include(au => au.ApplicationUser)
-                .Where(cs => cs.BirdId == birdId)
-                .OrderByDescending(d => d.ObservationDateTime)
-                .AsNoTracking()
-                .ToListAsync();
-        }
+        //public async Task<IEnumerable<Observation>> GetBirdObservations(int birdId)
+        //{
+        //    return await _dbContext.Observations
+        //        .Include(cs => cs.Bird)
+        //        .Include(au => au.ApplicationUser)
+        //        .Where(cs => cs.BirdId == birdId)
+        //        .OrderByDescending(d => d.ObservationDateTime)
+        //        .AsNoTracking()
+        //        .ToListAsync();
+        //}
 
         public async Task<IEnumerable<Observation>> ObservationsWithBird(Expression<Func<Observation, bool>> predicate)
         {
-            return await _dbContext.Observations.Include(y => y.Bird).ThenInclude(u => u.BirdConservationStatus).Where(predicate).ToListAsync();
+            return await _dbContext.Observations
+                .Include(y => y.Bird)
+                    .ThenInclude(u => u.BirdConservationStatus)
+                .Include(au => au.ApplicationUser)
+                .Where(predicate)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Observation>> GetUsersObservationsList(string username)
@@ -85,16 +88,16 @@ namespace Birder.Data.Repository
 
         public async Task<Observation> GetObservation(int? id, bool includeRelated = true)
         {
-            return await _dbContext.Observations
+            if (!includeRelated)
+            {
+                return await _dbContext.Observations
                             .Include(au => au.ApplicationUser)
                             .SingleOrDefaultAsync(m => m.ObservationId == id);
-        }
+            }
 
-        public async Task<Observation> GetObservationDetail(int? id)
-        {
             return await _dbContext.Observations
-                .Include(b => b.Bird)
                 .Include(au => au.ApplicationUser)
+                .Include(b => b.Bird)
                 .Include(ot => ot.ObservationTags)
                     .ThenInclude(t => t.Tag)
                         .SingleOrDefaultAsync(m => m.ObservationId == id);
