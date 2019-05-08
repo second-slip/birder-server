@@ -169,10 +169,10 @@ namespace Birder.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    //var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
+                    var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
 
                     var username = User.Identity.Name;
-                    var user = await _userManager.FindByNameAsync(username);
+                    //var user = await _userManager.FindByNameAsync(username);
 
                     var observation = await _observationRepository.GetObservation(id);
                     if (observation == null)
@@ -180,14 +180,14 @@ namespace Birder.Controllers
                         return NotFound();
                     }
 
-                    if (user.Id != observation.ApplicationUser.Id)
+                    if (username != observation.ApplicationUser.UserName)
                     {
                         return BadRequest("An error occurred.  You can only edit your own observations.");
                     }
 
-                    var observedBird = await _birdRepository.GetBird(model.BirdId);
+                    //var observedBird = await _birdRepository.GetBird(model.BirdId);
 
-                    observation.Bird = observedBird;
+                    observation.Bird = await _birdRepository.GetBird(model.BirdId);
 
                     observation.LocationLatitude = model.LocationLatitude;
                     observation.LocationLongitude = model.LocationLongitude;
@@ -202,27 +202,29 @@ namespace Birder.Controllers
 
                     observation.LastUpdateDate = _systemClock.GetNow;
 
-                    try
-                    {
-                        await _observationRepository.UpdateObservation(observation);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (await _observationRepository.ObservationExists(id)) // !ObservationExists(id))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
+                    await _unitOfWork.CompleteAsync();
+
+                    //try
+                    //{
+                    //    await _observationRepository.UpdateObservation(observation);
+                    //}
+                    //catch (DbUpdateConcurrencyException)
+                    //{
+                    //    if (await _observationRepository.ObservationExists(id)) // !ObservationExists(id))
+                    //    {
+                    //        return NotFound();
+                    //    }
+                    //    else
+                    //    {
+                    //        throw;
+                    //    }
+                    //}
 
                     _cache.Remove(CacheEntries.ObservationsList);
 
-                    var editedObservation = _mapper.Map<Observation, ObservationViewModel>(observation);
+                    //var editedObservation = _mapper.Map<Observation, ObservationViewModel>(observation);
 
-                    return Ok(editedObservation);
+                    return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
                 }
                 return BadRequest("An error occurred.  Could not edit the observation.");
             }
@@ -236,7 +238,7 @@ namespace Birder.Controllers
         [HttpDelete, Route("DeleteObservation")]
         public async Task<ActionResult<ObservationViewModel>> DeleteObservation(int id)
         {
-            var observation = await _observationRepository.GetAsync(id); // await _observationRepository.GetObservation(id);
+            var observation = await _observationRepository.GetAsync(id);
             if (observation == null)
             {
                 return NotFound();
@@ -245,18 +247,9 @@ namespace Birder.Controllers
             _observationRepository.Remove(observation);
             await _unitOfWork.CompleteAsync();
 
-            //var operation = _observationRepository.DeleteObservation(observation);
-
-            //if (!operation.IsCompletedSuccessfully)
-            //{
-            //    return BadRequest();
-            //}
-
             _cache.Remove(CacheEntries.ObservationsList);
 
             return Ok(id);
-
-            //return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
         }
     }
 }

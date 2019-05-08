@@ -100,31 +100,17 @@ namespace Birder.Data.Repository
                         .SingleOrDefaultAsync(m => m.ObservationId == id);
         }
 
-        // public async Task<Observation> AddObservation(Observation observation)
-        // {
-        //     _dbContext.Observations.Add(observation);
-        //     await _dbContext.SaveChangesAsync();
-        //     return(observation);  
-        // }
-
-        public async Task<Observation> UpdateObservation(Observation observation)
-        {
-            _dbContext.Entry(observation).State = EntityState.Modified;
-            _dbContext.Observations.Update(observation);
-            await _dbContext.SaveChangesAsync();
-            return(observation);
-        }
+        //public async Task<Observation> UpdateObservation(Observation observation)
+        //{
+        //    _dbContext.Entry(observation).State = EntityState.Modified;
+        //    _dbContext.Observations.Update(observation);
+        //    await _dbContext.SaveChangesAsync();
+        //    return(observation);
+        //}
 
         public async Task<bool> ObservationExists(int id)
         {
             return await _dbContext.Observations.AnyAsync(e => e.ObservationId == id);
         }
-
-        //public async Task<Observation> DeleteObservation(Observation observation)
-        //{
-        //    _dbContext.Observations.Remove(observation);
-        //    await _dbContext.SaveChangesAsync();
-        //    return observation;
-        //}
     }
 }
