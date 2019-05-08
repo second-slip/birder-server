@@ -43,7 +43,7 @@ export class ObservationService {
   }
 
   addObservation(viewModel: ObservationViewModel): Observable<ObservationViewModel | ErrorReportViewModel> {
-    return this.http.post<ObservationViewModel>('api/Observation/PostObservation', viewModel, httpOptions)
+    return this.http.post<ObservationViewModel>('api/Observation/CreateObservation', viewModel, httpOptions)
       .pipe(
         tap(observations => { this.announceObservationsChanged(); }),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));

@@ -123,8 +123,8 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpPost, Route("PostObservation")]
-        public async Task<IActionResult> PostObservation(ObservationViewModel model)
+        [HttpPost, Route("CreateObservation")]
+        public async Task<IActionResult> CreateObservation(ObservationViewModel model)
         {
             try
             {
@@ -132,30 +132,32 @@ namespace Birder.Controllers
                 {
                     var newObservation = _mapper.Map<ObservationViewModel, Observation>(model);
 
-                    //var username = User.Identity.Name;
-                    var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                    var username = User.Identity.Name;
+                    //var user = await _userManager.FindByNameAsync(username);
                     //check if user == null
-                    newObservation.ApplicationUser = user;
+                    newObservation.ApplicationUser = await _userManager.FindByNameAsync(username);
 
-                    var observedBird = await _birdRepository.GetBird(model.BirdId);
-                    newObservation.Bird = observedBird;
+                    //var observedBird = await _birdRepository.GetBird(model.BirdId);
+                    newObservation.Bird = await _birdRepository.GetBird(model.BirdId);
 
                     newObservation.CreationDate = _systemClock.GetNow;
                     newObservation.LastUpdateDate = _systemClock.GetNow;
 
-                    var save = _observationRepository.AddObservation(newObservation);
-                    save.Wait();
+                    _observationRepository.Add(newObservation);
+                    await _unitOfWork.CompleteAsync();
+                    //var save = _observationRepository.AddObservation(newObservation);
+                    //save.Wait();
 
-                    if (!save.IsCompletedSuccessfully)
-                    {
-                        return BadRequest(ModelState);
-                    }
+                    //if (!save.IsCompletedSuccessfully)
+                    //{
+                    //    return BadRequest(ModelState);
+                    //}
 
                     _cache.Remove(CacheEntries.ObservationsList);
 
-                    var viewModel = _mapper.Map<Observation, ObservationViewModel>(newObservation);
+                    //var viewModel = _mapper.Map<Observation, ObservationViewModel>(newObservation);
 
-                    return Ok(viewModel);
+                    return Ok(_mapper.Map<Observation, ObservationViewModel>(newObservation));
                 }
                 else
                 {
