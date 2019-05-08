@@ -9,8 +9,8 @@ namespace Birder.Data.Repository
 {
     public interface IUserRepository
     {
-        Task<ApplicationUser> GetUserByEmail(string email);
-        Task<ApplicationUser> GetUserAndNetworkAsyncByUserName(ApplicationUser user);
+        //Task<ApplicationUser> GetUserByEmail(string email);
+        //Task<ApplicationUser> GetUserAndNetworkAsyncByUserName(ApplicationUser user);
         Task<ApplicationUser> GetUserAndNetworkAsyncByUserName(string userName);
         //IEnumerable<UserViewModel> GetFollowingList(ApplicationUser user);
         //IEnumerable<UserViewModel> GetFollowersList(ApplicationUser user);
@@ -18,7 +18,7 @@ namespace Birder.Data.Repository
         void UnFollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow);
         IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user);
         IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion);
-        IQueryable<Observation> GetUsersObservationsList(string userId);
-        Task<int> UniqueSpeciesCount(ApplicationUser user);
+        //IQueryable<Observation> GetUsersObservationsList(string userId);
+        //Task<int> UniqueSpeciesCount(ApplicationUser user);
     }
 }

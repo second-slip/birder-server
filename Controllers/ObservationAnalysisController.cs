@@ -21,7 +21,6 @@ namespace Birder.Controllers
         private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ISystemClock _systemClock;
-        //private readonly IObservationsAnalysisRepository _observationsAnalysisRepository;
         private readonly IObservationRepository _observationRepository;
 
         public ObservationAnalysisController(IObservationRepository observationRepository
@@ -32,8 +31,6 @@ namespace Birder.Controllers
             _cache = memoryCache;
             _systemClock = systemClock;
             _observationRepository = observationRepository;
-            //_observationsAnalysisRepository = observationsAnalysisRepository;
-
         }
 
         /*

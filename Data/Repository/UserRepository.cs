@@ -1,6 +1,5 @@
 ﻿using Birder.Controllers;
 using Birder.Data.Model;
-using Birder.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,22 +14,6 @@ namespace Birder.Data.Repository
         public UserRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public async Task<ApplicationUser> GetUserByEmail(string email)
-        {
-            return await _dbContext.Users.Where(e => e.Email.ToUpper() == email.ToUpper()).FirstOrDefaultAsync();
-        }
-
-        public async Task<ApplicationUser> GetUserAndNetworkAsyncByUserName(ApplicationUser user)
-        {
-            return await _dbContext.Users
-                         .Include(x => x.Followers)
-                             .ThenInclude(x => x.Follower)
-                         .Include(y => y.Following)
-                             .ThenInclude(r => r.ApplicationUser)
-                         .Where(x => x.UserName == user.UserName)
-                            .FirstOrDefaultAsync();
         }
 
         public async Task<ApplicationUser> GetUserAndNetworkAsyncByUserName(string userName)
@@ -137,28 +120,6 @@ namespace Birder.Data.Repository
         {
             loggedinUser.Following.Remove(userToUnfollow.Followers.FirstOrDefault());
             _dbContext.SaveChanges();
-        }
-
-        // ToDo: DRY - this method is repeated verbatim in the observation repository
-        public IQueryable<Observation> GetUsersObservationsList(string userId)
-        {
-            var observations = _dbContext.Observations
-                .Where(o => o.ApplicationUserId == userId)
-                    .Include(au => au.ApplicationUser)
-                    .Include(b => b.Bird)
-                    .Include(ot => ot.ObservationTags)
-                        .ThenInclude(t => t.Tag)
-                    .OrderByDescending(d => d.ObservationDateTime)
-                    .AsNoTracking();
-            return observations;
-        }
-
-        // ToDo: DRY - this method is repeated verbatim in the observation repository
-        public async Task<int> UniqueSpeciesCount(ApplicationUser user)
-        {
-            return await (from observations in _dbContext.Observations
-                          where (observations.ApplicationUserId == user.Id)
-                          select observations.BirdId).Distinct().CountAsync();
         }
     }
 }
