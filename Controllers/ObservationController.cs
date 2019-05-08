@@ -82,6 +82,8 @@ namespace Birder.Controllers
             {
                 var observation = await _observationRepository.GetObservationDetail(id);
 
+                var obsTest = await _observationRepository.GetAsync(id);
+
                 if (observation == null)
                 {
                     _logger.LogWarning(LoggingEvents.GetItemNotFound, "Observation with id: {ID} was not found.", id);
@@ -174,7 +176,7 @@ namespace Birder.Controllers
                     var username = User.Identity.Name;
                     //var user = await _userManager.FindByNameAsync(username);
 
-                    var obsTest = await _observationRepository.GetAsync(id);
+                    
 
                     var observation = await _observationRepository.GetObservation(id);
                     if (observation == null)
