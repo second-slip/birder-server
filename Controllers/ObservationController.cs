@@ -64,9 +64,7 @@ namespace Birder.Controllers
                     return BadRequest();
                 }
 
-                var viewModel = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations);
-
-                return Ok(viewModel);
+                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations));
             }
             catch (Exception ex)
             {
@@ -87,8 +85,6 @@ namespace Birder.Controllers
                     _logger.LogWarning(LoggingEvents.GetItemNotFound, "Observation with id: {ID} was not found.", id);
                     return BadRequest();
                 }
-
-                // var viewModel = _mapper.Map<Observation, ObservationViewModel>(observation);
 
                 return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
             }
@@ -112,9 +108,7 @@ namespace Birder.Controllers
                     return NotFound();
                 }
 
-                var viewModel = _mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations);
-
-                return Ok(viewModel);
+                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations));
             }
             catch (Exception ex)
             {
