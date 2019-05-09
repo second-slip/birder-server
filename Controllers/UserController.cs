@@ -179,7 +179,6 @@ namespace Birder.Controllers
         [HttpPost, Route("Unfollow")]
         public async Task<IActionResult> Unfollow(NetworkUserViewModel userToFollowDetails) //, int currentPage)
         {
-            //_logger.LogInformation(LoggingEvents.UpdateItem, "Unfollow action called");
             try
             {
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
