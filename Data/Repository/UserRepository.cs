@@ -18,13 +18,11 @@ namespace Birder.Data.Repository
         public void Follow(ApplicationUser loggedinUser, ApplicationUser userToFollow)
         {
             userToFollow.Followers.Add(new Network { Follower = loggedinUser });
-            //_dbContext.SaveChanges();
         }
 
         public void UnFollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow)
         {
             loggedinUser.Following.Remove(userToUnfollow.Followers.FirstOrDefault());
-            //_dbContext.SaveChanges();
         }
 
         public async Task<ApplicationUser> GetUserAndNetworkAsyncByUserName(string userName)
@@ -56,89 +54,5 @@ namespace Birder.Data.Repository
             return await _dbContext.Users
                 .Where(users => users.NormalizedUserName.Contains(searchCriterion.ToUpper()) && !followingList.Contains(users.UserName)).ToListAsync();
         }
-        //public IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion)
-        //{
-        //    var followingList = from following in user.Following
-        //                        select following.ApplicationUser.UserName;
-
-        //    //IEnumerable<NetworkUserViewModel> suggestedBirders = new List<NetworkUserViewModel>();
-        //    //var suggestedBirders = new List<NetworkUserViewModel>();
-        //    var suggestedBirders = from users in _dbContext.Users
-        //                       where (users.UserName.ToUpper().Contains(searchCriterion.ToUpper()) && !followingList.Contains(users.UserName) && users.UserName != user.UserName) // .Contains(users.UserName) // != user.UserName)
-        //                       select new NetworkUserViewModel
-        //                       {
-        //                           UserName = users.UserName,
-        //                           ProfileImage = users.ProfileImage,
-        //                           IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == user.UserName)
-        //                       };
-
-
-        //    return suggestedBirders;
-        //}
-
-        //public IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user) //, IEnumerable<string> followersNotBeingFollowed)
-        //{
-        //    //******************
-        //    // move to controller (Automapper)
-        //    var followerList = from follower in user.Followers
-        //                       select follower.Follower.UserName;
-        //    var followingList = from following in user.Following
-        //                        select following.ApplicationUser.UserName;
-
-        //    IEnumerable<string> followersNotBeingFollowed = followerList.Except(followingList); // list usernames
-        //    //IEnumerable<NetworkUserViewModel> suggestedBirders = new List<NetworkUserViewModel>();
-        //    //******************
-
-        //    if (followersNotBeingFollowed.Count() != 0)
-        //    {
-        //        // Get followers who not be followed
-        //        var suggestedBirders = from users in _dbContext.Users
-        //                   .Where(users => followersNotBeingFollowed.Contains(users.UserName))
-        //                               select new NetworkUserViewModel
-        //                               {
-        //                                   UserName = users.UserName,
-        //                                   ProfileImage = users.ProfileImage,
-        //                                   IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == users.UserName)
-        //                               };
-        //        return suggestedBirders;
-        //    }
-        //    else
-        //    {
-        //        var suggestedBirders = from users in _dbContext.Users
-        //                           .Where(users => !followingList.Contains(users.UserName) && users.UserName != user.UserName)
-        //                           select new NetworkUserViewModel
-        //                           {
-        //                               UserName = users.UserName,
-        //                               ProfileImage = users.ProfileImage,
-        //                               IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == users.UserName)
-        //                           };
-        //        return suggestedBirders;
-        //    }
-
-        //    ////return suggestedBirders.ToList();
-        //}
-
-
-        //public IEnumerable<UserViewModel> GetFollowingList(ApplicationUser user)
-        //{
-        //    var followingList = from following in user.Following
-        //                            select new UserViewModel
-        //                            {
-        //                                UserName = following.ApplicationUser.UserName,
-        //                                ProfileImage = following.ApplicationUser.ProfileImage
-        //                            };
-        //    return followingList;
-        //}
-
-        //public IEnumerable<UserViewModel> GetFollowersList(ApplicationUser user)
-        //{
-        //    var followerList = from follower in user.Followers
-        //                          select new UserViewModel
-        //                          {
-        //                              UserName = follower.Follower.UserName,
-        //                              ProfileImage = follower.Follower.ProfileImage,
-        //                          };
-        //    return followerList;
-        //}
     }
 }

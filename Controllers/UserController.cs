@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.Helpers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
@@ -133,7 +131,7 @@ namespace Birder.Controllers
                 }
                 else
                 {
-                    var users = await _userRepository.SearchBirdersToFollowAsync(loggedinUser, searchCriterion, followerList);
+                    var users = await _userRepository.SearchBirdersToFollowAsync(loggedinUser, searchCriterion, followingList);
                     var viewModel = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
                     return Ok(viewModel);
                     //followUserViewModel.SearchCriterion = searchCriterion;
