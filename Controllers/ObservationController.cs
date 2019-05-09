@@ -179,6 +179,8 @@ namespace Birder.Controllers
                         return NotFound();
                     }
 
+                    var test = _mapper.Map<ObservationViewModel, Observation>(model, observation);
+
                     var username = User.Identity.Name;
 
                     if (username != observation.ApplicationUser.UserName)
