@@ -171,15 +171,13 @@ namespace Birder.Controllers
                 if (ModelState.IsValid)
                 {
                     // here
-                    var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
+                    // var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
 
                     var observation = await _observationRepository.GetObservation(id, true);
                     if (observation == null)
                     {
                         return NotFound();
                     }
-
-                    var test = _mapper.Map<ObservationViewModel, Observation>(model, observation);
 
                     var username = User.Identity.Name;
 
@@ -188,21 +186,23 @@ namespace Birder.Controllers
                         return BadRequest("An error occurred.  You can only edit your own observations.");
                     }
 
+                     _mapper.Map<ObservationViewModel, Observation>(model, observation);
+
                     if (observation.BirdId != model.BirdId) // only reset Bird if it is changed
                     {
                         observation.Bird = await _birdRepository.GetBird(model.BirdId);
                     }
 
-                    observation.LocationLatitude = model.LocationLatitude;
-                    observation.LocationLongitude = model.LocationLongitude;
-                    observation.NoteAppearance = model.NoteAppearance;
-                    observation.NoteBehaviour = model.NoteBehaviour;
-                    observation.NoteGeneral = model.NoteGeneral;
-                    observation.NoteHabitat = model.NoteHabitat;
-                    observation.NoteVocalisation = model.NoteVocalisation;
-                    observation.NoteWeather = model.NoteWeather;
-                    observation.ObservationDateTime = model.ObservationDateTime;
-                    observation.Quantity = model.Quantity;
+                    // observation.LocationLatitude = model.LocationLatitude;
+                    // observation.LocationLongitude = model.LocationLongitude;
+                    // observation.NoteAppearance = model.NoteAppearance;
+                    // observation.NoteBehaviour = model.NoteBehaviour;
+                    // observation.NoteGeneral = model.NoteGeneral;
+                    // observation.NoteHabitat = model.NoteHabitat;
+                    // observation.NoteVocalisation = model.NoteVocalisation;
+                    // observation.NoteWeather = model.NoteWeather;
+                    // observation.ObservationDateTime = model.ObservationDateTime;
+                    // observation.Quantity = model.Quantity;
 
                     observation.LastUpdateDate = _systemClock.GetNow;
 

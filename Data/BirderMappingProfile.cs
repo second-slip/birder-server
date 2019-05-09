@@ -19,7 +19,7 @@ namespace Birder.Data
             //.ReverseMap();
 
             CreateMap<ObservationViewModel, Observation>()
-                .ForMember(a => a.ApplicationUser, b => b.MapFrom(a => a.User))
+                .ForMember(a => a.ApplicationUser, b => b.Ignore())
                 .ForMember(a => a.CreationDate, b => b.Ignore());
                 //.ForMember
 
