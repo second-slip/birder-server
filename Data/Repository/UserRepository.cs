@@ -27,40 +27,22 @@ namespace Birder.Data.Repository
                          .FirstOrDefaultAsync();
         }
 
-        //public IEnumerable<UserViewModel> GetFollowingList(ApplicationUser user)
-        //{
-        //    var followingList = from following in user.Following
-        //                            select new UserViewModel
-        //                            {
-        //                                UserName = following.ApplicationUser.UserName,
-        //                                ProfileImage = following.ApplicationUser.ProfileImage
-        //                            };
-        //    return followingList;
-        //}
-
-        //public IEnumerable<UserViewModel> GetFollowersList(ApplicationUser user)
-        //{
-        //    var followerList = from follower in user.Followers
-        //                          select new UserViewModel
-        //                          {
-        //                              UserName = follower.Follower.UserName,
-        //                              ProfileImage = follower.Follower.ProfileImage,
-        //                          };
-        //    return followerList;
-        //}
-
-        public IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user)
+        public IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user) //, IEnumerable<string> followersNotBeingFollowed)
         {
+            //******************
+            // move to controller (Automapper)
             var followerList = from follower in user.Followers
                                select follower.Follower.UserName;
             var followingList = from following in user.Following
                                 select following.ApplicationUser.UserName;
 
-            IEnumerable<string> followersNotBeingFollowed = followerList.Except(followingList);
+            IEnumerable<string> followersNotBeingFollowed = followerList.Except(followingList); // list usernames
             //IEnumerable<NetworkUserViewModel> suggestedBirders = new List<NetworkUserViewModel>();
+            //******************
 
             if (followersNotBeingFollowed.Count() != 0)
             {
+                // Get followers who not be followed
                 var suggestedBirders = from users in _dbContext.Users
                            .Where(users => followersNotBeingFollowed.Contains(users.UserName))
                                        select new NetworkUserViewModel
@@ -68,7 +50,7 @@ namespace Birder.Data.Repository
                                            UserName = users.UserName,
                                            ProfileImage = users.ProfileImage,
                                            IsFollowing = users.Following.Any(cus => cus.ApplicationUser.UserName == users.UserName)
-            };
+                                       };
                 return suggestedBirders;
             }
             else
@@ -121,5 +103,27 @@ namespace Birder.Data.Repository
             loggedinUser.Following.Remove(userToUnfollow.Followers.FirstOrDefault());
             _dbContext.SaveChanges();
         }
+
+        //public IEnumerable<UserViewModel> GetFollowingList(ApplicationUser user)
+        //{
+        //    var followingList = from following in user.Following
+        //                            select new UserViewModel
+        //                            {
+        //                                UserName = following.ApplicationUser.UserName,
+        //                                ProfileImage = following.ApplicationUser.ProfileImage
+        //                            };
+        //    return followingList;
+        //}
+
+        //public IEnumerable<UserViewModel> GetFollowersList(ApplicationUser user)
+        //{
+        //    var followerList = from follower in user.Followers
+        //                          select new UserViewModel
+        //                          {
+        //                              UserName = follower.Follower.UserName,
+        //                              ProfileImage = follower.Follower.ProfileImage,
+        //                          };
+        //    return followerList;
+        //}
     }
 }

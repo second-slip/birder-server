@@ -103,9 +103,16 @@ namespace Birder.Controllers
 
                 //var viewModel = new List<NetworkUserViewModel>();
 
+                var followerList = from follower in loggedinUser.Followers
+                                   select follower.Follower.UserName;
+                var followingList = from following in loggedinUser.Following
+                                    select following.ApplicationUser.UserName;
+
+                IEnumerable<string> followersNotBeingFollowed = followerList.Except(followingList); // list usernames
+
                 if (String.IsNullOrEmpty(searchCriterion))
                 {
-                    var viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser);
+                    var viewModel = _userRepository.GetSuggestedBirdersToFollow(loggedinUser); //, followersNotBeingFollowed);
                     return Ok(viewModel);
                     // followUserViewModel.SearchCriterion = searchCriterion;
                 }

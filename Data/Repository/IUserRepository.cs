@@ -15,7 +15,7 @@ namespace Birder.Data.Repository
         //IEnumerable<UserViewModel> GetFollowersList(ApplicationUser user);
         void Follow(ApplicationUser loggedinUser, ApplicationUser userToFollow);
         void UnFollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow);
-        IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user);
+        IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user); //, IEnumerable<string> followersNotBeingFollowed);
         IQueryable<NetworkUserViewModel> GetSuggestedBirdersToFollow(ApplicationUser user, string searchCriterion);
         //IQueryable<Observation> GetUsersObservationsList(string userId);
         //Task<int> UniqueSpeciesCount(ApplicationUser user);
