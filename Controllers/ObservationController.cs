@@ -7,11 +7,11 @@ using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -26,6 +26,7 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemClock _systemClock;
+        private readonly IUserRepository _userRepository;
         private readonly IBirdRepository _birdRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
@@ -34,6 +35,7 @@ namespace Birder.Controllers
                                    , IMemoryCache memoryCache
                                    , ISystemClock systemClock
                                    , IUnitOfWork unitOfWork
+                                   , IUserRepository userRepository
                                    , IBirdRepository birdRepository
                                    , ILogger<ObservationController> logger
                                    , UserManager<ApplicationUser> userManager
@@ -45,6 +47,7 @@ namespace Birder.Controllers
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _systemClock = systemClock;
+            _userRepository = userRepository;
             _birdRepository = birdRepository;
             _observationRepository = observationRepository;
         }
@@ -56,7 +59,20 @@ namespace Birder.Controllers
             {
                 var username = User.Identity.Name;
 
-                var observations = await _observationRepository.GetUsersObservationsList(username);
+                var observations = await _observationRepository.GetObservationsAsync(o => o.ApplicationUser.UserName == username); //.GetUsersObservationsList(username);
+
+                var publicObservations = await _observationRepository.GetObservationsAsync();
+
+                //predicate list of following usernames/ids and own
+                var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+
+                //******** extension methods
+                List<string> followingList = (from following in loggedinUser.Following
+                                              select following.ApplicationUser.UserName).ToList();
+
+                followingList.Add(username);
+
+                var userAndFollowingObservations = await _observationRepository.GetObservationsAsync(o => followingList.Contains(o.ApplicationUser.UserName));
 
                 if (observations == null)
                 {
@@ -78,7 +94,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var observation = await _observationRepository.GetObservation(id, true);
+                var observation = await _observationRepository.GetObservationAsync(id, true);
 
                 if (observation == null)
                 {
@@ -100,7 +116,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var observations = await _observationRepository.ObservationsWithBird(cs => cs.BirdId == birdId);
+                var observations = await _observationRepository.GetObservationsAsync(cs => cs.BirdId == birdId);
 
                 if (observations == null)
                 {
@@ -163,7 +179,7 @@ namespace Birder.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var observation = await _observationRepository.GetObservation(id, true);
+                    var observation = await _observationRepository.GetObservationAsync(id, true);
                     if (observation == null)
                     {
                         return NotFound();

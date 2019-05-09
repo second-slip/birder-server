@@ -56,7 +56,7 @@ namespace Birder.Controllers
                     return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
                 }
 
-                var observations = await _observationRepository.ObservationsWithBird(x => x.ApplicationUser.UserName == username);
+                var observations = await _observationRepository.GetObservationsAsync(x => x.ApplicationUser.UserName == username);
 
                 _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
@@ -88,7 +88,7 @@ namespace Birder.Controllers
                    return Ok(_mapper.Map<IEnumerable<Observation>, TopObservationsAnalysisViewModel>(observationsCache, opt => opt.Items["Date"] = _systemClock.GetToday.AddDays(-30)));
                 }
 
-                var observations = await _observationRepository.ObservationsWithBird(a => a.ApplicationUser.UserName == username);
+                var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
 
                 _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
@@ -156,7 +156,7 @@ namespace Birder.Controllers
                     return Ok(viewModelCache);
                 }
 
-                var observations = await _observationRepository.ObservationsWithBird(a => a.ApplicationUser.UserName == username);
+                var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
 
                 _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 

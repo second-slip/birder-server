@@ -2,6 +2,7 @@
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.Helpers;
+using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -118,29 +119,24 @@ namespace Birder.Controllers
                     if (followersNotBeingFollowed.Count() == 0)
                     {
                         var users = await _userRepository.GetSuggestedBirdersToFollowAsync(loggedinUser, followingList);
-                        var viewModel = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
-                        return Ok(viewModel);
+                        return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                     }
                     else
                     {
                         var users = await _userRepository.GetFollowersNotFollowedAsync(loggedinUser, followersNotBeingFollowed);
-                        var viewModel = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
-                        return Ok(viewModel);
-                        // followUserViewModel.SearchCriterion = searchCriterion;
+                        return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                     }
                 }
                 else
                 {
                     var users = await _userRepository.SearchBirdersToFollowAsync(loggedinUser, searchCriterion, followingList);
-                    var viewModel = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
-                    return Ok(viewModel);
-                    //followUserViewModel.SearchCriterion = searchCriterion;
+                    return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                 }
                 //return Ok(viewModel);
             }
             catch (Exception ex)
             {
-                //_logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "Network");
                 return BadRequest();
                 //return BadRequest(String.Format("An error occurred trying to follow user: {0}", userToFollowDetails.UserName));
             }
@@ -149,7 +145,6 @@ namespace Birder.Controllers
         [HttpPost, Route("Follow")]
         public async Task<IActionResult> Follow(NetworkUserViewModel userToFollowDetails)
         {
-            //_logger.LogInformation(LoggingEvents.UpdateItem, "Follow action called");
             try
             {
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
@@ -202,32 +197,5 @@ namespace Birder.Controllers
                 return BadRequest(String.Format("An error occurred trying to unfollow user: {0}", userToFollowDetails.UserName));
             }
         }
-    }
-
-    public class UserProfileViewModel
-    {
-        public string UserName { get; set; }
-        public string ProfileImage { get; set; }
-        public DateTime RegistrationDate { get; set; }
-        public bool IsOwnProfile { get; set; }
-        public bool IsFollowing { get; set; }
-        public IEnumerable<FollowerViewModel> Followers { get; set; }
-        public IEnumerable<FollowingViewModel> Following { get; set; }
-    }
-
-    public class NetworkUserViewModel
-    {
-        public string UserName { get; set; }
-        public string ProfileImage { get; set; }
-        public bool IsFollowing { get; set; }
-        public bool IsOwnProfile { get; set; }
-    }
-
-    public class FollowingViewModel : NetworkUserViewModel
-    {
-    }
-
-    public class FollowerViewModel : NetworkUserViewModel
-    {
     }
 }
