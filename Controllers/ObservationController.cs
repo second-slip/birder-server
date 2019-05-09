@@ -88,9 +88,9 @@ namespace Birder.Controllers
                     return BadRequest();
                 }
 
-                var viewModel = _mapper.Map<Observation, ObservationViewModel>(observation);
+                // var viewModel = _mapper.Map<Observation, ObservationViewModel>(observation);
 
-                return Ok(viewModel);
+                return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
             }
             catch (Exception ex)
             {
@@ -155,7 +155,7 @@ namespace Birder.Controllers
             {
                 _logger.LogError($"Failed to save a new order: {ex}");
                 return BadRequest("An error occurred.  Could not add the observation.");
-            }     
+            }
         }
 
         [HttpPut, Route("UpdateObservation")]
@@ -170,9 +170,6 @@ namespace Birder.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    // here
-                    // var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
-
                     var observation = await _observationRepository.GetObservation(id, true);
                     if (observation == null)
                     {
@@ -186,27 +183,24 @@ namespace Birder.Controllers
                         return BadRequest("An error occurred.  You can only edit your own observations.");
                     }
 
-                     _mapper.Map<ObservationViewModel, Observation>(model, observation);
+                    _mapper.Map<ObservationViewModel, Observation>(model, observation);
 
-                    if (observation.BirdId != model.BirdId) // only reset Bird if it is changed
-                    {
-                        observation.Bird = await _birdRepository.GetBird(model.BirdId);
-                    }
-
-                    // observation.LocationLatitude = model.LocationLatitude;
-                    // observation.LocationLongitude = model.LocationLongitude;
-                    // observation.NoteAppearance = model.NoteAppearance;
-                    // observation.NoteBehaviour = model.NoteBehaviour;
-                    // observation.NoteGeneral = model.NoteGeneral;
-                    // observation.NoteHabitat = model.NoteHabitat;
-                    // observation.NoteVocalisation = model.NoteVocalisation;
-                    // observation.NoteWeather = model.NoteWeather;
-                    // observation.ObservationDateTime = model.ObservationDateTime;
-                    // observation.Quantity = model.Quantity;
+                    observation.Bird = await _birdRepository.GetBird(model.BirdId);
 
                     observation.LastUpdateDate = _systemClock.GetNow;
 
+                    TryValidateModel(observation);
+                    if (!ModelState.IsValid)
+                    {
+                        // logging
+                        return BadRequest(ModelState);
+                    }
+
                     await _unitOfWork.CompleteAsync();
+
+                    _cache.Remove(CacheEntries.ObservationsList);
+
+                    return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
 
                     //try
                     //{
@@ -224,11 +218,6 @@ namespace Birder.Controllers
                     //    }
                     //}
 
-                    _cache.Remove(CacheEntries.ObservationsList);
-
-                    //var editedObservation = _mapper.Map<Observation, ObservationViewModel>(observation);
-
-                    return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
                 }
                 return BadRequest("An error occurred.  Could not edit the observation.");
             }
