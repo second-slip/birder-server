@@ -11,6 +11,6 @@ namespace Birder.Data.Repository
         Task<IEnumerable<Observation>> GetObservationsAsync(Expression<Func<Observation, bool>> predicate);
         Task<IEnumerable<Observation>> GetObservationsAsync();
         Task<Observation> GetObservationAsync(int id, bool includeRelated = true);
-        Task<bool> ObservationExists(int id);
+        //Task<bool> ObservationExists(int id);
     }
 }

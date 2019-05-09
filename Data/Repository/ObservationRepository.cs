@@ -27,7 +27,6 @@ namespace Birder.Data.Repository
                 .ToListAsync();
         }
 
-
         public async Task<IEnumerable<Observation>> GetObservationsAsync() // public observations
         {
              return await _dbContext.Observations
@@ -37,35 +36,6 @@ namespace Birder.Data.Repository
                     .AsNoTracking()
                     .ToListAsync();
         }
-
-        //public async Task<IEnumerable<Observation>> GetUsersNetworkObservationsList(string userId)
-        //{
-        //    var loggedinUser = _dbContext.Users
-        //        //.Include(x => x.Followers)
-        //        //    .ThenInclude(x => x.Follower)
-        //        .Include(y => y.Following)
-        //            .ThenInclude(r => r.ApplicationUser)
-        //        .Where(x => x.Id == userId)
-        //        .FirstOrDefault();
-
-        //    // PROBLEM WHEN FOLLOWERS = 0 -- cannot append own Id
-
-        //    // TODO - why not just use if to check if following == 0?
-
-        //    var userNetwork = (from p in loggedinUser.Following
-        //                       select p.ApplicationUser.Id.ToString());
-        //    //Therefore changed to less efficient || in LINQ WHERE
-
-        //    var observations = _dbContext.Observations
-        //        .Where(o => userNetwork.Contains(o.ApplicationUser.Id) || o.ApplicationUser.Id == loggedinUser.Id)
-        //            .Include(au => au.ApplicationUser)
-        //            .Include(b => b.Bird)
-        //            .Include(ot => ot.ObservationTags)
-        //                .ThenInclude(t => t.Tag)
-        //                    .OrderByDescending(d => d.ObservationDateTime)
-        //                        .AsNoTracking();
-        //    return await observations.ToListAsync();
-        //}
 
         public async Task<Observation> GetObservationAsync(int id, bool includeRelated = true)
         {
@@ -84,9 +54,9 @@ namespace Birder.Data.Repository
                         .SingleOrDefaultAsync(m => m.ObservationId == id);
         }
 
-        public async Task<bool> ObservationExists(int id)
-        {
-            return await _dbContext.Observations.AnyAsync(e => e.ObservationId == id);
-        }
+        //public async Task<bool> ObservationExists(int id)
+        //{
+        //    return await _dbContext.Observations.AnyAsync(e => e.ObservationId == id);
+        //}
     }
 }
