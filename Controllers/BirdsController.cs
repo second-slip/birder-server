@@ -35,8 +35,6 @@ namespace Birder.Controllers
             _birdRepository = birdRepository;
         }
 
-        // No need for server side pagination.  Birds list is the same as the request for the drop down lists!
-
         [HttpGet]
         public async Task<IActionResult> GetBirdsAsync(BirderStatus filter) // int pageIndex, int pageSize)
         {
