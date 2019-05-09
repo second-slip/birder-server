@@ -61,7 +61,7 @@ namespace Birder.Controllers
                 if (observations == null)
                 {
                     _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
-                    return BadRequest();
+                    return NotFound();
                 }
 
                 return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations));
@@ -83,7 +83,7 @@ namespace Birder.Controllers
                 if (observation == null)
                 {
                     _logger.LogWarning(LoggingEvents.GetItemNotFound, "Observation with id: {ID} was not found.", id);
-                    return BadRequest();
+                    return NotFound();
                 }
 
                 return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
@@ -126,12 +126,11 @@ namespace Birder.Controllers
                 {
                     var username = User.Identity.Name;
 
-                    // here
                     var newObservation = _mapper.Map<ObservationViewModel, Observation>(model);
                     newObservation.ApplicationUser = await _userManager.FindByNameAsync(username);
                     newObservation.Bird = await _birdRepository.GetBird(model.BirdId);
                     newObservation.CreationDate = _systemClock.GetNow;
-                    newObservation.LastUpdateDate = _systemClock.GetNow;
+                    newObservation.LastUpdateDate = newObservation.CreationDate;
 
                     _observationRepository.Add(newObservation);
                     await _unitOfWork.CompleteAsync();
