@@ -61,9 +61,8 @@ namespace Birder.Controllers
 
                 var observations = await _observationRepository.GetObservationsAsync(o => o.ApplicationUser.UserName == username); //.GetUsersObservationsList(username);
 
-                var publicObservations = await _observationRepository.GetObservationsAsync();
+                var publicObservations = await _observationRepository.GetObservationsAsync(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public);
 
-                //predicate list of following usernames/ids and own
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
 
                 //******** extension methods
@@ -71,6 +70,7 @@ namespace Birder.Controllers
                                               select following.ApplicationUser.UserName).ToList();
 
                 followingList.Add(username);
+                //********
 
                 var userAndFollowingObservations = await _observationRepository.GetObservationsAsync(o => followingList.Contains(o.ApplicationUser.UserName));
 

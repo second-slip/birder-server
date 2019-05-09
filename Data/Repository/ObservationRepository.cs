@@ -27,16 +27,6 @@ namespace Birder.Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Observation>> GetObservationsAsync() // public observations
-        {
-             return await _dbContext.Observations
-                    .Include(au => au.ApplicationUser)
-                    .Include(b => b.Bird)
-                    .OrderByDescending(d => d.ObservationDateTime)
-                    .AsNoTracking()
-                    .ToListAsync();
-        }
-
         public async Task<Observation> GetObservationAsync(int id, bool includeRelated = true)
         {
             if (!includeRelated)
