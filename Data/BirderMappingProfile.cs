@@ -13,10 +13,15 @@ namespace Birder.Data
         public BirderMappingProfile()
         {
             CreateMap<Observation, ObservationViewModel>()
-              .ForMember(o => o.ObservationId, ex => ex.MapFrom(o => o.ObservationId))
-              .ForMember(a => a.User, b => b.MapFrom(a => a.ApplicationUser))
-              .ForMember(d => d.Bird, m => m.MapFrom(d => d.Bird))
-              .ReverseMap();
+              //.ForMember(o => o.ObservationId, ex => ex.MapFrom(o => o.ObservationId))
+              .ForMember(a => a.User, b => b.MapFrom(a => a.ApplicationUser));
+            //.ForMember(d => d.Bird, m => m.MapFrom(d => d.Bird));
+            //.ReverseMap();
+
+            CreateMap<ObservationViewModel, Observation>()
+                .ForMember(a => a.ApplicationUser, b => b.MapFrom(a => a.User))
+                .ForMember(a => a.CreationDate, b => b.Ignore());
+                //.ForMember
 
             CreateMap<List<Observation>, ObservationAnalysisViewModel>()
                 .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count()))

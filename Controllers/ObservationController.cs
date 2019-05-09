@@ -132,6 +132,7 @@ namespace Birder.Controllers
                 {
                     var username = User.Identity.Name;
 
+                    // here
                     var newObservation = _mapper.Map<ObservationViewModel, Observation>(model);
                     newObservation.ApplicationUser = await _userManager.FindByNameAsync(username);
                     newObservation.Bird = await _birdRepository.GetBird(model.BirdId);
@@ -169,6 +170,7 @@ namespace Birder.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    // here
                     var editedObservation = _mapper.Map<ObservationViewModel, Observation>(model);
 
                     var observation = await _observationRepository.GetObservation(id, true);
