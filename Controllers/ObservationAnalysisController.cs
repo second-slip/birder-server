@@ -84,7 +84,8 @@ namespace Birder.Controllers
 
                 if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
                 {
-                   return Ok(_mapper.Map<IEnumerable<Observation>, TopObservationsAnalysisViewModel>(observationsCache, opt => opt.Items["Date"] = _systemClock.GetToday.AddDays(-30)));
+                    var viewModelCache = ObservationsAnalysisHelper.MapTopObservations(observationsCache, _systemClock.GetToday.AddDays(-30));
+                    return Ok(viewModelCache);
                 }
 
                 var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
