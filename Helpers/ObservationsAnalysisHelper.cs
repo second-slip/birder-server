@@ -23,7 +23,7 @@ namespace Birder.Helpers
                                 }).OrderByDescending(n => n.Count);
         }
 
-        public static TopObservationsAnalysisViewModel MapTopObservations(IEnumerable<Observation> observations, DateTime date)
+        public static TopObservationsAnalysisViewModel MapTopObservations(IEnumerable<Observation> observations, DateTime startDate)
         {
             var viewModel = new TopObservationsAnalysisViewModel();
 
@@ -37,7 +37,7 @@ namespace Birder.Helpers
                 }).OrderByDescending(n => n.Count).Take(5);
 
             viewModel.TopMonthlyObservations = observations
-                .Where(o => o.ObservationDateTime >= date)
+                .Where(o => o.ObservationDateTime >= startDate)
                 .GroupBy(n => n.Bird)
                 .Select(n => new TopObservationsViewModel
                 {
