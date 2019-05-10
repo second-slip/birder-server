@@ -10,7 +10,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -92,30 +91,7 @@ namespace Birder.Controllers
 
                 _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
-                var date = _systemClock.GetToday.AddDays(-30);
-
-                var viewModel = _mapper.Map<IEnumerable<Observation>, TopObservationsAnalysisViewModel>(observations, opt => opt.Items["Date"] = date);
-
-                // var viewModel = new TopObservationsAnalysisViewModel();
-
-                // viewModel.TopObservations = observations
-                //     .GroupBy(n => n.Bird)
-                //     .Select(n => new TopObservationsViewModel
-                //     {
-                //         BirdId = n.Key.BirdId,
-                //         Name = n.Key.EnglishName,
-                //         Count = n.Count()
-                //     }).OrderByDescending(n => n.Count).Take(5);
-
-                // viewModel.TopMonthlyObservations = observations
-                //     .Where(o => o.ObservationDateTime >= date)
-                //     .GroupBy(n => n.Bird)
-                //     .Select(n => new TopObservationsViewModel
-                //     {
-                //         BirdId = n.Key.BirdId,
-                //         Name = n.Key.EnglishName,
-                //         Count = n.Count()
-                //     }).OrderByDescending(n => n.Count).Take(5);
+                var viewModel = ObservationsAnalysisHelper.MapTopObservations(observations, _systemClock.GetToday.AddDays(-30));
 
                return Ok(viewModel);
             }
@@ -140,20 +116,7 @@ namespace Birder.Controllers
 
                 if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
                 {
-                    //var viewModelCache = observationsCache
-                    //    .GroupBy(n => n.Bird)
-                    //    .Select(n => new LifeListViewModel
-                    //    {
-                    //        BirdId = n.Key.BirdId,
-                    //        EnglishName = n.Key.EnglishName,
-                    //        Species = n.Key.Species,
-                    //        PopulationSize = n.Key.PopulationSize,
-                    //        BtoStatusInBritain = n.Key.BtoStatusInBritain,
-                    //        ConservationStatus = n.Key.BirdConservationStatus.ConservationList,
-                    //        Count = n.Count()
-                    //    }).OrderByDescending(n => n.Count);
-                    var viewModelCache = LifeListMappingHelper.MapLifeList(observationsCache);
-
+                    var viewModelCache = ObservationsAnalysisHelper.MapLifeList(observationsCache);
                     return Ok(viewModelCache);
                 }
 
@@ -161,19 +124,7 @@ namespace Birder.Controllers
 
                 _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
-                //var viewModel = observations
-                //    .GroupBy(n => n.Bird)
-                //    .Select(n => new LifeListViewModel
-                //            {
-                //                BirdId = n.Key.BirdId,
-                //                EnglishName = n.Key.EnglishName,
-                //                Species = n.Key.Species,
-                //                PopulationSize = n.Key.PopulationSize,
-                //                BtoStatusInBritain = n.Key.BtoStatusInBritain,
-                //                ConservationStatus = n.Key.BirdConservationStatus.ConservationList,
-                //                Count = n.Count()
-                //            }).OrderByDescending(n => n.Count);
-                var viewModel = LifeListMappingHelper.MapLifeList(observations);
+                var viewModel = ObservationsAnalysisHelper.MapLifeList(observations);
 
                 return Ok(viewModel);
             }
