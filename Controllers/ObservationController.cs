@@ -65,14 +65,11 @@ namespace Birder.Controllers
 
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
 
-                //******** extension or helper method
-                List<string> followingList = (from following in loggedinUser.Following
-                                              select following.ApplicationUser.UserName).ToList();
+                var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
 
-                followingList.Add(username);
-                //********
+                followingUsernamesList.Add(username);
 
-                var userAndFollowingObservations = await _observationRepository.GetObservationsAsync(o => followingList.Contains(o.ApplicationUser.UserName));
+                var userAndFollowingObservations = await _observationRepository.GetObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName));
 
                 if (observations == null)
                 {

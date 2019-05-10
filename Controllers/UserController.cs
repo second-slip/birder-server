@@ -103,22 +103,19 @@ namespace Birder.Controllers
                 var username = User.Identity.Name;
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
 
-                //******** extension methods
-                IEnumerable<string> followerList = (from follower in loggedinUser.Followers
-                                   select follower.Follower.UserName).ToList();
-                List<string> followingList = (from following in loggedinUser.Following
-                                    select following.ApplicationUser.UserName).ToList();
+                var followersUsernamesList = NetworkHelpers.GetFollowersUserNames(loggedinUser.Followers);
 
-                followingList.Add(username);
+                var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
+                followingUsernamesList.Add(username);
 
-                IEnumerable<string> followersNotBeingFollowed = followerList.Except(followingList); // list usernames
+                IEnumerable<string> followersNotBeingFollowed = followersUsernamesList.Except(followingUsernamesList);
                 //********
 
                 if (String.IsNullOrEmpty(searchCriterion))
                 {
                     if (followersNotBeingFollowed.Count() == 0)
                     {
-                        var users = await _userRepository.GetSuggestedBirdersToFollowAsync(loggedinUser, followingList);
+                        var users = await _userRepository.GetSuggestedBirdersToFollowAsync(loggedinUser, followingUsernamesList);
                         return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                     }
                     else
@@ -129,7 +126,7 @@ namespace Birder.Controllers
                 }
                 else
                 {
-                    var users = await _userRepository.SearchBirdersToFollowAsync(loggedinUser, searchCriterion, followingList);
+                    var users = await _userRepository.SearchBirdersToFollowAsync(loggedinUser, searchCriterion, followingUsernamesList);
                     return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                 }
                 //return Ok(viewModel);
