@@ -55,29 +55,44 @@ namespace Birder.Controllers
         [HttpGet]
         public async Task<IActionResult> GetObservationsAsync()
         {
+            ObservationsFeedFilter filter = ObservationsFeedFilter.User;
             try
             {
                 var username = User.Identity.Name;
 
-                var observations = await _observationRepository.GetObservationsAsync(o => o.ApplicationUser.UserName == username); //.GetUsersObservationsList(username);
+                if (filter == ObservationsFeedFilter.User)
+                {
+                    var userObservations = await _observationRepository.GetObservationsAsync(o => o.ApplicationUser.UserName == username);
+                    if (userObservations.Count() > 0)
+                        return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(userObservations));
+                }
+
+                if (filter == ObservationsFeedFilter.UserAndNetwork)
+                {
+                    var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+
+                    var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
+
+                    followingUsernamesList.Add(username);
+
+                    var networkObservations = await _observationRepository.GetObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName));
+                    if (networkObservations.Count() > 0)
+                        return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
+                }
+
+                string message = "";
+                if (filter != ObservationsFeedFilter.Public)
+                    message = "There are no observations in your network.  Showing the latest public observations";
 
                 var publicObservations = await _observationRepository.GetObservationsAsync(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public);
-
-                var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
-
-                var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
-
-                followingUsernamesList.Add(username);
-
-                var userAndFollowingObservations = await _observationRepository.GetObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName));
-
-                if (observations == null)
+                
+                if (publicObservations == null)
                 {
                     _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations));
+                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(publicObservations));
             }
             catch (Exception ex)
             {
