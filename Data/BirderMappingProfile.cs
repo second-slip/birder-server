@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Birder.Controllers;
 using Birder.Data.Model;
-using Birder.Helpers;
 using Birder.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +14,15 @@ namespace Birder.Data
               .ForMember(a => a.User, b => b.MapFrom(a => a.ApplicationUser));
 
             CreateMap<ObservationViewModel, Observation>()
-                .ForMember(a => a.ApplicationUser, b => b.Ignore())
-                .ForMember(a => a.CreationDate, b => b.Ignore());
+              .ForMember(a => a.ApplicationUser, b => b.Ignore())
+              .ForMember(a => a.CreationDate, b => b.Ignore());
 
             CreateMap<List<Observation>, ObservationAnalysisViewModel>()
-                .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count()))
-                .ForMember(a => a.UniqueSpeciesCount, b => b.MapFrom(a => a.Select(i => i.BirdId).Distinct().Count()));
+              .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count()))
+              .ForMember(a => a.UniqueSpeciesCount, b => b.MapFrom(a => a.Select(i => i.BirdId).Distinct().Count()));
 
             CreateMap<List<Observation>, TopObservationsAnalysisViewModel>()
-                 .ForMember(a => a.TopObservations, opt => opt.MapFrom(a =>  //a.Where(t => t.ObservationDateTime >= opt.Items["Date"])
+              .ForMember(a => a.TopObservations, opt => opt.MapFrom(a =>  //a.Where(t => t.ObservationDateTime >= opt.Items["Date"])
                  a.GroupBy(n => n.Bird)
                     .Select(n => new TopObservationsViewModel
                     {
@@ -32,7 +30,7 @@ namespace Birder.Data
                         Name = n.Key.EnglishName,
                         Count = n.Count()
                     }).OrderByDescending(n => n.Count).Take(5)))
-                .ForMember(a => a.TopMonthlyObservations, b => b.MapFrom(a => a.GroupBy(n => n.Bird)
+              .ForMember(a => a.TopMonthlyObservations, b => b.MapFrom(a => a.GroupBy(n => n.Bird)
                     .Select(n => new TopObservationsViewModel
                     {
                         BirdId = n.Key.BirdId,
@@ -41,8 +39,6 @@ namespace Birder.Data
                     }).OrderByDescending(n => n.Count).Take(5)));
 
             CreateMap<List<Observation>, List<LifeListViewModel>>();
-              // .ForMember(a => a.
-
 
             CreateMap<ApplicationUser, UserViewModel>()
               .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
@@ -56,17 +52,17 @@ namespace Birder.Data
               .ReverseMap();
 
             CreateMap<ApplicationUser, Network>()
-            .ReverseMap();
+              .ReverseMap();
 
             CreateMap<Network, FollowingViewModel>()
-            .ForMember(x => x.UserName, y => y.MapFrom(x => x.ApplicationUser.UserName))
-            .ForMember(x => x.ProfileImage, y => y.MapFrom(x => x.ApplicationUser.ProfileImage))
-            .ReverseMap();
+              .ForMember(x => x.UserName, y => y.MapFrom(x => x.ApplicationUser.UserName))
+              .ForMember(x => x.ProfileImage, y => y.MapFrom(x => x.ApplicationUser.ProfileImage))
+              .ReverseMap();
 
             CreateMap<Network, FollowerViewModel>()
-            .ForMember(x => x.UserName, y => y.MapFrom(x => x.Follower.UserName))
-            .ForMember(x => x.ProfileImage, y => y.MapFrom(x => x.Follower.ProfileImage))
-            .ReverseMap();
+              .ForMember(x => x.UserName, y => y.MapFrom(x => x.Follower.UserName))
+              .ForMember(x => x.ProfileImage, y => y.MapFrom(x => x.Follower.ProfileImage))
+              .ReverseMap();
 
             CreateMap<ApplicationUser, UserProfileViewModel>()
               .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
@@ -75,7 +71,7 @@ namespace Birder.Data
               .ReverseMap();
 
             CreateMap<ApplicationUser, ManageProfileViewModel>()
-                .ReverseMap();
+              .ReverseMap();
 
             CreateMap<Bird, BirdDetailViewModel>()
               .ReverseMap();
@@ -88,7 +84,7 @@ namespace Birder.Data
 
             CreateMap<TweetDay, TweetDayViewModel>()
               .ForMember(d => d.Bird, m => m.MapFrom(d => d.Bird))
-             .ReverseMap();
+              .ReverseMap();
         }
     }
 }

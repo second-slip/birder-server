@@ -20,7 +20,6 @@ namespace Birder.Data
         public DbSet<Network> Network { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // New method for adding iniital data
@@ -30,7 +29,6 @@ namespace Birder.Data
             builder.Entity<Observation>().ToTable("Observation");
             builder.Entity<Bird>().ToTable("Bird");
             builder.Entity<ConservationStatus>().ToTable("ConservationStatus");
-            //builder.Entity<BritishStatus>().ToTable("BritishStatus");
             builder.Entity<Tag>().ToTable("Tag");
             builder.Entity<ObservationTag>().ToTable("ObservationTag");
             builder.Entity<TweetDay>().ToTable("TweetDay");
@@ -50,17 +48,17 @@ namespace Birder.Data
                     .HasForeignKey(ot => ot.TagId);
 
             builder.Entity<Network>()
-                .HasKey(k => new { k.ApplicationUserId, k.FollowerId });
+                    .HasKey(k => new { k.ApplicationUserId, k.FollowerId });
 
             builder.Entity<Network>()
-                .HasOne(l => l.ApplicationUser)
-                .WithMany(a => a.Followers)
-                .HasForeignKey(l => l.ApplicationUserId);
+                    .HasOne(l => l.ApplicationUser)
+                    .WithMany(a => a.Followers)
+                    .HasForeignKey(l => l.ApplicationUserId);
 
             builder.Entity<Network>()
-                .HasOne(l => l.Follower)
-                .WithMany(a => a.Following)
-                .HasForeignKey(l => l.FollowerId);
+                    .HasOne(l => l.Follower)
+                    .WithMany(a => a.Following)
+                    .HasForeignKey(l => l.FollowerId);
 
 
             //builder.Entity<NotificationTemplate>().HasData(new NotificationTemplate { Id = 1, Name = "Test", Body = "HTML<>", CreatedDate = DateTime.Now, IsInactive = false });
