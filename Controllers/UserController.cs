@@ -46,7 +46,7 @@ namespace Birder.Controllers
                     username = loggedinUsername;
                 }
 
-                var user = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+                var user = await _userRepository.GetUserAndNetworkAsync(username);
                 if (user == null)
                 {
                     return BadRequest("There was an error getting the user");
@@ -63,7 +63,7 @@ namespace Birder.Controllers
                 else
                 {
                     viewModel.IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == loggedinUsername);
-                    loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(loggedinUsername);
+                    loggedinUser = await _userRepository.GetUserAndNetworkAsync(loggedinUsername);
                 }
 
                 // Check Following / Followers collections from the point of view of the loggedin user
@@ -101,7 +101,7 @@ namespace Birder.Controllers
                 }
 
                 var username = User.Identity.Name;
-                var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+                var loggedinUser = await _userRepository.GetUserAndNetworkAsync(username);
 
                 var followersUsernamesList = NetworkHelpers.GetFollowersUserNames(loggedinUser.Followers);
 
@@ -144,9 +144,9 @@ namespace Birder.Controllers
         {
             try
             {
-                var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
+                var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
 
-                var userToFollow = await _userRepository.GetUserAndNetworkAsyncByUserName(userToFollowDetails.UserName);
+                var userToFollow = await _userRepository.GetUserAndNetworkAsync(userToFollowDetails.UserName);
 
                 if (loggedinUser == userToFollow)
                 {
@@ -156,7 +156,7 @@ namespace Birder.Controllers
                 _userRepository.Follow(loggedinUser, userToFollow);
                 await _unitOfWork.CompleteAsync();
                 var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToFollow);
-                loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
+                loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
                 viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
                 return Ok(viewModel);
                 
@@ -173,8 +173,8 @@ namespace Birder.Controllers
         {
             try
             {
-                var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
-                var userToUnfollow = await _userRepository.GetUserAndNetworkAsyncByUserName(userToFollowDetails.UserName);
+                var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
+                var userToUnfollow = await _userRepository.GetUserAndNetworkAsync(userToFollowDetails.UserName);
 
                 if (loggedinUser == userToUnfollow)
                 {
@@ -184,7 +184,7 @@ namespace Birder.Controllers
                 _userRepository.UnFollow(loggedinUser, userToUnfollow);
                 await _unitOfWork.CompleteAsync();
                 var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToUnfollow);
-                loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(User.Identity.Name);
+                loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
                 viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
                 return Ok(viewModel);
             }

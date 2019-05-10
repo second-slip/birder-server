@@ -69,7 +69,7 @@ namespace Birder.Controllers
 
                 if (filter == ObservationsFeedFilter.UserAndNetwork)
                 {
-                    var loggedinUser = await _userRepository.GetUserAndNetworkAsyncByUserName(username);
+                    var loggedinUser = await _userRepository.GetUserAndNetworkAsync(username);
 
                     var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
 
@@ -156,7 +156,7 @@ namespace Birder.Controllers
 
                     var observation = _mapper.Map<ObservationViewModel, Observation>(model);
                     observation.ApplicationUser = await _userManager.FindByNameAsync(username);
-                    observation.Bird = await _birdRepository.GetBird(model.BirdId);
+                    observation.Bird = await _birdRepository.GetBirdAsync(model.BirdId);
                     observation.CreationDate = _systemClock.GetNow;
                     observation.LastUpdateDate = observation.CreationDate;
 
@@ -213,7 +213,7 @@ namespace Birder.Controllers
 
                     _mapper.Map<ObservationViewModel, Observation>(model, observation);
 
-                    observation.Bird = await _birdRepository.GetBird(model.BirdId);
+                    observation.Bird = await _birdRepository.GetBirdAsync(model.BirdId);
 
                     observation.LastUpdateDate = _systemClock.GetNow;
 

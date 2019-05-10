@@ -91,7 +91,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var bird = await _birdRepository.GetBird(id);
+                var bird = await _birdRepository.GetBirdAsync(id);
 
                 if (bird == null)
                 {

@@ -1,5 +1,4 @@
-﻿
-namespace Birder.ViewModels
+﻿namespace Birder.ViewModels
 {
     public enum ObservationsFeedFilter
     {

@@ -25,7 +25,7 @@ namespace Birder.Data.Repository
             loggedinUser.Following.Remove(userToUnfollow.Followers.FirstOrDefault());
         }
 
-        public async Task<ApplicationUser> GetUserAndNetworkAsyncByUserName(string userName)
+        public async Task<ApplicationUser> GetUserAndNetworkAsync(string userName)
         {
             return await _dbContext.Users
                          .Include(x => x.Followers)
