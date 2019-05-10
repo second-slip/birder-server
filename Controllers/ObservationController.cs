@@ -154,18 +154,25 @@ namespace Birder.Controllers
                 {
                     var username = User.Identity.Name;
 
-                    var newObservation = _mapper.Map<ObservationViewModel, Observation>(model);
-                    newObservation.ApplicationUser = await _userManager.FindByNameAsync(username);
-                    newObservation.Bird = await _birdRepository.GetBird(model.BirdId);
-                    newObservation.CreationDate = _systemClock.GetNow;
-                    newObservation.LastUpdateDate = newObservation.CreationDate;
+                    var observation = _mapper.Map<ObservationViewModel, Observation>(model);
+                    observation.ApplicationUser = await _userManager.FindByNameAsync(username);
+                    observation.Bird = await _birdRepository.GetBird(model.BirdId);
+                    observation.CreationDate = _systemClock.GetNow;
+                    observation.LastUpdateDate = observation.CreationDate;
 
-                    _observationRepository.Add(newObservation);
+                    TryValidateModel(observation);
+                    if (!ModelState.IsValid)
+                    {
+                        // logging
+                        return BadRequest(ModelState);
+                    }
+
+                    _observationRepository.Add(observation);
                     await _unitOfWork.CompleteAsync();
 
                     _cache.Remove(CacheEntries.ObservationsList);
 
-                    return Ok(_mapper.Map<Observation, ObservationViewModel>(newObservation));
+                    return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
                 }
                 else
                 {
