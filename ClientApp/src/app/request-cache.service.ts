@@ -1,13 +1,3 @@
-// import { Injectable } from '@angular/core';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class RequestCacheService {
-
-//   constructor() { }
-// }
-
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse } from '@angular/common/http';
 
@@ -60,7 +50,7 @@ export class RequestCacheWithMap implements RequestCache {
 
     // remove expired cache entries
     const expired = Date.now() - maxAge;
-    this.cache.forEach(entry => {
+    this.cache.forEach(_ => {
       if (entry.lastRead < expired) {
         this.cache.delete(entry.url);
       }
