@@ -54,6 +54,11 @@ namespace Birder.Controllers
             {
                 //_userManager.F
                 //_logger.LogInformation("User created a new account with password.");
+                try
+                {
+                
+                // var user1 = await _userManager.FindByNameAsync(newUser.UserName);
+
 
                 // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
@@ -66,7 +71,12 @@ namespace Birder.Controllers
                 // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
                 await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
+                }
+                catch (Exception ex)
+                {
+                    
+                    throw;
+                }
                 // //await _signInManager.SignInAsync(user, isPersistent: false);
                 // _logger.LogInformation("User created a new account with password.");
                 //return RedirectToLocal(returnUrl);

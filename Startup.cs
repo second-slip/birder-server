@@ -62,6 +62,7 @@ namespace Birder
                 options.Password.RequireUppercase = false;
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                 .AddDefaultTokenProviders()
                 .AddSignInManager<SignInManager<ApplicationUser>>();
             //.AddDefaultTokenProviders();
 
