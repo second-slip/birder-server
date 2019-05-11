@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -15,12 +16,15 @@ namespace Birder.Controllers
     public class AccountController : ControllerBase
     {
         private readonly ISystemClock _systemClock;
+        private readonly IEmailSender _emailSender;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public AccountController(ISystemClock systemClock,
+                                IEmailSender emailSender,
                                 UserManager<ApplicationUser> userManager)
         {
             _systemClock = systemClock;
+            _emailSender = emailSender;
             _userManager = userManager;
         }
 
@@ -48,11 +52,20 @@ namespace Birder.Controllers
             
             if (result.Succeeded)
             {
+                //_userManager.F
                 //_logger.LogInformation("User created a new account with password.");
 
                 // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                var callbackUrl = Url.Page(
+                "/ConfirmEmail", //"/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { userId = newUser.Id, code = code },
+                protocol: Request.Scheme);
                 // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email",
+                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                 // //await _signInManager.SignInAsync(user, isPersistent: false);
                 // _logger.LogInformation("User created a new account with password.");
