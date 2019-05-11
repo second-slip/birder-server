@@ -51,7 +51,7 @@ namespace Birder
 
             services.AddIdentityCore<ApplicationUser>(options =>
             {
-                //options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
                 options.User.RequireUniqueEmail = true;
                 // Password settings: require any eight letters or numbers
                 options.Password.RequireDigit = true;
@@ -83,6 +83,9 @@ namespace Birder
             services.AddScoped<ITweetDayRepository, TweetDayRepository>();
 
             services.AddSingleton<ISystemClock, SystemClock>();
+
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
