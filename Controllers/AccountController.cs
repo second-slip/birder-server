@@ -113,7 +113,7 @@ namespace Birder.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string username, string code)
         {
-            return Redirect("http://localhost:55722");
+            return Redirect("/login");
             // if (userId == null || code == null)
             // {
             //     return RedirectToAction(nameof(HomeController.Index), "Home");
