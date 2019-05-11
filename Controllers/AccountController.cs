@@ -63,14 +63,27 @@ namespace Birder.Controllers
                 // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                var callbackUrl = Url.Page(
-                "/ConfirmEmail", //"/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { userId = newUser.Id, code = code },
-                protocol: Request.Scheme);
+                //var callbackUrl1 = new Uri(Url.Link("Register", new { userId = newUser.Id, code = code }));
+            // var callbackUrl = Url.Page(
+            //     "#",
+            //     pageHandler: null,
+            //     values: new { userId = newUser.Id, code = code },
+            //     protocol: Request.Scheme);
+
+                var callbackUrl = new Uri(Url.Link("ConfirmEmail", new { username = newUser.UserName, code = code }));
+ 
+            await _emailSender.SendEmailAsync(newUser.Email,"Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+            // var callbackUrl2 = Url.Page(
+            //     "/ClientApp/dist/ConfirmEmail",
+            //     pageHandler: null,
+            //     values: new { userId = newUser.Id, code = code },
+            //     protocol: Request.Scheme);
                 // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-                await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                // await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email",
+                //     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl}'>clicking here</a>.");
+                
+                return Ok();
                 }
                 catch (Exception ex)
                 {
@@ -82,7 +95,7 @@ namespace Birder.Controllers
                 //return RedirectToLocal(returnUrl);
                 //return RedirectToPage("/ConfirmYourEmail");
                 // return RedirectToAction("Welcome","Home");
-                return Ok();
+                
             }
                 //AddErrors(result);
             // username or email already taken, add to modelstate errors
@@ -94,6 +107,24 @@ namespace Birder.Controllers
             // If we got this far, something failed, redisplay form
             return BadRequest(ModelState);
             // return View(model);
+        }
+
+        [HttpGet, Route("ConfirmEmail", Name = "ConfirmEmail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string username, string code)
+        {
+            return Redirect("http://localhost:55722");
+            // if (userId == null || code == null)
+            // {
+            //     return RedirectToAction(nameof(HomeController.Index), "Home");
+            // }
+            // var user = await _userManager.FindByIdAsync(userId);
+            // if (user == null)
+            // {
+            //     throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+            // }
+            // var result = await _userManager.ConfirmEmailAsync(user, code);
+            // return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
         [HttpGet, Route("IsUsernameAvailable")]
