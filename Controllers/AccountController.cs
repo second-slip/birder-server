@@ -54,7 +54,6 @@ namespace Birder.Controllers
 
                 if (result.Succeeded)
                 {
-
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
 
                     // var callbackUrl = Url.Page(
@@ -66,7 +65,6 @@ namespace Birder.Controllers
                     var callbackUrl = new Uri(Url.Link("ConfirmEmail", new { username = newUser.UserName, code = code }));
 
                     await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
 
                     return Ok();
 
@@ -93,7 +91,6 @@ namespace Birder.Controllers
                 return BadRequest();
             }
         }
-
 
         [HttpGet, Route("ConfirmEmail", Name = "ConfirmEmail")]
         [AllowAnonymous]
