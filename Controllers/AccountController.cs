@@ -38,84 +38,89 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-            var newUser = new ApplicationUser
+            try
             {
-                UserName = model.UserName,
-                Email = model.Email,
-                DefaultLocationLatitude = 54.972237,
-                DefaultLocationLongitude = -2.4608560000000352,
-                ProfileImage = "https://img.icons8.com/color/96/000000/user.png", // "https://birderstorage.blob.core.windows.net/profile/default.png",
-                RegistrationDate = _systemClock.GetNow 
-            };
-
-            var result = await _userManager.CreateAsync(newUser, model.Password);
-            
-            if (result.Succeeded)
-            {
-                try
+                var newUser = new ApplicationUser
                 {
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    DefaultLocationLatitude = 54.972237,
+                    DefaultLocationLongitude = -2.4608560000000352,
+                    ProfileImage = "https://img.icons8.com/color/96/000000/user.png", // "https://birderstorage.blob.core.windows.net/profile/default.png",
+                    RegistrationDate = _systemClock.GetNow
+                };
 
-            // var callbackUrl = Url.Page(
-            //     "#",
-            //     pageHandler: null,
-            //     values: new { userId = newUser.Id, code = code },
-            //     protocol: Request.Scheme);
+                var result = await _userManager.CreateAsync(newUser, model.Password);
 
-                var callbackUrl = new Uri(Url.Link("ConfirmEmail", new { username = newUser.UserName, code = code }));
- 
-            await _emailSender.SendEmailAsync(newUser.Email,"Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-            // var callbackUrl2 = Url.Page(
-            //     "/ClientApp/dist/ConfirmEmail",
-            //     pageHandler: null,
-            //     values: new { userId = newUser.Id, code = code },
-            //     protocol: Request.Scheme);
-                // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-                // await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email",
-                //     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl}'>clicking here</a>.");
-                
-                return Ok();
-                }
-                catch (Exception ex)
+                if (result.Succeeded)
                 {
-                    
-                    throw;
+
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+
+                    // var callbackUrl = Url.Page(
+                    //     "#",
+                    //     pageHandler: null,
+                    //     values: new { userId = newUser.Id, code = code },
+                    //     protocol: Request.Scheme);
+
+                    var callbackUrl = new Uri(Url.Link("ConfirmEmail", new { username = newUser.UserName, code = code }));
+
+                    await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+
+                    return Ok();
+
+                    // //await _signInManager.SignInAsync(user, isPersistent: false);
+                    // _logger.LogInformation("User created a new account with password.");
+                    //return RedirectToLocal(returnUrl);
+                    //return RedirectToPage("/ConfirmYourEmail");
+                    // return RedirectToAction("Welcome","Home");
+
                 }
-                // //await _signInManager.SignInAsync(user, isPersistent: false);
-                // _logger.LogInformation("User created a new account with password.");
-                //return RedirectToLocal(returnUrl);
-                //return RedirectToPage("/ConfirmYourEmail");
-                // return RedirectToAction("Welcome","Home");
-                
-            }
                 //AddErrors(result);
-            // username or email already taken, add to modelstate errors
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(error.Code, error.Description);
-            }
+                // username or email already taken, add to modelstate errors
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
 
-            // If we got this far, something failed, redisplay form
-            return BadRequest(ModelState);
-            // return View(model);
+                // If we got this far, something failed, redisplay form
+                return BadRequest(ModelState);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest();
+            }
         }
+
 
         [HttpGet, Route("ConfirmEmail", Name = "ConfirmEmail")]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string username, string code)
         {
+            
+            if (username == null || code == null)
+            {
+                return BadRequest(); // error with email confirmation
+                //return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+
+            var user = await _userManager.FindByNameAsync(username); // FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest();
+                //throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (!result.Succeeded)
+            {
+                return BadRequest();
+            }
+
             return Redirect("/confirmed-email");
-            // if (userId == null || code == null)
-            // {
-            //     return RedirectToAction(nameof(HomeController.Index), "Home");
-            // }
-            // var user = await _userManager.FindByIdAsync(userId);
-            // if (user == null)
-            // {
-            //     throw new ApplicationException($"Unable to load user with ID '{userId}'.");
-            // }
-            // var result = await _userManager.ConfirmEmailAsync(user, code);
+
             // return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
