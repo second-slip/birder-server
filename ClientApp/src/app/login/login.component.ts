@@ -16,6 +16,7 @@ import { Location } from '@angular/common';
 export class LoginComponent implements OnInit {
   invalidLogin: boolean;
   loginForm: FormGroup;
+  errorReport: ErrorReportViewModel;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   returnUrl: string;
 
@@ -55,6 +56,7 @@ export class LoginComponent implements OnInit {
         },
         (error: ErrorReportViewModel) => {
           this.invalidLogin = true;
+          this.errorReport = error;
         });
   }
 
