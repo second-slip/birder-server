@@ -177,7 +177,6 @@ namespace Birder.Controllers
 
 
         [HttpPost, Route("ChangePassword")]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -185,12 +184,11 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-            //var user = await _userManager.GetUserAsync(User);
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             if (user == null)
             {
                 ModelState.AddModelError("Cannot Get User", $"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-                return BadRequest(ModelState);
+                return NotFound();
             }
 
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
