@@ -41,7 +41,7 @@ namespace Birder.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost, Route("login")] //[HttpPost("[action]")]
+        [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
         {
             if (!ModelState.IsValid)
@@ -50,7 +50,7 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-            // .FindByNameAsync(loginViewModel.Username);
+
             var user = await _userManager.FindByEmailAsync(loginViewModel.UserName);
 
             if (user != null)
