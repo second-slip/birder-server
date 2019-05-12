@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Services
@@ -11,9 +8,6 @@ namespace Birder.Services
     public interface IEmailSender
     {
         Task SendEmailAsync(string email, string subject, string message);
-
-        //Task Execute(string apiKey, string subject, string message, string email);
-
     }
     public class EmailSender : IEmailSender
     {
@@ -34,7 +28,7 @@ namespace Birder.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("Joe@contoso.com", "Joe Smith"),
+                From = new EmailAddress("Birder@Birder.com", "Birder Administrator"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

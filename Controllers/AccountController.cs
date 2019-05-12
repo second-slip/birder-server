@@ -52,18 +52,10 @@ namespace Birder.Controllers
             
             if (result.Succeeded)
             {
-                //_userManager.F
-                //_logger.LogInformation("User created a new account with password.");
                 try
                 {
-                
-                // var user1 = await _userManager.FindByNameAsync(newUser.UserName);
-
-
-                // var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                //var callbackUrl1 = new Uri(Url.Link("Register", new { userId = newUser.Id, code = code }));
+
             // var callbackUrl = Url.Page(
             //     "#",
             //     pageHandler: null,
