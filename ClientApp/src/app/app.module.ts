@@ -49,6 +49,7 @@ import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/
 import { AccountManagerLocationComponent } from './_accountManager/account-manager-location/account-manager-location.component';
 import { AccountManagerPasswordComponent } from './_accountManager/account-manager-password/account-manager-password.component';
 import { RequestCache, RequestCacheWithMap } from './request-cache.service';
+import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -88,6 +89,7 @@ export function tokenGetter() {
     LayoutAccountManagerComponent,
     AccountManagerLocationComponent,
     AccountManagerPasswordComponent,
+    ConfirmedEmailComponent,
 
   ],
   imports: [
