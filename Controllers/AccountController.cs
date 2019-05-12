@@ -73,14 +73,12 @@ namespace Birder.Controllers
 
                     return Ok();
                 }
-                //AddErrors(result);
-                // username or email already taken, add to modelstate errors
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(error.Code, error.Description);
                 }
 
-                // If we got this far, something failed, redisplay form
                 return BadRequest(ModelState);
             }
             catch (Exception ex)
@@ -98,14 +96,12 @@ namespace Birder.Controllers
             if (username == null || code == null)
             {
                 return BadRequest(); // error with email confirmation
-                //return RedirectToAction(nameof(HomeController.Index), "Home");
             }
 
             var user = await _userManager.FindByNameAsync(username); // FindByIdAsync(userId);
             if (user == null)
             {
-                return BadRequest();
-                //throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+                return NotFound();
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
@@ -126,7 +122,6 @@ namespace Birder.Controllers
             if (await _userManager.FindByNameAsync(userName) != null)
             {
                 ModelState.AddModelError("Username", $"Username '{userName}' is already taken.");
-
                 return BadRequest(ModelState);
             }
 

@@ -50,7 +50,6 @@ namespace Birder.Controllers
                 return BadRequest(ModelState);
             }
 
-
             var user = await _userManager.FindByEmailAsync(loginViewModel.UserName);
 
             if (user != null)
@@ -89,13 +88,12 @@ namespace Birder.Controllers
                         signingCredentials: signinCredentials
                         );
 
-
                     var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
                     return Ok(new { Token = tokenString });
                 }
             }
-
+            
             _logger.LogError(LoggingEvents.GetItemNotFound, "Login failed: User not found");
             return BadRequest(ModelState);
         }
