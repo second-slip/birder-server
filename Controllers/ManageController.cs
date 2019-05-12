@@ -187,30 +187,24 @@ namespace Birder.Controllers
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             if (user == null)
             {
-                ModelState.AddModelError("Cannot Get User", $"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
                 return NotFound();
             }
 
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
-                return BadRequest();
-                // invalidate current login?
+                foreach (var error in changePasswordResult.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
 
-                //AddErrors(changePasswordResult);
-                //return View(model);
+                return BadRequest(ModelState);
             }
-
-            //await _signInManager.SignInAsync(user, isPersistent: false);
-            //_logger.LogInformation("User changed their password successfully.");
-            //StatusMessage = "Your password has been changed.";
 
             return Ok(model);
         }
-
     }
 
-    // models
     public class ChangePasswordViewModel
     {
         [Required]

@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ParentErrorStateMatcher, PasswordValidator } from '../../../validators';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { first } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-account-manager-password',
@@ -35,7 +36,8 @@ export class AccountManagerPasswordComponent implements OnInit {
   };
 
   constructor(private accountManager: AccountManagerService
-    , private formBuilder: FormBuilder) { }
+            , private formBuilder: FormBuilder
+            , private toast: ToastrService) { }
 
   ngOnInit() {
     this.createForms();
@@ -72,15 +74,16 @@ export class AccountManagerPasswordComponent implements OnInit {
     .pipe(first())
     .subscribe(
        (data: ChangePasswordViewModel) => {
-         console.log('successful registration');
+         this.unsuccessful = false;
+         this.changePasswordForm.reset();
+         this.toast.success('Your changed your password', 'Success');
          // this.router.navigate(['/confirm-email']);
        },
       (error: ErrorReportViewModel) => {
         // if (error.status === 400) { }
         this.errorReport = error;
         this.unsuccessful = true;
-        console.log(error.friendlyMessage);
-        console.log('unsuccessful registration');
+        this.toast.error('Your password could not be changed', 'Error');
       });
   }
 }
