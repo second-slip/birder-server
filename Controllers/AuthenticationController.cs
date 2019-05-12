@@ -55,6 +55,13 @@ namespace Birder.Controllers
 
             if (user != null)
             {
+
+                if (user.EmailConfirmed == false)
+                {
+                    ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you confirm your email");
+                    return BadRequest(ModelState);
+                }
+
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginViewModel.Password, false);
                 // check for lockout / requires two factor login
                 if (result.Succeeded)
