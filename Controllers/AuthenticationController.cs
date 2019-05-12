@@ -58,17 +58,16 @@ namespace Birder.Controllers
 
                 if (user.EmailConfirmed == false)
                 {
-                    ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you confirm your email");
+                    ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you confirm your email.");
                     return BadRequest(ModelState);
                 }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginViewModel.Password, false);
-                // check for lockout / requires two factor login
+
                 if (result.Succeeded)
                 {
                     var claims = new List<Claim>
                     {
-                        //new Claim(ClaimTypes.Name, user.UserName),
                         new Claim(JwtRegisteredClaimNames.Email, user.Email),
                         new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
                         new Claim("ImageUrl", user.ProfileImage),

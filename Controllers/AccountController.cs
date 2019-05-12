@@ -1,9 +1,11 @@
 ﻿using Birder.Data.Model;
+using Birder.Helpers;
 using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -15,17 +17,20 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class AccountController : ControllerBase
     {
+        private readonly ILogger _logger;
         private readonly ISystemClock _systemClock;
         private readonly IEmailSender _emailSender;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountController(ISystemClock systemClock,
-                                IEmailSender emailSender,
-                                UserManager<ApplicationUser> userManager)
+        public AccountController(ISystemClock systemClock
+                               , IEmailSender emailSender
+                               , ILogger<AccountController> logger
+                               , UserManager<ApplicationUser> userManager)
         {
             _systemClock = systemClock;
             _emailSender = emailSender;
             _userManager = userManager;
+            _logger = logger;
         }
 
         [HttpPost, Route("Register")]
@@ -67,13 +72,6 @@ namespace Birder.Controllers
                     await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return Ok();
-
-                    // //await _signInManager.SignInAsync(user, isPersistent: false);
-                    // _logger.LogInformation("User created a new account with password.");
-                    //return RedirectToLocal(returnUrl);
-                    //return RedirectToPage("/ConfirmYourEmail");
-                    // return RedirectToAction("Welcome","Home");
-
                 }
                 //AddErrors(result);
                 // username or email already taken, add to modelstate errors
@@ -87,7 +85,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in new user registration.");
                 return BadRequest();
             }
         }
