@@ -25,6 +25,7 @@ import { AccountManagerProfileComponent } from './_accountManager/account-manage
 import { AccountManagerLocationComponent } from './_accountManager/account-manager-location/account-manager-location.component';
 import { AccountManagerPasswordComponent } from './_accountManager/account-manager-password/account-manager-password.component';
 import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -39,6 +40,7 @@ const routes: Routes = [
       { path: 'counter', component: CounterComponent },  //
       { path: 'confirm-email', component: ConfirmEmailComponent },
       { path: 'confirmed-email', component: ConfirmedEmailComponent },
+      { path: 'reset-password/:code', component: ResetPasswordComponent },
     ]
   },
   {
