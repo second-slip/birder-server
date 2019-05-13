@@ -5,10 +5,14 @@ using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Birder.Controllers
 {
@@ -20,9 +24,11 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         private readonly ISystemClock _systemClock;
         private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public AccountController(ISystemClock systemClock
+                               , IConfiguration config
                                , IEmailSender emailSender
                                , ILogger<AccountController> logger
                                , UserManager<ApplicationUser> userManager)
@@ -30,6 +36,7 @@ namespace Birder.Controllers
             _systemClock = systemClock;
             _emailSender = emailSender;
             _userManager = userManager;
+            _config = config;
             _logger = logger;
         }
 
@@ -92,7 +99,7 @@ namespace Birder.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string username, string code)
         {
-            
+
             if (username == null || code == null)
             {
                 return BadRequest(); // error with email confirmation
@@ -121,12 +128,51 @@ namespace Birder.Controllers
         {
             //string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
             var x = this.Request.Scheme;
-            var y =$"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
-            
+            var y = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+            //new UriBuilder(this.Request.Scheme, Request.Host.Host,   (y,
+
+            UriBuilder uriBuilder = new UriBuilder();
+            uriBuilder.Scheme = this.Request.Scheme;
+            uriBuilder.Host = this.Request.Host.Host;
+            uriBuilder.Path = this.Request.PathBase;
+            Uri uri = uriBuilder.Uri;
+            //Url.Link("ConfirmEmail", new { username = newUser.UserName, code = code }));
+
+            //Uri url = new Uri("http://localhost/rest/something/browse")
+            //      .AddQuery("page", "0").
+            //      .AddQuery("pageSize", "200");
+
             //var request = HttpContext.Response..Current.Request;
-            //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var model = new ForgotPasswordViewModel();
+            model.Email = "andrew.cross11@gmail.com";
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             //var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-            return Ok();
+            var t = String.Concat(_config["Url:BaseUrl"], "/reset-password/", HttpUtility.UrlEncode(code));
+
+            var e = HttpUtility.HtmlEncode(t);
+            var f = HttpUtility.UrlEncode(t);
+
+            var g = HttpUtility.HtmlEncode(code);
+            var h = HttpUtility.UrlEncode(code);
+
+
+            var k = String.Concat(_config["Url:BaseUrl"]);
+            //returns /api/product/list?foo=bar
+            string url = QueryHelpers.AddQueryString(k, "code", code);
+
+            //Multiple Parameters
+            //var queryParams = new Dictionary<string, string>()
+            //    {
+            //        {"cat", "221" },
+            //        {"gender", "boy" },
+            //        {"age","4,5,6" }
+            //    };
+            //returns /api/product/list?cat=221&gender=boy&age=4,5,6
+            //url = QueryHelpers.AddQueryString("/api/product/list", queryParams);
+            await _emailSender.SendEmailAsync(model.Email, "Reset Your Password", 
+                "Please confirm your account by clicking <a href=\"" + t + "\">here</a>");
+            return Ok(t);
         }
 
         //[HttpPost]
@@ -167,6 +213,14 @@ namespace Birder.Controllers
             }
 
             return Ok(true);
+        }
+
+
+        public class ForgotPasswordViewModel
+        {
+            [Required]
+            [EmailAddress]
+            public string Email { get; set; }
         }
     }
 }
