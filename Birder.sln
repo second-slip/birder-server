@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Birder", "Birder.csproj", "{2F3E511A-73E2-48FE-8152-21D2AF056932}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Birder", "Birder\Birder.csproj", "{632B1554-FC3B-457D-9245-60B0175C6B20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Birder.Tests", "Birder.Tests\Birder.Tests.csproj", "{62101230-16AA-4A7B-A7CB-62EB4C443CEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2F3E511A-73E2-48FE-8152-21D2AF056932}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F3E511A-73E2-48FE-8152-21D2AF056932}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F3E511A-73E2-48FE-8152-21D2AF056932}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F3E511A-73E2-48FE-8152-21D2AF056932}.Release|Any CPU.Build.0 = Release|Any CPU
+		{632B1554-FC3B-457D-9245-60B0175C6B20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{632B1554-FC3B-457D-9245-60B0175C6B20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{632B1554-FC3B-457D-9245-60B0175C6B20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{632B1554-FC3B-457D-9245-60B0175C6B20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62101230-16AA-4A7B-A7CB-62EB4C443CEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62101230-16AA-4A7B-A7CB-62EB4C443CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62101230-16AA-4A7B-A7CB-62EB4C443CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62101230-16AA-4A7B-A7CB-62EB4C443CEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
