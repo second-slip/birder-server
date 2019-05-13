@@ -120,8 +120,9 @@ namespace Birder.Controllers
         public async Task<IActionResult> ForgotPasswordAsync()
         {
             //string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
-
-            var x = Url.Content("~/");
+            var x = this.Request.Scheme;
+            var y =$"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+            
             //var request = HttpContext.Response..Current.Request;
             //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             //var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
