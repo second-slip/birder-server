@@ -50,6 +50,8 @@ import { AccountManagerLocationComponent } from './_accountManager/account-manag
 import { AccountManagerPasswordComponent } from './_accountManager/account-manager-password/account-manager-password.component';
 import { RequestCache, RequestCacheWithMap } from './request-cache.service';
 import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -90,6 +92,8 @@ export function tokenGetter() {
     AccountManagerLocationComponent,
     AccountManagerPasswordComponent,
     ConfirmedEmailComponent,
+    ResetPasswordComponent,
+    ForgotPasswordComponent,
 
   ],
   imports: [
