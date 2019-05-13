@@ -115,6 +115,46 @@ namespace Birder.Controllers
             // return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
+        [HttpGet, Route("Test")] //, Name = "ConfirmEmail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPasswordAsync()
+        {
+            //string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+
+            var x = Url.Content("~/");
+            //var request = HttpContext.Response..Current.Request;
+            //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            //var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
+            return Ok();
+        }
+
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = await _userManager.FindByEmailAsync(model.Email);
+        //        if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+        //        {
+        //            // Don't reveal that the user does not exist or is not confirmed
+        //            return RedirectToAction(nameof(ForgotPasswordConfirmation));
+        //        }
+
+        //        // For more information on how to enable account confirmation and password reset please
+        //        // visit https://go.microsoft.com/fwlink/?LinkID=532713
+        //        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+        //        var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
+        //        await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+        //           $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+        //        return RedirectToAction(nameof(ForgotPasswordConfirmation));
+        //    }
+
+        //    // If we got this far, something failed, redisplay form
+        //    return View(model);
+        //}
+
         [HttpGet, Route("IsUsernameAvailable")]
         [AllowAnonymous]
         public async Task<ActionResult<Boolean>> IsUsernameAvailable(string userName)
