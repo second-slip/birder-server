@@ -122,25 +122,27 @@ namespace Birder.Controllers
             // return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        [HttpGet, Route("Test")] //, Name = "ConfirmEmail")]
+        [HttpPost, Route("ForgotPassword")]
         [AllowAnonymous]
         public async Task<IActionResult> ForgotPasswordAsync(ForgotPasswordViewModel model)
         {
-
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return Ok(); // user does not exist or is not confirmed
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                var url = _urlService.ResetPasswordUrl(code);
+
+                await _emailSender.SendEmailAsync(model.Email, "Reset Your Password",
+                    "You can reset your password by clicking <a href=\"" + url + "\">here</a>");
+                return Ok(url);
             }
-
-            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-
-            //var t = new Uri(String.Concat(_config["Url:BaseUrl"], "/reset-password/", HttpUtility.UrlEncode(code)));
-            var url = _urlService.ResetPasswordUrl(code);
-
-            await _emailSender.SendEmailAsync(model.Email, "Reset Your Password", 
-                "You can reset your password by clicking <a href=\"" + url + "\">here</a>");
-            return Ok(url);
+            return BadRequest();
         }
 
         //[HttpPost]
