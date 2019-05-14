@@ -52,6 +52,7 @@ import { RequestCache, RequestCacheWithMap } from './request-cache.service';
 import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ForgotPasswordConfirmationComponent } from './forgot-password-confirmation/forgot-password-confirmation.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -94,6 +95,7 @@ export function tokenGetter() {
     ConfirmedEmailComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
+    ForgotPasswordConfirmationComponent,
 
   ],
   imports: [
