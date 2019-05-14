@@ -17,9 +17,9 @@ export class ForgotPasswordComponent implements OnInit {
   forgotEmailForm: FormGroup;
   // errorReport: ErrorReportViewModel;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
-  returnUrl: string;
+  // returnUrl: string;
 
-  login_validation_messages = {
+  forgot_password_validation_messages = {
     'email': [
       { type: 'required', message: 'Email is required' },
       { type: 'pattern', message: 'Enter a valid email' }

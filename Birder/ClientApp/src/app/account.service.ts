@@ -27,7 +27,6 @@ export class AccountService {
   }
 
   forgotPassword(viewModel: ForgotPasswordViewModel): Observable<void | ErrorReportViewModel> {
-    console.log(viewModel);
     return this.http.post<void>('api/Account/ForgotPassword', viewModel, httpOptions)
     .pipe(
       catchError(err => this.httpErrorHandlerService.handleHttpError(err))
