@@ -145,32 +145,9 @@ namespace Birder.Controllers
             return BadRequest();
         }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await _userManager.FindByEmailAsync(model.Email);
-        //        if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-        //        {
-        //            // Don't reveal that the user does not exist or is not confirmed
-        //            return RedirectToAction(nameof(ForgotPasswordConfirmation));
-        //        }
 
-        //        // For more information on how to enable account confirmation and password reset please
-        //        // visit https://go.microsoft.com/fwlink/?LinkID=532713
-        //        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-        //        var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-        //        await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-        //           $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-        //        return RedirectToAction(nameof(ForgotPasswordConfirmation));
-        //    }
 
-        //    // If we got this far, something failed, redisplay form
-        //    return View(model);
-        //}
+
 
         [HttpGet, Route("IsUsernameAvailable")]
         [AllowAnonymous]
@@ -191,6 +168,25 @@ namespace Birder.Controllers
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+        }
+
+        public class ResetPasswordViewModel
+        {
+            [Required]
+            [EmailAddress]
+            public string Email { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [DataType(DataType.Password)]
+            public string Password { get; set; }
+
+            [DataType(DataType.Password)]
+            [Display(Name = "Confirm password")]
+            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            public string ConfirmPassword { get; set; }
+
+            public string Code { get; set; }
         }
     }
 }
