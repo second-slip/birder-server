@@ -24,11 +24,11 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         private readonly ISystemClock _systemClock;
         private readonly IEmailSender _emailSender;
-        private readonly IConfiguration _config;
+        private readonly IUrlService _urlService;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public AccountController(ISystemClock systemClock
-                               , IConfiguration config
+                               , IUrlService urlService
                                , IEmailSender emailSender
                                , ILogger<AccountController> logger
                                , UserManager<ApplicationUser> userManager)
@@ -36,7 +36,7 @@ namespace Birder.Controllers
             _systemClock = systemClock;
             _emailSender = emailSender;
             _userManager = userManager;
-            _config = config;
+            _urlService = urlService;
             _logger = logger;
         }
 
@@ -127,16 +127,20 @@ namespace Birder.Controllers
         public async Task<IActionResult> ForgotPasswordAsync(ForgotPasswordViewModel model)
         {
 
-            // model.Email = "andrew.cross11@gmail.com";
             var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            {
+                return NotFound();
+            }
+
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            var t = new Uri(String.Concat(_config["Url:BaseUrl"], "/reset-password/", HttpUtility.UrlEncode(code)));
-
+            //var t = new Uri(String.Concat(_config["Url:BaseUrl"], "/reset-password/", HttpUtility.UrlEncode(code)));
+            var url = _urlService.ResetPasswordUrl(code);
 
             await _emailSender.SendEmailAsync(model.Email, "Reset Your Password", 
-                "Please confirm your account by clicking <a href=\"" + t + "\">here</a>");
-            return Ok(t);
+                "You can reset your password by clicking <a href=\"" + url + "\">here</a>");
+            return Ok(url);
         }
 
         //[HttpPost]

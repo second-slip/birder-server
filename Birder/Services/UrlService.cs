@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Birder.Services
 {
     public interface IUrlService
     {
-
+        Uri ResetPasswordUrl(string code);
     }
     public class UrlService : IUrlService
     {
@@ -17,6 +18,11 @@ namespace Birder.Services
         public UrlService(IConfiguration config)
         {
             _config = config;
+        }
+
+        public Uri ResetPasswordUrl(string code)
+        {
+            return new Uri(String.Concat(_config["Url:ResetPasswordUrl"], HttpUtility.UrlEncode(code)));
         }
     }
 
