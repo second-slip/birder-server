@@ -28,6 +28,7 @@ import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ForgotPasswordConfirmationComponent } from './forgot-password-confirmation/forgot-password-confirmation.component';
+import { ResetPasswordConfirmationComponent } from './reset-password-confirmation/reset-password-confirmation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -45,6 +46,7 @@ const routes: Routes = [
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'forgot-password-confirmation', component: ForgotPasswordConfirmationComponent },
       { path: 'reset-password/:code', component: ResetPasswordComponent },
+      { path: 'reset-password-confirmation', component: ResetPasswordConfirmationComponent },
     ]
   },
   {

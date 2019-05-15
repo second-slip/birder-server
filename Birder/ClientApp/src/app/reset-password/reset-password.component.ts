@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { AccountService } from '../account.service';
 import { ToastrService } from 'ngx-toastr';
 import { ParentErrorStateMatcher, PasswordValidator } from '../../validators';
+import { ResetPasswordViewModel } from '../../_models/ResetPasswordViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reset-password',
@@ -16,7 +19,7 @@ export class ResetPasswordComponent implements OnInit {
 
   matching_passwords_group: FormGroup;
   resetPasswordForm: FormGroup;
-  // errorReport: ErrorReportViewModel;
+  errorReport: ErrorReportViewModel;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   // returnUrl: string;
 
@@ -72,28 +75,28 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   onSubmit(value): void {
-    console.log(value);
-    // const viewModelObject = <ChangePasswordViewModel>{
-    //   oldPassword: value.oldPassword,
-    //   newPassword: value.matching_passwords.newPassword,
-    //   confirmPassword: value.matching_passwords.confirmPassword
-    // };
 
-    // this.accountManager.postChangePassword(viewModelObject)
-    // .pipe(first())
-    // .subscribe(
-    //    (data: ChangePasswordViewModel) => {
-    //      this.unsuccessful = false;
-    //      this.changePasswordForm.reset();
-    //      this.toast.success('Your changed your password', 'Success');
-    //      // this.router.navigate(['/confirm-email']);
-    //    },
-    //   (error: ErrorReportViewModel) => {
-    //     // if (error.status === 400) { }
-    //     this.errorReport = error;
-    //     this.unsuccessful = true;
-    //     this.toast.error('Your password could not be changed', 'Error');
-    //   });
+    const viewModelObject = <ResetPasswordViewModel>{
+      email: value.email,
+      password: value.matching_passwords.password,
+      confirmPassword: value.matching_passwords.confirmPassword,
+      code: value.code
+    };
+
+    this.accountService.resetPassword(viewModelObject)
+    .pipe(first())
+    .subscribe(_ => {
+        //  this.unsuccessful = false;
+        //  this.changePasswordForm.reset();
+        //  this.toast.success('Your changed your password', 'Success');
+         this.router.navigate(['/reset-password-confirmation']);
+       },
+      (error: ErrorReportViewModel) => {
+        // if (error.status === 400) { }
+        this.errorReport = error;
+        // this.unsuccessful = true;
+        this.toast.error('Your password could not be changed', 'Error');
+      });
   }
 
 }

@@ -53,6 +53,7 @@ import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ForgotPasswordConfirmationComponent } from './forgot-password-confirmation/forgot-password-confirmation.component';
+import { ResetPasswordConfirmationComponent } from './reset-password-confirmation/reset-password-confirmation.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -96,6 +97,7 @@ export function tokenGetter() {
     ResetPasswordComponent,
     ForgotPasswordComponent,
     ForgotPasswordConfirmationComponent,
+    ResetPasswordConfirmationComponent,
 
   ],
   imports: [
