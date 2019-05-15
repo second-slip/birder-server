@@ -11,8 +11,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ObservationFeedComponent } from './_observations/observation-feed/observation-feed.component';
 import { ObservationDetailComponent } from './_observations/observation-detail/observation-detail.component';
 import { ObservationAddComponent } from './_observations/observation-add/observation-add.component';
-import { RegisterComponent } from './register/register.component';
-import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { RegisterComponent } from './_account/register/register.component';
+import { ConfirmEmailComponent } from './_account/confirm-email/confirm-email.component';
 import { ObservationEditComponent } from './_observations/observation-edit/observation-edit.component';
 import { ObservationDeleteComponent } from './_observations/observation-delete/observation-delete.component';
 import { LifeListComponent } from './life-list/life-list.component';
@@ -24,11 +24,11 @@ import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/
 import { AccountManagerProfileComponent } from './_accountManager/account-manager-profile/account-manager-profile.component';
 import { AccountManagerLocationComponent } from './_accountManager/account-manager-location/account-manager-location.component';
 import { AccountManagerPasswordComponent } from './_accountManager/account-manager-password/account-manager-password.component';
-import { ConfirmedEmailComponent } from './confirmed-email/confirmed-email.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { ForgotPasswordConfirmationComponent } from './forgot-password-confirmation/forgot-password-confirmation.component';
-import { ResetPasswordConfirmationComponent } from './reset-password-confirmation/reset-password-confirmation.component';
+import { ConfirmedEmailComponent } from './_account/confirmed-email/confirmed-email.component';
+import { ResetPasswordComponent } from './_account/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './_account/forgot-password/forgot-password.component';
+import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-confirmation/forgot-password-confirmation.component';
+import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },

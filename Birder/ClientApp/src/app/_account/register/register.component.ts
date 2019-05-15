@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
-import { UsernameValidator, PasswordValidator, ParentErrorStateMatcher } from '../../validators';
-import { AccountService } from '../account.service';
+import { UsernameValidator, PasswordValidator, ParentErrorStateMatcher } from '../../../validators';
+import { AccountService } from '../../account.service';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { RegisterViewModel } from '../../_models/RegisterViewModel';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { RegisterViewModel } from '../../../_models/RegisterViewModel';
+import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-register',
