@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace Birder.Services
     public interface IUrlService
     {
         Uri ResetPasswordUrl(string code);
-        //Uri ConfirmEmailUrl(string username, string code);
+        Uri ConfirmEmailUrl(string username, string code);
+
     }
     public class UrlService : IUrlService
     {
@@ -20,6 +22,17 @@ namespace Birder.Services
         public UrlService(IConfiguration config)
         {
             _config = config;
+        }
+
+        public Uri ConfirmEmailUrl(string username, string code)
+        {
+            var queryParams = new Dictionary<string, string>()
+                {
+                    {"username", username },
+                    {"code", code }
+                };
+
+            return new Uri(QueryHelpers.AddQueryString(_config["Url:ConfirmEmailUrl"], queryParams));
         }
 
         public Uri ResetPasswordUrl(string code)

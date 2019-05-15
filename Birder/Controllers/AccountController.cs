@@ -63,15 +63,10 @@ namespace Birder.Controllers
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
 
-                    // var callbackUrl = Url.Page(
-                    //     "#",
-                    //     pageHandler: null,
-                    //     values: new { userId = newUser.Id, code = code },
-                    //     protocol: Request.Scheme);
+                    //var callbackUrl = new Uri(Url.Link("ConfirmEmail", new { username = newUser.UserName, code = code }));
+                    var url = _urlService.ConfirmEmailUrl(newUser.UserName, code);
 
-                    var callbackUrl = new Uri(Url.Link("ConfirmEmail", new { username = newUser.UserName, code = code }));
-
-                    await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
 
                     return Ok();
                 }
