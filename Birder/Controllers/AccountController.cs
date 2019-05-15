@@ -145,7 +145,36 @@ namespace Birder.Controllers
             return BadRequest();
         }
 
+        [HttpPost, Route("ResetPassword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                //return RedirectToAction(nameof(ResetPasswordConfirmation));
+                return Ok();
+            }
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return Ok();
+                //return RedirectToAction(nameof(ResetPasswordConfirmation));
+            }
+            //AddErrors(result);
+            //return View();
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(error.Code, error.Description);
+            }
 
+            return BadRequest(ModelState);
+        }
 
 
 

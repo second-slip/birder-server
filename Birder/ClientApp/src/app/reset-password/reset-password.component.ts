@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AccountService } from '../account.service';
 import { ToastrService } from 'ngx-toastr';
-import { ParentErrorStateMatcher, PasswordValidator } from 'src/validators';
+import { ParentErrorStateMatcher, PasswordValidator } from '../../validators';
 
 @Component({
   selector: 'app-reset-password',
@@ -13,8 +13,9 @@ import { ParentErrorStateMatcher, PasswordValidator } from 'src/validators';
 })
 export class ResetPasswordComponent implements OnInit {
   // code: string;
-  resetPasswordForm: FormGroup;
+
   matching_passwords_group: FormGroup;
+  resetPasswordForm: FormGroup;
   // errorReport: ErrorReportViewModel;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   // returnUrl: string;
@@ -65,8 +66,34 @@ export class ResetPasswordComponent implements OnInit {
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
-      code: new FormControl(code)
+      code: new FormControl(code),
+      matching_passwords: this.matching_passwords_group
     });
+  }
+
+  onSubmit(value): void {
+    console.log(value);
+    // const viewModelObject = <ChangePasswordViewModel>{
+    //   oldPassword: value.oldPassword,
+    //   newPassword: value.matching_passwords.newPassword,
+    //   confirmPassword: value.matching_passwords.confirmPassword
+    // };
+
+    // this.accountManager.postChangePassword(viewModelObject)
+    // .pipe(first())
+    // .subscribe(
+    //    (data: ChangePasswordViewModel) => {
+    //      this.unsuccessful = false;
+    //      this.changePasswordForm.reset();
+    //      this.toast.success('Your changed your password', 'Success');
+    //      // this.router.navigate(['/confirm-email']);
+    //    },
+    //   (error: ErrorReportViewModel) => {
+    //     // if (error.status === 400) { }
+    //     this.errorReport = error;
+    //     this.unsuccessful = true;
+    //     this.toast.error('Your password could not be changed', 'Error');
+    //   });
   }
 
 }
