@@ -5,14 +5,9 @@ using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Birder.Controllers
 {
@@ -189,33 +184,6 @@ namespace Birder.Controllers
             }
 
             return Ok(true);
-        }
-
-
-        public class ForgotPasswordViewModel
-        {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
-        }
-
-        public class ResetPasswordViewModel
-        {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
-
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            public string Password { get; set; }
-
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
-
-            public string Code { get; set; }
         }
     }
 }
