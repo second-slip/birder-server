@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -10,6 +11,7 @@ namespace Birder.Services
     public interface IUrlService
     {
         Uri ResetPasswordUrl(string code);
+        //Uri ConfirmEmailUrl(string username, string code);
     }
     public class UrlService : IUrlService
     {
