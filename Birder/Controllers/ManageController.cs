@@ -93,6 +93,11 @@ namespace Birder.Controllers
                 // send confirm email message
             }
 
+            //***********************************************
+
+
+            //***********************************************
+
             //if (model.ProfileImage != null)
             //{
             //    try
@@ -153,7 +158,6 @@ namespace Birder.Controllers
                 }
             }
 
-            //StatusMessage = "Your default location has been updated";
             return Ok(model);
         }
 
@@ -179,7 +183,6 @@ namespace Birder.Controllers
                 {
                     ModelState.AddModelError(error.Code, error.Description);
                 }
-
                 return BadRequest(ModelState);
             }
 

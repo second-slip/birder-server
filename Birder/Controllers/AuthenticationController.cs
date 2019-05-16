@@ -69,7 +69,7 @@ namespace Birder.Controllers
                     {
                         new Claim(JwtRegisteredClaimNames.Email, user.Email),
                         new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                        new Claim("ImageUrl", user.ProfileImage),
+                        new Claim("ImageUrl", user.Avatar),
                         new Claim("DefaultLatitude", user.DefaultLocationLatitude.ToString()),
                         new Claim("DefaultLongitude", user.DefaultLocationLongitude.ToString()),
                         //new Claim(JwtRegisteredClaimNames., "Administrator"),
