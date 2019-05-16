@@ -80,9 +80,9 @@ namespace Birder.Controllers
                         return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
                 }
 
-                string message = "";
-                if (filter != ObservationsFeedFilter.Public)
-                    message = "There are no observations in your network.  Showing the latest public observations";
+                //string message = "";
+                //if (filter != ObservationsFeedFilter.Public)
+                    //message = "There are no observations in your network.  Showing the latest public observations";
 
                 var publicObservations = await _observationRepository.GetObservationsAsync(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public);
                 
