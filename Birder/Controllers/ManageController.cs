@@ -90,6 +90,7 @@ namespace Birder.Controllers
                     ModelState.AddModelError("Email", $"Unexpected error occurred setting email for user with ID '{user.Id}'.");
                     return BadRequest(ModelState);
                 }
+                // send confirm email message
             }
 
             //if (model.ProfileImage != null)
@@ -121,25 +122,6 @@ namespace Birder.Controllers
             //StatusMessage = "Your profile has been updated";
             //return RedirectToAction(nameof(Index));
         }
-
-        //[HttpGet]
-        //public async Task<IActionResult> SetLocation()
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-        //    if (user == null)
-        //    {
-        //        throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-        //    }
-
-        //    var model = new SetLocationViewModel
-        //    {
-        //        DefaultLocationLatitude = user.DefaultLocationLatitude,
-        //        DefaultLocationLongitude = user.DefaultLocationLongitude,
-        //        StatusMessage = StatusMessage
-        //    };
-
-        //    return View(model);
-        //}
 
         [HttpPost, Route("SetLocation")]
         public async Task<IActionResult> SetLocation(SetLocationViewModel model)
