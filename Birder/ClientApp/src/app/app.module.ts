@@ -54,6 +54,7 @@ import { ResetPasswordComponent } from './_account/reset-password/reset-password
 import { ForgotPasswordComponent } from './_account/forgot-password/forgot-password.component';
 import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-confirmation/forgot-password-confirmation.component';
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
+import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -98,6 +99,7 @@ export function tokenGetter() {
     ForgotPasswordComponent,
     ForgotPasswordConfirmationComponent,
     ResetPasswordConfirmationComponent,
+    AccountManagerAvatarComponent,
 
   ],
   imports: [
