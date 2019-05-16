@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Linq;
 
 namespace Birder.Helpers
@@ -15,6 +16,15 @@ namespace Birder.Helpers
                         .ToArray());
 
             return validationErrors;
+        }
+
+        public static ModelStateDictionary AddIdentityErrors(ModelStateDictionary modelState, IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                modelState.AddModelError(string.Empty, error.Description);
+            }
+            return modelState;
         }
     }
 }

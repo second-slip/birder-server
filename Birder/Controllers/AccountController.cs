@@ -72,10 +72,11 @@ namespace Birder.Controllers
                     return Ok();
                 }
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(error.Code, error.Description);
-                }
+                //foreach (var error in result.Errors)
+                //{
+                //    ModelState.AddModelError(error.Code, error.Description);
+                //}
+                ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
 
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
                 return BadRequest(ModelState);
@@ -106,10 +107,11 @@ namespace Birder.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(error.Code, error.Description);
-                }
+                //foreach (var error in result.Errors)
+                //{
+                //    ModelState.AddModelError(error.Code, error.Description);
+                //}
+                ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
                 return BadRequest(ModelState);
             }
@@ -165,10 +167,11 @@ namespace Birder.Controllers
             }
             //AddErrors(result);
             //return View();
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(error.Code, error.Description);
-            }
+            ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
+            //foreach (var error in result.Errors)
+            //{
+            //    ModelState.AddModelError(error.Code, error.Description);
+            //}
 
             _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
             return BadRequest(ModelState);
@@ -181,7 +184,6 @@ namespace Birder.Controllers
         //        ModelState.AddModelError(string.Empty, error.Description);
         //    }
         //}
-
 
         [HttpGet, Route("IsUsernameAvailable")]
         [AllowAnonymous]

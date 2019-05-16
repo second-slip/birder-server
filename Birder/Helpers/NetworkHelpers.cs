@@ -1,8 +1,6 @@
 ﻿using Birder.Data.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Birder.Helpers
 {
@@ -17,7 +15,7 @@ namespace Birder.Helpers
         public static List<string> GetFollowingUserNames(ICollection<Network> following)
         {
             return (from user in following
-                    select user.ApplicationUser.UserName).ToList();
+                        select user.ApplicationUser.UserName).ToList();
         }
     }
 }
