@@ -186,7 +186,7 @@ export class ObservationAddComponent implements OnInit {
           console.log('could not get the user, using default coordinates');
           const userTemp = <UserViewModel>{
             userName: '',
-            profileImage: '',
+            avatar: '',
             defaultLocationLatitude: 54.972237,
             defaultLocationLongitude: -2.4608560000000352,
           };

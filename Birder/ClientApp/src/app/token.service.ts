@@ -19,7 +19,7 @@ export class TokenService {
         const tokenDecoded = this.jwtHelper.decodeToken(token);
         user.next({
           userName: tokenDecoded.unique_name,
-          profileImage: tokenDecoded.ImageUrl,
+          avatar: tokenDecoded.ImageUrl,
           defaultLocationLatitude: parseFloat(tokenDecoded.DefaultLatitude),
           defaultLocationLongitude: parseFloat(tokenDecoded.DefaultLongitude)
         });

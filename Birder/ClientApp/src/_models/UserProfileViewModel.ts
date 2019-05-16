@@ -1,6 +1,6 @@
 export interface UserProfileViewModel {
     userName: string;
-    profileImage: string;
+    avatar: string;
     registrationDate: Date | string;
     isOwnProfile: boolean;
     isFollowing: boolean;
@@ -10,7 +10,7 @@ export interface UserProfileViewModel {
 
 export interface NetworkUserViewModel {
     userName: string;
-    profileImage: string;
+    avatar: string;
     isFollowing: boolean;
     isOwnProfile: boolean;
 }

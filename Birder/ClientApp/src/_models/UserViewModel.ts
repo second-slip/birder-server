@@ -1,6 +1,6 @@
 export interface UserViewModel {
    userName: string;
-   profileImage: string;
+   avatar: string;
    defaultLocationLatitude: number;
    defaultLocationLongitude: number;
 }

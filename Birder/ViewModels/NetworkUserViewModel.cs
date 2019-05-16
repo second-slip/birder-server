@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Birder.ViewModels
+﻿namespace Birder.ViewModels
 {
     public class NetworkUserViewModel
     {
         public string UserName { get; set; }
-        public string ProfileImage { get; set; }
+        public string Avatar { get; set; }
         public bool IsFollowing { get; set; }
         public bool IsOwnProfile { get; set; }
     }

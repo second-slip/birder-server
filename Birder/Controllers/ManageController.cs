@@ -102,15 +102,15 @@ namespace Birder.Controllers
             //{
             //    try
             //    {
-            //        string filepath = string.Concat(user.UserName, Path.GetExtension(model.ProfileImage.FileName.ToString()));
-            //        var imageArray = await _stream.GetByteArray(model.ProfileImage);
+            //        string filepath = string.Concat(user.UserName, Path.GetExtension(model.Avatar.FileName.ToString()));
+            //        var imageArray = await _stream.GetByteArray(model.Avatar);
             //        imageArray = _stream.ResizePhoto(imageArray, 64, 64);
             //        var imageUpload = _imageService.StoreProfileImage(filepath, imageArray, "profile");
 
             //        imageUpload.Wait();
             //        if (imageUpload.IsCompletedSuccessfully == true)
             //        {
-            //            user.ProfileImage = imageUpload.Result;
+            //            user.Avatar = imageUpload.Result;
             //        }
             //    }
             //    catch
