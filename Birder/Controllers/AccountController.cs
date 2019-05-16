@@ -13,7 +13,8 @@ namespace Birder.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    [AllowAnonymous]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     public class AccountController : ControllerBase
     {
         private readonly ILogger _logger;
@@ -41,7 +42,7 @@ namespace Birder.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Log modelstate errors
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
                 return BadRequest(ModelState);
             }
 
@@ -76,6 +77,7 @@ namespace Birder.Controllers
                     ModelState.AddModelError(error.Code, error.Description);
                 }
 
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
                 return BadRequest(ModelState);
             }
             catch (Exception ex)
@@ -95,7 +97,7 @@ namespace Birder.Controllers
                 return BadRequest(); // error with email confirmation
             }
 
-            var user = await _userManager.FindByNameAsync(username); // FindByIdAsync(userId);
+            var user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
                 return NotFound();
@@ -104,12 +106,15 @@ namespace Birder.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                return BadRequest();
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                return BadRequest(ModelState);
             }
 
             return Redirect("/confirmed-email");
-
-            // return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
         [HttpPost, Route("ForgotPassword")]
@@ -132,6 +137,8 @@ namespace Birder.Controllers
                     "You can reset your password by clicking <a href=\"" + url + "\">here</a>");
                 return Ok(url);
             }
+
+            _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
             return BadRequest();
         }
 
@@ -163,9 +170,17 @@ namespace Birder.Controllers
                 ModelState.AddModelError(error.Code, error.Description);
             }
 
+            _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
             return BadRequest(ModelState);
         }
 
+        //private void AddErrors(IdentityResult result)
+        //{
+        //    foreach (var error in result.Errors)
+        //    {
+        //        ModelState.AddModelError(string.Empty, error.Description);
+        //    }
+        //}
 
 
         [HttpGet, Route("IsUsernameAvailable")]
