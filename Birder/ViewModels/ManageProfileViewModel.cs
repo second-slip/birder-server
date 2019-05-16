@@ -15,7 +15,7 @@ namespace Birder.ViewModels
         [EmailAddress]
         public string Email { get; set; }
 
-        public string Avatar { get; set; }
+        //public string Avatar { get; set; }
 
         //public string StatusMessage { get; set; }
     }
