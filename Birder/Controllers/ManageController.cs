@@ -138,6 +138,12 @@ namespace Birder.Controllers
             //return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost, Route("SetAvatar")]
+        public async Task<IActionResult> SetAvatar(string urlOrFilePathOrWhatever)
+        {
+            return Ok();
+        }
+
         [HttpPost, Route("SetLocation")]
         public async Task<IActionResult> SetLocation(SetLocationViewModel model)
         {
