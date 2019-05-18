@@ -17,11 +17,12 @@ import { first } from 'rxjs/operators';
 })
 export class AccountManagerProfileComponent implements OnInit {
   user: ManageProfileViewModel;
-  invalidRegistration: boolean; //
+  // invalidRegistration: boolean; //
   manageProfileForm: FormGroup;
   errorReport: ErrorReportViewModel;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
-  isUsernameAvailable: boolean = true;
+  isUsernameAvailable = true;
+  emailChanged = false;
 
   manageProfile_validation_messages = {
     'userName': [
@@ -113,25 +114,32 @@ export class AccountManagerProfileComponent implements OnInit {
       return;
     }
 
+    // emailChanged
+
     const model = <ManageProfileViewModel> {
       userName: value.userName,
       email: value.email,
-      // password: value.matching_passwords.password,
-      // confirmPassword: value.matching_passwords.confirmPassword
     };
+
+    if (model.email !== this.user.email) {
+      this.emailChanged = true;
+    }
 
     this.accountManager.postUpdateProfile(model)
     .pipe(first())
     .subscribe(
        (data: ManageProfileViewModel) => {
          this.user = data;
-         console.log('successful registration');
-        //  this.router.navigate(['/confirm-email']);
+         if (this.emailChanged === true) {
+          this.router.navigate(['/confirm-email']);
+         } else {
+          this.router.navigate(['/login']);
+         }
        },
       (error: ErrorReportViewModel) => {
         // if (error.status === 400) { }
         this.errorReport = error;
-        this.invalidRegistration = true;
+        // this.invalidRegistration = true;
         console.log(error.friendlyMessage);
         console.log('unsuccessful registration');
       });
