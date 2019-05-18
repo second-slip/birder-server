@@ -17,15 +17,21 @@ namespace Birder.Controllers
     public class ManageController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly ISystemClock _systemClock;
+        //private readonly ISystemClock _systemClock;
+        private readonly IUrlService _urlService;
+        private readonly IEmailSender _emailSender;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ManageController(IMapper mapper,
-                                ISystemClock systemClock,
-                                UserManager<ApplicationUser> userManager)
+        public ManageController(IMapper mapper
+                              , IEmailSender emailSender
+                              , IUrlService urlService
+                                //ISystemClock systemClock,
+                              , UserManager<ApplicationUser> userManager)
         {
             _mapper = mapper;
-            _systemClock = systemClock;
+            _urlService = urlService;
+            _emailSender = emailSender;
+            //_systemClock = systemClock;
             _userManager = userManager;
         }
 
@@ -80,7 +86,6 @@ namespace Birder.Controllers
                 }
             }
 
-
             var email = user.Email;
             if (model.Email != email)
             {
@@ -90,7 +95,12 @@ namespace Birder.Controllers
                     ModelState.AddModelError("Email", $"Unexpected error occurred setting email for user with ID '{user.Id}'.");
                     return BadRequest(ModelState);
                 }
-                // send confirm email message
+                else
+                {
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var url = _urlService.ConfirmEmailUrl(model.UserName, code);
+                    await _emailSender.SendEmailAsync(model.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
+                }
             }
 
             //***********************************************
