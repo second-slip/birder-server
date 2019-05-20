@@ -3,11 +3,12 @@ import { AccountManagerService } from '../../account-manager.service';
 import { ToastrService } from 'ngx-toastr';
 import { ManageProfileViewModel } from '../../../_models/ManageProfileViewModel';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
-import { Router } from '@angular/router';
+import { Router, RouterStateSnapshot } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AccountService } from '../../account.service';
 import { ParentErrorStateMatcher } from '../../../validators';
 import { first } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-account-manager-profile',
@@ -17,7 +18,7 @@ import { first } from 'rxjs/operators';
 })
 export class AccountManagerProfileComponent implements OnInit {
   user: ManageProfileViewModel;
-  // invalidRegistration: boolean; //
+  invalidChange: boolean; //
   manageProfileForm: FormGroup;
   errorReport: ErrorReportViewModel;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -133,7 +134,7 @@ export class AccountManagerProfileComponent implements OnInit {
          if (this.emailChanged === true) {
           this.router.navigate(['/confirm-email']);
          } else {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-profile' }});
          }
        },
       (error: ErrorReportViewModel) => {
