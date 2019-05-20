@@ -9,9 +9,6 @@ import { AccountService } from '../../account.service';
 import { ParentErrorStateMatcher } from '../../../validators';
 import { first } from 'rxjs/operators';
 
-// - Add Toast
-// - 
-
 @Component({
   selector: 'app-account-manager-profile',
   templateUrl: './account-manager-profile.component.html',
@@ -54,13 +51,13 @@ export class AccountManagerProfileComponent implements OnInit {
 
     this.manageProfileForm = this.formBuilder.group({
       userName: new FormControl(this.user.userName, Validators.compose([
-       // ValidateEmailNotTaken.createValidator(this.accountService),
-       // this.validateEmailNotTaken.bind(this),
-       // UsernameValidator.validUsername,
-       Validators.maxLength(25),
-       Validators.minLength(5),
-       Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
-       Validators.required
+        // ValidateEmailNotTaken.createValidator(this.accountService),
+        // this.validateEmailNotTaken.bind(this),
+        // UsernameValidator.validUsername,
+        Validators.maxLength(25),
+        Validators.minLength(5),
+        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
+        Validators.required
       ])),
       email: new FormControl(this.user.email, Validators.compose([
         Validators.required,
@@ -71,14 +68,14 @@ export class AccountManagerProfileComponent implements OnInit {
 
   validateUsernameIsAvailable(username: string) {
     return this.accountService.checkValidUsername(username)
-    .subscribe(
-      (data: boolean) => {
-        this.isUsernameAvailable = data;
-      },
-      (error: ErrorReportViewModel) => {
-        this.isUsernameAvailable = false;
-      }
-    );
+      .subscribe(
+        (data: boolean) => {
+          this.isUsernameAvailable = data;
+        },
+        (error: ErrorReportViewModel) => {
+          this.isUsernameAvailable = false;
+        }
+      );
   }
 
   checkUsernameIsAvailable(): void {
@@ -95,29 +92,26 @@ export class AccountManagerProfileComponent implements OnInit {
 
   getUserProfile() {
     this.accountManager.getUserProfile()
-    .subscribe(
-      (data: ManageProfileViewModel) => {
-        this.user = data;
-        this.createForms();
-      },
-      (error: ErrorReportViewModel) => {
-        // console.log(error);
-        this.toast.error(error.friendlyMessage, 'An error occurred');
-        // this.router.navigate(['/']);
-      });
+      .subscribe(
+        (data: ManageProfileViewModel) => {
+          this.user = data;
+          this.createForms();
+        },
+        (error: ErrorReportViewModel) => {
+          this.toast.error(error.friendlyMessage, 'An error occurred');
+          this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-profile' } });
+        });
   }
 
   onSubmit(value): void {
 
     if (this.isUsernameAvailable === false) {
       const unavailableUsername = this.manageProfileForm.get('userName').value;
-      alert(`The username '${unavailableUsername}' is already taken.  Please choose a different username.`);
+      this.toast.error(`The username '${unavailableUsername}' is already taken.  Please choose a different username.`, 'Error');
       return;
     }
 
-    // emailChanged
-
-    const model = <ManageProfileViewModel> {
+    const model = <ManageProfileViewModel>{
       userName: value.userName,
       email: value.email,
     };
@@ -127,22 +121,22 @@ export class AccountManagerProfileComponent implements OnInit {
     }
 
     this.accountManager.postUpdateProfile(model)
-    .pipe(first())
-    .subscribe(
-       (data: ManageProfileViewModel) => {
-         this.user = data;
-         if (this.emailChanged === true) {
-          this.router.navigate(['/confirm-email']);
-         } else {
-          this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-profile' }});
-         }
-       },
-      (error: ErrorReportViewModel) => {
-        // if (error.status === 400) { }
-        this.errorReport = error;
-        // this.invalidRegistration = true;
-        console.log(error.friendlyMessage);
-        console.log('unsuccessful profile change');
-      });
+      .pipe(first())
+      .subscribe(
+        (data: ManageProfileViewModel) => {
+          this.user = data;
+          this.toast.success('Please re-login', 'Your profile was changed');
+          if (this.emailChanged === true) {
+            this.router.navigate(['/confirm-email']);
+          } else {
+            this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-profile' } });
+          }
+        },
+        (error: ErrorReportViewModel) => {
+          // if (error.status === 400) { }
+          this.errorReport = error;
+          // this.invalidRegistration = true;
+          this.toast.error(error.friendlyMessage, 'Error');
+        });
   }
 }
