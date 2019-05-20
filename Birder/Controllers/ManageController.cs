@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -103,11 +102,15 @@ namespace Birder.Controllers
                 }
             }
 
-            //***********************************************
+            await _userManager.UpdateAsync(user);
 
+            return Ok(model);
+        }
 
-            //***********************************************
-
+        [HttpPost, Route("SetAvatar")]
+        public async Task<IActionResult> SetAvatar(string urlOrFilepathOrWhatever)
+        {
+            return Ok();
             //if (model.ProfileImage != null)
             //{
             //    try
@@ -128,20 +131,6 @@ namespace Birder.Controllers
             //        ModelState.AddModelError("ProfileImage", $"Unexpected error occurred processing the profile photo for user with ID '{user.Id}'.");
             //return BadRequest(ModelState);
             //    }
-            //}
-
-            await _userManager.UpdateAsync(user);
-
-            return Ok(model);
-
-            //StatusMessage = "Your profile has been updated";
-            //return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost, Route("SetAvatar")]
-        public async Task<IActionResult> SetAvatar(string urlOrFilePathOrWhatever)
-        {
-            return Ok();
         }
 
         [HttpPost, Route("SetLocation")]
