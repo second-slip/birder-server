@@ -3,12 +3,14 @@ import { AccountManagerService } from '../../account-manager.service';
 import { ToastrService } from 'ngx-toastr';
 import { ManageProfileViewModel } from '../../../_models/ManageProfileViewModel';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
-import { Router, RouterStateSnapshot } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AccountService } from '../../account.service';
 import { ParentErrorStateMatcher } from '../../../validators';
 import { first } from 'rxjs/operators';
 
+// - Add Toast
+// - 
 
 @Component({
   selector: 'app-account-manager-profile',
@@ -64,8 +66,6 @@ export class AccountManagerProfileComponent implements OnInit {
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
-      // matching_passwords: this.matching_passwords_group
-      // terms: new FormControl(false, Validators.pattern('true'))
     });
   }
 
@@ -102,7 +102,7 @@ export class AccountManagerProfileComponent implements OnInit {
       },
       (error: ErrorReportViewModel) => {
         // console.log(error);
-        this.toast.error(error.serverCustomMessage, 'An error occurred');
+        this.toast.error(error.friendlyMessage, 'An error occurred');
         // this.router.navigate(['/']);
       });
   }
@@ -142,7 +142,7 @@ export class AccountManagerProfileComponent implements OnInit {
         this.errorReport = error;
         // this.invalidRegistration = true;
         console.log(error.friendlyMessage);
-        console.log('unsuccessful registration');
+        console.log('unsuccessful profile change');
       });
   }
 }

@@ -43,6 +43,12 @@
               [disabled]="!manageProfileForm.valid">
               Submit
             </button>
+
+            <p>
+              <ngb-alert [dismissible]="false">
+                <strong>Please note:</strong> if you change your profile you will need to login again.
+              </ngb-alert>
+            </p>
           </form>
         </div>
       </div>
