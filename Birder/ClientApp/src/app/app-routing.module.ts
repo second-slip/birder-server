@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
 import { BirdsIndexComponent } from './_birds/birds-index/birds-index.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth-guard.service';
@@ -41,7 +40,6 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent, pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'counter', component: CounterComponent },  //
       { path: 'confirm-email', component: ConfirmEmailComponent },
       { path: 'confirmed-email', component: ConfirmedEmailComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
