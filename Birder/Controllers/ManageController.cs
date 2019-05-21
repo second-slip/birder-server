@@ -5,7 +5,6 @@ using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -55,11 +54,9 @@ namespace Birder.Controllers
             }
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            //var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                ModelState.AddModelError("GetUser", $"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-                return BadRequest(ModelState);
+                return NotFound();
             }
 
             var userName = user.UserName;
