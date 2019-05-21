@@ -40,17 +40,13 @@ namespace Birder.Controllers
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound();
             }
 
-            var viewModel = _mapper.Map<ApplicationUser, ManageProfileViewModel>(user);
-
-            return Ok(viewModel);
-
+            return Ok(_mapper.Map<ApplicationUser, ManageProfileViewModel>(user));
         }
 
         [HttpPost, Route("UpdateProfile")]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateProfile(ManageProfileViewModel model)
         {
             if (!ModelState.IsValid)
