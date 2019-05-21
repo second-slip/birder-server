@@ -15,7 +15,6 @@ namespace Birder.Controllers
     public class ManageController : ControllerBase
     {
         private readonly IMapper _mapper;
-        //private readonly ISystemClock _systemClock;
         private readonly IUrlService _urlService;
         private readonly IEmailSender _emailSender;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -23,13 +22,11 @@ namespace Birder.Controllers
         public ManageController(IMapper mapper
                               , IEmailSender emailSender
                               , IUrlService urlService
-                                //ISystemClock systemClock,
                               , UserManager<ApplicationUser> userManager)
         {
             _mapper = mapper;
             _urlService = urlService;
             _emailSender = emailSender;
-            //_systemClock = systemClock;
             _userManager = userManager;
         }
 
