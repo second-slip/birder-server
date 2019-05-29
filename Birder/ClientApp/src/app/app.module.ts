@@ -140,8 +140,8 @@ export function tokenGetter() {
   ],
   providers: [
     [GeocodeService],
-    // { provide: RequestCache, useClass: RequestCacheWithMap },
-    // httpInterceptorProviders,
+    { provide: RequestCache, useClass: RequestCacheWithMap },
+    httpInterceptorProviders,
     AuthGuard,
 
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
