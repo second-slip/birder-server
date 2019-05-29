@@ -33,8 +33,7 @@ export class RequestCacheWithMap implements RequestCache {
 
     const isExpired = cached.lastRead < (Date.now() - maxAge);
     const expired = isExpired ? 'expired ' : '';
-    // this.messenger.add(
-    //   `Found ${expired}cached response for "${url}".`);
+
     console.log(
       `Found ${expired}cached response for "${url}".`);
     return isExpired ? undefined : cached.response;
@@ -42,7 +41,7 @@ export class RequestCacheWithMap implements RequestCache {
 
   put(req: HttpRequest<any>, response: HttpResponse<any>): void {
     const url = req.urlWithParams;
-    // this.messenger.add(`Caching response from "${url}".`);
+
     console.log(`Caching response from "${url}".`);
 
     const entry = { url, response, lastRead: Date.now() };
@@ -56,7 +55,6 @@ export class RequestCacheWithMap implements RequestCache {
       }
     });
 
-    // this.messenger.add(`Request cache size: ${this.cache.size}.`);
     console.log(`Request cache size: ${this.cache.size}.`);
   }
 }

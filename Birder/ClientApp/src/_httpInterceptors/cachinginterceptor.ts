@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpEvent, HttpHeaders, HttpRequest, HttpResponse,
+  HttpEvent, HttpRequest, HttpResponse,
   HttpInterceptor, HttpHandler
 } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { startWith, tap } from 'rxjs/operators';
-
 import { RequestCache } from '../app/request-cache.service';
 
 
@@ -44,9 +43,12 @@ export class CachingInterceptor implements HttpInterceptor {
 
 
 /** Is this request cachable? */
-function isCachable(req: HttpRequest<any>) {
+function isCachable(request: HttpRequest<any>) {
   // Only GET requests are cachable
-  return req.method === 'GET';
+  console.log(request.url);
+  return request.method === 'GET';
+
+
   // &&
   //   // Only npm package search is cachable in this app
   //   -1 < req.url.indexOf(searchUrl);
@@ -57,18 +59,18 @@ function isCachable(req: HttpRequest<any>) {
  * Will add the response to the cache on the way out.
  */
 function sendRequest(
-  req: HttpRequest<any>,
+  request: HttpRequest<any>,
   next: HttpHandler,
   cache: RequestCache): Observable<HttpEvent<any>> {
 
   // No headers allowed in npm search request
-  const noHeaderReq = req.clone({ headers: new HttpHeaders() });
+  // const noHeaderReq = request.clone({ headers: new HttpHeaders() });
 
-  return next.handle(req).pipe(
+  return next.handle(request).pipe(
     tap(event => {
       // There may be other events besides the response.
       if (event instanceof HttpResponse) {
-        cache.put(req, event); // Update the cache.
+        cache.put(request, event); // Update the cache.
       }
     })
   );
