@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse } from '@angular/common/http';
 
-// import { MessageService } from './message.service';
-
 export interface RequestCacheEntry {
   url: string;
   response: HttpResponse<any>;

@@ -23,35 +23,29 @@ import { RequestCache } from '../app/request-cache.service';
 export class CachingInterceptor implements HttpInterceptor {
   constructor(private cache: RequestCache) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
+  intercept(request: HttpRequest<any>, next: HttpHandler) {
     // continue if not cachable.
-    if (!isCachable(req)) { return next.handle(req); }
+    if (!isCachable(request)) { return next.handle(request); }
 
-    const cachedResponse = this.cache.get(req);
+    const cachedResponse = this.cache.get(request);
     // cache-then-refresh
-    if (req.headers.get('x-refresh')) {
-      const results$ = sendRequest(req, next, this.cache);
+    if (request.headers.get('x-refresh')) {
+      const results$ = sendRequest(request, next, this.cache);
       return cachedResponse ?
         results$.pipe( startWith(cachedResponse) ) :
         results$;
     }
     // cache-or-fetch
     return cachedResponse ?
-      of(cachedResponse) : sendRequest(req, next, this.cache);
+      of(cachedResponse) : sendRequest(request, next, this.cache);
   }
 }
 
 
 /** Is this request cachable? */
 function isCachable(request: HttpRequest<any>) {
-  // Only GET requests are cachable
-  console.log(request.url);
-  return request.method === 'GET';
-
-
-  // &&
-  //   // Only npm package search is cachable in this app
-  //   -1 < req.url.indexOf(searchUrl);
+  return request.method === 'GET'
+    && request.url.indexOf('api/ObservationAnalysis') !== 0; // do not cache requests containing 'api/ObservationAnalysis'
 }
 
 /**
