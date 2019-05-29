@@ -54,6 +54,7 @@ import { ForgotPasswordComponent } from './_account/forgot-password/forgot-passw
 import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-confirmation/forgot-password-confirmation.component';
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
+import { environment } from '../environments/environment';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -134,7 +135,7 @@ export function tokenGetter() {
       }
     }),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyD4IghqI4x7Sld9KP3sP6FtbN7wCPGySmY'
+      apiKey: environment.mapKey
     })
 
   ],
