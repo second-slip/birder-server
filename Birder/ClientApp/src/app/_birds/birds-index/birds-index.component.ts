@@ -16,8 +16,8 @@ export class BirdsIndexComponent implements OnInit {
   displayedColumns: string[] = ['englishName', 'btoStatusInBritain', 'conservationStatus'];
   dataSource: MatTableDataSource<BirdSummaryViewModel>;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private birdsService: BirdsService
     , private router: Router) { }

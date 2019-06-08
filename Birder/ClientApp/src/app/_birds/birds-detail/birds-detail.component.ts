@@ -20,8 +20,8 @@ export class BirdsDetailComponent {
   // executed: boolean;
   displayedColumns: string[] = ['quantity', 'bird', 'user', 'date'];
   dataSource: MatTableDataSource<ObservationViewModel>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(private birdsService: BirdsService
     , private route: ActivatedRoute
