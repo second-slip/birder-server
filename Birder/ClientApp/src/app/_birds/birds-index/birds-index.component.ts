@@ -3,7 +3,9 @@ import { BirdsService } from '../../birds.service';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { BirderStatus } from '../../../_models/BirdIndexOptions';
 
 @Component({
