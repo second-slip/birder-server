@@ -83,7 +83,7 @@ namespace Birder
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITweetDayRepository, TweetDayRepository>();
 
-            services.AddSingleton<ISystemClock, SystemClock>();
+            services.AddSingleton<ISystemClockService, SystemClockService>();
             services.AddSingleton<IUrlService, UrlService>();
 
             services.AddTransient<IEmailSender, EmailSender>();

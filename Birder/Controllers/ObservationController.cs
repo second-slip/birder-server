@@ -25,7 +25,7 @@ namespace Birder.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ISystemClock _systemClock;
+        private readonly ISystemClockService _systemClock;
         private readonly IUserRepository _userRepository;
         private readonly IBirdRepository _birdRepository;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -33,7 +33,7 @@ namespace Birder.Controllers
 
         public ObservationController(IMapper mapper
                                    , IMemoryCache memoryCache
-                                   , ISystemClock systemClock
+                                   , ISystemClockService systemClock
                                    , IUnitOfWork unitOfWork
                                    , IUserRepository userRepository
                                    , IBirdRepository birdRepository

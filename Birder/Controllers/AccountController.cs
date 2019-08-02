@@ -18,12 +18,12 @@ namespace Birder.Controllers
     public class AccountController : ControllerBase
     {
         private readonly ILogger _logger;
-        private readonly ISystemClock _systemClock;
+        private readonly ISystemClockService _systemClock;
         private readonly IEmailSender _emailSender;
         private readonly IUrlService _urlService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountController(ISystemClock systemClock
+        public AccountController(ISystemClockService systemClock
                                , IUrlService urlService
                                , IEmailSender emailSender
                                , ILogger<AccountController> logger

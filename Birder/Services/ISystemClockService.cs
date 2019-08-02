@@ -2,7 +2,7 @@
 
 namespace Birder.Services
 {
-    public interface ISystemClock
+    public interface ISystemClockService
     {
         DateTime GetNow { get; }
         DateTime GetToday { get; }

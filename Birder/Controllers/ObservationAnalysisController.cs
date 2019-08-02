@@ -22,13 +22,13 @@ namespace Birder.Controllers
         private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        private readonly ISystemClock _systemClock;
+        private readonly ISystemClockService _systemClock;
         private readonly IObservationRepository _observationRepository;
 
         public ObservationAnalysisController(IObservationRepository observationRepository
                                             , ILogger<ObservationAnalysisController> logger
                                             , IMemoryCache memoryCache
-                                            , ISystemClock systemClock
+                                            , ISystemClockService systemClock
                                             , IMapper mapper)
         {
             _mapper = mapper;

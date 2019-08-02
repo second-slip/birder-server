@@ -4,17 +4,24 @@ using Xunit;
 
 namespace Birder.Tests.Services.Tests
 {
-    public class SystemClockTests
+    public class SystemClockServiceTests
     {
+        private readonly ISystemClockService _systemClockService;
+
+        public SystemClockServiceTests()
+        {
+            _systemClockService = new SystemClockService();
+        }
+
         [Fact]
         public void GetNowTest()
         {
             //Arrange
-            var service = new SystemClock();
+            //var service = new SystemClockService();
             var expected = DateTime.Now;
 
             //Act
-            var actual = service.GetNow;
+            var actual = _systemClockService.GetNow;
 
             //Assert
             Assert.Equal(expected, actual, TimeSpan.FromSeconds(1));
@@ -24,11 +31,10 @@ namespace Birder.Tests.Services.Tests
         public void GetTodayTest()
         {
             //Arrange
-            var service = new SystemClock();
             var expected = DateTime.Today;
 
             //Act
-            var actual = service.GetToday;
+            var actual = _systemClockService.GetToday;
 
             //Assert
             Assert.Equal(expected, actual);
@@ -38,11 +44,10 @@ namespace Birder.Tests.Services.Tests
         public void GetEndOfTodayTest()
         {
             //Arrange
-            var service = new SystemClock();
             var expected = DateTime.Today.Date.AddDays(1).AddTicks(-1);
 
             //Act
-            var actual = service.GetEndOfToday;
+            var actual = _systemClockService.GetEndOfToday;
 
             //Assert
             Assert.Equal(expected, actual);

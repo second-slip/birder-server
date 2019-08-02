@@ -25,13 +25,13 @@ namespace Birder.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
-        private readonly ISystemClock _systemClock;
+        private readonly ISystemClockService _systemClock;
         private readonly IConfiguration _config;
 
         public AuthenticationController(UserManager<ApplicationUser> userManager
                                         , SignInManager<ApplicationUser> signInManager
                                         , ILogger<AuthenticationController> logger
-                                        , ISystemClock systemClock
+                                        , ISystemClockService systemClock
                                         , IConfiguration config)
         {
             _systemClock = systemClock;

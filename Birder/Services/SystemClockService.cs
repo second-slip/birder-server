@@ -2,7 +2,7 @@
 
 namespace Birder.Services
 {
-    public class SystemClock : ISystemClock
+    public class SystemClockService : ISystemClockService
     {
         public DateTime GetNow { get { return DateTime.Now; } }
         public DateTime GetToday { get { return DateTime.Today; } }
