@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace Birder.Tests.Services.Tests
+namespace Birder.Tests.Services
 {
     public class SystemClockServiceTests
     {
