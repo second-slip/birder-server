@@ -17,7 +17,7 @@ namespace Birder.Tests.Controller
 {
     public class TweetsControllerTests
     {
-        private Mock<IMemoryCache> _cache;
+        private IMemoryCache _cache; // Mock<IMemoryCache> _cache;
         private readonly Mock<IMapper> _mapper;
         private readonly Mock<ILogger<TweetsController>> _logger;
         private readonly Mock<ISystemClockService> _systemClock;
@@ -26,7 +26,7 @@ namespace Birder.Tests.Controller
         public TweetsControllerTests()
         {
             //_tweetDayRepository = new TweetDayRepository(new ApplicationDbCon);
-            _cache = new Mock<IMemoryCache>();
+            _cache = new MemoryCache(new MemoryCacheOptions()); // new Mock<IMemoryCache>();
             _mapper = new Mock<IMapper>();
             _systemClock = new Mock<ISystemClockService>();
             _logger = new Mock<ILogger<TweetsController>>();
@@ -40,18 +40,9 @@ namespace Birder.Tests.Controller
             //mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(DateTime.Today))
             //     .ReturnsAsync(GetTestTweet()); //--> needs a real SystemClockService
             mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
-                .ReturnsAsync(GetTestTweet());
+                .ReturnsAsync(GetTestTweetDay());
 
-            var myCache = new MemoryCache(new MemoryCacheOptions());
-
-            //var entryMock = new Mock<ICacheEntry>();
-            //myCache.Setup(m => m.CreateEntry(It.IsAny<object>())
-            //               .Returns(entryMock.Object));
-
-            //var myCache = new MemoryCache(new MemoryCacheOptions());
-            //var memCache = new MemoryCache(MemoryCacheOptions.)
-
-            var controller = new TweetsController(mockRepo.Object, myCache, _logger.Object,
+            var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
                                                      _systemClock.Object, _mapper.Object);
 
             // Act
@@ -61,41 +52,50 @@ namespace Birder.Tests.Controller
             var okResult = Assert.IsType<OkObjectResult>(result);
         }
 
-        private TweetDay GetTestTweet()
+        [Fact]
+        public async Task GetTweetDay_ReturnsBadRequestResult_WhenTweetIsNull()
+        {
+            // Arrange
+            var mockRepo = new Mock<ITweetDayRepository>();
+            //mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
+            //    .ReturnsAsync(GetTestTweetDay());
+
+            var controller = new TweetsController(null, _cache, _logger.Object,
+                                                     _systemClock.Object, _mapper.Object);
+
+
+            //var controller = new SessionController(sessionRepository: null);
+            // Act
+            var result = await controller.GetTweetDay();
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+        private TweetDay GetTestTweetDay()
         {
             var tweet = new TweetDay()
             {
                 Bird = new Bird(),
                 BirdId = 0,
-                CreationDate = new DateTime(2016, 7, 2),
-                DisplayDay = new DateTime(2016, 7, 2),
-                LastUpdateDate = new DateTime(2016, 7, 2),
+                CreationDate = DateTime.Now.AddDays(-4),
+                DisplayDay = DateTime.Today.AddDays(-2),
+                LastUpdateDate = DateTime.Now.AddDays(-3),
                 TweetDayId = 0
             };
 
             return tweet;
         }
-
-        private IEnumerable<TweetDay> GetTestSessions()
-        {
-            var sessions = new List<TweetDay>();
-            sessions.Add(new TweetDay()
-            {
-                //TweetDayId = 1,
-                //DisplayDay = new DateTime(2016, 7, 1),
-                //CreationDate = new DateTime(2016, 7, 1),
-                //LastUpdateDate = new DateTime(2016, 7, 1),
-                //Bird = null
-            });
-            sessions.Add(new TweetDay()
-            {
-                //TweetDayId = 2,
-                //DisplayDay = new DateTime(2016, 7, 1),
-                //CreationDate = new DateTime(2016, 7, 1),
-                //LastUpdateDate = new DateTime(2016, 7, 1),
-                //Bird = null
-            });
-            return sessions;
-        }
     }
+
+
+
+
+
+    //var entryMock = new Mock<ICacheEntry>();
+    //myCache.Setup(m => m.CreateEntry(It.IsAny<object>())
+    //               .Returns(entryMock.Object));
+
+    //var myCache = new MemoryCache(new MemoryCacheOptions());
+    //var memCache = new MemoryCache(MemoryCacheOptions.)
 }
