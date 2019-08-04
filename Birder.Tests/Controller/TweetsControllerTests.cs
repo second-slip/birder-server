@@ -3,13 +3,11 @@ using Birder.Controllers;
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.Services;
-using Birder.ViewModels;
-using Castle.Core.Logging;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -19,30 +17,30 @@ namespace Birder.Tests.Controller
     {
         private Mock<IMemoryCache> _cache;
         private readonly Mock<IMapper> _mapper;
-        private readonly Mock<ILogger> _logger;
+        private readonly Mock<ILogger<TweetsController>> _logger;
         private readonly Mock<ISystemClockService> _systemClock;
         //private readonly Mock<ITweetDayRepository> _tweetDayRepository;
 
         public TweetsControllerTests()
         {
             //_tweetDayRepository = new Mock<ITweetDayRepository>();
+            _cache = new Mock<IMemoryCache>();
+            _mapper = new Mock<IMapper>();
+            _systemClock = new Mock<ISystemClockService>();
+            _logger = new Mock<ILogger<TweetsController>>();
 
         }
 
         [Fact]
-        public async Task Index_ReturnsAViewResult_WithAListOfBrainstormSessions()
+        public async Task GetTweetDay_ReturnsAViewResult_WithAListOfBrainstormSessions()
         {
             // Arrange
             var mockRepo = new Mock<ITweetDayRepository>();
             mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(DateTime.Today))
                 .ReturnsAsync(GetTestSession());
 
-            var a = new Mock<IMemoryCache>();
-            var b = new Mock<IMapper>();
-            var c = new Mock<ISystemClockService>();
-            var d = new Mock<ILogger>();
-
-            //var controller = new TweetsController(mockRepo.Object);
+            var controller = new TweetsController(mockRepo.Object, _cache.Object, _logger.Object,
+                                                     _systemClock.Object, _mapper.Object);
 
             //// Act
             //var result = await controller.Index();
