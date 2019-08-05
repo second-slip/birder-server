@@ -53,18 +53,38 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task GetTweetDay_ReturnsBadRequestResult_WhenTweetIsNull()
+        public async Task GetTweetDay_ReturnsNotFoundResult_WhenTweetIsNull()
         {
             // Arrange
             var mockRepo = new Mock<ITweetDayRepository>();
-            //mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
-            //    .ReturnsAsync(GetTestTweetDay());
+            mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
+                .Returns(Task.FromResult<TweetDay>(null));
 
-            var controller = new TweetsController(null, _cache, _logger.Object,
+            var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
                                                      _systemClock.Object, _mapper.Object);
 
 
             //var controller = new SessionController(sessionRepository: null);
+            // Act
+            var result = await controller.GetTweetDay();
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task GetTweetDay_ReturnsBadRequestResult_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockRepo = new Mock<ITweetDayRepository>();
+            mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
+                .Returns(Task.FromResult<TweetDay>(null));
+
+            // cache object is null => raise an exception
+            var controller = new TweetsController(mockRepo.Object, null, _logger.Object,
+                                                     _systemClock.Object, _mapper.Object);
+
+
             // Act
             var result = await controller.GetTweetDay();
 

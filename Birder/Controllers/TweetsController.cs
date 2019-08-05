@@ -53,7 +53,7 @@ namespace Birder.Controllers
                 if (tweet == null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting tweet with date: {Date}", _systemClock.GetToday);
-                    return BadRequest();
+                    return NotFound();
                 }
 
                 var viewModel = _mapper.Map<TweetDay, TweetDayViewModel>(tweet);

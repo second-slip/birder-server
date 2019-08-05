@@ -66,6 +66,7 @@ namespace Birder.Controllers
                     loggedinUser = await _userRepository.GetUserAndNetworkAsync(loggedinUsername);
                 }
 
+                //ToDo: Move to helper method
                 // Check Following / Followers collections from the point of view of the loggedin user
                 for (int i = 0; i < viewModel.Following.Count(); i++)
                 {
@@ -73,6 +74,7 @@ namespace Birder.Controllers
                     viewModel.Following.ElementAt(i).IsOwnProfile = viewModel.Following.ElementAt(i).UserName == loggedinUsername;
                 }
 
+                //ToDo: Move to helper method
                 for (int i = 0; i < viewModel.Followers.Count(); i++)
                 {
                     //viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Followers.Any(cus => cus.Follower.UserName == viewModel.Followers.ElementAt(i).UserName);
