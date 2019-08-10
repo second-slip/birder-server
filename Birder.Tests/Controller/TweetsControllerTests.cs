@@ -11,11 +11,8 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Xunit;
-
 
 namespace Birder.Tests.Controller
 {
@@ -29,14 +26,11 @@ namespace Birder.Tests.Controller
 
         public TweetsControllerTests()
         {
-            //_tweetDayRepository = new TweetDayRepository(new ApplicationDbCon);
             _cache = new MemoryCache(new MemoryCacheOptions()); // new Mock<IMemoryCache>();
-            var mappingConfig = new MapperConfiguration(mc =>
+            var mappingConfig = new MapperConfiguration(cfg =>
             {
-                mc.AddProfile(new BirderMappingProfile());
+                cfg.AddProfile(new BirderMappingProfile());
             });
-
-            //IMapper mapper = mappingConfig.CreateMapper();
             _mapper = mappingConfig.CreateMapper();
             _systemClock = new Mock<ISystemClockService>();
             _logger = new Mock<ILogger<TweetsController>>();
@@ -68,11 +62,8 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockRepo = new Mock<ITweetDayRepository>();
 
-            var t = GetTestTweetDay();
             mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
                 .ReturnsAsync(GetTestTweetDay());
-
-            var c = new SystemClockService();
 
             var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
                                                      _systemClock.Object, _mapper);
@@ -80,7 +71,6 @@ namespace Birder.Tests.Controller
             // Act
             var result = await controller.GetTweetDay();
             
-
             // Assert
             var objectResult = result as ObjectResult;
             Assert.NotNull(objectResult);
@@ -101,7 +91,6 @@ namespace Birder.Tests.Controller
                                                      _systemClock.Object, _mapper);
 
 
-            //var controller = new SessionController(sessionRepository: null);
             // Act
             var result = await controller.GetTweetDay();
 
@@ -144,15 +133,4 @@ namespace Birder.Tests.Controller
             return tweet;
         }
     }
-
-
-
-
-
-    //var entryMock = new Mock<ICacheEntry>();
-    //myCache.Setup(m => m.CreateEntry(It.IsAny<object>())
-    //               .Returns(entryMock.Object));
-
-    //var myCache = new MemoryCache(new MemoryCacheOptions());
-    //var memCache = new MemoryCache(MemoryCacheOptions.)
 }
