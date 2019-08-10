@@ -68,12 +68,21 @@ namespace Birder
 
 
             //services.AddAutoMapper();
-            services.AddAutoMapper(GetType().Assembly);
+            //services.AddAutoMapper(GetType().Assembly);
 
-            Mapper.Initialize(cfg =>
+            //Mapper.Initialize(cfg =>
+            //{
+            //    cfg.AddProfile<BirderMappingProfile>();
+            //});
+
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
             {
-                cfg.AddProfile<BirderMappingProfile>();
+                mc.AddProfile(new BirderMappingProfile());
             });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             //services.AddSignInManager<SignInManager<IdentityUser>>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Birder.Controllers;
+using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.Services;
+using Birder.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -13,12 +16,13 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Xunit;
 
+
 namespace Birder.Tests.Controller
 {
     public class TweetsControllerTests
     {
         private IMemoryCache _cache; // Mock<IMemoryCache> _cache;
-        private readonly Mock<IMapper> _mapper;
+        private readonly IMapper _mapper;
         private readonly Mock<ILogger<TweetsController>> _logger;
         private readonly Mock<ISystemClockService> _systemClock;
         //private readonly ITweetDayRepository _tweetDayRepository;
@@ -27,7 +31,13 @@ namespace Birder.Tests.Controller
         {
             //_tweetDayRepository = new TweetDayRepository(new ApplicationDbCon);
             _cache = new MemoryCache(new MemoryCacheOptions()); // new Mock<IMemoryCache>();
-            _mapper = new Mock<IMapper>();
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new BirderMappingProfile());
+            });
+
+            //IMapper mapper = mappingConfig.CreateMapper();
+            _mapper = mappingConfig.CreateMapper();
             _systemClock = new Mock<ISystemClockService>();
             _logger = new Mock<ILogger<TweetsController>>();
         }
@@ -43,13 +53,40 @@ namespace Birder.Tests.Controller
                 .ReturnsAsync(GetTestTweetDay());
 
             var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
-                                                     _systemClock.Object, _mapper.Object);
+                                                     _systemClock.Object, _mapper);
 
             // Act
             var result = await controller.GetTweetDay();
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task Get_ReturnsOkObjectResult_WithViewModel()
+        {
+            // Arrange
+            var mockRepo = new Mock<ITweetDayRepository>();
+
+            var t = GetTestTweetDay();
+            mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
+                .ReturnsAsync(GetTestTweetDay());
+
+            var c = new SystemClockService();
+
+            var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
+                                                     _systemClock.Object, _mapper);
+
+            // Act
+            var result = await controller.GetTweetDay();
+            
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            Assert.IsType<TweetDayViewModel>(objectResult.Value);
         }
 
         [Fact]
@@ -61,7 +98,7 @@ namespace Birder.Tests.Controller
                 .Returns(Task.FromResult<TweetDay>(null));
 
             var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
-                                                     _systemClock.Object, _mapper.Object);
+                                                     _systemClock.Object, _mapper);
 
 
             //var controller = new SessionController(sessionRepository: null);
@@ -82,7 +119,7 @@ namespace Birder.Tests.Controller
 
             // cache object is null => raise an exception
             var controller = new TweetsController(mockRepo.Object, null, _logger.Object,
-                                                     _systemClock.Object, _mapper.Object);
+                                                     _systemClock.Object, _mapper);
 
 
             // Act
