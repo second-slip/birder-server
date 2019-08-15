@@ -22,7 +22,6 @@ namespace Birder.Tests.Controller
         private readonly IMapper _mapper;
         private readonly Mock<ILogger<TweetsController>> _logger;
         private readonly Mock<ISystemClockService> _systemClock;
-        //private readonly ITweetDayRepository _tweetDayRepository;
 
         public TweetsControllerTests()
         {
@@ -90,7 +89,6 @@ namespace Birder.Tests.Controller
             var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
                                                      _systemClock.Object, _mapper);
 
-
             // Act
             var result = await controller.GetTweetDay();
 
@@ -109,7 +107,6 @@ namespace Birder.Tests.Controller
             // cache object is null => raise an exception
             var controller = new TweetsController(mockRepo.Object, null, _logger.Object,
                                                      _systemClock.Object, _mapper);
-
 
             // Act
             var result = await controller.GetTweetDay();
