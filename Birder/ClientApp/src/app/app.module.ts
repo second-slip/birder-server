@@ -69,6 +69,7 @@ import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { environment } from '../environments/environment';
+import { AboutComponent } from './about/about.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -113,6 +114,7 @@ export function tokenGetter() {
     ForgotPasswordConfirmationComponent,
     ResetPasswordConfirmationComponent,
     AccountManagerAvatarComponent,
+    AboutComponent,
 
   ],
   imports: [

@@ -45,13 +45,13 @@
   "devDependencies": {
     "@agm/core": "^1.0.0-beta.7",
     "@angular-devkit/build-angular": "^0.800.6",
-    "@angular/cli": "^8.3.1",
+    "@angular/cli": "^8.3.2",
     "@angular/common": "^8.2.4",
     "@angular/compiler-cli": "^8.2.4",
     "@angular/language-service": "^8.2.4",
     "@types/jasmine": "^3.4.0",
     "@types/jasminewd2": "~2.0.6",
-    "@types/node": "^12.7.2",
+    "@types/node": "^12.7.3",
     "codelyzer": "^5.0.1",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -63,7 +63,7 @@
     "protractor": "^5.4.2",
     "ts-node": "~8.3.0",
     "tslint": "~5.17.0",
-    "typescript": "^3.6.2"
+    "typescript": "^3.5.3"
   },
   "optionalDependencies": {
     "node-sass": "^4.9.0"
