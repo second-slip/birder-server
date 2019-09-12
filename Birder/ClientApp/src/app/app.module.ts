@@ -70,6 +70,7 @@ import { ResetPasswordConfirmationComponent } from './_account/reset-password-co
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { environment } from '../environments/environment';
 import { AboutComponent } from './about/about.component';
+import { MatGridListModule } from '@angular/material';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -140,7 +141,7 @@ export function tokenGetter() {
     MatExpansionModule,
     MatTabsModule,
     MatBadgeModule,
-    MatPaginatorModule, MatSortModule, MatTableModule,
+    MatPaginatorModule, MatSortModule, MatTableModule, MatGridListModule,
     MatToolbarModule,
     ToastrModule.forRoot(),
     JwtModule.forRoot({
