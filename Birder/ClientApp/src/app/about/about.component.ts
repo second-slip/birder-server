@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ViewEncapsulation } from '@angular/compiler/src/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+// import { ViewEncapsulation } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-about',
