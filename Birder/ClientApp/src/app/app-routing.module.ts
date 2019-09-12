@@ -29,6 +29,7 @@ import { ForgotPasswordComponent } from './_account/forgot-password/forgot-passw
 import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-confirmation/forgot-password-confirmation.component';
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -38,6 +39,7 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'home', component: HomeComponent, pathMatch: 'full' },
+      { path: 'about', component: AboutComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'confirm-email', component: ConfirmEmailComponent },
