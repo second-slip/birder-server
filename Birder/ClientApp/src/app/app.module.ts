@@ -75,6 +75,7 @@ import { AboutFeaturesComponent } from './_about/about-features/about-features.c
 import { AboutTechnologyComponent } from './_about/about-technology/about-technology.component';
 import { AboutFeaturesDevelopmentComponent } from './_about/about-features-development/about-features-development.component';
 import { AboutAiComponent } from './_about/about-ai/about-ai.component';
+import { AboutContactComponent } from './_about/about-contact/about-contact.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -124,6 +125,7 @@ export function tokenGetter() {
     AboutTechnologyComponent,
     AboutFeaturesDevelopmentComponent,
     AboutAiComponent,
+    AboutContactComponent,
 
   ],
   imports: [
