@@ -69,9 +69,9 @@ import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { environment } from '../environments/environment';
-import { AboutComponent } from './about/about.component';
+import { AboutComponent } from './_about/about/about.component';
 import { MatGridListModule } from '@angular/material';
-import { AboutFeaturesComponent } from './about-features/about-features.component';
+import { AboutFeaturesComponent } from './_about/about-features/about-features.component';
 import { AboutTechnologyComponent } from './about-technology/about-technology.component';
 
 export function tokenGetter() {

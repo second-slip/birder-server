@@ -29,7 +29,7 @@ import { ForgotPasswordComponent } from './_account/forgot-password/forgot-passw
 import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-confirmation/forgot-password-confirmation.component';
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
-import { AboutComponent } from './about/about.component';
+import { AboutComponent } from './_about/about/about.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
