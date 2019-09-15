@@ -14,20 +14,24 @@
               <mat-icon class="example-tab-icon">code</mat-icon>
               Technology
             </ng-template>
-            Content 1
+
+            <app-about-technology></app-about-technology>
+
           </mat-tab>
         
           <mat-tab>
             <ng-template mat-tab-label>
-              <mat-icon class="example-tab-icon">thumb_up</mat-icon>
+              <mat-icon class="example-tab-icon">flight_takeoff</mat-icon>
               Features
             </ng-template>
-            Content 2
+            
+            <app-about-features></app-about-features>
+
           </mat-tab>
         
           <mat-tab>
             <ng-template mat-tab-label>
-              <mat-icon class="example-tab-icon">hourglass_empty</mat-icon>
+              <mat-icon class="example-tab-icon">flight_land</mat-icon>
               Features in development
             </ng-template>
         
@@ -45,40 +49,7 @@
         </mat-tab-group>
         
       </div>
-      <div>
-        <mat-grid-list cols="2" rowHeight="3:1" gutterSize="20px">
-          <mat-grid-tile [colspan]=2>
-            1<mat-grid-tile-header>
-              <h3><b>Hello</b>Hello</h3>
-            </mat-grid-tile-header>
-          </mat-grid-tile>
-          <mat-grid-tile>2</mat-grid-tile>
-          <mat-grid-tile>3</mat-grid-tile>
-          <mat-grid-tile>4</mat-grid-tile>
-        </mat-grid-list>
-      </div>
-      <div>
-        <p>Birder is built with:</p>
-        <ul>
-          <li>
-            <a href='https://get.asp.net/'>ASP.NET Core</a> and <a
-              href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> server-side API<sup>1</sup>
-          </li>
-          <li>
-            <a href='https://angular.io/'>Angular</a> and <a href='http://www.typescriptlang.org/'>TypeScript</a> for
-            client-side single-page application<sup>2</sup>
-          </li>
-          <li>
-            <a href='http://getbootstrap.com/'>Bootstrap</a> layout and styling
-          </li>
-        </ul>
-        <div>
-          <small><br><sup>1</sup> As of 12/09/2019, .NET Core version 2.2.
-            <br><sup>2</sup> As of 12/09/2019, the app is built in Angular version 8. It was previously built with
-            Angular
-            versions 6 and 7.</small>
-        </div>
-      </div>
+
     </div>
     <div class='col-sm-1'>
       <!-- <p>Test</p> -->
