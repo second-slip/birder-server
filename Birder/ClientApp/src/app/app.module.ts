@@ -71,6 +71,8 @@ import { AccountManagerAvatarComponent } from './_accountManager/account-manager
 import { environment } from '../environments/environment';
 import { AboutComponent } from './about/about.component';
 import { MatGridListModule } from '@angular/material';
+import { AboutFeaturesComponent } from './about-features/about-features.component';
+import { AboutTechnologyComponent } from './about-technology/about-technology.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -116,6 +118,8 @@ export function tokenGetter() {
     ResetPasswordConfirmationComponent,
     AccountManagerAvatarComponent,
     AboutComponent,
+    AboutFeaturesComponent,
+    AboutTechnologyComponent,
 
   ],
   imports: [

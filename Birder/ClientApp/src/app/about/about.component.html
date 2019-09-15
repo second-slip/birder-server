@@ -1,15 +1,57 @@
 <div class="container">
   <div class="row">
-    <div class='col-sm-2'>
+    <div class='col-sm-1'>
       <!-- <p>Test</p> -->
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-10">
       <div class="home-container">
         <h1>About Birder</h1>
       </div>
       <div>
-        <mat-grid-list cols="2" rowHeight="2:1">
-          <mat-grid-tile>1</mat-grid-tile>
+        <mat-tab-group>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="example-tab-icon">code</mat-icon>
+              Technology
+            </ng-template>
+            Content 1
+          </mat-tab>
+        
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="example-tab-icon">thumb_up</mat-icon>
+              Features
+            </ng-template>
+            Content 2
+          </mat-tab>
+        
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="example-tab-icon">hourglass_empty</mat-icon>
+              Features in development
+            </ng-template>
+        
+            Content 3
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="example-tab-icon">thumb_up</mat-icon>
+              Birder AI
+            </ng-template>
+        
+            Content 4
+          </mat-tab>
+        </mat-tab-group>
+        
+      </div>
+      <div>
+        <mat-grid-list cols="2" rowHeight="3:1" gutterSize="20px">
+          <mat-grid-tile [colspan]=2>
+            1<mat-grid-tile-header>
+              <h3><b>Hello</b>Hello</h3>
+            </mat-grid-tile-header>
+          </mat-grid-tile>
           <mat-grid-tile>2</mat-grid-tile>
           <mat-grid-tile>3</mat-grid-tile>
           <mat-grid-tile>4</mat-grid-tile>
@@ -38,7 +80,7 @@
         </div>
       </div>
     </div>
-    <div class='col-sm-2'>
+    <div class='col-sm-1'>
       <!-- <p>Test</p> -->
     </div>
   </div>
