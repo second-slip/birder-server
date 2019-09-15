@@ -72,7 +72,7 @@ import { environment } from '../environments/environment';
 import { AboutComponent } from './_about/about/about.component';
 import { MatGridListModule } from '@angular/material';
 import { AboutFeaturesComponent } from './_about/about-features/about-features.component';
-import { AboutTechnologyComponent } from './about-technology/about-technology.component';
+import { AboutTechnologyComponent } from './_about/about-technology/about-technology.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
