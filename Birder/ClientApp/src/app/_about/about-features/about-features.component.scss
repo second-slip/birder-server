@@ -1,3 +1,13 @@
-mat-grid-tile {
+app-about-features {
+  .container {
+    margin-top: 15px;
+  }
+
+  .section-title {
+    margin-bottom: 20px;
+  }
+
+  mat-grid-tile {
     background: lightblue;
   }
+}
