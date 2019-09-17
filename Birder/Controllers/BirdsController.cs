@@ -61,7 +61,7 @@ namespace Birder.Controllers
                     if (birds == null)
                     {
                         _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                        return BadRequest();
+                        return NotFound();
                     }
 
                     var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);

@@ -75,6 +75,22 @@ namespace Birder.Tests.Controller
             Assert.IsAssignableFrom<IEnumerable<BirdSummaryViewModel>>(objectResult.Value);
         }
 
+        [Fact]
+        public async Task GetBirds_ReturnsNotFoundResult_WhenRepositoryReturnsNull()
+        {
+            // Arrange
+            var mockRepo = new Mock<IBirdRepository>();
+            mockRepo.Setup(repo => repo.GetBirdSummaryListAsync())
+                 .Returns(Task.FromResult<IEnumerable<Bird>>(null));
+
+            var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+
+            // Act
+            var result = await controller.GetBirdsAsync(BirderStatus.Common);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
 
         #endregion
 
