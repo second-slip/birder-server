@@ -35,7 +35,7 @@ namespace Birder.Tests.Controller
             _mapper = mappingConfig.CreateMapper();
         }
 
-        #region GetBirds (Collection)
+        #region GetBirds (Collection) tests
 
         [Fact]
         public async Task GetBirds_ReturnsOkObjectResult_WithABirdsObject()
@@ -112,6 +112,83 @@ namespace Birder.Tests.Controller
 
         #endregion
 
+        #region GetBird tests
+
+        [Fact]
+        public async Task GetBird_ReturnsOkObjectResult_WithABirdObject()
+        {
+            // Arrange
+            var mockRepo = new Mock<IBirdRepository>();
+            mockRepo.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
+                 .ReturnsAsync(GetTestBird());
+
+            var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+
+            // Act
+            var result = await controller.GetBirdsAsync(BirderStatus.Common);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task GetBird_ReturnsOkObjectResult_WithBirdDetailViewModel()
+        {
+            // Arrange
+            var birdId = 1;
+            var mockRepo = new Mock<IBirdRepository>();
+            mockRepo.Setup(repo => repo.GetBirdAsync(birdId))
+                 .ReturnsAsync(GetTestBird());
+
+            var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+
+            // Act
+            var result = await controller.GetBird(birdId);
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var model = Assert.IsType<BirdDetailViewModel>(objectResult.Value);
+            Assert.Equal(birdId, model.BirdId);
+        }
+
+
+
+
+        #endregion
+
+
+
+        private Bird GetTestBird()
+        {
+            var bird = new Bird
+            {
+                BirdId = 1,
+                Class = "",
+                Order = "",
+                Family = "",
+                Genus = "",
+                Species = "",
+                EnglishName = "Test species 1",
+                InternationalName = "",
+                Category = "",
+                PopulationSize = "",
+                BtoStatusInBritain = "",
+                ThumbnailUrl = "",
+                SongUrl = "",
+                CreationDate = DateTime.Now.AddDays(-4),
+                LastUpdateDate = DateTime.Now.AddDays(-4),
+                ConservationStatusId = 0,
+                Observations = null,
+                BirdConservationStatus = null,
+                BirderStatus = BirderStatus.Common,
+                TweetDay = null
+            };
+
+            return bird;
+        }
         private IEnumerable<Bird> GetTestBirds()
         {
             var birds = new List<Bird>();
