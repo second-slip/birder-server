@@ -92,6 +92,24 @@ namespace Birder.Tests.Controller
             Assert.IsType<NotFoundResult>(result);
         }
 
+        [Fact]
+        public async Task GetBirds_ReturnsBadRequestResult_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockRepo = new Mock<IBirdRepository>();
+            mockRepo.Setup(repo => repo.GetBirdSummaryListAsync())
+                 .Returns(Task.FromResult<IEnumerable<Bird>>(null));
+
+            // cache object is null => raise an exception
+            var controller = new BirdsController(_mapper, null, _logger.Object, mockRepo.Object);
+
+            // Act
+            var result = await controller.GetBirdsAsync(BirderStatus.Common);
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
+
         #endregion
 
         private IEnumerable<Bird> GetTestBirds()
