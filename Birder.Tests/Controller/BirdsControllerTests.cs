@@ -4,6 +4,8 @@ using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.Services;
+using Birder.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -41,9 +43,7 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
             mockRepo.Setup(repo => repo.GetBirdSummaryListAsync())
-                 .ReturnsAsync(GetTestBirds()); //--> needs a real SystemClockService
-            //    mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
-            //        .ReturnsAsync(GetTestTweetDay());
+                 .ReturnsAsync(GetTestBirds());
 
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
@@ -54,6 +54,26 @@ namespace Birder.Tests.Controller
             var okResult = Assert.IsType<OkObjectResult>(result);
         }
 
+        [Fact]
+        public async Task GetBirds_ReturnsOkObjectResult_WithBirdSummaryViewModel()
+        {
+            // Arrange
+            var mockRepo = new Mock<IBirdRepository>();
+            mockRepo.Setup(repo => repo.GetBirdSummaryListAsync())
+                 .ReturnsAsync(GetTestBirds());
+
+            var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+
+            // Act
+            var result = await controller.GetBirdsAsync(BirderStatus.Common);
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            Assert.IsAssignableFrom<IEnumerable<BirdSummaryViewModel>>(objectResult.Value);
+        }
 
 
         #endregion
