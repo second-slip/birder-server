@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -98,7 +97,8 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
             mockRepo.Setup(repo => repo.GetBirdSummaryListAsync())
-                 .Returns(Task.FromResult<IEnumerable<Bird>>(null));
+                .ReturnsAsync(GetTestBirds());
+                 //.Returns(Task.FromResult<IEnumerable<Bird>>(null));
 
             // cache object is null => raise an exception
             var controller = new BirdsController(_mapper, null, _logger.Object, mockRepo.Object);
@@ -125,7 +125,7 @@ namespace Birder.Tests.Controller
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
-            var result = await controller.GetBirdsAsync(BirderStatus.Common);
+            var result = await controller.GetBirdAsync(It.IsAny<int>());
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -143,7 +143,7 @@ namespace Birder.Tests.Controller
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
-            var result = await controller.GetBird(birdId);
+            var result = await controller.GetBirdAsync(birdId);
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -154,12 +154,46 @@ namespace Birder.Tests.Controller
             Assert.Equal(birdId, model.BirdId);
         }
 
+        [Fact]
+        public async Task GetBird_ReturnsNotFoundResult_WhenRepositoryReturnsNull()
+        {
+            // Arrange
+            var mockRepo = new Mock<IBirdRepository>();
+            mockRepo.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
+                 .Returns(Task.FromResult<Bird>(null));
 
+            var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+
+            // Act
+            var result = await controller.GetBirdAsync(It.IsAny<int>());
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task GetBird_ReturnsBadRequestResult_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockRepo = new Mock<IBirdRepository>();
+            mockRepo.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
+                .ReturnsAsync(GetTestBird());
+
+            // _mapper object is null => raise an exception
+            var controller = new BirdsController(null, _cache, _logger.Object, mockRepo.Object);
+
+            // Act
+            var result = await controller.GetBirdAsync(It.IsAny<int>());
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
 
 
         #endregion
 
 
+        #region Repository mock methods
 
         private Bird GetTestBird()
         {
@@ -241,5 +275,7 @@ namespace Birder.Tests.Controller
 
             return birds;
         }
+
+        #endregion
     }
 }
