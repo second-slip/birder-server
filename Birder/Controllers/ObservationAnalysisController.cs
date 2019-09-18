@@ -104,7 +104,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetLifeList")]
-        public async Task<IActionResult> GetLifeList()
+        public async Task<IActionResult> GetLifeListAsync()
         {
             try
             {
