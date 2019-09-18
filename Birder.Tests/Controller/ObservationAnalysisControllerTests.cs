@@ -44,7 +44,7 @@ namespace Birder.Tests.Controller
         //ToDo: Test cache routes
 
         [Fact]
-        public async Task GetObservationAnalysis_ReturnsOkObjectResult_WithOkResult()
+        public async Task GetObservationAnalysisAsync_ReturnsOkObjectResult_WithOkResult()
         {
             // Arrange
             var mockRepo = new Mock<IObservationRepository>();
@@ -59,14 +59,14 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationAnalysis();
+            var result = await controller.GetObservationAnalysisAsync();
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
-        public async Task GetObservationAnalysis_ReturnsOkObjectResult_WithObservationAnalysisViewModel()
+        public async Task GetObservationAnalysisAsync_ReturnsOkObjectResult_WithObservationAnalysisViewModel()
         {
             // Arrange
             var mockRepo = new Mock<IObservationRepository>();
@@ -81,7 +81,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationAnalysis();
+            var result = await controller.GetObservationAnalysisAsync();
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -92,7 +92,7 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task GetObservationAnalysis_ReturnsUnauthorizedResult_WhenClaimsPrincipalIsNull()
+        public async Task GetObservationAnalysisAsync_ReturnsUnauthorizedResult_WhenClaimsPrincipalIsNull()
         {
             // Arrange
             var mockRepo = new Mock<IObservationRepository>();
@@ -107,14 +107,14 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationAnalysis();
+            var result = await controller.GetObservationAnalysisAsync();
 
             // Assert
             Assert.IsType<UnauthorizedResult>(result);
         }
 
         [Fact]
-        public async Task GetObservationAnalysis_ReturnsBadRequestResult_WhenExceptionIsRaised()
+        public async Task GetObservationAnalysisAsync_ReturnsBadRequestResult_WhenExceptionIsRaised()
         {
             // Arrange
             var mockRepo = new Mock<IObservationRepository>();
@@ -130,7 +130,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationAnalysis();
+            var result = await controller.GetObservationAnalysisAsync();
 
             // Assert
             Assert.IsType<BadRequestResult>(result);

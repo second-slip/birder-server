@@ -39,7 +39,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetObservationAnalysis")]
-        public async Task<IActionResult> GetObservationAnalysis()
+        public async Task<IActionResult> GetObservationAnalysisAsync()
         {
             try
             {
