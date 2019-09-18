@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using Xunit;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Birder.ViewModels;
 
 namespace Birder.Tests.Controller
 {
@@ -25,7 +27,6 @@ namespace Birder.Tests.Controller
         private readonly IMapper _mapper;
         private readonly Mock<ILogger<ObservationAnalysisController>> _logger;
         private readonly ISystemClockService _systemClock;
-        private readonly IObservationRepository _observationRepository;
 
         public ObservationAnalysisControllerTests()
         {
@@ -37,24 +38,26 @@ namespace Birder.Tests.Controller
             });
             _mapper = mappingConfig.CreateMapper();
             _systemClock = new SystemClockService();
-
         }
 
 
+        //ToDo: Test cache routes
+
         [Fact]
-        public async Task GetBirds_ReturnsOkObjectResult_WithABirdsObject()
+        public async Task GetObservationAnalysis_ReturnsOkObjectResult_WithOkResult()
         {
             // Arrange
             var mockRepo = new Mock<IObservationRepository>();
             mockRepo.Setup(repo => repo.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
-             .ReturnsAsync(GetTestObservations());
-            //(x => x.ApplicationUser.UserName == "")) //(It.IsAny<Func<Observation, bool>>()))
+                    .ReturnsAsync(GetTestObservations());
 
-            //var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
             var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, _cache, _systemClock, _mapper);
-            controller.ControllerContext = new ControllerContext();
-            controller.ControllerContext.HttpContext = new DefaultHttpContext();
-            controller.ControllerContext.HttpContext.Request.Headers["UniqueName"] = ""; // ["device-id"] = "20317";
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
+
             // Act
             var result = await controller.GetObservationAnalysis();
 
@@ -62,9 +65,95 @@ namespace Birder.Tests.Controller
             var okResult = Assert.IsType<OkObjectResult>(result);
         }
 
+        [Fact]
+        public async Task GetObservationAnalysis_ReturnsOkObjectResult_WithObservationAnalysisViewModel()
+        {
+            // Arrange
+            var mockRepo = new Mock<IObservationRepository>();
+            mockRepo.Setup(repo => repo.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+                    .ReturnsAsync(GetTestObservations());
+
+            var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, _cache, _systemClock, _mapper);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
+
+            // Act
+            var result = await controller.GetObservationAnalysis();
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            Assert.IsType<ObservationAnalysisViewModel>(objectResult.Value);
+        }
+
+        [Fact]
+        public async Task GetObservationAnalysis_ReturnsUnauthorizedResult_WhenClaimsPrincipalIsNull()
+        {
+            // Arrange
+            var mockRepo = new Mock<IObservationRepository>();
+            mockRepo.Setup(repo => repo.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+                    .ReturnsAsync(GetTestObservations());
+
+            var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, _cache, _systemClock, _mapper);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = null }
+            };
+
+            // Act
+            var result = await controller.GetObservationAnalysis();
+
+            // Assert
+            Assert.IsType<UnauthorizedResult>(result);
+        }
+
+        [Fact]
+        public async Task GetObservationAnalysis_ReturnsBadRequestResult_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockRepo = new Mock<IObservationRepository>();
+            mockRepo.Setup(repo => repo.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+                    .ReturnsAsync(GetTestObservations());
+            
+            // cache object is null => raise an exception
+            var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, null, _systemClock, _mapper);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
+
+            // Act
+            var result = await controller.GetObservationAnalysis();
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+
+
+
 
 
         #region ObservationRepository mock methods
+
+        private ClaimsPrincipal GetTestClaimsPrincipal()
+        {
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, "example name"),
+                new Claim(ClaimTypes.NameIdentifier, "1"),
+                new Claim("custom-claim", "example claim value"),
+            }, "mock"));
+
+            return user;
+        }
 
         private IEnumerable<Observation> GetTestObservations()
         {
