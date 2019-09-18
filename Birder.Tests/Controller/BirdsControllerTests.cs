@@ -193,7 +193,7 @@ namespace Birder.Tests.Controller
         #endregion
 
 
-        #region Repository mock methods
+        #region BirdRepository mock methods
 
         private Bird GetTestBird()
         {
