@@ -6,7 +6,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { LoginViewModel } from '../_models/LoginViewModel';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
-import { LoginDto } from 'src/_models/LoginDto';
+import { LoginDto } from '../_models/LoginDto';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,14 +24,6 @@ export class AuthenticationService {
   constructor(private http: HttpClient
     , private jwtHelper: JwtHelperService
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
-
-  // login(viewModel: LoginViewModel): Observable<any | ErrorReportViewModel> {
-  //   return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
-  //     .pipe(
-  //       take(1),
-  //       tap(response => this.setAuthenticationToken(response)),
-  //       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
-  // }
 
   login(viewModel: LoginViewModel): Observable<LoginDto | ErrorReportViewModel> {
     return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
