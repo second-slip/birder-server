@@ -79,7 +79,7 @@ namespace Birder.Tests.Controller
             Assert.NotNull(objectResult);
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            Assert.IsType<LoginDto> (objectResult.Value);
+            Assert.IsType<AuthenticationTokenDto> (objectResult.Value);
         }
 
 

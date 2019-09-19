@@ -86,7 +86,7 @@ namespace Birder.Controllers
                         signingCredentials: signinCredentials
                         );
 
-                    var responseModel = new LoginDto();
+                    var responseModel = new AuthenticationTokenDto();
                     responseModel.AuthenticationToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
                     return Ok(responseModel);

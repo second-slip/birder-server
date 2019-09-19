@@ -6,7 +6,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { LoginViewModel } from '../_models/LoginViewModel';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
-import { LoginDto } from '../_models/LoginDto';
+import { AuthenticationTokenDto } from '../_models/AuthenticationTokenDto';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -25,7 +25,7 @@ export class AuthenticationService {
     , private jwtHelper: JwtHelperService
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  login(viewModel: LoginViewModel): Observable<LoginDto | ErrorReportViewModel> {
+  login(viewModel: LoginViewModel): Observable<AuthenticationTokenDto | ErrorReportViewModel> {
     return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
       .pipe(
         take(1),
@@ -33,7 +33,7 @@ export class AuthenticationService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  setAuthenticationToken(token: LoginDto): void {
+  setAuthenticationToken(token: AuthenticationTokenDto): void {
     // let token = (<any>user).token;
     if (token && token.authenticationToken) {
       localStorage.setItem('jwt', token.authenticationToken);

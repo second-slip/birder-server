@@ -1,6 +1,6 @@
 ﻿namespace Birder.ViewModels
 {
-    public class LoginDto
+    public class AuthenticationTokenDto
     {
         public string AuthenticationToken { get; set; }
     }
