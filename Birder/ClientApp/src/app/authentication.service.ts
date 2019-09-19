@@ -6,6 +6,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { LoginViewModel } from '../_models/LoginViewModel';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
+import { LoginDto } from 'src/_models/LoginDto';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,7 +25,15 @@ export class AuthenticationService {
     , private jwtHelper: JwtHelperService
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  login(viewModel: LoginViewModel): Observable<any | ErrorReportViewModel> {
+  // login(viewModel: LoginViewModel): Observable<any | ErrorReportViewModel> {
+  //   return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
+  //     .pipe(
+  //       take(1),
+  //       tap(response => this.setAuthenticationToken(response)),
+  //       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  // }
+
+  login(viewModel: LoginViewModel): Observable<LoginDto | ErrorReportViewModel> {
     return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
       .pipe(
         take(1),
@@ -32,10 +41,10 @@ export class AuthenticationService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  setAuthenticationToken(token: any): void {
+  setAuthenticationToken(token: LoginDto): void {
     // let token = (<any>user).token;
-    if (token && token.token) {
-      localStorage.setItem('jwt', token.token);
+    if (token && token.authenticationToken) {
+      localStorage.setItem('jwt', token.authenticationToken);
       this.isAuthenticated.next(true);
     }
   }
@@ -82,9 +91,4 @@ export class AuthenticationService {
       return false;
     }
   }
-
-
 }
-// export interface TokenModel {
-//   authToken: string;
-// }
