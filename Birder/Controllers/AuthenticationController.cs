@@ -72,7 +72,6 @@ namespace Birder.Controllers
                         new Claim("ImageUrl", user.Avatar),
                         new Claim("DefaultLatitude", user.DefaultLocationLatitude.ToString()),
                         new Claim("DefaultLongitude", user.DefaultLocationLongitude.ToString()),
-                        //new Claim(JwtRegisteredClaimNames., "Administrator"),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
@@ -91,6 +90,7 @@ namespace Birder.Controllers
                     var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
                     return Ok(new { Token = tokenString });
+                    //return Ok(tokenString);
                 }
             }
             

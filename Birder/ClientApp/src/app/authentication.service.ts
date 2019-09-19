@@ -82,5 +82,9 @@ export class AuthenticationService {
       return false;
     }
   }
-}
 
+
+}
+// export interface TokenModel {
+//   authToken: string;
+// }
