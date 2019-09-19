@@ -35,8 +35,8 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockUserManager = initialiseMockUserManager();
-            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())) // (It.IsAny<Expression<Func<Observation, bool>>>()))
-                        .ReturnsAsync(GetTestUser());
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                        .ReturnsAsync(GetValidTestUser());
 
             var mockSignInManager = initialiseMockSignInManager(mockUserManager);
             mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
@@ -60,7 +60,7 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockUserManager = initialiseMockUserManager();
             mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
-                        .ReturnsAsync(GetTestUser());
+                        .ReturnsAsync(GetValidTestUser());
 
             var mockSignInManager = initialiseMockSignInManager(mockUserManager);
             mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
@@ -82,8 +82,35 @@ namespace Birder.Tests.Controller
             Assert.IsType<AuthenticationTokenDto> (objectResult.Value);
         }
 
+        [Fact]
+        public async Task LoginWithEmailNotConfirmed_ReturnsBadRequest_WithEmailNotConfirmedModelStateError()
+        {
+            // Arrange
+            var mockUserManager = initialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                        .ReturnsAsync(GetTestUserEmailNotConfirmed());
 
+            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+            mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
+                            .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Success));
 
+            var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object,
+                                                           _systemClock, _config.Object);
+
+            var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
+
+            // Act
+            var result = await controller.Login(model);
+
+            // Assert
+            var okResult = Assert.IsType<BadRequestObjectResult>(result);
+
+            var modelState = controller.ModelState;
+            Assert.Equal(1, modelState.ErrorCount);
+            Assert.True(modelState.ContainsKey("EmailNotConfirmed"));
+            Assert.True(modelState["EmailNotConfirmed"].Errors.Count == 1);
+            Assert.Equal("You cannot login until you confirm your email.", modelState["EmailNotConfirmed"].Errors[0].ErrorMessage);
+        }
 
 
         private Mock<UserManager<ApplicationUser>> initialiseMockUserManager()
@@ -111,7 +138,17 @@ namespace Birder.Tests.Controller
                         new Mock<IAuthenticationSchemeProvider>().Object);
         }
 
-        private ApplicationUser GetTestUser()
+        private ApplicationUser GetTestUserEmailNotConfirmed()
+        {
+            var user = new ApplicationUser()
+            {
+                EmailConfirmed = false,
+            };
+
+            return user;
+        }
+
+        private ApplicationUser GetValidTestUser()
         {
             var user = new ApplicationUser()
             {
