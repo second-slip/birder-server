@@ -64,7 +64,6 @@ namespace Birder
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                  .AddDefaultTokenProviders()
                 .AddSignInManager<SignInManager<ApplicationUser>>();
-            //.AddDefaultTokenProviders();
 
 
             //services.AddAutoMapper();
