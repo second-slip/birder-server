@@ -2,20 +2,17 @@
 using Birder.Data.Model;
 using Birder.Services;
 using Birder.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authentication;
 
 namespace Birder.Tests.Controller
 {
@@ -58,11 +55,11 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task Login_ReturnsOkObjectResult_WithToken()
+        public async Task Login_ReturnsOkObjectResult_WithLoginDto()
         {
             // Arrange
             var mockUserManager = initialiseMockUserManager();
-            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())) // (It.IsAny<Expression<Func<Observation, bool>>>()))
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                         .ReturnsAsync(GetTestUser());
 
             var mockSignInManager = initialiseMockSignInManager(mockUserManager);
@@ -103,17 +100,15 @@ namespace Birder.Tests.Controller
                     new Mock<ILogger<UserManager<ApplicationUser>>>().Object);
         }
 
-
-
         private Mock<SignInManager<ApplicationUser>> initialiseMockSignInManager(Mock<UserManager<ApplicationUser>> userManager)
         {
             return new Mock<SignInManager<ApplicationUser>>(
-                                userManager.Object,
-                                new Mock<IHttpContextAccessor>().Object,
-                                new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>().Object,
-                                new Mock<IOptions<IdentityOptions>>().Object,
-                                new Mock<ILogger<SignInManager<ApplicationUser>>>().Object,
-                                new Mock<IAuthenticationSchemeProvider>().Object);
+                        userManager.Object,
+                        new Mock<IHttpContextAccessor>().Object,
+                        new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>().Object,
+                        new Mock<IOptions<IdentityOptions>>().Object,
+                        new Mock<ILogger<SignInManager<ApplicationUser>>>().Object,
+                        new Mock<IAuthenticationSchemeProvider>().Object);
         }
 
         private ApplicationUser GetTestUser()

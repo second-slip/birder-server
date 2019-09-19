@@ -54,7 +54,6 @@ namespace Birder.Controllers
 
             if (user != null)
             {
-
                 if (user.EmailConfirmed == false)
                 {
                     ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you confirm your email.");
@@ -88,12 +87,10 @@ namespace Birder.Controllers
                         );
 
                     var responseModel = new LoginDto();
-
                     responseModel.AuthenticationToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
                     return Ok(responseModel);
                     //return Ok(new { Token = tokenString });
-                    //return Ok(tokenString);
                 }
             }
             
