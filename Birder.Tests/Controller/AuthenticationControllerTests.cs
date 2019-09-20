@@ -88,7 +88,7 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockUserManager = initialiseMockUserManager();
             mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
-                        .ReturnsAsync(GetTestUserEmailNotConfirmed());
+                            .ReturnsAsync(GetTestUserWithEmailNotConfirmed());
 
             var mockSignInManager = initialiseMockSignInManager(mockUserManager);
             mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
@@ -96,7 +96,7 @@ namespace Birder.Tests.Controller
 
             var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object,
                                                            _systemClock, _config.Object);
-
+            
             var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
 
             // Act
@@ -112,6 +112,35 @@ namespace Birder.Tests.Controller
             Assert.Equal("You cannot login until you confirm your email.", modelState["EmailNotConfirmed"].Errors[0].ErrorMessage);
         }
 
+        [Fact]
+        public async Task LoginWithInvalidModelState_ReturnsBadRequest_WithModelStateError()
+        {
+            // Arrange
+            var mockUserManager = initialiseMockUserManager();
+
+            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+            
+            var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, _systemClock, _config.Object);
+
+            //Add model error
+            controller.ModelState.AddModelError("Test", "This is a test model error");
+
+            var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
+
+            // Act
+            var result = await controller.Login(model);
+
+            // Assert
+            var okResult = Assert.IsType<BadRequestObjectResult>(result);
+
+            var modelState = controller.ModelState;
+            Assert.Equal(1, modelState.ErrorCount);
+            Assert.True(modelState.ContainsKey("Test"));
+            Assert.True(modelState["Test"].Errors.Count == 1);
+            Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
+        }
+
+        #region Mock methods
 
         private Mock<UserManager<ApplicationUser>> initialiseMockUserManager()
         {
@@ -138,7 +167,7 @@ namespace Birder.Tests.Controller
                         new Mock<IAuthenticationSchemeProvider>().Object);
         }
 
-        private ApplicationUser GetTestUserEmailNotConfirmed()
+        private ApplicationUser GetTestUserWithEmailNotConfirmed()
         {
             var user = new ApplicationUser()
             {
@@ -160,5 +189,7 @@ namespace Birder.Tests.Controller
 
             return user;
         }
+
+        #endregion
     }
 }
