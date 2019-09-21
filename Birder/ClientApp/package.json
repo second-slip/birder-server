@@ -41,6 +41,7 @@
     "stringstream": "^1.0.0",
     "tar": "^4.4.11",
     "tslib": "^1.10.0",
+    "undefined": "^0.1.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
