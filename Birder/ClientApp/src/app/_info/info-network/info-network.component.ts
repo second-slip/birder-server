@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserProfileViewModel, NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { UserService } from '../../../app/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-info-network',
@@ -11,10 +12,19 @@ import { UserService } from '../../../app/user.service';
 })
 export class InfoNetworkComponent implements OnInit {
   user: UserProfileViewModel;
+  subscription: Subscription;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.getUser();
+    this.subscription = this.userService.networkChanged$
+    .subscribe(_ => {
+      this.onNetworkChanged();
+    });
+  }
+
+  onNetworkChanged() {
     this.getUser();
   }
 
@@ -36,22 +46,22 @@ export class InfoNetworkComponent implements OnInit {
       this.userService.postFollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
-            this.getUser();
+            // this.getUser(); // obsolete due to event subsciption
             // element.innerText = 'Unfollow';
           },
           (error: ErrorReportViewModel) => {
-            // console.log(error);
+            console.log(error);
           });
       return;
     } else {
       this.userService.postUnfollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
-            this.getUser();
+            // this.getUser(); // obsolete due to event subsciption
             // element.innerText = 'Follow';
           },
           (error: ErrorReportViewModel) => {
-            // console.log(error);
+            console.log(error);
           });
       return;
     }

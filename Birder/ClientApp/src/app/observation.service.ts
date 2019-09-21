@@ -16,7 +16,6 @@ const httpOptions = {
 export class ObservationService {
 
   private observationsChanged = new Subject<any>();
-
   observationsChanged$ = this.observationsChanged.asObservable();
 
   constructor(private http: HttpClient

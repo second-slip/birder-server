@@ -45,8 +45,9 @@ export class CachingInterceptor implements HttpInterceptor {
 /** Is this request cachable? */
 function isCachable(request: HttpRequest<any>) {
   return request.method === 'GET'
-    && request.url.indexOf('api/ObservationAnalysis') !== 0; // do not cache requests containing 'api/ObservationAnalysis'
-}
+    && request.url.indexOf('api/ObservationAnalysis') !== 0  // do not cache requests containing 'api/ObservationAnalysis'
+    && request.url.indexOf('api/User/GetUser') !== 0;
+  }
 
 /**
  * Get server response observable by sending request to `next()`.
