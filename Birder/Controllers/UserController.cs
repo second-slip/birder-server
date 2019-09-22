@@ -68,18 +68,20 @@ namespace Birder.Controllers
 
                 //ToDo: Move to helper method
                 // Check Following / Followers collections from the point of view of the loggedin user
-                for (int i = 0; i < viewModel.Following.Count(); i++)
-                {
-                    viewModel.Following.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Following.ElementAt(i).UserName);
-                    viewModel.Following.ElementAt(i).IsOwnProfile = viewModel.Following.ElementAt(i).UserName == loggedinUsername;
-                }
+                //for (int i = 0; i < viewModel.Following.Count(); i++)
+                //{
+                //    viewModel.Following.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Following.ElementAt(i).UserName);
+                //    viewModel.Following.ElementAt(i).IsOwnProfile = viewModel.Following.ElementAt(i).UserName == loggedinUsername;
+                //}
+                UserProfileHelper.UpdateFollowingCollection(viewModel, loggedinUser, loggedinUsername);
 
                 //ToDo: Move to helper method
-                for (int i = 0; i < viewModel.Followers.Count(); i++)
-                {
-                    viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Followers.ElementAt(i).UserName);
-                    viewModel.Followers.ElementAt(i).IsOwnProfile = viewModel.Followers.ElementAt(i).UserName == loggedinUsername;
-                }
+                //for (int i = 0; i < viewModel.Followers.Count(); i++)
+                //{
+                //    viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Followers.ElementAt(i).UserName);
+                //    viewModel.Followers.ElementAt(i).IsOwnProfile = viewModel.Followers.ElementAt(i).UserName == loggedinUsername;
+                //}
+                UserProfileHelper.UpdateFollowersCollection(viewModel, loggedinUser, loggedinUsername);
 
                 return Ok(viewModel);
             }
