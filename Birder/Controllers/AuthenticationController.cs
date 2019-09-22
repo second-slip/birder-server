@@ -34,11 +34,11 @@ namespace Birder.Controllers
                                         , ISystemClockService systemClock
                                         , IConfiguration config)
         {
-            _systemClock = systemClock;
             _logger = logger;
             _config = config;
-            _signInManager = signInManager;
+            _systemClock = systemClock;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpPost, Route("login")]
