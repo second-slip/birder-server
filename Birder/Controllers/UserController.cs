@@ -47,6 +47,7 @@ namespace Birder.Controllers
                 }
 
                 var user = await _userRepository.GetUserAndNetworkAsync(username);
+
                 if (user == null)
                 {
                     return BadRequest("There was an error getting the user");
@@ -55,6 +56,7 @@ namespace Birder.Controllers
                 var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
 
                 var loggedinUser = new ApplicationUser();
+
                 if (String.Equals(loggedinUsername, username, StringComparison.InvariantCultureIgnoreCase))
                 {
                     viewModel.IsOwnProfile = true;
@@ -66,21 +68,8 @@ namespace Birder.Controllers
                     loggedinUser = await _userRepository.GetUserAndNetworkAsync(loggedinUsername);
                 }
 
-                //ToDo: Move to helper method
-                // Check Following / Followers collections from the point of view of the loggedin user
-                //for (int i = 0; i < viewModel.Following.Count(); i++)
-                //{
-                //    viewModel.Following.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Following.ElementAt(i).UserName);
-                //    viewModel.Following.ElementAt(i).IsOwnProfile = viewModel.Following.ElementAt(i).UserName == loggedinUsername;
-                //}
                 UserProfileHelper.UpdateFollowingCollection(viewModel, loggedinUser, loggedinUsername);
 
-                //ToDo: Move to helper method
-                //for (int i = 0; i < viewModel.Followers.Count(); i++)
-                //{
-                //    viewModel.Followers.ElementAt(i).IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Followers.ElementAt(i).UserName);
-                //    viewModel.Followers.ElementAt(i).IsOwnProfile = viewModel.Followers.ElementAt(i).UserName == loggedinUsername;
-                //}
                 UserProfileHelper.UpdateFollowersCollection(viewModel, loggedinUser, loggedinUsername);
 
                 return Ok(viewModel);
