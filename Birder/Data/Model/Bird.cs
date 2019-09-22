@@ -22,14 +22,11 @@ namespace Birder.Data.Model
         public string Genus { get; set; }
 
         [Required]
-        [Display(Name = "Scientific Name")]
         public string Species { get; set; }
 
         [Required]
-        [Display(Name = "English Vernacular Name")]
         public string EnglishName { get; set; }
 
-        [Display(Name = "International Name")]
         public string InternationalName { get; set; }
 
         public string Category { get; set; } //Primary only
@@ -38,10 +35,9 @@ namespace Birder.Data.Model
         // - https://www.bto.org/about-birds/birdfacts/british-list
         // - This list includes 603 species (as at 1 January 2017)
         //
-        [Display(Name = "BTO Population Size in Britain")]
+        // BTO Population Size in Britain
         public string PopulationSize { get; set; }
 
-        [Display(Name = "BTO Status in Britain")]
         public string BtoStatusInBritain { get; set; }
 
         // validation removed - causes faults on Model.Validate if url is empty
@@ -58,8 +54,6 @@ namespace Birder.Data.Model
         //
 
         public int ConservationStatusId { get; set; }
-
-        //public int BritishStatusId { get; set; }
 
         public ICollection<Observation> Observations { get; set; }
 
