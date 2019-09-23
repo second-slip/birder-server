@@ -102,17 +102,18 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockRepo = new Mock<ITweetDayRepository>();
             mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
-                .Returns(Task.FromResult<TweetDay>(null));
+                .ThrowsAsync(new InvalidOperationException());
 
-            // cache object is null => raise an exception
-            var controller = new TweetsController(mockRepo.Object, null, _logger.Object,
+            var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
                                                      _systemClock.Object, _mapper);
 
             // Act
             var result = await controller.GetTweetDay();
 
             // Assert
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("An error occurred", objectResult.Value);
         }
 
         private TweetDay GetTestTweetDay()

@@ -184,10 +184,11 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
             mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
-                 .ReturnsAsync(GetOtherMemberUserProfile());
+                 .ThrowsAsync(new InvalidOperationException());
+
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            var controller = new UserController(null, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {

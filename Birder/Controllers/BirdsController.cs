@@ -82,7 +82,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the birds list");
-                return BadRequest();
+                return BadRequest("An error occurred");
             }
         }
 
@@ -104,7 +104,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, "An error occurred getting bird with {ID}", id);
-                return BadRequest();
+                return BadRequest("An error occurred");
             }
         }
     }

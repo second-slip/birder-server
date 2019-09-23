@@ -97,17 +97,17 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
             mockRepo.Setup(repo => repo.GetBirdSummaryListAsync())
-                .ReturnsAsync(GetTestBirds());
-                 //.Returns(Task.FromResult<IEnumerable<Bird>>(null));
+                .ThrowsAsync(new InvalidOperationException());
 
-            // cache object is null => raise an exception
-            var controller = new BirdsController(_mapper, null, _logger.Object, mockRepo.Object);
+            var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
             var result = await controller.GetBirdsAsync(BirderStatus.Common);
 
             // Assert
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("An error occurred", objectResult.Value);
         }
 
         #endregion
@@ -177,16 +177,17 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
             mockRepo.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
-                .ReturnsAsync(GetTestBird());
+                .ThrowsAsync(new InvalidOperationException());
 
-            // _mapper object is null => raise an exception
-            var controller = new BirdsController(null, _cache, _logger.Object, mockRepo.Object);
+            var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
             var result = await controller.GetBirdAsync(It.IsAny<int>());
 
             // Assert
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("An error occurred", objectResult.Value);
         }
 
 

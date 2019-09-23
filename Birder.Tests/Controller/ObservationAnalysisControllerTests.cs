@@ -118,10 +118,9 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockRepo = new Mock<IObservationRepository>();
             mockRepo.Setup(repo => repo.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
-                    .ReturnsAsync(GetTestObservations());
-            
-            // cache object is null => raise an exception
-            var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, null, _systemClock, _mapper);
+                    .ThrowsAsync(new InvalidOperationException());
+
+            var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, _cache, _systemClock, _mapper);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -132,7 +131,9 @@ namespace Birder.Tests.Controller
             var result = await controller.GetObservationAnalysisAsync();
 
             // Assert
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("An error occurred", objectResult.Value);
         }
 
         #endregion
@@ -215,10 +216,9 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockRepo = new Mock<IObservationRepository>();
             mockRepo.Setup(repo => repo.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
-                    .ReturnsAsync(GetTestObservations());
+                    .ThrowsAsync(new InvalidOperationException());
 
-            // cache object is null => raise an exception
-            var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, null, _systemClock, _mapper);
+            var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, _cache, _systemClock, _mapper);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -229,7 +229,9 @@ namespace Birder.Tests.Controller
             var result = await controller.GetTopObservationAnalysisAsync();
 
             // Assert
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("An error occurred", objectResult.Value);
         }
 
         #endregion
@@ -312,10 +314,9 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockRepo = new Mock<IObservationRepository>();
             mockRepo.Setup(repo => repo.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
-                    .ReturnsAsync(GetTestObservations());
+                    .ThrowsAsync(new InvalidOperationException());
 
-            // cache object is null => raise an exception
-            var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, null, _systemClock, _mapper);
+            var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, _cache, _systemClock, _mapper);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -326,7 +327,9 @@ namespace Birder.Tests.Controller
             var result = await controller.GetLifeListAsync();
 
             // Assert
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("An error occurred", objectResult.Value);
         }
 
         #endregion
