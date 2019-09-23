@@ -130,7 +130,7 @@ namespace Birder.Tests.Controller
             //var okResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.IsType<RedirectResult>(result);
             var objectResult = result as RedirectResult;
-            Assert.Equal("/confirm-email", objectResult.Url);
+            Assert.Equal("http://localhost:55722/confirm-email", objectResult.Url);
 
             //var modelState = controller.ModelState;
             //Assert.Equal(1, modelState.ErrorCount);

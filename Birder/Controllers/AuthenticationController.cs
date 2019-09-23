@@ -62,9 +62,10 @@ namespace Birder.Controllers
 
                 if (user.EmailConfirmed == false)
                 {
-                    ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you confirm your email.");
+                    //ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you confirm your email.");
                     _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
-                    return Redirect("/confirm-email");
+                    return Redirect(_config["BaseUrl"] + "/confirm-email");
+                    //return Redirect("/confirmed-email");
                     //return BadRequest(ModelState); // redirect to confirm email
                 }
 
