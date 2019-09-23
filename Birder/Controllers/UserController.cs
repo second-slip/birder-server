@@ -36,7 +36,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetUser")]
-        public async Task<IActionResult> GetUser(string username)
+        public async Task<IActionResult> GetUserAsync(string username)
         {
             try
             {
