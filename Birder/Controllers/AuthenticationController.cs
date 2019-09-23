@@ -41,6 +41,7 @@ namespace Birder.Controllers
             _signInManager = signInManager;
         }
 
+
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
         {
@@ -62,11 +63,9 @@ namespace Birder.Controllers
 
                 if (user.EmailConfirmed == false)
                 {
-                    //ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you confirm your email.");
+                    ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you have confirmed your email.");
                     _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
-                    return Redirect(_config["BaseUrl"] + "/confirm-email");
-                    //return Redirect("/confirmed-email");
-                    //return BadRequest(ModelState); // redirect to confirm email
+                    return BadRequest(ModelState);
                 }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginViewModel.Password, false);
