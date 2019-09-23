@@ -83,6 +83,32 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
+        public async Task Login_ReturnsBadRequestObjectResult_WhenSignInResultIsNotSuccessful()
+        {
+            // Arrange
+            var mockUserManager = initialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                        .ReturnsAsync(GetValidTestUser());
+
+            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+            mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
+                            .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Failed));
+
+            var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object,
+                                                           _systemClock, _config.Object);
+
+            var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
+
+            // Act
+            var result = await controller.Login(model);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("Unable to sign in", objectResult.Value);
+        }
+
+        [Fact]
         public async Task LoginWithEmailNotConfirmed_ReturnsBadRequest_WithEmailNotConfirmedModelStateError()
         {
             // Arrange
@@ -91,8 +117,6 @@ namespace Birder.Tests.Controller
                             .ReturnsAsync(GetTestUserWithEmailNotConfirmed());
 
             var mockSignInManager = initialiseMockSignInManager(mockUserManager);
-            mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
-                            .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Success));
 
             var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object,
                                                            _systemClock, _config.Object);
