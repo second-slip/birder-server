@@ -44,20 +44,26 @@ namespace Birder.Controllers
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                _logger.LogError(LoggingEvents.InvalidModelState, "LoginViewModel ModelState is invalid");
-                return BadRequest(ModelState);
-            }
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError(LoggingEvents.InvalidModelState, "LoginViewModel ModelState is invalid");
+                    return BadRequest(ModelState);
+                }
 
-            var user = await _userManager.FindByEmailAsync(loginViewModel.UserName);
+                var user = await _userManager.FindByEmailAsync(loginViewModel.UserName);
 
-            if (user != null)
-            {
+                if (user == null)
+                {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "Login failed: User not found");
+                    return NotFound();
+                }
+
                 if (user.EmailConfirmed == false)
                 {
                     ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you confirm your email.");
-                    return BadRequest(ModelState);
+                    return BadRequest(ModelState); // redirect to confirm email
                 }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginViewModel.Password, false);
@@ -83,8 +89,7 @@ namespace Birder.Controllers
                         audience: "http://localhost:55722",
                         claims: claims,
                         expires: _systemClock.GetNow.AddDays(2),
-                        signingCredentials: signinCredentials
-                        );
+                        signingCredentials: signinCredentials);
 
                     var responseModel = new AuthenticationTokenDto();
                     responseModel.AuthenticationToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
@@ -92,10 +97,32 @@ namespace Birder.Controllers
                     return Ok(responseModel);
                     //return Ok(new { Token = tokenString });
                 }
+                //if (result.IsLockedOut)
+                //{
+                //    _logger.LogWarning("User account locked out.");
+                //    return RedirectToAction(nameof(Lockout));
+                //}
+                //if (result.RequiresTwoFactor)
+                //{
+                //    return RedirectToAction(nameof(LoginWith2fa), new
+                //    {
+                //        returnUrl,
+                //        model.RememberMe
+                //    });
+                //}
+                else
+                {
+                    return BadRequest("Unable to sign in");
+                    //return Redirect("/confirmed-email");
+                    //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    //return View(model);
+                }
             }
-            
-            _logger.LogError(LoggingEvents.GetItemNotFound, "Login failed: User not found");
-            return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GenerateItems, ex, "An error with user authenitication");
+                return BadRequest("An error occurred");
+            }
         }
     }
 }

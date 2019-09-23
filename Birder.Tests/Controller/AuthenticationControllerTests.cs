@@ -140,6 +140,31 @@ namespace Birder.Tests.Controller
             Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
         }
 
+        [Fact]
+        public async Task Login_ReturnsBadRequestResult_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockUserManager = initialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                .ThrowsAsync(new InvalidOperationException());
+
+            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+
+            var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, _systemClock, _config.Object);
+
+            var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
+
+            // Act
+            var result = await controller.Login(model);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("An error occurred", objectResult.Value);
+        }
+
+
+
         #region Mock methods
 
         private Mock<UserManager<ApplicationUser>> initialiseMockUserManager()
