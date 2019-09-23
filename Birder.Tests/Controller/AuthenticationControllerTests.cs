@@ -127,13 +127,16 @@ namespace Birder.Tests.Controller
             var result = await controller.Login(model);
 
             // Assert
-            var okResult = Assert.IsType<BadRequestObjectResult>(result);
+            //var okResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<RedirectResult>(result);
+            var objectResult = result as RedirectResult;
+            Assert.Equal("/confirm-email", objectResult.Url);
 
-            var modelState = controller.ModelState;
-            Assert.Equal(1, modelState.ErrorCount);
-            Assert.True(modelState.ContainsKey("EmailNotConfirmed"));
-            Assert.True(modelState["EmailNotConfirmed"].Errors.Count == 1);
-            Assert.Equal("You cannot login until you confirm your email.", modelState["EmailNotConfirmed"].Errors[0].ErrorMessage);
+            //var modelState = controller.ModelState;
+            //Assert.Equal(1, modelState.ErrorCount);
+            //Assert.True(modelState.ContainsKey("EmailNotConfirmed"));
+            //Assert.True(modelState["EmailNotConfirmed"].Errors.Count == 1);
+            //Assert.Equal("You cannot login until you confirm your email.", modelState["EmailNotConfirmed"].Errors[0].ErrorMessage);
         }
 
         [Fact]
