@@ -1,5 +1,5 @@
 
-namespace Birder.Data.Model
+namespace Birder.ViewModels
 {
     public class ErrorViewModel
     {
