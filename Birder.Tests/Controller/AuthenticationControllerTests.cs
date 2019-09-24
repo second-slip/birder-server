@@ -13,7 +13,6 @@ using Moq;
 using System;
 using System.Threading.Tasks;
 using Xunit;
-using static Birder.Controllers.AuthenticationController;
 
 namespace Birder.Tests.Controller
 {
