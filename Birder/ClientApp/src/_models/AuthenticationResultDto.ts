@@ -1,3 +1,4 @@
+
 export interface AuthenticationResultDto {
     authenticationToken: string;
     failureReason: AuthenticationFailureReason;

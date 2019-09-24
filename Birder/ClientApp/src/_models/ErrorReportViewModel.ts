@@ -11,7 +11,11 @@ export class ErrorReportViewModel {
     modelStateErrors: string[];
 }
 
-export class AuthErrorViewModel extends ErrorReportViewModel {
+export class ServerModelStateErrorViewModel extends ErrorReportViewModel {
+    
+}
+
+export class AuthenticationErrorViewModel extends ErrorReportViewModel {
     failureReason: AuthenticationFailureReason;
 }
 

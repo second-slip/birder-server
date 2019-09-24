@@ -4,8 +4,7 @@ import { first } from 'rxjs/operators';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ParentErrorStateMatcher } from '../../validators';
-import { ErrorReportViewModel, AuthErrorViewModel } from '../../_models/ErrorReportViewModel';
-import { Location } from '@angular/common';
+import { AuthenticationErrorViewModel } from '../../_models/ErrorReportViewModel';
 import { AuthenticationFailureReason } from '../../_models/AuthenticationResultDto';
 import { ToastrService } from 'ngx-toastr';
 
@@ -53,7 +52,8 @@ export class LoginComponent implements OnInit {
       .subscribe(_ => {
         this.router.navigate([this.returnUrl]);
       },
-        (error: AuthErrorViewModel) => {
+        (error: AuthenticationErrorViewModel) => {
+          console.log(error);
           switch (error.failureReason) {
             case AuthenticationFailureReason.EmailConfirmationRequired: {
               this.toast.info('You must confirm your email address before you can login.', 'Confirm your email', {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorReportViewModel, AuthErrorViewModel } from '../_models/ErrorReportViewModel';
+import { ErrorReportViewModel, AuthenticationErrorViewModel } from '../_models/ErrorReportViewModel';
 import { Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -10,9 +10,9 @@ export class HttpErrorHandlerService {
 
   constructor() { }
 
-  handleAuthenticationError(error: HttpErrorResponse): Observable<AuthErrorViewModel> {
-    const errorReport = new AuthErrorViewModel();
-    console.log(error);
+  handleAuthenticationError(error: HttpErrorResponse): Observable<AuthenticationErrorViewModel> {
+    const errorReport = new AuthenticationErrorViewModel();
+    // console.log(error);
 
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -20,14 +20,12 @@ export class HttpErrorHandlerService {
       errorReport.errorNumber = error.status;
       errorReport.message = error.message;
       errorReport.friendlyMessage = 'An error occurred retrieving data.';
-      // console.log(errorReport);
     } else {
       errorReport.type = 'unsuccessful response code';
       errorReport.errorNumber = error.status;
       errorReport.message = error.statusText;
       errorReport.friendlyMessage = 'An error occurred retrieving data.';
       errorReport.failureReason = error.error.failureReason;
-
     }
 
     return throwError(errorReport);
@@ -47,7 +45,7 @@ export class HttpErrorHandlerService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong
-      if (error.status === 400 && (typeof(error.error) !== 'string') ) {
+      if (error.status === 400 && (typeof (error.error) !== 'string')) {
         // Bad request (modelstate not valid) with server modelstate errors
         errorReport.serverCustomMessage = 'See model state array';
 

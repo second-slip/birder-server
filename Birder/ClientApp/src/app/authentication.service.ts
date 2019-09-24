@@ -5,7 +5,7 @@ import { tap, catchError, take } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { LoginViewModel } from '../_models/LoginViewModel';
 import { HttpErrorHandlerService } from './http-error-handler.service';
-import { ErrorReportViewModel, AuthErrorViewModel } from '../_models/ErrorReportViewModel';
+import { AuthenticationErrorViewModel } from '../_models/ErrorReportViewModel';
 import { AuthenticationResultDto } from '../_models/AuthenticationResultDto';
 
 const httpOptions = {
@@ -25,7 +25,7 @@ export class AuthenticationService {
     , private jwtHelper: JwtHelperService
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  login(viewModel: LoginViewModel): Observable<AuthenticationResultDto | AuthErrorViewModel> {
+  login(viewModel: LoginViewModel): Observable<AuthenticationResultDto | AuthenticationErrorViewModel> {
     return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
       .pipe(
         take(1),
