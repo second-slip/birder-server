@@ -7,7 +7,8 @@
         <h2 class="section-title">Login</h2>
         <div *ngIf="errorMessage" class="alert alert-danger">
           <h4>Login failed</h4>
-          <p>{{ errorMessage }}</p>
+          <p>There was an error logging in.  Make sure you have typed the correct email and password.
+          <br>If you have forgotten your password, you can <a [routerLink]='["/forgot-password"]'>reset it</a>.</p>
             <!-- <ul>
                 <li *ngFor="let error of errorReport.modelStateErrors">
                     {{ error }}

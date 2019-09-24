@@ -68,7 +68,7 @@ namespace Birder.Controllers
                 {
                     ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you have confirmed your email.");
                     _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
-                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.EmailConfirmationRequired };
+                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
                     return BadRequest(viewModel);
                 }
 
