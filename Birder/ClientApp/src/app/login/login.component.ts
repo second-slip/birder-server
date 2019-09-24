@@ -7,6 +7,7 @@ import { ParentErrorStateMatcher } from '../../validators';
 import { ErrorReportViewModel, AuthErrorViewModel } from '../../_models/ErrorReportViewModel';
 import { Location } from '@angular/common';
 import { AuthenticationFailureReason } from '../../_models/AuthenticationResultDto';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +16,8 @@ import { AuthenticationFailureReason } from '../../_models/AuthenticationResultD
   encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
-  invalidLogin: boolean;
   loginForm: FormGroup;
-  errorReport: ErrorReportViewModel;
+  errorMessage: string;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   returnUrl: string;
 
@@ -35,10 +35,10 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(private router: Router
-            , private route: ActivatedRoute
-            , private authenticationService: AuthenticationService
-            , private formBuilder: FormBuilder
-            , private location: Location) { }
+    , private route: ActivatedRoute
+    , private authenticationService: AuthenticationService
+    , private formBuilder: FormBuilder
+    , private toast: ToastrService) { }
 
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -47,38 +47,30 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(value): void {
+    this.errorMessage = null;
     this.authenticationService.login(value)
       .pipe(first())
-      .subscribe(
-        (data: any) => {
-          this.invalidLogin = false;
-          this.router.navigate([this.returnUrl]);
-        },
+      .subscribe(_ => {
+        this.router.navigate([this.returnUrl]);
+      },
         (error: AuthErrorViewModel) => {
-          console.log(error);
-          this.invalidLogin = true;
-          this.errorReport = error;
-
-          // if(error.failureReason === AuthenticationFailureReason.EmailConfirmationRequired) {
-          //   alert('');
-          // }
           switch (error.failureReason) {
             case AuthenticationFailureReason.EmailConfirmationRequired: {
-              alert('');
+              this.toast.info('You must confirm your email address before you can login.', 'Confirm your email', {
+                timeOut: 8000
+              });
+              this.router.navigate(['/confirm-email']);
               break;
             }
             case AuthenticationFailureReason.LockedOut: {
-              // this is second case block
-              // and there can be any number of cases
               break;
             }
             default: {
-              // when no case is matched, this block executes
+              this.errorMessage = 'There was an error logging in.  Make sure your email and password are correct.' +
+              'If you need to reset your password please use the link below.';
               break;
             }
           }
-          
-          
         });
   }
 

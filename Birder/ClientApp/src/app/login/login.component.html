@@ -5,13 +5,14 @@
     <div class="col-sm-8">
       <div class="login-container">
         <h2 class="section-title">Login</h2>
-        <div *ngIf="invalidLogin" class="alert alert-danger">
-          <p>Login failed</p>
-            <ul>
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          <h4>Login failed</h4>
+          <p>{{ errorMessage }}</p>
+            <!-- <ul>
                 <li *ngFor="let error of errorReport.modelStateErrors">
                     {{ error }}
                 </li>
-            </ul>
+            </ul> -->
         </div>
         <!-- <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div> -->
         
