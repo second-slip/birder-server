@@ -24,9 +24,9 @@ namespace Birder.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ILogger _logger;
         private readonly ISystemClockService _systemClock;
         private readonly IConfiguration _config;
+        private readonly ILogger _logger;
 
         public AuthenticationController(UserManager<ApplicationUser> userManager
                                         , SignInManager<ApplicationUser> signInManager
@@ -41,7 +41,6 @@ namespace Birder.Controllers
             _signInManager = signInManager;
         }
 
-
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
         {
@@ -49,8 +48,11 @@ namespace Birder.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    // record and log model errors...
                     _logger.LogError(LoggingEvents.InvalidModelState, "LoginViewModel ModelState is invalid");
-                    return BadRequest(ModelState);
+                    //return BadRequest(ModelState); //Not a good idea
+                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
+                    return BadRequest(viewModel);
                 }
 
                 var user = await _userManager.FindByEmailAsync(loginViewModel.UserName);
@@ -58,14 +60,16 @@ namespace Birder.Controllers
                 if (user == null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "Login failed: User not found");
-                    return NotFound();
+                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
+                    return NotFound(viewModel);
                 }
 
                 if (user.EmailConfirmed == false)
                 {
                     ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you have confirmed your email.");
                     _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
-                    return BadRequest(ModelState);
+                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.EmailConfirmationRequired };
+                    return BadRequest(viewModel);
                 }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginViewModel.Password, false);
@@ -93,38 +97,50 @@ namespace Birder.Controllers
                         expires: _systemClock.GetNow.AddDays(2),
                         signingCredentials: signinCredentials);
 
-                    var responseModel = new AuthenticationTokenDto();
-                    responseModel.AuthenticationToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-
-                    return Ok(responseModel);
+                    var viewModel = new AuthenticationResultDto()
+                    {
+                        FailureReason = AuthenticationFailureReason.None,
+                        AuthenticationToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions)
+                    };
+                    return Ok(viewModel);
                     //return Ok(new { Token = tokenString });
                 }
-                //if (result.IsLockedOut)
-                //{
-                //    _logger.LogWarning("User account locked out.");
-                //    return RedirectToAction(nameof(Lockout));
-                //}
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.LockedOut };
+                    return BadRequest(viewModel);
+                }
                 //if (result.RequiresTwoFactor)
-                //{
-                //    return RedirectToAction(nameof(LoginWith2fa), new
-                //    {
-                //        returnUrl,
-                //        model.RememberMe
-                //    });
-                //}
+                //{ }
                 else
                 {
-                    return BadRequest("Unable to sign in");
-                    //return Redirect("/confirm-email");
-                    //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    //return View(model);
+                    _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
+                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
+                    return BadRequest(viewModel);
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GenerateItems, ex, "An error with user authenitication");
-                return BadRequest("An error occurred");
+                var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
+                return BadRequest(viewModel);
             }
+        }
+
+        public class AuthenticationResultDto
+        {
+            public string AuthenticationToken { get; set; }
+
+            public AuthenticationFailureReason FailureReason { get; set; }
+        }
+
+        public enum AuthenticationFailureReason
+        {
+            None = 0,
+            EmailConfirmationRequired = 1,
+            LockedOut = 2,
+            Other = 3
         }
     }
 }

@@ -77,6 +77,7 @@ import { AboutTechnologyComponent } from './_about/about-technology/about-techno
 import { AboutFeaturesDevelopmentComponent } from './_about/about-features-development/about-features-development.component';
 import { AboutAiComponent } from './_about/about-ai/about-ai.component';
 import { AboutContactComponent } from './_about/about-contact/about-contact.component';
+import { LockedOutComponent } from './_account/locked-out/locked-out.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -127,6 +128,7 @@ export function tokenGetter() {
     AboutFeaturesDevelopmentComponent,
     AboutAiComponent,
     AboutContactComponent,
+    LockedOutComponent,
 
   ],
   imports: [

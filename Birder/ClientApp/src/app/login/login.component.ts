@@ -4,8 +4,9 @@ import { first } from 'rxjs/operators';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ParentErrorStateMatcher } from '../../validators';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { ErrorReportViewModel, AuthErrorViewModel } from '../../_models/ErrorReportViewModel';
 import { Location } from '@angular/common';
+import { AuthenticationFailureReason } from '../../_models/AuthenticationResultDto';
 
 @Component({
   selector: 'app-login',
@@ -53,9 +54,31 @@ export class LoginComponent implements OnInit {
           this.invalidLogin = false;
           this.router.navigate([this.returnUrl]);
         },
-        (error: ErrorReportViewModel) => {
+        (error: AuthErrorViewModel) => {
+          console.log(error);
           this.invalidLogin = true;
           this.errorReport = error;
+
+          // if(error.failureReason === AuthenticationFailureReason.EmailConfirmationRequired) {
+          //   alert('');
+          // }
+          switch (error.failureReason) {
+            case AuthenticationFailureReason.EmailConfirmationRequired: {
+              alert('');
+              break;
+            }
+            case AuthenticationFailureReason.LockedOut: {
+              // this is second case block
+              // and there can be any number of cases
+              break;
+            }
+            default: {
+              // when no case is matched, this block executes
+              break;
+            }
+          }
+          
+          
         });
   }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
+import { ErrorReportViewModel, AuthErrorViewModel } from '../_models/ErrorReportViewModel';
 import { Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -9,6 +9,29 @@ import { Observable, throwError } from 'rxjs';
 export class HttpErrorHandlerService {
 
   constructor() { }
+
+  handleAuthenticationError(error: HttpErrorResponse): Observable<AuthErrorViewModel> {
+    const errorReport = new AuthErrorViewModel();
+    console.log(error);
+
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      errorReport.type = 'client-side or network error occurred';
+      errorReport.errorNumber = error.status;
+      errorReport.message = error.message;
+      errorReport.friendlyMessage = 'An error occurred retrieving data.';
+      // console.log(errorReport);
+    } else {
+      errorReport.type = 'unsuccessful response code';
+      errorReport.errorNumber = error.status;
+      errorReport.message = error.statusText;
+      errorReport.friendlyMessage = 'An error occurred retrieving data.';
+      errorReport.failureReason = error.error.failureReason;
+
+    }
+
+    return throwError(errorReport);
+  }
 
   handleHttpError(error: HttpErrorResponse): Observable<ErrorReportViewModel> {
     const errorReport = new ErrorReportViewModel();

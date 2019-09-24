@@ -13,6 +13,7 @@ using Moq;
 using System;
 using System.Threading.Tasks;
 using Xunit;
+using static Birder.Controllers.AuthenticationController;
 
 namespace Birder.Tests.Controller
 {
@@ -79,7 +80,7 @@ namespace Birder.Tests.Controller
             Assert.NotNull(objectResult);
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            Assert.IsType<AuthenticationTokenDto> (objectResult.Value);
+            Assert.IsType<AuthenticationResultDto> (objectResult.Value);
         }
 
         [Fact]
