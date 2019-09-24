@@ -31,29 +31,29 @@ namespace Birder.Tests.Controller
             _config.SetupGet(x => x[It.Is<string>(s => s == "Tokens:Issuer")]).Returns("http://localhost:55722");
         }
 
-        [Fact]
-        public async Task Login_ReturnsOkObjectResult_WithOkResult()
-        {
-            // Arrange
-            var mockUserManager = initialiseMockUserManager();
-            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
-                        .ReturnsAsync(GetValidTestUser());
+        //[Fact]
+        //public async Task Login_ReturnsOkObjectResult_WithOkResult()
+        //{
+        //    // Arrange
+        //    var mockUserManager = initialiseMockUserManager();
+        //    mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+        //                .ReturnsAsync(GetValidTestUser());
 
-            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
-            mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
-                            .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Success));
+        //    var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+        //    mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
+        //                    .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Success));
 
-             var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object,
-                                                            _systemClock, _config.Object);
+        //     var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object,
+        //                                                    _systemClock, _config.Object);
 
-            var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
+        //    var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
 
-            // Act
-            var result = await controller.Login(model);
+        //    // Act
+        //    var result = await controller.Login(model);
 
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-        }
+        //    // Assert
+        //    Assert.IsType<OkObjectResult>(result);
+        //}
 
         [Fact]
         public async Task Login_ReturnsOkObjectResult_WithLoginDto()
@@ -80,7 +80,10 @@ namespace Birder.Tests.Controller
             Assert.NotNull(objectResult);
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            Assert.IsType<AuthenticationResultDto> (objectResult.Value);
+            Assert.IsType<AuthenticationResultDto>(objectResult.Value);
+            var returnModel = objectResult.Value as AuthenticationResultDto;
+            Assert.Equal(AuthenticationFailureReason.None, returnModel.FailureReason);
+            Assert.NotNull(returnModel.AuthenticationToken);
         }
 
         [Fact]
@@ -106,11 +109,51 @@ namespace Birder.Tests.Controller
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
             var objectResult = result as ObjectResult;
-            Assert.Equal("Unable to sign in", objectResult.Value);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.IsType<AuthenticationResultDto>(objectResult.Value);
+
+            var returnModel = objectResult.Value as AuthenticationResultDto;
+            Assert.Equal(AuthenticationFailureReason.Other, returnModel.FailureReason);
+            Assert.Null(returnModel.AuthenticationToken);
         }
 
         [Fact]
-        public async Task LoginWithEmailNotConfirmed_ReturnsBadRequest_WithEmailNotConfirmedModelStateError()
+        public async Task Login_ReturnsBadRequestObjectResult_WhenSignInResultIsLockedOut()
+        {
+            // Arrange
+            var mockUserManager = initialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                        .ReturnsAsync(GetValidTestUser());
+
+            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+            mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
+                            .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.LockedOut));
+
+            var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object,
+                                                           _systemClock, _config.Object);
+
+            var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
+
+            // Act
+            var result = await controller.Login(model);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.IsType<AuthenticationResultDto>(objectResult.Value);
+
+            var returnModel = objectResult.Value as AuthenticationResultDto;
+            Assert.Equal(AuthenticationFailureReason.LockedOut, returnModel.FailureReason);
+            Assert.Null(returnModel.AuthenticationToken);
+        }
+
+        [Fact]
+        public async Task LoginWithEmailNotConfirmed_ReturnsBadRequest_WithEmailNotConfirmed()
         {
             // Arrange
             var mockUserManager = initialiseMockUserManager();
@@ -128,11 +171,47 @@ namespace Birder.Tests.Controller
             var result = await controller.Login(model);
 
             // Assert
-            var modelState = controller.ModelState;
-            Assert.Equal(1, modelState.ErrorCount);
-            Assert.True(modelState.ContainsKey("EmailNotConfirmed"));
-            Assert.True(modelState["EmailNotConfirmed"].Errors.Count == 1);
-            Assert.Equal("You cannot login until you confirm your email.", modelState["EmailNotConfirmed"].Errors[0].ErrorMessage);
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.IsType<AuthenticationResultDto>(objectResult.Value);
+
+            var returnModel = objectResult.Value as AuthenticationResultDto;
+            Assert.Equal(AuthenticationFailureReason.EmailConfirmationRequired, returnModel.FailureReason);
+            Assert.Null(returnModel.AuthenticationToken);
+        }
+
+        [Fact]
+        public async Task Login_ReturnsBadRequest_WhenUserManagerReturnsNull()
+        {
+            // Arrange
+            var mockUserManager = initialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                            .Returns(Task.FromResult<ApplicationUser>(null));
+
+            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+
+            var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object,
+                                                           _systemClock, _config.Object);
+
+            var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
+
+            // Act
+            var result = await controller.Login(model);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is NotFoundObjectResult);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            Assert.IsType<AuthenticationResultDto>(objectResult.Value);
+
+            var returnModel = objectResult.Value as AuthenticationResultDto;
+            Assert.Equal(AuthenticationFailureReason.Other, returnModel.FailureReason);
+            Assert.Null(returnModel.AuthenticationToken);
         }
 
         [Fact]
@@ -154,13 +233,22 @@ namespace Birder.Tests.Controller
             var result = await controller.Login(model);
 
             // Assert
-            var okResult = Assert.IsType<BadRequestObjectResult>(result);
-
             var modelState = controller.ModelState;
             Assert.Equal(1, modelState.ErrorCount);
             Assert.True(modelState.ContainsKey("Test"));
             Assert.True(modelState["Test"].Errors.Count == 1);
             Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.IsType<AuthenticationResultDto>(objectResult.Value);
+
+            var returnModel = objectResult.Value as AuthenticationResultDto;
+            Assert.Equal(AuthenticationFailureReason.Other, returnModel.FailureReason);
+            Assert.Null(returnModel.AuthenticationToken);
         }
 
         [Fact]
@@ -183,7 +271,14 @@ namespace Birder.Tests.Controller
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
             var objectResult = result as ObjectResult;
-            Assert.Equal("An error occurred", objectResult.Value);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.IsType<AuthenticationResultDto>(objectResult.Value);
+
+            var returnModel = objectResult.Value as AuthenticationResultDto;
+            Assert.Equal(AuthenticationFailureReason.Other, returnModel.FailureReason);
+            Assert.Null(returnModel.AuthenticationToken);
         }
 
 
