@@ -306,7 +306,8 @@ namespace Birder.Tests.Controller
                         new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>().Object,
                         new Mock<IOptions<IdentityOptions>>().Object,
                         new Mock<ILogger<SignInManager<ApplicationUser>>>().Object,
-                        new Mock<IAuthenticationSchemeProvider>().Object);
+                        new Mock<IAuthenticationSchemeProvider>().Object,
+                        new Mock<IUserConfirmation<ApplicationUser>>().Object);
         }
 
         private ApplicationUser GetTestUserWithEmailNotConfirmed()

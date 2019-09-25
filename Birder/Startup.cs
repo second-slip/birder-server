@@ -5,7 +5,6 @@ using Birder.Data.Repository;
 using Birder.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -35,19 +34,17 @@ namespace Birder
             services.AddMemoryCache();
 
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-            services.AddControllers().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-            .AddNewtonsoftJson
-                (options => {
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    });
+            services.AddControllers()
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+            .AddNewtonsoftJson(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
-            
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -68,15 +65,6 @@ namespace Birder
                  .AddDefaultTokenProviders()
                 .AddSignInManager<SignInManager<ApplicationUser>>();
 
-
-            //services.AddAutoMapper();
-            //services.AddAutoMapper(GetType().Assembly);
-
-            //Mapper.Initialize(cfg =>
-            //{
-            //    cfg.AddProfile<BirderMappingProfile>();
-            //});
-
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -86,7 +74,6 @@ namespace Birder
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            //services.AddSignInManager<SignInManager<IdentityUser>>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IBirdRepository, BirdRepository>();
@@ -102,12 +89,12 @@ namespace Birder
 
 
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                            services.AddAuthentication(options =>
-                            {
-                                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                            })
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -154,7 +141,6 @@ namespace Birder
             //    app.UseHsts();
             //}
 
-            //app.UseCors("EnableCORS");
             app.UseRouting();
 
             app.UseHttpsRedirection();
@@ -164,7 +150,6 @@ namespace Birder
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             //app.UseCors("EnableCORS");
             //app.UseCors(MyAllowSpecificOrigins);
             app.UseCors("default");
@@ -173,7 +158,6 @@ namespace Birder
             {
                 //endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapDefaultControllerRoute();
-                //
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
             //app.UseMvc(routes =>
@@ -187,13 +171,8 @@ namespace Birder
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
-
                 spa.Options.SourcePath = "ClientApp";
-
-                //if (env.IsDevelopment())
-                //{
-                    spa.UseAngularCliServer(npmScript: "start");
-                
+                spa.UseAngularCliServer(npmScript: "start");
             });
         }
     }
