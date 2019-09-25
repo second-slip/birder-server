@@ -121,13 +121,37 @@ namespace Birder.Controllers
             return Redirect("/confirmed-email");
         }
 
-        [HttpPost, Route("ForgotPassword")]
+        [HttpPost, Route("RequestEmailConfirmation")]
         [AllowAnonymous]
         public async Task<IActionResult> RequestConfirmEmailMessage(UserEmailDto model)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                return BadRequest(ModelState);
+            }
 
+            var user = await _userManager.FindByEmailAsync(model.Email);
 
-            return Ok();
+            if(user == null)
+            {
+                _logger.LogError(LoggingEvents.GetItemNotFound, "User Not found");
+                return BadRequest("User Not found");
+            }
+
+            if (user.EmailConfirmed)
+            {
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, "User email is already confirmed");
+                return Ok();
+            }
+
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var url = _urlService.ConfirmEmailUrl(user.UserName, code);
+
+            await _emailSender.SendEmailAsync(user.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");          
+
+            return Ok(url);
         }
 
         [HttpPost, Route("ForgotPassword")]
