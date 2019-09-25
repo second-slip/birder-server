@@ -39,30 +39,6 @@ namespace Birder.Tests.Controller
         #region GetUser action tests
 
         [Fact]
-        public async Task GetUserAsync_ReturnsOkObjectResult_WithObject()
-        {
-            // Arrange
-            var mockRepo = new Mock<IUserRepository>();
-            mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
-                 .ReturnsAsync(GetOtherMemberUserProfile());
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
-            };
-
-            // Act
-            var result = await controller.GetUserAsync(It.IsAny<string>());
-
-            // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-        }
-
-        [Fact]
         public async Task GetUserAsync_ReturnsBadRequest_WhenRepositoryReturnsNull()
         {
             // Arrange
@@ -109,6 +85,7 @@ namespace Birder.Tests.Controller
             // Assert
             var objectResult = result as ObjectResult;
             Assert.NotNull(objectResult);
+            Assert.IsType<OkObjectResult>(result);
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
             Assert.IsType<UserProfileViewModel>(objectResult.Value);
@@ -153,8 +130,6 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
-            //mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
-            //     .ReturnsAsync(GetOtherMemberUserProfile());
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
