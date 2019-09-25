@@ -2,7 +2,7 @@
 
 namespace Birder.ViewModels
 {
-    public class ForgotPasswordViewModel
+    public class UserEmailDto
     {
         [Required]
         [EmailAddress]

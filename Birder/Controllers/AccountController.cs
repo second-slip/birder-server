@@ -88,6 +88,8 @@ namespace Birder.Controllers
             }
         }
 
+
+
         [HttpGet, Route("ConfirmEmail", Name = "ConfirmEmail")]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string username, string code)
@@ -121,7 +123,16 @@ namespace Birder.Controllers
 
         [HttpPost, Route("ForgotPassword")]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPasswordAsync(ForgotPasswordViewModel model)
+        public async Task<IActionResult> RequestConfirmEmailMessage(UserEmailDto model)
+        {
+
+
+            return Ok();
+        }
+
+        [HttpPost, Route("ForgotPassword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPasswordAsync(UserEmailDto model)
         {
             if (ModelState.IsValid)
             {

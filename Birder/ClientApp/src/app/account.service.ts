@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { HttpErrorHandlerService } from './http-error-handler.service';
-import { ForgotPasswordViewModel } from '../_models/ForgotPasswordViewModel';
+import { UserEmailDto } from '../_models/UserEmailDto';
 import { ResetPasswordViewModel } from '../_models/ResetPasswordViewModel';
 
 const httpOptions = {
@@ -27,7 +27,7 @@ export class AccountService {
     );
   }
 
-  forgotPassword(viewModel: ForgotPasswordViewModel): Observable<void | ErrorReportViewModel> {
+  forgotPassword(viewModel: UserEmailDto): Observable<void | ErrorReportViewModel> {
     return this.http.post<void>('api/Account/ForgotPassword', viewModel, httpOptions)
     .pipe(
       catchError(err => this.httpErrorHandlerService.handleHttpError(err))
