@@ -78,6 +78,7 @@ import { AboutFeaturesDevelopmentComponent } from './_about/about-features-devel
 import { AboutAiComponent } from './_about/about-ai/about-ai.component';
 import { AboutContactComponent } from './_about/about-contact/about-contact.component';
 import { LockedOutComponent } from './_account/locked-out/locked-out.component';
+import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/confirm-email-resend.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -129,6 +130,7 @@ export function tokenGetter() {
     AboutAiComponent,
     AboutContactComponent,
     LockedOutComponent,
+    ConfirmEmailResendComponent,
 
   ],
   imports: [

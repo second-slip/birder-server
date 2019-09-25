@@ -121,9 +121,9 @@ namespace Birder.Controllers
             return Redirect("/confirmed-email");
         }
 
-        [HttpPost, Route("RequestEmailConfirmation")]
+        [HttpPost, Route("ResendEmailConfirmation")]
         [AllowAnonymous]
-        public async Task<IActionResult> RequestConfirmEmailMessage(UserEmailDto model)
+        public async Task<IActionResult> ResendConfirmEmailMessage(UserEmailDto model)
         {
             if (!ModelState.IsValid)
             {

@@ -34,6 +34,13 @@ export class AccountService {
     );
   }
 
+  resendEmailConfirmation(viewModel: UserEmailDto): Observable<void | ErrorReportViewModel> {
+    return this.http.post<void>('api/Account/ResendEmailConfirmation', viewModel, httpOptions)
+    .pipe(
+      catchError(err => this.httpErrorHandlerService.handleHttpError(err))
+    );
+  }
+
   resetPassword(viewModel: ResetPasswordViewModel): Observable<void | ErrorReportViewModel> {
     return this.http.post<void>('api/Account/ResetPassword', viewModel, httpOptions)
     .pipe(
