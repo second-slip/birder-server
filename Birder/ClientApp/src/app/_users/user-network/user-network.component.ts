@@ -21,16 +21,20 @@ export class UserNetworkComponent implements OnInit {
     , private toast: ToastrService) { }
 
   ngOnInit() {
-    this.getNetwork('');
+    this.getNetwork();
   }
 
   search(): void {
-    this.getNetwork(this.searchTerm);
+    this.searchNetwork(this.searchTerm);
     this.customSearch = true;
   }
 
-  getNetwork(searchTerm: string): void {
-    this.userService.getNetwork(searchTerm)
+  searchNetwork(searchCriterion: string): void {
+
+  }
+
+  getNetwork(): void {
+    this.userService.getNetwork()
       .subscribe(
         (data: NetworkUserViewModel[]) => {
           this.users = data;
@@ -40,6 +44,9 @@ export class UserNetworkComponent implements OnInit {
           this.router.navigate(['/']);
         });
   }
+
+
+  
 
   followOrUnfollow(element, user: NetworkUserViewModel): void {
     const action = element.innerText;

@@ -30,11 +30,21 @@ export class UserService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getNetwork(searchCriterion: string): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
+  getNetwork(): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
+    // const options = searchCriterion ?
+    //   { params: new HttpParams().set('searchCriterion', searchCriterion) } : {};
+
+    return this.http.get<NetworkUserViewModel[]>('api/User/GetNetwork')
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
+  // added
+  getSearchNetwork(searchCriterion: string): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
     const options = searchCriterion ?
       { params: new HttpParams().set('searchCriterion', searchCriterion) } : {};
 
-    return this.http.get<NetworkUserViewModel[]>('api/User/GetNetwork', options)
+    return this.http.get<NetworkUserViewModel[]>('api/User/SearchNetwork', options)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
