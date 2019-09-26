@@ -17,5 +17,13 @@ namespace Birder.Helpers
             return (from user in following
                         select user.ApplicationUser.UserName).ToList();
         }
+
+        public static IEnumerable<string> GetFollowersNotBeingFollowedUserNames(ApplicationUser loggedinUser)
+        {
+            var followersUsernamesList = GetFollowersUserNames(loggedinUser.Followers);
+            var followingUsernamesList = GetFollowingUserNames(loggedinUser.Following);
+            followingUsernamesList.Add(loggedinUser.UserName);
+            return followersUsernamesList.Except(followingUsernamesList);
+        }
     }
 }

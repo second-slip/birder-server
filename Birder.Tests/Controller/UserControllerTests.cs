@@ -6,13 +6,11 @@ using Birder.Data.Repository;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -245,13 +243,11 @@ namespace Birder.Tests.Controller
 
 
 
+
         #region SearchNetwork unit tests
 
-        [Theory]
-        [InlineData("Test")]
-        [InlineData("test")]
-        [InlineData("Test User")]
-        public async Task GetNetworkAsync_ReturnsOkWithNetworkListViewModelCollection_R(string userName)
+        [Fact]
+        public async Task GetSearchNetworkAsync_ReturnsOkWithNetworkListViewModelCollection_Rn()
         {
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
@@ -270,7 +266,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetSearchNetworkAsync(userName);
+            var result = await controller.GetSearchNetworkAsync(It.IsAny<string>());
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -283,6 +279,43 @@ namespace Birder.Tests.Controller
             var model = objectResult.Value as List<NetworkUserViewModel>;
             Assert.Equal(3, model.Count);
         }
+
+        //[Theory]
+        //[InlineData("Test")]
+        //[InlineData("test")]
+        //[InlineData("<")]
+        //public async Task GetSearchNetworkAsync_ReturnsOkWithNetworkListViewModelCollection_R(string userName)
+        //{
+        //    // Arrange
+        //    var mockRepo = new Mock<IUserRepository>();
+        //    mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
+        //         .ReturnsAsync(GetOwnUserProfile());
+        //    mockRepo.Setup(repo => repo.SearchBirdersToFollowAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>()))
+        //        .ReturnsAsync(GetListOfApplicationUsers(3));
+
+        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+        //    var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+        //    };
+
+        //    // Act
+        //    var result = await controller.GetSearchNetworkAsync(userName);
+
+        //    // Assert
+        //    var objectResult = result as ObjectResult;
+        //    Assert.NotNull(objectResult);
+        //    Assert.IsType<OkObjectResult>(result);
+        //    Assert.True(objectResult is OkObjectResult);
+        //    Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+        //    Assert.IsType<List<NetworkUserViewModel>>(objectResult.Value);
+
+        //    var model = objectResult.Value as List<NetworkUserViewModel>;
+        //    Assert.Equal(3, model.Count);
+        //}
 
 
         #endregion
