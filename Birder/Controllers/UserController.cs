@@ -109,8 +109,6 @@ namespace Birder.Controllers
                 followingUsernamesList.Add(loggedinUser.UserName);
                 //IEnumerable<string> followersNotBeingFollowed = followersUsernamesList.Except(followingUsernamesList);
 
-
-
                 var users = await _userRepository.SearchBirdersToFollowAsync(loggedinUser, searchCriterion, followingUsernamesList);
                 return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
             }
@@ -145,16 +143,16 @@ namespace Birder.Controllers
                 //ToDo: Guard?  Followers || Following == null ????????
                 //var followersUsernamesList = NetworkHelpers.GetFollowersUserNames(loggedinUser.Followers);
 
-                var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
+                //var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
                 //followingUsernamesList.Add(loggedinUser.UserName);
 
                 //IEnumerable<string> followersNotBeingFollowed = followersUsernamesList.Except(followingUsernamesList);
 
                 var followersNotBeingFollowed = NetworkHelpers.GetFollowersNotBeingFollowedUserNames(loggedinUser);
 
-
                 if (followersNotBeingFollowed.Count() == 0)
                 {
+                    var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
                     var users = await _userRepository.GetSuggestedBirdersToFollowAsync(loggedinUser, followingUsernamesList);
                     return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                 }
