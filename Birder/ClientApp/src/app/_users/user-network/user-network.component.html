@@ -2,11 +2,11 @@
   <h4>Build your Birder network</h4>
 
   <div>
-    <p></p>
+    <p>***Hello***</p>
     <form (ngSubmit)="search()">
-      <input type="text" name="find" placeholder="Type location here" [(ngModel)]="searchTerm"
+      <input type="text" name="find" placeholder="Search Birders" [(ngModel)]="searchTerm"
         [ngModelOptions]="{standalone: true}" required>
-      <button type="submit">Find users</button>
+      <button type="submit" [disabled]="!searchTerm">Search the Birder network</button>
     </form>
     <br>
   </div>

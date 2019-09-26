@@ -30,7 +30,15 @@ export class UserNetworkComponent implements OnInit {
   }
 
   searchNetwork(searchCriterion: string): void {
-
+    this.userService.getSearchNetwork(searchCriterion)
+      .subscribe(
+        (data: NetworkUserViewModel[]) => {
+          this.users = data;
+        },
+        (error: ErrorReportViewModel) => { // <--------- this needs to change
+          this.toast.error(error.serverCustomMessage, 'An error occurred');
+          // this.router.navigate(['/']);
+        });
   }
 
   getNetwork(): void {
@@ -39,9 +47,9 @@ export class UserNetworkComponent implements OnInit {
         (data: NetworkUserViewModel[]) => {
           this.users = data;
         },
-        (error: ErrorReportViewModel) => {
+        (error: ErrorReportViewModel) => { // <--------- this needs to change
           this.toast.error(error.serverCustomMessage, 'An error occurred');
-          this.router.navigate(['/']);
+          // this.router.navigate(['/']);
         });
   }
 

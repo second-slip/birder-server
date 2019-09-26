@@ -87,11 +87,11 @@ namespace Birder.Controllers
             try
             {
                 //?????
-                //if (string.IsNullOrEmpty(searchCriterion))
-                //{
-                //    // Log modelstate errors
-                //    return BadRequest("Hello");
-                //}
+                if (string.IsNullOrEmpty(searchCriterion))
+                {
+                   // Log modelstate errors
+                   return BadRequest("Hello");
+                }
 
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
 
