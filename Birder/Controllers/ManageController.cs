@@ -98,7 +98,8 @@ namespace Birder.Controllers
         }
 
         [HttpPost, Route("SetAvatar")]
-        public async Task<IActionResult> SetAvatar(string urlOrFilepathOrWhatever)
+        //public async Task<IActionResult> SetAvatar(string urlOrFilepathOrWhatever)
+        public IActionResult SetAvatar(string urlOrFilepathOrWhatever)
         {
             return Ok();
             //if (model.ProfileImage != null)

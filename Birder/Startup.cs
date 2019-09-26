@@ -64,7 +64,6 @@ namespace Birder
                  .AddDefaultTokenProviders()
                 .AddSignInManager<SignInManager<ApplicationUser>>();
 
-            // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new BirderMappingProfile());
