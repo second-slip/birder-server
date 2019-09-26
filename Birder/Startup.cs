@@ -33,7 +33,6 @@ namespace Birder
         {
             services.AddMemoryCache();
 
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             services.AddControllers()
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             .AddNewtonsoftJson(options => {
@@ -87,8 +86,6 @@ namespace Birder
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
-
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -103,20 +100,12 @@ namespace Birder
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-            
                     ValidIssuer = "http://localhost:55722",
                     ValidAudience = "http://localhost:55722",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                 };
             });
 
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("EnableCORS", builder =>
-            //    {
-            //        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials().Build();
-            //    });
-            //});
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -129,43 +118,24 @@ namespace Birder
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app) //, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Error");
-            //    app.UseHsts();
-            //}
-
-            app.UseRouting();
-
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
+            app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.UseCors("EnableCORS");
-            //app.UseCors(MyAllowSpecificOrigins);
-            app.UseCors("default");
-            //.NET Core 3.0 change
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller}/{action=Index}/{id?}");
-            //});
 
             app.UseSpa(spa =>
             {
