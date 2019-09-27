@@ -150,13 +150,25 @@ namespace Birder.Controllers
         }
 
         [HttpPost, Route("Follow")]
-        public async Task<IActionResult> Follow(NetworkUserViewModel userToFollowDetails)
+        public async Task<IActionResult> PostFollowUserAsync(NetworkUserViewModel userToFollowDetails)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                    return BadRequest("Invalid modelstate");
+                }
+
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
 
                 var userToFollow = await _userRepository.GetUserAndNetworkAsync(userToFollowDetails.UserName);
+
+                if (loggedinUser == null || userToFollow == null)
+                {
+                    _logger.LogError(LoggingEvents.UpdateItem, "User not found");
+                    return NotFound("User not found");
+                }
 
                 if (loggedinUser == userToFollow)
                 {
@@ -166,6 +178,7 @@ namespace Birder.Controllers
                 _userRepository.Follow(loggedinUser, userToFollow);
                 await _unitOfWork.CompleteAsync();
                 var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToFollow);
+                // is this second loggedinUser request necessary, or does the UnitOfWork updated it?
                 loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
                 viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
                 return Ok(viewModel);
@@ -179,12 +192,24 @@ namespace Birder.Controllers
         }
 
         [HttpPost, Route("Unfollow")]
-        public async Task<IActionResult> Unfollow(NetworkUserViewModel userToFollowDetails) //, int currentPage)
+        public async Task<IActionResult> PostUnfollowUserAsync(NetworkUserViewModel userToFollowDetails) //, int currentPage)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                    return BadRequest("Invalid modelstate");
+                }
+
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
                 var userToUnfollow = await _userRepository.GetUserAndNetworkAsync(userToFollowDetails.UserName);
+
+                if (loggedinUser == null || userToUnfollow == null)
+                {
+                    _logger.LogError(LoggingEvents.UpdateItem, "User not found");
+                    return BadRequest("User not found");
+                }
 
                 if (loggedinUser == userToUnfollow)
                 {
@@ -194,6 +219,7 @@ namespace Birder.Controllers
                 _userRepository.UnFollow(loggedinUser, userToUnfollow);
                 await _unitOfWork.CompleteAsync();
                 var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToUnfollow);
+                // is this second loggedinUser request necessary, or does the UnitOfWork updated it?
                 loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
                 viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
                 return Ok(viewModel);

@@ -20,8 +20,7 @@ namespace Birder.Tests.Controller
     {
         private readonly IMapper _mapper;
         private readonly Mock<ILogger<UserController>> _logger;
-        // private readonly IUnitOfWork _unitOfWork;
-        // private readonly IUserRepository _userRepository;
+
         public UserControllerTests()
         {
             var mappingConfig = new MapperConfiguration(cfg =>
@@ -52,8 +51,10 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
             };
 
+            string username = "Test username";
+
             // Act
-            var result = await controller.GetUserAsync(It.IsAny<string>());
+            var result = await controller.GetUserAsync(username);
 
             // Assert
             var objectResult = Assert.IsType<NotFoundObjectResult>(result);
@@ -78,8 +79,10 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
             };
 
+            string username = "Test username";
+
             // Act
-            var result = await controller.GetUserAsync(It.IsAny<string>());
+            var result = await controller.GetUserAsync(username);
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -110,8 +113,11 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
             };
 
+            string username = "example name"; // same as claims principle
+            //new Claim(ClaimTypes.Name, "example name"),
+            
             // Act
-            var result = await controller.GetUserAsync(It.IsAny<string>());
+            var result = await controller.GetUserAsync(username);
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -141,8 +147,10 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
             };
 
+            string username = "Test username";
+
             // Act
-            var result = await controller.GetUserAsync(It.IsAny<string>());
+            var result = await controller.GetUserAsync(username);
 
             Assert.IsType<BadRequestObjectResult>(result);
             var objectResult = result as ObjectResult;
@@ -285,21 +293,7 @@ namespace Birder.Tests.Controller
             Assert.Equal("An error occurred", objectResult.Value);
         }
 
-
-
-
         #endregion
-
-
-
-
-
-
-
-
-
-
-
 
         #region SearchNetwork unit tests
 
@@ -437,48 +431,95 @@ namespace Birder.Tests.Controller
 
 
 
-        //[Fact]
-        //public async Task GetNetworkAsync_ReturnsBadRequestIfModelStateIsInvalid_WithModelStateError()
-        //{
-        //    // Arrange
-        //    var mockRepo = new Mock<IUserRepository>();
-
-        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-        //    var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
-
-        //    controller.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
-        //    };
-
-        //    //Add model error
-        //    controller.ModelState.AddModelError("Test", "This is a test model error");
-
-        //    // Act
-        //    var result = await controller.GetNetworkAsync();
-
-        //    var modelState = controller.ModelState;
-        //    Assert.Equal(1, modelState.ErrorCount);
-        //    Assert.True(modelState.ContainsKey("Test"));
-        //    Assert.True(modelState["Test"].Errors.Count == 1);
-        //    Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
-
-        //    // test response
-        //    var objectResult = result as ObjectResult;
-        //    Assert.NotNull(objectResult);
-        //    Assert.IsType<BadRequestObjectResult>(result);
-        //    Assert.True(objectResult is BadRequestObjectResult);
-        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-        //    //
-        //    Assert.IsType<String>(objectResult.Value);
-
-        //    Assert.Contains("This is a test model error", "This is a test model error");
-        //    Assert.IsType<String>(objectResult.Value);
-        //}
 
 
-        #region Mock methods
+
+        #region Follow action tests
+
+        [Fact]
+        public async Task PostFollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
+        {
+            // Arrange
+            var mockRepo = new Mock<IUserRepository>();
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
+
+            //Add model error
+            controller.ModelState.AddModelError("Test", "This is a test model error");
+
+            // Act
+            var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel());
+
+            var modelState = controller.ModelState;
+            Assert.Equal(1, modelState.ErrorCount);
+            Assert.True(modelState.ContainsKey("Test"));
+            Assert.True(modelState["Test"].Errors.Count == 1);
+            Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
+
+            // test response
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            //
+            Assert.IsType<String>(objectResult.Value);
+
+            //Assert.Contains("This is a test model error", "This is a test model error");
+            Assert.Equal("Invalid modelstate", objectResult.Value);
+        }
+
+        [Fact]
+        public async Task PostFollowUserAsync_ReturnsNotFound_WhenUserIsNullFromRepository()
+        {
+            // Arrange
+            var mockRepo = new Mock<IUserRepository>();
+            mockRepo.Setup(x => x.GetUserAndNetworkAsync(It.IsAny<String>()))
+                    .Returns(Task.FromResult<ApplicationUser>(null));
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
+
+            // Act
+            var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel());
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.True(objectResult is NotFoundObjectResult);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            Assert.IsType<String>(objectResult.Value);
+            Assert.Equal("User not found", objectResult.Value);
+        }
+
+
+
+            #endregion
+
+
+            #region Mock methods
+
+            private NetworkUserViewModel GetTestNetworkUserViewModel()
+        {
+            return new NetworkUserViewModel()
+            {
+                UserName = "Test Network View Model"
+            };
+        }
 
         private List<ApplicationUser> GetListOfApplicationUsers(int collectionLength)
         {
