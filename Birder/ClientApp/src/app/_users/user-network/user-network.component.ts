@@ -3,7 +3,6 @@ import { NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
 import { UserService } from '../../user.service';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-network',
@@ -17,7 +16,6 @@ export class UserNetworkComponent implements OnInit {
   customSearch = false;
 
   constructor(private userService: UserService
-    , private router: Router
     , private toast: ToastrService) { }
 
   ngOnInit() {
@@ -55,14 +53,10 @@ export class UserNetworkComponent implements OnInit {
         (data: NetworkUserViewModel[]) => {
           this.users = data;
         },
-        (error: ErrorReportViewModel) => { // <--------- this needs to change
+        (error: ErrorReportViewModel) => {
           this.toast.error(error.serverCustomMessage, 'An error occurred');
-          // this.router.navigate(['/']);
         });
   }
-
-
-
 
   followOrUnfollow(element, user: NetworkUserViewModel): void {
     const action = element.innerText;
