@@ -40,7 +40,7 @@ export class HttpErrorHandlerService {
       errorReport.type = 'client-side or network error occurred';
       errorReport.errorNumber = error.status;
       errorReport.message = error.message;
-      errorReport.friendlyMessage = 'An error occurred retrieving data.';
+      errorReport.friendlyMessage = 'A network error occurred.  Please try again';
       // console.log(errorReport);
     } else {
       // The backend returned an unsuccessful response code.

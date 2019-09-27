@@ -86,28 +86,23 @@ namespace Birder.Controllers
         {
             try
             {
-                //?????
                 if (string.IsNullOrEmpty(searchCriterion))
                 {
-                   // Log modelstate errors
-                   return BadRequest("Hello");
+                    _logger.LogError(LoggingEvents.GetListNotFound, "The search criterion is null or empty");
+                    return BadRequest("No search criterion");
                 }
 
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
 
                 if (loggedinUser == null)
                 {
-                    //log
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
                     return NotFound("User not found");
                 }
 
                 //ToDo: Guard?  Followers || Following == null ????????
-
-                //ToDo: Move to own helper method
-                //var followersUsernamesList = NetworkHelpers.GetFollowersUserNames(loggedinUser.Followers);
                 var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
                 followingUsernamesList.Add(loggedinUser.UserName);
-                //IEnumerable<string> followersNotBeingFollowed = followersUsernamesList.Except(followingUsernamesList);
 
                 var users = await _userRepository.SearchBirdersToFollowAsync(loggedinUser, searchCriterion, followingUsernamesList);
                 return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
@@ -130,7 +125,6 @@ namespace Birder.Controllers
                     return BadRequest("Hello");
                 }
 
-                //var username = User.Identity.Name;
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
 
                 if(loggedinUser == null)

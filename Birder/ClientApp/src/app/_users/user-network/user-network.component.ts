@@ -34,9 +34,14 @@ export class UserNetworkComponent implements OnInit {
       .subscribe(
         (data: NetworkUserViewModel[]) => {
           this.users = data;
+          this.toast.info(this.users.length.toString() + 'results were found', 'Search successful');
         },
-        (error: ErrorReportViewModel) => { // <--------- this needs to change
-          this.toast.error(error.serverCustomMessage, 'An error occurred');
+        (error: ErrorReportViewModel) => {
+          if (error.type === 'client-side or network error occurred') {
+            this.toast.error(error.serverCustomMessage, 'An error occurred');
+          } else {
+            this.toast.error('Try a different search query', 'Search unseccessful');
+          }
           // this.router.navigate(['/']);
         });
   }
