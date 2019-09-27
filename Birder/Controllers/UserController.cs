@@ -81,6 +81,47 @@ namespace Birder.Controllers
             }
         }
 
+        [HttpGet, Route("GetNetwork")]
+        public async Task<IActionResult> GetNetworkAsync() //string searchCriterion)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError(LoggingEvents.GetListNotFound, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                    return BadRequest("Hello");
+                }
+
+                var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
+
+                if (loggedinUser == null)
+                {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
+                    return NotFound("User not found");
+                }
+
+                //ToDo: Guard?  Followers || Following == null ????????
+                var followersNotBeingFollowed = NetworkHelpers.GetFollowersNotBeingFollowedUserNames(loggedinUser);
+
+                if (followersNotBeingFollowed.Count() == 0)
+                {
+                    var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
+                    var users = await _userRepository.GetSuggestedBirdersToFollowAsync(loggedinUser, followingUsernamesList);
+                    return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
+                }
+                else
+                {
+                    var users = await _userRepository.GetFollowersNotFollowedAsync(loggedinUser, followersNotBeingFollowed);
+                    return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "Network");
+                return BadRequest();
+            }
+        }
+
         [HttpGet, Route("SearchNetwork")]
         public async Task<IActionResult> GetSearchNetworkAsync(string searchCriterion)
         {
@@ -110,57 +151,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "Network");
-                return BadRequest();
-            }
-        }
-
-        [HttpGet, Route("GetNetwork")]
-        public async Task<IActionResult> GetNetworkAsync() //string searchCriterion)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    // Log modelstate errors
-                    return BadRequest("Hello");
-                }
-
-                var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
-
-                if(loggedinUser == null)
-                {
-                    //log
-                    return NotFound("User not found");
-                }
-
-
-                //ToDo: Guard?  Followers || Following == null ????????
-                //var followersUsernamesList = NetworkHelpers.GetFollowersUserNames(loggedinUser.Followers);
-
-                //var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
-                //followingUsernamesList.Add(loggedinUser.UserName);
-
-                //IEnumerable<string> followersNotBeingFollowed = followersUsernamesList.Except(followingUsernamesList);
-
-                var followersNotBeingFollowed = NetworkHelpers.GetFollowersNotBeingFollowedUserNames(loggedinUser);
-
-                if (followersNotBeingFollowed.Count() == 0)
-                {
-                    var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
-                    var users = await _userRepository.GetSuggestedBirdersToFollowAsync(loggedinUser, followingUsernamesList);
-                    return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
-                }
-                else
-                {
-                    var users = await _userRepository.GetFollowersNotFollowedAsync(loggedinUser, followersNotBeingFollowed);
-                    return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "Network");
-                return BadRequest();
-                //return BadRequest(String.Format("An error occurred trying to follow user: {0}", userToFollowDetails.UserName));
+                return BadRequest("An error occurred");
             }
         }
 

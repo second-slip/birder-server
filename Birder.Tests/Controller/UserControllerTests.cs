@@ -265,8 +265,9 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
             };
 
+            string searchCriterion = "Test String";
+
             // Act
-            string searchCriterion = "Any String You Want Here";
             var result = await controller.GetSearchNetworkAsync(searchCriterion);
             
             // Assert
@@ -281,43 +282,99 @@ namespace Birder.Tests.Controller
             Assert.Equal(3, model.Count);
         }
 
-        //[Theory]
-        //[InlineData("Test")]
-        //[InlineData("test")]
-        //[InlineData("<")]
-        //public async Task GetSearchNetworkAsync_ReturnsOkWithNetworkListViewModelCollection_R(string userName)
-        //{
-        //    // Arrange
-        //    var mockRepo = new Mock<IUserRepository>();
-        //    mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
-        //         .ReturnsAsync(GetOwnUserProfile());
-        //    mockRepo.Setup(repo => repo.SearchBirdersToFollowAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>()))
-        //        .ReturnsAsync(GetListOfApplicationUsers(3));
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public async Task GetSearchNetworkAsync_ReturnsBadRequestWithStringObject_WhenStringArgumentIsNullOrEmpty(string searchCriterion)
+        {
+            // Arrange
+            var mockRepo = new Mock<IUserRepository>();
 
-        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-        //    var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
 
-        //    controller.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
-        //    };
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
 
-        //    // Act
-        //    var result = await controller.GetSearchNetworkAsync(userName);
+            // Act
+            var result = await controller.GetSearchNetworkAsync(searchCriterion);
 
-        //    // Assert
-        //    var objectResult = result as ObjectResult;
-        //    Assert.NotNull(objectResult);
-        //    Assert.IsType<OkObjectResult>(result);
-        //    Assert.True(objectResult is OkObjectResult);
-        //    Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-        //    Assert.IsType<List<NetworkUserViewModel>>(objectResult.Value);
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.IsType<String>(objectResult.Value);
+            Assert.Equal("No search criterion", objectResult.Value);
+        }
 
-        //    var model = objectResult.Value as List<NetworkUserViewModel>;
-        //    Assert.Equal(3, model.Count);
-        //}
+        [Fact]
+        public async Task GetSearchNetworkAsync_ReturnsNotFoundWithStringObject_WhenRepositoryReturnsNullUser()
+        {
 
+            // Arrange
+            var mockRepo = new Mock<IUserRepository>();
+            mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
+                 .Returns(Task.FromResult<ApplicationUser>(null));
+            //mockRepo.Setup(repo => repo.SearchBirdersToFollowAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>()))
+            //    .ReturnsAsync(GetListOfApplicationUsers(3));
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
+
+            string searchCriterion = "Test String";
+
+            // Act
+            var result = await controller.GetSearchNetworkAsync(searchCriterion);
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.True(objectResult is NotFoundObjectResult);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            Assert.IsType<String>(objectResult.Value);
+            Assert.IsType<String>(objectResult.Value);
+            Assert.Equal("User not found", objectResult.Value);
+        }
+
+        [Fact]
+        public async Task GetSearchNetworkAsync_ReturnsBadRequestWithStringObject_WhenRepositoryReturnsNullUser()
+        {
+            // Arrange
+            var mockRepo = new Mock<IUserRepository>();
+            mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
+                 .ThrowsAsync(new InvalidOperationException());
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
+
+            string searchCriterion = "Test String";
+
+            // Act
+            var result = await controller.GetSearchNetworkAsync(searchCriterion);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("An error occurred", objectResult.Value);
+        }
 
         #endregion
 
