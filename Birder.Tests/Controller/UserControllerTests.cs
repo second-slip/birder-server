@@ -512,7 +512,6 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
-            //var applicationUser = new ApplicationUser() { UserName = "Same Object Route Test" };
             mockRepo.Setup(x => x.GetUserAndNetworkAsync(It.IsAny<String>()))
                     .ReturnsAsync(GetOwnUserProfile());
 
@@ -571,9 +570,8 @@ namespace Birder.Tests.Controller
             var mockRepo = new Mock<IUserRepository>();
             mockRepo.SetupSequence(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
                 .ReturnsAsync(GetOwnUserProfile())
-            //mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
-                 .ReturnsAsync(GetOtherMemberUserProfile())
-                 .ReturnsAsync(GetOwnUserProfile());
+                .ReturnsAsync(GetOtherMemberUserProfile())
+                .ReturnsAsync(GetOwnUserProfile());
 
             mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
                 .Verifiable();
@@ -592,9 +590,15 @@ namespace Birder.Tests.Controller
             var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel());
 
             // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
             Assert.IsType<OkObjectResult>(result);
-            //var objectResult = result as ObjectResult;
-            //Assert.Equal("An error occurred trying to follow user: Test Network View Model", objectResult.Value);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            Assert.IsType<NetworkUserViewModel>(objectResult.Value);
+
+            var model = objectResult.Value as NetworkUserViewModel;
+            Assert.Equal("Other Member's Profile Test", model.UserName);
         }
 
 
