@@ -57,7 +57,7 @@ namespace Birder.Controllers
 
                 var loggedinUser = new ApplicationUser();
 
-                if (String.Equals(loggedinUsername, username, StringComparison.InvariantCultureIgnoreCase))
+                if (string.Equals(loggedinUsername, username, StringComparison.InvariantCultureIgnoreCase))
                 {
                     viewModel.IsOwnProfile = true;
                     loggedinUser = user;

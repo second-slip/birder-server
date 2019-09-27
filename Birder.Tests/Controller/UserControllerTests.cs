@@ -266,8 +266,9 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetSearchNetworkAsync(It.IsAny<string>());
-
+            string searchCriterion = "Any String You Want Here";
+            var result = await controller.GetSearchNetworkAsync(searchCriterion);
+            
             // Assert
             var objectResult = result as ObjectResult;
             Assert.NotNull(objectResult);
