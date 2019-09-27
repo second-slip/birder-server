@@ -32,7 +32,7 @@ namespace Birder.Helpers
 
             List<string> followersUsernamesList = GetFollowersUserNames(loggedinUser.Followers);
             List<string> followingUsernamesList = GetFollowingUserNames(loggedinUser.Following);
-            followingUsernamesList.Add(loggedinUser.UserName);
+            followingUsernamesList.Add(loggedinUser.UserName); //include own user name
             return followersUsernamesList.Except(followingUsernamesList);
         }
     }
