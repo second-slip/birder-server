@@ -34,15 +34,18 @@ export class UserNetworkComponent implements OnInit {
       .subscribe(
         (data: NetworkUserViewModel[]) => {
           this.users = data;
-          this.toast.info(this.users.length.toString() + 'results were found', 'Search successful');
+          if (this.users.length > 0) {
+            this.toast.info(this.users.length.toString() + ' results were found', 'Search successful');
+          } else {
+            this.toast.warning('No results were found', 'Search unsuccessful');
+          }
         },
         (error: ErrorReportViewModel) => {
           if (error.type === 'client-side or network error occurred') {
             this.toast.error(error.serverCustomMessage, 'An error occurred');
           } else {
-            this.toast.error('Try a different search query', 'Search unseccessful');
+            this.toast.error('Try a different search query', 'Search unsuccessful');
           }
-          // this.router.navigate(['/']);
         });
   }
 
@@ -59,7 +62,7 @@ export class UserNetworkComponent implements OnInit {
   }
 
 
-  
+
 
   followOrUnfollow(element, user: NetworkUserViewModel): void {
     const action = element.innerText;
