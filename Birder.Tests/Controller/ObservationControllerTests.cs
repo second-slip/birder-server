@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Birder.Tests.Controller.Helpers
+namespace Birder.Tests.Controller
 {
-    public class NetworkHelpersTests
+    public class ObservationControllerTests
     {
-
     }
 }
