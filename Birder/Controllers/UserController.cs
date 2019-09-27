@@ -208,7 +208,7 @@ namespace Birder.Controllers
                 if (loggedinUser == null || userToUnfollow == null)
                 {
                     _logger.LogError(LoggingEvents.UpdateItem, "User not found");
-                    return BadRequest("User not found");
+                    return NotFound("User not found");
                 }
 
                 if (loggedinUser == userToUnfollow)
