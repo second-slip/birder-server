@@ -154,15 +154,18 @@ namespace Birder.Tests.Controller
 
         #region GetNetwork action tests
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         [Fact]
-        public async Task GetNetworkAsync_ReturnsBadRequestIfModelStateIsInvalid_WithModelStateError()
+        public async Task GetNetworkAsync_ReturnsOkObjectResult_WhenRepositoryReturnsGetFollowersNotFollowedAsync()
         {
+            // WHEN if (followersNotBeingFollowed.Count() == 0) IS FALSE
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
+            mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
+                 .ReturnsAsync(GetOwnUserProfileWithOneFollower());
+            
+            //GetFollowersNotFollowedAsync
+            mockRepo.Setup(repo => repo.GetFollowersNotFollowedAsync(It.IsAny<ApplicationUser>(), It.IsAny<IEnumerable<string>>()))
+                .ReturnsAsync(GetListOfApplicationUsers(3));
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
@@ -173,33 +176,61 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
             };
 
-            //Add model error
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+            // Act
+            var result = await controller.GetNetworkAsync();
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<OkObjectResult>(result);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            Assert.IsType<List<NetworkUserViewModel>>(objectResult.Value);
+
+            var model = objectResult.Value as List<NetworkUserViewModel>;
+            Assert.Equal(3, model.Count);
+        }
+
+        [Fact]
+        public async Task GetNetworkAsync_ReturnsOkObjectResult_WhenRepositoryReturnsGetSuggestedBirdersToFollowAsync()
+        {
+            //WHEN if (followersNotBeingFollowed.Count() == 0) IS TRUE
+            // Arrange
+            var mockRepo = new Mock<IUserRepository>();
+            mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
+                 .ReturnsAsync(GetOwnUserProfile());
+
+            // GetSuggestedBirdersToFollowAsync
+            mockRepo.Setup(repo => repo.GetSuggestedBirdersToFollowAsync(It.IsAny<ApplicationUser>(), It.IsAny<IEnumerable<string>>()))
+                .ReturnsAsync(GetListOfApplicationUsers(5));
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
 
             // Act
             var result = await controller.GetNetworkAsync();
 
-            var modelState = controller.ModelState;
-            Assert.Equal(1, modelState.ErrorCount);
-            Assert.True(modelState.ContainsKey("Test"));
-            Assert.True(modelState["Test"].Errors.Count == 1);
-            Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
-
-            // test response
+            // Assert
             var objectResult = result as ObjectResult;
             Assert.NotNull(objectResult);
-            Assert.IsType<BadRequestObjectResult>(result);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-            //
-            Assert.IsType<String>(objectResult.Value);
+            Assert.IsType<OkObjectResult>(result);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            Assert.IsType<List<NetworkUserViewModel>>(objectResult.Value);
 
-            Assert.Contains("This is a test model error", "This is a test model error");
-            Assert.IsType<String>(objectResult.Value);
+            var model = objectResult.Value as List<NetworkUserViewModel>;
+            Assert.Equal(5, model.Count);
         }
 
+
         [Fact]
-        public async Task GetNetworkAsync_ReturnsNotFound_IfRepositoryRetrunsNull()
+        public async Task GetNetworkAsync_ReturnsNotFoundWithStringObject_WhenRepositoryReturnsNullUser()
         {
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
@@ -226,6 +257,32 @@ namespace Birder.Tests.Controller
             Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
             Assert.IsType<String>(objectResult.Value);
             Assert.Equal("User not found", objectResult.Value);
+        }
+
+        [Fact]
+        public async Task GetNetworkAsync_ReturnsBadRequestWithStringObject_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockRepo = new Mock<IUserRepository>();
+            mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
+                 .ThrowsAsync(new InvalidOperationException());
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
+
+            // Act
+            var result = await controller.GetNetworkAsync();
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("An error occurred", objectResult.Value);
         }
 
 
@@ -349,7 +406,7 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task GetSearchNetworkAsync_ReturnsBadRequestWithStringObject_WhenRepositoryReturnsNullUser()
+        public async Task GetSearchNetworkAsync_ReturnsBadRequestWithStringObject_WhenExceptionIsRaised()
         {
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
@@ -380,7 +437,45 @@ namespace Birder.Tests.Controller
 
 
 
+        //[Fact]
+        //public async Task GetNetworkAsync_ReturnsBadRequestIfModelStateIsInvalid_WithModelStateError()
+        //{
+        //    // Arrange
+        //    var mockRepo = new Mock<IUserRepository>();
 
+        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+        //    var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+        //    };
+
+        //    //Add model error
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
+
+        //    // Act
+        //    var result = await controller.GetNetworkAsync();
+
+        //    var modelState = controller.ModelState;
+        //    Assert.Equal(1, modelState.ErrorCount);
+        //    Assert.True(modelState.ContainsKey("Test"));
+        //    Assert.True(modelState["Test"].Errors.Count == 1);
+        //    Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
+
+        //    // test response
+        //    var objectResult = result as ObjectResult;
+        //    Assert.NotNull(objectResult);
+        //    Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.True(objectResult is BadRequestObjectResult);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    //
+        //    Assert.IsType<String>(objectResult.Value);
+
+        //    Assert.Contains("This is a test model error", "This is a test model error");
+        //    Assert.IsType<String>(objectResult.Value);
+        //}
 
 
         #region Mock methods
@@ -406,6 +501,18 @@ namespace Birder.Tests.Controller
             {
                 UserName = "Own Profile Test",
                 Followers = new List<Network>(),
+                Following = new List<Network>()
+            };
+
+            return user;
+        }
+
+        private ApplicationUser GetOwnUserProfileWithOneFollower()
+        {
+            var user = new ApplicationUser()
+            {
+                UserName = "Own Profile Test With Follower",
+                Followers = new List<Network>() { new Network() { ApplicationUser = new ApplicationUser(), Follower = new ApplicationUser() } },
                 Following = new List<Network>()
             };
 
