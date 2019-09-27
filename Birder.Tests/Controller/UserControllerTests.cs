@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
@@ -506,14 +507,103 @@ namespace Birder.Tests.Controller
             Assert.Equal("User not found", objectResult.Value);
         }
 
+        [Fact]
+        public async Task PostFollowUserAsync_ReturnsBadRequest_FollowerAndToFollowAreEqual()
+        {
+            // Arrange
+            var mockRepo = new Mock<IUserRepository>();
+            //var applicationUser = new ApplicationUser() { UserName = "Same Object Route Test" };
+            mockRepo.Setup(x => x.GetUserAndNetworkAsync(It.IsAny<String>()))
+                    .ReturnsAsync(GetOwnUserProfile());
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
+
+            // Act
+            var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel());
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.IsType<String>(objectResult.Value);
+            Assert.Equal("Trying to follow yourself", objectResult.Value);
+        }
+
+        [Fact]
+        public async Task PostFollowUserAsync_ReturnsBadRequestWithStringObject_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockRepo = new Mock<IUserRepository>();
+            mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
+                 .ThrowsAsync(new InvalidOperationException());
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
+
+            // Act
+            var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel());
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("An error occurred trying to follow user: Test Network View Model", objectResult.Value);
+        }
+
+        [Fact]
+        public async Task PostFollowUserAsync_ReturnsOkObject_WhenRequestIsValid()
+        {
+            // Arrange
+            var mockRepo = new Mock<IUserRepository>();
+            mockRepo.SetupSequence(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
+                .ReturnsAsync(GetOwnUserProfile())
+            //mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
+                 .ReturnsAsync(GetOtherMemberUserProfile())
+                 .ReturnsAsync(GetOwnUserProfile());
+
+            mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
+                .Verifiable();
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.Setup(x => x.CompleteAsync()).Returns(Task.CompletedTask);
+
+            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal() }
+            };
+
+            // Act
+            var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel());
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+            //var objectResult = result as ObjectResult;
+            //Assert.Equal("An error occurred trying to follow user: Test Network View Model", objectResult.Value);
+        }
 
 
-            #endregion
+        #endregion
 
 
-            #region Mock methods
+        #region Mock methods
 
-            private NetworkUserViewModel GetTestNetworkUserViewModel()
+        private NetworkUserViewModel GetTestNetworkUserViewModel()
         {
             return new NetworkUserViewModel()
             {
