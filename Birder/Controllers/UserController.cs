@@ -82,16 +82,10 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetNetwork")]
-        public async Task<IActionResult> GetNetworkAsync() //string searchCriterion)
+        public async Task<IActionResult> GetNetworkAsync()
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.GetListNotFound, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest("Hello");
-                }
-
                 var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
 
                 if (loggedinUser == null)
@@ -118,7 +112,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "Network");
-                return BadRequest();
+                return BadRequest("An error occurred");
             }
         }
 

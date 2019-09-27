@@ -247,7 +247,7 @@ namespace Birder.Tests.Controller
         #region SearchNetwork unit tests
 
         [Fact]
-        public async Task GetSearchNetworkAsync_ReturnsOkWithNetworkListViewModelCollection_Rn()
+        public async Task GetSearchNetworkAsync_ReturnsOkWithNetworkListViewModelCollection_WhenRepositoryReturns3UserObjects()
         {
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
