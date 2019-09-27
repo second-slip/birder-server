@@ -1,4 +1,5 @@
 ﻿using Birder.Data.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,23 +9,29 @@ namespace Birder.Helpers
     {
         public static List<string> GetFollowersUserNames(ICollection<Network> followers)
         {
-            // what if followers == null?
+            if(followers == null)
+                throw new NullReferenceException("The followers collection is null");
+            
             return (from user in followers
-                        select user.Follower.UserName).ToList();
+                    select user.Follower.UserName).ToList();
         }
 
         public static List<string> GetFollowingUserNames(ICollection<Network> following)
         {
-            // what if following == null?
+            if (following == null)
+                throw new NullReferenceException("The following collection is null");
+
             return (from user in following
-                        select user.ApplicationUser.UserName).ToList();
+                    select user.ApplicationUser.UserName).ToList();
         }
 
         public static IEnumerable<string> GetFollowersNotBeingFollowedUserNames(ApplicationUser loggedinUser)
         {
-            // what if followers || following == null?
-            var followersUsernamesList = GetFollowersUserNames(loggedinUser.Followers);
-            var followingUsernamesList = GetFollowingUserNames(loggedinUser.Following);
+            if (loggedinUser == null)
+                throw new NullReferenceException("The user is null");
+
+            List<string> followersUsernamesList = GetFollowersUserNames(loggedinUser.Followers);
+            List<string> followingUsernamesList = GetFollowingUserNames(loggedinUser.Following);
             followingUsernamesList.Add(loggedinUser.UserName);
             return followersUsernamesList.Except(followingUsernamesList);
         }
