@@ -2,13 +2,10 @@
 using Birder.Data.Model;
 using Birder.Services;
 using Birder.ViewModels;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -30,39 +27,15 @@ namespace Birder.Tests.Controller
             _config.SetupGet(x => x[It.Is<string>(s => s == "Tokens:Issuer")]).Returns("http://localhost:55722");
         }
 
-        //[Fact]
-        //public async Task Login_ReturnsOkObjectResult_WithOkResult()
-        //{
-        //    // Arrange
-        //    var mockUserManager = initialiseMockUserManager();
-        //    mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
-        //                .ReturnsAsync(GetValidTestUser());
-
-        //    var mockSignInManager = initialiseMockSignInManager(mockUserManager);
-        //    mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
-        //                    .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Success));
-
-        //     var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object,
-        //                                                    _systemClock, _config.Object);
-
-        //    var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
-
-        //    // Act
-        //    var result = await controller.Login(model);
-
-        //    // Assert
-        //    Assert.IsType<OkObjectResult>(result);
-        //}
-
         [Fact]
         public async Task Login_ReturnsOkObjectResult_WithLoginDto()
         {
             // Arrange
-            var mockUserManager = initialiseMockUserManager();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                         .ReturnsAsync(GetValidTestUser());
 
-            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+            var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
             mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
                             .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Success));
 
@@ -89,11 +62,11 @@ namespace Birder.Tests.Controller
         public async Task Login_ReturnsBadRequestObjectResult_WhenSignInResultIsNotSuccessful()
         {
             // Arrange
-            var mockUserManager = initialiseMockUserManager();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                         .ReturnsAsync(GetValidTestUser());
 
-            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+            var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
             mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
                             .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Failed));
 
@@ -122,11 +95,11 @@ namespace Birder.Tests.Controller
         public async Task Login_ReturnsBadRequestObjectResult_WhenSignInResultIsLockedOut()
         {
             // Arrange
-            var mockUserManager = initialiseMockUserManager();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                         .ReturnsAsync(GetValidTestUser());
 
-            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+            var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
             mockSignInManager.Setup(x => x.CheckPasswordSignInAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), false))
                             .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.LockedOut));
 
@@ -155,11 +128,11 @@ namespace Birder.Tests.Controller
         public async Task LoginWithEmailNotConfirmed_ReturnsBadRequest_WithEmailNotConfirmed()
         {
             // Arrange
-            var mockUserManager = initialiseMockUserManager();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                             .ReturnsAsync(GetTestUserWithEmailNotConfirmed());
 
-            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+            var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
 
             var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object,
                                                            _systemClock, _config.Object);
@@ -186,11 +159,11 @@ namespace Birder.Tests.Controller
         public async Task Login_ReturnsBadRequest_WhenUserManagerReturnsNull()
         {
             // Arrange
-            var mockUserManager = initialiseMockUserManager();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                             .Returns(Task.FromResult<ApplicationUser>(null));
 
-            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+            var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
 
             var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object,
                                                            _systemClock, _config.Object);
@@ -217,9 +190,9 @@ namespace Birder.Tests.Controller
         public async Task LoginWithInvalidModelState_ReturnsBadRequest_WithModelStateError()
         {
             // Arrange
-            var mockUserManager = initialiseMockUserManager();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
-            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+            var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
             
             var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, _systemClock, _config.Object);
 
@@ -254,11 +227,11 @@ namespace Birder.Tests.Controller
         public async Task Login_ReturnsBadRequestResult_WhenExceptionIsRaised()
         {
             // Arrange
-            var mockUserManager = initialiseMockUserManager();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                 .ThrowsAsync(new InvalidOperationException());
 
-            var mockSignInManager = initialiseMockSignInManager(mockUserManager);
+            var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
 
             var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, _systemClock, _config.Object);
 
@@ -284,31 +257,7 @@ namespace Birder.Tests.Controller
 
         #region Mock methods
 
-        private Mock<UserManager<ApplicationUser>> initialiseMockUserManager()
-        {
-            return new Mock<UserManager<ApplicationUser>>(
-                    new Mock<IUserStore<ApplicationUser>>().Object,
-                    new Mock<IOptions<IdentityOptions>>().Object,
-                    new Mock<IPasswordHasher<ApplicationUser>>().Object,
-                    new IUserValidator<ApplicationUser>[0],
-                    new IPasswordValidator<ApplicationUser>[0],
-                    new Mock<ILookupNormalizer>().Object,
-                    new Mock<IdentityErrorDescriber>().Object,
-                    new Mock<IServiceProvider>().Object,
-                    new Mock<ILogger<UserManager<ApplicationUser>>>().Object);
-        }
 
-        private Mock<SignInManager<ApplicationUser>> initialiseMockSignInManager(Mock<UserManager<ApplicationUser>> userManager)
-        {
-            return new Mock<SignInManager<ApplicationUser>>(
-                        userManager.Object,
-                        new Mock<IHttpContextAccessor>().Object,
-                        new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>().Object,
-                        new Mock<IOptions<IdentityOptions>>().Object,
-                        new Mock<ILogger<SignInManager<ApplicationUser>>>().Object,
-                        new Mock<IAuthenticationSchemeProvider>().Object,
-                        new Mock<IUserConfirmation<ApplicationUser>>().Object);
-        }
 
         private ApplicationUser GetTestUserWithEmailNotConfirmed()
         {

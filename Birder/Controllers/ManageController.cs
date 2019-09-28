@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Birder.Data.Model;
+using Birder.Helpers;
 using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -17,29 +20,44 @@ namespace Birder.Controllers
         private readonly IMapper _mapper;
         private readonly IUrlService _urlService;
         private readonly IEmailSender _emailSender;
+        private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+
+        //***************************
+        // ToDo: Add logging
+        //***************************
 
         public ManageController(IMapper mapper
                               , IEmailSender emailSender
                               , IUrlService urlService
+                              , ILogger<ManageController> logger
                               , UserManager<ApplicationUser> userManager)
         {
             _mapper = mapper;
+            _logger = logger;
             _urlService = urlService;
             _emailSender = emailSender;
             _userManager = userManager;
         }
 
         [HttpGet, Route("GetUserProfile")]
-        public async Task<IActionResult> GetUserProfile()
+        public async Task<IActionResult> GetUserProfileAsync()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            if (user == null)
+            try
             {
-                return NotFound();
-            }
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (user == null)
+                {
+                    return NotFound("User not found");
+                }
 
-            return Ok(_mapper.Map<ApplicationUser, ManageProfileViewModel>(user));
+                return Ok(_mapper.Map<ApplicationUser, ManageProfileViewModel>(user));
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "GetUserProfileAsync");
+                return BadRequest("There was an error getting the user");
+            }
         }
 
         [HttpPost, Route("UpdateProfile")]
