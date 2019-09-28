@@ -176,11 +176,13 @@ namespace Birder.Controllers
                 }
 
                 _userRepository.Follow(loggedinUser, userToFollow);
+
                 await _unitOfWork.CompleteAsync();
+
                 var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToFollow);
-                // is this second loggedinUser request necessary, or does the UnitOfWork updated it?
-                loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
-                viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
+
+                NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(viewModel, loggedinUser.Following);
+                
                 return Ok(viewModel);
                 
             }
@@ -217,11 +219,13 @@ namespace Birder.Controllers
                 }
 
                 _userRepository.UnFollow(loggedinUser, userToUnfollow);
+                
                 await _unitOfWork.CompleteAsync();
+                
                 var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToUnfollow);
-                // is this second loggedinUser request necessary, or does the UnitOfWork updated it?
-                loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
-                viewModel.IsFollowing = loggedinUser.Following.Any(cus => cus.ApplicationUser.UserName == userToFollowDetails.UserName);
+
+                NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(viewModel, loggedinUser.Following);
+                
                 return Ok(viewModel);
             }
             catch (Exception ex)
