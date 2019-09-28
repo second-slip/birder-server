@@ -48,6 +48,7 @@ namespace Birder.Controllers
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 if (user == null)
                 {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "GetUserProfileAsync");
                     return NotFound("User not found");
                 }
 
@@ -61,17 +62,19 @@ namespace Birder.Controllers
         }
 
         [HttpPost, Route("UpdateProfile")]
-        public async Task<IActionResult> UpdateProfile(ManageProfileViewModel model)
+        public async Task<IActionResult> UpdateProfileAsync(ManageProfileViewModel model)
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
                 return BadRequest(ModelState);
             }
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             if (user == null)
             {
-                return NotFound();
+                _logger.LogError(LoggingEvents.GetItemNotFound, "GetUserProfileAsync");
+                return NotFound("User not found");
             }
 
             var userName = user.UserName;

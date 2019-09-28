@@ -184,7 +184,6 @@ namespace Birder.Controllers
                 NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(viewModel, loggedinUser.Following);
                 
                 return Ok(viewModel);
-                
             }
             catch (Exception ex)
             {
