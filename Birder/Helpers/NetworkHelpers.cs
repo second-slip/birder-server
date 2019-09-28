@@ -8,19 +8,6 @@ namespace Birder.Helpers
 {
     public static class NetworkHelpers
     {
-        // ********** MOVE TO END
-        public static NetworkUserViewModel UpdateIsFollowingInNetworkUserViewModel(NetworkUserViewModel viewModel, ICollection<Network> following)
-        {
-            if (viewModel == null)
-                throw new NullReferenceException("The viewModel is null");
-
-            if (following == null)
-                throw new NullReferenceException("The following collection is null");
-
-            viewModel.IsFollowing = following.Any(cus => cus.ApplicationUser.UserName == viewModel.UserName);
-            return viewModel;
-        }
-
         public static List<string> GetFollowersUserNames(ICollection<Network> followers)
         {
             if(followers == null)
@@ -48,6 +35,18 @@ namespace Birder.Helpers
             List<string> followingUsernamesList = GetFollowingUserNames(loggedinUser.Following);
             followingUsernamesList.Add(loggedinUser.UserName); //include own user name
             return followersUsernamesList.Except(followingUsernamesList);
+        }
+
+        public static NetworkUserViewModel UpdateIsFollowingInNetworkUserViewModel(NetworkUserViewModel viewModel, ICollection<Network> following)
+        {
+            if (viewModel == null)
+                throw new NullReferenceException("The viewModel is null");
+
+            if (following == null)
+                throw new NullReferenceException("The following collection is null");
+
+            viewModel.IsFollowing = following.Any(cus => cus.ApplicationUser.UserName == viewModel.UserName);
+            return viewModel;
         }
     }
 }

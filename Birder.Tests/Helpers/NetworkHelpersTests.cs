@@ -1,5 +1,6 @@
 ﻿using Birder.Data.Model;
 using Birder.Helpers;
+using Birder.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -168,6 +169,66 @@ namespace Birder.Tests.Helpers
 
             // Act & Assert
             var ex = Assert.Throws<NullReferenceException>(() => NetworkHelpers.GetFollowersNotBeingFollowedUserNames(user));
+            Assert.Equal("The following collection is null", ex.Message);
+        }
+
+        #endregion
+
+        #region UpdateIsFollowingInNetworkUserViewModel unit tests
+        [Fact]
+        public void UpdateIsFollowingInNetworkUserViewModel_ReturnsIsFollowEqualsTrue_WhenViewModelUserIsInFollowingCollection()
+        {
+            // Arrange
+            var viewModel = new NetworkUserViewModel() { UserName = "Test 2" };
+            var following = GetDynamicNetworkCollection(8);
+
+            // Act
+            var result = NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(viewModel, following);
+
+            // Assert
+            var returnModel = Assert.IsType<NetworkUserViewModel>(result);
+            Assert.Equal(viewModel.UserName, returnModel.UserName);
+            Assert.True(returnModel.IsFollowing);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(34)]
+        public void UpdateIsFollowingInNetworkUserViewModel_ReturnsIsFollowEqualsFalse_WhenViewModelUserIsNotInFollowingCollection(int length)
+        {
+            // Arrange
+            var viewModel = new NetworkUserViewModel() { UserName = "User Not In Following Collection" };
+            var following = GetDynamicNetworkCollection(length);
+
+            // Act
+            var result = NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(viewModel, following);
+
+            // Assert
+            var returnModel = Assert.IsType<NetworkUserViewModel>(result);
+            Assert.Equal(viewModel.UserName, returnModel.UserName);
+            Assert.False(returnModel.IsFollowing);
+        }
+
+        [Fact]
+        public void UpdateIsFollowingInNetworkUserViewModel_ReturnsNullReferenceException_WhenViewModelIsNull()
+        {
+            // Arrange
+            var following = new List<Network>();
+
+            // Act & Assert
+            var ex = Assert.Throws<NullReferenceException>(() => NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(null, following));
+            Assert.Equal("The viewModel is null", ex.Message);
+        }
+
+        [Fact]
+        public void UpdateIsFollowingInNetworkUserViewModel_ReturnsNullReferenceException_WhenFollowingCollectionIsNull()
+        {
+            // Arrange
+            var viewModel = new NetworkUserViewModel() { UserName = "Test User" };
+
+            // Act & Assert
+            var ex = Assert.Throws<NullReferenceException>(() => NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(viewModel, null));
             Assert.Equal("The following collection is null", ex.Message);
         }
 
