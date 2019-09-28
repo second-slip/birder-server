@@ -130,7 +130,7 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
-                            .ReturnsAsync(GetTestUserWithEmailNotConfirmed());
+                            .ReturnsAsync(GetValidTestUser());
 
             var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
 

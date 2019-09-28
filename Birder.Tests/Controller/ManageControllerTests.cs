@@ -4,6 +4,7 @@ using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.Services;
+using Birder.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -49,7 +50,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
                            .Returns(Task.FromResult<ApplicationUser>(null));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -65,11 +66,72 @@ namespace Birder.Tests.Controller
             Assert.Equal("User not found", objectResult.Value);
         }
 
-        //[Fact]
-        //public async Task GetUserProfileAsync_ReturnsBadRequest_WhenRepositoryReturnsNull()
+        [Fact]
+        public async Task GetUserProfileAsync_ReturnsBadRequestWithStringObject_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ThrowsAsync(new InvalidOperationException());
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+            };
+
+            // Act
+            var result = await controller.GetUserProfileAsync();
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("There was an error getting the user", objectResult.Value);
+        }
+
+        [Fact]
+        public async Task GetUserProfileAsync_ReturnsOkWithManageProfileViewModel_WhenUserIsFound()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ReturnsAsync(GetValidTestUser());
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+            };
+
+            // Act
+            var result = await controller.GetUserProfileAsync();
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<OkObjectResult>(result);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var returnModel = Assert.IsType<ManageProfileViewModel>(objectResult.Value);
+            Assert.Equal("Test", returnModel.UserName);
+        }
 
         #endregion
 
 
+        private ApplicationUser GetValidTestUser()
+        {
+            var user = new ApplicationUser()
+            {
+                Email = "a@b.com",
+                EmailConfirmed = true,
+                UserName = "Test",
+                Avatar = ""
+            };
+
+            return user;
+        }
     }
 }
