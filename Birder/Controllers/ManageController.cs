@@ -112,14 +112,17 @@ namespace Birder.Controllers
                     }
                 }
 
-                await _userManager.UpdateAsync(user);
+                var update = await _userManager.UpdateAsync(user);
+                
+                if(!update.Succeeded)
+                    throw new ApplicationException($"Unexpected error occurred setting the location for user with ID '{user.Id}'.");
 
                 return Ok(model);
             }
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "GetUserProfileAsync");
-                return BadRequest("There was an error getting the user");
+                return BadRequest("There was an error updating the user");
             }
         }
 
@@ -151,36 +154,41 @@ namespace Birder.Controllers
         }
 
         [HttpPost, Route("SetLocation")]
-        public async Task<IActionResult> SetLocation(SetLocationViewModel model)
+        public async Task<IActionResult> SetLocationAsync(SetLocationViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
-
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            //var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                // throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-                return BadRequest(ModelState);
-            }
-
-            var coOrdinate = user.DefaultLocationLatitude + "," + user.DefaultLocationLongitude;
-            if (model.DefaultLocationLatitude + "," + model.DefaultLocationLongitude != coOrdinate)
-            {
-                user.DefaultLocationLatitude = model.DefaultLocationLatitude;
-                user.DefaultLocationLongitude = model.DefaultLocationLongitude;
-
-                var setCoOrdinate = await _userManager.UpdateAsync(user);
-                if (!setCoOrdinate.Succeeded)
+                if (!ModelState.IsValid)
                 {
-                    //throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
+                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
                     return BadRequest(ModelState);
                 }
-            }
 
-            return Ok(model);
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (user == null)
+                {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "SetLocationAsync");
+                    return NotFound("User not found");
+                }
+
+                var coordinates = user.DefaultLocationLatitude + "," + user.DefaultLocationLongitude;
+                if (model.DefaultLocationLatitude + "," + model.DefaultLocationLongitude != coordinates)
+                {
+                    user.DefaultLocationLatitude = model.DefaultLocationLatitude;
+                    user.DefaultLocationLongitude = model.DefaultLocationLongitude;
+
+                    var setCoordinates = await _userManager.UpdateAsync(user);
+                    if (!setCoordinates.Succeeded)
+                        throw new ApplicationException($"Unexpected error occurred setting the location for user with ID '{user.Id}'."); 
+                }
+
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "GetUserProfileAsync");
+                return BadRequest("There was an error updating the user");
+            }
         }
 
 
