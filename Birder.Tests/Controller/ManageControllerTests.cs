@@ -518,6 +518,67 @@ namespace Birder.Tests.Controller
             var objectResult = result as ObjectResult;
             Assert.Equal("There was an error updating the user", objectResult.Value);
         }
+        [Fact]
+        public async Task SetLocationAsync_ReturnsOK_WhenIdentityResultIsNotSuccessful()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ReturnsAsync(GetValidTestUser());
+            mockUserManager.Setup(repo => repo.UpdateAsync(It.IsAny<ApplicationUser>()))
+                           .Returns(Task.FromResult(IdentityResult.Failed()));
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+            };
+
+            var model = new SetLocationViewModel() { DefaultLocationLatitude = 2F, DefaultLocationLongitude = 2F };
+
+            // Act
+            var result = await controller.SetLocationAsync(model);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            var returnObject = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal("There was an error updating the user", returnObject);
+        }
+
+        [Fact]
+        public async Task SetLocationAsync_ReturnsOK_WhenSuccessful()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ReturnsAsync(GetValidTestUser());
+            mockUserManager.Setup(repo => repo.UpdateAsync(It.IsAny<ApplicationUser>()))
+                           .Returns(Task.FromResult(IdentityResult.Success));
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+            };
+
+            var model = new SetLocationViewModel() { DefaultLocationLatitude = 2F, DefaultLocationLongitude = 2F };
+
+            // Act
+            var result = await controller.SetLocationAsync(model);
+
+            // Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var returnObject = Assert.IsType<SetLocationViewModel>(objectResult.Value);
+            Assert.Equal(model, returnObject);
+        }
 
 
         #endregion

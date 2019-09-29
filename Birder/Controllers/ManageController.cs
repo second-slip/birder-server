@@ -171,11 +171,7 @@ namespace Birder.Controllers
                     return NotFound("User not found");
                 }
 
-                var coordinates = user.DefaultLocationLatitude + "," + user.DefaultLocationLongitude;
-                var e = string.Concat(user.DefaultLocationLatitude, ",", user.DefaultLocationLongitude);
-                ///////////////////////////////////////////////////////////
-                var equal = string.Equals(coordinates, e);
-                //////////////////////////////////////////////////////////////
+                var coordinates = string.Concat(user.DefaultLocationLatitude, ",", user.DefaultLocationLongitude);
                 
                 if (string.Concat(model.DefaultLocationLatitude, ",", model.DefaultLocationLongitude) != coordinates)
                 {
