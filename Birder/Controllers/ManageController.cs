@@ -192,32 +192,36 @@ namespace Birder.Controllers
             }
         }
 
-
         [HttpPost, Route("ChangePassword")]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
-
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-            if (!changePasswordResult.Succeeded)
-            {
-                foreach (var error in changePasswordResult.Errors)
+                if (!ModelState.IsValid)
                 {
-                    ModelState.AddModelError(error.Code, error.Description);
+                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                    return BadRequest(ModelState);
                 }
-                return BadRequest(ModelState);
-            }
 
-            return Ok(model);
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (user == null)
+                {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "ChangePassword");
+                    return NotFound("User not found");
+                }
+
+                var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                
+                if (!changePasswordResult.Succeeded)
+                    throw new ApplicationException($"Unexpected error occurred changing the password for user with ID '{user.Id}'.");
+
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "ChangePassword");
+                return BadRequest("There was an error updating the user");
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json;
+using FluentAssertions;
 
 namespace Birder.Tests.Controller
 {
@@ -169,6 +171,15 @@ namespace Birder.Tests.Controller
 
             var values = returnError["Test"] as String[];
             Assert.True(values[0] == "This is a test model error");
+
+
+            var expected = new SerializableError
+                {
+                    { "Test", new[] {"This is a test model error"}},
+                };
+
+            objectResult.Value.Should().BeOfType<SerializableError>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -457,14 +468,14 @@ namespace Birder.Tests.Controller
             Assert.True(objectResult is BadRequestObjectResult);
             Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
             //Assert.IsType<String>(objectResult.Value);
+            
+            var expected = new SerializableError
+                {
+                    { "Test", new[] {"This is a test model error"}},
+                };
 
-            // Assert
-            var returnError = Assert.IsType<SerializableError>(objectResult.Value);
-            Assert.Single(returnError); //Assert.Equal(2, returnError.Count);
-            Assert.True(returnError.ContainsKey("Test"));
-
-            var values = returnError["Test"] as String[];
-            Assert.True(values[0] == "This is a test model error");
+            objectResult.Value.Should().BeOfType<SerializableError>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -518,6 +529,7 @@ namespace Birder.Tests.Controller
             var objectResult = result as ObjectResult;
             Assert.Equal("There was an error updating the user", objectResult.Value);
         }
+
         [Fact]
         public async Task SetLocationAsync_ReturnsOK_WhenIdentityResultIsNotSuccessful()
         {
@@ -580,9 +592,166 @@ namespace Birder.Tests.Controller
             Assert.Equal(model, returnObject);
         }
 
-
         #endregion
 
+
+        #region ChangePasswordAsync unit tests
+
+        [Fact]
+        public async Task ChangePasswordAsync_ReturnsBadRequest_WithModelStateError()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+            };
+
+            //Add model error
+            controller.ModelState.AddModelError("Test", "This is a test model error");
+
+            var model = new ChangePasswordViewModel() { };
+
+            // Act
+            var result = await controller.ChangePasswordAsync(model);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+            var expected = new SerializableError
+                {
+                    { "Test", new[] {"This is a test model error"}},
+                };
+
+            objectResult.Value.Should().BeOfType<SerializableError>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task ChangePasswordAsync_ReturnsNotFound_WithUserManagerReturnsNull()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .Returns(Task.FromResult<ApplicationUser>(null));
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+            };
+
+            var model = new ChangePasswordViewModel() { };
+
+            // Act
+            var result = await controller.ChangePasswordAsync(model);
+
+            // Assert
+            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.IsType<String>(objectResult.Value);
+            Assert.Equal("User not found", objectResult.Value);
+        }
+
+        [Fact]
+        public async Task ChangePasswordAsync_ReturnsBadRequestWithStringObject_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ThrowsAsync(new InvalidOperationException());
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+            };
+
+            var model = new ChangePasswordViewModel() { };
+
+            // Act
+            var result = await controller.ChangePasswordAsync(model);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("There was an error updating the user", objectResult.Value);
+        }
+
+
+        [Fact]
+        public async Task ChangePasswordAsync_ReturnsOK_WhenIdentityResultIsNotSuccessful()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ReturnsAsync(GetValidTestUser());
+            mockUserManager.Setup(repo => repo.ChangePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>()))
+                           .Returns(Task.FromResult(IdentityResult.Failed()));
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+            };
+
+            var model = new ChangePasswordViewModel() { };
+
+            // Act
+            var result = await controller.ChangePasswordAsync(model);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            var returnObject = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal("There was an error updating the user", returnObject);
+        }
+
+        [Fact]
+        public async Task ChangePasswordAsync_ReturnsOK_WhenSuccessful()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ReturnsAsync(GetValidTestUser());
+            mockUserManager.Setup(repo => repo.ChangePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>()))
+                           .Returns(Task.FromResult(IdentityResult.Success));
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+            };
+
+            var model = new ChangePasswordViewModel() { };
+
+            // Act
+            var result = await controller.ChangePasswordAsync(model);
+
+            // Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var returnObject = Assert.IsType<ChangePasswordViewModel>(objectResult.Value);
+            Assert.Equal(model, returnObject);
+        }
+
+
+
+        #endregion
 
 
         private ApplicationUser GetValidTestUser()
