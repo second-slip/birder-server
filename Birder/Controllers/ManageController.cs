@@ -64,58 +64,63 @@ namespace Birder.Controllers
         [HttpPost, Route("UpdateProfile")]
         public async Task<IActionResult> UpdateProfileAsync(ManageProfileViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                return BadRequest(ModelState);
-            }
-
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            if (user == null)
-            {
-                _logger.LogError(LoggingEvents.GetItemNotFound, "GetUserProfileAsync");
-                return NotFound("User not found");
-            }
-
-            var userName = user.UserName;
-            if (model.UserName != userName)
-            {
-                if (await _userManager.FindByNameAsync(model.UserName) != null)
+                if (!ModelState.IsValid)
                 {
-                    // Can use this in check username...
-                    ModelState.AddModelError("Username", $"Username '{model.UserName}' is already taken.");
-
+                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
                     return BadRequest(ModelState);
                 }
-                var setUserNameResult = await _userManager.SetUserNameAsync(user, model.UserName);
-                if (!setUserNameResult.Succeeded)
-                {
-                    //throw new ApplicationException($"Unexpected error occurred setting username for user with ID '{user.Id}'.");
-                    ModelState.AddModelError("Username", $"Unexpected error occurred setting username for user with ID '{user.Id}'.");
-                    return BadRequest(ModelState);
-                }
-            }
 
-            var email = user.Email;
-            if (model.Email != email)
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (user == null)
+                {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "GetUserProfileAsync");
+                    return NotFound("User not found");
+                }
+
+                var userName = user.UserName;
+                if (model.UserName != userName)
+                {
+                    if (await _userManager.FindByNameAsync(model.UserName) != null)
+                    {
+                        ModelState.AddModelError("Username", $"Username '{model.UserName}' is already taken.");
+                        return BadRequest(ModelState);
+                    }
+                    var setUserNameResult = await _userManager.SetUserNameAsync(user, model.UserName);
+                    if (!setUserNameResult.Succeeded)
+                    {
+                        ModelState.AddModelError("Username", $"Unexpected error occurred setting username for user with ID '{user.Id}'.");
+                        return BadRequest(ModelState);
+                    }
+                }
+
+                var email = user.Email;
+                if (model.Email != email)
+                {
+                    var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
+                    if (!setEmailResult.Succeeded)
+                    {
+                        ModelState.AddModelError("Email", $"Unexpected error occurred setting email for user with ID '{user.Id}'.");
+                        return BadRequest(ModelState);
+                    }
+                    else
+                    {
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var url = _urlService.ConfirmEmailUrl(model.UserName, code);
+                        await _emailSender.SendEmailAsync(model.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
+                    }
+                }
+
+                await _userManager.UpdateAsync(user);
+
+                return Ok(model);
+            }
+            catch (Exception ex)
             {
-                var setEmailResult = await _userManager.SetEmailAsync(user, model.Email);
-                if (!setEmailResult.Succeeded)
-                {
-                    ModelState.AddModelError("Email", $"Unexpected error occurred setting email for user with ID '{user.Id}'.");
-                    return BadRequest(ModelState);
-                }
-                else
-                {
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var url = _urlService.ConfirmEmailUrl(model.UserName, code);
-                    await _emailSender.SendEmailAsync(model.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
-                }
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "GetUserProfileAsync");
+                return BadRequest("There was an error getting the user");
             }
-
-            await _userManager.UpdateAsync(user);
-
-            return Ok(model);
         }
 
         [HttpPost, Route("SetAvatar")]
