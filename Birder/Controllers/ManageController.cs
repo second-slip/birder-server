@@ -172,7 +172,12 @@ namespace Birder.Controllers
                 }
 
                 var coordinates = user.DefaultLocationLatitude + "," + user.DefaultLocationLongitude;
-                if (model.DefaultLocationLatitude + "," + model.DefaultLocationLongitude != coordinates)
+                var e = string.Concat(user.DefaultLocationLatitude, ",", user.DefaultLocationLongitude);
+                ///////////////////////////////////////////////////////////
+                var equal = string.Equals(coordinates, e);
+                //////////////////////////////////////////////////////////////
+                
+                if (string.Concat(model.DefaultLocationLatitude, ",", model.DefaultLocationLongitude) != coordinates)
                 {
                     user.DefaultLocationLatitude = model.DefaultLocationLatitude;
                     user.DefaultLocationLongitude = model.DefaultLocationLongitude;
@@ -186,7 +191,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "GetUserProfileAsync");
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "SetLocation");
                 return BadRequest("There was an error updating the user");
             }
         }
