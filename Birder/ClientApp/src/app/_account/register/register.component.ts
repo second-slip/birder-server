@@ -123,15 +123,12 @@ export class RegisterComponent implements OnInit {
     this.accountService.register(viewModelObject)
     .pipe(first())
     .subscribe(_ => {
-         console.log('successful registration');
          this.router.navigate(['/confirm-email']);
        },
       (error: ErrorReportViewModel) => {
-        // if (error.status === 400) { }
         this.errorReport = error;
         this.invalidRegistration = true;
         console.log(error.friendlyMessage);
-        console.log('unsuccessful registration');
       });
   }
 }
