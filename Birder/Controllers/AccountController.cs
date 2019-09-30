@@ -40,14 +40,14 @@ namespace Birder.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                return BadRequest(ModelState);
-            }
-
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                    return BadRequest(ModelState);
+                }
+
                 var newUser = new ApplicationUser
                 {
                     UserName = model.UserName,
@@ -63,19 +63,11 @@ namespace Birder.Controllers
                 if (result.Succeeded)
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-
-                    //var callbackUrl = new Uri(Url.Link("ConfirmEmail", new { username = newUser.UserName, code = code }));
                     var url = _urlService.ConfirmEmailUrl(newUser.UserName, code);
-
                     await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
-
                     return Ok();
                 }
 
-                //foreach (var error in result.Errors)
-                //{
-                //    ModelState.AddModelError(error.Code, error.Description);
-                //}
                 ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
 
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
@@ -84,7 +76,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in new user registration.");
-                return BadRequest();
+                return BadRequest("An error occurred");
             }
         }
 
