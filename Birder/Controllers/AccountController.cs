@@ -82,28 +82,35 @@ namespace Birder.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmailAsync(string username, string code)
         {
-
-            if (username == null || code == null)
+            try
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, $"Null arguments passed to ConfirmEmailAsync: username = {username}; code = {code}.");
+                if (username == null || code == null)
+                {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, $"Null arguments passed to ConfirmEmailAsync: username = {username}; code = {code}.");
+                    return BadRequest("An error occurred");
+                }
+
+                var user = await _userManager.FindByNameAsync(username);
+                if (user == null)
+                {
+                    return NotFound("User not found");
+                }
+
+                var result = await _userManager.ConfirmEmailAsync(user, code);
+                if (!result.Succeeded)
+                {
+                    ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
+                    _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                    return BadRequest("An error occurred");
+                }
+
+                return Redirect("/confirmed-email");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in email confirmation.");
                 return BadRequest("An error occurred");
             }
-
-            var user = await _userManager.FindByNameAsync(username);
-            if (user == null)
-            {
-                return NotFound("User not found");
-            }
-
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            if (!result.Succeeded)
-            {
-                ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
-                _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                return BadRequest("An error occurred");
-            }
-
-            return Redirect("/confirmed-email");
         }
 
         [HttpPost, Route("ResendEmailConfirmation")]
