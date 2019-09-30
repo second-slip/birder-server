@@ -38,7 +38,7 @@ namespace Birder.Controllers
 
         [HttpPost, Route("Register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
+        public async Task<IActionResult> PostRegisterAsync([FromBody]RegisterViewModel model)
         {
             try
             {
@@ -195,22 +195,11 @@ namespace Birder.Controllers
             //AddErrors(result);
             //return View();
             ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
-            //foreach (var error in result.Errors)
-            //{
-            //    ModelState.AddModelError(error.Code, error.Description);
-            //}
 
             _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
             return BadRequest(ModelState);
         }
 
-        //private void AddErrors(IdentityResult result)
-        //{
-        //    foreach (var error in result.Errors)
-        //    {
-        //        ModelState.AddModelError(string.Empty, error.Description);
-        //    }
-        //}
 
         [HttpGet, Route("IsUsernameAvailable")]
         [AllowAnonymous]
