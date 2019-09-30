@@ -65,11 +65,10 @@ namespace Birder.Controllers
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var url = _urlService.ConfirmEmailUrl(newUser.UserName, code);
                     await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
-                    return Ok();
+                    return Ok("New user created successfully");
                 }
 
                 ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
-
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
                 return BadRequest(ModelState);
             }
