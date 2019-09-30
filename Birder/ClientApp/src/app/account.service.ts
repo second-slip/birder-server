@@ -20,8 +20,8 @@ export class AccountService {
   constructor(private http: HttpClient
             , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  register(viewModel: RegisterViewModel): Observable<void | ErrorReportViewModel> {
-    return this.http.post<void>('api/Account/Register', viewModel, httpOptions)
+  register(viewModel: RegisterViewModel): Observable<string | ErrorReportViewModel> {
+    return this.http.post<string>('api/Account/Register', viewModel, httpOptions)
     .pipe(
       catchError(err => this.httpErrorHandlerService.handleHttpError(err))
     );

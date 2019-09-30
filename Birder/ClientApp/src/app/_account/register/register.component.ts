@@ -122,8 +122,7 @@ export class RegisterComponent implements OnInit {
 
     this.accountService.register(viewModelObject)
     .pipe(first())
-    .subscribe(
-       (data: void) => {
+    .subscribe(_ => {
          console.log('successful registration');
          this.router.navigate(['/confirm-email']);
        },
