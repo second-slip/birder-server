@@ -14,7 +14,6 @@ namespace Birder.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
-    //[Authorize(AuthenticationSchemes = "Bearer")]
     public class AccountController : ControllerBase
     {
         private readonly ILogger _logger;
@@ -65,7 +64,7 @@ namespace Birder.Controllers
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var url = _urlService.ConfirmEmailUrl(newUser.UserName, code);
                     await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
-                    return Ok("New user created successfully");
+                    return Ok("New user successfully created");
                 }
 
                 ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
@@ -79,34 +78,28 @@ namespace Birder.Controllers
             }
         }
 
-
-
         [HttpGet, Route("ConfirmEmail", Name = "ConfirmEmail")]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail(string username, string code)
+        public async Task<IActionResult> ConfirmEmailAsync(string username, string code)
         {
 
             if (username == null || code == null)
             {
-                return BadRequest(); // error with email confirmation
+                return BadRequest("An error occurred");
             }
 
             var user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User not found");
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (!result.Succeeded)
             {
-                //foreach (var error in result.Errors)
-                //{
-                //    ModelState.AddModelError(error.Code, error.Description);
-                //}
                 ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                return BadRequest(ModelState);
+                return BadRequest("An error occurred");
             }
 
             return Redirect("/confirmed-email");

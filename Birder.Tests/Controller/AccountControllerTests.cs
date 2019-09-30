@@ -34,6 +34,8 @@ namespace Birder.Tests.Controller
             _systemClock = new Mock<ISystemClockService>();
         }
 
+        #region PostRegisterAsync unit tests
+
         [Fact]
         public async Task PostRegisterAsync_ReturnsBadRequestWithModelStateError_WhenModelStateIsInvalid()
         {
@@ -141,9 +143,18 @@ namespace Birder.Tests.Controller
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
 
-            var expected = "New user created successfully";
+            var expected = "New user successfully created";
             objectResult.Value.Should().BeOfType<string>();
             objectResult.Value.Should().BeEquivalentTo(expected);
         }
+
+        #endregion
+
+
+        #region ConfirmEmailAsync unit tests
+
+
+
+        #endregion
     }
 }
