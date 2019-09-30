@@ -119,5 +119,31 @@ namespace Birder.Tests.Controller
             objectResult.Value.Should().BeOfType<SerializableError>();
             objectResult.Value.Should().BeEquivalentTo(expected);
         }
+
+        [Fact]
+        public async Task PostRegisterAsync_ReturnsOk_WhenCreateUserIsSuccessful()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(um => um.CreateAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                           .Returns(Task.FromResult(IdentityResult.Success));
+
+            var testModel = new RegisterViewModel() { };
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            // Act
+            var result = await controller.PostRegisterAsync(testModel);
+
+            // Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+
+            var expected = "New user created successfully";
+            objectResult.Value.Should().BeOfType<string>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
     }
 }
