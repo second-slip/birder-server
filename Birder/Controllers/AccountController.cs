@@ -85,6 +85,7 @@ namespace Birder.Controllers
 
             if (username == null || code == null)
             {
+                _logger.LogError(LoggingEvents.GetItemNotFound, $"Null arguments passed to ConfirmEmailAsync: username = {username}; code = {code}.");
                 return BadRequest("An error occurred");
             }
 

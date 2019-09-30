@@ -153,7 +153,55 @@ namespace Birder.Tests.Controller
 
         #region ConfirmEmailAsync unit tests
 
+        [Fact]
+        public async Task ConfirmEmailAsync_ReturnsBadRequest_WhenUsernameArgumentIsNull()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
+            string testUsername = null;
+            string testCode = string.Empty;
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            // Act
+            var result = await controller.ConfirmEmailAsync(testUsername, testCode);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+            var expected = "An error occurred";
+            objectResult.Value.Should().BeOfType<string>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task ConfirmEmailAsync_ReturnsBadRequest_WhenCodeArgumentIsNull()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+
+            string testUsername = string.Empty;
+            string testCode = null;
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            // Act
+            var result = await controller.ConfirmEmailAsync(testUsername, testCode);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+            var expected = "An error occurred";
+            objectResult.Value.Should().BeOfType<string>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
 
         #endregion
     }
