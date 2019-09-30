@@ -118,7 +118,6 @@ namespace Birder.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ResendConfirmEmailMessageAsync(UserEmailDto model)
         {
-            // try / catch
             try
             {
                 if (!ModelState.IsValid)
@@ -131,7 +130,7 @@ namespace Birder.Controllers
                 if (user == null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "User Not found");
-                    return BadRequest("User Not found");
+                    return NotFound("User not found");
                 }
 
                 if (user.EmailConfirmed)
