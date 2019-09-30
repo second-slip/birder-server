@@ -310,9 +310,15 @@ namespace Birder.Tests.Controller
             objectResult.Url.Should().BeEquivalentTo(expected);
         }
 
+        #endregion
+
+        #region ResendConfirmEmailMessageAsync unit tests
+
+
 
 
         #endregion
+
 
 
         private ApplicationUser GetValidTestUser()
