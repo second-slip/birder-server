@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration;
 using Birder.Controllers;
 using Birder.Data;
 using Birder.Data.Model;
@@ -8,6 +9,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
@@ -413,12 +415,20 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            var testUser = GetValidTestUser(false);
             mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
-                           .ReturnsAsync(GetValidTestUser(false));
+                           .ReturnsAsync(testUser);
+            var testCode = "myTestCode";
             mockUserManager.Setup(um => um.GenerateEmailConfirmationTokenAsync(It.IsAny<ApplicationUser>()))
-                            .ReturnsAsync(It.IsAny<string>());
+                            .ReturnsAsync(testCode);
 
-            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                    .Build();
+
+            var urlService = new UrlService(config);
+
+            var controller = new AccountController(_systemClock.Object, urlService, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
             var testModel = new UserEmailDto() { };
 
@@ -430,7 +440,17 @@ namespace Birder.Tests.Controller
             Assert.NotNull(objectResult);
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+
+            var expected = new Uri($"http://localhost:55722/api/Account/ConfirmEmail?username={testUser.UserName}&code={testCode}");
+            objectResult.Value.Should().BeOfType<Uri>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
         }
+
+        #endregion
+
+        #region ForgotPasswordAsync unit tests
+
+
 
         #endregion
 
