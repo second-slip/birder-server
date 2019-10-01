@@ -710,7 +710,29 @@ namespace Birder.Tests.Controller
 
         #region GetIsUsernameAvailableAsync unit tests
 
+        [Fact]
+        public async Task GetIsUsernameAvailableAsync____________()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            string username = null;
+
+            // Act
+            var result = await controller.GetIsUsernameAvailableAsync(username);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+            var expected = "An unexpected error occurred";
+            objectResult.Value.Should().BeOfType<string>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
 
 
         #endregion

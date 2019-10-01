@@ -229,13 +229,19 @@ namespace Birder.Controllers
 
         [HttpGet, Route("IsUsernameAvailable")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetIsUsernameAvailableAsync(string userName)
+        public async Task<IActionResult> GetIsUsernameAvailableAsync(string username)
         {
             try
             {
-                if (await _userManager.FindByNameAsync(userName) != null)
+                if(username == null)
                 {
-                    ModelState.AddModelError("Username", $"Username '{userName}' is already taken.");
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred in is username available.");
+                    throw new ArgumentNullException(username, "null argument was passed to GetIsUsernameAvailableAsync()");
+                }
+
+                if (await _userManager.FindByNameAsync(username) != null)
+                {
+                    ModelState.AddModelError("Username", $"Username '{username}' is already taken.");
                     return BadRequest(ModelState);
                 }
 

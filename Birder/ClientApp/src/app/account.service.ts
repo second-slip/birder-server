@@ -48,11 +48,11 @@ export class AccountService {
     );
   }
 
-  checkValidUsername(userName: string): Observable<boolean | ErrorReportViewModel> {
-    userName = userName.trim();
+  checkValidUsername(username: string): Observable<boolean | ErrorReportViewModel> {
+    username = username.trim();
 
-    const options = userName ?
-    { params: new HttpParams().set('userName', userName) } : {};
+    const options = username ?
+    { params: new HttpParams().set('username', username) } : {};
 
     return this.http.get<boolean>('api/Account/IsUsernameAvailable', options)
     .pipe(
