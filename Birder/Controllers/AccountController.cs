@@ -241,11 +241,10 @@ namespace Birder.Controllers
 
                 if (await _userManager.FindByNameAsync(username) != null)
                 {
-                    ModelState.AddModelError("Username", $"Username '{username}' is already taken.");
-                    return BadRequest(ModelState);
+                    return Ok(false); //$"Username '{username}' is already taken..."
                 }
 
-                return Ok(true);
+                return Ok(true); //$"Username '{username}' is available..."
             }
             catch (Exception ex)
             {

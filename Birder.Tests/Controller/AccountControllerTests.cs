@@ -711,7 +711,7 @@ namespace Birder.Tests.Controller
         #region GetIsUsernameAvailableAsync unit tests
 
         [Fact]
-        public async Task GetIsUsernameAvailableAsync____________()
+        public async Task GetIsUsernameAvailableAsync_ReturnsBadRequest_WhenUsernameArgumentIsNull()
         {
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
@@ -734,6 +734,84 @@ namespace Birder.Tests.Controller
             objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
+        [Fact]
+        public async Task GetIsUsernameAvailableAsync_ReturnsBadRequest_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ThrowsAsync(new InvalidOperationException());
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            string username = "testUser";
+
+            // Act
+            var result = await controller.GetIsUsernameAvailableAsync(username);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+            var expected = "An unexpected error occurred";
+            objectResult.Value.Should().BeOfType<string>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task GetIsUsernameAvailableAsync_ReturnsBadRequest_WhenUsernameIsTaken()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ReturnsAsync(GetValidTestUser(true));
+            //.Returns(Task.FromResult<ApplicationUser>(null));
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            string username = "testUser";
+
+            // Act
+            var result = await controller.GetIsUsernameAvailableAsync(username);
+
+            // Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+
+            var expected = false;
+            objectResult.Value.Should().BeOfType<bool>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task GetIsUsernameAvailableAsync_ReturnsOk_WhenUsernameIsAvailable()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .Returns(Task.FromResult<ApplicationUser>(null));
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            string username = "testUser";
+
+            // Act
+            var result = await controller.GetIsUsernameAvailableAsync(username);
+
+            // Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+
+            var expected = true;
+            objectResult.Value.Should().BeOfType<bool>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
 
         #endregion
 

@@ -61,6 +61,7 @@ export class RegisterComponent implements OnInit {
       },
       (error: ErrorReportViewModel) => {
         this.isUsernameAvailable = false;
+        // ToDo: Toast notification
       }
     );
   }
