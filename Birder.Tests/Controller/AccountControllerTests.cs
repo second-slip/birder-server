@@ -574,6 +574,142 @@ namespace Birder.Tests.Controller
 
         #region PostResetPasswordAsync unit tests
 
+        [Fact]
+        public async Task PostResetPasswordAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            var testModel = new ResetPasswordViewModel() { };
+
+            controller.ModelState.AddModelError("Test", "This is a test model error");
+
+            // Act
+            var result = await controller.PostResetPasswordAsync(testModel);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+            var expected = new SerializableError
+            {
+                { "Test", new[] {"This is a test model error"}},
+            };
+
+            objectResult.Value.Should().BeOfType<SerializableError>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task PostResetPasswordAsync_ReturnsBadRequest_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                           .ThrowsAsync(new InvalidOperationException());
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            var testModel = new ResetPasswordViewModel() { };
+
+            // Act
+            var result = await controller.PostResetPasswordAsync(testModel);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+            var expected = "An error occurred";
+            objectResult.Value.Should().BeOfType<string>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task PostResetPasswordAsync_ReturnsOKRequest_WhenRepositoryReturnsNull()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                           .Returns(Task.FromResult<ApplicationUser>(null));
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            var testModel = new ResetPasswordViewModel() { };
+
+            // Act
+            var result = await controller.PostResetPasswordAsync(testModel);
+
+            // Assert
+            var objectResult = Assert.IsType<OkResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task PostResetPasswordAsync_ReturnsBadRequest_WhenResetPasswordFails()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                           .ReturnsAsync(GetValidTestUser(true));
+            mockUserManager.Setup(repo => repo.ResetPasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>()))
+                           .Returns(Task.FromResult(IdentityResult.Failed()));
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            var testModel = new ResetPasswordViewModel() { };
+
+            // Act
+            var result = await controller.PostResetPasswordAsync(testModel);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+            var expected = "An error occurred";
+            objectResult.Value.Should().BeOfType<string>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task PostResetPasswordAsync_ReturnsOKObjectResult_WhenResetPasswordIsSuccessful()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                           .ReturnsAsync(GetValidTestUser(true));
+            mockUserManager.Setup(repo => repo.ResetPasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>()))
+                           .Returns(Task.FromResult(IdentityResult.Success));
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            var testModel = new ResetPasswordViewModel() { };
+
+            // Act
+            var result = await controller.PostResetPasswordAsync(testModel);
+
+            // Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+
+            var expected = "Password was successfully changed";
+            objectResult.Value.Should().BeOfType<string>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
+
+        #endregion
+
+
+        #region GetIsUsernameAvailableAsync unit tests
 
 
 

@@ -202,6 +202,7 @@ namespace Birder.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
                     return BadRequest(ModelState);
                 }
                 var user = await _userManager.FindByEmailAsync(model.Email);
@@ -229,7 +230,7 @@ namespace Birder.Controllers
 
         [HttpGet, Route("IsUsernameAvailable")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetIsUsernameAvailable(string userName)
+        public async Task<IActionResult> GetIsUsernameAvailableAsync(string userName)
         {
             if (await _userManager.FindByNameAsync(userName) != null)
             {
