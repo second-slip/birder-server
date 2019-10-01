@@ -102,7 +102,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetObservation")]
-        public async Task<IActionResult> GetObservation(int id)
+        public async Task<IActionResult> GetObservationAsync(int id)
         {
             try
             {
@@ -110,15 +110,16 @@ namespace Birder.Controllers
 
                 if (observation == null)
                 {
-                    _logger.LogWarning(LoggingEvents.GetItemNotFound, "Observation with id: {ID} was not found.", id);
-                    return NotFound();
+                    var message = $"Observation with id '{id}' was not found.";
+                    _logger.LogWarning(LoggingEvents.GetItemNotFound, message);
+                    return NotFound(message);
                 }
 
                 return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Observation with id: {ID} was not found.", id);
+                _logger.LogError(LoggingEvents.GetItemNotFound, ex, $"Observation with id '{id}' was not found.");
                 return BadRequest("Observation was not found.");
             }
         }
@@ -146,7 +147,7 @@ namespace Birder.Controllers
         }
 
         [HttpPost, Route("CreateObservation")]
-        public async Task<IActionResult> CreateObservation(ObservationViewModel model)
+        public async Task<IActionResult> CreateObservationAsync(ObservationViewModel model)
         {
             try
             {
@@ -187,7 +188,7 @@ namespace Birder.Controllers
         }
 
         [HttpPut, Route("UpdateObservation")]
-        public async Task<IActionResult> PutObservation(int id, ObservationViewModel model)
+        public async Task<IActionResult> PutObservationAsync(int id, ObservationViewModel model)
         {
             try
             {
@@ -257,7 +258,7 @@ namespace Birder.Controllers
         }
 
         [HttpDelete, Route("DeleteObservation")]
-        public async Task<ActionResult<ObservationViewModel>> DeleteObservation(int id)
+        public async Task<IActionResult> DeleteObservationAsync(int id)
         {
             var observation = await _observationRepository.GetAsync(id);
             if (observation == null)
