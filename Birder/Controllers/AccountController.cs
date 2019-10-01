@@ -80,7 +80,7 @@ namespace Birder.Controllers
 
         [HttpGet, Route("ConfirmEmail", Name = "ConfirmEmail")]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmailAsync(string username, string code)
+        public async Task<IActionResult> GetConfirmEmailAsync(string username, string code)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace Birder.Controllers
 
         [HttpPost, Route("ResendEmailConfirmation")]
         [AllowAnonymous]
-        public async Task<IActionResult> ResendConfirmEmailMessageAsync(UserEmailDto model)
+        public async Task<IActionResult> PostResendConfirmEmailMessageAsync(UserEmailDto model)
         {
             try
             {
@@ -156,33 +156,47 @@ namespace Birder.Controllers
 
         [HttpPost, Route("ForgotPassword")]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPasswordAsync(UserEmailDto model)
+        public async Task<IActionResult> PostForgotPasswordAsync(UserEmailDto model)
         {
-            // try / catch
-            if (ModelState.IsValid)
+            try
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (!ModelState.IsValid)
                 {
-                    return Ok(); // user does not exist or is not confirmed
+                    _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                    return BadRequest("An error occurred");
+                }
+                    
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, $"User with email '{model.Email}' was not found at forgot password");
+                    return Ok(); // user does not exist, but don't reveal that the user does not exist
+                }
+
+                if(user.EmailConfirmed == false)
+                {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, $"Forgot password request when email '{model.Email}' is not confirmed");
+                    return Ok(); // email is not confirmed
                 }
 
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
                 var url = _urlService.ResetPasswordUrl(code);
 
-                await _emailSender.SendEmailAsync(model.Email, "Reset Your Password",
-                    "You can reset your password by clicking <a href=\"" + url + "\">here</a>");
+                await _emailSender.SendEmailAsync(model.Email, "Reset Your Password", "You can reset your password by clicking <a href=\"" + url + "\">here</a>");
                 return Ok(url);
-            }
 
-            _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-            return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in forgot password.");
+                return BadRequest("An error occurred");
+            }
         }
 
         [HttpPost, Route("ResetPassword")]
         [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        public async Task<IActionResult> PostResetPasswordAsync(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {

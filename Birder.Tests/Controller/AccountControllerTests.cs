@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using AutoMapper.Configuration;
-using Birder.Controllers;
-using Birder.Data;
+﻿using Birder.Controllers;
 using Birder.Data.Model;
 using Birder.Services;
 using Birder.ViewModels;
@@ -13,8 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -167,7 +162,7 @@ namespace Birder.Tests.Controller
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
             // Act
-            var result = await controller.ConfirmEmailAsync(testUsername, testCode);
+            var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
             // Assert
             var objectResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -192,7 +187,7 @@ namespace Birder.Tests.Controller
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
             // Act
-            var result = await controller.ConfirmEmailAsync(testUsername, testCode);
+            var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
             // Assert
             var objectResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -219,7 +214,7 @@ namespace Birder.Tests.Controller
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
             // Act
-            var result = await controller.ConfirmEmailAsync(testUsername, testCode);
+            var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
             // Assert
             var objectResult = Assert.IsType<NotFoundObjectResult>(result);
@@ -242,7 +237,7 @@ namespace Birder.Tests.Controller
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
             // Act
-            var result = await controller.ConfirmEmailAsync(testUsername, testCode);
+            var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
             // Assert
             var objectResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -271,7 +266,7 @@ namespace Birder.Tests.Controller
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
             // Act
-            var result = await controller.ConfirmEmailAsync(testUsername, testCode);
+            var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
             
             // Assert
             var objectResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -300,7 +295,7 @@ namespace Birder.Tests.Controller
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
             // Act
-            var result = await controller.ConfirmEmailAsync(testUsername, testCode);
+            var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
             // Assert
             var objectResult = Assert.IsType<RedirectResult>(result);
@@ -329,7 +324,7 @@ namespace Birder.Tests.Controller
             controller.ModelState.AddModelError("Test", "This is a test model error");
 
             // Act
-            var result = await controller.ResendConfirmEmailMessageAsync(testModel);
+            var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
 
             // Assert
             var objectResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -359,7 +354,7 @@ namespace Birder.Tests.Controller
             var testModel = new UserEmailDto() { };
 
             // Act
-            var result = await controller.ResendConfirmEmailMessageAsync(testModel);
+            var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
 
             // Assert
             var objectResult = Assert.IsType<NotFoundObjectResult>(result);
@@ -381,7 +376,7 @@ namespace Birder.Tests.Controller
             var testModel = new UserEmailDto() { };
 
             // Act
-            var result = await controller.ResendConfirmEmailMessageAsync(testModel);
+            var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
 
             // Assert
             var objectResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -403,7 +398,7 @@ namespace Birder.Tests.Controller
             var testModel = new UserEmailDto() { };
 
             // Act
-            var result = await controller.ResendConfirmEmailMessageAsync(testModel);
+            var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
 
             // Assert
             var objectResult = Assert.IsType<OkResult>(result);
@@ -433,7 +428,7 @@ namespace Birder.Tests.Controller
             var testModel = new UserEmailDto() { };
 
             // Act
-            var result = await controller.ResendConfirmEmailMessageAsync(testModel);
+            var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -441,7 +436,7 @@ namespace Birder.Tests.Controller
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
 
-            var expected = new Uri($"http://localhost:55722/api/Account/ConfirmEmail?username={testUser.UserName}&code={testCode}");
+            var expected = new Uri($"{config["Url:ConfirmEmailUrl"]}?username={testUser.UserName}&code={testCode}");
             objectResult.Value.Should().BeOfType<Uri>();
             objectResult.Value.Should().BeEquivalentTo(expected);
         }
@@ -450,7 +445,130 @@ namespace Birder.Tests.Controller
 
         #region ForgotPasswordAsync unit tests
 
+        [Fact]
+        public async Task PostForgotPasswordAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            var testModel = new UserEmailDto() { };
+
+            controller.ModelState.AddModelError("Test", "This is a test model error");
+
+            // Act
+            var result = await controller.PostForgotPasswordAsync(testModel);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+            var expected = "An error occurred";
+
+            objectResult.Value.Should().BeOfType<string>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task PostForgotPasswordAsync_ReturnsBadRequest_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                           .ThrowsAsync(new InvalidOperationException());
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            var testModel = new UserEmailDto() { };
+
+            // Act
+            var result = await controller.PostForgotPasswordAsync(testModel);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            var expected = "An error occurred";
+            objectResult.Value.Should().BeOfType<string>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public async Task PostForgotPasswordAsync_ReturnsOkResult_WhenRepositoryReturnsNull()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                           .Returns(Task.FromResult<ApplicationUser>(null));
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            var testModel = new UserEmailDto() { };
+
+            // Act
+            var result = await controller.PostForgotPasswordAsync(testModel);
+
+            // Assert
+            var objectResult = Assert.IsType<OkResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task PostForgotPasswordAsync_ReturnsOkResult_WhenUserEmailIsNotConfirmed()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                           .ReturnsAsync(GetValidTestUser(false));
+
+            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            var testModel = new UserEmailDto() { };
+
+            // Act
+            var result = await controller.PostForgotPasswordAsync(testModel);
+
+            // Assert
+            var objectResult = Assert.IsType<OkResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task PostForgotPasswordAsync_ReturnsOkObjectResult_WhenResetRequestIsHandledSuccessfully()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            var testUser = GetValidTestUser(true);
+            mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
+                           .ReturnsAsync(testUser);
+            var testCode = "myTestCode";
+            mockUserManager.Setup(um => um.GeneratePasswordResetTokenAsync(It.IsAny<ApplicationUser>()))
+                            .ReturnsAsync(testCode);
+
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                    .Build();
+
+            var urlService = new UrlService(config);
+
+            var controller = new AccountController(_systemClock.Object, urlService, _emailSender.Object, _logger.Object, mockUserManager.Object);
+
+            var testModel = new UserEmailDto() { };
+
+            // Act
+            var result = await controller.PostForgotPasswordAsync(testModel);
+
+            // Assert
+            // Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var expected = new Uri($"{config["Url:ResetPasswordUrl"]}{testCode}");
+            objectResult.Value.Should().BeOfType<Uri>();
+            objectResult.Value.Should().BeEquivalentTo(expected);
+        }
 
         #endregion
 
