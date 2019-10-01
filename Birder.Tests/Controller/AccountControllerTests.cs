@@ -21,7 +21,6 @@ namespace Birder.Tests.Controller
         private readonly Mock<ISystemClockService> _systemClock;
         private readonly Mock<IEmailSender> _emailSender;
         private readonly Mock<IUrlService> _urlService;
-        //private readonly UserManager<ApplicationUser> _userManager;
 
         public AccountControllerTests()
         {

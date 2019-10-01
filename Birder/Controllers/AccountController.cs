@@ -227,18 +227,25 @@ namespace Birder.Controllers
             }
         }
 
-
         [HttpGet, Route("IsUsernameAvailable")]
         [AllowAnonymous]
         public async Task<IActionResult> GetIsUsernameAvailableAsync(string userName)
         {
-            if (await _userManager.FindByNameAsync(userName) != null)
+            try
             {
-                ModelState.AddModelError("Username", $"Username '{userName}' is already taken.");
-                return BadRequest(ModelState);
-            }
+                if (await _userManager.FindByNameAsync(userName) != null)
+                {
+                    ModelState.AddModelError("Username", $"Username '{userName}' is already taken.");
+                    return BadRequest(ModelState);
+                }
 
-            return Ok(true);
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in is username available.");
+                return BadRequest("An unexpected error occurred");
+            }
         }
     }
 }
