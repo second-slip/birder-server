@@ -560,7 +560,6 @@ namespace Birder.Tests.Controller
             var result = await controller.PostForgotPasswordAsync(testModel);
 
             // Assert
-            // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(objectResult);
             Assert.True(objectResult is OkObjectResult);
@@ -572,6 +571,14 @@ namespace Birder.Tests.Controller
 
         #endregion
 
+
+        #region PostResetPasswordAsync unit tests
+
+
+
+
+
+        #endregion
 
 
         private ApplicationUser GetValidTestUser(bool emailConfirmed)

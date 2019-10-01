@@ -198,35 +198,38 @@ namespace Birder.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> PostResetPasswordAsync(ResetPasswordViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null)
-            {
-                // Don't reveal that the user does not exist
-                //return RedirectToAction(nameof(ResetPasswordConfirmation));
-                return Ok();
-            }
-            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return Ok();
-                //return RedirectToAction(nameof(ResetPasswordConfirmation));
-            }
-            //AddErrors(result);
-            //return View();
-            ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return Ok(); // Don't reveal that the user does not exist
+                }
+                var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+                if (result.Succeeded)
+                {
+                    return Ok("Password was successfully changed");
+                }
 
-            _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-            return BadRequest(ModelState);
+                ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                return BadRequest("An error occurred");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in forgot password.");
+                return BadRequest("An error occurred");
+            }
         }
 
 
         [HttpGet, Route("IsUsernameAvailable")]
         [AllowAnonymous]
-        public async Task<ActionResult<Boolean>> IsUsernameAvailable(string userName)
+        public async Task<IActionResult> GetIsUsernameAvailable(string userName)
         {
             if (await _userManager.FindByNameAsync(userName) != null)
             {
