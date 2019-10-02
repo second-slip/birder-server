@@ -52,54 +52,27 @@ namespace Birder.Controllers
             _observationRepository = observationRepository;
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetObservationsAsync()
-        //{
-        //    ObservationsFeedFilter filter = ObservationsFeedFilter.User;
-        //    try
-        //    {
-        //        var username = User.Identity.Name;
+        [HttpGet, Route("GetBirdObservations")]
+        public async Task<IActionResult> GetObservationsBySpeciesAsync(int birdId)
+        {
+            try
+            {
+                var observations = await _observationRepository.GetObservationsAsync(cs => cs.BirdId == birdId);
 
-        //        if (filter == ObservationsFeedFilter.User)
-        //        {
-        //            var userObservations = await _observationRepository.GetObservationsAsync(o => o.ApplicationUser.UserName == username);
-        //            if (userObservations.Count() > 0)
-        //                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(userObservations));
-        //        }
+                if (observations == null)
+                {
+                    _logger.LogWarning(LoggingEvents.GetListNotFound, "GetBirdObservations({ID}) NOT FOUND", birdId);
+                    return NotFound();
+                }
 
-        //        if (filter == ObservationsFeedFilter.UserAndNetwork)
-        //        {
-        //            var loggedinUser = await _userRepository.GetUserAndNetworkAsync(username);
-
-        //            var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
-
-        //            followingUsernamesList.Add(username);
-
-        //            var networkObservations = await _observationRepository.GetObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName));
-        //            if (networkObservations.Count() > 0)
-        //                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
-        //        }
-
-        //        //string message = "";
-        //        //if (filter != ObservationsFeedFilter.Public)
-        //            //message = "There are no observations in your network.  Showing the latest public observations";
-
-        //        var publicObservations = await _observationRepository.GetObservationsAsync(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public);
-                
-        //        if (publicObservations == null)
-        //        {
-        //            _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
-        //            return NotFound();
-        //        }
-
-        //        return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(publicObservations));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the observations feed");
-        //        return BadRequest("An error occurred getting the observations feed.");
-        //    }
-        //}
+                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the bird observations list");
+                return BadRequest();
+            }
+        }
 
         [HttpGet, Route("GetObservation")]
         public async Task<IActionResult> GetObservationAsync(int id)
@@ -121,28 +94,6 @@ namespace Birder.Controllers
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, $"Observation with id '{id}' was not found.");
                 return BadRequest("Observation was not found.");
-            }
-        }
-
-        [HttpGet, Route("GetBirdObservations")]
-        public async Task<IActionResult> GetBirdObservationsAsync(int birdId)
-        {
-            try
-            {
-                var observations = await _observationRepository.GetObservationsAsync(cs => cs.BirdId == birdId);
-
-                if (observations == null)
-                {
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, "GetBirdObservations({ID}) NOT FOUND", birdId);
-                    return NotFound();
-                }
-
-                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the bird observations list");
-                return BadRequest();
             }
         }
 
