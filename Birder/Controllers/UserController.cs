@@ -4,6 +4,7 @@ using Birder.Data.Repository;
 using Birder.Helpers;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
@@ -23,15 +24,18 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public UserController(IMapper mapper
                             , IUnitOfWork unitOfWork
                             , ILogger<UserController> logger
-                            , IUserRepository userRepository)
+                            , IUserRepository userRepository
+                            , UserManager<ApplicationUser> userManager)
         {
             _mapper = mapper;
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
             _userRepository = userRepository;
         }
 
@@ -46,7 +50,7 @@ namespace Birder.Controllers
                     username = loggedinUsername;
                 }
 
-                var user = await _userRepository.GetUserAndNetworkAsync(username);
+                var user = await _userManager.GetUserAndTheirNetworkAsync(username);
 
                 if (user == null)
                 {
@@ -65,7 +69,7 @@ namespace Birder.Controllers
                 else
                 {
                     viewModel.IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == loggedinUsername);
-                    loggedinUser = await _userRepository.GetUserAndNetworkAsync(loggedinUsername);
+                    loggedinUser = await _userManager.GetUserAndTheirNetworkAsync(loggedinUsername);
                 }
 
                 UserProfileHelper.UpdateFollowingCollection(viewModel, loggedinUser, loggedinUsername);
@@ -86,7 +90,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
+                var loggedinUser = await _userManager.GetUserAndTheirNetworkAsync(User.Identity.Name);
 
                 if (loggedinUser == null)
                 {
@@ -100,12 +104,12 @@ namespace Birder.Controllers
                 if (followersNotBeingFollowed.Count() == 0)
                 {
                     var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
-                    var users = await _userRepository.GetSuggestedBirdersToFollowAsync(loggedinUser, followingUsernamesList);
+                    var users = await _userManager.GetSuggestedBirdersToFollowAsync(loggedinUser.UserName, followingUsernamesList);
                     return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                 }
                 else
                 {
-                    var users = await _userRepository.GetFollowersNotFollowedAsync(loggedinUser, followersNotBeingFollowed);
+                    var users = await _userManager.GetFollowersNotFollowedAsync(followersNotBeingFollowed);
                     return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                 }
             }
@@ -127,7 +131,7 @@ namespace Birder.Controllers
                     return BadRequest("No search criterion");
                 }
 
-                var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
+                var loggedinUser = await _userManager.GetUserAndTheirNetworkAsync(User.Identity.Name);
 
                 if (loggedinUser == null)
                 {
@@ -139,7 +143,7 @@ namespace Birder.Controllers
                 var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
                 followingUsernamesList.Add(loggedinUser.UserName);
 
-                var users = await _userRepository.SearchBirdersToFollowAsync(loggedinUser, searchCriterion, followingUsernamesList);
+                var users = await _userManager.SearchBirdersToFollowAsync(searchCriterion, followingUsernamesList);
                 return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
             }
             catch (Exception ex)
@@ -160,9 +164,9 @@ namespace Birder.Controllers
                     return BadRequest("Invalid modelstate");
                 }
 
-                var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
+                var loggedinUser = await _userManager.GetUserAndTheirNetworkAsync(User.Identity.Name);
 
-                var userToFollow = await _userRepository.GetUserAndNetworkAsync(userToFollowDetails.UserName);
+                var userToFollow = await _userManager.GetUserAndTheirNetworkAsync(userToFollowDetails.UserName);
 
                 if (loggedinUser == null || userToFollow == null)
                 {
@@ -203,8 +207,8 @@ namespace Birder.Controllers
                     return BadRequest("Invalid modelstate");
                 }
 
-                var loggedinUser = await _userRepository.GetUserAndNetworkAsync(User.Identity.Name);
-                var userToUnfollow = await _userRepository.GetUserAndNetworkAsync(userToFollowDetails.UserName);
+                var loggedinUser = await _userManager.GetUserAndTheirNetworkAsync(User.Identity.Name);
+                var userToUnfollow = await _userManager.GetUserAndTheirNetworkAsync(userToFollowDetails.UserName);
 
                 if (loggedinUser == null || userToUnfollow == null)
                 {
