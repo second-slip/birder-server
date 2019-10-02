@@ -52,7 +52,7 @@ namespace Birder.Controllers
             _observationRepository = observationRepository;
         }
 
-        [HttpGet, Route("GetBirdObservations")]
+        [HttpGet, Route("GetObservationsBySpecies")]
         public async Task<IActionResult> GetObservationsBySpeciesAsync(int birdId)
         {
             try

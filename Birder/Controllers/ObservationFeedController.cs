@@ -25,7 +25,7 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         //private readonly IUnitOfWork _unitOfWork;
         //private readonly ISystemClockService _systemClock;
-        private readonly IUserRepository _userRepository;
+        //private readonly IUserRepository _userRepository;
         //private readonly IBirdRepository _birdRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
@@ -34,7 +34,7 @@ namespace Birder.Controllers
                                        , IMemoryCache memoryCache
                                        //, ISystemClockService systemClock
                                        //, IUnitOfWork unitOfWork
-                                       , IUserRepository userRepository
+                                       //, IUserRepository userRepository
                                        //, IBirdRepository birdRepository
                                        , ILogger<ObservationController> logger
                                        , UserManager<ApplicationUser> userManager
@@ -43,18 +43,15 @@ namespace Birder.Controllers
             _mapper = mapper;
             _logger = logger;
             _cache = memoryCache;
-            //_unitOfWork = unitOfWork;
             _userManager = userManager;
-            //_systemClock = systemClock;
-            _userRepository = userRepository;
-            //_birdRepository = birdRepository;
+            //_userRepository = userRepository;
             _observationRepository = observationRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetObservationsFeedAsync()
         {
-            ObservationsFeedFilter filter = ObservationsFeedFilter.User;
+            ObservationsFeedFilter filter = ObservationsFeedFilter.UserAndNetwork;
             try
             {
                 var username = User.Identity.Name;
@@ -68,9 +65,11 @@ namespace Birder.Controllers
 
                 if (filter == ObservationsFeedFilter.UserAndNetwork)
                 {
-                    var loggedinUser = await _userRepository.GetUserAndNetworkAsync(username);
+                    //var loggedinUser = await _userRepository.GetUserAndNetworkAsync(username);
 
-                    var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
+                    var userAndTheirNetwork = await _userManager.GetUserAndTheirNetworkAsync(username);
+
+                    var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(userAndTheirNetwork.Following);
 
                     followingUsernamesList.Add(username);
 
