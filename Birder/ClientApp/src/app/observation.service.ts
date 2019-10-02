@@ -20,15 +20,6 @@ export class ObservationService {
 
   constructor(private http: HttpClient
     , private httpErrorHandlerService: HttpErrorHandlerService) {
-
-  }
-
-  getObservations(): Observable<ObservationViewModel[] | ErrorReportViewModel> {
-    return this.http.get<ObservationViewModel[]>('api/ObservationFeed')
-      .pipe(
-        // (take(1)),
-        // tap(observations => this.log('fetched observations')),
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   getObservation(id: number): Observable<ObservationViewModel | ErrorReportViewModel> {
