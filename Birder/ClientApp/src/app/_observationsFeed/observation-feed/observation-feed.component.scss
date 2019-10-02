@@ -1,81 +1,82 @@
-// ----------------  THE BASICS
 
-@import url('https://fonts.googleapis.com/css?family=Oswald|Roboto:400,700');
+@import url("https://fonts.googleapis.com/css?family=Oswald|Roboto:400,700");
 
-// body {
-// 	font-size: 14px;
-// 	line-height: 1.5;
-// }
+app-observation-feed {
 
-// ----------------  THE FONTS
+  // body {
+  // 	font-size: 14px;
+  // 	line-height: 1.5;
+  // }
 
-// h1, h2, h3, h4, h5, h6 {
-// 	font-family: 'Oswald', sans-serif;
-// }
+  // ----------------  THE FONTS
 
-// h1 {
-// 	font-size: 2rem;
-// 	margin-bottom: .5em;
-// }
+  // h1, h2, h3, h4, h5, h6 {
+  // 	font-family: 'Oswald', sans-serif;
+  // }
 
-// p {
-// 	// font-family: 'Roboto', sans-serif;
-// 	font-size: .8rem;
-// }
+  // h1 {
+  // 	font-size: 2rem;
+  // 	margin-bottom: .5em;
+  // }
 
-// ----------------  LAYOUT
+  // p {
+  // 	// font-family: 'Roboto', sans-serif;
+  // 	font-size: .8rem;
+  // }
 
+  // ----------------  LAYOUT
 
-.container {
-	max-width: 1024px;
-	// width: 90%;
-	margin: 0 auto;
-}
+  .container {
+    max-width: 1024px;
+    // width: 90%;
+    margin: 0 auto;
+  }
 
-// ----------------  THE FONTS
+  // ----------------  THE FONTS
 
-$border-color: rgba(rgb(2, 117, 216), .3);
+  $border-color: rgba(rgb(2, 117, 216), 0.3);
 
-.timeline-item {
-	padding: 3em 2em 2em;
-	position: relative;
-	color: rgba(black, .7);
-	border-left: 2px solid $border-color;
-	
-	// p {
-	// 	font-size: 1rem;
-	// }
-	
-	&::before {
-    content: attr(myValue);
-		position: absolute;
-		left: 2em;
-		font-weight: bold;
-		top: 1em;
-		display: block;
-		// font-family: 'Roboto', sans-serif;
-		font-weight: 700;
-		font-size: .785rem;
-	}
+  .timeline-item {
+    padding: 3em 2em 2em;
+    position: relative;
+    color: rgba(black, 0.7);
+    border-left: 2px solid $border-color;
 
-	&::after {
-		width: 10px;
-		height: 10px;
-		display: block;
-		top: 1em;
-		position: absolute;
-		left: -7px;
-		border-radius: 10px;
-		content: '';
-		border: 2px solid $border-color;
-		background: white;
-	}
+    // p {
+    // 	font-size: 1rem;
+    // }
 
-	// &:last-child {
-	// 	border-image: linear-gradient(
-	// 		to bottom,
-	// 		$border-color 60%,
-	// 		rgba($border-color, 0)) 1 100%
-	// 	;
-	// }
+    &::before {
+      content: attr(myValue);
+      position: absolute;
+      left: 2em;
+      font-weight: bold;
+      top: 1em;
+      display: block;
+      // font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 0.785rem;
+    }
+
+    &::after {
+      width: 10px;
+      height: 10px;
+      display: block;
+      top: 1em;
+      position: absolute;
+      left: -7px;
+      border-radius: 10px;
+      content: "";
+      border: 2px solid $border-color;
+      background: white;
+    }
+
+    // &:last-child {
+    // 	border-image: linear-gradient(
+    // 		to bottom,
+    // 		$border-color 60%,
+    // 		rgba($border-color, 0)) 1 100%
+    // 	;
+    // }
+  }
 }

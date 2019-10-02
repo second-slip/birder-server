@@ -7,7 +7,8 @@ import { ObservationsFeedService } from '../observations-feed.service';
 @Component({
   selector: 'app-observation-feed',
   templateUrl: './observation-feed.component.html',
-  styleUrls: ['./observation-feed.component.scss']
+  styleUrls: ['./observation-feed.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ObservationFeedComponent implements OnInit {
   observations: ObservationViewModel[];
