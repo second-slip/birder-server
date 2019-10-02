@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace Birder.Data.Repository
 {
-    public class UserRepository : IUserRepository
+    public class NetworkRepository : INetworkRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public UserRepository(ApplicationDbContext dbContext)
+        public NetworkRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }

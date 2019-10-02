@@ -1,10 +1,8 @@
 ﻿using Birder.Data.Model;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
-    public interface IUserRepository
+    public interface INetworkRepository
     {
         //Task<ApplicationUser> GetUserAndNetworkAsync(string userName);
         void Follow(ApplicationUser loggedinUser, ApplicationUser userToFollow);

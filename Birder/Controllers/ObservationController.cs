@@ -26,7 +26,7 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemClockService _systemClock;
-        private readonly IUserRepository _userRepository;
+        //private readonly INetworkRepository _userRepository;
         private readonly IBirdRepository _birdRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
@@ -35,7 +35,7 @@ namespace Birder.Controllers
                                    , IMemoryCache memoryCache
                                    , ISystemClockService systemClock
                                    , IUnitOfWork unitOfWork
-                                   , IUserRepository userRepository
+                                   //, INetworkRepository userRepository
                                    , IBirdRepository birdRepository
                                    , ILogger<ObservationController> logger
                                    , UserManager<ApplicationUser> userManager
@@ -47,7 +47,7 @@ namespace Birder.Controllers
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _systemClock = systemClock;
-            _userRepository = userRepository;
+            //_userRepository = userRepository;
             _birdRepository = birdRepository;
             _observationRepository = observationRepository;
         }

@@ -23,20 +23,20 @@ namespace Birder.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserRepository _userRepository;
+        private readonly INetworkRepository _networkRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public UserController(IMapper mapper
                             , IUnitOfWork unitOfWork
                             , ILogger<UserController> logger
-                            , IUserRepository userRepository
+                            , INetworkRepository networkRepository
                             , UserManager<ApplicationUser> userManager)
         {
             _mapper = mapper;
             _logger = logger;
             _unitOfWork = unitOfWork;
             _userManager = userManager;
-            _userRepository = userRepository;
+            _networkRepository = networkRepository;
         }
 
         [HttpGet, Route("GetUser")]
@@ -179,7 +179,7 @@ namespace Birder.Controllers
                     return BadRequest("Trying to follow yourself");
                 }
 
-                _userRepository.Follow(loggedinUser, userToFollow);
+                _networkRepository.Follow(loggedinUser, userToFollow);
 
                 await _unitOfWork.CompleteAsync();
 
@@ -221,7 +221,7 @@ namespace Birder.Controllers
                     return BadRequest("Trying to unfollow yourself");
                 }
 
-                _userRepository.UnFollow(loggedinUser, userToUnfollow);
+                _networkRepository.UnFollow(loggedinUser, userToUnfollow);
                 
                 await _unitOfWork.CompleteAsync();
                 

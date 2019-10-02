@@ -11,7 +11,7 @@ namespace Birder.Helpers
     public static class UserManagerExtensionMethods
     {
         /// <summary>
-        /// Gobble
+        /// Gobble, gobble...
         /// </summary>
         /// <param name="userManager"></param>
         /// <param name="username"></param>
