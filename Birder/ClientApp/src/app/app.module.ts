@@ -36,7 +36,7 @@ import { BirdsIndexComponent } from './_birds/birds-index/birds-index.component'
 import { BirdsDetailComponent } from './_birds/birds-detail/birds-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { httpInterceptorProviders } from '../_httpInterceptors';
-import { ObservationFeedComponent } from './_observations/observation-feed/observation-feed.component';
+import { ObservationFeedComponent } from './_observationsFeed/observation-feed/observation-feed.component';
 import { ObservationDetailComponent } from './_observations/observation-detail/observation-detail.component';
 import { ObservationAddComponent } from './_observations/observation-add/observation-add.component';
 import { RegisterComponent } from './_account/register/register.component';
