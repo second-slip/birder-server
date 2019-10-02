@@ -52,7 +52,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetObservationsAsync()
+        public async Task<IActionResult> GetObservationsFeedAsync()
         {
             ObservationsFeedFilter filter = ObservationsFeedFilter.User;
             try

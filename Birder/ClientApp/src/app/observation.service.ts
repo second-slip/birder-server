@@ -24,7 +24,7 @@ export class ObservationService {
   }
 
   getObservations(): Observable<ObservationViewModel[] | ErrorReportViewModel> {
-    return this.http.get<ObservationViewModel[]>('api/Observation')
+    return this.http.get<ObservationViewModel[]>('api/ObservationFeed')
       .pipe(
         // (take(1)),
         // tap(observations => this.log('fetched observations')),
