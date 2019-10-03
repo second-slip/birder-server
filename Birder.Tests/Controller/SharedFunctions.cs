@@ -1,7 +1,10 @@
-﻿using Birder.Data.Model;
+﻿using Birder.Data;
+using Birder.Data.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -26,6 +29,29 @@ namespace Birder.Tests.Controller
                     new Mock<IdentityErrorDescriber>().Object,
                     new Mock<IServiceProvider>().Object,
                     new Mock<ILogger<UserManager<ApplicationUser>>>().Object);
+        }
+
+        public static UserManager<ApplicationUser> InitialiseUserManager()
+        {
+            var connectionstring = "Server=(localdb)\\mssqllocaldb;Database=Birder;Trusted_Connection=True;MultipleActiveResultSets=true";
+
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer(connectionstring);
+
+
+            ApplicationDbContext dbContext = new ApplicationDbContext(optionsBuilder.Options);
+
+            UserStore<ApplicationUser> _userStore = new UserStore<ApplicationUser>(dbContext, null);
+            return new UserManager<ApplicationUser>(
+                    _userStore,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
         }
 
         public static Mock<SignInManager<ApplicationUser>> InitialiseMockSignInManager(Mock<UserManager<ApplicationUser>> userManager)

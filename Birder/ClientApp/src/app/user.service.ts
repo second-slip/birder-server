@@ -34,7 +34,7 @@ export class UserService {
     // const options = searchCriterion ?
     //   { params: new HttpParams().set('searchCriterion', searchCriterion) } : {};
 
-    return this.http.get<NetworkUserViewModel[]>('api/User/GetNetwork')
+    return this.http.get<NetworkUserViewModel[]>('api/Network/GetNetwork')
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
@@ -44,7 +44,7 @@ export class UserService {
     const options = searchCriterion ?
       { params: new HttpParams().set('searchCriterion', searchCriterion) } : {};
 
-    return this.http.get<NetworkUserViewModel[]>('api/User/SearchNetwork', options)
+    return this.http.get<NetworkUserViewModel[]>('api/Network/SearchNetwork', options)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
@@ -54,14 +54,14 @@ export class UserService {
     //   { params: new HttpParams().set('username', username) } : {};
     //   console.log(options);
 
-    return this.http.post<NetworkUserViewModel>('api/User/Follow', viewModel, httpOptions)
+    return this.http.post<NetworkUserViewModel>('api/Network/Follow', viewModel, httpOptions)
     .pipe(
       tap(network => { this.announceNetworkChanged(); }),
       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   postUnfollowUser(viewModel: NetworkUserViewModel): Observable<NetworkUserViewModel | ErrorReportViewModel> {
-    return this.http.post<NetworkUserViewModel>('api/User/Unfollow', viewModel, httpOptions)
+    return this.http.post<NetworkUserViewModel>('api/Network/Unfollow', viewModel, httpOptions)
     .pipe(
       tap(network => { this.announceNetworkChanged(); }),
       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));

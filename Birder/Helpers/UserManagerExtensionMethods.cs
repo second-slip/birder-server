@@ -16,7 +16,7 @@ namespace Birder.Helpers
         /// <param name="userManager"></param>
         /// <param name="username"></param>
         /// <returns></returns>
-        public static async Task<ApplicationUser> GetUserAndTheirNetworkAsync(this UserManager<ApplicationUser> userManager, string username)
+        public static async Task<ApplicationUser> GetUserWithNetworkAsync(this UserManager<ApplicationUser> userManager, string username)
         {
             return await userManager.Users
                          .Include(x => x.Followers)

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.Helpers;
@@ -12,6 +8,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {
@@ -23,19 +23,11 @@ namespace Birder.Controllers
         private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        //private readonly IUnitOfWork _unitOfWork;
-        //private readonly ISystemClockService _systemClock;
-        //private readonly IUserRepository _userRepository;
-        //private readonly IBirdRepository _birdRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
 
         public ObservationFeedController(IMapper mapper
                                        , IMemoryCache memoryCache
-                                       //, ISystemClockService systemClock
-                                       //, IUnitOfWork unitOfWork
-                                       //, IUserRepository userRepository
-                                       //, IBirdRepository birdRepository
                                        , ILogger<ObservationController> logger
                                        , UserManager<ApplicationUser> userManager
                                        , IObservationRepository observationRepository)
@@ -44,7 +36,6 @@ namespace Birder.Controllers
             _logger = logger;
             _cache = memoryCache;
             _userManager = userManager;
-            //_userRepository = userRepository;
             _observationRepository = observationRepository;
         }
 
@@ -67,7 +58,7 @@ namespace Birder.Controllers
                 {
                     //var loggedinUser = await _userRepository.GetUserAndNetworkAsync(username);
 
-                    var userAndTheirNetwork = await _userManager.GetUserAndTheirNetworkAsync(username);
+                    var userAndTheirNetwork = await _userManager.GetUserWithNetworkAsync(username);
 
                     var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(userAndTheirNetwork.Following);
 

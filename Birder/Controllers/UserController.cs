@@ -40,25 +40,29 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetUser")]
-        public async Task<IActionResult> GetUserAsync(string username)
+        public async Task<IActionResult> GetUserAsync(string username) //requestedUsername
         {
             try
             {
+                //var requestingUser = User.Identity.Name;
                 var loggedinUsername = User.Identity.Name;
                 if (String.IsNullOrEmpty(username))
                 {
                     username = loggedinUsername;
                 }
 
-                var user = await _userManager.GetUserAndTheirNetworkAsync(username);
-
+                var user = await _userManager.GetUserWithNetworkAsync(username);
+                
                 if (user == null)
                 {
                     return NotFound("User not found");
                 }
 
+                //requestedProfileViewModel
                 var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
 
+                //NAME IS TERRIBLE: EITHER THE LOGGED IN USER OR <<REQUESTING USER>>
+                //var requestedUser
                 var loggedinUser = new ApplicationUser();
 
                 if (string.Equals(loggedinUsername, username, StringComparison.InvariantCultureIgnoreCase))
@@ -69,7 +73,9 @@ namespace Birder.Controllers
                 else
                 {
                     viewModel.IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == loggedinUsername);
-                    loggedinUser = await _userManager.GetUserAndTheirNetworkAsync(loggedinUsername);
+                    // NULL check
+                    loggedinUser = await _userManager.GetUserWithNetworkAsync(loggedinUsername);
+                    // NULL check
                 }
 
                 UserProfileHelper.UpdateFollowingCollection(viewModel, loggedinUser, loggedinUsername);
@@ -82,159 +88,6 @@ namespace Birder.Controllers
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
                 return BadRequest("There was an error getting the user");
-            }
-        }
-
-        [HttpGet, Route("GetNetwork")]
-        public async Task<IActionResult> GetNetworkAsync()
-        {
-            try
-            {
-                var loggedinUser = await _userManager.GetUserAndTheirNetworkAsync(User.Identity.Name);
-
-                if (loggedinUser == null)
-                {
-                    _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
-                    return NotFound("User not found");
-                }
-
-                //ToDo: Guard?  Followers || Following == null ????????
-                var followersNotBeingFollowed = NetworkHelpers.GetFollowersNotBeingFollowedUserNames(loggedinUser);
-
-                if (followersNotBeingFollowed.Count() == 0)
-                {
-                    var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
-                    var users = await _userManager.GetSuggestedBirdersToFollowAsync(loggedinUser.UserName, followingUsernamesList);
-                    return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
-                }
-                else
-                {
-                    var users = await _userManager.GetFollowersNotFollowedAsync(followersNotBeingFollowed);
-                    return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "Network");
-                return BadRequest("An error occurred");
-            }
-        }
-
-        [HttpGet, Route("SearchNetwork")]
-        public async Task<IActionResult> GetSearchNetworkAsync(string searchCriterion)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(searchCriterion))
-                {
-                    _logger.LogError(LoggingEvents.GetListNotFound, "The search criterion is null or empty");
-                    return BadRequest("No search criterion");
-                }
-
-                var loggedinUser = await _userManager.GetUserAndTheirNetworkAsync(User.Identity.Name);
-
-                if (loggedinUser == null)
-                {
-                    _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
-                    return NotFound("User not found");
-                }
-
-                //ToDo: Guard?  Followers || Following == null ????????
-                var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(loggedinUser.Following);
-                followingUsernamesList.Add(loggedinUser.UserName);
-
-                var users = await _userManager.SearchBirdersToFollowAsync(searchCriterion, followingUsernamesList);
-                return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "Network");
-                return BadRequest("An error occurred");
-            }
-        }
-
-        [HttpPost, Route("Follow")]
-        public async Task<IActionResult> PostFollowUserAsync(NetworkUserViewModel userToFollowDetails)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest("Invalid modelstate");
-                }
-
-                var loggedinUser = await _userManager.GetUserAndTheirNetworkAsync(User.Identity.Name);
-
-                var userToFollow = await _userManager.GetUserAndTheirNetworkAsync(userToFollowDetails.UserName);
-
-                if (loggedinUser == null || userToFollow == null)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, "User not found");
-                    return NotFound("User not found");
-                }
-
-                if (loggedinUser == userToFollow)
-                {
-                    return BadRequest("Trying to follow yourself");
-                }
-
-                _networkRepository.Follow(loggedinUser, userToFollow);
-
-                await _unitOfWork.CompleteAsync();
-
-                var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToFollow);
-
-                NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(viewModel, loggedinUser.Following);
-                
-                return Ok(viewModel);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
-                return BadRequest(String.Format("An error occurred trying to follow user: {0}", userToFollowDetails.UserName));
-            }
-        }
-
-        [HttpPost, Route("Unfollow")]
-        public async Task<IActionResult> PostUnfollowUserAsync(NetworkUserViewModel userToFollowDetails) //, int currentPage)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest("Invalid modelstate");
-                }
-
-                var loggedinUser = await _userManager.GetUserAndTheirNetworkAsync(User.Identity.Name);
-                var userToUnfollow = await _userManager.GetUserAndTheirNetworkAsync(userToFollowDetails.UserName);
-
-                if (loggedinUser == null || userToUnfollow == null)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, "User not found");
-                    return NotFound("User not found");
-                }
-
-                if (loggedinUser == userToUnfollow)
-                {
-                    return BadRequest("Trying to unfollow yourself");
-                }
-
-                _networkRepository.UnFollow(loggedinUser, userToUnfollow);
-                
-                await _unitOfWork.CompleteAsync();
-                
-                var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToUnfollow);
-
-                NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(viewModel, loggedinUser.Following);
-                
-                return Ok(viewModel);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Unfollow action error");
-                return BadRequest(String.Format("An error occurred trying to unfollow user: {0}", userToFollowDetails.UserName));
             }
         }
     }
