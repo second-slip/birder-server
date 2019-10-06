@@ -85,56 +85,56 @@ namespace Birder.Controllers
             return Ok(requestedUserProfileViewModel);
         }
 
-        [HttpGet, Route("GetUser")]
-        public async Task<IActionResult> GetUserAsync(string username) //requestedUsername
-        {
-            try
-            {
-                //var requestingUser = User.Identity.Name;
-                var loggedinUsername = User.Identity.Name;
-                if (String.IsNullOrEmpty(username))
-                {
-                    username = loggedinUsername;
-                }
+        //[HttpGet, Route("GetUser")]
+        //public async Task<IActionResult> GetUserAsync(string username) //requestedUsername
+        //{
+        //    try
+        //    {
+        //        //var requestingUser = User.Identity.Name;
+        //        var loggedinUsername = User.Identity.Name;
+        //        if (String.IsNullOrEmpty(username))
+        //        {
+        //            username = loggedinUsername;
+        //        }
 
-                var user = await _userManager.GetUserWithNetworkAsync(username);
+        //        var user = await _userManager.GetUserWithNetworkAsync(username);
                 
-                if (user == null)
-                {
-                    return NotFound("User not found");
-                }
+        //        if (user == null)
+        //        {
+        //            return NotFound("User not found");
+        //        }
 
-                //requestedProfileViewModel
-                var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
+        //        //requestedProfileViewModel
+        //        var viewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(user);
 
-                //NAME IS TERRIBLE: EITHER THE LOGGED IN USER OR <<REQUESTING USER>>
-                //var requestedUser
-                var loggedinUser = new ApplicationUser();
+        //        //NAME IS TERRIBLE: EITHER THE LOGGED IN USER OR <<REQUESTING USER>>
+        //        //var requestedUser
+        //        var loggedinUser = new ApplicationUser();
 
-                if (string.Equals(loggedinUsername, username, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    viewModel.IsOwnProfile = true;
-                    loggedinUser = user;
-                }
-                else
-                {
-                    viewModel.IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == loggedinUsername);
-                    // NULL check
-                    loggedinUser = await _userManager.GetUserWithNetworkAsync(loggedinUsername);
-                    // NULL check
-                }
+        //        if (string.Equals(loggedinUsername, username, StringComparison.InvariantCultureIgnoreCase))
+        //        {
+        //            viewModel.IsOwnProfile = true;
+        //            loggedinUser = user;
+        //        }
+        //        else
+        //        {
+        //            viewModel.IsFollowing = user.Followers.Any(cus => cus.Follower.UserName == loggedinUsername);
+        //            // NULL check
+        //            loggedinUser = await _userManager.GetUserWithNetworkAsync(loggedinUsername);
+        //            // NULL check
+        //        }
 
-                UserProfileHelper.UpdateFollowingCollection(viewModel, loggedinUser); //, loggedinUsername);
+        //        UserProfileHelper.UpdateFollowingCollection(viewModel, loggedinUser); //, loggedinUsername);
 
-                UserProfileHelper.UpdateFollowersCollection(viewModel, loggedinUser); //, loggedinUsername);
+        //        UserProfileHelper.UpdateFollowersCollection(viewModel, loggedinUser); //, loggedinUsername);
 
-                return Ok(viewModel);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
-                return BadRequest("There was an error getting the user");
-            }
-        }
+        //        return Ok(viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
+        //        return BadRequest("There was an error getting the user");
+        //    }
+        //}
     }
 }
