@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Birder.Tests.Controller
 {
-    class Class1
+    public class NetworkControllerTests
     {
+
 
 
         //#region Follow action tests
@@ -346,6 +347,5 @@ namespace Birder.Tests.Controller
         //}
 
         //#endregion
-
     }
 }
