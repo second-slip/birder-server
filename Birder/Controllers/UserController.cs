@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -74,8 +73,6 @@ namespace Birder.Controllers
             {
                 return NotFound("Requesting user not found");
             }
-
-            //requestedUserProfileViewModel.IsFollowing = requestedUser.Followers.Any(cus => cus.Follower.UserName == requestingUser.UserName);
 
             UserProfileHelper.UpdateIsFollowingProperty(requestedUserProfileViewModel, requestedUser, requestingUser);
 
