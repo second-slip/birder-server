@@ -23,7 +23,7 @@ export class UserService {
 
   getUser(username: string): Observable<UserProfileViewModel | ErrorReportViewModel> {
     const options = username ?
-      { params: new HttpParams().set('username', username) } : {};
+      { params: new HttpParams().set('requestedUsername', username) } : {};
 
     return this.http.get<UserProfileViewModel>('api/User/GetUserProfile', options)
       .pipe(
