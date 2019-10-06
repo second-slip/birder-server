@@ -36,8 +36,8 @@ namespace Birder.Controllers
             {
                 if (string.IsNullOrEmpty(requestedUsername))
                 {
-                    //Bad Request
-                    return BadRequest();
+                    _logger.LogError(LoggingEvents.GetItem, "requestedUsername argument is null or empty at GetUserProfileAsync action");
+                    return BadRequest("An error occurred");
                 }
 
                 var requestedUser = await _userManager.GetUserWithNetworkAsync(requestedUsername);

@@ -38,15 +38,39 @@ namespace Birder.Tests.Controller
 
         #region GetUser action tests
 
-        [Fact]
-        public async Task GetUserProfileAsync_ReturnsBadRequest_WhenRepositoryReturnsNull()
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public async Task GetUserProfileAsync_ReturnsBadRequest_WhenStringArgumentIsNullOrEmpty(string requestedUsername)
         {
             // Arrange
-            //var userManager = SharedFunctions.InitialiseUserManager();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
-            //var t = await mockUserManager.GetUserWithNetworkAsync("Tenko");
-            //.Returns(Task.FromResult<ApplicationUser>(null));
+            var controller = new UserController(_mapper, _logger.Object, mockUserManager.Object);
 
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal2("NonExistentUsername") }
+            };
+
+            // Act
+            var result = await controller.GetUserProfileAsync(requestedUsername);
+
+            // Assert
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<String>(objectResult.Value);
+            Assert.Equal("An error occurred", objectResult.Value);
+        }
+
+
+
+
+
+
+        [Fact]
+        public async Task GetUserProfileAsync_ReturnsNotFound_WhenRequestedUserIsNull()
+        {
+            // Arrange
             var controller = new UserController(_mapper, _logger.Object, _userManager);
 
             controller.ControllerContext = new ControllerContext()
