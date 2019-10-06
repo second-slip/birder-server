@@ -75,7 +75,7 @@ namespace Birder.Controllers
                 return NotFound("Requesting user not found");
             }
 
-            requestedUserProfileViewModel.IsFollowing = requestingUser.Followers.Any(cus => cus.Follower.UserName == requestingUser.UserName);
+            requestedUserProfileViewModel.IsFollowing = requestedUser.Followers.Any(cus => cus.Follower.UserName == requestingUser.UserName);
 
             UserProfileHelper.UpdateFollowingCollection(requestedUserProfileViewModel, requestingUser); //, loggedinUsername);
 
