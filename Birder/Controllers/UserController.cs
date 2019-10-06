@@ -44,6 +44,7 @@ namespace Birder.Controllers
 
                 if (requestedUser == null)
                 {
+                    _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
                     return NotFound("Requested user not found");
                 }
 
