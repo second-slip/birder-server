@@ -43,6 +43,7 @@ namespace Birder.Tests.Controller
             var mockRepo = new Mock<INetworkRepository>();
 
             var mockUserManager = SharedFunctions.InitialiseUserManager();
+
             var t = await mockUserManager.GetUserWithNetworkAsync("Tenko");
             //.Returns(Task.FromResult<ApplicationUser>(null));
 
