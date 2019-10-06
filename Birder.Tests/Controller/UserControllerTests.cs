@@ -40,14 +40,10 @@ namespace Birder.Tests.Controller
         public async Task GetUserAsync_ReturnsBadRequest_WhenRepositoryReturnsNull()
         {
             // Arrange
-            var mockRepo = new Mock<INetworkRepository>();
-
             var mockUserManager = SharedFunctions.InitialiseUserManager();
 
             var t = await mockUserManager.GetUserWithNetworkAsync("Tenko");
             //.Returns(Task.FromResult<ApplicationUser>(null));
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
             var controller = new UserController(_mapper, _logger.Object, mockUserManager);
 
