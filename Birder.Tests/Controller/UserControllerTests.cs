@@ -49,7 +49,7 @@ namespace Birder.Tests.Controller
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager);
+            var controller = new UserController(_mapper, _logger.Object, mockUserManager);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -75,11 +75,8 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
                  .ReturnsAsync(GetOwnUserProfile());
 
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            var mockRepo = new Mock<INetworkRepository>();
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
-
+            var controller = new UserController(_mapper, _logger.Object, mockUserManager.Object);
             controller.ControllerContext = new ControllerContext()
             {
                 HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
@@ -110,11 +107,8 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
                  .ReturnsAsync(GetOtherMemberUserProfile());
 
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            var mockRepo = new Mock<INetworkRepository>();
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
-
+            var controller = new UserController(_mapper, _logger.Object, mockUserManager.Object);
             controller.ControllerContext = new ControllerContext()
             {
                 HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
@@ -145,11 +139,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
                  .ThrowsAsync(new InvalidOperationException());
 
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            var mockRepo = new Mock<INetworkRepository>();
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
-
+            var controller = new UserController(_mapper, _logger.Object, mockUserManager.Object);
             controller.ControllerContext = new ControllerContext()
             {
                 HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }

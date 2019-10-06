@@ -19,21 +19,15 @@ namespace Birder.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly INetworkRepository _networkRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public UserController(IMapper mapper
-                            , IUnitOfWork unitOfWork
                             , ILogger<UserController> logger
-                            , INetworkRepository networkRepository
                             , UserManager<ApplicationUser> userManager)
         {
             _mapper = mapper;
             _logger = logger;
-            _unitOfWork = unitOfWork;
             _userManager = userManager;
-            _networkRepository = networkRepository;
         }
 
         [HttpGet, Route("GetUserProfile")]
