@@ -44,7 +44,7 @@ namespace Birder.Tests.Controller
 
             var mockUserManager = SharedFunctions.InitialiseUserManager();
             var t = await mockUserManager.GetUserWithNetworkAsync("Tenko");
-                    //.Returns(Task.FromResult<ApplicationUser>(null));
+            //.Returns(Task.FromResult<ApplicationUser>(null));
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
 
@@ -58,7 +58,7 @@ namespace Birder.Tests.Controller
             string username = "Tenko";
 
             // Act
-            var result = await controller.GetUserAsync(username);
+            var result = await controller.GetUserProfileAsync(username);
 
             // Assert
             var objectResult = Assert.IsType<NotFoundObjectResult>(result);
@@ -87,7 +87,7 @@ namespace Birder.Tests.Controller
             string username = "Test username";
 
             // Act
-            var result = await controller.GetUserAsync(username);
+            var result = await controller.GetUserProfileAsync(username);
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -123,7 +123,7 @@ namespace Birder.Tests.Controller
                                               //new Claim(ClaimTypes.Name, "example name"),
 
             // Act
-            var result = await controller.GetUserAsync(username);
+            var result = await controller.GetUserProfileAsync(username);
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -157,7 +157,7 @@ namespace Birder.Tests.Controller
             string username = "Test username";
 
             // Act
-            var result = await controller.GetUserAsync(username);
+            var result = await controller.GetUserProfileAsync(username);
 
             Assert.IsType<BadRequestObjectResult>(result);
             var objectResult = result as ObjectResult;
@@ -165,287 +165,6 @@ namespace Birder.Tests.Controller
         }
 
         #endregion
-
-
-        #region GetNetwork action tests
-
-        [Fact]
-        public async Task GetNetworkAsync_ReturnsOkObjectResult_WhenRepositoryReturnsGetFollowersNotFollowedAsync()
-        {
-            // WHEN if (followersNotBeingFollowed.Count() == 0) IS FALSE
-            // Arrange
-            var mockUserManager = new Mock<UserManager<ApplicationUser>>();
-            mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
-                 .ReturnsAsync(GetOwnUserProfileWithOneFollower());
-
-            //GetFollowersNotFollowedAsync
-            mockUserManager.Setup(repo => repo.GetFollowersNotFollowedAsync(It.IsAny<IEnumerable<string>>()))
-                .ReturnsAsync(GetListOfApplicationUsers(3));
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            var mockRepo = new Mock<INetworkRepository>();
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
-            };
-
-            // Act
-            var result = await controller.GetNetworkAsync();
-
-            // Assert
-            var objectResult = result as ObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.IsType<OkObjectResult>(result);
-            Assert.True(objectResult is OkObjectResult);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            Assert.IsType<List<NetworkUserViewModel>>(objectResult.Value);
-
-            var model = objectResult.Value as List<NetworkUserViewModel>;
-            Assert.Equal(3, model.Count);
-        }
-
-        [Fact]
-        public async Task GetNetworkAsync_ReturnsOkObjectResult_WhenRepositoryReturnsGetSuggestedBirdersToFollowAsync()
-        {
-            //WHEN if (followersNotBeingFollowed.Count() == 0) IS TRUE
-            // Arrange
-            var mockUserManager = new Mock<UserManager<ApplicationUser>>();
-            mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
-                 .ReturnsAsync(GetOwnUserProfile());
-
-            // GetSuggestedBirdersToFollowAsync
-            mockUserManager.Setup(repo => repo.GetSuggestedBirdersToFollowAsync(It.IsAny<string>(), It.IsAny<IEnumerable<string>>()))
-                .ReturnsAsync(GetListOfApplicationUsers(5));
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            var mockRepo = new Mock<INetworkRepository>();
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
-            };
-
-            // Act
-            var result = await controller.GetNetworkAsync();
-
-            // Assert
-            var objectResult = result as ObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.IsType<OkObjectResult>(result);
-            Assert.True(objectResult is OkObjectResult);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            Assert.IsType<List<NetworkUserViewModel>>(objectResult.Value);
-
-            var model = objectResult.Value as List<NetworkUserViewModel>;
-            Assert.Equal(5, model.Count);
-        }
-
-
-        [Fact]
-        public async Task GetNetworkAsync_ReturnsNotFoundWithStringObject_WhenRepositoryReturnsNullUser()
-        {
-            // Arrange
-            var mockUserManager = new Mock<UserManager<ApplicationUser>>();
-            mockUserManager.Setup(x => x.GetUserWithNetworkAsync(It.IsAny<String>()))
-                    .Returns(Task.FromResult<ApplicationUser>(null));
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            var mockRepo = new Mock<INetworkRepository>();
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
-            };
-
-            // Act
-            var result = await controller.GetNetworkAsync();
-
-            // Assert
-            Assert.IsType<NotFoundObjectResult>(result);
-            var objectResult = result as ObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is NotFoundObjectResult);
-            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
-            Assert.IsType<String>(objectResult.Value);
-            Assert.Equal("User not found", objectResult.Value);
-        }
-
-        [Fact]
-        public async Task GetNetworkAsync_ReturnsBadRequestWithStringObject_WhenExceptionIsRaised()
-        {
-            // Arrange
-            var mockUserManager = new Mock<UserManager<ApplicationUser>>();
-            mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
-                 .ThrowsAsync(new InvalidOperationException());
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            var mockRepo = new Mock<INetworkRepository>();
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
-            };
-
-            // Act
-            var result = await controller.GetNetworkAsync();
-
-            // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
-            var objectResult = result as ObjectResult;
-            Assert.Equal("An error occurred", objectResult.Value);
-        }
-
-        #endregion
-
-        #region SearchNetwork unit tests
-
-        [Fact]
-        public async Task GetSearchNetworkAsync_ReturnsOkWithNetworkListViewModelCollection_WhenRepositoryReturns3UserObjects()
-        {
-            // Arrange
-            var mockUserManager = new Mock<UserManager<ApplicationUser>>();
-            mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
-                 .ReturnsAsync(GetOwnUserProfile());
-            mockUserManager.Setup(repo => repo.SearchBirdersToFollowAsync(It.IsAny<string>(), It.IsAny<IEnumerable<string>>()))
-                .ReturnsAsync(GetListOfApplicationUsers(3));
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            var mockRepo = new Mock<INetworkRepository>();
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
-            };
-
-            string searchCriterion = "Test String";
-
-            // Act
-            var result = await controller.GetSearchNetworkAsync(searchCriterion);
-
-            // Assert
-            var objectResult = result as ObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.IsType<OkObjectResult>(result);
-            Assert.True(objectResult is OkObjectResult);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            Assert.IsType<List<NetworkUserViewModel>>(objectResult.Value);
-
-            var model = objectResult.Value as List<NetworkUserViewModel>;
-            Assert.Equal(3, model.Count);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public async Task GetSearchNetworkAsync_ReturnsBadRequestWithStringObject_WhenStringArgumentIsNullOrEmpty(string searchCriterion)
-        {
-            // Arrange
-            var mockUserManager = new Mock<UserManager<ApplicationUser>>();
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            var mockRepo = new Mock<INetworkRepository>();
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
-            };
-
-            // Act
-            var result = await controller.GetSearchNetworkAsync(searchCriterion);
-
-            // Assert
-            var objectResult = result as ObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.IsType<BadRequestObjectResult>(result);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-            Assert.IsType<String>(objectResult.Value);
-            Assert.Equal("No search criterion", objectResult.Value);
-        }
-
-        [Fact]
-        public async Task GetSearchNetworkAsync_ReturnsNotFoundWithStringObject_WhenRepositoryReturnsNullUser()
-        {
-
-            // Arrange
-            var mockUserManager = new Mock<UserManager<ApplicationUser>>();
-            mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
-                 .Returns(Task.FromResult<ApplicationUser>(null));
-            //mockUserManager.Setup(repo => repo.SearchBirdersToFollowAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<IEnumerable<string>>()))
-            //    .ReturnsAsync(GetListOfApplicationUsers(3));
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            var mockRepo = new Mock<INetworkRepository>();
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
-            };
-
-            string searchCriterion = "Test String";
-
-            // Act
-            var result = await controller.GetSearchNetworkAsync(searchCriterion);
-
-            // Assert
-            var objectResult = result as ObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.IsType<NotFoundObjectResult>(result);
-            Assert.True(objectResult is NotFoundObjectResult);
-            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
-            Assert.IsType<String>(objectResult.Value);
-            Assert.IsType<String>(objectResult.Value);
-            Assert.Equal("User not found", objectResult.Value);
-        }
-
-        [Fact]
-        public async Task GetSearchNetworkAsync_ReturnsBadRequestWithStringObject_WhenExceptionIsRaised()
-        {
-            // Arrange
-            var mockUserManager = new Mock<UserManager<ApplicationUser>>();
-            mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
-                 .ThrowsAsync(new InvalidOperationException());
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-            var mockRepo = new Mock<INetworkRepository>();
-            var controller = new UserController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
-            };
-
-            string searchCriterion = "Test String";
-
-            // Act
-            var result = await controller.GetSearchNetworkAsync(searchCriterion);
-
-            // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
-            var objectResult = result as ObjectResult;
-            Assert.Equal("An error occurred", objectResult.Value);
-        }
-
-        #endregion
-
-
-
 
 
 
