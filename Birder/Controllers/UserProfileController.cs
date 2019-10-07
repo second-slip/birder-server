@@ -14,14 +14,14 @@ namespace Birder.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    public class UserController : ControllerBase
+    public class UserProfileController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserController(IMapper mapper
-                            , ILogger<UserController> logger
+        public UserProfileController(IMapper mapper
+                            , ILogger<UserProfileController> logger
                             , UserManager<ApplicationUser> userManager)
         {
             _mapper = mapper;
@@ -86,7 +86,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Error at GetUserProfileAsync");
-                return BadRequest("There was an error getting the user");
+                return BadRequest("There was an error getting the user profile");
             }
         }
     }

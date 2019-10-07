@@ -60,9 +60,9 @@ namespace Birder
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                 .AddDefaultTokenProviders()
-                .AddSignInManager<SignInManager<ApplicationUser>>();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders()
+            .AddSignInManager<SignInManager<ApplicationUser>>();
 
             var mappingConfig = new MapperConfiguration(mc =>
             {

@@ -25,7 +25,7 @@ export class UserService {
     const options = username ?
       { params: new HttpParams().set('requestedUsername', username) } : {};
 
-    return this.http.get<UserProfileViewModel>('api/User/GetUserProfile', options)
+    return this.http.get<UserProfileViewModel>('api/UserProfile/GetUserProfile', options)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

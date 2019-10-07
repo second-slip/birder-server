@@ -6,7 +6,13 @@ namespace Birder.Helpers
 {
     public static class UserProfileHelper
     {
-
+        /// <summary>
+        /// Updates the UserProfileViewModel IsFollowing property
+        /// </summary>
+        /// <param name="requestedUserProfileViewModel"></param>
+        /// <param name="requestedUser"></param>
+        /// <param name="requestingUser"></param>
+        /// <returns></returns>
         public static UserProfileViewModel UpdateIsFollowingProperty(UserProfileViewModel requestedUserProfileViewModel, ApplicationUser requestedUser, ApplicationUser requestingUser) //, string loggedinUsername)
         {
             requestedUserProfileViewModel.IsFollowing = requestedUser.Followers.Any(cus => cus.Follower.UserName == requestingUser.UserName);
@@ -18,7 +24,6 @@ namespace Birder.Helpers
         /// </summary>
         /// <param name="viewModel"></param>
         /// <param name="requestingUser"></param>
-        /// <param name="loggedinUsername"></param>
         /// <returns></returns>
         public static UserProfileViewModel UpdateFollowingCollection(UserProfileViewModel viewModel, ApplicationUser requestingUser) //, string loggedinUsername)
         {
@@ -36,7 +41,6 @@ namespace Birder.Helpers
         /// </summary>
         /// <param name="viewModel"></param>
         /// <param name="requestingUser"></param>
-        /// <param name="loggedinUsername"></param>
         /// <returns></returns>
         public static UserProfileViewModel UpdateFollowersCollection(UserProfileViewModel viewModel, ApplicationUser requestingUser) //, string loggedinUsername)
         {

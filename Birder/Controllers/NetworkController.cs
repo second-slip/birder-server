@@ -28,7 +28,7 @@ namespace Birder.Controllers
 
         public NetworkController(IMapper mapper
                                 , IUnitOfWork unitOfWork
-                                , ILogger<UserController> logger
+                                , ILogger<UserProfileController> logger
                                 , INetworkRepository networkRepository
                                 , UserManager<ApplicationUser> userManager)
         {

@@ -14,13 +14,13 @@ using Xunit;
 
 namespace Birder.Tests.Controller
 {
-    public class UserControllerTests
+    public class UserProfileControllerTests
     {
         private readonly IMapper _mapper;
-        private readonly Mock<ILogger<UserController>> _logger;
+        private readonly Mock<ILogger<UserProfileController>> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserControllerTests()
+        public UserProfileControllerTests()
         {
             _userManager = SharedFunctions.InitialiseUserManager();
             var mappingConfig = new MapperConfiguration(cfg =>
@@ -28,7 +28,7 @@ namespace Birder.Tests.Controller
                 cfg.AddProfile(new BirderMappingProfile());
             });
             _mapper = mappingConfig.CreateMapper();
-            _logger = new Mock<ILogger<UserController>>();
+            _logger = new Mock<ILogger<UserProfileController>>();
 
         }
 
@@ -42,7 +42,7 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
-            var controller = new UserController(_mapper, _logger.Object, mockUserManager.Object);
+            var controller = new UserProfileController(_mapper, _logger.Object, mockUserManager.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -62,7 +62,7 @@ namespace Birder.Tests.Controller
         public async Task GetUserProfileAsync_ReturnsNotFound_WhenRequestedUserIsNull()
         {
             // Arrange
-            var controller = new UserController(_mapper, _logger.Object, _userManager);
+            var controller = new UserProfileController(_mapper, _logger.Object, _userManager);
 
             string requestedUsername = "This requested user does not exist";
 
@@ -86,7 +86,7 @@ namespace Birder.Tests.Controller
         public async Task GetUserProfileAsync_ReturnsOkObjectResultWithUserProfileViewModel_WhenRequestedUserIsRequestingUser()
         {
             // Arrange
-            var controller = new UserController(_mapper, _logger.Object, _userManager);
+            var controller = new UserProfileController(_mapper, _logger.Object, _userManager);
 
             string requestedUsername = "Tenko";
 
@@ -116,7 +116,7 @@ namespace Birder.Tests.Controller
         public async Task GetUserProfileAsync_ReturnsNotFound_WhenRequesterUserIsNull()
         {
             // Arrange
-            var controller = new UserController(_mapper, _logger.Object, _userManager);
+            var controller = new UserProfileController(_mapper, _logger.Object, _userManager);
 
             string requestedUsername = "Tenko";
 
@@ -140,7 +140,7 @@ namespace Birder.Tests.Controller
         public async Task GetUserProfileAsync_ReturnsOkObjectResultWithUserProfileViewModel_WhenRequestedUserIsNotRequestingUser()
         {
             // Arrange
-            var controller = new UserController(_mapper, _logger.Object, _userManager);
+            var controller = new UserProfileController(_mapper, _logger.Object, _userManager);
 
             string requestedUsername = "Tenko";
 
