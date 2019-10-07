@@ -9,9 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 
 namespace Birder.Tests.Controller
 {
@@ -66,11 +64,11 @@ namespace Birder.Tests.Controller
                         new Mock<IUserConfirmation<ApplicationUser>>().Object);
         }
 
-        public static ClaimsPrincipal GetTestClaimsPrincipal()
+        public static ClaimsPrincipal GetTestClaimsPrincipal(string username)
         {
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, "example name"),
+                new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.NameIdentifier, "1"),
                 new Claim("custom-claim", "example claim value"),
             }, "mock"));

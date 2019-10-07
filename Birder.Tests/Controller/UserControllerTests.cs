@@ -2,8 +2,6 @@
 using Birder.Controllers;
 using Birder.Data;
 using Birder.Data.Model;
-using Birder.Data.Repository;
-using Birder.Helpers;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,8 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -50,7 +46,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal2("NonExistentUsername") }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("NonExistentUsername") }
             };
 
             // Act
@@ -74,7 +70,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal2(requesterUsername) }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
             };
 
             // Act
@@ -98,7 +94,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal2(requesterUsername) }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
             };
 
             // Act
@@ -128,7 +124,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal2(requesterUsername) }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
             };
 
             // Act
@@ -152,7 +148,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal2(requesterUsername) }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
             };
 
             // Act
@@ -169,84 +165,7 @@ namespace Birder.Tests.Controller
             Assert.Equal(requestedUsername, model.UserName);
         }
 
-
-
         #endregion
 
-
-
-
-        #region Mock methods
-
-        public ClaimsPrincipal GetTestClaimsPrincipal2(string username)
-        {
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.NameIdentifier, "1"),
-                new Claim("custom-claim", "example claim value"),
-            }, "mock"));
-
-            return user;
-        }
-
-        private NetworkUserViewModel GetTestNetworkUserViewModel()
-        {
-            return new NetworkUserViewModel()
-            {
-                UserName = "Test Network View Model"
-            };
-        }
-
-        private List<ApplicationUser> GetListOfApplicationUsers(int collectionLength)
-        {
-            var users = new List<ApplicationUser>();
-
-            for (int i = 0; i < collectionLength; i++)
-            {
-                users.Add(new ApplicationUser()
-                {
-                    UserName = "Test User " + (i + 1).ToString()
-                });
-            }
-
-            return users;
-        }
-
-        private ApplicationUser GetOwnUserProfile()
-        {
-            var user = new ApplicationUser()
-            {
-                UserName = "Own Profile Test",
-                Followers = new List<Network>(),
-                Following = new List<Network>()
-            };
-
-            return user;
-        }
-
-        private ApplicationUser GetOwnUserProfileWithOneFollower()
-        {
-            var user = new ApplicationUser()
-            {
-                UserName = "Own Profile Test With Follower",
-                Followers = new List<Network>() { new Network() { ApplicationUser = new ApplicationUser(), Follower = new ApplicationUser() } },
-                Following = new List<Network>()
-            };
-
-            return user;
-        }
-
-        private ApplicationUser GetOtherMemberUserProfile()
-        {
-            var user = new ApplicationUser()
-            {
-                UserName = "Other Member's Profile Test"
-            };
-
-            return user;
-        }
-
-        #endregion
     }
 }

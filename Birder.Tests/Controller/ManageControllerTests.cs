@@ -58,7 +58,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             // Act
@@ -82,7 +82,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             // Act
@@ -106,7 +106,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             // Act
@@ -139,7 +139,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             //Add model error
@@ -194,7 +194,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new ManageProfileViewModel() { UserName = "", IsEmailConfirmed = true };
@@ -220,7 +220,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new ManageProfileViewModel() { UserName = "", IsEmailConfirmed = true };
@@ -246,7 +246,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             // model username IS the same as GetValidTestUser username
@@ -288,7 +288,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new ManageProfileViewModel() { UserName = "Test User", IsEmailConfirmed = true };
@@ -328,7 +328,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new ManageProfileViewModel() { UserName = "Test", Email = "", IsEmailConfirmed = true };
@@ -372,7 +372,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new ManageProfileViewModel() { UserName = "Test User", Email = "", IsEmailConfirmed = true };
@@ -410,7 +410,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new ManageProfileViewModel() { UserName = "Test User", Email = "", IsEmailConfirmed = true };
@@ -444,7 +444,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             //Add model error
@@ -490,7 +490,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new SetLocationViewModel() { DefaultLocationLatitude = 2F, DefaultLocationLongitude = 2F };
@@ -516,7 +516,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new SetLocationViewModel() { DefaultLocationLatitude = 2F, DefaultLocationLongitude = 2F };
@@ -544,7 +544,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new SetLocationViewModel() { DefaultLocationLatitude = 2F, DefaultLocationLongitude = 2F };
@@ -575,7 +575,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new SetLocationViewModel() { DefaultLocationLatitude = 2F, DefaultLocationLongitude = 2F };
@@ -607,7 +607,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             //Add model error
@@ -646,7 +646,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new ChangePasswordViewModel() { };
@@ -672,7 +672,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new ChangePasswordViewModel() { };
@@ -701,7 +701,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new ChangePasswordViewModel() { };
@@ -732,7 +732,7 @@ namespace Birder.Tests.Controller
 
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
             var model = new ChangePasswordViewModel() { };

@@ -37,7 +37,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    //Add model error
@@ -79,7 +79,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -109,7 +109,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -139,7 +139,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -171,7 +171,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -208,7 +208,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    //Add model error
@@ -250,7 +250,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -280,7 +280,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -310,7 +310,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -342,7 +342,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -388,7 +388,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -426,7 +426,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -460,7 +460,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -491,7 +491,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -524,7 +524,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    string searchCriterion = "Test String";
@@ -559,7 +559,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    // Act
@@ -593,7 +593,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    string searchCriterion = "Test String";
@@ -627,7 +627,7 @@ namespace Birder.Tests.Controller
 
         //    controller.ControllerContext = new ControllerContext()
         //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         //    };
 
         //    string searchCriterion = "Test String";
