@@ -1,5 +1,6 @@
 ﻿using Birder.Data.Model;
 using Birder.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Birder.Helpers
@@ -7,33 +8,26 @@ namespace Birder.Helpers
     public static class UserProfileHelper
     {
         /// <summary>
-        /// Updates the UserProfileViewModel IsFollowing property
+        /// 
         /// </summary>
-        /// <param name="requestedUserProfileViewModel"></param>
         /// <param name="requestedUser"></param>
         /// <param name="requestingUser"></param>
         /// <returns></returns>
-        public static UserProfileViewModel UpdateIsFollowingProperty(UserProfileViewModel requestedUserProfileViewModel, ApplicationUser requestedUser, ApplicationUser requestingUser) //, string loggedinUsername)
+        public static bool UpdateIsFollowingProperty(ApplicationUser requestedUser, ApplicationUser requestingUser)
         {
-            requestedUserProfileViewModel.IsFollowing = requestedUser.Followers.Any(cus => cus.Follower.UserName == requestingUser.UserName);
-            return requestedUserProfileViewModel;
+            return requestedUser.Followers.Any(cus => cus.Follower.UserName == requestingUser.UserName);
         }
 
-        /// <summary>
-        /// Updates the requested user's 'Following' collection (IsFollowing and IsOwnProfile properties)
-        /// </summary>
-        /// <param name="viewModel"></param>
-        /// <param name="requestingUser"></param>
-        /// <returns></returns>
-        public static UserProfileViewModel UpdateFollowingCollection(UserProfileViewModel viewModel, ApplicationUser requestingUser) //, string loggedinUsername)
+        
+        public static IEnumerable<FollowingViewModel> UpdateFollowingCollection(IEnumerable<FollowingViewModel> following, ApplicationUser requestingUser) //, string loggedinUsername)
         {
-            for (int i = 0; i < viewModel.Following.Count(); i++)
+            for (int i = 0; i < following.Count(); i++)
             {
-                viewModel.Following.ElementAt(i).IsFollowing = requestingUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Following.ElementAt(i).UserName);
-                viewModel.Following.ElementAt(i).IsOwnProfile = viewModel.Following.ElementAt(i).UserName == requestingUser.UserName;
+                following.ElementAt(i).IsFollowing = requestingUser.Following.Any(cus => cus.ApplicationUser.UserName == following.ElementAt(i).UserName);
+                following.ElementAt(i).IsOwnProfile = following.ElementAt(i).UserName == requestingUser.UserName;
             }
 
-            return viewModel;
+            return following;
         }
 
         /// <summary>
@@ -42,15 +36,15 @@ namespace Birder.Helpers
         /// <param name="viewModel"></param>
         /// <param name="requestingUser"></param>
         /// <returns></returns>
-        public static UserProfileViewModel UpdateFollowersCollection(UserProfileViewModel viewModel, ApplicationUser requestingUser) //, string loggedinUsername)
+        public static IEnumerable<FollowerViewModel> UpdateFollowersCollection(IEnumerable<FollowerViewModel> followers, ApplicationUser requestingUser) //, string loggedinUsername)
         {
-            for (int i = 0; i < viewModel.Followers.Count(); i++)
+            for (int i = 0; i < followers.Count(); i++)
             {
-                viewModel.Followers.ElementAt(i).IsFollowing = requestingUser.Following.Any(cus => cus.ApplicationUser.UserName == viewModel.Followers.ElementAt(i).UserName);
-                viewModel.Followers.ElementAt(i).IsOwnProfile = viewModel.Followers.ElementAt(i).UserName == requestingUser.UserName;
+                followers.ElementAt(i).IsFollowing = requestingUser.Following.Any(cus => cus.ApplicationUser.UserName == followers.ElementAt(i).UserName);
+                followers.ElementAt(i).IsOwnProfile = followers.ElementAt(i).UserName == requestingUser.UserName;
             }
 
-            return viewModel;
+            return followers;
         }
     }
 }
