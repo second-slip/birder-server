@@ -62,23 +62,20 @@ namespace Birder.Tests.Controller
             Assert.Equal("An error occurred", objectResult.Value);
         }
 
-
-
-
-
-
         [Fact]
         public async Task GetUserProfileAsync_ReturnsNotFound_WhenRequestedUserIsNull()
         {
             // Arrange
             var controller = new UserController(_mapper, _logger.Object, _userManager);
 
+            string requestedUsername = "This requested user does not exist";
+
+            string requesterUsername = requestedUsername;
+
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal2("NonExistentUsername") }
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal2(requesterUsername) }
             };
-
-            string requestedUsername = "This requested user does not exist";
 
             // Act
             var result = await controller.GetUserProfileAsync(requestedUsername);
@@ -89,25 +86,23 @@ namespace Birder.Tests.Controller
             Assert.Equal("Requested user not found", objectResult.Value);
         }
 
-        [Fact] //Requesting own profile
-        public async Task GetUserProfileAsync_ReturnsOkObjectResult_WithOwnUserProfileViewModelObject()
+        [Fact]
+        public async Task GetUserProfileAsync_ReturnsOkObjectResultWithUserProfileViewModel_WhenRequestedUserIsRequestingUser()
         {
             // Arrange
-            //var mockUserManager = new Mock<UserManager<ApplicationUser>>();
-            //mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
-            //     .ReturnsAsync(GetOwnUserProfile());
-
-
             var controller = new UserController(_mapper, _logger.Object, _userManager);
+
+            string requestedUsername = "Tenko";
+
+            string requesterUsername = requestedUsername;
+
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal2(requesterUsername) }
             };
 
-            string username = "Test username";
-
             // Act
-            var result = await controller.GetUserProfileAsync(username);
+            var result = await controller.GetUserProfileAsync(requestedUsername);
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -118,8 +113,40 @@ namespace Birder.Tests.Controller
             Assert.IsType<UserProfileViewModel>(objectResult.Value);
 
             var model = objectResult.Value as UserProfileViewModel;
-            Assert.Equal("Own Profile Test", model.UserName);
+            Assert.Equal(requestedUsername, model.UserName);
         }
+
+        [Fact]
+        public async Task GetUserProfileAsync_ReturnsNotFound_WhenRequesterUserIsNull()
+        {
+            // Arrange
+            var controller = new UserController(_mapper, _logger.Object, _userManager);
+
+            string requestedUsername = "Tenko";
+
+            string requesterUsername = "This requested user does not exist";
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal2(requesterUsername) }
+            };
+
+            // Act
+            var result = await controller.GetUserProfileAsync(requestedUsername);
+
+            // Assert
+            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.IsType<String>(objectResult.Value);
+            Assert.Equal("Requesting user not found", objectResult.Value);
+        }
+
+
+
+
+
+
+
+
 
         [Fact] //Requesting other member's profile
         public async Task GetUserProfileAsync_ReturnsOkObjectResult_WithOtherMembersUserProfileViewModelObject()
@@ -153,29 +180,7 @@ namespace Birder.Tests.Controller
             Assert.Equal("Other Member's Profile Test", model.UserName);
         }
 
-        [Fact]
-        public async Task GetUserProfileAsync_ReturnsBadRequestResult_WhenExceptionIsRaised()
-        {
-            // Arrange
-            //var mockUserManager = new Mock<UserManager<ApplicationUser>>();
-            //mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
-            //     .ThrowsAsync(new InvalidOperationException());
 
-            var controller = new UserController(_mapper, _logger.Object, _userManager);
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
-            };
-
-            string username = "Test username";
-
-            // Act
-            var result = await controller.GetUserProfileAsync(username);
-
-            Assert.IsType<BadRequestObjectResult>(result);
-            var objectResult = result as ObjectResult;
-            Assert.Equal("There was an error getting the user", objectResult.Value);
-        }
 
         #endregion
 

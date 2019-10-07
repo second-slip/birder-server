@@ -54,7 +54,8 @@ namespace Birder.Controllers
 
                 if (requesterUsername.Equals(requestedUsername))
                 {
-                    // Own profile requested
+                    // Own profile requested...
+
                     requestedUserProfileViewModel.IsOwnProfile = true;
 
                     UserProfileHelper.UpdateFollowingCollection(requestedUserProfileViewModel, requestedUser); //, loggedinUsername);
@@ -64,10 +65,13 @@ namespace Birder.Controllers
                     return Ok(requestedUserProfileViewModel);
                 }
 
+                // Other user's profile requested...
+
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(requesterUsername);
 
                 if (requestingUser == null)
                 {
+                    _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
                     return NotFound("Requesting user not found");
                 }
 
