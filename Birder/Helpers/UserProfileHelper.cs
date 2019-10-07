@@ -1,5 +1,6 @@
 ﻿using Birder.Data.Model;
 using Birder.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,20 +8,22 @@ namespace Birder.Helpers
 {
     public static class UserProfileHelper
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="requestedUser"></param>
-        /// <param name="requestingUser"></param>
-        /// <returns></returns>
         public static bool UpdateIsFollowingProperty(ApplicationUser requestedUser, ApplicationUser requestingUser)
         {
+            if (requestedUser == null || requestingUser == null)
+                throw new NullReferenceException("The requested user or requesting user is null");
+
             return requestedUser.Followers.Any(cus => cus.Follower.UserName == requestingUser.UserName);
         }
 
-        
-        public static IEnumerable<FollowingViewModel> UpdateFollowingCollection(IEnumerable<FollowingViewModel> following, ApplicationUser requestingUser) //, string loggedinUsername)
+        public static IEnumerable<FollowingViewModel> UpdateFollowingCollection(IEnumerable<FollowingViewModel> following, ApplicationUser requestingUser)
         {
+            if (following == null)
+                throw new NullReferenceException("The following collection is null");
+
+            if (requestingUser == null)
+                throw new NullReferenceException("The requesting user is null");
+
             for (int i = 0; i < following.Count(); i++)
             {
                 following.ElementAt(i).IsFollowing = requestingUser.Following.Any(cus => cus.ApplicationUser.UserName == following.ElementAt(i).UserName);
@@ -30,14 +33,14 @@ namespace Birder.Helpers
             return following;
         }
 
-        /// <summary>
-        /// Updates the requested user's 'Followers' collection (IsFollowing and IsOwnProfile properties)
-        /// </summary>
-        /// <param name="viewModel"></param>
-        /// <param name="requestingUser"></param>
-        /// <returns></returns>
-        public static IEnumerable<FollowerViewModel> UpdateFollowersCollection(IEnumerable<FollowerViewModel> followers, ApplicationUser requestingUser) //, string loggedinUsername)
+        public static IEnumerable<FollowerViewModel> UpdateFollowersCollection(IEnumerable<FollowerViewModel> followers, ApplicationUser requestingUser)
         {
+            if (followers == null)
+                throw new NullReferenceException("The followers collection is null");
+
+            if (requestingUser == null)
+                throw new NullReferenceException("The requesting user is null");
+
             for (int i = 0; i < followers.Count(); i++)
             {
                 followers.ElementAt(i).IsFollowing = requestingUser.Following.Any(cus => cus.ApplicationUser.UserName == followers.ElementAt(i).UserName);
