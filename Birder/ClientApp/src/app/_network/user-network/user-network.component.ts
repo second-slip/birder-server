@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
-import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
+import { NetworkUserViewModel } from '../../_models/UserProfileViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { ToastrService } from 'ngx-toastr';
-import { NetworkService } from '../../../_services/network.service';
+import { NetworkService } from '../../_services/network.service';
 
 @Component({
   selector: 'app-user-network',

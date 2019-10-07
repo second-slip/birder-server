@@ -2,8 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ObservationService } from '../../observation.service';
 import { ObservationsAnalysisService } from '../../observations-analysis.service';
-import { ObservationAnalysisViewModel } from '../../../_models/ObservationAnalysisViewModel';
-import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
+import { ObservationAnalysisViewModel } from '../../_models/ObservationAnalysisViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-info-observation-count',

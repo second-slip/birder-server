@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { Subscription } from 'rxjs';
-import { UserViewModel } from '../../_models/UserViewModel';
+import { UserViewModel } from '../_models/UserViewModel';
 import { TokenService } from '../token.service';
 
 @Component({

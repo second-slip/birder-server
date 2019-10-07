@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { HttpErrorHandlerService } from '../app/http-error-handler.service';
+import { HttpErrorHandlerService } from '../http-error-handler.service';
 import { UserNetworkDto } from '../_models/UserNetworkDto';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { catchError, tap } from 'rxjs/operators';

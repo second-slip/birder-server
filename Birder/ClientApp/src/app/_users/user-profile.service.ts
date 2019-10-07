@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorHandlerService } from '../http-error-handler.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { UserProfileViewModel } from '../../_models/UserProfileViewModel';
+import { UserProfileViewModel } from '../_models/UserProfileViewModel';
 import { Observable } from 'rxjs';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { catchError } from 'rxjs/operators';
 
 // const httpOptions = {

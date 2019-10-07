@@ -4,8 +4,8 @@ import { first } from 'rxjs/operators';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ParentErrorStateMatcher } from '../../validators';
-import { AuthenticationErrorViewModel } from '../../_models/ErrorReportViewModel';
-import { AuthenticationFailureReason } from '../../_models/AuthenticationResultDto';
+import { AuthenticationErrorViewModel } from '../_models/ErrorReportViewModel';
+import { AuthenticationFailureReason } from '../_models/AuthenticationResultDto';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

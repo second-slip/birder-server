@@ -4,8 +4,8 @@ import { UsernameValidator, PasswordValidator, ParentErrorStateMatcher } from '.
 import { AccountService } from '../../account.service';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { RegisterViewModel } from '../../../_models/RegisterViewModel';
-import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
+import { RegisterViewModel } from '../../_models/RegisterViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-register',

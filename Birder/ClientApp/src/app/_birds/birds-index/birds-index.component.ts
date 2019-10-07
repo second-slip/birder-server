@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { BirdsService } from '../../birds.service';
 import { Router } from '@angular/router';
-import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
-import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BirderStatus } from '../../../_models/BirdIndexOptions';
+import { BirderStatus } from '../../_models/BirdIndexOptions';
 
 @Component({
   selector: 'app-birds-index',

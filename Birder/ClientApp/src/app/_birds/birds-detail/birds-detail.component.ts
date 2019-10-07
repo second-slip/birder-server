@@ -1,10 +1,10 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 import { BirdsService } from '../../birds.service';
-import { BirdDetailViewModel } from '../../../_models/BirdDetailViewModel';
+import { BirdDetailViewModel } from '../../_models/BirdDetailViewModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
-import { ObservationViewModel } from '../../../_models/ObservationViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';

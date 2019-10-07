@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
-import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
+import { NetworkUserViewModel } from '../../_models/UserProfileViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { Subscription } from 'rxjs';
-import { UserNetworkDto } from '../../../_models/UserNetworkDto';
-import { NetworkService } from '../../../_services/network.service';
+import { UserNetworkDto } from '../../_models/UserNetworkDto';
+import { NetworkService } from '../../_services/network.service';
 
 @Component({
   selector: 'app-info-network',

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
+import { ErrorReportViewModel } from './_models/ErrorReportViewModel';
 import { catchError, first } from 'rxjs/operators';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { Observable } from 'rxjs';
-import { ManageProfileViewModel } from '../_models/ManageProfileViewModel';
-import { ChangePasswordViewModel } from '../_models/ChangePasswordViewModel';
-import { SetLocationViewModel } from '../_models/SetLocationViewModel';
+import { ManageProfileViewModel } from './_models/ManageProfileViewModel';
+import { ChangePasswordViewModel } from './_models/ChangePasswordViewModel';
+import { SetLocationViewModel } from './_models/SetLocationViewModel';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

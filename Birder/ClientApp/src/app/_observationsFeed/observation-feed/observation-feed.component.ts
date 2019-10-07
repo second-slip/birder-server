@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ObservationViewModel } from '../../../_models/ObservationViewModel';
+import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { Router } from '@angular/router';
-import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { ObservationsFeedService } from '../observations-feed.service';
 
 @Component({

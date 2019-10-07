@@ -1,7 +1,7 @@
 import { FormControl, AbstractControl } from '@angular/forms';
 import { AccountService } from '../app/account.service';
 import { first } from 'rxjs/operators';
-import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
+import { ErrorReportViewModel } from '../app/_models/ErrorReportViewModel';
 import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
 
 export class UsernameValidator {

@@ -2,16 +2,16 @@ import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angula
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ParentErrorStateMatcher } from '../../../validators';
 import { Router } from '@angular/router';
-import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
-import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
 import { BirdsService } from '../../birds.service';
-import { LocationViewModel } from '../../../_models/LocationViewModel';
+import { LocationViewModel } from '../../_models/LocationViewModel';
 import { GeocodeService } from '../../geocode.service';
-import { UserViewModel } from '../../../_models/UserViewModel';
-import { ObservationViewModel } from '../../../_models/ObservationViewModel';
+import { UserViewModel } from '../../_models/UserViewModel';
+import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { ObservationService } from '../../observation.service';
 import { TokenService } from '../../token.service';
-import { BirderStatus } from '../../../_models/BirdIndexOptions';
+import { BirderStatus } from '../../_models/BirdIndexOptions';
 
 @Component({
   selector: 'app-observation-add',

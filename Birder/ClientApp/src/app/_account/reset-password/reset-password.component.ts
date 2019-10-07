@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { AccountService } from '../../account.service';
 import { ToastrService } from 'ngx-toastr';
 import { ParentErrorStateMatcher, PasswordValidator } from '../../../validators';
-import { ResetPasswordViewModel } from '../../../_models/ResetPasswordViewModel';
-import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
+import { ResetPasswordViewModel } from '../../_models/ResetPasswordViewModel';
+import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { first } from 'rxjs/operators';
 
 @Component({
