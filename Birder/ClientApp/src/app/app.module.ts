@@ -55,7 +55,7 @@ import { InfoAwardsComponent } from './_info/info-awards/info-awards.component';
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
 import { UserProfileComponent } from './_users/user-profile/user-profile.component';
-import { UserNetworkComponent } from './_users/user-network/user-network.component';
+import { UserNetworkComponent } from './_network/user-network/user-network.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AccountManagerProfileComponent } from './_accountManager/account-manager-profile/account-manager-profile.component';
 import { AccountSideMenuComponent } from './account-side-menu/account-side-menu.component';

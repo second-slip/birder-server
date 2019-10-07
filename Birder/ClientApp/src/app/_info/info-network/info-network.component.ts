@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
-import { UserService } from '../../../app/user.service';
 import { Subscription } from 'rxjs';
 import { UserNetworkDto } from '../../../_models/UserNetworkDto';
+import { NetworkService } from '../../../_services/network.service';
 
 @Component({
   selector: 'app-info-network',
@@ -16,11 +16,11 @@ export class InfoNetworkComponent implements OnInit {
   network: UserNetworkDto;
   subscription: Subscription;
 
-  constructor(private userService: UserService) { }
+  constructor(private networkService: NetworkService) { }
 
   ngOnInit() {
     this.getUserNetwork();
-    this.subscription = this.userService.networkChanged$
+    this.subscription = this.networkService.networkChanged$
     .subscribe(_ => {
       this.onNetworkChanged();
     });
@@ -31,7 +31,7 @@ export class InfoNetworkComponent implements OnInit {
   }
 
   getUserNetwork(): void {
-    this.userService.getUserNetwork()
+    this.networkService.getUserNetwork()
       .subscribe(
         (data: UserNetworkDto) => {
           this.network = data;
@@ -45,7 +45,7 @@ export class InfoNetworkComponent implements OnInit {
     const action = element.innerText;
 
     if (action === 'Follow') {
-      this.userService.postFollowUser(user)
+      this.networkService.postFollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
             // this.getUser(); // obsolete due to event subsciption
@@ -56,7 +56,7 @@ export class InfoNetworkComponent implements OnInit {
           });
       return;
     } else {
-      this.userService.postUnfollowUser(user)
+      this.networkService.postUnfollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
             // this.getUser(); // obsolete due to event subsciption

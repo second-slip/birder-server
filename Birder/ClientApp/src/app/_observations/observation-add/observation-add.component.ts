@@ -7,7 +7,6 @@ import { BirdSummaryViewModel } from '../../../_models/BirdSummaryViewModel';
 import { BirdsService } from '../../birds.service';
 import { LocationViewModel } from '../../../_models/LocationViewModel';
 import { GeocodeService } from '../../geocode.service';
-import { UserService } from '../../user.service';
 import { UserViewModel } from '../../../_models/UserViewModel';
 import { ObservationViewModel } from '../../../_models/ObservationViewModel';
 import { ObservationService } from '../../observation.service';

@@ -18,7 +18,7 @@ import { LifeListComponent } from './life-list/life-list.component';
 import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 import { UserProfileComponent } from './_users/user-profile/user-profile.component';
-import { UserNetworkComponent } from './_users/user-network/user-network.component';
+import { UserNetworkComponent } from './_network/user-network/user-network.component';
 import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/layout-account-manager.component';
 import { AccountManagerProfileComponent } from './_accountManager/account-manager-profile/account-manager-profile.component';
 import { AccountManagerLocationComponent } from './_accountManager/account-manager-location/account-manager-location.component';

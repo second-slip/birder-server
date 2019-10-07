@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Subject, Observable } from 'rxjs';
+import { HttpErrorHandlerService } from '../app/http-error-handler.service';
+import { UserNetworkDto } from '../_models/UserNetworkDto';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
-import { HttpErrorHandlerService } from './http-error-handler.service';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { NetworkUserViewModel } from '../_models/UserProfileViewModel';
-import { UserNetworkDto } from '../_models/UserNetworkDto';
+import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class NetworkService {
 
   private networkChanged = new Subject<any>();
   networkChanged$ = this.networkChanged.asObservable();

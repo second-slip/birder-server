@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
-import { UserService } from '../../user.service';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { ToastrService } from 'ngx-toastr';
+import { NetworkService } from '../../../_services/network.service';
 
 @Component({
   selector: 'app-user-network',
@@ -15,7 +15,7 @@ export class UserNetworkComponent implements OnInit {
   searchTerm: string;
   customSearch = false;
 
-  constructor(private userService: UserService
+  constructor(private networkService: NetworkService
     , private toast: ToastrService) { }
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class UserNetworkComponent implements OnInit {
   }
 
   searchNetwork(searchCriterion: string): void {
-    this.userService.getSearchNetwork(searchCriterion)
+    this.networkService.getSearchNetwork(searchCriterion)
       .subscribe(
         (data: NetworkUserViewModel[]) => {
           this.users = data;
@@ -48,7 +48,7 @@ export class UserNetworkComponent implements OnInit {
   }
 
   getNetwork(): void {
-    this.userService.getNetworkSuggestions()
+    this.networkService.getNetworkSuggestions()
       .subscribe(
         (data: NetworkUserViewModel[]) => {
           this.users = data;
@@ -62,7 +62,7 @@ export class UserNetworkComponent implements OnInit {
     const action = element.innerText;
 
     if (action === 'Follow') {
-      this.userService.postFollowUser(user)
+      this.networkService.postFollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
             this.toast.info('You are now following ' + data.userName, 'Success');
@@ -73,7 +73,7 @@ export class UserNetworkComponent implements OnInit {
           });
       return;
     } else {
-      this.userService.postUnfollowUser(user)
+      this.networkService.postUnfollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
             this.toast.info('You have unfollowed ' + data.userName, 'Success');

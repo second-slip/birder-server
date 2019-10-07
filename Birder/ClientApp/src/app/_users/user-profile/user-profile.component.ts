@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { UserService } from '../../user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObservationViewModel } from '../../../_models/ObservationViewModel';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { UserProfileViewModel, NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
 import { ToastrService } from 'ngx-toastr';
 import { UserProfileService } from '../user-profile.service';
+import { NetworkService } from '../../../_services/network.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,7 +17,7 @@ export class UserProfileComponent {
   userProfile: UserProfileViewModel;
   observations: ObservationViewModel[]; // lazy load on demand
 
-  constructor(private userService: UserService
+  constructor(private networkService: NetworkService
     , private userProfileService: UserProfileService
             , private route: ActivatedRoute
             , private toast: ToastrService
@@ -45,7 +45,7 @@ export class UserProfileComponent {
     const action = element.innerText;
 
     if (action === 'Follow') {
-      this.userService.postFollowUser(user)
+      this.networkService.postFollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
             this.toast.info('You are now following ' + data.userName, 'Success');
@@ -58,7 +58,7 @@ export class UserProfileComponent {
           });
       return;
     } else {
-      this.userService.postUnfollowUser(user)
+      this.networkService.postUnfollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
             this.toast.info('You have unfollowed ' + data.userName, 'Success');
