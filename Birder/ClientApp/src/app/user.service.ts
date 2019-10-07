@@ -23,23 +23,17 @@ export class UserService {
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
   getUserNetwork(): Observable<UserNetworkDto | ErrorReportViewModel> {
-
     return this.http.get<UserNetworkDto>('api/Network')
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-
-  getNetwork(): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
-    // const options = searchCriterion ?
-    //   { params: new HttpParams().set('searchCriterion', searchCriterion) } : {};
-
-    return this.http.get<NetworkUserViewModel[]>('api/Network/GetNetwork')
+  getNetworkSuggestions(): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
+    return this.http.get<NetworkUserViewModel[]>('api/Network/NetworkSuggestions')
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  // added
   getSearchNetwork(searchCriterion: string): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
     const options = searchCriterion ?
       { params: new HttpParams().set('searchCriterion', searchCriterion) } : {};
@@ -50,20 +44,16 @@ export class UserService {
   }
 
   postFollowUser(viewModel: NetworkUserViewModel): Observable<NetworkUserViewModel | ErrorReportViewModel> {
-    // const options = username ?
-    //   { params: new HttpParams().set('username', username) } : {};
-    //   console.log(options);
-
     return this.http.post<NetworkUserViewModel>('api/Network/Follow', viewModel, httpOptions)
     .pipe(
-      tap(network => { this.announceNetworkChanged(); }),
+      tap(_ => { this.announceNetworkChanged(); }),
       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   postUnfollowUser(viewModel: NetworkUserViewModel): Observable<NetworkUserViewModel | ErrorReportViewModel> {
     return this.http.post<NetworkUserViewModel>('api/Network/Unfollow', viewModel, httpOptions)
     .pipe(
-      tap(network => { this.announceNetworkChanged(); }),
+      tap(_ => { this.announceNetworkChanged(); }),
       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 

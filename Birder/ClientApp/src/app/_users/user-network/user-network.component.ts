@@ -48,7 +48,7 @@ export class UserNetworkComponent implements OnInit {
   }
 
   getNetwork(): void {
-    this.userService.getNetwork()
+    this.userService.getNetworkSuggestions()
       .subscribe(
         (data: NetworkUserViewModel[]) => {
           this.users = data;

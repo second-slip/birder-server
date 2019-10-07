@@ -60,7 +60,7 @@ namespace Birder.Controllers
 
                     var userAndTheirNetwork = await _userManager.GetUserWithNetworkAsync(username);
 
-                    var followingUsernamesList = NetworkHelpers.GetFollowingUserNames(userAndTheirNetwork.Following);
+                    var followingUsernamesList = UserProfileHelper.GetFollowingUserNames(userAndTheirNetwork.Following);
 
                     followingUsernamesList.Add(username);
 

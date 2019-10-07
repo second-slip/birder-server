@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Birder.Tests.Helpers
 {
-    public class NetworkHelpersTests
+    public class UserProfileHelperTests
     {
         [Fact]
         public void GetFollowersUserNames_ReturnsEmptyCollection_WhenInputCollectionIsEmpty()
@@ -17,7 +17,7 @@ namespace Birder.Tests.Helpers
             var emptyInputCollection = new List<Network>();
 
             // Act
-            var result = NetworkHelpers.GetFollowersUserNames(emptyInputCollection);
+            var result = UserProfileHelper.GetFollowersUserNames(emptyInputCollection);
 
             // Assert
             Assert.IsType<List<String>>(result);
@@ -35,7 +35,7 @@ namespace Birder.Tests.Helpers
             var testCollection = GetDynamicNetworkCollection(length);
 
             // Act
-            var result = NetworkHelpers.GetFollowersUserNames(testCollection);
+            var result = UserProfileHelper.GetFollowersUserNames(testCollection);
 
             // Assert
             Assert.IsType<List<String>>(result);
@@ -49,7 +49,7 @@ namespace Birder.Tests.Helpers
         public void GetFollowersUserNames_ReturnsNullReferenceException_WhenArgumentIsNull()
         {
             // Act & Assert
-            var ex = Assert.Throws<NullReferenceException>(() => NetworkHelpers.GetFollowersUserNames(null));
+            var ex = Assert.Throws<NullReferenceException>(() => UserProfileHelper.GetFollowersUserNames(null));
             Assert.Equal("The followers collection is null", ex.Message);
         }
 
@@ -62,7 +62,7 @@ namespace Birder.Tests.Helpers
             var emptyInputCollection = new List<Network>();
 
             // Act
-            var result = NetworkHelpers.GetFollowingUserNames(emptyInputCollection);
+            var result = UserProfileHelper.GetFollowingUserNames(emptyInputCollection);
 
             // Assert
             Assert.IsType<List<String>>(result);
@@ -80,7 +80,7 @@ namespace Birder.Tests.Helpers
             var testCollection = GetDynamicNetworkCollection(length);
 
             // Act
-            var result = NetworkHelpers.GetFollowingUserNames(testCollection);
+            var result = UserProfileHelper.GetFollowingUserNames(testCollection);
 
             // Assert
             Assert.IsType<List<String>>(result);
@@ -94,7 +94,7 @@ namespace Birder.Tests.Helpers
         public void GetFollowingUserNames_ReturnsNullReferenceException_WhenArgumentIsNull()
         {
             // Act & Assert
-            var ex = Assert.Throws<NullReferenceException>(() => NetworkHelpers.GetFollowingUserNames(null));
+            var ex = Assert.Throws<NullReferenceException>(() => UserProfileHelper.GetFollowingUserNames(null));
             Assert.Equal("The following collection is null", ex.Message);
         }
 
@@ -115,7 +115,7 @@ namespace Birder.Tests.Helpers
             user.Followers = new List<Network>();
 
             // Act
-            var result = NetworkHelpers.GetFollowersNotBeingFollowedUserNames(user);
+            var result = UserProfileHelper.GetFollowersNotBeingFollowedUserNames(user);
 
             // Assert
             Assert.IsAssignableFrom<IEnumerable<String>>(result);
@@ -131,7 +131,7 @@ namespace Birder.Tests.Helpers
             user.Followers = GetDynamicNetworkCollection(6);
 
             // Act
-            var result = NetworkHelpers.GetFollowersNotBeingFollowedUserNames(user);
+            var result = UserProfileHelper.GetFollowersNotBeingFollowedUserNames(user);
 
             // Assert
             var t = Assert.IsAssignableFrom<IEnumerable<String>>(result);
@@ -142,7 +142,7 @@ namespace Birder.Tests.Helpers
         public void GetFollowersNotBeingFollowedUserNames_ReturnsNullReferenceException_WhenUserIsNull()
         {
             // Act & Assert
-            var ex = Assert.Throws<NullReferenceException>(() => NetworkHelpers.GetFollowersNotBeingFollowedUserNames(null));
+            var ex = Assert.Throws<NullReferenceException>(() => UserProfileHelper.GetFollowersNotBeingFollowedUserNames(null));
             Assert.Equal("The user is null", ex.Message);
         }
 
@@ -155,7 +155,7 @@ namespace Birder.Tests.Helpers
             user.Followers = null;
 
             // Act & Assert
-            var ex = Assert.Throws<NullReferenceException>(() => NetworkHelpers.GetFollowersNotBeingFollowedUserNames(user));
+            var ex = Assert.Throws<NullReferenceException>(() => UserProfileHelper.GetFollowersNotBeingFollowedUserNames(user));
             Assert.Equal("The followers collection is null", ex.Message);
         }
 
@@ -168,7 +168,7 @@ namespace Birder.Tests.Helpers
             user.Followers = new List<Network>();
 
             // Act & Assert
-            var ex = Assert.Throws<NullReferenceException>(() => NetworkHelpers.GetFollowersNotBeingFollowedUserNames(user));
+            var ex = Assert.Throws<NullReferenceException>(() => UserProfileHelper.GetFollowersNotBeingFollowedUserNames(user));
             Assert.Equal("The following collection is null", ex.Message);
         }
 
@@ -183,7 +183,7 @@ namespace Birder.Tests.Helpers
             var following = GetDynamicNetworkCollection(8);
 
             // Act
-            var result = NetworkHelpers.UpdateIsFollowing(viewModel.UserName, following);
+            var result = UserProfileHelper.UpdateIsFollowing(viewModel.UserName, following);
 
             // Assert
             var returnModel = Assert.IsType<bool>(result);
@@ -202,7 +202,7 @@ namespace Birder.Tests.Helpers
             var following = GetDynamicNetworkCollection(length);
 
             // Act
-            var result = NetworkHelpers.UpdateIsFollowing(viewModel.UserName, following);
+            var result = UserProfileHelper.UpdateIsFollowing(viewModel.UserName, following);
 
             // Assert
             var returnModel = Assert.IsType<bool>(result);
@@ -217,7 +217,7 @@ namespace Birder.Tests.Helpers
         //    var following = new List<Network>();
 
         //    // Act & Assert
-        //    var ex = Assert.Throws<NullReferenceException>(() => NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(null, following));
+        //    var ex = Assert.Throws<NullReferenceException>(() => UserProfileHelper.UpdateIsFollowingInNetworkUserViewModel(null, following));
         //    Assert.Equal("The viewModel is null", ex.Message);
         //}
 
@@ -228,7 +228,7 @@ namespace Birder.Tests.Helpers
             var viewModel = new NetworkUserViewModel() { UserName = "Test User" };
 
             // Act & Assert
-            var ex = Assert.Throws<NullReferenceException>(() => NetworkHelpers.UpdateIsFollowing(viewModel.UserName, null));
+            var ex = Assert.Throws<NullReferenceException>(() => UserProfileHelper.UpdateIsFollowing(viewModel.UserName, null));
             Assert.Equal("The following collection is null", ex.Message);
         }
 

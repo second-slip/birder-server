@@ -5,8 +5,5 @@ using Xunit;
 
 namespace Birder.Tests.Helpers
 {
-    public class UserProfileHelperTests
-    {
 
-    }
 }
