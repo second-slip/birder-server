@@ -136,38 +136,27 @@ namespace Birder.Tests.Controller
 
             // Assert
             var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.IsType<String>(objectResult.Value);
+            Assert.IsType<string>(objectResult.Value);
             Assert.Equal("Requesting user not found", objectResult.Value);
         }
 
-
-
-
-
-
-
-
-
-        [Fact] //Requesting other member's profile
-        public async Task GetUserProfileAsync_ReturnsOkObjectResult_WithOtherMembersUserProfileViewModelObject()
+        [Fact] 
+        public async Task GetUserProfileAsync_ReturnsOkObjectResultWithUserProfileViewModel_WhenRequestedUserIsNotRequestingUser()
         {
             // Arrange
-            //var mockUserManager = new Mock<UserManager<ApplicationUser>>();
-            //mockUserManager.Setup(repo => repo.GetUserWithNetworkAsync(It.IsAny<string>()))
-            //     .ReturnsAsync(GetOtherMemberUserProfile());
-
-
             var controller = new UserController(_mapper, _logger.Object, _userManager);
+
+            string requestedUsername = "Tenko";
+
+            string requesterUsername = "Toucan";
+
             controller.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+                HttpContext = new DefaultHttpContext() { User = GetTestClaimsPrincipal2(requesterUsername) }
             };
 
-            string username = "example name"; // same as claims principle
-                                              //new Claim(ClaimTypes.Name, "example name"),
-
             // Act
-            var result = await controller.GetUserProfileAsync(username);
+            var result = await controller.GetUserProfileAsync(requestedUsername);
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -177,7 +166,7 @@ namespace Birder.Tests.Controller
             Assert.IsType<UserProfileViewModel>(objectResult.Value);
 
             var model = objectResult.Value as UserProfileViewModel;
-            Assert.Equal("Other Member's Profile Test", model.UserName);
+            Assert.Equal(requestedUsername, model.UserName);
         }
 
 
