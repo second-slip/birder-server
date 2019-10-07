@@ -1,16 +1,16 @@
-<div class="container" *ngIf="user">
+<div class="container" *ngIf="userProfile">
   <div class="flex-container">
     <div>
-      <img class="avatar-main" src="{{user.avatar}}" alt="Smiley face" height="126" width="126">
+      <img class="avatar-main" src="{{userProfile.avatar}}" alt="Smiley face" height="126" width="126">
     </div>
     <div>
-      <h4>{{ user.userName }}</h4>
+      <h4>{{ userProfile.userName }}</h4>
       <div class="profile-text">
-        <p>Joined on {{ user.registrationDate | date: 'EEEE, d MMMM yyyy'}}</p>
+        <p>Joined on {{ userProfile.registrationDate | date: 'EEEE, d MMMM yyyy'}}</p>
       </div>
-      <div *ngIf="user.isOwnProfile == false"><button mat-stroked-button color="primary"
+      <div *ngIf="userProfile.isOwnProfile == false"><button mat-stroked-button color="primary"
           (click)="followOrUnfollow($event.target, user)">
-          {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+          {{ userProfile.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
     </div>
   </div>
 
@@ -18,11 +18,11 @@
     <mat-tab-group mat-align-tabs="start">
       <mat-tab>
         <ng-template mat-tab-label>
-          <span matBadge={{user.following.length}} matBadgeOverlap="false">Following</span>
+          <span matBadge={{userProfile.following.length}} matBadgeOverlap="false">Following</span>
         </ng-template>
         <!-- <p><em>Find Birders to follow</em></p> -->
         <!-- // -->
-        <div *ngFor="let following of user.following">
+        <div *ngFor="let following of userProfile.following">
             <div class="flex-container network-list">
               <img class="avatar" src="{{following.avatar}}">
               <a class="avatar-title" routerLink="/user-profile/{{following.userName}}">{{following.userName}}</a>
@@ -37,10 +37,10 @@
 
       <mat-tab>
         <ng-template mat-tab-label>
-          <span matBadge={{user.followers.length}} matBadgeOverlap="false">Followers</span>
+          <span matBadge={{userProfile.followers.length}} matBadgeOverlap="false">Followers</span>
         </ng-template>
         <!-- -->
-        <div *ngFor="let follower of user.followers">
+        <div *ngFor="let follower of userProfile.followers">
             <div class="flex-container network-list">
               <img class="avatar" src="{{follower.avatar}}">
               <a class="avatar-title" routerLink="/user-profile/{{follower.userName}}">{{follower.userName}}</a>

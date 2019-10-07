@@ -5,6 +5,7 @@ import { ObservationViewModel } from '../../../_models/ObservationViewModel';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { UserProfileViewModel, NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
 import { ToastrService } from 'ngx-toastr';
+import { UserProfileService } from '../user-profile.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -13,10 +14,11 @@ import { ToastrService } from 'ngx-toastr';
   encapsulation: ViewEncapsulation.None
 })
 export class UserProfileComponent {
-  user: UserProfileViewModel;
+  userProfile: UserProfileViewModel;
   observations: ObservationViewModel[]; // lazy load on demand
 
   constructor(private userService: UserService
+    , private userProfileService: UserProfileService
             , private route: ActivatedRoute
             , private toast: ToastrService
             , private router: Router) {
@@ -28,10 +30,10 @@ export class UserProfileComponent {
   getUser(): void {
     const username = this.route.snapshot.paramMap.get('username');
 
-    this.userService.getUser(username)
+    this.userProfileService.getUserProfile(username)
       .subscribe(
         (data: UserProfileViewModel) => {
-          this.user = data;
+          this.userProfile = data;
         },
         (error: ErrorReportViewModel) => {
           this.toast.error(error.serverCustomMessage, 'An error occurred');

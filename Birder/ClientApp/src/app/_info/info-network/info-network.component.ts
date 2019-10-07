@@ -17,27 +17,27 @@ export class InfoNetworkComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.getUser();
-    this.subscription = this.userService.networkChanged$
-    .subscribe(_ => {
-      this.onNetworkChanged();
-    });
+    // this.getUser();
+    // this.subscription = this.userService.networkChanged$
+    // .subscribe(_ => {
+    //   this.onNetworkChanged();
+    // });
   }
 
   onNetworkChanged() {
-    this.getUser();
+    // this.getUser();
   }
 
-  getUser(): void {
-    this.userService.getUser('')
-      .subscribe(
-        (data: UserProfileViewModel) => {
-          this.user = data;
-        },
-        (error: ErrorReportViewModel) => {
-          console.log(error);
-        });
-  }
+  // getUser(): void {
+  //   this.userService.getUser('')
+  //     .subscribe(
+  //       (data: UserProfileViewModel) => {
+  //         this.user = data;
+  //       },
+  //       (error: ErrorReportViewModel) => {
+  //         console.log(error);
+  //       });
+  // }
 
   followOrUnfollow(element, user: NetworkUserViewModel): void {
     const action = element.innerText;
