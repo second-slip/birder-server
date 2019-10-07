@@ -139,7 +139,7 @@ namespace Birder.Controllers
 
                 var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToFollow);
 
-                NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(viewModel, loggedinUser.Following);
+                viewModel.IsFollowing = NetworkHelpers.UpdateIsFollowing(viewModel.UserName, loggedinUser.Following);
 
                 return Ok(viewModel);
             }
@@ -181,7 +181,7 @@ namespace Birder.Controllers
 
                 var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToUnfollow);
 
-                NetworkHelpers.UpdateIsFollowingInNetworkUserViewModel(viewModel, loggedinUser.Following);
+                viewModel.IsFollowing = NetworkHelpers.UpdateIsFollowing(viewModel.UserName, loggedinUser.Following);
 
                 return Ok(viewModel);
             }

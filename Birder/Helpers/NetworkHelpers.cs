@@ -37,16 +37,12 @@ namespace Birder.Helpers
             return followersUsernamesList.Except(followingUsernamesList);
         }
 
-        public static NetworkUserViewModel UpdateIsFollowingInNetworkUserViewModel(NetworkUserViewModel viewModel, ICollection<Network> following)
+        public static bool UpdateIsFollowing(string username, ICollection<Network> following)
         {
-            if (viewModel == null)
-                throw new NullReferenceException("The viewModel is null");
-
             if (following == null)
                 throw new NullReferenceException("The following collection is null");
 
-            viewModel.IsFollowing = following.Any(cus => cus.ApplicationUser.UserName == viewModel.UserName);
-            return viewModel;
+            return following.Any(cus => cus.ApplicationUser.UserName == username);
         }
     }
 }
