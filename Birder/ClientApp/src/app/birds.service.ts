@@ -15,11 +15,11 @@ import { ObservationViewModel } from './_models/ObservationViewModel';
 export class BirdsService {
 
   constructor(private http: HttpClient
-            , private httpErrorHandlerService: HttpErrorHandlerService) { }
+    , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
   getBirds(filter: BirderStatus): Observable<BirdSummaryViewModel[] | ErrorReportViewModel> {
     const options = filter ?
-    { params: new HttpParams().set('filter', filter.toString()) } : {};
+      { params: new HttpParams().set('filter', filter.toString()) } : {};
 
     return this.http.get<BirdSummaryViewModel[]>('api/Birds', options)
       .pipe(
@@ -37,7 +37,7 @@ export class BirdsService {
 
   getBird(id: number): Observable<BirdDetailViewModel | ErrorReportViewModel> {
     const options = id ?
-    { params: new HttpParams().set('id', id.toString()) } : {};
+      { params: new HttpParams().set('id', id.toString()) } : {};
 
     return this.http.get<BirdDetailViewModel>('api/Birds/GetBird', options)
       .pipe(
@@ -46,7 +46,7 @@ export class BirdsService {
 
   getObservations(birdId: number): Observable<ObservationViewModel[] | ErrorReportViewModel> {
     const options = birdId ?
-    { params: new HttpParams().set('birdId', birdId.toString()) } : {};
+      { params: new HttpParams().set('birdId', birdId.toString()) } : {};
 
     return this.http.get<ObservationViewModel[]>('api/Observation/GetObservationsBySpecies', options)
       .pipe(

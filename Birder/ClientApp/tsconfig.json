@@ -17,6 +17,10 @@
       "dom"
     ],
     "module": "esnext",
-    "baseUrl": "./"
+    // "baseUrl": "./"
+    "baseUrl": "src",
+    "paths": {
+      "@app/*": ["app/*"]
+    }
   }
 }
