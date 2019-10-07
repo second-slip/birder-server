@@ -20,7 +20,39 @@ namespace Birder.Tests.Controller
 {
     public class NetworkControllerTests
     {
+        public NetworkControllerTests()
+        {
 
+        }
+
+        //[Fact]
+        //public async Task GetUserProfileAsync_ReturnsOkObjectResultWithUserProfileViewModel_WhenRequestedUserIsNotRequestingUser()
+        //{
+        //    // Arrange
+        //    var controller = new UserProfileController(_mapper, _logger.Object, _userManager);
+
+        //    string requestedUsername = "Tenko";
+
+        //    string requesterUsername = "Toucan";
+
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+        //    };
+
+        //    // Act
+        //    var result = await controller.GetUserProfileAsync(requestedUsername);
+
+        //    // Assert
+        //    var objectResult = result as ObjectResult;
+        //    Assert.NotNull(objectResult);
+        //    Assert.True(objectResult is OkObjectResult);
+        //    Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+        //    Assert.IsType<UserProfileViewModel>(objectResult.Value);
+
+        //    var model = objectResult.Value as UserProfileViewModel;
+        //    Assert.Equal(requestedUsername, model.UserName);
+        //}
 
 
         //#region Follow action tests
@@ -363,7 +395,7 @@ namespace Birder.Tests.Controller
         //#endregion
 
 
-        
+
 
 
         //#region GetNetwork action tests

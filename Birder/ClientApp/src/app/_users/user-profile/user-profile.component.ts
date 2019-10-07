@@ -50,7 +50,7 @@ export class UserProfileComponent {
           (data: NetworkUserViewModel) => {
             this.toast.info('You are now following ' + data.userName, 'Success');
             this.getUser();
-            // element.innerText = 'Unfollow';
+            element.innerText = 'Unfollow';
           },
           (error: ErrorReportViewModel) => {
             // console.log(error);
@@ -63,7 +63,7 @@ export class UserProfileComponent {
           (data: NetworkUserViewModel) => {
             this.toast.info('You have unfollowed ' + data.userName, 'Success');
             this.getUser();
-            // element.innerText = 'Follow';
+            element.innerText = 'Follow';
           },
           (error: ErrorReportViewModel) => {
             // console.log(error);

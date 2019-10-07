@@ -29,7 +29,7 @@ namespace Birder.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet, Route("GetUserProfile")]
+        [HttpGet] //, Route("GetUserProfile")]
         public async Task<IActionResult> GetUserProfileAsync(string requestedUsername)
         {
             try

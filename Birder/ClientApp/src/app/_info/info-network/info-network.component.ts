@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { UserProfileViewModel, NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
+import { NetworkUserViewModel } from '../../../_models/UserProfileViewModel';
 import { ErrorReportViewModel } from '../../../_models/ErrorReportViewModel';
 import { UserService } from '../../../app/user.service';
 import { Subscription } from 'rxjs';
+import { UserNetworkDto } from '../../../_models/UserNetworkDto';
 
 @Component({
   selector: 'app-info-network',
@@ -11,33 +12,34 @@ import { Subscription } from 'rxjs';
   encapsulation: ViewEncapsulation.None
 })
 export class InfoNetworkComponent implements OnInit {
-  user: UserProfileViewModel;
+  // user: UserProfileViewModel;
+  network: UserNetworkDto;
   subscription: Subscription;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    // this.getUser();
-    // this.subscription = this.userService.networkChanged$
-    // .subscribe(_ => {
-    //   this.onNetworkChanged();
-    // });
+    this.getUserNetwork();
+    this.subscription = this.userService.networkChanged$
+    .subscribe(_ => {
+      this.onNetworkChanged();
+    });
   }
 
   onNetworkChanged() {
-    // this.getUser();
+    this.getUserNetwork();
   }
 
-  // getUser(): void {
-  //   this.userService.getUser('')
-  //     .subscribe(
-  //       (data: UserProfileViewModel) => {
-  //         this.user = data;
-  //       },
-  //       (error: ErrorReportViewModel) => {
-  //         console.log(error);
-  //       });
-  // }
+  getUserNetwork(): void {
+    this.userService.getUserNetwork()
+      .subscribe(
+        (data: UserNetworkDto) => {
+          this.network = data;
+        },
+        (error: ErrorReportViewModel) => {
+          console.log(error);
+        });
+  }
 
   followOrUnfollow(element, user: NetworkUserViewModel): void {
     const action = element.innerText;

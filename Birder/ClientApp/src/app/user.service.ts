@@ -5,6 +5,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { NetworkUserViewModel } from '../_models/UserProfileViewModel';
+import { UserNetworkDto } from '../_models/UserNetworkDto';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,6 +21,13 @@ export class UserService {
 
   constructor(private http: HttpClient
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
+
+  getUserNetwork(): Observable<UserNetworkDto | ErrorReportViewModel> {
+
+    return this.http.get<UserNetworkDto>('api/Network')
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
 
 
   getNetwork(): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {

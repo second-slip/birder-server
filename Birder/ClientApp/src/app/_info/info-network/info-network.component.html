@@ -3,15 +3,15 @@
   <h4 class="title">Your Birder Network</h4>
   <br>
 
-  <div *ngIf="user">
+  <div *ngIf="network">
       <mat-tab-group mat-align-tabs="start">
         <mat-tab>
           <ng-template mat-tab-label>
-            <span matBadge={{user.following.length}} matBadgeOverlap="false">Following</span>
+            <span matBadge={{network.following.length}} matBadgeOverlap="false">Following</span>
           </ng-template>
           <!-- <p><em>Find Birders to follow</em></p> -->
           <!-- // -->
-          <div *ngFor="let following of user.following">
+          <div *ngFor="let following of network.following">
               <div class="flex-container network-list">
                 <img class="avatar" src="{{following.avatar}}">
                 <a class="avatar-title" routerLink="/user-profile/{{following.userName}}">{{following.userName}}</a>
@@ -26,10 +26,10 @@
   
         <mat-tab>
           <ng-template mat-tab-label>
-            <span matBadge={{user.followers.length}} matBadgeOverlap="false">Followers</span>
+            <span matBadge={{network.followers.length}} matBadgeOverlap="false">Followers</span>
           </ng-template>
           <!-- -->
-          <div *ngFor="let follower of user.followers">
+          <div *ngFor="let follower of network.followers">
               <div class="flex-container network-list">
                 <img class="avatar" src="{{follower.avatar}}">
                 <a class="avatar-title" routerLink="/user-profile/{{follower.userName}}">{{follower.userName}}</a>

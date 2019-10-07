@@ -22,7 +22,7 @@ export class UserProfileService {
     const options = username ?
       { params: new HttpParams().set('requestedUsername', username) } : {};
 
-    return this.http.get<UserProfileViewModel>('api/UserProfile/GetUserProfile', options)
+    return this.http.get<UserProfileViewModel>('api/UserProfile', options)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

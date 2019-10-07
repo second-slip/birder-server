@@ -39,6 +39,35 @@ namespace Birder.Controllers
             _networkRepository = networkRepository;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetMyNetworkAsync()
+        {
+            try
+            {
+                var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
+
+                if (requestingUser == null)
+                {
+                    _logger.LogError(LoggingEvents.GetItem, "User not found");
+                    return NotFound("Requesting user not found");
+                }
+
+                var model = _mapper.Map<ApplicationUser, UserNetworkDto>(requestingUser);
+
+                UserProfileHelper.UpdateFollowersCollection(model.Followers, requestingUser);
+
+                UserProfileHelper.UpdateFollowingCollection(model.Following, requestingUser);
+
+                return Ok(model);
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest();
+
+            }
+        }
+
         [HttpGet, Route("GetNetwork")]
         public async Task<IActionResult> GetNetworkAsync() // GetNetorkSuggestions or FindFriends
         {
