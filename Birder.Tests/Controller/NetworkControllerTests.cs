@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,39 +20,86 @@ namespace Birder.Tests.Controller
 {
     public class NetworkControllerTests
     {
+        private readonly IMapper _mapper;
+        private readonly Mock<ILogger<NetworkController>> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
+
         public NetworkControllerTests()
         {
-
+            _userManager = SharedFunctions.InitialiseUserManager();
+            var mappingConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new BirderMappingProfile());
+            });
+            _mapper = mappingConfig.CreateMapper();
+            _logger = new Mock<ILogger<NetworkController>>();
         }
 
-        //[Fact]
-        //public async Task GetUserProfileAsync_ReturnsOkObjectResultWithUserProfileViewModel_WhenRequestedUserIsNotRequestingUser()
-        //{
-        //    // Arrange
-        //    var controller = new UserProfileController(_mapper, _logger.Object, _userManager);
 
-        //    string requestedUsername = "Tenko";
 
-        //    string requesterUsername = "Toucan";
+        [Fact]
+        public async Task GetNetworkAsync_ReturnsOkResultWithUserNetworkDto_WhenRequestIsSuccessful()
+        {
+            // Arrange
+            var mockRepo = new Mock<INetworkRepository>();
 
-        //    controller.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
-        //    };
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-        //    // Act
-        //    var result = await controller.GetUserProfileAsync(requestedUsername);
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, _userManager);
 
-        //    // Assert
-        //    var objectResult = result as ObjectResult;
-        //    Assert.NotNull(objectResult);
-        //    Assert.True(objectResult is OkObjectResult);
-        //    Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-        //    Assert.IsType<UserProfileViewModel>(objectResult.Value);
+            //string requestedUsername = "Tenko";
 
-        //    var model = objectResult.Value as UserProfileViewModel;
-        //    Assert.Equal(requestedUsername, model.UserName);
-        //}
+            string requesterUsername = "Toucan";
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+            };
+
+            // Act
+            var result = await controller.GetNetworkAsync();
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+
+            var expected = await _userManager.GetUserWithNetworkAsync(requesterUsername);
+            var actual = Assert.IsType<UserNetworkDto>(objectResult.Value);
+
+            Assert.Equal(expected.Followers.Count, actual.Followers.Count());
+            Assert.Equal(expected.Following.Count, actual.Following.Count());
+        }
+
+        [Fact]
+        public async Task GetNetworkAsync_ReturnsNotFound_WhenRepositoryReturnsNull()
+        {
+            // Arrange
+            var mockRepo = new Mock<INetworkRepository>();
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, _userManager);
+
+            //string requestedUsername = "Tenko";
+            string requesterUsername = "This requested user does not exist";
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+            };
+
+            // Act
+            var result = await controller.GetNetworkAsync();
+
+            // Assert
+            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.IsType<string>(objectResult.Value);
+            Assert.Equal("Requesting user not found", objectResult.Value);
+        }
+
+
 
 
         //#region Follow action tests

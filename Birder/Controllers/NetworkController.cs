@@ -27,7 +27,7 @@ namespace Birder.Controllers
 
         public NetworkController(IMapper mapper
                                 , IUnitOfWork unitOfWork
-                                , ILogger<UserProfileController> logger
+                                , ILogger<NetworkController> logger
                                 , INetworkRepository networkRepository
                                 , UserManager<ApplicationUser> userManager)
         {
@@ -39,7 +39,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMyNetworkAsync()
+        public async Task<IActionResult> GetNetworkAsync()
         {
             try
             {
@@ -62,8 +62,8 @@ namespace Birder.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest();
-
+                _logger.LogError(LoggingEvents.GetItem, ex, "GetMyNetworkAsync");
+                return BadRequest("An unexpected error occurred");
             }
         }
 
@@ -120,7 +120,6 @@ namespace Birder.Controllers
                     return NotFound("User not found");
                 }
 
-                //ToDo: Guard?  Followers || Following == null ????????
                 var followingUsernamesList = UserProfileHelper.GetFollowingUserNames(loggedinUser.Following);
                 followingUsernamesList.Add(loggedinUser.UserName);
 

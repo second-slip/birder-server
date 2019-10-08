@@ -175,7 +175,7 @@ export function tokenGetter() {
     [GeocodeService],
     { provide: RequestCache, useClass: RequestCacheWithMap },
     httpInterceptorProviders,
-    AuthGuard,
+    [AuthGuard],
 
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: LOCALE_ID, useValue: 'en-GB' }

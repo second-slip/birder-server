@@ -1,11 +1,12 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { UserProfileViewModel, NetworkUserViewModel } from '../../_models/UserProfileViewModel';
 import { ToastrService } from 'ngx-toastr';
-import { UserProfileService } from '../user-profile.service';
-import { NetworkService } from '../../_services/network.service';
+import { UserProfileViewModel, NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
+import { ObservationViewModel } from '@app/_models/ObservationViewModel';
+import { NetworkService } from '@app/_services/network.service';
+import { UserProfileService } from '@app/_services/user-profile.service';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+
 
 @Component({
   selector: 'app-user-profile',
