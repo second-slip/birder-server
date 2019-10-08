@@ -117,7 +117,7 @@ namespace Birder.Controllers
                 if (requestingUser == null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
-                    return NotFound("User not found");
+                    return NotFound("Requesting user not found");
                 }
 
                 var followingUsernamesList = UserProfileHelper.GetFollowingUserNames(requestingUser.Following);
