@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { BirdsIndexComponent } from './_birds/birds-index/birds-index.component';
 import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './auth-guard.service';
+import { AuthGuard } from './_services/auth-guard.service';
 import { LogoutComponent } from './logout/logout.component';
 import { BirdsDetailComponent } from './_birds/birds-detail/birds-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';

@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 import { filter, catchError, tap, map, switchMap } from 'rxjs/operators';
 import { fromPromise } from 'rxjs/observable/fromPromise';
-import { LocationViewModel } from './_models/LocationViewModel';
+import { LocationViewModel } from '../_models/LocationViewModel';
 import { ObserversModule } from '@angular/cdk/observers';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 

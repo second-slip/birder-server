@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { UsernameValidator, PasswordValidator, ParentErrorStateMatcher } from '../../../validators';
-import { AccountService } from '../../account.service';
+import { AccountService } from '../../_services/account.service';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { RegisterViewModel } from '../../_models/RegisterViewModel';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { ObservationService } from '../../observation.service';
+import { ObservationService } from '../../_services/observation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { Location } from '@angular/common';

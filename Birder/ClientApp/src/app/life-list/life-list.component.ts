@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ObservationsAnalysisService } from '../observations-analysis.service';
+import { ObservationsAnalysisService } from '../_services/observations-analysis.service';
 import { LifeListViewModel } from '../_models/LifeListViewModels';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { ObservationAnalysisViewModel } from '../_models/ObservationAnalysisViewModel';

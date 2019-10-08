@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { BirdsService } from '../../birds.service';
+import { BirdsService } from '../../_services/birds.service';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';

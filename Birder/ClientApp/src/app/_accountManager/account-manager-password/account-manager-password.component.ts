@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ChangePasswordViewModel } from '../../_models/ChangePasswordViewModel';
-import { AccountManagerService } from '../../../app/account-manager.service';
+import { AccountManagerService } from '../../_services/account-manager.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ParentErrorStateMatcher, PasswordValidator } from '../../../validators';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';

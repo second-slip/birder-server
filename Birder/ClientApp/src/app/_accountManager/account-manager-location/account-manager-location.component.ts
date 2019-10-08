@@ -1,13 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
-import { GeocodeService } from '../../../app/geocode.service';
+import { GeocodeService } from '../../_services/geocode.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { LocationViewModel } from '../../_models/LocationViewModel';
 import { SetLocationViewModel } from '../../_models/SetLocationViewModel';
 import { UserViewModel } from '../../_models/UserViewModel';
-import { TokenService } from '../../../app/token.service';
-import { AccountManagerService } from '../../../app/account-manager.service';
+import { TokenService } from '../../_services/token.service';
+import { AccountManagerService } from '../../_services/account-manager.service';
 
 @Component({
   selector: 'app-account-manager-location',

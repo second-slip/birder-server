@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { ObservationService } from '../../observation.service';
+import { ObservationService } from '../../_services/observation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { GeocodeService } from '../../geocode.service';
+import { GeocodeService } from '../../_services/geocode.service';
 import { LocationViewModel } from '../../_models/LocationViewModel';
 
 @Component({

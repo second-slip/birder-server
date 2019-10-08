@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
-import { BirdsService } from '../../birds.service';
+import { BirdsService } from '../../_services/birds.service';
 import { BirdDetailViewModel } from '../../_models/BirdDetailViewModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';

@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../_services/authentication.service';
 import { Router } from '@angular/router';
 
 @Component({

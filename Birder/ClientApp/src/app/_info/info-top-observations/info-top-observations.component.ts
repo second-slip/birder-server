@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ObservationService } from '../../observation.service';
-import { ObservationsAnalysisService } from '../../observations-analysis.service';
+import { ObservationService } from '../../_services/observation.service';
+import { ObservationsAnalysisService } from '../../_services/observations-analysis.service';
 import { Subscription } from 'rxjs';
 import { TopObservationsAnalysisViewModel } from '../../_models/ObservationAnalysisViewModel';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';

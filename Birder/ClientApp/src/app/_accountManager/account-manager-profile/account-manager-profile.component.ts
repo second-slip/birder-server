@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AccountManagerService } from '../../account-manager.service';
+import { AccountManagerService } from '../../_services/account-manager.service';
 import { ToastrService } from 'ngx-toastr';
 import { ManageProfileViewModel } from '../../_models/ManageProfileViewModel';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { AccountService } from '../../account.service';
+import { AccountService } from '../../_services/account.service';
 import { ParentErrorStateMatcher } from '../../../validators';
 import { first } from 'rxjs/operators';
 

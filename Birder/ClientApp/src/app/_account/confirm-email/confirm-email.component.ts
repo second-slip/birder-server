@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AuthenticationService } from '../../../app/authentication.service';
+import { AuthenticationService } from '../../_services/authentication.service';
 
 @Component({
   selector: 'app-confirm-email',

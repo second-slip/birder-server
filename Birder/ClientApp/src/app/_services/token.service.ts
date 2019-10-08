@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserViewModel } from './_models/UserViewModel';
+import { UserViewModel } from '../_models/UserViewModel';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthenticationService } from './authentication.service';
 

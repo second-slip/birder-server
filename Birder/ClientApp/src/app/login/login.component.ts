@@ -1,4 +1,4 @@
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../_services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';

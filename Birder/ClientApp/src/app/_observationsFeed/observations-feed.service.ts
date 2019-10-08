@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorHandlerService } from '../http-error-handler.service';
+import { HttpErrorHandlerService } from '../_services/http-error-handler.service';
 import { Observable } from 'rxjs';
 import { ObservationViewModel } from '../_models/ObservationViewModel';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';

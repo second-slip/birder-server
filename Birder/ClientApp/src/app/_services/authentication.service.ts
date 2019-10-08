@@ -3,10 +3,10 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { tap, catchError, take } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { LoginViewModel } from './_models/LoginViewModel';
+import { LoginViewModel } from '../_models/LoginViewModel';
 import { HttpErrorHandlerService } from './http-error-handler.service';
-import { AuthenticationErrorViewModel } from './_models/ErrorReportViewModel';
-import { AuthenticationResultDto } from './_models/AuthenticationResultDto';
+import { AuthenticationErrorViewModel } from '../_models/ErrorReportViewModel';
+import { AuthenticationResultDto } from '../_models/AuthenticationResultDto';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

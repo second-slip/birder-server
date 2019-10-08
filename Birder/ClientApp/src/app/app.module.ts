@@ -30,7 +30,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
 import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './auth-guard.service';
+import { AuthGuard } from './_services/auth-guard.service';
 import { LogoutComponent } from './logout/logout.component';
 import { BirdsIndexComponent } from './_birds/birds-index/birds-index.component';
 import { BirdsDetailComponent } from './_birds/birds-detail/birds-detail.component';
@@ -45,7 +45,7 @@ import { ObservationEditComponent } from './_observations/observation-edit/obser
 import { ObservationDeleteComponent } from './_observations/observation-delete/observation-delete.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AgmCoreModule } from '@agm/core';
-import { GeocodeService } from './geocode.service';
+import { GeocodeService } from './_services/geocode.service';
 import { InfoObservationCountComponent } from './_info/info-observation-count/info-observation-count.component';
 import { InfoTopObservationsComponent } from './_info/info-top-observations/info-top-observations.component';
 import { InfoTweetDayComponent } from './_info/info-tweet-day/info-tweet-day.component';
@@ -62,7 +62,7 @@ import { AccountSideMenuComponent } from './account-side-menu/account-side-menu.
 import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/layout-account-manager.component';
 import { AccountManagerLocationComponent } from './_accountManager/account-manager-location/account-manager-location.component';
 import { AccountManagerPasswordComponent } from './_accountManager/account-manager-password/account-manager-password.component';
-import { RequestCache, RequestCacheWithMap } from './request-cache.service';
+import { RequestCache, RequestCacheWithMap } from './_services/request-cache.service';
 import { ConfirmedEmailComponent } from './_account/confirmed-email/confirmed-email.component';
 import { ResetPasswordComponent } from './_account/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './_account/forgot-password/forgot-password.component';

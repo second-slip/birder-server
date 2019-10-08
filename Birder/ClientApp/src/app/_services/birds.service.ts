@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BirdDetailViewModel } from './_models/BirdDetailViewModel';
+import { BirdDetailViewModel } from '../_models/BirdDetailViewModel';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpErrorHandlerService } from './http-error-handler.service';
-import { ErrorReportViewModel } from './_models/ErrorReportViewModel';
-import { BirdSummaryViewModel } from './_models/BirdSummaryViewModel';
-import { BirderStatus } from './_models/BirdIndexOptions';
-import { ObservationViewModel } from './_models/ObservationViewModel';
+import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
+import { BirdSummaryViewModel } from '../_models/BirdSummaryViewModel';
+import { BirderStatus } from '../_models/BirdIndexOptions';
+import { ObservationViewModel } from '../_models/ObservationViewModel';
 
 @Injectable({
   providedIn: 'root'

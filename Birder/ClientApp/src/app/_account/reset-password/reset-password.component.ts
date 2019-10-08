@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { AccountService } from '../../account.service';
+import { AccountService } from '../../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { ParentErrorStateMatcher, PasswordValidator } from '../../../validators';
 import { ResetPasswordViewModel } from '../../_models/ResetPasswordViewModel';

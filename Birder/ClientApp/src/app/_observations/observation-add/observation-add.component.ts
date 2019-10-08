@@ -4,13 +4,13 @@ import { ParentErrorStateMatcher } from '../../../validators';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
-import { BirdsService } from '../../birds.service';
+import { BirdsService } from '../../_services/birds.service';
 import { LocationViewModel } from '../../_models/LocationViewModel';
-import { GeocodeService } from '../../geocode.service';
+import { GeocodeService } from '../../_services/geocode.service';
 import { UserViewModel } from '../../_models/UserViewModel';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { ObservationService } from '../../observation.service';
-import { TokenService } from '../../token.service';
+import { ObservationService } from '../../_services/observation.service';
+import { TokenService } from '../../_services/token.service';
 import { BirderStatus } from '../../_models/BirdIndexOptions';
 
 @Component({
