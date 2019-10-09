@@ -579,47 +579,47 @@ namespace Birder.Tests.Controller
 
 
 
-        //#region Unfollow action tests
+        #region Unfollow action tests
 
-        //[Fact]
-        //public async Task PostUnfollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
-        //{
-        //    // Arrange
-        //    var mockRepo = new Mock<INetworkRepository>();
+        [Fact]
+        public async Task PostUnfollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
+        {
+            // Arrange
+            var mockRepo = new Mock<INetworkRepository>();
 
-        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-        //    var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, _userManager);
 
-        //    controller.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
-        //    };
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+            };
 
-        //    //Add model error
-        //    controller.ModelState.AddModelError("Test", "This is a test model error");
+            //Add model error
+            controller.ModelState.AddModelError("Test", "This is a test model error");
 
-        //    // Act
-        //    var result = await controller.PostUnfollowUserAsync(GetTestNetworkUserViewModel());
+            // Act
+            var result = await controller.PostUnfollowUserAsync(GetTestNetworkUserViewModel("Test User"));
 
-        //    var modelState = controller.ModelState;
-        //    Assert.Equal(1, modelState.ErrorCount);
-        //    Assert.True(modelState.ContainsKey("Test"));
-        //    Assert.True(modelState["Test"].Errors.Count == 1);
-        //    Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
+            var modelState = controller.ModelState;
+            Assert.Equal(1, modelState.ErrorCount);
+            Assert.True(modelState.ContainsKey("Test"));
+            Assert.True(modelState["Test"].Errors.Count == 1);
+            Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
 
-        //    // test response
-        //    var objectResult = result as ObjectResult;
-        //    Assert.NotNull(objectResult);
-        //    Assert.IsType<BadRequestObjectResult>(result);
-        //    Assert.True(objectResult is BadRequestObjectResult);
-        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-        //    //
-        //    Assert.IsType<String>(objectResult.Value);
+            // test response
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            //
+            var actual = Assert.IsType<String>(objectResult.Value);
 
-        //    //Assert.Contains("This is a test model error", "This is a test model error");
-        //    Assert.Equal("Invalid modelstate", objectResult.Value);
-        //}
+            //Assert.Contains("This is a test model error", "This is a test model error");
+            Assert.Equal("Invalid modelstate", actual);
+        }
 
 
 
@@ -749,7 +749,7 @@ namespace Birder.Tests.Controller
         //    Assert.Equal("Other Member's Profile Test", model.UserName);
         //}
 
-        //#endregion
+        #endregion
 
         #region Mock methods
 
