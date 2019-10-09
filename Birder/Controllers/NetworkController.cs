@@ -146,12 +146,18 @@ namespace Birder.Controllers
 
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
 
+                if (requestingUser == null)
+                {
+                    _logger.LogError(LoggingEvents.UpdateItem, "Requesting user not found");
+                    return NotFound("Requesting user not found");
+                }
+
                 var userToFollow = await _userManager.GetUserWithNetworkAsync(userToFollowDetails.UserName);
 
-                if (requestingUser == null || userToFollow == null)
+                if (userToFollow == null)
                 {
-                    _logger.LogError(LoggingEvents.UpdateItem, "User not found");
-                    return NotFound("User not found");
+                    _logger.LogError(LoggingEvents.UpdateItem, "User to follow not found");
+                    return NotFound("User to follow not found");
                 }
 
                 if (requestingUser == userToFollow)

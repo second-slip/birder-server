@@ -327,6 +327,7 @@ namespace Birder.Tests.Controller
             Assert.Equal("Requesting user not found", objectResult.Value);
         }
 
+
         //[Fact]
         //public async Task GetSearchNetworkAsync_ReturnsBadRequestWithStringObject_WhenExceptionIsRaised()
         //{
@@ -359,173 +360,223 @@ namespace Birder.Tests.Controller
         #endregion
 
 
-        //#region Follow action tests
+        #region Follow action tests
 
-        //[Fact]
-        //public async Task PostFollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
-        //{
-        //    // Arrange
-        //    var mockRepo = new Mock<INetworkRepository>();
+        [Fact]
+        public async Task PostFollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
+        {
+            // Arrange
+            var mockRepo = new Mock<INetworkRepository>();
 
-        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-        //    var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, _userManager);
 
-        //    controller.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
-        //    };
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+            };
 
-        //    //Add model error
-        //    controller.ModelState.AddModelError("Test", "This is a test model error");
+            //Add model error
+            controller.ModelState.AddModelError("Test", "This is a test model error");
 
-        //    // Act
-        //    var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel());
+            
+            // Act
+            var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel("Test User"));
 
-        //    var modelState = controller.ModelState;
-        //    Assert.Equal(1, modelState.ErrorCount);
-        //    Assert.True(modelState.ContainsKey("Test"));
-        //    Assert.True(modelState["Test"].Errors.Count == 1);
-        //    Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
+            var modelState = controller.ModelState;
+            Assert.Equal(1, modelState.ErrorCount);
+            Assert.True(modelState.ContainsKey("Test"));
+            Assert.True(modelState["Test"].Errors.Count == 1);
+            Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
 
-        //    // test response
-        //    var objectResult = result as ObjectResult;
-        //    Assert.NotNull(objectResult);
-        //    Assert.IsType<BadRequestObjectResult>(result);
-        //    Assert.True(objectResult is BadRequestObjectResult);
-        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-        //    //
-        //    Assert.IsType<string>(objectResult.Value);
+            // test response
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            //
+            var actual = Assert.IsType<string>(objectResult.Value);
 
-        //    //Assert.Contains("This is a test model error", "This is a test model error");
-        //    Assert.Equal("Invalid modelstate", objectResult.Value);
-        //}
+            //Assert.Contains("This is a test model error", "This is a test model error");
+            Assert.Equal("Invalid modelstate", actual);
+        }
 
-        //[Fact]
-        //public async Task PostFollowUserAsync_ReturnsNotFound_WhenUserIsNullFromRepository()
-        //{
-        //    // Arrange
-        //    var mockRepo = new Mock<INetworkRepository>();
-        //    //mockRepo.Setup(x => x.GetUserAndNetworkAsync(It.IsAny<String>()))
-        //    //        .Returns(Task.FromResult<ApplicationUser>(null));
+        [Fact]
+        public async Task PostFollowUserAsync_ReturnsNotFound_WhenRequestingUserIsNullFromRepository()
+        {
+            // Arrange
+            var mockRepo = new Mock<INetworkRepository>();
+            //mockRepo.Setup(x => x.GetUserAndNetworkAsync(It.IsAny<String>()))
+            //        .Returns(Task.FromResult<ApplicationUser>(null));
 
-        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-        //    var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, _userManager);
 
-        //    controller.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
-        //    };
+            string requestingUser = "This requested user does not exist";
 
-        //    // Act
-        //    var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel());
+            string userToFollow = "This requested user does not exist";
 
-        //    // Assert
-        //    var objectResult = result as ObjectResult;
-        //    Assert.NotNull(objectResult);
-        //    Assert.IsType<NotFoundObjectResult>(result);
-        //    Assert.True(objectResult is NotFoundObjectResult);
-        //    Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
-        //    Assert.IsType<String>(objectResult.Value);
-        //    Assert.Equal("User not found", objectResult.Value);
-        //}
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
+            };
 
-        //[Fact]
-        //public async Task PostFollowUserAsync_ReturnsBadRequest_FollowerAndToFollowAreEqual()
-        //{
-        //    // Arrange
-        //    var mockRepo = new Mock<INetworkRepository>();
-        //    mockRepo.Setup(x => x.GetUserAndNetworkAsync(It.IsAny<String>()))
-        //            .ReturnsAsync(GetOwnUserProfile());
+            // Act
+            var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel(userToFollow));
 
-        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.True(objectResult is NotFoundObjectResult);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            Assert.IsType<String>(objectResult.Value);
+            Assert.Equal("Requesting user not found", objectResult.Value);
+        }
 
-        //    var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+        [Fact]
+        public async Task PostFollowUserAsync_ReturnsNotFound_WhenUserToFollowIsNullFromRepository()
+        {
+            // Arrange
+            var mockRepo = new Mock<INetworkRepository>();
+            //mockRepo.Setup(x => x.GetUserAndNetworkAsync(It.IsAny<String>()))
+            //        .Returns(Task.FromResult<ApplicationUser>(null));
 
-        //    controller.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
-        //    };
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-        //    // Act
-        //    var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel());
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, _userManager);
 
-        //    // Assert
-        //    var objectResult = result as ObjectResult;
-        //    Assert.NotNull(objectResult);
-        //    Assert.IsType<BadRequestObjectResult>(result);
-        //    Assert.True(objectResult is BadRequestObjectResult);
-        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-        //    Assert.IsType<String>(objectResult.Value);
-        //    Assert.Equal("Trying to follow yourself", objectResult.Value);
-        //}
+            string requestingUser = "Tenko";
 
-        //[Fact]
-        //public async Task PostFollowUserAsync_ReturnsBadRequestWithStringObject_WhenExceptionIsRaised()
-        //{
-        //    // Arrange
-        //    var mockRepo = new Mock<INetworkRepository>();
-        //    //mockRepo.Setup(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
-        //    //     .ThrowsAsync(new InvalidOperationException());
+            string userToFollow = "This requested user does not exist";
 
-        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
+            };
 
-        //    var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+            // Act
+            var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel(userToFollow));
 
-        //    controller.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
-        //    };
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.True(objectResult is NotFoundObjectResult);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            Assert.IsType<String>(objectResult.Value);
+            Assert.Equal("User to follow not found", objectResult.Value);
+        }
 
-        //    // Act
-        //    var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel());
+        [Fact]
+        public async Task PostFollowUserAsync_ReturnsBadRequest_FollowerAndToFollowAreEqual()
+        {
+            // Arrange
+            var mockRepo = new Mock<INetworkRepository>();
 
-        //    // Assert
-        //    Assert.IsType<BadRequestObjectResult>(result);
-        //    var objectResult = result as ObjectResult;
-        //    Assert.Equal("An error occurred trying to follow user: Test Network View Model", objectResult.Value);
-        //}
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-        //[Fact]
-        //public async Task PostFollowUserAsync_ReturnsOkObject_WhenRequestIsValid()
-        //{
-        //    // Arrange
-        //    var mockRepo = new Mock<INetworkRepository>();
-        //    //mockRepo.SetupSequence(repo => repo.GetUserAndNetworkAsync(It.IsAny<string>()))
-        //    //    .ReturnsAsync(GetOwnUserProfile())
-        //    //    .ReturnsAsync(GetOtherMemberUserProfile())
-        //    //    .ReturnsAsync(GetOwnUserProfile());
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, _userManager);
 
-        //    mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
-        //        .Verifiable();
+            string requestingUser = "Tenko";
 
-        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
-        //    mockUnitOfWork.Setup(x => x.CompleteAsync()).Returns(Task.CompletedTask);
+            string userToFollow = requestingUser;
 
-        //    var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object);
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
+            };
 
-        //    controller.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
-        //    };
+            // Act
+            var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel(userToFollow));
 
-        //    // Act
-        //    var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel());
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.IsType<String>(objectResult.Value);
+            Assert.Equal("Trying to follow yourself", objectResult.Value);
+        }
 
-        //    // Assert
-        //    var objectResult = result as ObjectResult;
-        //    Assert.NotNull(objectResult);
-        //    Assert.IsType<OkObjectResult>(result);
-        //    Assert.True(objectResult is OkObjectResult);
-        //    Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-        //    Assert.IsType<NetworkUserViewModel>(objectResult.Value);
+        [Fact]
+        public async Task PostFollowUserAsync_ReturnsBadRequestWithStringObject_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockRepo = new Mock<INetworkRepository>();
+            mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
+                .Verifiable();
 
-        //    var model = objectResult.Value as NetworkUserViewModel;
-        //    Assert.Equal("Other Member's Profile Test", model.UserName);
-        //}
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.Setup(x => x.CompleteAsync())
+                .ThrowsAsync(new InvalidOperationException());
+                
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, _userManager);
 
-        //#endregion
+            string requestingUser = "Tenko";
+
+            string userToFollow = "Toucan";
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
+            };
+
+            // Act
+            var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel(userToFollow));
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal($"An error occurred trying to follow user: {userToFollow}", objectResult.Value);
+        }
+
+        [Fact]
+        public async Task PostFollowUserAsync_ReturnsOkObject_WhenRequestIsValid()
+        {
+            // Arrange
+            var mockRepo = new Mock<INetworkRepository>();
+            mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
+                .Verifiable();
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.Setup(x => x.CompleteAsync()).Returns(Task.CompletedTask);
+
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, _userManager);
+
+            string requestingUser = "Tenko";
+
+            string userToFollow = "Toucan";
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
+            };
+
+            // Act
+            var result = await controller.PostFollowUserAsync(GetTestNetworkUserViewModel(userToFollow));
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<OkObjectResult>(result);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            Assert.IsType<NetworkUserViewModel>(objectResult.Value);
+
+            var model = objectResult.Value as NetworkUserViewModel;
+            Assert.Equal(userToFollow, model.UserName);
+        }
+
+        #endregion
+
+
+
+
 
 
         //#region Unfollow action tests
@@ -569,6 +620,10 @@ namespace Birder.Tests.Controller
         //    //Assert.Contains("This is a test model error", "This is a test model error");
         //    Assert.Equal("Invalid modelstate", objectResult.Value);
         //}
+
+
+
+
 
         //[Fact]
         //public async Task PostUnfollowUserAsync_ReturnsNotFound_WhenUserIsNullFromRepository()
@@ -698,6 +753,11 @@ namespace Birder.Tests.Controller
 
         #region Mock methods
 
+        private NetworkUserViewModel GetTestNetworkUserViewModel(string username)
+        {
+            return new NetworkUserViewModel() { UserName = username };
+        }
+
         private ApplicationUser GetOwnUserProfile()
         {
             var user = new ApplicationUser()
@@ -718,18 +778,6 @@ namespace Birder.Tests.Controller
             return user;
         }
 
-        //ToDo: move to shared
-        private ClaimsPrincipal GetTestClaimsPrincipal()
-        {
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Name, "example name"),
-                new Claim(ClaimTypes.NameIdentifier, "1"),
-                new Claim("custom-claim", "example claim value"),
-            }, "mock"));
-
-            return user;
-        }
 
         #endregion
     }
