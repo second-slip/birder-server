@@ -50,7 +50,7 @@ namespace Birder.Controllers
                 if (filter == ObservationsFeedFilter.User)
                 {
                     var userObservations = await _observationRepository.GetObservationsAsync(o => o.ApplicationUser.UserName == username);
-                    if (userObservations.Count() > 0)
+                    if (userObservations.Count() > 0) // might have network obs...
                         return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(userObservations));
                 }
 

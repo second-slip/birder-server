@@ -25,7 +25,6 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemClockService _systemClock;
-        //private readonly INetworkRepository _userRepository;
         private readonly IBirdRepository _birdRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
@@ -34,7 +33,6 @@ namespace Birder.Controllers
                                    , IMemoryCache memoryCache
                                    , ISystemClockService systemClock
                                    , IUnitOfWork unitOfWork
-                                   //, INetworkRepository userRepository
                                    , IBirdRepository birdRepository
                                    , ILogger<ObservationController> logger
                                    , UserManager<ApplicationUser> userManager
@@ -46,7 +44,6 @@ namespace Birder.Controllers
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _systemClock = systemClock;
-            //_userRepository = userRepository;
             _birdRepository = birdRepository;
             _observationRepository = observationRepository;
         }
@@ -104,6 +101,9 @@ namespace Birder.Controllers
                 if (ModelState.IsValid)
                 {
                     var username = User.Identity.Name;
+                    //user null check
+
+                    // Bird and null check
 
                     var observation = _mapper.Map<ObservationViewModel, Observation>(model);
                     observation.ApplicationUser = await _userManager.FindByNameAsync(username);
