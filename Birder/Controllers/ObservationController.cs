@@ -79,7 +79,7 @@ namespace Birder.Controllers
 
                 if (observation == null)
                 {
-                    var message = $"Observation with id '{id}' was not found.";
+                    string message = $"Observation with id '{id}' was not found.";
                     _logger.LogWarning(LoggingEvents.GetItemNotFound, message);
                     return NotFound(message);
                 }
@@ -88,8 +88,9 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, ex, $"Observation with id '{id}' was not found.");
-                return BadRequest("Observation was not found.");
+                string message = $"Observation with id '{id}' was not found.";
+                _logger.LogError(LoggingEvents.GetItemNotFound, ex, message);
+                return BadRequest(message);
             }
         }
 
