@@ -183,7 +183,7 @@ namespace Birder.Controllers
         }
 
         [HttpPost, Route("Unfollow")]
-        public async Task<IActionResult> PostUnfollowUserAsync(NetworkUserViewModel userToFollowDetails) //, int currentPage)
+        public async Task<IActionResult> PostUnfollowUserAsync(NetworkUserViewModel userToUnfollowDetails) //, int currentPage)
         {
             try
             {
@@ -194,12 +194,19 @@ namespace Birder.Controllers
                 }
 
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
-                var userToUnfollow = await _userManager.GetUserWithNetworkAsync(userToFollowDetails.UserName);
 
-                if (requestingUser == null || userToUnfollow == null)
+                if (requestingUser == null)
                 {
-                    _logger.LogError(LoggingEvents.UpdateItem, "User not found");
-                    return NotFound("User not found");
+                    _logger.LogError(LoggingEvents.UpdateItem, "Requesting user not found");
+                    return NotFound("Requesting user not found");
+                }
+
+                var userToUnfollow = await _userManager.GetUserWithNetworkAsync(userToUnfollowDetails.UserName);
+
+                if (userToUnfollow == null)
+                {
+                    _logger.LogError(LoggingEvents.UpdateItem, "User to Unfollow not found");
+                    return NotFound("User to Unfollow not found");
                 }
 
                 if (requestingUser == userToUnfollow)
@@ -220,7 +227,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Unfollow action error");
-                return BadRequest($"An error occurred trying to unfollow user: {userToFollowDetails.UserName}");
+                return BadRequest($"An error occurred trying to unfollow user: {userToUnfollowDetails.UserName}");
             }
         }
     }
