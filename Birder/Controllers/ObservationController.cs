@@ -48,28 +48,6 @@ namespace Birder.Controllers
             _observationRepository = observationRepository;
         }
 
-        [HttpGet, Route("GetObservationsBySpecies")]
-        public async Task<IActionResult> GetObservationsBySpeciesAsync(int birdId)
-        {
-            try
-            {
-                var observations = await _observationRepository.GetObservationsAsync(cs => cs.BirdId == birdId);
-
-                if (observations == null)
-                {
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, "GetBirdObservations({ID}) NOT FOUND", birdId);
-                    return NotFound();
-                }
-
-                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the bird observations list");
-                return BadRequest();
-            }
-        }
-
         [HttpGet, Route("GetObservation")]
         public async Task<IActionResult> GetObservationAsync(int id)
         {
@@ -88,11 +66,37 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                string message = $"Observation with id '{id}' was not found.";
+                string message = $"An error occurred getting observation with id '{id}'.";
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, message);
-                return BadRequest(message);
+                return BadRequest("An error occurred");
             }
         }
+
+
+        [HttpGet, Route("GetObservationsBySpecies")]
+        public async Task<IActionResult> GetObservationsBySpeciesAsync(int birdId)
+        {
+            try
+            {
+                var observations = await _observationRepository.GetObservationsAsync(cs => cs.BirdId == birdId);
+
+                if (observations == null)
+                {
+                    string message = $"Observations with birdId '{birdId}' was not found.";
+                    _logger.LogWarning(LoggingEvents.GetListNotFound, message);
+                    return NotFound(message);
+                }
+
+                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations));
+            }
+            catch (Exception ex)
+            {
+                string message = $"An error occurred getting Observations with birdId '{birdId}'.";
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
+                return BadRequest("An error occurred");
+            }
+        }
+
 
         [HttpPost, Route("CreateObservation")]
         public async Task<IActionResult> CreateObservationAsync(ObservationViewModel model)
