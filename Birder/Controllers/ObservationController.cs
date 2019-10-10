@@ -109,7 +109,7 @@ namespace Birder.Controllers
                     return BadRequest("An error occurred");
                 }
 
-                var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
+                var requestingUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
                 if (requestingUser == null)
                 {
@@ -143,8 +143,8 @@ namespace Birder.Controllers
                 await _unitOfWork.CompleteAsync();
 
                 _cache.Remove(CacheEntries.ObservationsList);
-
-                return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
+                return CreatedAtAction(nameof(CreateObservationAsync), _mapper.Map<Observation, ObservationViewModel>(observation));
+                //return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
             }
             catch (Exception ex)
             {
@@ -158,63 +158,49 @@ namespace Birder.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError(LoggingEvents.UpdateItem, "ObservationViewModel is invalid: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                    return BadRequest("An error occurred");
+                }
+
                 if (id != model.ObservationId)
                 {
                     return BadRequest("An error occurred.  Could not edit the observation.");
                 }
 
-                if (ModelState.IsValid)
+                var observation = await _observationRepository.GetObservationAsync(id, true);
+                if (observation == null)
                 {
-                    var observation = await _observationRepository.GetObservationAsync(id, true);
-                    if (observation == null)
-                    {
-                        return NotFound();
-                    }
-
-                    var username = User.Identity.Name;
-
-                    if (username != observation.ApplicationUser.UserName)
-                    {
-                        return BadRequest("An error occurred.  You can only edit your own observations.");
-                    }
-
-                    _mapper.Map<ObservationViewModel, Observation>(model, observation);
-
-                    observation.Bird = await _birdRepository.GetBirdAsync(model.BirdId);
-
-                    observation.LastUpdateDate = _systemClock.GetNow;
-
-                    TryValidateModel(observation);
-                    if (!ModelState.IsValid)
-                    {
-                        // logging
-                        return BadRequest(ModelState);
-                    }
-
-                    await _unitOfWork.CompleteAsync();
-
-                    _cache.Remove(CacheEntries.ObservationsList);
-
-                    return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
-
-                    //try
-                    //{
-                    //    await _observationRepository.UpdateObservation(observation);
-                    //}
-                    //catch (DbUpdateConcurrencyException)
-                    //{
-                    //    if (await _observationRepository.ObservationExists(id)) // !ObservationExists(id))
-                    //    {
-                    //        return NotFound();
-                    //    }
-                    //    else
-                    //    {
-                    //        throw;
-                    //    }
-                    //}
-
+                    return NotFound();
                 }
-                return BadRequest("An error occurred.  Could not edit the observation.");
+
+                var username = User.Identity.Name;
+
+                if (username != observation.ApplicationUser.UserName)
+                {
+                    return BadRequest("An error occurred.  You can only edit your own observations.");
+                }
+
+                _mapper.Map<ObservationViewModel, Observation>(model, observation);
+
+                observation.Bird = await _birdRepository.GetBirdAsync(model.BirdId);
+
+                observation.LastUpdateDate = _systemClock.GetNow;
+
+                TryValidateModel(observation);
+                if (!ModelState.IsValid)
+                {
+                    // logging
+                    return BadRequest(ModelState);
+                }
+
+                await _unitOfWork.CompleteAsync();
+
+                _cache.Remove(CacheEntries.ObservationsList);
+
+                return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
+
             }
             catch (Exception ex)
             {
