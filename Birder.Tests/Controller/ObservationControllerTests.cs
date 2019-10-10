@@ -779,7 +779,7 @@ namespace Birder.Tests.Controller
         [InlineData(1, 1)]
         [InlineData(2, 1)]
         [InlineData(3, 2)]
-        public async Task PutObservationAsync_ReturnsBadRequest_WhenRequestingUserIsNotObservationOwner(int id, int birdId)
+        public async Task PutObservationAsync_ReturnsUnauthorised_WhenRequestingUserIsNotObservationOwner(int id, int birdId)
         {
             //Arrange
             var requestingUser = GetUser("Any");
@@ -939,16 +939,102 @@ namespace Birder.Tests.Controller
             Assert.Equal(model.BirdId, actual.BirdId);
         }
 
-
         #endregion
 
 
+        #region DeleteObservationAsync
 
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 1)]
+        [InlineData(3, 2)]
+        public async Task DeleteObservationAsync_ReturnsBadRequest_WhenObservationNotFound(int id, int birdId)
+        {
+            //Arrange
+            var requestingUser = GetUser("Any");
+            var model = GetTestObservationViewModel(id, birdId, requestingUser);
 
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+                .Returns(Task.FromResult<Observation>(null));
 
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
 
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
 
+            // Act
+            var result = await controller.DeleteObservationAsync(id);
 
+            // Assert
+            string expectedMessage = $"Observation with id '{model.ObservationId}' was not found";
+
+            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 1)]
+        [InlineData(3, 2)]
+        public async Task DeleteObservationAsync_ReturnsUnauthorised_WhenRequestingUserIsNotObservationOwner(int id, int birdId)
+        {
+            //Arrange
+            var requestingUser = GetUser("Any");
+            var model = GetTestObservationViewModel(id, birdId, requestingUser);
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetAsync(It.IsAny<int>()))
+                .ReturnsAsync(GetTestObservation(0, new ApplicationUser { UserName = "Someone else" }));
+
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            // Act
+            var result = await controller.DeleteObservationAsync(id);
+
+            // Assert
+            string expectedMessage = "Requesting user is not allowed to delete this observation";
+
+            var objectResult = Assert.IsType<UnauthorizedObjectResult>(result);
+            Assert.Equal(StatusCodes.Status401Unauthorized, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        #endregion
 
 
 

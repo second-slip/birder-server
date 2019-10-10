@@ -221,7 +221,7 @@ namespace Birder.Controllers
                 
                 if (observation == null)
                 {
-                    string message = $"Observation with id '{id}' not found";
+                    string message = $"Observation with id '{id}' was not found";
                     _logger.LogError(LoggingEvents.UpdateItem, message);
                     return NotFound(message);
                 }
