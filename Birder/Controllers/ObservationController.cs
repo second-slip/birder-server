@@ -103,42 +103,53 @@ namespace Birder.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    var username = User.Identity.Name;
-                    //user null check
-
-                    // Bird and null check
-
-                    var observation = _mapper.Map<ObservationViewModel, Observation>(model);
-                    observation.ApplicationUser = await _userManager.FindByNameAsync(username);
-                    observation.Bird = await _birdRepository.GetBirdAsync(model.BirdId);
-                    observation.CreationDate = _systemClock.GetNow;
-                    observation.LastUpdateDate = observation.CreationDate;
-
-                    TryValidateModel(observation);
-                    if (!ModelState.IsValid)
-                    {
-                        // logging
-                        return BadRequest(ModelState);
-                    }
-
-                    _observationRepository.Add(observation);
-                    await _unitOfWork.CompleteAsync();
-
-                    _cache.Remove(CacheEntries.ObservationsList);
-
-                    return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
+                    _logger.LogError(LoggingEvents.UpdateItem, "ObservationViewModel is invalid: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                    return BadRequest("An error occurred");
                 }
-                else
+
+                var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
+
+                if (requestingUser == null)
                 {
-                    return BadRequest(ModelState);
+                    _logger.LogError(LoggingEvents.GetItem, "Requesting user not found");
+                    return NotFound("Requesting user not found");
                 }
+
+                var observedBirdSpecies = await _birdRepository.GetBirdAsync(model.BirdId);
+
+                if (observedBirdSpecies == null)
+                {
+                    string message = $"Bird species with id '{model.BirdId}' was not found.";
+                    _logger.LogError(LoggingEvents.GetItem, message);
+                    return NotFound(message);
+                }
+
+                var observation = _mapper.Map<ObservationViewModel, Observation>(model);
+                observation.ApplicationUser = requestingUser;
+                observation.Bird = observedBirdSpecies;
+                observation.CreationDate = _systemClock.GetNow;
+                observation.LastUpdateDate = observation.CreationDate;
+
+                TryValidateModel(observation);
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogError(LoggingEvents.UpdateItem, "Observation model state is invalid: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                    return BadRequest("An error occurred");
+                }
+
+                _observationRepository.Add(observation);
+                await _unitOfWork.CompleteAsync();
+
+                _cache.Remove(CacheEntries.ObservationsList);
+
+                return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to save a new order: {ex}");
-                return BadRequest("An error occurred.  Could not add the observation.");
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred creating an observation.");
+                return BadRequest("An unexpected error occurred.");
             }
         }
 

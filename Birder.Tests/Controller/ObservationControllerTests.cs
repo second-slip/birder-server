@@ -5,7 +5,6 @@ using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.Services;
 using Birder.ViewModels;
-using Castle.Core.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -317,6 +316,8 @@ namespace Birder.Tests.Controller
         #endregion
 
 
+
+
         private ApplicationUser GetUser(string username)
         {
             return new ApplicationUser()
@@ -356,8 +357,8 @@ namespace Birder.Tests.Controller
                     ObservationDateTime = DateTime.Now.AddDays(-4),
                     CreationDate = DateTime.Now.AddDays(-4),
                     LastUpdateDate = DateTime.Now.AddDays(-4),
-                    BirdId = bird.BirdId,
                     ApplicationUserId = "",
+                    BirdId = bird.BirdId,
                     Bird = bird,
                     ApplicationUser = null,
                     ObservationTags = null
