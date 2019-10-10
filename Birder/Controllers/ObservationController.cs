@@ -194,8 +194,8 @@ namespace Birder.Controllers
                 TryValidateModel(observation);
                 if (!ModelState.IsValid)
                 {
-                    // logging
-                    return BadRequest(ModelState);
+                    _logger.LogError(LoggingEvents.UpdateItemNotFound, "Observation has an invalid model state: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState), id);
+                    return BadRequest("An error occurred");
                 }
 
                 await _unitOfWork.CompleteAsync();
@@ -215,18 +215,37 @@ namespace Birder.Controllers
         [HttpDelete, Route("DeleteObservation")]
         public async Task<IActionResult> DeleteObservationAsync(int id)
         {
-            var observation = await _observationRepository.GetAsync(id);
-            if (observation == null)
+            try
             {
-                return NotFound();
+                var observation = await _observationRepository.GetAsync(id);
+                
+                if (observation == null)
+                {
+                    string message = $"Observation with id '{id}' not found";
+                    _logger.LogError(LoggingEvents.UpdateItem, message);
+                    return NotFound(message);
+                }
+
+                var requesterUsername = User.Identity.Name;
+
+                if (requesterUsername != observation.ApplicationUser.UserName)
+                {
+                    return Unauthorized("Requesting user is not allowed to delete this observation");
+                }
+
+                _observationRepository.Remove(observation);
+                
+                await _unitOfWork.CompleteAsync();
+
+                _cache.Remove(CacheEntries.ObservationsList);
+
+                return Ok(id);
             }
-
-            _observationRepository.Remove(observation);
-            await _unitOfWork.CompleteAsync();
-
-            _cache.Remove(CacheEntries.ObservationsList);
-
-            return Ok(id);
+            catch(Exception ex)
+            {
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"An error occurred updating observation with id: {id}");
+                return BadRequest("An unexpected error occurred");
+            }
         }
     }
 }

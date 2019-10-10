@@ -883,8 +883,8 @@ namespace Birder.Tests.Controller
 
         [Theory]
         [InlineData(1, 1)]
-        [InlineData(2, 1)]
-        [InlineData(3, 1)]
+        [InlineData(2, 5)]
+        [InlineData(45, 12)]
         public async Task PutObservationAsync_ReturnsOkWithObservationViewModel_OnSuccess(int id, int birdId)
         {
             //Arrange
