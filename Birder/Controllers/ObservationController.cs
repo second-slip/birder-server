@@ -144,7 +144,6 @@ namespace Birder.Controllers
 
                 _cache.Remove(CacheEntries.ObservationsList);
                 return CreatedAtAction(nameof(CreateObservationAsync), _mapper.Map<Observation, ObservationViewModel>(observation));
-                //return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
             }
             catch (Exception ex)
             {

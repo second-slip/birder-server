@@ -6,7 +6,6 @@ using Birder.Data.Repository;
 using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Caching.Memory;
@@ -16,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -952,7 +950,7 @@ namespace Birder.Tests.Controller
         {
             //Arrange
             var requestingUser = GetUser("Any");
-            var model = GetTestObservationViewModel(id, birdId, requestingUser);
+            //var model = GetTestObservationViewModel(id, birdId, requestingUser);
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockBirdRepo = new Mock<IBirdRepository>();
@@ -981,7 +979,7 @@ namespace Birder.Tests.Controller
             var result = await controller.DeleteObservationAsync(id);
 
             // Assert
-            string expectedMessage = $"Observation with id '{model.ObservationId}' was not found";
+            string expectedMessage = $"Observation with id '{id}' was not found";
 
             var objectResult = Assert.IsType<NotFoundObjectResult>(result);
             Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
@@ -1032,6 +1030,116 @@ namespace Birder.Tests.Controller
             Assert.Equal(StatusCodes.Status401Unauthorized, objectResult.StatusCode);
             var actual = Assert.IsType<string>(objectResult.Value);
             Assert.Equal(expectedMessage, actual);
+        }
+
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 1)]
+        [InlineData(3, 2)]
+        public async Task DeleteObservationAsync_ReturnsBadRequest_OnException(int id, int birdId)
+        {
+            //Arrange
+            var model = GetTestObservationViewModel(id, birdId);
+            var requestingUser = GetUser("Any");
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(o => o.GetAsync(It.IsAny<int>()))
+                       .Throws(new InvalidOperationException());
+            var mockObjectValidator = new Mock<IObjectModelValidator>();
+            mockObjectValidator.Setup(o => o.Validate(It.IsAny<ActionContext>(),
+                                              It.IsAny<ValidationStateDictionary>(),
+                                              It.IsAny<string>(),
+                                              It.IsAny<Object>()));
+
+
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                    { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            controller.ObjectValidator = mockObjectValidator.Object;
+
+            // Act
+            var result = await controller.DeleteObservationAsync(id);
+
+            // Assert
+            string expectedMessage = "An unexpected error occurred";
+
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 5)]
+        [InlineData(45, 12)]
+        public async Task DeleteObservationAsync_ReturnsOk_OnSuccess(int id, int birdId)
+        {
+            //Arrange
+            //var model = GetTestObservationViewModel(id, birdId);
+            var requestingUser = GetUser("Any");
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.Setup(w => w.CompleteAsync())
+                .Returns(Task.CompletedTask);
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            //mockBirdRepo.Setup(b => b.GetBirdAsync(It.IsAny<int>()))
+            //    .ReturnsAsync(GetTestBird(birdId));
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            //mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
+            //                .ReturnsAsync(requestingUser);
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetAsync(It.IsAny<int>()))
+                .ReturnsAsync(GetTestObservation(id, requestingUser));
+            var mockObjectValidator = new Mock<IObjectModelValidator>();
+            mockObjectValidator.Setup(o => o.Validate(It.IsAny<ActionContext>(),
+                                              It.IsAny<ValidationStateDictionary>(),
+                                              It.IsAny<string>(),
+                                              It.IsAny<Object>()));
+
+
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            controller.ObjectValidator = mockObjectValidator.Object;
+
+            // Act
+            var result = await controller.DeleteObservationAsync(id);
+
+            // Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var actual = Assert.IsType<int>(objectResult.Value);
+            Assert.Equal(actual, id);
         }
 
         #endregion
