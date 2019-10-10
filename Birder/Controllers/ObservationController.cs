@@ -166,20 +166,23 @@ namespace Birder.Controllers
 
                 if (id != model.ObservationId)
                 {
-                    return BadRequest("An error occurred.  Could not edit the observation.");
+                    _logger.LogError(LoggingEvents.UpdateItem, $"Id '{id}' not equal to model id '{model.ObservationId}'");
+                    return BadRequest("An error occurred (id)");
                 }
 
                 var observation = await _observationRepository.GetObservationAsync(id, true);
                 if (observation == null)
                 {
-                    return NotFound();
+                    string message = $"Observation with id '{model.ObservationId}' was not found.";
+                    _logger.LogError(LoggingEvents.UpdateItem, message);
+                    return NotFound(message);
                 }
 
                 var username = User.Identity.Name;
 
                 if (username != observation.ApplicationUser.UserName)
                 {
-                    return BadRequest("An error occurred.  You can only edit your own observations.");
+                    return Unauthorized("Requesting user is not allowed to edit this observation");
                 }
 
                 _mapper.Map<ObservationViewModel, Observation>(model, observation);
@@ -205,7 +208,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred updating (PUT) observation with id: {ID}", id);
-                return BadRequest("An error occurred.  Could not edit the observation.");
+                return BadRequest("An unexpected error occurred");
             }
         }
 

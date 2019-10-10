@@ -632,7 +632,312 @@ namespace Birder.Tests.Controller
             Assert.Equal(expectedMessage, actual);
         }
 
+        [Fact]
+        public async Task PutObservationAsync_ReturnsBadRequest_OnIdNotEqualModelId()
+        {
+            //Arrange
+            int birdId = 1;
+            int id = 1;
+            int modelId = 2;
+            var model = GetTestObservationViewModel(modelId, birdId);
+            var requestingUser = GetUser("Any");
 
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            //mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+            //           .ThrowsAsync(new InvalidOperationException());
+
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            // Act
+            var result = await controller.PutObservationAsync(id, model);
+
+            // Assert
+            string expectedMessage = "An error occurred (id)";
+
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 1)]
+        [InlineData(3, 2)]
+        public async Task PutObservationAsync_ReturnsNotFound_WhenObservationNotFound(int id, int birdId)
+        {
+            //Arrange
+            var model = GetTestObservationViewModel(id, birdId);
+            var requestingUser = GetUser("Any");
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            //mockBirdRepo.Setup(b => b.GetBirdAsync(It.IsAny<int>()))
+            //    .Returns(Task.FromResult<Bird>(null));
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            //mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
+            //                .ReturnsAsync(requestingUser);
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+                .Returns(Task.FromResult<Observation>(null));
+
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            // Act
+            var result = await controller.PutObservationAsync(id, model);
+
+            // Assert
+            string expectedMessage = $"Observation with id '{model.ObservationId}' was not found.";
+
+            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 1)]
+        [InlineData(3, 2)]
+        public async Task PutObservationAsync_ReturnsBadRequest_WhenObservationNotFound(int id, int birdId)
+        {
+            //Arrange
+            var model = GetTestObservationViewModel(id, birdId);
+            var requestingUser = GetUser("Any");
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            //mockBirdRepo.Setup(b => b.GetBirdAsync(It.IsAny<int>()))
+            //    .Returns(Task.FromResult<Bird>(null));
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            //mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
+            //                .ReturnsAsync(requestingUser);
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+                .Returns(Task.FromResult<Observation>(null));
+
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            // Act
+            var result = await controller.PutObservationAsync(id, model);
+
+            // Assert
+            string expectedMessage = $"Observation with id '{model.ObservationId}' was not found.";
+
+            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 1)]
+        [InlineData(3, 2)]
+        public async Task PutObservationAsync_ReturnsBadRequest_WhenRequestingUserIsNotObservationOwner(int id, int birdId)
+        {
+            //Arrange
+            var requestingUser = GetUser("Any");
+            var model = GetTestObservationViewModel(id, birdId, requestingUser);
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            //mockBirdRepo.Setup(b => b.GetBirdAsync(It.IsAny<int>()))
+            //    .Returns(Task.FromResult<Bird>(null));
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            //mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
+            //                .ReturnsAsync(requestingUser);
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+                .ReturnsAsync(GetTestObservation(0, new ApplicationUser { UserName = "Someone else" }));
+
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            // Act
+            var result = await controller.PutObservationAsync(id, model);
+
+            // Assert
+            string expectedMessage = "Requesting user is not allowed to edit this observation";
+
+            var objectResult = Assert.IsType<UnauthorizedObjectResult>(result);
+            Assert.Equal(StatusCodes.Status401Unauthorized, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 1)]
+        [InlineData(3, 2)]
+        public async Task PutObservationAsync_ReturnsBadRequest_OnException(int id, int birdId)
+        {
+            //Arrange
+            var model = GetTestObservationViewModel(id, birdId);
+            var requestingUser = GetUser("Any");
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            //mockBirdRepo.Setup(b => b.GetBirdAsync(It.IsAny<int>()))
+            //    .ReturnsAsync(GetTestBird(birdId));
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            //mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
+            //                .ReturnsAsync(requestingUser);
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+                       .Throws(new InvalidOperationException());
+            var mockObjectValidator = new Mock<IObjectModelValidator>();
+            mockObjectValidator.Setup(o => o.Validate(It.IsAny<ActionContext>(),
+                                              It.IsAny<ValidationStateDictionary>(),
+                                              It.IsAny<string>(),
+                                              It.IsAny<Object>()));
+
+
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            controller.ObjectValidator = mockObjectValidator.Object;
+
+            // Act
+            var result = await controller.PutObservationAsync(id, model);
+
+            // Assert
+            string expectedMessage = "An unexpected error occurred";
+
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        [Theory]
+        [InlineData(1, 1)]
+        [InlineData(2, 1)]
+        [InlineData(3, 1)]
+        public async Task PutObservationAsync_ReturnsOkWithObservationViewModel_OnSuccess(int id, int birdId)
+        {
+            //Arrange
+            var model = GetTestObservationViewModel(id, birdId);
+            var requestingUser = GetUser("Any");
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.Setup(w => w.CompleteAsync())
+                .Returns(Task.CompletedTask);
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            mockBirdRepo.Setup(b => b.GetBirdAsync(It.IsAny<int>()))
+                .ReturnsAsync(GetTestBird(birdId));
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
+                            .ReturnsAsync(requestingUser);
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+                .ReturnsAsync(GetTestObservation(id, requestingUser));
+            var mockObjectValidator = new Mock<IObjectModelValidator>();
+            mockObjectValidator.Setup(o => o.Validate(It.IsAny<ActionContext>(),
+                                              It.IsAny<ValidationStateDictionary>(),
+                                              It.IsAny<string>(),
+                                              It.IsAny<Object>()));
+
+
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            controller.ObjectValidator = mockObjectValidator.Object;
+
+            // Act
+            var result = await controller.PutObservationAsync(id, model);
+
+            // Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var actual = Assert.IsType<ObservationViewModel>(objectResult.Value);
+            Assert.Equal(model.ObservationId, actual.ObservationId);
+            Assert.Equal(model.BirdId, actual.BirdId);
+        }
 
 
         #endregion
@@ -658,7 +963,17 @@ namespace Birder.Tests.Controller
             {
                 ObservationId = id,
                 Bird = new BirdSummaryViewModel() { BirdId = birdId },
-                BirdId = birdId
+                BirdId = birdId,
+            };
+        }
+
+        private ObservationViewModel GetTestObservationViewModel(int id, int birdId, ApplicationUser user)
+        {
+            return new ObservationViewModel()
+            {
+                ObservationId = id,
+                Bird = new BirdSummaryViewModel() { BirdId = birdId },
+                BirdId = birdId,
             };
         }
 
