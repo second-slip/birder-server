@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Birder.Tests.Helpers
 {
-    public class UserProfileHelperTests
+    public class UserNetworkHelpersTests
     {
         [Fact]
         public void GetFollowersUserNames_ReturnsEmptyCollection_WhenInputCollectionIsEmpty()
