@@ -10,15 +10,15 @@ namespace Birder.Helpers
     {
         public static IEnumerable<LifeListViewModel> MapLifeList(IEnumerable<Observation> observations)
         {
-            return observations.GroupBy(n => n.Bird)
+            return observations.GroupBy(n => n.Bird.BirdId)
                                 .Select(n => new LifeListViewModel
                                 {
-                                    BirdId = n.Key.BirdId,
-                                    EnglishName = n.Key.EnglishName,
-                                    Species = n.Key.Species,
-                                    PopulationSize = n.Key.PopulationSize,
-                                    BtoStatusInBritain = n.Key.BtoStatusInBritain,
-                                    ConservationStatus = n.Key.BirdConservationStatus.ConservationList,
+                                    BirdId = n.FirstOrDefault().Bird.BirdId,
+                                    EnglishName = n.FirstOrDefault().Bird.EnglishName,
+                                    Species = n.FirstOrDefault().Bird.Species,
+                                    PopulationSize = n.FirstOrDefault().Bird.PopulationSize,
+                                    BtoStatusInBritain = n.FirstOrDefault().Bird.BtoStatusInBritain,
+                                    ConservationStatus = n.FirstOrDefault().Bird.BirdConservationStatus.ConservationList,
                                     Count = n.Count()
                                 }).OrderByDescending(n => n.Count);
         }
@@ -28,21 +28,21 @@ namespace Birder.Helpers
             var viewModel = new TopObservationsAnalysisViewModel();
 
             viewModel.TopObservations = observations
-                .GroupBy(n => n.Bird)
+                .GroupBy(n => n.Bird.BirdId)
                 .Select(n => new TopObservationsViewModel
                 {
-                    BirdId = n.Key.BirdId,
-                    Name = n.Key.EnglishName,
+                    BirdId = n.FirstOrDefault().Bird.BirdId,
+                    Name = n.FirstOrDefault().Bird.EnglishName,
                     Count = n.Count()
                 }).OrderByDescending(n => n.Count).Take(5);
 
             viewModel.TopMonthlyObservations = observations
                 .Where(o => o.ObservationDateTime >= startDate)
-                .GroupBy(n => n.Bird)
+                .GroupBy(n => n.Bird.BirdId)
                 .Select(n => new TopObservationsViewModel
                 {
-                    BirdId = n.Key.BirdId,
-                    Name = n.Key.EnglishName,
+                    BirdId = n.FirstOrDefault().Bird.BirdId,
+                    Name = n.FirstOrDefault().Bird.EnglishName,
                     Count = n.Count()
                 }).OrderByDescending(n => n.Count).Take(5);
 
