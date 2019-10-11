@@ -37,6 +37,32 @@ namespace Birder.Tests.Helpers
             }
         }
 
+        [Fact]
+        public void MapLifeList_x_y()
+        {
+            // Arrange
+            int numberSpecies = 3;
+            int numberObs = 3;
+            var birds = GetTestBirdsList(numberSpecies);
+            var emptyInputCollection = GetTestObservations(numberObs, birds);
+            foreach(var item in emptyInputCollection)
+            {
+                item.Bird.BirdConservationStatus = null;
+            }
+
+            // Act
+            var result = ObservationsAnalysisHelper.MapLifeList(emptyInputCollection);
+
+            // Assert
+            Assert.IsAssignableFrom<IEnumerable<LifeListViewModel>>(result);
+            Assert.Equal(numberSpecies, result.Count());
+            foreach (var item in result)
+            {
+                Assert.Equal(numberObs, item.Count);
+            }
+        }
+
+
         private List<Bird> GetTestBirdsList(int length)
         {
             var d = new ConservationStatus() { ConservationList = "Red" };

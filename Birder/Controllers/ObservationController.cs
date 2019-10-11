@@ -216,7 +216,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var observation = await _observationRepository.GetAsync(id);
+                var observation = await _observationRepository.GetObservationAsync(id, false);
                 
                 if (observation == null)
                 {

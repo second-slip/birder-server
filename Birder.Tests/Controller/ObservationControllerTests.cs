@@ -1001,7 +1001,7 @@ namespace Birder.Tests.Controller
             var mockBirdRepo = new Mock<IBirdRepository>();
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(obs => obs.GetAsync(It.IsAny<int>()))
+            mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
                 .ReturnsAsync(GetTestObservation(0, new ApplicationUser { UserName = "Someone else" }));
 
             var controller = new ObservationController(
@@ -1046,7 +1046,7 @@ namespace Birder.Tests.Controller
             var mockBirdRepo = new Mock<IBirdRepository>();
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(o => o.GetAsync(It.IsAny<int>()))
+            mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
                        .Throws(new InvalidOperationException());
             var mockObjectValidator = new Mock<IObjectModelValidator>();
             mockObjectValidator.Setup(o => o.Validate(It.IsAny<ActionContext>(),
@@ -1105,7 +1105,7 @@ namespace Birder.Tests.Controller
             //mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
             //                .ReturnsAsync(requestingUser);
             var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(obs => obs.GetAsync(It.IsAny<int>()))
+            mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
                 .ReturnsAsync(GetTestObservation(id, requestingUser));
             var mockObjectValidator = new Mock<IObjectModelValidator>();
             mockObjectValidator.Setup(o => o.Validate(It.IsAny<ActionContext>(),

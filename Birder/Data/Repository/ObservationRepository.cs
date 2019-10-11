@@ -27,7 +27,7 @@ namespace Birder.Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<Observation> GetObservationAsync(int id, bool includeRelated = true)
+        public async Task<Observation> GetObservationAsync(int id, bool includeRelated)
         {
             if (!includeRelated)
             {

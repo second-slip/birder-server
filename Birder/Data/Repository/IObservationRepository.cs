@@ -9,6 +9,6 @@ namespace Birder.Data.Repository
     public interface IObservationRepository : IRepository<Observation>
     {
         Task<IEnumerable<Observation>> GetObservationsAsync(Expression<Func<Observation, bool>> predicate);
-        Task<Observation> GetObservationAsync(int id, bool includeRelated = true);
+        Task<Observation> GetObservationAsync(int id, bool includeRelated);
     }
 }
