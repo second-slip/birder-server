@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Birder.Tests.Helpers
 {
-    public class ObservationAnalysisHelperTests
+    public class ObservationsAnalysisHelperTests
     {
         #region MapLifeList
 

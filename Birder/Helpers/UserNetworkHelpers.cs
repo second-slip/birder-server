@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Birder.Helpers
 {
-    public static class UserProfileHelper
+    public static class UserNetworkHelpers
     {
         public static List<string> GetFollowersUserNames(ICollection<Network> followers)
         {
