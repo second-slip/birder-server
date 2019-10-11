@@ -47,7 +47,6 @@ namespace Birder.Helpers
                 }).OrderByDescending(n => n.Count).Take(5);
 
             return viewModel;
-
         }
     }
 }
