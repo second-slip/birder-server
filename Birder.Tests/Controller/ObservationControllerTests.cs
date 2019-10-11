@@ -943,10 +943,10 @@ namespace Birder.Tests.Controller
         #region DeleteObservationAsync
 
         [Theory]
-        [InlineData(1, 1)]
-        [InlineData(2, 1)]
-        [InlineData(3, 2)]
-        public async Task DeleteObservationAsync_ReturnsBadRequest_WhenObservationNotFound(int id, int birdId)
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public async Task DeleteObservationAsync_ReturnsBadRequest_WhenObservationNotFound(int id)
         {
             //Arrange
             var requestingUser = GetUser("Any");
@@ -1086,24 +1086,19 @@ namespace Birder.Tests.Controller
         }
 
         [Theory]
-        [InlineData(1, 1)]
-        [InlineData(2, 5)]
-        [InlineData(45, 12)]
-        public async Task DeleteObservationAsync_ReturnsOk_OnSuccess(int id, int birdId)
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(45)]
+        public async Task DeleteObservationAsync_ReturnsOk_OnSuccess(int id)
         {
             //Arrange
-            //var model = GetTestObservationViewModel(id, birdId);
             var requestingUser = GetUser("Any");
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             mockUnitOfWork.Setup(w => w.CompleteAsync())
                 .Returns(Task.CompletedTask);
             var mockBirdRepo = new Mock<IBirdRepository>();
-            //mockBirdRepo.Setup(b => b.GetBirdAsync(It.IsAny<int>()))
-            //    .ReturnsAsync(GetTestBird(birdId));
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-            //mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
-            //                .ReturnsAsync(requestingUser);
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
                 .ReturnsAsync(GetTestObservation(id, requestingUser));

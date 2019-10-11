@@ -29,7 +29,7 @@ namespace Birder.Helpers
 
         public static TopObservationsAnalysisViewModel MapTopObservations(IEnumerable<Observation> observations, DateTime startDate)
         {
-            if (observations == null)
+            if(observations == null)
                 throw new ArgumentNullException("observations", "The observations collection is null");
 
             var viewModel = new TopObservationsAnalysisViewModel();
