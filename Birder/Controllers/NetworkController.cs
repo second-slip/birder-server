@@ -53,9 +53,9 @@ namespace Birder.Controllers
 
                 var model = _mapper.Map<ApplicationUser, UserNetworkDto>(requestingUser);
 
-                UserNetworkHelpers.UpdateFollowersCollection(model.Followers, requestingUser);
+                UserNetworkHelpers.SetupFollowersCollection(requestingUser, model.Followers);
 
-                UserNetworkHelpers.UpdateFollowingCollection(model.Following, requestingUser);
+                UserNetworkHelpers.SetupFollowingCollection(requestingUser, model.Following);
 
                 return Ok(model);
 

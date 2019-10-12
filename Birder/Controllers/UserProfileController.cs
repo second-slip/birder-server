@@ -58,9 +58,9 @@ namespace Birder.Controllers
 
                     requestedUserProfileViewModel.IsOwnProfile = true;
 
-                    UserNetworkHelpers.UpdateFollowingCollection(requestedUserProfileViewModel.Following, requestedUser); //, loggedinUsername);
+                    UserNetworkHelpers.SetupFollowingCollection(requestedUser, requestedUserProfileViewModel.Following); //, loggedinUsername);
 
-                    UserNetworkHelpers.UpdateFollowersCollection(requestedUserProfileViewModel.Followers, requestedUser);
+                    UserNetworkHelpers.SetupFollowersCollection(requestedUser, requestedUserProfileViewModel.Followers);
 
                     return Ok(requestedUserProfileViewModel);
                 }
@@ -77,9 +77,9 @@ namespace Birder.Controllers
 
                 requestedUserProfileViewModel.IsFollowing = UserNetworkHelpers.UpdateIsFollowingProperty(requestingUser.UserName, requestedUser.Followers);
 
-                UserNetworkHelpers.UpdateFollowingCollection(requestedUserProfileViewModel.Following, requestingUser); //, loggedinUsername);
+                UserNetworkHelpers.SetupFollowingCollection(requestingUser, requestedUserProfileViewModel.Following); //, loggedinUsername);
 
-                UserNetworkHelpers.UpdateFollowersCollection(requestedUserProfileViewModel.Followers, requestingUser);
+                UserNetworkHelpers.SetupFollowersCollection(requestingUser, requestedUserProfileViewModel.Followers);
 
                 return Ok(requestedUserProfileViewModel);
             }

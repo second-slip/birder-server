@@ -297,7 +297,60 @@ namespace Birder.Tests.Helpers
         #endregion
 
 
+        #region SetupFollowingCollection tests
 
+        [Fact]
+        public void SetupFollowingCollection_ReturnsArgumentNullException_WhenUserIsNull()
+        {
+            ApplicationUser requestingUser = null;
+            IEnumerable<FollowingViewModel> following = new List<FollowingViewModel>();
+
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentNullException>(() => UserNetworkHelpers.SetupFollowingCollection(requestingUser, following));
+            Assert.Equal("The requesting user is null (Parameter 'requestingUser')", ex.Message);
+        }
+
+        [Fact]
+        public void SetupFollowingCollection_ReturnsArgumentNullException_WhenFollowingIsNull()
+        {
+            ApplicationUser requestingUser = new ApplicationUser();
+            IEnumerable<FollowingViewModel> following = null;
+
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentNullException>(() => UserNetworkHelpers.SetupFollowingCollection(requestingUser, following));
+            Assert.Equal("The following collection is null (Parameter 'following')", ex.Message);
+        }
+
+        #endregion
+
+
+
+        #region SetupFollowersCollection tests
+
+        [Fact]
+        public void SetupFollowersCollection_ReturnsArgumentNullException_WhenUserIsNull()
+        {
+            ApplicationUser requestingUser = null;
+            IEnumerable<FollowerViewModel> followers = new List<FollowerViewModel>();
+
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentNullException>(() => UserNetworkHelpers.SetupFollowersCollection(requestingUser, followers));
+            Assert.Equal("The requesting user is null (Parameter 'requestingUser')", ex.Message);
+        }
+
+        [Fact]
+        public void SetupFollowersCollection_ReturnsArgumentNullException_WhenFollowersIsNull()
+        {
+            ApplicationUser requestingUser = new ApplicationUser();
+            IEnumerable<FollowerViewModel> followers = null;
+
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentNullException>(() => UserNetworkHelpers.SetupFollowersCollection(requestingUser, followers));
+            Assert.Equal("The followers collection is null (Parameter 'followers')", ex.Message);
+        }
+
+
+        #endregion
 
 
         private List<Network> GetDynamicNetworkCollection(int length)
