@@ -34,32 +34,39 @@ namespace Birder.Helpers
             List<string> followersUsernamesList = GetFollowersUserNames(loggedinUser.Followers);
             List<string> followingUsernamesList = GetFollowingUserNames(loggedinUser.Following);
             followingUsernamesList.Add(loggedinUser.UserName); //include own user name
+            
             return followersUsernamesList.Except(followingUsernamesList);
         }
 
-        public static bool UpdateIsFollowing(string username, ICollection<Network> following)
+        public static bool UpdateIsFollowing(string requestingUsername, ICollection<Network> requestedUsersFollowing)
         {
-            if (following == null)
-                throw new NullReferenceException("The following collection is null");
+            if (requestingUsername == null)
+                throw new ArgumentNullException(nameof(requestingUsername), "The requestingUsername is null");
 
-            return following.Any(cus => cus.ApplicationUser.UserName == username);
+            if (requestedUsersFollowing == null)
+                throw new ArgumentNullException(nameof(requestedUsersFollowing), "The following collection is null");
+
+            return requestedUsersFollowing.Any(cus => cus.ApplicationUser.UserName == requestingUsername);
         }
 
-        public static bool UpdateIsFollowingProperty(ApplicationUser requestedUser, ApplicationUser requestingUser)
+        public static bool UpdateIsFollowingProperty(string requestingUsername, ICollection<Network> requestedUsersFollowers)
         {
-            if (requestedUser == null || requestingUser == null)
-                throw new NullReferenceException("The requested user or requesting user is null");
+            if (requestingUsername == null)
+                throw new ArgumentNullException(nameof(requestingUsername), "The requestingUsername is null");
 
-            return requestedUser.Followers.Any(cus => cus.Follower.UserName == requestingUser.UserName);
+            if (requestedUsersFollowers == null)
+                throw new ArgumentNullException(nameof(requestedUsersFollowers), "The followers collection is null");
+
+            return requestedUsersFollowers.Any(cus => cus.Follower.UserName == requestingUsername);
         }
 
         public static IEnumerable<FollowingViewModel> UpdateFollowingCollection(IEnumerable<FollowingViewModel> following, ApplicationUser requestingUser)
         {
             if (following == null)
-                throw new NullReferenceException("The following collection is null");
+                throw new ArgumentNullException(nameof(following), "The following collection is null");
 
             if (requestingUser == null)
-                throw new NullReferenceException("The requesting user is null");
+                throw new ArgumentNullException(nameof(requestingUser), "The requesting user is null");
 
             for (int i = 0; i < following.Count(); i++)
             {
