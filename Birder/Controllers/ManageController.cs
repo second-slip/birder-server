@@ -107,7 +107,7 @@ namespace Birder.Controllers
                     else
                     {
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        var url = _urlService.ConfirmEmailUrl(model.UserName, code);
+                        var url = _urlService.GetConfirmEmailUrl(model.UserName, code);
                         await _emailSender.SendEmailAsync(model.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
                     }
                 }

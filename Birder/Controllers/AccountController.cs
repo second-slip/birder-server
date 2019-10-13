@@ -62,7 +62,7 @@ namespace Birder.Controllers
                 if (result.Succeeded)
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                    var url = _urlService.ConfirmEmailUrl(newUser.UserName, code);
+                    var url = _urlService.GetConfirmEmailUrl(newUser.UserName, code);
                     await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
                     return Ok("New user successfully created");
                 }
@@ -141,7 +141,7 @@ namespace Birder.Controllers
 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                var url = _urlService.ConfirmEmailUrl(user.UserName, code);
+                var url = _urlService.GetConfirmEmailUrl(user.UserName, code);
 
                 await _emailSender.SendEmailAsync(user.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
 
@@ -181,7 +181,7 @@ namespace Birder.Controllers
 
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-                var url = _urlService.ResetPasswordUrl(code);
+                var url = _urlService.GetResetPasswordUrl(code);
 
                 await _emailSender.SendEmailAsync(model.Email, "Reset Your Password", "You can reset your password by clicking <a href=\"" + url + "\">here</a>");
                 return Ok(url);

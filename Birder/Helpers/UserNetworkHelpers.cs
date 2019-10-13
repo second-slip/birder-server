@@ -60,12 +60,7 @@ namespace Birder.Helpers
             return requestedUsersFollowers.Any(cus => cus.Follower.UserName == requestingUsername);
         }
 
-        /// <summary>
-        /// Updates the requesting user's 'following' network
-        /// </summary>
-        /// <param name="requestingUser"></param>
-        /// <param name="following"></param>
-        /// <returns></returns>
+
         public static IEnumerable<FollowingViewModel> SetupFollowingCollection(ApplicationUser requestingUser, IEnumerable<FollowingViewModel> following)
         {
             if (following == null)
