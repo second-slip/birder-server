@@ -4,6 +4,7 @@ using Birder.Helpers;
 using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -128,7 +129,7 @@ namespace Birder.Controllers
 
         [HttpPost, Route("SetAvatar")]
         //public async Task<IActionResult> SetAvatar(string urlOrFilepathOrWhatever)
-        public IActionResult SetAvatar(string urlOrFilepathOrWhatever)
+        public IActionResult SetAvatar(IFormFile file)
         {
             return Ok();
             //if (model.ProfileImage != null)
