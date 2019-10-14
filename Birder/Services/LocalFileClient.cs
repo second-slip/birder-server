@@ -48,7 +48,7 @@ namespace Birder.Services
             return Task.FromResult((string)null);
         }
 
-        public async Task SaveFile(string storeName, string filePath, Stream fileStream)
+        public async Task<string> SaveFile(string storeName, string filePath, Stream fileStream)
         {
             var path = Path.Combine(_fileRoot, storeName, filePath);
 
@@ -61,6 +61,8 @@ namespace Birder.Services
             {
                 await fileStream.CopyToAsync(file).ConfigureAwait(false);
             }
+
+            return await Task.FromResult(path);
         }
     }
 }

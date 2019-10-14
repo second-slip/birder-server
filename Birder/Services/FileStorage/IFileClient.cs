@@ -12,6 +12,6 @@ namespace Birder.Services
         Task<bool> FileExists(string storeName, string filePath);
         Task<Stream> GetFile(string storeName, string filePath);
         Task<string> GetFileUrl(string storeName, string filePath);
-        Task SaveFile(string storeName, string filePath, Stream fileStream);
+        Task<string> SaveFile(string storeName, string filePath, Stream fileStream);
     }
 }

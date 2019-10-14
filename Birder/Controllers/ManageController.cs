@@ -127,9 +127,9 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpPost, Route("SetAvatar")]
+        [HttpPost, Route("PostAvatar")]
         //public async Task<IActionResult> SetAvatar(string urlOrFilepathOrWhatever)
-        public IActionResult SetAvatar(IFormFile file)
+        public IActionResult PostAvatar([FromForm(Name = "file")] IFormFile file)
         {
             return Ok();
             //if (model.ProfileImage != null)

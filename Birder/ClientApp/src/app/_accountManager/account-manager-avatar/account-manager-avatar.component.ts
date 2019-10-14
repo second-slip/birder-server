@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
+
+
 
 @Component({
   selector: 'app-account-manager-avatar',
@@ -11,6 +13,9 @@ export class AccountManagerAvatarComponent implements OnInit {
   previewUrl: any = null;
   fileUploadProgress: string = null;
   uploadedFilePath: string = null;
+
+
+
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -22,13 +27,13 @@ export class AccountManagerAvatarComponent implements OnInit {
   }
 
   preview() {
-    // Show preview 
-    var mimeType = this.fileData.type;
+    // Show preview
+    const mimeType = this.fileData.type;
     if (mimeType.match(/image\/*/) == null) {
       return;
     }
 
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.readAsDataURL(this.fileData);
     reader.onload = (_event) => {
       this.previewUrl = reader.result;
@@ -37,11 +42,16 @@ export class AccountManagerAvatarComponent implements OnInit {
 
   onSubmit() {
     const formData = new FormData();
-    formData.append('files', this.fileData);
+    formData.append('file', this.fileData);
 
     this.fileUploadProgress = '0%';
 
-    this.http.post('https://us-central1-tutorial-e6ea7.cloudfunctions.net/fileUpload', formData, {
+    // const httpOptions = {
+    //   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    // };
+
+    this.http.post('api/Manage/PostAvatar', formData, {
+      // headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       reportProgress: true,
       observe: 'events'
     })
