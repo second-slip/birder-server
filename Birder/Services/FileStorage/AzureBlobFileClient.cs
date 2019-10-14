@@ -1,14 +1,11 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Services
 {
-public class AzureBlobFileClient : IFileClient
+    public class AzureBlobFileClient : IFileClient
     {
         private CloudBlobClient _blobClient;
 

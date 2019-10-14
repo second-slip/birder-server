@@ -34,7 +34,7 @@ namespace Birder.Services
         {
             var path = Path.Combine(_fileRoot, storeName, filePath);
             Stream stream = null;
-
+            
             if (File.Exists(path))
             {
                 stream = File.OpenRead(path);
@@ -50,6 +50,10 @@ namespace Birder.Services
 
         public async Task SaveFile(string storeName, string filePath, Stream fileStream)
         {
+            var folderPath = Path.Combine(_fileRoot, storeName);
+
+            System.IO.Directory.CreateDirectory(folderPath);
+
             var path = Path.Combine(_fileRoot, storeName, filePath);
 
             if (File.Exists(path))

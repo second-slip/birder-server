@@ -25,11 +25,6 @@ namespace Birder.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IFileClient _fileClient;
 
-
-        //***************************
-        // ToDo: Add logging
-        //***************************
-
         public ManageController(IMapper mapper
                               , IEmailSender emailSender
                               , IUrlService urlService
@@ -134,36 +129,46 @@ namespace Birder.Controllers
         [HttpPost, Route("UploadAvatar")]
         public async Task<IActionResult> PostAvatar([FromForm(Name = "file")] IFormFile file)
         {
-
-
-            //var fileName = Sanitize("/" + UserId + "/" + file.FileName);
-
-            using (var fileStream = file.OpenReadStream())
+            try
             {
-                await _fileClient.SaveFile("Contracts", file.FileName, fileStream);
+                if (file == null)
+                {
+
+                }
+
+                //var fileName = Sanitize("/" + UserId + "/" + file.FileName);
+
+                using (var fileStream = file.OpenReadStream())
+                {
+                    await _fileClient.SaveFile("Avatar", file.FileName, fileStream);
+                }
+
+                return Ok();
+                //if (model.ProfileImage != null)
+                //{
+                //    try
+                //    {
+                //        string filepath = string.Concat(user.UserName, Path.GetExtension(model.Avatar.FileName.ToString()));
+                //        var imageArray = await _stream.GetByteArray(model.Avatar);
+                //        imageArray = _stream.ResizePhoto(imageArray, 64, 64);
+                //        var imageUpload = _imageService.StoreProfileImage(filepath, imageArray, "profile");
+
+                //        imageUpload.Wait();
+                //        if (imageUpload.IsCompletedSuccessfully == true)
+                //        {
+                //            user.Avatar = imageUpload.Result;
+                //        }
+                //    }
+                //    catch
+                //    {
+                //        ModelState.AddModelError("ProfileImage", $"Unexpected error occurred processing the profile photo for user with ID '{user.Id}'.");
+                //return BadRequest(ModelState);
+                //    }
             }
-
-            return Ok();
-            //if (model.ProfileImage != null)
-            //{
-            //    try
-            //    {
-            //        string filepath = string.Concat(user.UserName, Path.GetExtension(model.Avatar.FileName.ToString()));
-            //        var imageArray = await _stream.GetByteArray(model.Avatar);
-            //        imageArray = _stream.ResizePhoto(imageArray, 64, 64);
-            //        var imageUpload = _imageService.StoreProfileImage(filepath, imageArray, "profile");
-
-            //        imageUpload.Wait();
-            //        if (imageUpload.IsCompletedSuccessfully == true)
-            //        {
-            //            user.Avatar = imageUpload.Result;
-            //        }
-            //    }
-            //    catch
-            //    {
-            //        ModelState.AddModelError("ProfileImage", $"Unexpected error occurred processing the profile photo for user with ID '{user.Id}'.");
-            //return BadRequest(ModelState);
-            //    }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost, Route("SetLocation")]

@@ -2,23 +2,17 @@
 using Birder.Controllers;
 using Birder.Data;
 using Birder.Data.Model;
-using Birder.Data.Repository;
 using Birder.Services;
 using Birder.ViewModels;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Newtonsoft.Json;
-using FluentAssertions;
 
 namespace Birder.Tests.Controller
 {
@@ -31,9 +25,11 @@ namespace Birder.Tests.Controller
         private readonly Mock<IUrlService> _urlService;
         private readonly Mock<IEmailSender> _emailSender;
         private readonly Mock<ILogger<ManageController>> _logger;
+        private readonly Mock<IFileClient> _fileClient;
 
         public ManageControllerTests()
         {
+            _fileClient = new Mock<IFileClient>();
             var mappingConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new BirderMappingProfile());
@@ -54,7 +50,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
                            .Returns(Task.FromResult<ApplicationUser>(null));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -78,7 +74,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
                            .ThrowsAsync(new InvalidOperationException());
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -102,7 +98,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
                            .ReturnsAsync(GetValidTestUser());
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -135,7 +131,7 @@ namespace Birder.Tests.Controller
             //mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
             //               .ReturnsAsync(GetValidTestUser());
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -190,7 +186,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
                            .Returns(Task.FromResult<ApplicationUser>(null));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -216,7 +212,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
                            .ThrowsAsync(new InvalidOperationException());
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -242,7 +238,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
                            .ReturnsAsync(GetValidTestUser());
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -284,7 +280,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.SetUserNameAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                            .Returns(Task.FromResult(IdentityResult.Failed()));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -324,7 +320,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.SetEmailAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                            .Returns(Task.FromResult(IdentityResult.Failed()));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -368,7 +364,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.UpdateAsync(It.IsAny<ApplicationUser>()))
                            .Returns(Task.FromResult(IdentityResult.Failed()));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -406,7 +402,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.UpdateAsync(It.IsAny<ApplicationUser>()))
                            .Returns(Task.FromResult(IdentityResult.Success));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -440,7 +436,7 @@ namespace Birder.Tests.Controller
             //mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
             //               .ReturnsAsync(GetValidTestUser());
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -486,7 +482,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
                            .Returns(Task.FromResult<ApplicationUser>(null));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -512,7 +508,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
                            .ThrowsAsync(new InvalidOperationException());
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -540,7 +536,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.UpdateAsync(It.IsAny<ApplicationUser>()))
                            .Returns(Task.FromResult(IdentityResult.Failed()));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -571,7 +567,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.UpdateAsync(It.IsAny<ApplicationUser>()))
                            .Returns(Task.FromResult(IdentityResult.Success));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -603,7 +599,7 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -642,7 +638,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
                            .Returns(Task.FromResult<ApplicationUser>(null));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -668,7 +664,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
                            .ThrowsAsync(new InvalidOperationException());
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -697,7 +693,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.ChangePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>()))
                            .Returns(Task.FromResult(IdentityResult.Failed()));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -728,7 +724,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.ChangePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>()))
                            .Returns(Task.FromResult(IdentityResult.Success));
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
             controller.ControllerContext = new ControllerContext()
             {

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
-
-
+import { HttpClient, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-account-manager-avatar',
@@ -13,8 +11,6 @@ export class AccountManagerAvatarComponent implements OnInit {
   previewUrl: any = null;
   fileUploadProgress: string = null;
   uploadedFilePath: string = null;
-
-
 
   constructor(private http: HttpClient) { }
 
@@ -37,7 +33,7 @@ export class AccountManagerAvatarComponent implements OnInit {
     reader.readAsDataURL(this.fileData);
     reader.onload = (_event) => {
       this.previewUrl = reader.result;
-    }
+    };
   }
 
   onSubmit() {
@@ -46,12 +42,7 @@ export class AccountManagerAvatarComponent implements OnInit {
 
     this.fileUploadProgress = '0%';
 
-    // const httpOptions = {
-    //   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    // };
-
     this.http.post('api/Manage/UploadAvatar', formData, {
-      // headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       reportProgress: true,
       observe: 'events'
     })
@@ -64,7 +55,6 @@ export class AccountManagerAvatarComponent implements OnInit {
           console.log(events.body);
           alert('SUCCESS !!');
         }
-
       });
   }
 }
