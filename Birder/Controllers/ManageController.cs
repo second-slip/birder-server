@@ -23,6 +23,8 @@ namespace Birder.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IFileClient _fileClient;
+
 
         //***************************
         // ToDo: Add logging
@@ -32,13 +34,15 @@ namespace Birder.Controllers
                               , IEmailSender emailSender
                               , IUrlService urlService
                               , ILogger<ManageController> logger
-                              , UserManager<ApplicationUser> userManager)
+                              , UserManager<ApplicationUser> userManager
+                              , IFileClient fileClient)
         {
             _mapper = mapper;
             _logger = logger;
             _urlService = urlService;
             _emailSender = emailSender;
             _userManager = userManager;
+            _fileClient = fileClient;
         }
 
         [HttpGet, Route("GetUserProfile")]
@@ -127,9 +131,18 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpPost, Route("PostAvatar")]
-        public IActionResult PostAvatar([FromForm(Name = "file")] IFormFile file)
+        [HttpPost, Route("UploadAvatar")]
+        public async Task<IActionResult> PostAvatar([FromForm(Name = "file")] IFormFile file)
         {
+
+
+            //var fileName = Sanitize("/" + UserId + "/" + file.FileName);
+
+            using (var fileStream = file.OpenReadStream())
+            {
+                await _fileClient.SaveFile("Contracts", file.FileName, fileStream);
+            }
+
             return Ok();
             //if (model.ProfileImage != null)
             //{

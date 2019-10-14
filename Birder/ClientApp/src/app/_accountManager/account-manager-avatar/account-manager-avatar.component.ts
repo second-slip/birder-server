@@ -50,7 +50,7 @@ export class AccountManagerAvatarComponent implements OnInit {
     //   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     // };
 
-    this.http.post('api/Manage/PostAvatar', formData, {
+    this.http.post('api/Manage/UploadAvatar', formData, {
       // headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       reportProgress: true,
       observe: 'events'
