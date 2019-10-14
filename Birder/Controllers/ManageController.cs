@@ -133,10 +133,12 @@ namespace Birder.Controllers
             {
                 if (file == null)
                 {
+                    //logging "IFormFile argument is null"
+                    return BadRequest("An error occurred");
 
                 }
 
-                //var fileName = Sanitize("/" + UserId + "/" + file.FileName);
+                var fileName = file.FileName;
 
                 using (var fileStream = file.OpenReadStream())
                 {
