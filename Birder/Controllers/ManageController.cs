@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -135,40 +136,36 @@ namespace Birder.Controllers
                 {
                     //logging "IFormFile argument is null"
                     return BadRequest("An error occurred");
-
                 }
 
-                var fileName = file.FileName;
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (user == null)
+                {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "GetUserProfileAsync");
+                    return NotFound("User not found");
+                }
+
+                string filename = string.Concat(user.UserName, Path.GetExtension(file.FileName));
 
                 using (var fileStream = file.OpenReadStream())
                 {
-                    await _fileClient.SaveFile("Avatar", file.FileName, fileStream);
+                    await _fileClient.SaveFile("Avatar", filename, fileStream);
+                }
+
+                var avatarUrl = await _fileClient.GetFileUrl("Avatar", filename);
+                if (user.Avatar != avatarUrl)
+                {
+                    user.Avatar = avatarUrl;
+                    var setAvatar = await _userManager.UpdateAsync(user);
+                    if (!setAvatar.Succeeded)
+                        throw new ApplicationException($"Unexpected error occurred setting the avatar for user with ID '{user.Id}'.");
                 }
 
                 return Ok();
-                //if (model.ProfileImage != null)
-                //{
-                //    try
-                //    {
-                //        string filepath = string.Concat(user.UserName, Path.GetExtension(model.Avatar.FileName.ToString()));
-                //        var imageArray = await _stream.GetByteArray(model.Avatar);
-                //        imageArray = _stream.ResizePhoto(imageArray, 64, 64);
-                //        var imageUpload = _imageService.StoreProfileImage(filepath, imageArray, "profile");
-
-                //        imageUpload.Wait();
-                //        if (imageUpload.IsCompletedSuccessfully == true)
-                //        {
-                //            user.Avatar = imageUpload.Result;
-                //        }
-                //    }
-                //    catch
-                //    {
-                //        ModelState.AddModelError("ProfileImage", $"Unexpected error occurred processing the profile photo for user with ID '{user.Id}'.");
-                //return BadRequest(ModelState);
-                //    }
             }
             catch (Exception ex)
             {
+                //logging...
                 return BadRequest();
             }
         }

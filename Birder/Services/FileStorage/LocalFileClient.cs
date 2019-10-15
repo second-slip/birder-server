@@ -52,7 +52,7 @@ namespace Birder.Services
         {
             var folderPath = Path.Combine(_fileRoot, storeName);
 
-            System.IO.Directory.CreateDirectory(folderPath);
+            Directory.CreateDirectory(folderPath);
 
             var path = Path.Combine(_fileRoot, storeName, filePath);
 
