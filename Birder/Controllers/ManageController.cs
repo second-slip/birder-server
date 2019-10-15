@@ -138,6 +138,8 @@ namespace Birder.Controllers
                     return BadRequest("An error occurred");
                 }
 
+                // check file type
+
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 if (user == null)
                 {
@@ -145,14 +147,12 @@ namespace Birder.Controllers
                     return NotFound("User not found");
                 }
 
-                string filename = string.Concat(user.UserName, Path.GetExtension(file.FileName));
-
                 using (var fileStream = file.OpenReadStream())
                 {
-                    await _fileClient.SaveFile("Avatar", filename, fileStream);
+                    await _fileClient.SaveFile("Avatar", user.UserName, fileStream);
                 }
 
-                var avatarUrl = await _fileClient.GetFileUrl("Avatar", filename);
+                var avatarUrl = await _fileClient.GetFileUrl("Avatar", user.UserName);
                 if (user.Avatar != avatarUrl)
                 {
                     user.Avatar = avatarUrl;

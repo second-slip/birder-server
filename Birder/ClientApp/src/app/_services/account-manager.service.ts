@@ -44,4 +44,10 @@ export class AccountManagerService {
       first(),
       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
+
+  postAvatar(formData: FormData): Observable<any | ErrorReportViewModel> {
+    return this.http.post('api/Manage/UploadAvatar', formData, { reportProgress: true, observe: 'events' })
+    .pipe(
+      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
 }

@@ -3,7 +3,7 @@
       <div class="col-md-6 offset-md-3">
           <h3>Choose File</h3>            
           <div class="form-group">
-              <input type="file" name="image" (change)="fileProgress($event)" />
+              <input type="file" name="image" accept="image/*" (change)="fileProgress($event)" />
           </div>
           <div *ngIf="fileUploadProgress">
               Upload progress: {{ fileUploadProgress }}

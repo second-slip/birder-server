@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpEventType } from '@angular/common/http';
+import { AccountManagerService } from '@app/_services/account-manager.service';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-manager-avatar',
@@ -12,17 +16,19 @@ export class AccountManagerAvatarComponent implements OnInit {
   fileUploadProgress: string = null;
   uploadedFilePath: string = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private accountManager: AccountManagerService
+    , private toast: ToastrService
+    , private router: Router) { }
 
   ngOnInit() {
   }
 
   fileProgress(fileInput: any) {
     this.fileData = <File>fileInput.target.files[0];
-    this.preview();
+    this.showPreview();
   }
 
-  preview() {
+  showPreview() {
     // Show preview
     const mimeType = this.fileData.type;
     if (mimeType.match(/image\/*/) == null) {
@@ -42,19 +48,24 @@ export class AccountManagerAvatarComponent implements OnInit {
 
     this.fileUploadProgress = '0%';
 
-    this.http.post('api/Manage/UploadAvatar', formData, {
-      reportProgress: true,
-      observe: 'events'
-    })
+    this.accountManager.postAvatar(formData)
       .subscribe(events => {
         if (events.type === HttpEventType.UploadProgress) {
           this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
-          console.log(this.fileUploadProgress);
+          // console.log(this.fileUploadProgress);
         } else if (events.type === HttpEventType.Response) {
           this.fileUploadProgress = '';
-          console.log(events.body);
-          alert('SUCCESS !!');
+          //
+          // console.log(events.body);
+          // alert('SUCCESS !!');
+          //
+          this.toast.success('Please login again', 'Avatar successfully changed');
+          this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-avatar' } });
         }
-      });
+      },
+        (error: ErrorReportViewModel) => {
+          this.toast.success(error.friendlyMessage, 'An error occurred');
+        }
+      );
   }
 }
