@@ -29,7 +29,6 @@ export class AccountManagerAvatarComponent implements OnInit {
   }
 
   showPreview() {
-    // Show preview
     const mimeType = this.fileData.type;
     if (mimeType.match(/image\/*/) == null) {
       return;
