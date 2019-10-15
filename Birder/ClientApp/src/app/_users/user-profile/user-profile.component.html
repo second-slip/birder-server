@@ -1,7 +1,7 @@
 <div class="container" *ngIf="userProfile">
   <div class="flex-container">
     <div>
-      <img class="avatar-main" src="{{userProfile.avatar}}" alt="Smiley face" height="126" width="126">
+      <img class="avatar-main" src="{{userProfile.avatar}}" onerror="this.src='https://img.icons8.com/color/96/000000/user.png';" alt="Smiley face" height="126" width="126">
     </div>
     <div>
       <h4>{{ userProfile.userName }}</h4>
@@ -24,7 +24,7 @@
         <!-- // -->
         <div *ngFor="let following of userProfile.following">
             <div class="flex-container network-list">
-              <img class="avatar" src="{{following.avatar}}">
+              <img class="avatar" src="{{following.avatar}}" onerror="this.src='https://img.icons8.com/color/96/000000/user.png';">
               <a class="avatar-title" routerLink="/user-profile/{{following.userName}}">{{following.userName}}</a>
               <div *ngIf="following.isOwnProfile == false"><button mat-button color="primary"
                 (click)="followOrUnfollow($event.target, following)">
@@ -42,7 +42,7 @@
         <!-- -->
         <div *ngFor="let follower of userProfile.followers">
             <div class="flex-container network-list">
-              <img class="avatar" src="{{follower.avatar}}">
+              <img class="avatar" src="{{follower.avatar}}" onerror="this.src='https://img.icons8.com/color/96/000000/user.png';">
               <a class="avatar-title" routerLink="/user-profile/{{follower.userName}}">{{follower.userName}}</a>
               <div *ngIf="follower.isOwnProfile == false"><button mat-button color="primary"
                 (click)="followOrUnfollow($event.target, follower)">

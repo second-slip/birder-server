@@ -45,7 +45,7 @@ namespace Birder.Services
 
         public Task<string> GetFileUrl(string storeName, string filePath)
         {
-            return Task.FromResult((string)null);
+            return Task.FromResult<string>(null);
         }
 
         public async Task SaveFile(string storeName, string filePath, Stream fileStream)

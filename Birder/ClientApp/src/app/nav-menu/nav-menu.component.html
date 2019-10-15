@@ -28,6 +28,7 @@
         <li class="nav-item dropdown" ngbDropdown>
           <a style='cursor:pointer' class="nav-link dropdown-toggle" id="id02" ngbDropdownToggle>
             <img src={{authenticatedUser.avatar}} class="profile-img img-circle"
+            onerror="this.src='https://img.icons8.com/color/96/000000/user.png';"
               style="resize:both">{{authenticatedUser.userName}}<b class="caret"></b>
             <ul class="dropdown-menu" ngbDropdownMenu>
               <a class="dropdown-item" routerLink="/user-profile/{{authenticatedUser.userName}}">My Profile</a>

@@ -153,6 +153,12 @@ namespace Birder.Controllers
                 }
 
                 var avatarUrl = await _fileClient.GetFileUrl("Avatar", user.UserName);
+
+                if (string.IsNullOrEmpty(avatarUrl))
+                {
+                    avatarUrl = "https://img.icons8.com/color/96/000000/user.png";
+                }
+
                 if (user.Avatar != avatarUrl)
                 {
                     user.Avatar = avatarUrl;
