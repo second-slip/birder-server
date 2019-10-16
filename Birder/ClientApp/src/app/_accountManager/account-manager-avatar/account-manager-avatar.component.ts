@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 import { AccountManagerService } from '@app/_services/account-manager.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-account-manager-avatar',
   templateUrl: './account-manager-avatar.component.html',
-  styleUrls: ['./account-manager-avatar.component.scss']
+  styleUrls: ['./account-manager-avatar.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AccountManagerAvatarComponent implements OnInit {
   fileData: File = null;

@@ -1,24 +1,45 @@
 <div class="container">
-  <div class="row">
-      <div class="col-md-6 offset-md-3">
-          <h3>Choose File</h3>            
-          <div class="form-group">
-              <input type="file" name="image" accept="image/*" (change)="fileProgress($event)" />
-          </div>
-          <div *ngIf="fileUploadProgress">
-              Upload progress: {{ fileUploadProgress }}
-          </div>
-          <div class="image-preview mb-3" *ngIf="previewUrl">
-              <img [src]="previewUrl" height="300" />                 
-          </div>
+    <div class="row">
+        <div class='col-sm-2'>
+        </div>
+        <div class="col-sm-8">
+            <div class="set-avatar-container">
+                <h2 class="section-title">Choose avatar</h2>
+                <!-- <div *ngIf="invalidChange" class="alert alert-danger">
+              <p>Your changes could not be saved</p>
+              <ul>
+                <li *ngFor="let error of errorReport.modelStateErrors">
+                  {{ error }}
+                </li>
+              </ul>
+            </div> -->
 
-          <div class="mb-3" *ngIf="uploadedFilePath">
-              {{uploadedFilePath}}
-          </div>
-           
-          <div class="form-group">
-              <button class="btn btn-primary"  (click)="onSubmit()">Submit</button>
-          </div>
-      </div>
-  </div>
+                <!-- <div class="container">
+  <div class="row"> -->
+                <!-- <div class="col-md-6 offset-md-3">
+                    <h3>Choose File</h3> -->
+                <!-- <mat-form-field class="full-width"> -->
+                    <div class="full-width">
+                        <input type="file" name="image" accept="image/*" (change)="fileProgress($event)" />
+                    </div>
+                    <div *ngIf="fileUploadProgress">
+                        Upload progress: {{ fileUploadProgress }}
+                    </div>
+                    <div class="image-preview mb-3" *ngIf="previewUrl">
+                        <img [src]="previewUrl" height="300" />
+                    </div>
+
+                    <div class="full-width" *ngIf="uploadedFilePath">
+                        {{uploadedFilePath}}
+                    </div>
+                <!-- </mat-form-field> -->
+
+                <div class="form-group">
+                    <button class="submit-btn" color="primary" mat-raised-button type="submit" (click)="onSubmit()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-2'>
+    </div>
 </div>

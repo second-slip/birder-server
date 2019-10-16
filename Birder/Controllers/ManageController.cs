@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -185,7 +184,7 @@ namespace Birder.Controllers
                         throw new ApplicationException($"Unexpected error occurred setting the avatar for user with ID '{user.Id}'.");
                 }
 
-                return Ok(avatarUrl);
+                return Ok();
             }
             catch (Exception ex)
             {
