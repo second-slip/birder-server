@@ -96,15 +96,15 @@ namespace Birder.Controllers
                     }
 
                     // Save Avatar with new username
-                    var z = await _fileClient.GetFile("Avatar", userName);
+                    var z = await _fileClient.GetFile(StorageContainers.Avatar, userName);
                     if (z != null)
                     {
-                        await _fileClient.SaveFile("Avatar", model.UserName, z);
+                        await _fileClient.SaveFile(StorageContainers.Avatar, model.UserName, z);
                         await z.DisposeAsync();
-                        await _fileClient.DeleteFile("Avatar", userName);
+                        await _fileClient.DeleteFile(StorageContainers.Avatar, userName);
                     }
                     
-                    var avatarUrl = await _fileClient.GetFileUrl("Avatar", model.UserName);
+                    var avatarUrl = await _fileClient.GetFileUrl(StorageContainers.Avatar, model.UserName);
 
                     if (string.IsNullOrEmpty(avatarUrl))
                     {
@@ -167,10 +167,10 @@ namespace Birder.Controllers
 
                 using (var fileStream = file.OpenReadStream())
                 {
-                    await _fileClient.SaveFile("Avatar", user.UserName, fileStream);
+                    await _fileClient.SaveFile(StorageContainers.Avatar, user.UserName, fileStream);
                 }
 
-                var avatarUrl = await _fileClient.GetFileUrl("Avatar", user.UserName);
+                var avatarUrl = await _fileClient.GetFileUrl(StorageContainers.Avatar, user.UserName);
 
                 if (string.IsNullOrEmpty(avatarUrl))
                 {
