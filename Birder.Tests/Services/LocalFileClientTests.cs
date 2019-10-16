@@ -21,9 +21,17 @@ namespace Birder.Tests.Services
         public async Task x_y_z()
         {
 
-            var a = await _fileClient.GetFile("Desktop", "BirderDictionaryDefinitionExample.png");
+
+            string a = "https://birderstorage.blob.core.windows.net/profile/birder.png";
+            a.Replace("birder.png", "test");
+
+            var t = 4;
+
             
-            await _fileClient.SaveFile("Birder", "Test.png", a);
+
+            //var a = await _fileClient.GetFile("Desktop", "BirderDictionaryDefinitionExample.png");
+
+            //await _fileClient.SaveFile("Birder", "Test.png", a);
 
             //var fileName = Sanitize("/" + UserId + "/" + file.FileName);
 

@@ -94,6 +94,10 @@ namespace Birder.Controllers
                         ModelState.AddModelError("Username", $"Unexpected error occurred setting username for user with ID '{user.Id}'.");
                         return BadRequest(ModelState);
                     }
+
+                    var z = await _fileClient.GetFileUrl("Avatar", userName);
+
+
                 }
 
                 var email = user.Email;

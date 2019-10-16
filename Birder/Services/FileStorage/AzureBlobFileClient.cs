@@ -36,11 +36,18 @@ namespace Birder.Services
             var container = _blobClient.GetContainerReference(storeName);
             var blob = container.GetBlockBlobReference(filePath.ToLower());
 
-            var mem = new MemoryStream();
-            await blob.DownloadToStreamAsync(mem).ConfigureAwait(false);
-            mem.Seek(0, SeekOrigin.Begin);
+            // ASC: adjustment
+            if (await blob.ExistsAsync().ConfigureAwait(false))
+            {
+                var mem = new MemoryStream();
+                await blob.DownloadToStreamAsync(mem).ConfigureAwait(false);
+                mem.Seek(0, SeekOrigin.Begin);
 
-            return mem;
+                return mem;
+            }
+
+            //ASC: adjustment
+            return await Task.FromResult<Stream>(null);
         }
 
         public async Task<string> GetFileUrl(string storeName, string filePath)
