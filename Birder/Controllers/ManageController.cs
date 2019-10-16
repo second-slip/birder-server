@@ -96,11 +96,11 @@ namespace Birder.Controllers
                     }
 
                     // Save Avatar with new username
-                    var z = await _fileClient.GetFile(StorageContainers.Avatar, userName);
-                    if (z != null)
+                    var file = await _fileClient.GetFile(StorageContainers.Avatar, userName);
+                    if (file != null)
                     {
-                        await _fileClient.SaveFile(StorageContainers.Avatar, model.UserName, z);
-                        await z.DisposeAsync();
+                        await _fileClient.SaveFile(StorageContainers.Avatar, model.UserName, file);
+                        await file.DisposeAsync();
                         await _fileClient.DeleteFile(StorageContainers.Avatar, userName);
                     }
                     
@@ -152,7 +152,7 @@ namespace Birder.Controllers
             {
                 if (file == null)
                 {
-                    //logging "IFormFile argument is null"
+                    _logger.LogError(LoggingEvents.UpdateItem, "IFormFile argument is null at PostAvatar()");
                     return BadRequest("An error occurred");
                 }
 
@@ -161,7 +161,7 @@ namespace Birder.Controllers
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 if (user == null)
                 {
-                    _logger.LogError(LoggingEvents.GetItemNotFound, "GetUserProfileAsync");
+                    _logger.LogError(LoggingEvents.GetItemNotFound, $"User with id '{User.Identity.Name}' not found");
                     return NotFound("User not found");
                 }
 
@@ -185,12 +185,12 @@ namespace Birder.Controllers
                         throw new ApplicationException($"Unexpected error occurred setting the avatar for user with ID '{user.Id}'.");
                 }
 
-                return Ok();
+                return Ok(avatarUrl);
             }
             catch (Exception ex)
             {
-                //logging...
-                return BadRequest();
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "PostAvatar()");
+                return BadRequest("An unexpected error occurred");
             }
         }
 
