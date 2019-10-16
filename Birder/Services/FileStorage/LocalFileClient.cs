@@ -45,6 +45,8 @@ namespace Birder.Services
 
         public Task<string> GetFileUrl(string storeName, string filePath)
         {
+            //var path = Path.Combine(_fileRoot, storeName, filePath);
+            //return Task.FromResult<string>(path);
             return Task.FromResult<string>(null);
         }
 

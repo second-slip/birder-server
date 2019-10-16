@@ -95,9 +95,23 @@ namespace Birder.Controllers
                         return BadRequest(ModelState);
                     }
 
-                    var z = await _fileClient.GetFileUrl("Avatar", userName);
+                    // Save Avatar with new username
+                    var z = await _fileClient.GetFile("Avatar", userName);
+                    if (z != null)
+                    {
+                        await _fileClient.SaveFile("Avatar", model.UserName, z);
+                        await z.DisposeAsync();
+                        await _fileClient.DeleteFile("Avatar", userName);
+                    }
+                    
+                    var avatarUrl = await _fileClient.GetFileUrl("Avatar", model.UserName);
 
+                    if (string.IsNullOrEmpty(avatarUrl))
+                    {
+                        avatarUrl = "https://img.icons8.com/color/96/000000/user.png";
+                    }
 
+                    user.Avatar = avatarUrl;
                 }
 
                 var email = user.Email;
