@@ -129,7 +129,7 @@ export class AccountManagerProfileComponent implements OnInit {
           if (this.emailChanged === true) {
             this.router.navigate(['/confirm-email']);
           } else {
-            this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-profile' } });
+            this.router.navigate(['/login'], { queryParams: { returnUrl: '/user-profile' } });
           }
         },
         (error: ErrorReportViewModel) => {
