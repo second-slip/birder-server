@@ -87,10 +87,8 @@ namespace Birder.Tests.Controller
                     ContentType = "application/png"
                 };
 
-
                 // Act
                 var result = await controller.PostAvatarAsync(file);
-
 
                 // Assert
                 string fileExt = Path.GetExtension(file.FileName).Substring(1);
@@ -100,8 +98,153 @@ namespace Birder.Tests.Controller
             }
         }
 
+        [Fact]
+        public async Task PostAvatarAsync_ReturnsNotFound_WhenUserIsNotFound()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .Returns(Task.FromResult<ApplicationUser>(null));
 
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
 
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+            };
+
+            using (var stream = File.OpenRead(@"BirderDictionaryDefinitionExample.png"))
+            {
+                var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "application /png"
+                };
+
+                // Act
+                var result = await controller.PostAvatarAsync(file);
+
+                // Assert
+                var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+                Assert.IsType<String>(objectResult.Value);
+                Assert.Equal("User not found", objectResult.Value);
+            }
+        }
+
+        [Fact]
+        public async Task PostAvatarAsync_ReturnsBadRequest_OnException()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ThrowsAsync(new InvalidOperationException());
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+            };
+
+            using (var stream = File.OpenRead(@"BirderDictionaryDefinitionExample.png"))
+            {
+                var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "application /png"
+                };
+
+                // Act
+                var result = await controller.PostAvatarAsync(file);
+
+                // Assert
+                var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+                Assert.IsType<String>(objectResult.Value);
+                Assert.Equal("An unexpected error occurred", objectResult.Value);
+            }
+        }
+
+        [Fact]
+        public async Task PostAvatarAsync_ReturnsBadRequest_UserUpdateIsNotSuccessful()
+        {
+            // Arrange
+            var user = GetValidTestUser();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ReturnsAsync(user);
+            mockUserManager.Setup(repo => repo.UpdateAsync(It.IsAny<ApplicationUser>()))
+               .Returns(Task.FromResult(IdentityResult.Failed()));
+
+            var m = new Mock<IFileClient>();
+            m.Setup(x => x.DeleteFile(It.IsAny<string>(), It.IsAny<string>()))
+                .Verifiable();
+            m.Setup(x => x.SaveFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Stream>()))
+                .Verifiable();
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, m.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+            };
+
+            using (var stream = File.OpenRead(@"BirderDictionaryDefinitionExample.png"))
+            {
+                var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "application /png"
+                };
+
+                // Act
+                var result = await controller.PostAvatarAsync(file);
+
+                // Assert
+                var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+                Assert.Equal("An unexpected error occurred", objectResult.Value);
+            }
+        }
+
+        [Fact]
+        public async Task PostAvatarAsync_ReturnsOk_OnSuccess()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+                           .ReturnsAsync(GetValidTestUser());
+            mockUserManager.Setup(repo => repo.UpdateAsync(It.IsAny<ApplicationUser>()))
+               .Returns(Task.FromResult(IdentityResult.Success));
+
+            var m = new Mock<IFileClient>();
+            m.Setup(x => x.DeleteFile(It.IsAny<string>(), It.IsAny<string>()))
+                .Verifiable();
+            m.Setup(x => x.SaveFile(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Stream>()))
+                .Verifiable();
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, m.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+            };
+
+            using (var stream = File.OpenRead(@"BirderDictionaryDefinitionExample.png"))
+            {
+                var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "application /png"
+                };
+
+                // Act
+                var result = await controller.PostAvatarAsync(file);
+
+                // Assert
+                var objectResult = Assert.IsType<OkResult>(result);
+                //Assert.IsType<String>(objectResult.Value);
+                //Assert.Equal("User not found", objectResult.Value);
+            }
+        }
 
 
 

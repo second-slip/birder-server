@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -156,9 +157,8 @@ namespace Birder.Controllers
                     return BadRequest("An error occurred");
                 }
 
-                //int filesize = 3;
                 string[] supportedTypes = new[] { "jpg", "jpeg", "png", "bmp" };
-                var fileExt = System.IO.Path.GetExtension(file.FileName).Substring(1);
+                var fileExt = Path.GetExtension(file.FileName).Substring(1);
                 if (!supportedTypes.Contains(fileExt))
                 {
                     string message = $"IFormFile is not a supported image type. Type: {fileExt}";
@@ -166,13 +166,14 @@ namespace Birder.Controllers
                     return BadRequest(message);
                 }
 
-
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 if (user == null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, $"User with id '{User.Identity.Name}' not found");
                     return NotFound("User not found");
                 }
+
+                await _fileClient.DeleteFile(StorageContainers.Avatar, user.UserName);
 
                 using (var fileStream = file.OpenReadStream())
                 {
