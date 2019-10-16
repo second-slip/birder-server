@@ -23,4 +23,13 @@
     <ProjectReference Include="..\Birder\Birder.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="BirderDictionaryDefinitionExample.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TextFileExample.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

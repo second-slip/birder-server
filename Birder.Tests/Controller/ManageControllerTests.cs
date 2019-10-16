@@ -11,14 +11,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Birder.Tests.Controller
 {
-    //***************************
-    // ToDo: Add logging
-    //***************************
     public class ManageControllerTests
     {
         private readonly IMapper _mapper;
@@ -39,6 +38,74 @@ namespace Birder.Tests.Controller
             _urlService = new Mock<IUrlService>();
             _emailSender = new Mock<IEmailSender>();
         }
+
+
+        [Fact]
+        public async Task PostAvatarAsync_ReturnsBadRequest_WhenIFormFileArgumentIsNull()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            //mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+            //               .Returns(Task.FromResult<ApplicationUser>(null));
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+            };
+
+            // Act
+            var result = await controller.PostAvatarAsync(null);
+
+            // Assert
+            string expected = "An error occurred";
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal(expected, objectResult.Value);
+        }
+
+        [Fact]
+        public async Task PostAvatarAsync_ReturnsBadRequest_WhenIFormFileIsInvalidType()
+        {
+            // Arrange
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            //mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+            //               .Returns(Task.FromResult<ApplicationUser>(null));
+
+            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object, _fileClient.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+            };
+
+            using (var stream = File.OpenRead(@"TextFileExample.txt"))
+            {
+                var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "application/png"
+                };
+
+
+                // Act
+                var result = await controller.PostAvatarAsync(file);
+
+
+                // Assert
+                string fileExt = Path.GetExtension(file.FileName).Substring(1);
+                string expected = $"IFormFile is not a supported image type. Type: {fileExt}"; ;
+                var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+                Assert.Equal(expected, objectResult.Value);
+            }
+        }
+
+
+
+
+
+
+
 
         #region GetUserProfileAsync unit tests
 

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -145,7 +146,7 @@ namespace Birder.Controllers
         }
 
         [HttpPost, Route("UploadAvatar")]
-        public async Task<IActionResult> PostAvatar([FromForm(Name = "file")] IFormFile file)
+        public async Task<IActionResult> PostAvatarAsync([FromForm(Name = "file")] IFormFile file)
         {
             try
             {
@@ -155,7 +156,16 @@ namespace Birder.Controllers
                     return BadRequest("An error occurred");
                 }
 
-                // check file type
+                //int filesize = 3;
+                string[] supportedTypes = new[] { "jpg", "jpeg", "png", "bmp" };
+                var fileExt = System.IO.Path.GetExtension(file.FileName).Substring(1);
+                if (!supportedTypes.Contains(fileExt))
+                {
+                    string message = $"IFormFile is not a supported image type. Type: {fileExt}";
+                    _logger.LogError(LoggingEvents.UpdateItem, message);
+                    return BadRequest(message);
+                }
+
 
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 if (user == null)
