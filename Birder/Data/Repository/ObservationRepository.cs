@@ -14,8 +14,11 @@ namespace Birder.Data.Repository
         {
         }
 
-        public async Task<IEnumerable<Observation>> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex = 1, int pageSize = 10)
+        public async Task<IEnumerable<Observation>> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize = 10)
         {
+            if (pageIndex == 0)
+                pageIndex = 1;
+
             return await _dbContext.Observations
                 .Include(y => y.Bird)
                     .ThenInclude(u => u.BirdConservationStatus)

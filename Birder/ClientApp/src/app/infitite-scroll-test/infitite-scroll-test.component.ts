@@ -47,9 +47,9 @@ export class InfititeScrollTestComponent {
     .pipe(
       tap(_ => this.loading = true),
       flatMap((page: number) => {
-        return this.httpClient.get(`https://swapi.co/api/people?page=${page}`)
+        return this.httpClient.get(`api/ObservationFeed?page=${page}`) //    `https://swapi.co/api/people?page=${page}`)
           .pipe(
-            map((resp: any) => resp.results),
+            map((resp: any) => resp), // resp.results),
             tap(resp => {
               this.cache[page - 1] = resp;
               if ((this.itemHeight * this.numberOfItems * page) < window.innerHeight) {

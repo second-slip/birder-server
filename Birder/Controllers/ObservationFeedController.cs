@@ -40,7 +40,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetObservationsFeedAsync()
+        public async Task<IActionResult> GetObservationsFeedAsync(int page)
         {
             ObservationsFeedFilter filter = ObservationsFeedFilter.UserAndNetwork;
             try
@@ -62,7 +62,7 @@ namespace Birder.Controllers
 
                     followingUsernamesList.Add(username);
 
-                    var networkObservations = await _observationRepository.GetPagedObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName));
+                    var networkObservations = await _observationRepository.GetPagedObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), page);
                     if (networkObservations.Count() > 0)
                         return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
                 }
