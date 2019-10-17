@@ -56,15 +56,13 @@ namespace Birder.Controllers
 
                 if (filter == ObservationsFeedFilter.UserAndNetwork)
                 {
-                    //var loggedinUser = await _userRepository.GetUserAndNetworkAsync(username);
-
                     var userAndTheirNetwork = await _userManager.GetUserWithNetworkAsync(username);
 
                     var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(userAndTheirNetwork.Following);
 
                     followingUsernamesList.Add(username);
 
-                    var networkObservations = await _observationRepository.GetObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName));
+                    var networkObservations = await _observationRepository.GetPagedObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName));
                     if (networkObservations.Count() > 0)
                         return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
                 }
