@@ -16,7 +16,6 @@ namespace Birder.Data.Repository
 
         public async Task<IEnumerable<Observation>> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex = 1, int pageSize = 10)
         {
-            // include tags?
             return await _dbContext.Observations
                 .Include(y => y.Bird)
                     .ThenInclude(u => u.BirdConservationStatus)
@@ -31,7 +30,6 @@ namespace Birder.Data.Repository
 
         public async Task<IEnumerable<Observation>> GetObservationsAsync(Expression<Func<Observation, bool>> predicate)
         {
-            // include tags?
             return await _dbContext.Observations
                 .Include(y => y.Bird)
                     .ThenInclude(u => u.BirdConservationStatus)

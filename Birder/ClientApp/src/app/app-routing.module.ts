@@ -30,6 +30,7 @@ import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { AboutComponent } from './_about/about/about.component';
+import { InfititeScrollTestComponent } from './infitite-scroll-test/infitite-scroll-test.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -61,6 +62,7 @@ const routes: Routes = [
         children: [
           { path: '', component: HomeComponent, pathMatch: 'full' },
           { path: 'observation-feed', component: ObservationFeedComponent },
+          { path: 'infinite-scroll-test', component: InfititeScrollTestComponent },
           { path: 'observation-detail/:id', component: ObservationDetailComponent },
           { path: 'observation-delete/:id', component: ObservationDeleteComponent },
           { path: 'observation-add', component: ObservationAddComponent, },
