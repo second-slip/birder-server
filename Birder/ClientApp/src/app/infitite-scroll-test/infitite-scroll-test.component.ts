@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component } from '@angular/core';
 import { tap, map, filter, debounceTime, distinct, flatMap } from 'rxjs/operators';
 import { BehaviorSubject, fromEvent, merge } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
 import * as _ from 'lodash';
 
 @Component({
@@ -12,7 +10,6 @@ import * as _ from 'lodash';
   styleUrls: ['./infitite-scroll-test.component.scss']
 })
 export class InfititeScrollTestComponent {
-
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
   private itemHeight = 40;
