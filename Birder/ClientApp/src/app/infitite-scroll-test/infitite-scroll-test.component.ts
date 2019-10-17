@@ -30,8 +30,7 @@ export class InfititeScrollTestComponent {
     .pipe(
       debounceTime(200),
       map(_ => Math.ceil(
-        (window.innerHeight + document.body.scrollTop) /
-        (this.itemHeight * this.numberOfItems)
+        (window.innerHeight + document.body.scrollTop) / (this.itemHeight * this.numberOfItems)
       ))
     );
 
