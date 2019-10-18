@@ -21,6 +21,8 @@ namespace Birder.Data
               .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count()))
               .ForMember(a => a.UniqueSpeciesCount, b => b.MapFrom(a => a.Select(i => i.BirdId).Distinct().Count()));
 
+            CreateMap<QueryResult<Observation>, ObservationFeedDto>()
+                .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
             //CreateMap<List<Observation>, TopObservationsAnalysisViewModel>()
             //  .ForMember(a => a.TopObservations, opt => opt.MapFrom(a =>  //a.Where(t => t.ObservationDateTime >= opt.Items["Date"])
             //     a.GroupBy(n => n.Bird)

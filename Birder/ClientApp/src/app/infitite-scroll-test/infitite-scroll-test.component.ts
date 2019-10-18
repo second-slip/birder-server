@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { tap, map, filter, debounceTime, distinct, flatMap } from 'rxjs/operators';
-import { BehaviorSubject, fromEvent, merge } from 'rxjs';
+import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
+import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 
 @Component({
   selector: 'app-infitite-scroll-test',
@@ -39,10 +40,11 @@ export class InfititeScrollTestComponent {
 
   loading = false;
 
-  itemResults$ = this.pageToLoad$
+  itemResults$ = this.pageToLoad$ // itemResults$: Observable<ObservationViewModel>
     .pipe(
       tap(_ => this.loading = true),
       flatMap((page: number) => {
+        // check max page reached?
         return this.httpClient.get(`api/ObservationFeed?page=${page}`) //    `https://swapi.co/api/people?page=${page}`)
           .pipe(
             map((resp: any) => resp), // resp.results),

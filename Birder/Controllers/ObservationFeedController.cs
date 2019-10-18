@@ -64,6 +64,10 @@ namespace Birder.Controllers
 
                     var test = await _observationRepository.GetObs(page);
 
+                    var testDto = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test);
+
+                    // map to ObservationsFeedDto
+
                     var networkObservations = await _observationRepository.GetPagedObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), page);
                     if (networkObservations.Count() > 0)
                         return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
