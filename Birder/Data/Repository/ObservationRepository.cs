@@ -1,4 +1,5 @@
 ﻿using Birder.Data.Model;
+using Birder.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,37 @@ namespace Birder.Data.Repository
     {
         public ObservationRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public async Task<QueryResult<Observation>> GetObs(int page) //VehicleQuery queryObj)
+        {
+            var result = new QueryResult<Observation>();
+
+            var query = _dbContext.Observations
+                .Include(y => y.Bird)
+                    .ThenInclude(u => u.BirdConservationStatus)
+                .Include(au => au.ApplicationUser)
+                .AsQueryable();
+
+            //query = query.ApplyFiltering(queryObj);
+
+            //query = query.Where
+
+            //var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
+            //{
+            //    ["make"] = v => v.Model.Make.Name,
+            //    ["model"] = v => v.Model.Name,
+            //    ["contactName"] = v => v.ContactName
+            //};
+            //query = query.ApplyOrdering(queryObj, columnsMap);
+
+            result.TotalItems = await query.CountAsync();
+
+            query = query.ApplyPaging(page, 10);
+
+            result.Items = await query.ToListAsync();
+
+            return result;
         }
 
         public async Task<IEnumerable<Observation>> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize = 10)

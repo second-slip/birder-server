@@ -62,6 +62,8 @@ namespace Birder.Controllers
 
                     followingUsernamesList.Add(username);
 
+                    var test = await _observationRepository.GetObs(page);
+
                     var networkObservations = await _observationRepository.GetPagedObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), page);
                     if (networkObservations.Count() > 0)
                         return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
