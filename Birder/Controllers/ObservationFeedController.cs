@@ -50,7 +50,7 @@ namespace Birder.Controllers
 
             followingUsernamesList.Add(username);
 
-            var test = await _observationRepository.GetObs(page);
+            var test = await _observationRepository.GetObs(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), page);
 
             return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test));
 
@@ -78,11 +78,6 @@ namespace Birder.Controllers
                     var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(userAndTheirNetwork.Following);
 
                     followingUsernamesList.Add(username);
-
-                    //var test = await _observationRepository.GetObs(page);
-
-                    //return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test));
-
 
                     var networkObservations = await _observationRepository.GetPagedObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), page);
                     if (networkObservations.Count() > 0)

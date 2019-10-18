@@ -15,7 +15,7 @@ namespace Birder.Data.Repository
         {
         }
 
-        public async Task<QueryResult<Observation>> GetObs(int page) //VehicleQuery queryObj)
+        public async Task<QueryResult<Observation>> GetObs(Expression<Func<Observation, bool>> predicate, int page) //VehicleQuery queryObj)
         {
             var result = new QueryResult<Observation>();
 
@@ -27,7 +27,9 @@ namespace Birder.Data.Repository
 
             //query = query.ApplyFiltering(queryObj);
 
-            //query = query.Where
+            query = query.Where(predicate);
+
+            query = query.OrderByDescending(d => d.ObservationDateTime);
 
             //var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
             //{
