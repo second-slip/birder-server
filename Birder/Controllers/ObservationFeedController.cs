@@ -39,6 +39,23 @@ namespace Birder.Controllers
             _observationRepository = observationRepository;
         }
 
+        [HttpGet, Route("Test")]
+        public async Task<IActionResult> GetTestAsync(int page)
+        {
+            var username = User.Identity.Name;
+
+            var userAndTheirNetwork = await _userManager.GetUserWithNetworkAsync(username);
+
+            var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(userAndTheirNetwork.Following);
+
+            followingUsernamesList.Add(username);
+
+            var test = await _observationRepository.GetObs(page);
+
+            return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test));
+
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetObservationsFeedAsync(int page)
         {
@@ -62,11 +79,10 @@ namespace Birder.Controllers
 
                     followingUsernamesList.Add(username);
 
-                    var test = await _observationRepository.GetObs(page);
+                    //var test = await _observationRepository.GetObs(page);
 
-                    var testDto = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test);
+                    //return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test));
 
-                    // map to ObservationsFeedDto
 
                     var networkObservations = await _observationRepository.GetPagedObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), page);
                     if (networkObservations.Count() > 0)

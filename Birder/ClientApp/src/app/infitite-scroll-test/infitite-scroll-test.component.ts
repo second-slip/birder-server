@@ -4,6 +4,7 @@ import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
+import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
 
 @Component({
   selector: 'app-infitite-scroll-test',
@@ -40,14 +41,14 @@ export class InfititeScrollTestComponent {
 
   loading = false;
 
-  itemResults$ = this.pageToLoad$ // itemResults$: Observable<ObservationViewModel>
+  itemResults$: Observable<ObservationFeedDto> = this.pageToLoad$ // itemResults$: ObservationFeedDto
     .pipe(
       tap(_ => this.loading = true),
       flatMap((page: number) => {
         // check max page reached?
-        return this.httpClient.get(`api/ObservationFeed?page=${page}`) //    `https://swapi.co/api/people?page=${page}`)
+        return this.httpClient.get(`api/ObservationFeed/Test?page=${page}`) //    `https://swapi.co/api/people?page=${page}`)
           .pipe(
-            map((resp: any) => resp), // resp.results),
+            map((resp: any) => resp.items), // resp.results),
             tap(resp => {
               this.cache[page - 1] = resp;
               if ((this.itemHeight * this.numberOfItems * page) < window.innerHeight) {
