@@ -12,6 +12,7 @@ import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
   styleUrls: ['./infitite-scroll-test.component.scss']
 })
 export class InfititeScrollTestComponent {
+  private n: number;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
   private itemHeight = 40;
@@ -48,7 +49,8 @@ export class InfititeScrollTestComponent {
         // check max page reached?
         return this.httpClient.get(`api/ObservationFeed/Test?page=${page}`) //    `https://swapi.co/api/people?page=${page}`)
           .pipe(
-            map((resp: any) => resp.items), // resp.results),
+            tap((resp: ObservationFeedDto) => { this.n = resp.totalItems; }),
+            map((resp: ObservationFeedDto) => resp.items), // resp.results),
             tap(resp => {
               this.cache[page - 1] = resp;
               if ((this.itemHeight * this.numberOfItems * page) < window.innerHeight) {

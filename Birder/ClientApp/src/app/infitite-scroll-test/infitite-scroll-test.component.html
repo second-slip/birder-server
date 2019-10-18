@@ -1,10 +1,11 @@
 <p>infitite-scroll-test works!</p>
 
+<p>total items: {{n}}</p>
+
 <table>
     <tbody>
         <tr *ngFor="let item of itemResults$|async" [style.height]="itemHeight + 'px'">
-            <td>{{item.observationId}}</td>
-            <!-- observationId -->
+            <td>{{item.observationId}} -- {{item.bird.englishName}} at {{item.observationDateTime}}</td>
         </tr>
     </tbody>
 </table>

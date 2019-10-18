@@ -53,7 +53,6 @@ namespace Birder.Controllers
             var test = await _observationRepository.GetObs(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), page);
 
             return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test));
-
         }
 
         [HttpGet]
