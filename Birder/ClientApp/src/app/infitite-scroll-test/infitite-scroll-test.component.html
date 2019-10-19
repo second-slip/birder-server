@@ -1,15 +1,44 @@
-<p>infitite-scroll-test works!</p>
-
-<!-- <p>total items: {{n}}</p>
-<p>total pages: {{tp}}</p>
-<p>total pages: {{tpc}}</p> -->
-
-<table>
+<!-- <table>
     <tbody>
         <tr *ngFor="let item of itemResults$|async" [style.height]="itemHeight + 'px'">
-            <td>{{item.observationId}} -- {{item.bird.englishName}} at {{item.observationDateTime}}</td>
+            <td>{{item.itemId}} -- {{item.bird.englishName}} at {{item.itemDateTime}}</td>
         </tr>
     </tbody>
 </table>
 
-<p *ngIf="x">No more items to load...</p>
+<div *ngIf="!itemsResults$" class="loading">
+    <p><em>Loading...</em></p>
+    <mat-spinner></mat-spinner>
+  </div> -->
+
+<div class="container">
+
+    <h4>Your observations feed</h4>
+
+    <div>
+        <a class="nav-link" [routerLink]='["/observation-add"]'>Add Observation</a>
+    </div>
+
+    <div *ngFor="let observation of itemResults$|async" [style.height]="itemHeight + 'px'">
+        <div class="timeline-item"
+            attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
+            <h3><b>{{observation.quantity}}</b> {{observation.bird.englishName}}
+                {{observation.quantity > 1 ? 'were' : 'was'}}
+                spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
+                    {{observation.user.userName}}
+                </a>
+            </h3>
+
+            <a routerLink="/observation-detail/{{observation.observationId}}">
+                View |
+            </a>
+            <a routerLink="/observation-edit/{{observation.observationId}}">
+                Edit |
+            </a>
+            <a routerLink="/observation-delete/{{observation.observationId}}">
+                Delete
+            </a>
+        </div>
+    </div>
+    <p *ngIf="x">No more items to load...</p>
+</div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { tap, map, filter, debounceTime, distinct, flatMap } from 'rxjs/operators';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -8,13 +8,14 @@ import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
 @Component({
   selector: 'app-infitite-scroll-test',
   templateUrl: './infitite-scroll-test.component.html',
-  styleUrls: ['./infitite-scroll-test.component.scss']
+  styleUrls: ['./infitite-scroll-test.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class InfititeScrollTestComponent {
   private x = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
-  private itemHeight = 40;
+  private itemHeight = 145;
   private numberOfItems = 10;
   private pageByScroll$ = fromEvent(window, 'scroll')
     .pipe(
