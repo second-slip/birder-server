@@ -52,6 +52,10 @@ namespace Birder.Controllers
 
             var test = await _observationRepository.GetObs(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), page);
 
+            var pageSize = 10;
+
+            var totalPages = (int)Math.Ceiling(test.TotalItems / (double)pageSize);
+
             return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test));
         }
 
