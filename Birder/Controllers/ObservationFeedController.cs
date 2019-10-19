@@ -54,9 +54,10 @@ namespace Birder.Controllers
 
             var pageSize = 10;
 
-            var totalPages = (int)Math.Ceiling(test.TotalItems / (double)pageSize);
+            var model = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test);
+            model.TotalPages = (int)Math.Ceiling(test.TotalItems / (double)pageSize);
 
-            return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test));
+            return Ok(model);
         }
 
         [HttpGet]
