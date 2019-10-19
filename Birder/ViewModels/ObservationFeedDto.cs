@@ -6,7 +6,7 @@ namespace Birder.ViewModels
     {
         public int TotalItems { get; set; }
 
-        public int TotalPages { get; set; }
+        //public int TotalPages { get; set; }
 
         public IEnumerable<ObservationViewModel> Items { get; set; }
     }

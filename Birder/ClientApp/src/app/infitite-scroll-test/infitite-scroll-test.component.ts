@@ -49,7 +49,7 @@ export class InfititeScrollTestComponent {
       flatMap((page: number) => {
         // check max page reached?
         // if (!this.x) {
-        // doesn't seem neessary as 'white space' check works adequately
+        // doesn't seem necessary as 'white space' check is adequate
 
         return this.httpClient.get(`api/ObservationFeed/Test?page=${page}`) //    `https://swapi.co/api/people?page=${page}`)
           .pipe(
