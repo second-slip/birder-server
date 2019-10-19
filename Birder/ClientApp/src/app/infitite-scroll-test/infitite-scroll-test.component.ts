@@ -3,7 +3,6 @@ import { tap, map, filter, debounceTime, distinct, flatMap } from 'rxjs/operator
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
-import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
 
 @Component({
@@ -12,8 +11,7 @@ import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
   styleUrls: ['./infitite-scroll-test.component.scss']
 })
 export class InfititeScrollTestComponent {
-  private n: number;
-  private tp: number;
+  private x = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
   private itemHeight = 40;
@@ -46,11 +44,18 @@ export class InfititeScrollTestComponent {
   itemResults$: Observable<ObservationFeedDto> = this.pageToLoad$ // itemResults$: ObservationFeedDto
     .pipe(
       tap(_ => this.loading = true),
+
       flatMap((page: number) => {
         // check max page reached?
+        // if (!this.x) {
+        // doesn't seem neessary as 'white space' check works adequately
+
         return this.httpClient.get(`api/ObservationFeed/Test?page=${page}`) //    `https://swapi.co/api/people?page=${page}`)
           .pipe(
-            tap((resp: ObservationFeedDto) => { this.n = resp.totalItems; this.tp = resp.totalPages; }),
+            tap((resp: ObservationFeedDto) => {
+              // this.n = resp.totalItems;
+              if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.x = true; }
+            }),
             map((resp: ObservationFeedDto) => resp.items), // resp.results),
             tap(resp => {
               this.cache[page - 1] = resp;
@@ -59,9 +64,11 @@ export class InfititeScrollTestComponent {
               }
             })
           );
+        // }
       }),
       map(() => _.flatMap(this.cache))
     );
+
 
   constructor(private httpClient: HttpClient) {
   }
