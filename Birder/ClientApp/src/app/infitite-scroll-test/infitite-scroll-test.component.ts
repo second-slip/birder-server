@@ -4,6 +4,9 @@ import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
+import { ObservationsFeedService } from '@app/_observationsFeed/observations-feed.service';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 
 @Component({
   selector: 'app-infitite-scroll-test',
@@ -12,7 +15,8 @@ import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
   encapsulation: ViewEncapsulation.None
 })
 export class InfititeScrollTestComponent {
-  private x = false;
+
+  private allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
   private itemHeight = 145;
@@ -42,7 +46,7 @@ export class InfititeScrollTestComponent {
 
   loading = false;
 
-  itemResults$: Observable<ObservationFeedDto> = this.pageToLoad$ // itemResults$: ObservationFeedDto
+  itemResults$: Observable<ObservationViewModel[]> = this.pageToLoad$ // itemResults$: ObservationFeedDto
     .pipe(
       tap(_ => this.loading = true),
 
@@ -51,19 +55,23 @@ export class InfititeScrollTestComponent {
         // if (!this.x) {
         // doesn't seem necessary as 'white space' check is adequate
 
-        return this.httpClient.get(`api/ObservationFeed/Test?page=${page}`) //    `https://swapi.co/api/people?page=${page}`)
+        return this.observationsFeedService.getObservationsFeed1(page)
           .pipe(
             tap((resp: ObservationFeedDto) => {
               // this.n = resp.totalItems;
-              if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.x = true; }
-            }),
-            map((resp: ObservationFeedDto) => resp.items), // resp.results),
+
+              if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
+            },
+              (error: ErrorReportViewModel) => {
+                // this.router.navigate(['/page-not-found']);
+              }),
+            map((resp: any) => resp.items), // resp.results),
             tap(resp => {
               this.cache[page - 1] = resp;
               if ((this.itemHeight * this.numberOfItems * page) < window.innerHeight) {
                 this.pageByManual$.next(page + 1);
               }
-            })
+            }),
           );
         // }
       }),
@@ -71,6 +79,6 @@ export class InfititeScrollTestComponent {
     );
 
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private observationsFeedService: ObservationsFeedService) {
   }
 }
