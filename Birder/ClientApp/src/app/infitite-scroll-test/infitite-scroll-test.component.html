@@ -1,4 +1,3 @@
-
 <div class="container">
 
     <h4>Your observations feed</h4>
@@ -8,6 +7,7 @@
     </div>
 
     <div *ngFor="let observation of itemResults$|async" [style.height]="itemHeight + 'px'">
+        
         <div class="timeline-item"
             attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
             <h3><b>{{observation.quantity}}</b> {{observation.bird.englishName}}
@@ -28,11 +28,11 @@
             </a>
         </div>
     </div>
-    <!-- <p *ngIf="allLoaded">No more items to load...</p> -->
+
     <p *ngIf="allLoaded">
         <ngb-alert [dismissible]="false">
-          <strong>Warning!</strong> No more items to load...
+            <strong>Warning!</strong> No more items to load...
         </ngb-alert>
-      </p>
+    </p>
 
 </div>

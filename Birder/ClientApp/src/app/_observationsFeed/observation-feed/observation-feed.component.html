@@ -3,36 +3,37 @@
   <h4>Your observations feed</h4>
 
   <div>
-      <a class="nav-link" [routerLink]='["/observation-add"]'>Add Observation</a>
+    <a class="nav-link" [routerLink]='["/observation-add"]'>Add Observation</a>
   </div>
 
   <div *ngFor="let observation of itemResults$|async" [style.height]="itemHeight + 'px'">
-      <div class="timeline-item"
-          attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
-          <h3><b>{{observation.quantity}}</b> {{observation.bird.englishName}}
-              {{observation.quantity > 1 ? 'were' : 'was'}}
-              spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
-                  {{observation.user.userName}}
-              </a>
-          </h3>
+    
+    <div class="timeline-item"
+      attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
+      <h3><b>{{observation.quantity}}</b> {{observation.bird.englishName}}
+        {{observation.quantity > 1 ? 'were' : 'was'}}
+        spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
+          {{observation.user.userName}}
+        </a>
+      </h3>
 
-          <a routerLink="/observation-detail/{{observation.observationId}}">
-              View |
-          </a>
-          <a routerLink="/observation-edit/{{observation.observationId}}">
-              Edit |
-          </a>
-          <a routerLink="/observation-delete/{{observation.observationId}}">
-              Delete
-          </a>
-      </div>
+      <a routerLink="/observation-detail/{{observation.observationId}}">
+        View |
+      </a>
+      <a routerLink="/observation-edit/{{observation.observationId}}">
+        Edit |
+      </a>
+      <a routerLink="/observation-delete/{{observation.observationId}}">
+        Delete
+      </a>
+    </div>
   </div>
 
   <p *ngIf="allLoaded">
-      <ngb-alert [dismissible]="false">
-        <strong>Warning!</strong> No more items to load...
-      </ngb-alert>
-    </p>
+    <ngb-alert [dismissible]="false">
+      <strong>Warning!</strong> No more items to load...
+    </ngb-alert>
+  </p>
 
 </div>
 

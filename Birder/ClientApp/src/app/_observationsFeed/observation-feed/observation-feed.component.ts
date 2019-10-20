@@ -1,11 +1,11 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { tap, map, filter, debounceTime, distinct, flatMap } from 'rxjs/operators';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import * as _ from 'lodash';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
-import { ObservationsFeedService } from '@app/_observationsFeed/observations-feed.service';
+import { ObservationsFeedService } from '@app/_services/observations-feed.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-observation-feed',
