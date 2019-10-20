@@ -1,15 +1,3 @@
-<!-- <table>
-    <tbody>
-        <tr *ngFor="let item of itemResults$|async" [style.height]="itemHeight + 'px'">
-            <td>{{item.itemId}} -- {{item.bird.englishName}} at {{item.itemDateTime}}</td>
-        </tr>
-    </tbody>
-</table>
-
-<div *ngIf="!itemsResults$" class="loading">
-    <p><em>Loading...</em></p>
-    <mat-spinner></mat-spinner>
-  </div> -->
 
 <div class="container">
 
@@ -40,6 +28,11 @@
             </a>
         </div>
     </div>
-    <p *ngIf="allLoaded">No more items to load...</p>
+    <!-- <p *ngIf="allLoaded">No more items to load...</p> -->
+    <p *ngIf="allLoaded">
+        <ngb-alert [dismissible]="false">
+          <strong>Warning!</strong> No more items to load...
+        </ngb-alert>
+      </p>
 
 </div>
