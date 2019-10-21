@@ -2,6 +2,13 @@
 
   <h4>Your observations feed</h4>
 
+  <div class="container">
+    <div class="hello"> 
+      <!-- gggggggggggggggggg -->
+      <app-observations-feed-filter></app-observations-feed-filter>
+    </div>
+  </div>
+
   <div>
     <a class="nav-link" [routerLink]='["/observation-add"]'>Add Observation</a>
   </div>
@@ -28,6 +35,8 @@
       </a>
     </div>
   </div>
+
+
 
   <p *ngIf="allLoaded">
     <ngb-alert [dismissible]="false">

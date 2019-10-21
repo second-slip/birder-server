@@ -1,11 +1,12 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { tap, map, filter, debounceTime, distinct, flatMap } from 'rxjs/operators';
+import { tap, map, filter, debounceTime, distinct, flatMap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
 import { ObservationsFeedService } from '@app/_services/observations-feed.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import * as _ from 'lodash';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-observation-feed',
@@ -45,7 +46,7 @@ export class ObservationFeedComponent {
 
   loading = false;
 
-  itemResults$: Observable<ObservationViewModel[]> = this.pageToLoad$ // itemResults$: ObservationFeedDto
+  itemResults$ = this.pageToLoad$ // itemResults$: ObservationFeedDto
     .pipe(
       tap(_ => this.loading = true),
 
@@ -72,14 +73,14 @@ export class ObservationFeedComponent {
               }
             }),
           );
-        // }
       }),
       map(() => _.flatMap(this.cache))
     );
 
-  constructor(private observationsFeedService: ObservationsFeedService) {
-  }
+  constructor(private observationsFeedService: ObservationsFeedService) { }
+
 }
+
 
 
 

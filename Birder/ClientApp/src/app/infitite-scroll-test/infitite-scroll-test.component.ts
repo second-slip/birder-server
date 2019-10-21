@@ -79,6 +79,7 @@ export class InfititeScrollTestComponent {
     );
 
 
-  constructor(private httpClient: HttpClient, private observationsFeedService: ObservationsFeedService) {
+  constructor(private observationsFeedService: ObservationsFeedService) {
   }
+
 }
