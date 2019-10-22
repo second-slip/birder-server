@@ -7,6 +7,7 @@ import { ObservationsFeedService } from '@app/_services/observations-feed.servic
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ObservationFeedFilter } from '@app/_models/FilterFeedOptions';
+import { ObsFeed } from '@app/_models/aObsFeedModel';
 
 @Component({
   selector: 'app-infitite-scroll-test',
@@ -81,13 +82,17 @@ export class InfititeScrollTestComponent {
   constructor(private observationsFeedService: ObservationsFeedService) { }
 
   onFilterFeed(value): void {
-    const selectedFilter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
-    console.log(selectedFilter)
+
     this.cache = [];
     this.itemResults$ = this.pageToLoad$
       .pipe(
         tap(_ => this.loading = true),
         switchMap((page: number) => {
+          const x = <ObsFeed>{
+            pageIndex: page,
+            filter: (<any>ObservationFeedFilter)[value]
+          };
+          console.log(x);
           return this.observationsFeedService.getObservationsFeed1(page)
             .pipe(
               tap((resp: ObservationFeedDto) => {

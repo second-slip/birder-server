@@ -39,6 +39,12 @@ namespace Birder.Controllers
             _observationRepository = observationRepository;
         }
 
+        //public enum
+
+        public class Dto
+        {
+            public int PageIndex { get; set; }
+        }
         [HttpGet, Route("Test")]
         public async Task<IActionResult> GetTestAsync(int page)
         {

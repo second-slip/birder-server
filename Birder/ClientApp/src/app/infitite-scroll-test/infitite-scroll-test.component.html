@@ -7,9 +7,9 @@
     </div>
 
     <p>
-        <select name="phoneType" (change)="onFilterFeed($event.target.value)">
-            <option *ngFor="let type of filterOptions.values();">
-                {{type}}
+        <select name="feedFilterOptions" (change)="onFilterFeed($event.target.value)">
+            <option *ngFor="let option of filterOptions.values();">
+                {{option}}
             </option>
         </select>
     </p>
