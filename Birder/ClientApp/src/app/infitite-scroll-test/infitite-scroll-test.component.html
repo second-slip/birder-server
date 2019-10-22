@@ -2,19 +2,16 @@
 
     <h4>Your observations feed</h4>
 
-    <div class="container">
-        <div class="hello"> 
-          <!-- gggggggggggggggggg -->
-          <app-observations-feed-filter></app-observations-feed-filter>
-        </div>
-      </div>
+    <div>
+        <button type="submit" (click)="onFilterFeed()">Filter</button>
+    </div>
 
     <div>
         <a class="nav-link" [routerLink]='["/observation-add"]'>Add Observation</a>
     </div>
 
     <div *ngFor="let observation of itemResults$|async" [style.height]="itemHeight + 'px'">
-        
+
         <div class="timeline-item"
             attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
             <h3><b>{{observation.quantity}}</b> {{observation.bird.englishName}}

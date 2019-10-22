@@ -1,7 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { tap, map, filter, debounceTime, distinct, flatMap } from 'rxjs/operators';
+import { tap, map, filter, debounceTime, distinct, flatMap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
 import { ObservationsFeedService } from '@app/_services/observations-feed.service';
@@ -16,9 +15,11 @@ import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 })
 export class InfititeScrollTestComponent {
 
+  test: number;
   private allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
+
   private itemHeight = 145;
   private numberOfItems = 10;
   private pageByScroll$ = fromEvent(window, 'scroll')
@@ -46,15 +47,12 @@ export class InfititeScrollTestComponent {
 
   loading = false;
 
-  itemResults$: Observable<ObservationViewModel[]> = this.pageToLoad$ // itemResults$: ObservationFeedDto
+
+  itemResults$: Observable<ObservationViewModel[]> = this.pageToLoad$
     .pipe(
       tap(_ => this.loading = true),
 
       flatMap((page: number) => {
-        // check max page reached?
-        // if (!this.x) {
-        // doesn't seem necessary as 'white space' check is adequate
-
         return this.observationsFeedService.getObservationsFeed1(page)
           .pipe(
             tap((resp: ObservationFeedDto) => {
@@ -79,7 +77,32 @@ export class InfititeScrollTestComponent {
     );
 
 
-  constructor(private observationsFeedService: ObservationsFeedService) {
-  }
+  constructor(private observationsFeedService: ObservationsFeedService) { }
 
+  onFilterFeed(): void {
+    this.cache = [];
+    this.itemResults$ = this.pageToLoad$
+      .pipe(
+        tap(_ => this.loading = true),
+        switchMap((page: number) => {
+          return this.observationsFeedService.getObservationsFeed1(page)
+            .pipe(
+              tap((resp: ObservationFeedDto) => {
+                if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
+              },
+                (error: ErrorReportViewModel) => {
+                  // this.router.navigate(['/page-not-found']);
+                }),
+              map((resp: any) => resp.items),
+              tap(resp => {
+                this.cache[page - 1] = resp;
+                if ((this.itemHeight * this.numberOfItems * page) < window.innerHeight) {
+                  this.pageByManual$.next(page + 1);
+                }
+              }),
+            );
+        }),
+        map(() => _.flatMap(this.cache))
+      );
+  }
 }

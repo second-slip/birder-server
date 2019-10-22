@@ -6,7 +6,6 @@ import { ObservationsFeedService } from '@app/_services/observations-feed.servic
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import * as _ from 'lodash';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-observation-feed',
@@ -15,7 +14,6 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class ObservationFeedComponent {
-
   private allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
@@ -46,26 +44,21 @@ export class ObservationFeedComponent {
 
   loading = false;
 
-  itemResults$ = this.pageToLoad$ // itemResults$: ObservationFeedDto
+  itemResults$: Observable<ObservationViewModel[]> = this.pageToLoad$
     .pipe(
       tap(_ => this.loading = true),
 
       flatMap((page: number) => {
-        // check max page reached?
-        // if (!this.x) {
-        // doesn't seem necessary as 'white space' check is adequate
 
         return this.observationsFeedService.getObservationsFeed1(page)
           .pipe(
             tap((resp: ObservationFeedDto) => {
-              // this.n = resp.totalItems;
-
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
             },
               (error: ErrorReportViewModel) => {
                 // this.router.navigate(['/page-not-found']);
               }),
-            map((resp: any) => resp.items), // resp.results),
+            map((resp: any) => resp.items),
             tap(resp => {
               this.cache[page - 1] = resp;
               if ((this.itemHeight * this.numberOfItems * page) < window.innerHeight) {
@@ -79,10 +72,33 @@ export class ObservationFeedComponent {
 
   constructor(private observationsFeedService: ObservationsFeedService) { }
 
+  onFilterFeed(): void {
+    this.cache = [];
+    this.itemResults$ = this.pageToLoad$
+      .pipe(
+        tap(_ => this.loading = true),
+        switchMap((page: number) => {
+          return this.observationsFeedService.getObservationsFeed1(page)
+            .pipe(
+              tap((resp: ObservationFeedDto) => {
+                if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
+              },
+                (error: ErrorReportViewModel) => {
+                  // this.router.navigate(['/page-not-found']);
+                }),
+              map((resp: any) => resp.items),
+              tap(resp => {
+                this.cache[page - 1] = resp;
+                if ((this.itemHeight * this.numberOfItems * page) < window.innerHeight) {
+                  this.pageByManual$.next(page + 1);
+                }
+              }),
+            );
+        }),
+        map(() => _.flatMap(this.cache))
+      );
+  }
 }
-
-
-
 
 
 // import { Component, OnInit, ViewEncapsulation } from '@angular/core';

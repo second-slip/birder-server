@@ -80,7 +80,6 @@ import { AboutContactComponent } from './_about/about-contact/about-contact.comp
 import { LockedOutComponent } from './_account/locked-out/locked-out.component';
 import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/confirm-email-resend.component';
 import { InfititeScrollTestComponent } from './infitite-scroll-test/infitite-scroll-test.component';
-import { ObservationsFeedFilterComponent } from './_observationsFeed/observations-feed-filter/observations-feed-filter.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -134,8 +133,6 @@ export function tokenGetter() {
     LockedOutComponent,
     ConfirmEmailResendComponent,
     InfititeScrollTestComponent,
-    ObservationsFeedFilterComponent,
-
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
