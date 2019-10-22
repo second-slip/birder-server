@@ -6,6 +6,7 @@ import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
 import { ObservationsFeedService } from '@app/_services/observations-feed.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
+import { ObservationFeedFilter } from '@app/_models/FilterFeedOptions';
 
 @Component({
   selector: 'app-infitite-scroll-test',
@@ -15,7 +16,7 @@ import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 })
 export class InfititeScrollTestComponent {
 
-  test: number;
+  filterOptions = ObservationFeedFilter;
   private allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
@@ -79,7 +80,9 @@ export class InfititeScrollTestComponent {
 
   constructor(private observationsFeedService: ObservationsFeedService) { }
 
-  onFilterFeed(): void {
+  onFilterFeed(value): void {
+    const selectedFilter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
+    console.log(selectedFilter)
     this.cache = [];
     this.itemResults$ = this.pageToLoad$
       .pipe(
