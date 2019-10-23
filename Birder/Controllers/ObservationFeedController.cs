@@ -39,14 +39,21 @@ namespace Birder.Controllers
             _observationRepository = observationRepository;
         }
 
-        //public enum
+        public enum ObservationFeedFilter
+        {
+            Network = 0,
+            Public,
+            Own
+        }
 
-        public class Dto
+        public class ObsFeed
         {
             public int PageIndex { get; set; }
+            public ObservationFeedFilter Filter { get; set; }
         }
+
         [HttpGet, Route("Test")]
-        public async Task<IActionResult> GetTestAsync(int page)
+        public async Task<IActionResult> GetTestAsync(int pageIndex, ObservationFeedFilter filter)
         {
             var username = User.Identity.Name;
 
@@ -56,7 +63,7 @@ namespace Birder.Controllers
 
             followingUsernamesList.Add(username);
 
-            var test = await _observationRepository.GetObs(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), page);
+            var test = await _observationRepository.GetObs(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex);
 
             var pageSize = 10;
 

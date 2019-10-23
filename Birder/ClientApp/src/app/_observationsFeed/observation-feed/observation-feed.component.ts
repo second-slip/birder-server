@@ -6,6 +6,7 @@ import { ObservationsFeedService } from '@app/_services/observations-feed.servic
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import * as _ from 'lodash';
+import { ObservationFeedFilter } from '@app/_models/FilterFeedOptions';
 
 @Component({
   selector: 'app-observation-feed',
@@ -50,7 +51,7 @@ export class ObservationFeedComponent {
 
       flatMap((page: number) => {
 
-        return this.observationsFeedService.getObservationsFeed1(page)
+        return this.observationsFeedService.getObservationsFeed1(page, ObservationFeedFilter.Network)
           .pipe(
             tap((resp: ObservationFeedDto) => {
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
@@ -72,13 +73,15 @@ export class ObservationFeedComponent {
 
   constructor(private observationsFeedService: ObservationsFeedService) { }
 
-  onFilterFeed(): void {
+  onFilterFeed(value): void {
     this.cache = [];
+    const filter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
     this.itemResults$ = this.pageToLoad$
       .pipe(
         tap(_ => this.loading = true),
         switchMap((page: number) => {
-          return this.observationsFeedService.getObservationsFeed1(page)
+
+          return this.observationsFeedService.getObservationsFeed1(page, filter)
             .pipe(
               tap((resp: ObservationFeedDto) => {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }

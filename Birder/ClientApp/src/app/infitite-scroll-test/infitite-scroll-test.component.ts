@@ -7,7 +7,6 @@ import { ObservationsFeedService } from '@app/_services/observations-feed.servic
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ObservationFeedFilter } from '@app/_models/FilterFeedOptions';
-import { ObsFeed } from '@app/_models/aObsFeedModel';
 
 @Component({
   selector: 'app-infitite-scroll-test',
@@ -55,11 +54,13 @@ export class InfititeScrollTestComponent {
       tap(_ => this.loading = true),
 
       flatMap((page: number) => {
-        return this.observationsFeedService.getObservationsFeed1(page)
+        // const x = <ObsFeed>{
+        //   pageIndex: page,
+        //   filter: ObservationFeedFilter.Network
+        // };
+        return this.observationsFeedService.getObservationsFeed1(page, ObservationFeedFilter.Network)
           .pipe(
             tap((resp: ObservationFeedDto) => {
-              // this.n = resp.totalItems;
-
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
             },
               (error: ErrorReportViewModel) => {
@@ -83,17 +84,18 @@ export class InfititeScrollTestComponent {
 
   onFilterFeed(value): void {
 
+    const filter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
     this.cache = [];
     this.itemResults$ = this.pageToLoad$
       .pipe(
         tap(_ => this.loading = true),
         switchMap((page: number) => {
-          const x = <ObsFeed>{
-            pageIndex: page,
-            filter: (<any>ObservationFeedFilter)[value]
-          };
-          console.log(x);
-          return this.observationsFeedService.getObservationsFeed1(page)
+          // const x = <ObsFeed>{
+          //   pageIndex: page,
+          //   filter: (<any>ObservationFeedFilter)[value]
+          // };
+          // console.log(x);
+          return this.observationsFeedService.getObservationsFeed1(page, filter)
             .pipe(
               tap((resp: ObservationFeedDto) => {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
