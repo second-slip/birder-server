@@ -39,18 +39,6 @@ namespace Birder.Controllers
             _observationRepository = observationRepository;
         }
 
-        public enum ObservationFeedFilter
-        {
-            Network = 0,
-            Public,
-            Own
-        }
-
-        public class ObsFeed
-        {
-            public int PageIndex { get; set; }
-            public ObservationFeedFilter Filter { get; set; }
-        }
 
         [HttpGet, Route("Test")]
         public async Task<IActionResult> GetTestAsync(int pageIndex, ObservationFeedFilter filter)
@@ -76,19 +64,19 @@ namespace Birder.Controllers
         [HttpGet]
         public async Task<IActionResult> GetObservationsFeedAsync(int page)
         {
-            ObservationsFeedFilter filter = ObservationsFeedFilter.UserAndNetwork;
+            ObservationFeedFilter filter = ObservationFeedFilter.Network;
             try
             {
                 var username = User.Identity.Name;
 
-                if (filter == ObservationsFeedFilter.User)
+                if (filter == ObservationFeedFilter.Own)
                 {
                     var userObservations = await _observationRepository.GetObservationsAsync(o => o.ApplicationUser.UserName == username);
                     if (userObservations.Count() > 0) // might have network obs...
                         return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(userObservations));
                 }
 
-                if (filter == ObservationsFeedFilter.UserAndNetwork)
+                if (filter == ObservationFeedFilter.Network)
                 {
                     var userAndTheirNetwork = await _userManager.GetUserWithNetworkAsync(username);
 
