@@ -18,7 +18,6 @@ export class ObservationsFeedService {
   }
 
   getObservationsFeed1(pageIndex: number, filter: ObservationFeedFilter): Observable<ObservationFeedDto | ErrorReportViewModel> {
-
     const params = new HttpParams()
     .set('pageIndex', pageIndex.toString())
     .set('filter', filter.toString());
@@ -30,13 +29,6 @@ export class ObservationsFeedService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  // getObservationsFeed1(model: ObsFeed): Observable<ObservationFeedDto | ErrorReportViewModel> {
-  //   return this.http.get<ObservationFeedDto>(`api/ObservationFeed/Test?page=${page}`)
-  //     .pipe(
-  //       // (take(1)),
-  //       // tap(observations => this.log('fetched observations')),
-  //       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
-  // }
 
   getObservationsFeed(): Observable<ObservationViewModel[] | ErrorReportViewModel> {
     return this.http.get<ObservationViewModel[]>('api/ObservationFeed')

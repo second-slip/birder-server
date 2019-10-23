@@ -54,10 +54,7 @@ export class InfititeScrollTestComponent {
       tap(_ => this.loading = true),
 
       flatMap((page: number) => {
-        // const x = <ObsFeed>{
-        //   pageIndex: page,
-        //   filter: ObservationFeedFilter.Network
-        // };
+
         return this.observationsFeedService.getObservationsFeed1(page, ObservationFeedFilter.Network)
           .pipe(
             tap((resp: ObservationFeedDto) => {
@@ -83,18 +80,13 @@ export class InfititeScrollTestComponent {
   constructor(private observationsFeedService: ObservationsFeedService) { }
 
   onFilterFeed(value): void {
-
-    const filter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
     this.cache = [];
+    const filter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
     this.itemResults$ = this.pageToLoad$
       .pipe(
         tap(_ => this.loading = true),
         switchMap((page: number) => {
-          // const x = <ObsFeed>{
-          //   pageIndex: page,
-          //   filter: (<any>ObservationFeedFilter)[value]
-          // };
-          // console.log(x);
+
           return this.observationsFeedService.getObservationsFeed1(page, filter)
             .pipe(
               tap((resp: ObservationFeedDto) => {

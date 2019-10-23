@@ -76,6 +76,7 @@ export class ObservationFeedComponent {
   onFilterFeed(value): void {
     this.cache = [];
     const filter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
+
     this.itemResults$ = this.pageToLoad$
       .pipe(
         tap(_ => this.loading = true),
