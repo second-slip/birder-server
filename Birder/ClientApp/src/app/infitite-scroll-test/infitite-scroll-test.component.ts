@@ -71,7 +71,6 @@ export class InfititeScrollTestComponent {
               }
             }),
           );
-        // }
       }),
       map(() => _.flatMap(this.cache))
     );
@@ -81,13 +80,14 @@ export class InfititeScrollTestComponent {
 
   onFilterFeed(value): void {
     this.cache = [];
-    const filter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
+    const selectedFilter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
+
     this.itemResults$ = this.pageToLoad$
       .pipe(
         tap(_ => this.loading = true),
         switchMap((page: number) => {
 
-          return this.observationsFeedService.getObservationsFeed1(page, filter)
+          return this.observationsFeedService.getObservationsFeed1(page, selectedFilter)
             .pipe(
               tap((resp: ObservationFeedDto) => {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }

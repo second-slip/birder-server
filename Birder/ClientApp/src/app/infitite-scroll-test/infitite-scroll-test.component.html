@@ -6,13 +6,22 @@
         <a class="nav-link" [routerLink]='["/observation-add"]'>Add Observation</a>
     </div>
 
-    <p>
+    <mat-form-field>
+        <mat-label>Filter Feed</mat-label>
+        <select matNativeControl name="feedFilterOptions" (change)="onFilterFeed($event.target.value)">
+                <option *ngFor="let option of filterOptions.values();">
+                    {{option}}
+                </option>
+            </select>
+    </mat-form-field>
+
+    <!-- <p>
         <select name="feedFilterOptions" (change)="onFilterFeed($event.target.value)">
             <option *ngFor="let option of filterOptions.values();">
                 {{option}}
             </option>
         </select>
-    </p>
+    </p> -->
 
     <div *ngFor="let observation of itemResults$|async" [style.height]="itemHeight + 'px'">
 
