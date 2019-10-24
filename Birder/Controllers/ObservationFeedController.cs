@@ -43,33 +43,40 @@ namespace Birder.Controllers
         {
             try
             {
-                var username = User.Identity.Name;
-
+                //var username = User.Identity.Name;
                 if (filter == ObservationFeedFilter.Own)
                 {
-                    var userObservations = await _observationRepository.GetObservationsFeedAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
-                    //if (userObservations.TotalItems > 0 || pageIndex > 1) // might have network obs...
-                        //return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(userObservations));
-                    return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(userObservations));
+                    var userObservations = await _observationRepository.GetObservationsFeedAsync(o => o.ApplicationUser.UserName == User.Identity.Name, pageIndex, pageSize);
+                    if (userObservations.TotalItems > 0 || pageIndex > 1)
+                        return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(userObservations));
                 }
 
-                if (filter == ObservationFeedFilter.Network)
+                if (filter == ObservationFeedFilter.Network || filter == ObservationFeedFilter.Own)
                 {
-                    var userAndTheirNetwork = await _userManager.GetUserWithNetworkAsync(username);
+                    var requestingUserAndNetwork = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
+                    if (requestingUserAndNetwork == null)
+                    {
+                        //logging
+                        return NotFound("User not found");
+                    }
 
-                    var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(userAndTheirNetwork.Following);
+                    var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUserAndNetwork.Following);
 
-                    followingUsernamesList.Add(username);
+                    followingUsernamesList.Add(requestingUserAndNetwork.UserName);
 
                     var networkObservations = await _observationRepository.GetObservationsFeedAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex, pageSize);
-                    //if (networkObservations.TotalItems > 0 || pageIndex > 1)
-                    //return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
-                    return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(networkObservations));
+                    
+                    if (networkObservations.TotalItems > 0 || pageIndex > 1)
+                    {
+                        var modelN = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(networkObservations);
+                        if (filter == ObservationFeedFilter.Own)
+                        {
+                            modelN.DisplayMessage = true;
+                            modelN.Message = "You have not recorded any observations.  Showing the observations from your network";
+                        }
+                        return Ok(modelN);
+                    }
                 }
-
-                //string message = "";
-                //if (filter != ObservationsFeedFilter.Public)
-                //message = "There are no observations in your network.  Showing the latest public observations";
 
                 var publicObservations = await _observationRepository.GetObservationsFeedAsync(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public, pageIndex, pageSize);
 
@@ -79,8 +86,15 @@ namespace Birder.Controllers
                     return NotFound();
                 }
 
-                //return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(publicObservations));
-                return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(publicObservations));
+                var model = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(publicObservations);
+                
+                if (filter != ObservationFeedFilter.Public)
+                {
+                    model.DisplayMessage = true;
+                    model.Message = "There are no observations in your network.  Showing the latest public observations";
+                }
+
+                return Ok(model);
             }
             catch (Exception ex)
             {
