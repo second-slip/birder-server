@@ -17,6 +17,8 @@ import * as _ from 'lodash';
 export class InfititeScrollTestComponent {
 
   filterOptions = ObservationFeedFilter;
+  private displayMessage: boolean;
+  private message: string;
   private allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
@@ -58,6 +60,8 @@ export class InfititeScrollTestComponent {
           .pipe(
             tap((resp: ObservationFeedDto) => {
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
+              this.displayMessage = resp.displayMessage;
+              this.message = resp.message;
             },
               (error: ErrorReportViewModel) => {
                 // this.router.navigate(['/page-not-found']);
@@ -90,6 +94,8 @@ export class InfititeScrollTestComponent {
             .pipe(
               tap((resp: ObservationFeedDto) => {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
+                this.displayMessage = resp.displayMessage;
+                this.message = resp.message;
               },
                 (error: ErrorReportViewModel) => {
                   // this.router.navigate(['/page-not-found']);
