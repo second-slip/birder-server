@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -50,7 +48,7 @@ namespace Birder.Controllers
                 if (filter == ObservationFeedFilter.Own)
                 {
                     var userObservations = await _observationRepository.GetObservationsFeedAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
-                    //if (userObservations.Count() > 0) // might have network obs...
+                    //if (userObservations.TotalItems > 0 || pageIndex > 1) // might have network obs...
                         //return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(userObservations));
                     return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(userObservations));
                 }
@@ -63,9 +61,8 @@ namespace Birder.Controllers
 
                     followingUsernamesList.Add(username);
 
-                    //var networkObservations = await _observationRepository.GetPagedObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex);
                     var networkObservations = await _observationRepository.GetObservationsFeedAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex, pageSize);
-                    //if (networkObservations.TotalItems > 0)
+                    //if (networkObservations.TotalItems > 0 || pageIndex > 1)
                     //return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
                     return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(networkObservations));
                 }

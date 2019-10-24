@@ -20,7 +20,6 @@ export class InfititeScrollTestComponent {
   private allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
-
   private itemHeight = 145;
   private numberOfItems = 10;
   private pageByScroll$ = fromEvent(window, 'scroll')
