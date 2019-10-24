@@ -15,7 +15,7 @@ namespace Birder.Data.Repository
         {
         }
 
-        public async Task<QueryResult<Observation>> GetObs(Expression<Func<Observation, bool>> predicate, int page) //VehicleQuery queryObj)
+        public async Task<QueryResult<Observation>> GetObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int page) //VehicleQuery queryObj)
         {
             var result = new QueryResult<Observation>();
 

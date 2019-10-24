@@ -48,7 +48,7 @@ namespace Birder.Controllers
 
                 if (filter == ObservationFeedFilter.Own)
                 {
-                    var userObservations = await _observationRepository.GetObs(o => o.ApplicationUser.UserName == username, pageIndex);
+                    var userObservations = await _observationRepository.GetObservationsFeedAsync(o => o.ApplicationUser.UserName == username, pageIndex);
                     //if (userObservations.Count() > 0) // might have network obs...
                         //return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(userObservations));
                     return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(userObservations));
@@ -63,7 +63,7 @@ namespace Birder.Controllers
                     followingUsernamesList.Add(username);
 
                     //var networkObservations = await _observationRepository.GetPagedObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex);
-                    var networkObservations = await _observationRepository.GetObs(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex);
+                    var networkObservations = await _observationRepository.GetObservationsFeedAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex);
                     //if (networkObservations.TotalItems > 0)
                     //return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
                     return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(networkObservations));
@@ -73,7 +73,7 @@ namespace Birder.Controllers
                 //if (filter != ObservationsFeedFilter.Public)
                 //message = "There are no observations in your network.  Showing the latest public observations";
 
-                var publicObservations = await _observationRepository.GetObs(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public, pageIndex);
+                var publicObservations = await _observationRepository.GetObservationsFeedAsync(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public, pageIndex);
 
                 if (publicObservations == null)
                 {
