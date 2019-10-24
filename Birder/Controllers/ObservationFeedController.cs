@@ -39,28 +39,6 @@ namespace Birder.Controllers
             _observationRepository = observationRepository;
         }
 
-
-        [HttpGet, Route("Test")]
-        public async Task<IActionResult> GetTestAsync(int pageIndex, ObservationFeedFilter filter)
-        {
-            var username = User.Identity.Name;
-
-            var userAndTheirNetwork = await _userManager.GetUserWithNetworkAsync(username);
-
-            var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(userAndTheirNetwork.Following);
-
-            followingUsernamesList.Add(username);
-
-            var test = await _observationRepository.GetObs(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex);
-
-            //var pageSize = 10;
-
-            var model = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test);
-            //model.TotalPages = (int)Math.Ceiling(test.TotalItems / (double)pageSize);
-
-            return Ok(model);
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetObservationsFeedAsync(int pageIndex, ObservationFeedFilter filter)
         {
@@ -114,3 +92,24 @@ namespace Birder.Controllers
         }
     }
 }
+
+//[HttpGet, Route("Test")]
+//public async Task<IActionResult> GetTestAsync(int pageIndex, ObservationFeedFilter filter)
+//{
+//    var username = User.Identity.Name;
+
+//    var userAndTheirNetwork = await _userManager.GetUserWithNetworkAsync(username);
+
+//    var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(userAndTheirNetwork.Following);
+
+//    followingUsernamesList.Add(username);
+
+//    var test = await _observationRepository.GetObs(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex);
+
+//    //var pageSize = 10;
+
+//    var model = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(test);
+//    //model.TotalPages = (int)Math.Ceiling(test.TotalItems / (double)pageSize);
+
+//    return Ok(model);
+//}
