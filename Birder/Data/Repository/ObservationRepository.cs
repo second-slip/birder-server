@@ -15,7 +15,7 @@ namespace Birder.Data.Repository
         {
         }
 
-        public async Task<QueryResult<Observation>> GetObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int page) //VehicleQuery queryObj)
+        public async Task<QueryResult<Observation>> GetObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
         {
             var result = new QueryResult<Observation>();
 
@@ -42,7 +42,7 @@ namespace Birder.Data.Repository
 
             result.TotalItems = await query.CountAsync();
 
-            query = query.ApplyPaging(page, 10);
+            query = query.ApplyPaging(pageIndex, pageSize);
 
             result.Items = await query.ToListAsync();
 
