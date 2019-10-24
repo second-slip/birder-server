@@ -17,6 +17,15 @@
 
     <div *ngFor="let observation of itemResults$|async" [style.height]="itemHeight + 'px'">
 
+        <div>
+            <!-- change to timed alert -->
+            <p *ngIf="displayMessage">
+                <ngb-alert [dismissible]="false">
+                    <strong>Warning!</strong> {{message}}
+                </ngb-alert>
+            </p>
+        </div>
+
         <div class="timeline-item"
             attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
             <h3><b>{{observation.quantity}}</b> {{observation.bird.englishName}}
