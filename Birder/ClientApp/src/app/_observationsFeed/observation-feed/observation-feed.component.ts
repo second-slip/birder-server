@@ -51,7 +51,7 @@ export class ObservationFeedComponent {
 
       flatMap((page: number) => {
 
-        return this.observationsFeedService.getObservationsFeed1(page, ObservationFeedFilter.Network)
+        return this.observationsFeedService.getObservationsFeed(page, ObservationFeedFilter.Network)
           .pipe(
             tap((resp: ObservationFeedDto) => {
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
@@ -82,7 +82,7 @@ export class ObservationFeedComponent {
         tap(_ => this.loading = true),
         switchMap((page: number) => {
 
-          return this.observationsFeedService.getObservationsFeed1(page, selectedFilter)
+          return this.observationsFeedService.getObservationsFeed(page, selectedFilter)
             .pipe(
               tap((resp: ObservationFeedDto) => {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }

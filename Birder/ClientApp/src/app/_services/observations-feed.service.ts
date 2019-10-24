@@ -17,7 +17,7 @@ export class ObservationsFeedService {
     , private httpErrorHandlerService: HttpErrorHandlerService) {
   }
 
-  getObservationsFeed1(pageIndex: number, filter: ObservationFeedFilter): Observable<ObservationFeedDto | ErrorReportViewModel> {
+  getObservationsFeed(pageIndex: number, filter: ObservationFeedFilter): Observable<ObservationFeedDto | ErrorReportViewModel> {
     const params = new HttpParams()
     .set('pageIndex', pageIndex.toString())
     .set('filter', filter.toString());
