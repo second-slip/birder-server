@@ -62,18 +62,18 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetObservationsFeedAsync(int page)
+        public async Task<IActionResult> GetObservationsFeedAsync(int pageIndex, ObservationFeedFilter filter)
         {
-            ObservationFeedFilter filter = ObservationFeedFilter.Network;
             try
             {
                 var username = User.Identity.Name;
 
                 if (filter == ObservationFeedFilter.Own)
                 {
-                    var userObservations = await _observationRepository.GetObservationsAsync(o => o.ApplicationUser.UserName == username);
-                    if (userObservations.Count() > 0) // might have network obs...
-                        return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(userObservations));
+                    var userObservations = await _observationRepository.GetObs(o => o.ApplicationUser.UserName == username, pageIndex);
+                    //if (userObservations.Count() > 0) // might have network obs...
+                        //return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(userObservations));
+                    return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(userObservations));
                 }
 
                 if (filter == ObservationFeedFilter.Network)
@@ -84,16 +84,18 @@ namespace Birder.Controllers
 
                     followingUsernamesList.Add(username);
 
-                    var networkObservations = await _observationRepository.GetPagedObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), page);
-                    if (networkObservations.Count() > 0)
-                        return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
+                    //var networkObservations = await _observationRepository.GetPagedObservationsAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex);
+                    var networkObservations = await _observationRepository.GetObs(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex);
+                    //if (networkObservations.TotalItems > 0)
+                    //return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(networkObservations));
+                    return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(networkObservations));
                 }
 
                 //string message = "";
                 //if (filter != ObservationsFeedFilter.Public)
                 //message = "There are no observations in your network.  Showing the latest public observations";
 
-                var publicObservations = await _observationRepository.GetObservationsAsync(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public);
+                var publicObservations = await _observationRepository.GetObs(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public, pageIndex);
 
                 if (publicObservations == null)
                 {
@@ -101,7 +103,8 @@ namespace Birder.Controllers
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(publicObservations));
+                //return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(publicObservations));
+                return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(publicObservations));
             }
             catch (Exception ex)
             {

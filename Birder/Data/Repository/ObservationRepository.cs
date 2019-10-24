@@ -48,22 +48,22 @@ namespace Birder.Data.Repository
             return result;
         }
 
-        public async Task<IEnumerable<Observation>> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize = 10)
-        {
-            if (pageIndex == 0)
-                pageIndex = 1;
+        //public async Task<IEnumerable<Observation>> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize = 10)
+        //{
+        //    if (pageIndex == 0)
+        //        pageIndex = 1;
 
-            return await _dbContext.Observations
-                .Include(y => y.Bird)
-                    .ThenInclude(u => u.BirdConservationStatus)
-                .Include(au => au.ApplicationUser)
-                .Where(predicate)
-                .OrderByDescending(d => d.ObservationDateTime)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .AsNoTracking()
-                .ToListAsync();
-        }
+        //    return await _dbContext.Observations
+        //        .Include(y => y.Bird)
+        //            .ThenInclude(u => u.BirdConservationStatus)
+        //        .Include(au => au.ApplicationUser)
+        //        .Where(predicate)
+        //        .OrderByDescending(d => d.ObservationDateTime)
+        //        .Skip((pageIndex - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .AsNoTracking()
+        //        .ToListAsync();
+        //}
 
         public async Task<IEnumerable<Observation>> GetObservationsAsync(Expression<Func<Observation, bool>> predicate)
         {
