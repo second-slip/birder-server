@@ -1,11 +1,11 @@
 import { ObservationViewModel } from './ObservationViewModel';
-import { ObservationFeedFilter } from './FilterFeedOptions';
+import { ObservationFeedFilter } from './ObservationFeedFilter';
 
 export interface ObservationFeedDto {
     totalItems: number;
     // totalPages: number;
     items: ObservationViewModel[];
     returnFilter: ObservationFeedFilter;
-    displayMessage: boolean;
-    message: string;
+    // displayMessage: boolean;
+    // message: string;
 }

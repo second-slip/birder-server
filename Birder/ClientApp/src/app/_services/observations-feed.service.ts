@@ -6,7 +6,7 @@ import { ObservationViewModel } from '../_models/ObservationViewModel';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { catchError } from 'rxjs/operators';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
-import { ObservationFeedFilter } from '@app/_models/FilterFeedOptions';
+import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
 
 @Injectable({
   providedIn: 'root'

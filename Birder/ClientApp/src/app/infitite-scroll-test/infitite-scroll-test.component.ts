@@ -5,7 +5,7 @@ import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
 import { ObservationsFeedService } from '@app/_services/observations-feed.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
-import { ObservationFeedFilter } from '@app/_models/FilterFeedOptions';
+import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
 import * as _ from 'lodash';
 
 @Component({
@@ -66,8 +66,8 @@ export class InfititeScrollTestComponent {
                 console.log(`not equal - requested: ${ this.currentFilter }; returned: ${ resp.returnFilter }`);
                 this.currentFilter = resp.returnFilter;
               }
-              this.displayMessage = resp.displayMessage;
-              this.message = resp.message;
+              // this.displayMessage = resp.displayMessage;
+              // this.message = resp.message;
             },
               (error: ErrorReportViewModel) => {
                 // this.router.navigate(['/page-not-found']);
@@ -88,7 +88,10 @@ export class InfititeScrollTestComponent {
   constructor(private observationsFeedService: ObservationsFeedService) { }
 
   onFilterFeed(): void {
+    console.log(this.cache);
     this.cache = [];
+    console.log(this.cache);
+    this.allLoaded = false;
     // console.log(value);
     // this.currentFilter = (<any>ObservationFeedFilter)[value];
     // console.log(this.currentFilter);
@@ -108,8 +111,8 @@ export class InfititeScrollTestComponent {
                   console.log(`not equal - requested: ${ this.currentFilter }; returned: ${ resp.returnFilter }`);
                   this.currentFilter = resp.returnFilter;
                 }
-                this.displayMessage = resp.displayMessage;
-                this.message = resp.message;
+                // this.displayMessage = resp.displayMessage;
+                // this.message = resp.message;
               },
                 (error: ErrorReportViewModel) => {
                   // this.router.navigate(['/page-not-found']);
