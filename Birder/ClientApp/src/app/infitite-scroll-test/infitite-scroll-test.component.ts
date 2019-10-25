@@ -63,7 +63,8 @@ export class InfititeScrollTestComponent {
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
               // console.log(resp.returnFilter);
               if (this.currentFilter != resp.returnFilter) {
-                console.log(`not equal - requested: ${ this.currentFilter }; returned: ${ resp.returnFilter }`);
+                console.log(`not equal - requested: ${ ObservationFeedFilter[this.currentFilter] };
+                 returned: ${ ObservationFeedFilter[resp.returnFilter] }`);
                 this.currentFilter = resp.returnFilter;
               }
               // this.displayMessage = resp.displayMessage;
@@ -87,16 +88,19 @@ export class InfititeScrollTestComponent {
 
   constructor(private observationsFeedService: ObservationsFeedService) { }
 
+  getMessage(requested: ObservationFeedFilter, returned: ObservationFeedFilter): string {
+    let message = '';
+    if (requested === 0) { message = message + `There are no observations in your ${ ObservationFeedFilter[requested] }.  `; }
+    if (requested === 1) { message = message + `You have not recorded any observations yet.  `; }
+
+    message = message + `Your feed is showing the latest ${ ObservationFeedFilter[returned] } observations instead...`;
+
+    return message;
+  }
+
   onFilterFeed(): void {
-    console.log(this.cache);
     this.cache = [];
-    console.log(this.cache);
     this.allLoaded = false;
-    // console.log(value);
-    // this.currentFilter = (<any>ObservationFeedFilter)[value];
-    // console.log(this.currentFilter);
-    // const selectedFilter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
-    // console.log(selectedFilter);
 
     this.itemResults$ = this.pageToLoad$
       .pipe(
@@ -108,9 +112,17 @@ export class InfititeScrollTestComponent {
               tap((resp: ObservationFeedDto) => {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
                 if (this.currentFilter != resp.returnFilter) {
-                  console.log(`not equal - requested: ${ this.currentFilter }; returned: ${ resp.returnFilter }`);
+                  alert(this.getMessage(this.currentFilter, resp.returnFilter));
+
+                  // console.log(`not equal - requested: ${ ObservationFeedFilter[this.currentFilter] };
+                  //  returned: ${ ObservationFeedFilter[resp.returnFilter] }`);
                   this.currentFilter = resp.returnFilter;
                 }
+                // alert(ObservationFeedFilter[this.currentFilter]);
+                // if (this.currentFilter === ObservationFeedFilter.Own)
+                // {
+                //   alert(<any>(this.currentFilter));
+                // }
                 // this.displayMessage = resp.displayMessage;
                 // this.message = resp.message;
               },

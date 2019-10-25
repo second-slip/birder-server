@@ -20,14 +20,17 @@
           <input ngbButton type="radio" [value]="0">Network
         </label>
         <label ngbButtonLabel class="btn-primary">
-          <input ngbButton type="radio" [value]="1">Public
+          <input ngbButton type="radio" [value]="1">Own
         </label>
         <label ngbButtonLabel class="btn-primary">
-          <input ngbButton type="radio" [value]="2">Own
+          <input ngbButton type="radio" [value]="2">Public
         </label>
       </div>
       <hr>
       <pre>{{currentFilter}}</pre>
+      <!-- <pre>{{ currentFilter | ObservationFeedFilter }}</pre> -->
+      <!-- <p>{{ObservationFeedFilter[currentFilter]}}</p> -->
+      <!-- <p>{{currentFilter | ObservationFeedFilter}}</p> -->
     
 
     <div>
