@@ -48,7 +48,11 @@ namespace Birder.Controllers
                 {
                     var userObservations = await _observationRepository.GetObservationsFeedAsync(o => o.ApplicationUser.UserName == User.Identity.Name, pageIndex, pageSize);
                     if (userObservations.TotalItems > 0 || pageIndex > 1)
-                        return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(userObservations));
+                    {
+                        var modelO = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(userObservations);
+                        modelO.ReturnFilter = ObservationFeedFilter.Own;
+                        return Ok(modelO);
+                    }
                 }
 
                 if (filter == ObservationFeedFilter.Network || filter == ObservationFeedFilter.Own)
@@ -71,9 +75,11 @@ namespace Birder.Controllers
                         var modelN = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(networkObservations);
                         if (filter == ObservationFeedFilter.Own)
                         {
+                            modelN.ReturnFilter = ObservationFeedFilter.Network;
                             modelN.DisplayMessage = true;
                             modelN.Message = "You have not recorded any observations.  Showing the observations from your network";
                         }
+                        modelN.ReturnFilter = ObservationFeedFilter.Network;
                         return Ok(modelN);
                     }
                 }
@@ -90,10 +96,11 @@ namespace Birder.Controllers
                 
                 if (filter != ObservationFeedFilter.Public)
                 {
+                    
                     model.DisplayMessage = true;
                     model.Message = "There are no observations in your network.  Showing the latest public observations";
                 }
-
+                model.ReturnFilter = ObservationFeedFilter.Public;
                 return Ok(model);
             }
             catch (Exception ex)

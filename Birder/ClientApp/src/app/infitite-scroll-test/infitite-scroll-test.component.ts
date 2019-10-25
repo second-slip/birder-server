@@ -15,8 +15,10 @@ import * as _ from 'lodash';
   encapsulation: ViewEncapsulation.None
 })
 export class InfititeScrollTestComponent {
+  // filterOptions = ObservationFeedFilter;
+  currentFilter: ObservationFeedFilter = 0;
 
-  filterOptions = ObservationFeedFilter;
+  // filterOptions = ObservationFeedFilter;
   private displayMessage: boolean;
   private message: string;
   private allLoaded = false;
@@ -56,10 +58,15 @@ export class InfititeScrollTestComponent {
 
       flatMap((page: number) => {
 
-        return this.observationsFeedService.getObservationsFeed(page, ObservationFeedFilter.Network)
+        return this.observationsFeedService.getObservationsFeed(page, this.currentFilter)
           .pipe(
             tap((resp: ObservationFeedDto) => {
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
+              console.log(resp.returnFilter);
+              if (this.currentFilter != resp.returnFilter) {
+                console.log(`not equal - requested: ${ this.currentFilter }; returned: ${ resp.returnFilter }`);
+                this.currentFilter = resp.returnFilter;
+              }
               this.displayMessage = resp.displayMessage;
               this.message = resp.message;
             },
@@ -81,19 +88,27 @@ export class InfititeScrollTestComponent {
 
   constructor(private observationsFeedService: ObservationsFeedService) { }
 
-  onFilterFeed(value): void {
+  onFilterFeed(): void {
     this.cache = [];
-    const selectedFilter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
+    // console.log(value);
+    // this.currentFilter = (<any>ObservationFeedFilter)[value];
+    console.log(this.currentFilter);
+    // const selectedFilter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
+    // console.log(selectedFilter);
 
     this.itemResults$ = this.pageToLoad$
       .pipe(
         tap(_ => this.loading = true),
         switchMap((page: number) => {
 
-          return this.observationsFeedService.getObservationsFeed(page, selectedFilter)
+          return this.observationsFeedService.getObservationsFeed(page, this.currentFilter)
             .pipe(
               tap((resp: ObservationFeedDto) => {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
+                if (this.currentFilter != resp.returnFilter) {
+                  console.log(`not equal - requested: ${ this.currentFilter }; returned: ${ resp.returnFilter }`);
+                  this.currentFilter = <ObservationFeedFilter>resp.returnFilter;
+                }
                 this.displayMessage = resp.displayMessage;
                 this.message = resp.message;
               },
