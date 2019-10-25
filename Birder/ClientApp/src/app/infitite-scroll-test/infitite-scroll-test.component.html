@@ -1,10 +1,30 @@
 <div class="container">
 
-    <h4>Your observations feed</h4>
+    <h3>Your observations feed</h3>
 
-    <div>
-        <a class="nav-link" [routerLink]='["/observation-add"]'>Add Observation</a>
+    <div class="row">
+        <div class="col">
+            <div>
+                <a class="btn btn-success" [routerLink]='["/observation-add"]'>Add Observation</a>
+            </div>
+        </div>
+        <div class="text-right">
+            <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="currentFilter"
+                (change)="onFilterFeed()">
+                <label ngbButtonLabel class="btn-primary">
+                    <input ngbButton type="radio" [value]="0">My Network
+                </label>
+                <label ngbButtonLabel class="btn-primary">
+                    <input ngbButton type="radio" [value]="1">My Own
+                </label>
+                <label ngbButtonLabel class="btn-primary">
+                    <input ngbButton type="radio" [value]="2">Public
+                </label>
+            </div>
+        </div>
     </div>
+
+
 
     <!-- <mat-form-field>
         <mat-label>Filter Feed</mat-label>
@@ -15,32 +35,18 @@
         </select>
     </mat-form-field> -->
 
-    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="currentFilter" (change)="onFilterFeed()">
-        <label ngbButtonLabel class="btn-primary">
-          <input ngbButton type="radio" [value]="0">Network
-        </label>
-        <label ngbButtonLabel class="btn-primary">
-          <input ngbButton type="radio" [value]="1">Own
-        </label>
-        <label ngbButtonLabel class="btn-primary">
-          <input ngbButton type="radio" [value]="2">Public
-        </label>
-      </div>
-      <hr>
-      <pre>{{currentFilter}}</pre>
-      <!-- <pre>{{ currentFilter | ObservationFeedFilter }}</pre> -->
-      <!-- <p>{{ObservationFeedFilter[currentFilter]}}</p> -->
-      <!-- <p>{{currentFilter | ObservationFeedFilter}}</p> -->
-    
 
-    <div>
-        <!-- change to timed alert -->
+      <hr>
+   
+
+    <!-- <div>
+        change to timed alert
         <p *ngIf="displayMessage">
             <ngb-alert [dismissible]="false">
                 <strong>Warning!</strong> {{message}}
             </ngb-alert>
         </p>
-    </div>
+    </div> -->
 
     <div *ngFor="let observation of itemResults$|async" [style.height]="itemHeight + 'px'">
 
@@ -65,10 +71,12 @@
         </div>
     </div>
 
-    <p *ngIf="allLoaded">
-        <ngb-alert [dismissible]="false">
-            <strong>Warning!</strong> No more items to load...
-        </ngb-alert>
-    </p>
+    <div>
+        <p *ngIf="allLoaded">
+            <ngb-alert [dismissible]="false">
+                <strong>Warning!</strong> No more items to load...
+            </ngb-alert>
+        </p>
+    </div>
 
 </div>

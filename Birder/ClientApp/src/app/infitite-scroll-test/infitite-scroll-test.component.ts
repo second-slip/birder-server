@@ -7,6 +7,7 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
 import * as _ from 'lodash';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-infitite-scroll-test',
@@ -18,8 +19,8 @@ export class InfititeScrollTestComponent {
   // filterOptions = ObservationFeedFilter;
   currentFilter: ObservationFeedFilter = 0;
 
-  private displayMessage: boolean;
-  private message: string;
+  // private displayMessage: boolean;
+  // private message: string;
   private allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
@@ -61,14 +62,10 @@ export class InfititeScrollTestComponent {
           .pipe(
             tap((resp: ObservationFeedDto) => {
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
-              // console.log(resp.returnFilter);
               if (this.currentFilter != resp.returnFilter) {
-                console.log(`not equal - requested: ${ ObservationFeedFilter[this.currentFilter] };
-                 returned: ${ ObservationFeedFilter[resp.returnFilter] }`);
+                this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
                 this.currentFilter = resp.returnFilter;
               }
-              // this.displayMessage = resp.displayMessage;
-              // this.message = resp.message;
             },
               (error: ErrorReportViewModel) => {
                 // this.router.navigate(['/page-not-found']);
@@ -86,14 +83,14 @@ export class InfititeScrollTestComponent {
     );
 
 
-  constructor(private observationsFeedService: ObservationsFeedService) { }
+  constructor(private observationsFeedService: ObservationsFeedService, private toast: ToastrService) { }
 
   getMessage(requested: ObservationFeedFilter, returned: ObservationFeedFilter): string {
     let message = '';
-    if (requested === 0) { message = message + `There are no observations in your ${ ObservationFeedFilter[requested] }.  `; }
+    if (requested === 0) { message = message + `There are no observations in your ${ObservationFeedFilter[requested]}.  `; }
     if (requested === 1) { message = message + `You have not recorded any observations yet.  `; }
 
-    message = message + `Your feed is showing the latest ${ ObservationFeedFilter[returned] } observations instead...`;
+    message = message + `Your feed is showing the latest ${ObservationFeedFilter[returned]} observations instead...`;
 
     return message;
   }
@@ -112,19 +109,9 @@ export class InfititeScrollTestComponent {
               tap((resp: ObservationFeedDto) => {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
                 if (this.currentFilter != resp.returnFilter) {
-                  alert(this.getMessage(this.currentFilter, resp.returnFilter));
-
-                  // console.log(`not equal - requested: ${ ObservationFeedFilter[this.currentFilter] };
-                  //  returned: ${ ObservationFeedFilter[resp.returnFilter] }`);
+                  this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
                   this.currentFilter = resp.returnFilter;
                 }
-                // alert(ObservationFeedFilter[this.currentFilter]);
-                // if (this.currentFilter === ObservationFeedFilter.Own)
-                // {
-                //   alert(<any>(this.currentFilter));
-                // }
-                // this.displayMessage = resp.displayMessage;
-                // this.message = resp.message;
               },
                 (error: ErrorReportViewModel) => {
                   // this.router.navigate(['/page-not-found']);
