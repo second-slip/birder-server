@@ -73,12 +73,12 @@ namespace Birder.Controllers
                     if (networkObservations.TotalItems > 0 || pageIndex > 1)
                     {
                         var modelN = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(networkObservations);
-                        if (filter == ObservationFeedFilter.Own)
-                        {
-                            modelN.ReturnFilter = ObservationFeedFilter.Network;
-                            modelN.DisplayMessage = true;
-                            modelN.Message = "You have not recorded any observations.  Showing the observations from your network";
-                        }
+                        //if (filter == ObservationFeedFilter.Own)
+                        //{
+                        //    modelN.ReturnFilter = ObservationFeedFilter.Network;
+                        //    modelN.DisplayMessage = true;
+                        //    modelN.Message = "You have not recorded any observations.  Showing the observations from your network";
+                        //}
                         modelN.ReturnFilter = ObservationFeedFilter.Network;
                         return Ok(modelN);
                     }
@@ -94,12 +94,12 @@ namespace Birder.Controllers
 
                 var model = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(publicObservations);
                 
-                if (filter != ObservationFeedFilter.Public)
-                {
+                //if (filter != ObservationFeedFilter.Public)
+                //{
                     
-                    model.DisplayMessage = true;
-                    model.Message = "There are no observations in your network.  Showing the latest public observations";
-                }
+                //    model.DisplayMessage = true;
+                //    model.Message = "There are no observations in your network.  Showing the latest public observations";
+                //}
                 model.ReturnFilter = ObservationFeedFilter.Public;
                 return Ok(model);
             }

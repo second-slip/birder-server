@@ -18,7 +18,6 @@ export class InfititeScrollTestComponent {
   // filterOptions = ObservationFeedFilter;
   currentFilter: ObservationFeedFilter = 0;
 
-  // filterOptions = ObservationFeedFilter;
   private displayMessage: boolean;
   private message: string;
   private allLoaded = false;
@@ -62,7 +61,7 @@ export class InfititeScrollTestComponent {
           .pipe(
             tap((resp: ObservationFeedDto) => {
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
-              console.log(resp.returnFilter);
+              // console.log(resp.returnFilter);
               if (this.currentFilter != resp.returnFilter) {
                 console.log(`not equal - requested: ${ this.currentFilter }; returned: ${ resp.returnFilter }`);
                 this.currentFilter = resp.returnFilter;
@@ -92,7 +91,7 @@ export class InfititeScrollTestComponent {
     this.cache = [];
     // console.log(value);
     // this.currentFilter = (<any>ObservationFeedFilter)[value];
-    console.log(this.currentFilter);
+    // console.log(this.currentFilter);
     // const selectedFilter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
     // console.log(selectedFilter);
 
@@ -107,7 +106,7 @@ export class InfititeScrollTestComponent {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
                 if (this.currentFilter != resp.returnFilter) {
                   console.log(`not equal - requested: ${ this.currentFilter }; returned: ${ resp.returnFilter }`);
-                  this.currentFilter = <ObservationFeedFilter>resp.returnFilter;
+                  this.currentFilter = resp.returnFilter;
                 }
                 this.displayMessage = resp.displayMessage;
                 this.message = resp.message;
