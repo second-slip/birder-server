@@ -43,10 +43,16 @@ namespace Birder.Controllers
         {
             try
             {
-                //var username = User.Identity.Name;
                 if (filter == ObservationFeedFilter.Own)
                 {
                     var userObservations = await _observationRepository.GetObservationsFeedAsync(o => o.ApplicationUser.UserName == User.Identity.Name, pageIndex, pageSize);
+
+                    if (userObservations == null)
+                    {
+                        _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
+                        return NotFound();
+                    }
+
                     if (userObservations.TotalItems > 0 || pageIndex > 1)
                     {
                         var modelO = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(userObservations);
@@ -69,7 +75,13 @@ namespace Birder.Controllers
                     followingUsernamesList.Add(requestingUserAndNetwork.UserName);
 
                     var networkObservations = await _observationRepository.GetObservationsFeedAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex, pageSize);
-                    
+
+                    if (networkObservations == null)
+                    {
+                        _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
+                        return NotFound();
+                    }
+
                     if (networkObservations.TotalItems > 0 || pageIndex > 1)
                     {
                         var modelN = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(networkObservations);
