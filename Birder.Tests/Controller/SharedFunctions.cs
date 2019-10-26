@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace Birder.Tests.Controller
@@ -74,6 +75,46 @@ namespace Birder.Tests.Controller
             }, "mock"));
 
             return user;
+        }
+
+        public static IEnumerable<Observation> GetTestObservations(int length, Bird bird)
+        {
+            var observations = new List<Observation>();
+            for (int i = 0; i < length; i++)
+            {
+                observations.Add(new Observation
+                {
+                    ObservationId = i,
+                    LocationLatitude = 0,
+                    LocationLongitude = 0,
+                    Quantity = 1,
+                    NoteGeneral = "",
+                    NoteHabitat = "",
+                    NoteWeather = "",
+                    NoteAppearance = "",
+                    NoteBehaviour = "",
+                    NoteVocalisation = "",
+                    HasPhotos = false,
+                    SelectedPrivacyLevel = PrivacyLevel.Public,
+                    ObservationDateTime = DateTime.Now.AddDays(-4),
+                    CreationDate = DateTime.Now.AddDays(-4),
+                    LastUpdateDate = DateTime.Now.AddDays(-4),
+                    ApplicationUserId = "",
+                    BirdId = bird.BirdId,
+                    Bird = bird,
+                    ApplicationUser = null,
+                    ObservationTags = null
+                });
+            }
+            return observations;
+        }
+
+        public static ApplicationUser GetUser(string username)
+        {
+            return new ApplicationUser()
+            {
+                UserName = username
+            };
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Birder.Controllers
 
         public ObservationFeedController(IMapper mapper
                                        //, IMemoryCache memoryCache
-                                       , ILogger<ObservationController> logger
+                                       , ILogger<ObservationFeedController> logger
                                        , UserManager<ApplicationUser> userManager
                                        , IObservationRepository observationRepository)
         {
@@ -49,8 +49,8 @@ namespace Birder.Controllers
 
                     if (userObservations == null)
                     {
-                        _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
-                        return NotFound();
+                        _logger.LogWarning(LoggingEvents.GetListNotFound, "User Observations list was null at GetObservationsFeedAsync()");
+                        return NotFound("Observations not found");
                     }
 
                     if (userObservations.TotalItems > 0 || pageIndex > 1)
