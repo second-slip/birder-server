@@ -6,8 +6,8 @@ import { ObservationsFeedService } from '@app/_services/observations-feed.servic
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
-import * as _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-infitite-scroll-test',

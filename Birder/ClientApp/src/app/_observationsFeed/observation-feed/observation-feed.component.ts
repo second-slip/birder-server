@@ -7,6 +7,7 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
 import * as _ from 'lodash';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-observation-feed',
@@ -15,6 +16,7 @@ import * as _ from 'lodash';
   encapsulation: ViewEncapsulation.None
 })
 export class ObservationFeedComponent {
+  currentFilter: ObservationFeedFilter = 0;
   private allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
@@ -45,21 +47,26 @@ export class ObservationFeedComponent {
 
   loading = false;
 
+
   itemResults$: Observable<ObservationViewModel[]> = this.pageToLoad$
     .pipe(
       tap(_ => this.loading = true),
 
       flatMap((page: number) => {
 
-        return this.observationsFeedService.getObservationsFeed(page, ObservationFeedFilter.Network)
+        return this.observationsFeedService.getObservationsFeed(page, this.currentFilter)
           .pipe(
             tap((resp: ObservationFeedDto) => {
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
+              if (this.currentFilter != resp.returnFilter) {
+                this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
+                this.currentFilter = resp.returnFilter;
+              }
             },
               (error: ErrorReportViewModel) => {
                 // this.router.navigate(['/page-not-found']);
               }),
-            map((resp: any) => resp.items),
+            map((resp: any) => resp.items), // resp.results),
             tap(resp => {
               this.cache[page - 1] = resp;
               if ((this.itemHeight * this.numberOfItems * page) < window.innerHeight) {
@@ -71,21 +78,36 @@ export class ObservationFeedComponent {
       map(() => _.flatMap(this.cache))
     );
 
-  constructor(private observationsFeedService: ObservationsFeedService) { }
 
-  onFilterFeed(value): void {
+  constructor(private observationsFeedService: ObservationsFeedService, private toast: ToastrService) { }
+
+  getMessage(requested: ObservationFeedFilter, returned: ObservationFeedFilter): string {
+    let message = '';
+    if (requested === 0) { message = message + `There are no observations in your ${ObservationFeedFilter[requested]}.  `; }
+    if (requested === 1) { message = message + `You have not recorded any observations yet.  `; }
+
+    message = message + `Your feed is showing the latest ${ObservationFeedFilter[returned]} observations instead...`;
+
+    return message;
+  }
+
+  onFilterFeed(): void {
     this.cache = [];
-    const selectedFilter: ObservationFeedFilter = (<any>ObservationFeedFilter)[value];
+    this.allLoaded = false;
 
     this.itemResults$ = this.pageToLoad$
       .pipe(
         tap(_ => this.loading = true),
         switchMap((page: number) => {
 
-          return this.observationsFeedService.getObservationsFeed(page, selectedFilter)
+          return this.observationsFeedService.getObservationsFeed(page, this.currentFilter)
             .pipe(
               tap((resp: ObservationFeedDto) => {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
+                if (this.currentFilter != resp.returnFilter) {
+                  this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
+                  this.currentFilter = resp.returnFilter;
+                }
               },
                 (error: ErrorReportViewModel) => {
                   // this.router.navigate(['/page-not-found']);
@@ -103,6 +125,7 @@ export class ObservationFeedComponent {
       );
   }
 }
+
 
 
 // import { Component, OnInit, ViewEncapsulation } from '@angular/core';
