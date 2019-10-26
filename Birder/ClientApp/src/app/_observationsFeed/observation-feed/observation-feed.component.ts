@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { tap, map, filter, debounceTime, distinct, flatMap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
@@ -8,6 +8,8 @@ import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
 import * as _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
+import { UserViewModel } from '@app/_models/UserViewModel';
+import { TokenService } from '@app/_services/token.service';
 
 @Component({
   selector: 'app-observation-feed',
@@ -15,7 +17,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./observation-feed.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ObservationFeedComponent {
+export class ObservationFeedComponent implements OnInit {
+  user: UserViewModel;
   currentFilter: ObservationFeedFilter = 0;
   private allLoaded = false;
   private cache = [];
@@ -79,7 +82,13 @@ export class ObservationFeedComponent {
     );
 
 
-  constructor(private observationsFeedService: ObservationsFeedService, private toast: ToastrService) { }
+    constructor(private observationsFeedService: ObservationsFeedService
+      , private toast: ToastrService
+      , private tokenService: TokenService) { }
+
+      ngOnInit() {
+        this.getUser();
+      }
 
   getMessage(requested: ObservationFeedFilter, returned: ObservationFeedFilter): string {
     let message = '';
@@ -123,6 +132,24 @@ export class ObservationFeedComponent {
         }),
         map(() => _.flatMap(this.cache))
       );
+  }
+
+  getUser(): void {
+    this.tokenService.getAuthenticatedUserDetails()
+      .subscribe(
+        (data: UserViewModel) => {
+          this.user = data;
+        },
+        (error: any) => {
+          console.log('could not get the user, using default coordinates');
+          const userTemp = <UserViewModel>{
+            userName: '',
+            avatar: '',
+            defaultLocationLatitude: 54.972237,
+            defaultLocationLongitude: -2.4608560000000352,
+          };
+          this.user = userTemp;
+        });
   }
 }
 

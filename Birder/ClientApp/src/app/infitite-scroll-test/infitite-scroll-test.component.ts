@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { tap, map, filter, debounceTime, distinct, flatMap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
@@ -8,6 +8,8 @@ import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
 import { ToastrService } from 'ngx-toastr';
 import * as _ from 'lodash';
+import { UserViewModel } from '@app/_models/UserViewModel';
+import { TokenService } from '@app/_services/token.service';
 
 @Component({
   selector: 'app-infitite-scroll-test',
@@ -15,8 +17,9 @@ import * as _ from 'lodash';
   styleUrls: ['./infitite-scroll-test.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class InfititeScrollTestComponent {
+export class InfititeScrollTestComponent implements OnInit {
   // filterOptions = ObservationFeedFilter;
+  user: UserViewModel;
   currentFilter: ObservationFeedFilter = 0;
 
   // private displayMessage: boolean;
@@ -83,7 +86,13 @@ export class InfititeScrollTestComponent {
     );
 
 
-  constructor(private observationsFeedService: ObservationsFeedService, private toast: ToastrService) { }
+  constructor(private observationsFeedService: ObservationsFeedService
+            , private toast: ToastrService
+            , private tokenService: TokenService) { }
+
+            ngOnInit() {
+              this.getUser();
+            }
 
   getMessage(requested: ObservationFeedFilter, returned: ObservationFeedFilter): string {
     let message = '';
@@ -127,5 +136,24 @@ export class InfititeScrollTestComponent {
         }),
         map(() => _.flatMap(this.cache))
       );
-  }
+      }
+      //
+      getUser(): void {
+        this.tokenService.getAuthenticatedUserDetails()
+          .subscribe(
+            (data: UserViewModel) => {
+              this.user = data;
+            },
+            (error: any) => {
+              console.log('could not get the user, using default coordinates');
+              const userTemp = <UserViewModel>{
+                userName: '',
+                avatar: '',
+                defaultLocationLatitude: 54.972237,
+                defaultLocationLongitude: -2.4608560000000352,
+              };
+              this.user = userTemp;
+            });
+      }
+
 }

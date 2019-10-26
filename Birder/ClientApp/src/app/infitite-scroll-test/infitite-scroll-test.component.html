@@ -55,18 +55,18 @@
             <h3><b>{{observation.quantity}}</b> {{observation.bird.englishName}}
                 {{observation.quantity > 1 ? 'were' : 'was'}}
                 spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
-                    {{observation.user.userName}}
+                    {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
                 </a>
             </h3>
 
             <a routerLink="/observation-detail/{{observation.observationId}}">
-                View |
+                View
             </a>
-            <a routerLink="/observation-edit/{{observation.observationId}}">
-                Edit |
+            <a *ngIf="observation.user.userName === user.userName" routerLink="/observation-edit/{{observation.observationId}}">
+                |  Edit
             </a>
-            <a routerLink="/observation-delete/{{observation.observationId}}">
-                Delete
+            <a *ngIf="observation.user.userName === user.userName" routerLink="/observation-delete/{{observation.observationId}}">
+                |  Delete
             </a>
         </div>
     </div>

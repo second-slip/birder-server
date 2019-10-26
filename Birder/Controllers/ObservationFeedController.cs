@@ -19,21 +19,21 @@ namespace Birder.Controllers
     public class ObservationFeedController : ControllerBase
     {
         private const int pageSize = 10;
-        private IMemoryCache _cache;
+        //private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
 
         public ObservationFeedController(IMapper mapper
-                                       , IMemoryCache memoryCache
+                                       //, IMemoryCache memoryCache
                                        , ILogger<ObservationController> logger
                                        , UserManager<ApplicationUser> userManager
                                        , IObservationRepository observationRepository)
         {
             _mapper = mapper;
             _logger = logger;
-            _cache = memoryCache;
+            //_cache = memoryCache;
             _userManager = userManager;
             _observationRepository = observationRepository;
         }
