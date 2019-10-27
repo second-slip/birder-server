@@ -17,6 +17,11 @@
   // border-radius: 10px;
 }
 
+.footer-content {
+  padding-top: 10px;
+  overflow: hidden;
+}
+
 @media (max-width: 767px) {
   .body-content {
     padding-top: 50px;
@@ -30,5 +35,10 @@
     // background: #dce513;
     // padding: 10px;
     // border-radius: 10px;
+  }
+
+  .footer-content {
+    padding-top: 10px;
+    overflow: hidden;
   }
 }

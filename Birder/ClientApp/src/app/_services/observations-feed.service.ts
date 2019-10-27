@@ -24,16 +24,6 @@ export class ObservationsFeedService {
 
     return this.http.get<ObservationFeedDto>(`api/ObservationFeed`, {params})
       .pipe(
-        // (take(1)),
-        // tap(observations => this.log('fetched observations')),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
-
-  // getObservationsFeed(): Observable<ObservationViewModel[] | ErrorReportViewModel> {
-  //   return this.http.get<ObservationViewModel[]>('api/ObservationFeed')
-  //     .pipe(
-  //       // (take(1)),
-  //       // tap(observations => this.log('fetched observations')),
-  //       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
-  // }
 }

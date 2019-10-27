@@ -79,6 +79,7 @@ import { AboutAiComponent } from './_about/about-ai/about-ai.component';
 import { AboutContactComponent } from './_about/about-contact/about-contact.component';
 import { LockedOutComponent } from './_account/locked-out/locked-out.component';
 import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/confirm-email-resend.component';
+import { FooterComponent } from './footer/footer.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -131,6 +132,7 @@ export function tokenGetter() {
     AboutContactComponent,
     LockedOutComponent,
     ConfirmEmailResendComponent,
+    FooterComponent,
 
   ],
   imports: [
