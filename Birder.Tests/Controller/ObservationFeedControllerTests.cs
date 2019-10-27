@@ -3,6 +3,7 @@ using Birder.Controllers;
 using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
+using Birder.Helpers;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,41 @@ namespace Birder.Tests.Controller
         }
 
 
+
+        [Fact]
+        public async Task GetObservationsFeedAsync_ReturnsBadRequest_OnException()
+        {
+            // Arrange
+            var requestingUser = SharedFunctions.GetUser("Any");
+
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                .ThrowsAsync(new InvalidOperationException());
+
+            var controller = new ObservationFeedController(_mapper, _logger.Object, mockUserManager.Object, mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            var filter = ObservationFeedFilter.Own;
+
+            // Act
+            var result = await controller.GetObservationsFeedAsync(1, filter);
+
+            // Assert
+            string expectedMessage = "An unexpected error occurred";
+
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        #region When request Filter == Own
 
         [Fact]
         public async Task GetObservationsFeedAsync_FilterOwn_ReturnsNotFound_WhenRepoReturnsNull()
@@ -115,6 +151,306 @@ namespace Birder.Tests.Controller
             Assert.Equal(filter, actual.ReturnFilter);
         }
 
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(45)]
+        public async Task GetObservationsFeedAsync_FilterOwn_ReturnsOkWithNetwork_WhenNoOwnObservations(int length)
+        {
+            // Arrange
+            var requestingUsername = "Tenko";
+            var userManager = SharedFunctions.InitialiseUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.SetupSequence(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(new QueryResult<Observation>())
+                .ReturnsAsync(GetQueryResult(length));
+
+            var requestFilter = ObservationFeedFilter.Own;
+
+            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+            };
+
+            // Act
+            var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+
+            // Assert
+            var returnFilter = ObservationFeedFilter.Network;
+
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
+            Assert.Equal(length, actual.TotalItems);
+            Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+            Assert.Equal(returnFilter, actual.ReturnFilter);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(45)]
+        public async Task GetObservationsFeedAsync_FilterOwn_ReturnsOkWithPublic_WhenNoOwnOrNetworkObservations(int length)
+        {
+            // Arrange
+            var requestingUsername = "Tenko";
+            var userManager = SharedFunctions.InitialiseUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.SetupSequence(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(new QueryResult<Observation>())
+                .ReturnsAsync(new QueryResult<Observation>())
+                .ReturnsAsync(GetQueryResult(length));
+
+            var requestFilter = ObservationFeedFilter.Own;
+
+            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+            };
+
+            // Act
+            var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+
+            // Assert
+            var returnFilter = ObservationFeedFilter.Public;
+
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
+            Assert.Equal(length, actual.TotalItems);
+            Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+            Assert.Equal(returnFilter, actual.ReturnFilter);
+        }
+
+
+        #endregion
+
+
+        #region When request Filter == Network
+
+        [Fact]
+        public async Task GetObservationsFeedAsync_FilterNetwork_ReturnsNotFound_WhenUserIsNull()
+        {
+            // Arrange
+            var requestingUsername = "Does not exist";
+
+            var userManager = SharedFunctions.InitialiseUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            //mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+            //    .Returns(Task.FromResult<QueryResult<Observation>>(null));
+
+            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+            };
+
+            var filter = ObservationFeedFilter.Network;
+
+            // Act
+            var result = await controller.GetObservationsFeedAsync(1, filter);
+
+            // Assert
+            string expectedMessage = "Requesting user not found";
+
+            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        [Fact]
+        public async Task GetObservationsFeedAsync_FilterNetwork_ReturnsNotFound_WhenRepoReturnsNull()
+        {
+            // Arrange
+            var requestingUsername = "Tenko";
+            var userManager = SharedFunctions.InitialiseUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(Task.FromResult<QueryResult<Observation>>(null));
+
+            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+            };
+
+            var filter = ObservationFeedFilter.Network;
+
+            // Act
+            var result = await controller.GetObservationsFeedAsync(1, filter);
+
+            // Assert
+            string expectedMessage = $"Observations not found";
+
+            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(45)]
+        public async Task GetObservationsFeedAsync_FilterNetwork_ReturnsOkWithNetwork_OnSuccessfulRequest(int length)
+        {
+            // Arrange
+            var requestingUsername = "Tenko";
+            var userManager = SharedFunctions.InitialiseUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                //.ReturnsAsync(new QueryResult<Observation>())
+                .ReturnsAsync(GetQueryResult(length));
+
+            var requestFilter = ObservationFeedFilter.Network;
+
+            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+            };
+
+            // Act
+            var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+
+            // Assert
+            var returnFilter = ObservationFeedFilter.Network;
+
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
+            Assert.Equal(length, actual.TotalItems);
+            Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+            Assert.Equal(returnFilter, actual.ReturnFilter);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(9)]
+        [InlineData(31)]
+        public async Task GetObservationsFeedAsync_FilterNetwork_ReturnsOkWithPublic_WhenNoNetwork(int length)
+        {
+            // Arrange
+            var requestingUsername = "Tenko";
+            var userManager = SharedFunctions.InitialiseUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.SetupSequence(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(new QueryResult<Observation>())
+                .ReturnsAsync(GetQueryResult(length));
+
+            var requestFilter = ObservationFeedFilter.Network;
+
+            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+            };
+
+            // Act
+            var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+
+            // Assert
+            var returnFilter = ObservationFeedFilter.Public;
+
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
+            Assert.Equal(length, actual.TotalItems);
+            Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+            Assert.Equal(returnFilter, actual.ReturnFilter);
+        }
+
+
+        #endregion
+
+
+        #region When request Filter == Public
+
+        [Fact]
+        public async Task GetObservationsFeedAsync_FilterPublic_ReturnsNotFound_WhenRepoReturnsNull()
+        {
+            // Arrange
+            var requestingUser = SharedFunctions.GetUser("Any");
+
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(Task.FromResult<QueryResult<Observation>>(null));
+
+            var controller = new ObservationFeedController(_mapper, _logger.Object, mockUserManager.Object, mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            var filter = ObservationFeedFilter.Public;
+
+            // Act
+            var result = await controller.GetObservationsFeedAsync(1, filter);
+
+            // Assert
+            string expectedMessage = $"Observations not found";
+
+            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(45)]
+        public async Task GetObservationsFeedAsync_FilterPublic_ReturnsPublic_OnSuccess(int length)
+        {
+            // Arrange
+            var requestingUser = SharedFunctions.GetUser("Any");
+
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(GetQueryResult(length));
+
+            var controller = new ObservationFeedController(_mapper, _logger.Object, mockUserManager.Object, mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            var filter = ObservationFeedFilter.Public;
+
+            // Act
+            var result = await controller.GetObservationsFeedAsync(1, filter);
+
+            // Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
+            Assert.Equal(length, actual.TotalItems);
+            Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+            Assert.Equal(filter, actual.ReturnFilter);
+        }
+
+        #endregion
 
 
         private QueryResult<Observation> GetQueryResult(int length)

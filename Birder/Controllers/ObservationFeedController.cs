@@ -66,8 +66,8 @@ namespace Birder.Controllers
                     var requestingUserAndNetwork = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
                     if (requestingUserAndNetwork == null)
                     {
-                        //logging
-                        return NotFound("User not found");
+                        _logger.LogWarning(LoggingEvents.GetItemNotFound, "Requesting user not found");
+                        return NotFound("Requesting user not found");
                     }
 
                     var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUserAndNetwork.Following);
@@ -78,8 +78,8 @@ namespace Birder.Controllers
 
                     if (networkObservations == null)
                     {
-                        _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
-                        return NotFound();
+                        _logger.LogWarning(LoggingEvents.GetListNotFound, "Network observations list is null");
+                        return NotFound("Observations not found");
                     }
 
                     if (networkObservations.TotalItems > 0 || pageIndex > 1)
@@ -95,7 +95,7 @@ namespace Birder.Controllers
                 if (publicObservations == null)
                 {
                     _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
-                    return NotFound();
+                    return NotFound("Observations not found");
                 }
 
                 var model = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(publicObservations);
@@ -105,7 +105,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the observations feed");
-                return BadRequest("An error occurred getting the observations feed.");
+                return BadRequest("An unexpected error occurred");
             }
         }
     }
