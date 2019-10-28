@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace Birder.ViewModels
 {
     public class LifeListViewModel
@@ -15,6 +14,7 @@ namespace Birder.ViewModels
         public string PopulationSize { get; set; }
         public string BtoStatusInBritain { get; set; }
         public string ConservationStatus { get; set; }
+        public string ConservationListColourCode { get; set; }
         public int Count { get; set; }
     }
 }

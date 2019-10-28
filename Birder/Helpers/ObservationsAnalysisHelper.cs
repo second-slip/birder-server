@@ -22,6 +22,7 @@ namespace Birder.Helpers
                                     PopulationSize = n.FirstOrDefault().Bird?.PopulationSize,
                                     BtoStatusInBritain = n.FirstOrDefault().Bird?.BtoStatusInBritain,
                                     ConservationStatus = n.FirstOrDefault().Bird?.BirdConservationStatus?.ConservationList,
+                                    ConservationListColourCode = n.FirstOrDefault().Bird?.BirdConservationStatus?.ConservationListColourCode,
                                     Count = n.Count()
                                })
                                .OrderByDescending(n => n.Count);

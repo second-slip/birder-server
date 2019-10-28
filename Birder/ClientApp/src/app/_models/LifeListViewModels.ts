@@ -9,5 +9,6 @@ export interface LifeListViewModel {
     populationSize: string;
     btoStatusInBritain: string;
     conservationStatus: string;
+    conservationListColourCode: string;
     count: number;
 }
