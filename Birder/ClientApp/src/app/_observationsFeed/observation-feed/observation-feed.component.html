@@ -27,30 +27,37 @@
   <hr>
 
 
-  <div *ngFor="let observation of itemResults$|async" [style.height]="itemHeight + 'px'">
+  <div *ngIf="itemResults$ | async as results; else loading">
+    <ng-container *ngIf="results.length; else noItems">
+      <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
+        <div class="timeline-item"
+          attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
+          <h3><b>{{observation.quantity}}</b> {{observation.bird.englishName}}
+            {{observation.quantity > 1 ? 'were' : 'was'}}
+            spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
+              {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
+            </a>
+          </h3>
 
-    <div class="timeline-item"
-      attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
-      <h3><b>{{observation.quantity}}</b> {{observation.bird.englishName}}
-        {{observation.quantity > 1 ? 'were' : 'was'}}
-        spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
-          {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
-        </a>
-      </h3>
-
-      <a routerLink="/observation-detail/{{observation.observationId}}">
-        View
-      </a>
-      <a *ngIf="observation.user.userName === user.userName"
-        routerLink="/observation-edit/{{observation.observationId}}">
-        | Edit
-      </a>
-      <a *ngIf="observation.user.userName === user.userName"
-        routerLink="/observation-delete/{{observation.observationId}}">
-        | Delete
-      </a>
-    </div>
+          <a routerLink="/observation-detail/{{observation.observationId}}">
+            View
+          </a>
+          <a *ngIf="observation.user.userName === user.userName"
+            routerLink="/observation-edit/{{observation.observationId}}">
+            | Edit
+          </a>
+          <a *ngIf="observation.user.userName === user.userName"
+            routerLink="/observation-delete/{{observation.observationId}}">
+            | Delete
+          </a>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noItems>No Items!</ng-template>
   </div>
+  <ng-template #loading>loading animation...</ng-template>
+
+
 
   <div class="feedEndAlert">
     <p *ngIf="allLoaded">
