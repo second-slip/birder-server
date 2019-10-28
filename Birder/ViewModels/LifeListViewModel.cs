@@ -1,13 +1,7 @@
-﻿
-namespace Birder.ViewModels
+﻿namespace Birder.ViewModels
 {
     public class LifeListViewModel
     {
-    //     public IEnumerable<SpeciesSummaryViewModel> LifeList { get; set; }
-    // }
-
-    // public class SpeciesSummaryViewModel
-    // {
         public int BirdId { get; set; }
         public string EnglishName { get; set; }
         public string Species { get; set; }
