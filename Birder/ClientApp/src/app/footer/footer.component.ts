@@ -9,12 +9,12 @@ import { Title } from '@angular/platform-browser';
 })
 export class FooterComponent implements OnInit {
   private currentYear: number;
-  private title: string;
+  // private title: string;
 
   constructor(private titleService: Title) { }
 
   ngOnInit() {
-    this.title = this.titleService.getTitle();
+    // this.title = this.titleService.getTitle();
     this.currentYear = new Date().getFullYear();
   }
 
