@@ -3,7 +3,8 @@
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
             <hr>
-            &copy; {{currentYear}} - <a href="http://www.xyz.com.au">xyz</a> IP PTY LTD
+            &copy; {{currentYear}} {{title}} 
+            <a [routerLink]='["/about"]'>About</a>
         </div>
         <div class="col-sm-1 text-right">{{environment}}</div>
     </div>
