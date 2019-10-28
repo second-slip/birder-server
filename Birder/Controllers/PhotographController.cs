@@ -20,7 +20,7 @@ namespace Birder.Controllers
 
         // Index() and other actions
 
-        public async Task<IActionResult> UploadSignedContract(IFormFile file)
+        public async Task<IActionResult> UploadPhotograph(IFormFile file)
         {
             var fileName = file.FileName; //Sanitize("/" + UserId + "/" + file.FileName);
 
@@ -30,6 +30,11 @@ namespace Birder.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> GetPhotographsByObservation()
+        {
+            return Ok();
         }
     }
 }
