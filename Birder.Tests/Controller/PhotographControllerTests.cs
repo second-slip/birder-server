@@ -6,5 +6,13 @@ namespace Birder.Tests.Controller
 {
     public class PhotographControllerTests
     {
+
+
+        public PhotographControllerTests()
+        {
+
+        }
+
+
     }
 }

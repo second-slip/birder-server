@@ -66,6 +66,8 @@ namespace Birder.Services
 
         public Task SaveFile(string storeName, string filePath, Stream fileStream)
         {
+            //Todo: create container...
+
             var container = _blobClient.GetContainerReference(storeName);
             var blob = container.GetBlockBlobReference(filePath.ToLower());
 

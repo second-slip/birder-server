@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Birder.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,14 +21,48 @@ namespace Birder.Controllers
 
         // Index() and other actions
 
-        public async Task<IActionResult> UploadPhotograph(IFormFile file)
+        public async Task<IActionResult> UploadPhotograph(List<IFormFile> files)
         {
-            var fileName = file.FileName; //Sanitize("/" + UserId + "/" + file.FileName);
+            //var fileName = file.FileName; //Sanitize("/" + UserId + "/" + file.FileName);
 
-            using (var fileStream = file.OpenReadStream())
+            int observationId = 1;
+
+            for (int i = 0; i < files.Count; i++)
             {
-                await _fileClient.SaveFile("Contracts", fileName, fileStream);
+                if (files[i].Length > 0) //if (StorageExtension.IsImage(formFile))
+                {
+                    var fileName = files[i].FileName + "_" + (i + 1).ToString();
+                    using (var stream = files[i].OpenReadStream())
+                    {
+                        await _fileClient.SaveFile(observationId.ToString(), fileName, stream);
+                        //isUploaded = await StorageExtension.UploadFileToStorage(stream, observationId.ToString(), formFile.FileName, _config["BlobStorageKey"], _config["BlobStorage:Account"]);
+                    }
+                }
             }
+            //foreach (var formFile in files)
+            //{
+            //    //if (StorageExtension.IsImage(formFile))
+            //    //{
+            //    if (formFile.Length > 0)
+            //    {
+            //         //Sanitize("/" + UserId + "/" + file.FileName);
+            //        using (var stream = formFile.OpenReadStream())
+            //        {
+            //            await _fileClient.SaveFile(files.Insert, observationId.ToString(), stream);
+            //            //isUploaded = await StorageExtension.UploadFileToStorage(stream, observationId.ToString(), formFile.FileName, _config["BlobStorageKey"], _config["BlobStorage:Account"]);
+            //        }
+            //    }
+            //    //}
+            //    //else
+            //    //{
+            //    //    return new UnsupportedMediaTypeResult();
+            //    //}
+            //}
+
+            //using (var fileStream = file.OpenReadStream())
+            //{
+            //    await _fileClient.SaveFile("Contracts", fileName, fileStream);
+            //}
 
             return RedirectToAction("Index");
         }
