@@ -14,7 +14,7 @@ export class FooterComponent implements OnInit {
   constructor(private titleService: Title) { }
 
   ngOnInit() {
-    // this.title = this.titleService.getTitle();
+    //this.title = this.titleService.getTitle();
     this.currentYear = new Date().getFullYear();
   }
 
