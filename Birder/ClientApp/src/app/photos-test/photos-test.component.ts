@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_services/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ToastrService } from 'ngx-toastr';
+import { UploadPhotosDto } from '@app/_models/UploadPhotosDto';
 
 @Component({
   selector: 'app-photos-test',
@@ -41,7 +42,15 @@ export class PhotosTestComponent implements OnInit {
   }
 
   onSavePhotos(): void {
-    this.photosService.postPhotos(this.files)
+
+    const dto = <UploadPhotosDto>{
+      observationId: this.observation.observationId,
+      files: this.files
+    };
+
+    console.log(dto);
+
+    this.photosService.postPhotos(dto)
     .subscribe(events => {
       if (events.type === HttpEventType.UploadProgress) {
         this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';

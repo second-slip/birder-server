@@ -21,18 +21,18 @@ namespace Birder.Controllers
 
         // Index() and other actions
 
-        public async Task<IActionResult> UploadPhotograph(List<IFormFile> files)
+        public async Task<IActionResult> UploadPhotograph([FromForm(Name = "model")] UploadPhotosDto model)
         {
             //var fileName = file.FileName; //Sanitize("/" + UserId + "/" + file.FileName);
 
             int observationId = 1;
 
-            for (int i = 0; i < files.Count; i++)
+            for (int i = 0; i < model.Files.Count; i++)
             {
-                if (files[i].Length > 0) //if (StorageExtension.IsImage(formFile))
+                if (model.Files[i].Length > 0) //if (StorageExtension.IsImage(formFile))
                 {
-                    var fileName = files[i].FileName + "_" + (i + 1).ToString();
-                    using (var stream = files[i].OpenReadStream())
+                    var fileName = model.Files[i].FileName + "_" + (i + 1).ToString();
+                    using (var stream = model.Files[i].OpenReadStream())
                     {
                         await _fileClient.SaveFile(observationId.ToString(), fileName, stream);
                         //isUploaded = await StorageExtension.UploadFileToStorage(stream, observationId.ToString(), formFile.FileName, _config["BlobStorageKey"], _config["BlobStorage:Account"]);
@@ -65,6 +65,14 @@ namespace Birder.Controllers
             //}
 
             return RedirectToAction("Index");
+        }
+
+        public class UploadPhotosDto
+        {
+            public int ObservationId { get; set; }
+
+            public List<IFormFile> Files { get; set; }
+            //public IFormCollection Files { get; set; }
         }
 
         public async Task<IActionResult> GetPhotographsByObservation()
