@@ -20,11 +20,12 @@ export class PhotosService {
   constructor(private http: HttpClient
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  postPhotos(model: FormData): Observable<any | ErrorReportViewModel> {
-    let httpHeaders = new HttpHeaders({
-      'Content-Type' : 'application/json'
-   });
 
+    // const httpOptions = {
+    //   headers: new HttpHeaders({ 'Content-Disposition' : 'multipart/form-data' }),
+    // };
+
+  postPhotos(model: FormData): Observable<any | ErrorReportViewModel> {
     return this.http.post('api/Photograph', model, httpOptions)
     .pipe(
       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));

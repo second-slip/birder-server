@@ -48,33 +48,30 @@ export class PhotosTestComponent implements OnInit {
       files: this.files
     };
 
-        const formData = new FormData();
-    formData.append('files', this.files[0]); // add all the other properties
-    // const formData = new FormData();
-    // formData.append('observationId', this.observation.observationId.toString());
-    // formData.append('files', this.files.toString());
+    const formData = new FormData();
+    this.files.forEach((file) => { formData.append('files', file); });
 
     console.log(formData);
 
     this.photosService.postPhotos(formData)
-    .subscribe(events => {
-      if (events.type === HttpEventType.UploadProgress) {
-        this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
-        // console.log(this.fileUploadProgress);
-      } else if (events.type === HttpEventType.Response) {
-        this.fileUploadProgress = '';
-        //
-        // console.log(events.body);
-        // alert('SUCCESS !!');
-        //
-        this.toast.success('Please login again', 'Avatar successfully changed');
-        // this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-avatar' } });
-      }
-    },
-      (error: ErrorReportViewModel) => {
-        this.toast.error(error.friendlyMessage, 'An error occurred');
-      }
-    );
+      .subscribe(events => {
+        if (events.type === HttpEventType.UploadProgress) {
+          this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
+          // console.log(this.fileUploadProgress);
+        } else if (events.type === HttpEventType.Response) {
+          this.fileUploadProgress = '';
+          //
+          // console.log(events.body);
+          // alert('SUCCESS !!');
+          //
+          this.toast.success('Please login again', 'Avatar successfully changed');
+          // this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-avatar' } });
+        }
+      },
+        (error: ErrorReportViewModel) => {
+          this.toast.error(error.friendlyMessage, 'An error occurred');
+        }
+      );
 
   }
 
