@@ -48,9 +48,15 @@ export class PhotosTestComponent implements OnInit {
       files: this.files
     };
 
-    console.log(dto);
+        const formData = new FormData();
+    formData.append('files', this.files[0]); // add all the other properties
+    // const formData = new FormData();
+    // formData.append('observationId', this.observation.observationId.toString());
+    // formData.append('files', this.files.toString());
 
-    this.photosService.postPhotos(dto)
+    console.log(formData);
+
+    this.photosService.postPhotos(formData)
     .subscribe(events => {
       if (events.type === HttpEventType.UploadProgress) {
         this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
@@ -66,7 +72,7 @@ export class PhotosTestComponent implements OnInit {
       }
     },
       (error: ErrorReportViewModel) => {
-        this.toast.success(error.friendlyMessage, 'An error occurred');
+        this.toast.error(error.friendlyMessage, 'An error occurred');
       }
     );
 
