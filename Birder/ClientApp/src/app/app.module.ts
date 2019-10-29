@@ -80,6 +80,9 @@ import { AboutContactComponent } from './_about/about-contact/about-contact.comp
 import { LockedOutComponent } from './_account/locked-out/locked-out.component';
 import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/confirm-email-resend.component';
 import { FooterComponent } from './footer/footer.component';
+import { PhotosTestComponent } from './photos-test/photos-test.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { ObservationsManagePhotosComponent } from './_observations/observations-manage-photos/observations-manage-photos.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -133,6 +136,8 @@ export function tokenGetter() {
     LockedOutComponent,
     ConfirmEmailResendComponent,
     FooterComponent,
+    PhotosTestComponent,
+    ObservationsManagePhotosComponent,
 
   ],
   imports: [
@@ -161,6 +166,7 @@ export function tokenGetter() {
     MatPaginatorModule, MatSortModule, MatTableModule, MatGridListModule, MatListModule,
     MatToolbarModule,
     ToastrModule.forRoot(),
+    NgxDropzoneModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

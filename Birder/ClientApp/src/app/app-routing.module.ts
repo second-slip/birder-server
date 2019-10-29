@@ -30,6 +30,7 @@ import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { AboutComponent } from './_about/about/about.component';
+import { PhotosTestComponent } from './photos-test/photos-test.component';
 
 
 const routes: Routes = [
@@ -72,6 +73,7 @@ const routes: Routes = [
           { path: 'user-profile/:username', component: UserProfileComponent },
           // { path: 'account-manage', component: AccountManageComponent},
           { path: 'user-network', component: UserNetworkComponent },
+          { path: 'photos-test', component: PhotosTestComponent },
           { path: 'logout', component: LogoutComponent },
         ]
       },

@@ -1,0 +1,38 @@
+<div class="container">
+    <h4>photos-test works!</h4>
+
+    <hr>
+
+    <div *ngIf="observation">
+        <h2>Observation id: {{observation.observationId}}</h2>
+        <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
+        observed at {{observation.observationDateTime}}
+        observed by {{observation.user.userName }}
+
+    </div>
+
+    <hr>
+
+    <div *ngIf="fileUploadProgress">
+        Upload progress: {{ fileUploadProgress }}
+    </div>
+
+    <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+        <ngx-dropzone-label>
+            <div>
+                <h3>Drop your photos here or click here to select files...</h3>
+            </div>
+        </ngx-dropzone-label>
+        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
+            [removable]="true" (removed)="onRemove(f)">
+            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+        </ngx-dropzone-image-preview>
+    </div>
+
+    <div class="button-submit">
+        <div class="test-right">
+            <a class="btn btn-success" (click)="onSavePhotos()">Upload Photographs</a>
+          </div>
+    </div>
+
+</div>
