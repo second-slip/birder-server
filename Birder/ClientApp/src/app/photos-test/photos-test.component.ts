@@ -51,6 +51,8 @@ export class PhotosTestComponent implements OnInit {
         } else if (events.type === HttpEventType.Response) {
           this.fileUploadProgress = '';
           this.toast.success('Please login again', 'Avatar successfully changed');
+
+          this.files = [];
           // this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-avatar' } });
         }
       },

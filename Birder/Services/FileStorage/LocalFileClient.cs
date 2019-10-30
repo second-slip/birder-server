@@ -67,8 +67,6 @@ namespace Birder.Services
             {
                 await fileStream.CopyToAsync(file).ConfigureAwait(false);
             }
-
-            //return await Task.FromResult(path);
         }
     }
 }

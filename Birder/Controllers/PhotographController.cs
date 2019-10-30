@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Birder.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -48,7 +49,8 @@ namespace Birder.Controllers
             {
                 if (model.Files[i].Length > 0) //if (StorageExtension.IsImage(formFile))
                 {
-                    var fileName = model.Files[i].FileName + "_" + (i + 1).ToString();
+                    var fileExt = Path.GetExtension(model.Files[i].FileName);
+                    var fileName = string.Concat(model.ObservationId.ToString(),"_",(i + 1).ToString(),fileExt);
                     using (var stream = model.Files[i].OpenReadStream())
                     {
                         await _fileClient.SaveFile(model.ObservationId.ToString(), fileName, stream);

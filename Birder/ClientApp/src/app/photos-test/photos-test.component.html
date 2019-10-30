@@ -31,7 +31,8 @@
         </div>
 
         <div class="col button-submit">
-            <a class="btn btn-success" (click)="onSavePhotos()">Upload Photographs</a>
+            <button class="btn btn-success" [disabled]="files.length==0 || fileUploadProgress" (click)="onSavePhotos()">Upload Photographs</button>
         </div>
     </div>
+
 </div>
