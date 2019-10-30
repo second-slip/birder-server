@@ -6,7 +6,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_services/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ToastrService } from 'ngx-toastr';
-import { UploadPhotosDto } from '@app/_models/UploadPhotosDto';
 
 @Component({
   selector: 'app-photos-test',
