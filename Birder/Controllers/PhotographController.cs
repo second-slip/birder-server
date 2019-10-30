@@ -23,50 +23,39 @@ namespace Birder.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadPhotograph([FromForm] UploadPhotosDto model)
         {
+            //try { }
             if (!ModelState.IsValid)
             {
+                //logging
                 return BadRequest();
             }
+
+            if (model.Files.Count == 0)
+            {
+                //logging
+                return BadRequest("No files received from the upload");
+            }
+
+            if (model.ObservationId == 0)
+            {
+                //logging
+                return BadRequest("No observationId is supplied");
+            }
+
             //var fileName = file.FileName; //Sanitize("/" + UserId + "/" + file.FileName);
 
-            int observationId = 1;
-
-            //for (int i = 0; i < model.Files.Count; i++)
-            //{
-            //    if (model.Files[i].Length > 0) //if (StorageExtension.IsImage(formFile))
-            //    {
-            //        var fileName = model.Files[i].FileName + "_" + (i + 1).ToString();
-            //        using (var stream = model.Files[i].OpenReadStream())
-            //        {
-            //            await _fileClient.SaveFile(observationId.ToString(), fileName, stream);
-            //            //isUploaded = await StorageExtension.UploadFileToStorage(stream, observationId.ToString(), formFile.FileName, _config["BlobStorageKey"], _config["BlobStorage:Account"]);
-            //        }
-            //    }
-            //}
-            //foreach (var formFile in files)
-            //{
-            //    //if (StorageExtension.IsImage(formFile))
-            //    //{
-            //    if (formFile.Length > 0)
-            //    {
-            //         //Sanitize("/" + UserId + "/" + file.FileName);
-            //        using (var stream = formFile.OpenReadStream())
-            //        {
-            //            await _fileClient.SaveFile(files.Insert, observationId.ToString(), stream);
-            //            //isUploaded = await StorageExtension.UploadFileToStorage(stream, observationId.ToString(), formFile.FileName, _config["BlobStorageKey"], _config["BlobStorage:Account"]);
-            //        }
-            //    }
-            //    //}
-            //    //else
-            //    //{
-            //    //    return new UnsupportedMediaTypeResult();
-            //    //}
-            //}
-
-            //using (var fileStream = file.OpenReadStream())
-            //{
-            //    await _fileClient.SaveFile("Contracts", fileName, fileStream);
-            //}
+            for (int i = 0; i < model.Files.Count; i++)
+            {
+                if (model.Files[i].Length > 0) //if (StorageExtension.IsImage(formFile))
+                {
+                    var fileName = model.Files[i].FileName + "_" + (i + 1).ToString();
+                    using (var stream = model.Files[i].OpenReadStream())
+                    {
+                        await _fileClient.SaveFile(model.ObservationId.ToString(), fileName, stream);
+                        //isUploaded = await StorageExtension.UploadFileToStorage(stream, observationId.ToString(), formFile.FileName, _config["BlobStorageKey"], _config["BlobStorage:Account"]);
+                    }
+                }
+            }
 
             return Ok();
         }
@@ -75,8 +64,7 @@ namespace Birder.Controllers
         {
             public int ObservationId { get; set; }
 
-            public List<IFormFile> Files { get; set; }
-            //public IFormCollection Files { get; set; }
+            public IFormFileCollection Files { get; set; }
         }
 
         //public async Task<IActionResult> GetPhotographsByObservation()

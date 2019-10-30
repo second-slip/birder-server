@@ -1,10 +1,11 @@
 <div class="container">
+
     <h4>Manage Photographs</h4>
 
     <hr>
 
     <div *ngIf="observation">
-        <h2>Observation id: {{observation.observationId}}</h2>
+        <!-- <h2>Observation id: {{observation.observationId}}</h2> -->
         <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
         observed at {{observation.observationDateTime}}
         observed by {{observation.user.userName }}
@@ -25,16 +26,12 @@
     </div>
 
     <div class="row">
-        <div class="col">
-            <div class="progress" *ngIf="fileUploadProgress">
-                Upload progress: {{ fileUploadProgress }}
-            </div>
+        <div class="col progress" *ngIf="fileUploadProgress">
+            <p>Upload progress: {{ fileUploadProgress }}</p>
         </div>
 
-        <div class="col">
-            <div class="button-submit">
-                <a class="btn btn-success" (click)="onSavePhotos()">Upload Photographs</a>
-            </div>
+        <div class="col button-submit">
+            <a class="btn btn-success" (click)="onSavePhotos()">Upload Photographs</a>
         </div>
     </div>
 </div>
