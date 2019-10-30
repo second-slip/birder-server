@@ -1,5 +1,5 @@
 <div class="container">
-    <h4>photos-test works!</h4>
+    <h4>Manage Photographs</h4>
 
     <hr>
 
@@ -8,14 +8,9 @@
         <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
         observed at {{observation.observationDateTime}}
         observed by {{observation.user.userName }}
-
     </div>
 
     <hr>
-
-    <div *ngIf="fileUploadProgress">
-        Upload progress: {{ fileUploadProgress }}
-    </div>
 
     <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
         <ngx-dropzone-label>
@@ -29,10 +24,17 @@
         </ngx-dropzone-image-preview>
     </div>
 
-    <div class="button-submit">
-        <div class="test-right">
-            <a class="btn btn-success" (click)="onSavePhotos()">Upload Photographs</a>
-          </div>
-    </div>
+    <div class="row">
+        <div class="col">
+            <div class="progress" *ngIf="fileUploadProgress">
+                Upload progress: {{ fileUploadProgress }}
+            </div>
+        </div>
 
+        <div class="col">
+            <div class="button-submit">
+                <a class="btn btn-success" (click)="onSavePhotos()">Upload Photographs</a>
+            </div>
+        </div>
+    </div>
 </div>

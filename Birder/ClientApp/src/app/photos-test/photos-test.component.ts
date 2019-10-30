@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { HttpHeaders, HttpClient, HttpParams, HttpEventType } from '@angular/common/http';
+import { HttpEventType } from '@angular/common/http';
 import { PhotosService } from '@app/_services/photos.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -32,7 +32,6 @@ export class PhotosTestComponent implements OnInit {
   onSelect(event): void {
     console.log(event);
     this.files.push(...event.addedFiles);
-
   }
 
   onRemove(event): void {
@@ -41,29 +40,16 @@ export class PhotosTestComponent implements OnInit {
   }
 
   onSavePhotos(): void {
-
-    // const dto = <UploadPhotosDto>{
-    //   observationId: this.observation.observationId,
-    //   files: this.files
-    // };
-
     const formData = new FormData();
     this.files.forEach((file) => { formData.append('files', file); });
     formData.append('observationId', this.observation.observationId.toString());
-
-    // console.log(formData);
 
     this.photosService.postPhotos(formData)
       .subscribe(events => {
         if (events.type === HttpEventType.UploadProgress) {
           this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
-          // console.log(this.fileUploadProgress);
         } else if (events.type === HttpEventType.Response) {
           this.fileUploadProgress = '';
-          //
-          // console.log(events.body);
-          // alert('SUCCESS !!');
-          //
           this.toast.success('Please login again', 'Avatar successfully changed');
           // this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-avatar' } });
         }
@@ -72,7 +58,6 @@ export class PhotosTestComponent implements OnInit {
           this.toast.error(error.friendlyMessage, 'An error occurred');
         }
       );
-
   }
 
   getObservation(): void {
