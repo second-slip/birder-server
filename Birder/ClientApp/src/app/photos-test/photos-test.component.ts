@@ -43,15 +43,16 @@ export class PhotosTestComponent implements OnInit {
 
   onSavePhotos(): void {
 
-    const dto = <UploadPhotosDto>{
-      observationId: this.observation.observationId,
-      files: this.files
-    };
+    // const dto = <UploadPhotosDto>{
+    //   observationId: this.observation.observationId,
+    //   files: this.files
+    // };
 
     const formData = new FormData();
     this.files.forEach((file) => { formData.append('files', file); });
+    formData.append('observationId', this.observation.observationId.toString());
 
-    console.log(formData);
+    // console.log(formData);
 
     this.photosService.postPhotos(formData)
       .subscribe(events => {

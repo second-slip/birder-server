@@ -7,10 +7,11 @@ import { HttpErrorHandlerService } from './http-error-handler.service';
 import { UploadPhotosDto } from '@app/_models/UploadPhotosDto';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Disposition' : 'multipart/form-data' }),
+  headers: new HttpHeaders({ 'Content-Disposition' : 'multipart/form-data' })
+  // reportProgress: true , observe: 'events'
 };
 
-
+// reportProgress: true, observe: 'events'
 
 @Injectable({
   providedIn: 'root'

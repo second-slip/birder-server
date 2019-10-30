@@ -21,7 +21,7 @@ namespace Birder.Controllers
 
         // Index() and other actions
         [HttpPost]
-        public async Task<IActionResult> UploadPhotograph([FromForm(Name = "files")] List<IFormFile> files)
+        public async Task<IActionResult> UploadPhotograph([FromForm] UploadPhotosDto model)
         {
             if (!ModelState.IsValid)
             {
