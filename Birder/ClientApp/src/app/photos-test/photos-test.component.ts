@@ -19,6 +19,8 @@ export class PhotosTestComponent implements OnInit {
   observation: ObservationViewModel;
   errorReport: ErrorReportViewModel;
 
+  images = [1, 2, 3, 4, 5, 6, 7].map(() => `https://picsum.photos/900/500?random&t=${Math.random()}`);
+
   constructor(private router: Router
     , private route: ActivatedRoute
     , private observationService: ObservationService
