@@ -33,7 +33,10 @@
       <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
         <div class="timeline-item"
           attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
-          <h3><b>{{observation.quantity}}</b> {{observation.bird.englishName}}
+          <h3><b>{{observation.quantity}}</b> 
+            <a routerLink="/birds-detail/{{observation.bird.birdId}}">
+              {{observation.bird.englishName}}
+            </a>
             {{observation.quantity > 1 ? 'were' : 'was'}}
             spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
               {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
