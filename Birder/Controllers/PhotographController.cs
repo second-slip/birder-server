@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Birder.Helpers;
 using Birder.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -77,10 +78,14 @@ namespace Birder.Controllers
             public string Address { get; set; }
         }
 
+        
+
         [HttpGet, Route("GetPhotographs")]
-        public async Task<IActionResult> GetPhotographsByObservation()
+        public async Task<IActionResult> GetPhotographsByObservation(int observationId)
         {
-            return Ok();
+            var urls = await _fileClient.GetAllFileUrl(observationId.ToString());
+            var model = StorageHelpers.UpdatePhotographsDto(urls);
+            return Ok(model);
         }
     }
 }
