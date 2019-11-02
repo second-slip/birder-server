@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_services/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ToastrService } from 'ngx-toastr';
+import { PhotographDto } from '@app/_models/PhotographDto';
 
 @Component({
   selector: 'app-photos-test',
@@ -20,6 +21,7 @@ export class PhotosTestComponent implements OnInit {
   errorReport: ErrorReportViewModel;
 
   images = [1, 2, 3, 4, 5, 6, 7].map(() => `https://picsum.photos/900/500?random&t=${Math.random()}`);
+  images1: PhotographDto[];
 
   constructor(private router: Router
     , private route: ActivatedRoute
@@ -72,11 +74,24 @@ export class PhotosTestComponent implements OnInit {
       .subscribe(
         (observation: ObservationViewModel) => {
           this.observation = observation;
+          this.getPhotos(observation.observationId);
         },
         (error: ErrorReportViewModel) => {
           this.errorReport = error;
           // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
+  }
+
+  getPhotos(id: number): void {
+    this.photosService.getPhotos(id)
+    .subscribe(
+      (result: PhotographDto[]) => {
+        this.images1 = result;
+      },
+      (error: ErrorReportViewModel) => {
+        this.errorReport = error;
+        // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+      });
   }
 
 }

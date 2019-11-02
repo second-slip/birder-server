@@ -72,7 +72,7 @@ namespace Birder.Controllers
             public IFormFileCollection Files { get; set; }
         }
 
-        public class PhotographsDto
+        public class PhotographDto
         {
             public string Filename { get; set; }
             public string Address { get; set; }

@@ -7,12 +7,12 @@ namespace Birder.Helpers
 {
     public static class StorageHelpers
     {
-        public static List<PhotographsDto> UpdatePhotographsDto(List<string> urls)
+        public static List<PhotographDto> UpdatePhotographsDto(List<string> urls)
         {
-            var model = new List<PhotographsDto>();
+            var model = new List<PhotographDto>();
             foreach (var url in urls)
             {
-                model.Add(new PhotographsDto()
+                model.Add(new PhotographDto()
                 {
                     Address = url,
                     Filename = Path.GetFileName(new Uri(url).AbsolutePath)
