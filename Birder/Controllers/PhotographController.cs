@@ -71,9 +71,16 @@ namespace Birder.Controllers
             public IFormFileCollection Files { get; set; }
         }
 
-        //public async Task<IActionResult> GetPhotographsByObservation()
-        //{
-        //    return Ok();
-        //}
+        public class PhotographsDto
+        {
+            public string Filename { get; set; }
+            public string Address { get; set; }
+        }
+
+        [HttpGet, Route("GetPhotographs")]
+        public async Task<IActionResult> GetPhotographsByObservation()
+        {
+            return Ok();
+        }
     }
 }
