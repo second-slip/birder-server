@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.File;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -55,6 +56,11 @@ namespace Birder.Services
             var fileRef = folder.GetFileReference(fileName);
 
             return await fileRef.ExistsAsync().ConfigureAwait(false);
+        }
+
+        public Task<List<string>> GetAllFileUrl(string storeName)
+        {
+            throw new System.NotImplementedException();
         }
 
         public async Task<Stream> GetFile(string storeName, string filePath)
