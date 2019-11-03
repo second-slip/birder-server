@@ -7,8 +7,10 @@ import { ObservationService } from '@app/_services/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ToastrService } from 'ngx-toastr';
 import { PhotographDto } from '@app/_models/PhotographDto';
+import { Lightbox } from 'ngx-lightbox';
+import { Album } from '@app/_models/ALbum';
 // import { GalleryItem, Gallery, ImageItem } from '@ngx-gallery/core';
-import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ImageSize } from '@ngx-gallery/core';
+
 
 @Component({
   selector: 'app-photos-test',
@@ -23,15 +25,41 @@ export class PhotosTestComponent implements OnInit {
   observation: ObservationViewModel;
   errorReport: ErrorReportViewModel;
 
+  private _album: Array<any> = [];
   // images = [1, 2, 3, 4, 5, 6, 7].map(() => `https://picsum.photos/900/500?random&t=${Math.random()}`);
   // images: PhotographDto[];
   // items: GalleryItem[];
 
-  constructor(private router: Router
+  constructor(private router: Router, private _lightbox: Lightbox
     , private route: ActivatedRoute
     , private observationService: ObservationService
     , private photosService: PhotosService
-    , private toast: ToastrService) { }
+    , private toast: ToastrService) {
+
+    // for (let i = 1; i <= 13; i++) {
+    //   const src = 'https://preview.ibb.co/jrsA6R/img12.jpg';
+    //   const caption = 'Image ' + i + ' caption here';
+    //   const thumb = 'https://preview.ibb.co/jrsA6R/img12.jpg';
+    //   const album = {
+    //      src: src,
+    //      caption: caption,
+    //      thumb: thumb
+    //   };
+
+    //   this._album.push(album);
+    // }
+
+  }
+
+  open(index: number): void {
+    // open lightbox
+    this._lightbox.open(this._album, index);
+  }
+
+  close(): void {
+    // close lightbox programmatically
+    this._lightbox.close();
+  }
 
   ngOnInit() {
     this.getObservation();
@@ -79,7 +107,7 @@ export class PhotosTestComponent implements OnInit {
         (observation: ObservationViewModel) => {
           this.observation = observation;
           this.getPhotos(observation.observationId);
-          
+
         },
         (error: ErrorReportViewModel) => {
           this.errorReport = error;
@@ -87,26 +115,24 @@ export class PhotosTestComponent implements OnInit {
         });
   }
 
-  // basicLightboxExample() {
-  //   this.gallery.ref().load(this.items);
-  // }
-  
 
   getPhotos(id: number): void {
     this.photosService.getPhotos(id)
-    .subscribe(
-      (result: PhotographDto[]) => {
-        // this.images = result;
-        // this.items = result.map(item =>
-        //   new ImageItem({ src: item.address, thumb: item.address })
-          
-        // );
-        // this.basicLightboxExample();
-      },
-      (error: ErrorReportViewModel) => {
-        this.errorReport = error;
-        // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
-      });
+      .subscribe(
+        (result: any) => {
+          // this.images = result;
+          this._album = result.map((sp): Album => ({ // IProduct specified here ensures we get excess property checks
+            src: sp.address,
+            caption: 'My caption',
+            thumb: sp.address
+          }));
+          // this._album = result;
+          // this.basicLightboxExample();
+        },
+        (error: ErrorReportViewModel) => {
+          this.errorReport = error;
+          // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+        });
   }
 
 }

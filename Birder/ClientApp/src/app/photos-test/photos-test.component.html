@@ -13,14 +13,19 @@
 
   <hr>
 
-  <!-- <h4>Lightbox Example</h4>
-  <div class="container gallerize-example">
+ <h4>Lightbox Example</h4>
+  <!-- <div class="container gallerize-example">
 	<p class="hello">
 		<img *ngFor="let item of items; index as i" 
          [lightbox]="i"
          [src]="item.data.thumb">
   </p>
   </div> -->
+  <div class="hello">
+  <div *ngFor="let image of _album; let i=index">
+    <img [src]="image.thumb" (click)="open(i)" />
+  </div>
+</div>
 
   <hr>
 
