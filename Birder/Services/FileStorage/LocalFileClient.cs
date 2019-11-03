@@ -34,9 +34,9 @@ namespace Birder.Services
         public Task<List<string>> GetAllFileUrl(string storeName)
         {
             var urls = new List<string>();
-            urls.Add("https://hackernoon.com/hn-images/0*xMaFF2hSXpf_kIfG.jpg");
-            urls.Add("https://hackernoon.com/hn-images/0*xMaFF2hSXpf_kIfG.jpg");
-            urls.Add("https://hackernoon.com/hn-images/0*xMaFF2hSXpf_kIfG.jpg");
+            urls.Add("https://preview.ibb.co/jrsA6R/img12.jpg");
+            urls.Add("https://preview.ibb.co/jrsA6R/img12.jpg");
+            urls.Add("https://preview.ibb.co/jrsA6R/img12.jpg");
             return Task.FromResult(urls);
         }
 

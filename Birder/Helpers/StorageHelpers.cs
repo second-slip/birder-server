@@ -1,7 +1,9 @@
 ﻿using Birder.ViewModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Birder.Helpers
 {
@@ -20,6 +22,18 @@ namespace Birder.Helpers
                 });
             }
             return model;
+        }
+
+        public static bool IsImage(IFormFile file)
+        {
+            if (file.ContentType.Contains("image"))
+            {
+                return true;
+            }
+
+            string[] formats = new string[] { ".jpg", ".png", ".gif", ".jpeg" };
+
+            return formats.Any(item => file.FileName.EndsWith(item, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

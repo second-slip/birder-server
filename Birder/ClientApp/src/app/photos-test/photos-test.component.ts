@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 import { PhotosService } from '@app/_services/photos.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
@@ -7,12 +7,15 @@ import { ObservationService } from '@app/_services/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ToastrService } from 'ngx-toastr';
 import { PhotographDto } from '@app/_models/PhotographDto';
+// import { GalleryItem, Gallery, ImageItem } from '@ngx-gallery/core';
+import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ImageSize } from '@ngx-gallery/core';
 
 @Component({
   selector: 'app-photos-test',
   templateUrl: './photos-test.component.html',
   styleUrls: ['./photos-test.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotosTestComponent implements OnInit {
   files: File[] = [];
@@ -21,7 +24,8 @@ export class PhotosTestComponent implements OnInit {
   errorReport: ErrorReportViewModel;
 
   // images = [1, 2, 3, 4, 5, 6, 7].map(() => `https://picsum.photos/900/500?random&t=${Math.random()}`);
-  images: PhotographDto[];
+  // images: PhotographDto[];
+  // items: GalleryItem[];
 
   constructor(private router: Router
     , private route: ActivatedRoute
@@ -75,6 +79,7 @@ export class PhotosTestComponent implements OnInit {
         (observation: ObservationViewModel) => {
           this.observation = observation;
           this.getPhotos(observation.observationId);
+          
         },
         (error: ErrorReportViewModel) => {
           this.errorReport = error;
@@ -82,11 +87,21 @@ export class PhotosTestComponent implements OnInit {
         });
   }
 
+  // basicLightboxExample() {
+  //   this.gallery.ref().load(this.items);
+  // }
+  
+
   getPhotos(id: number): void {
     this.photosService.getPhotos(id)
     .subscribe(
       (result: PhotographDto[]) => {
-        this.images1 = result;
+        // this.images = result;
+        // this.items = result.map(item =>
+        //   new ImageItem({ src: item.address, thumb: item.address })
+          
+        // );
+        // this.basicLightboxExample();
       },
       (error: ErrorReportViewModel) => {
         this.errorReport = error;
