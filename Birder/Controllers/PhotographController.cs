@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Birder.Helpers;
 using Birder.Services;
+using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace Birder.Controllers
 
         // Index() and other actions
         [HttpPost]
-        public async Task<IActionResult> UploadPhotograph([FromForm] UploadPhotosDto model)
+        public async Task<IActionResult> UploadPhotograph([FromForm] UploadPhotographsDto model)
         {
             //try { }
             if (!ModelState.IsValid)
@@ -64,21 +65,7 @@ namespace Birder.Controllers
 
             return Ok();
         }
-
-        public class UploadPhotosDto
-        {
-            public int ObservationId { get; set; }
-
-            public IFormFileCollection Files { get; set; }
-        }
-
-        public class PhotographDto
-        {
-            public string Filename { get; set; }
-            public string Address { get; set; }
-        }
-
-        
+     
 
         [HttpGet, Route("GetPhotographs")]
         public async Task<IActionResult> GetPhotographsByObservation(int observationId)

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Birder.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using static Birder.Controllers.PhotographController;
 
 namespace Birder.Helpers
 {
