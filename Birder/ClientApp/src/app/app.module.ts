@@ -83,6 +83,9 @@ import { FooterComponent } from './footer/footer.component';
 import { PhotosTestComponent } from './photos-test/photos-test.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ObservationsManagePhotosComponent } from './_observations/observations-manage-photos/observations-manage-photos.component';
+import { GalleryModule } from '@ngx-gallery/core';
+// import { LightboxModule } from '@ngx-gallery/lightbox';
+import { LightboxModule } from 'ngx-lightbox';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -167,6 +170,8 @@ export function tokenGetter() {
     MatToolbarModule,
     ToastrModule.forRoot(),
     NgxDropzoneModule,
+    GalleryModule,
+    LightboxModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

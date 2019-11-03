@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Birder.Services
@@ -9,6 +10,7 @@ namespace Birder.Services
         Task<bool> FileExists(string storeName, string filePath);
         Task<Stream> GetFile(string storeName, string filePath);
         Task<string> GetFileUrl(string storeName, string filePath);
+        Task<List<string>> GetAllFileUrl(string storeName);
         Task SaveFile(string storeName, string filePath, Stream fileStream);
     }
 }

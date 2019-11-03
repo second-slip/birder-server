@@ -3,8 +3,66 @@ app-photos-test {
     margin-top: 20px;
     text-align: right;
   }
+
   .progress {
     margin-top: 20px;
     text-align: left;
   }
+
+
+  // .hello {
+  //   margin: 40px;
+  // }
+  // .lightbox-example, .gallerize-example {
+  //   margin: 2em;
+  // }
+  // .basic-container {
+  //   padding: 5px;
+  // }
+  .hello {
+
+    display: flex;
+    flex-wrap: wrap;
+    img {
+      // width: 100px;
+      // height: 90px;
+      // object-fit: cover;
+      margin: 5px;
+    }
+  }
+  
+  .g-overlay {
+    min-width: 320px;
+  }
+  
+  gallery {
+    font-size: 16px;
+  }
+  
+  img {
+    width: 150px;
+  }
+  // .carousel-inner {
+  //   width: 100%;
+  //   // max-height: 200px !important;
+
+  //   img {
+  //     // max-height: 200px;
+  //     // .offer-detail-image {
+  //       display: block;
+  //       overflow: visible;
+  //       width: 100%;
+  //       height: auto;
+  //       margin-right: auto;
+  //       margin-bottom: 12px;
+  //       margin-left: auto;
+  //       float: none;
+  //     }
+      
+  //   // }
+  // }
+
+  // .carousel-indicators img {
+  //   max-width: 100px;
+  // }
 }

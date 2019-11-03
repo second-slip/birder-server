@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Birder.Services
@@ -28,6 +29,15 @@ namespace Birder.Services
             var path = Path.Combine(_fileRoot, storeName, filePath);
 
             return Task.FromResult(File.Exists(path));
+        }
+
+        public Task<List<string>> GetAllFileUrl(string storeName)
+        {
+            var urls = new List<string>();
+            urls.Add("https://preview.ibb.co/jrsA6R/img12.jpg");
+            urls.Add("https://preview.ibb.co/jrsA6R/img12.jpg");
+            urls.Add("https://preview.ibb.co/jrsA6R/img12.jpg");
+            return Task.FromResult(urls);
         }
 
         public Task<Stream> GetFile(string storeName, string filePath)
