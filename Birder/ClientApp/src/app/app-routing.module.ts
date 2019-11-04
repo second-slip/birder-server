@@ -30,7 +30,8 @@ import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { AboutComponent } from './_about/about/about.component';
-import { PhotosTestComponent } from './photos-test/photos-test.component';
+import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
+import { TestingComponent } from './testing/testing.component';
 
 
 const routes: Routes = [
@@ -67,13 +68,14 @@ const routes: Routes = [
           { path: 'observation-delete/:id', component: ObservationDeleteComponent },
           { path: 'observation-add', component: ObservationAddComponent, },
           { path: 'observation-edit/:id', component: ObservationEditComponent },
+          { path: 'observation-manage-photos/:id', component: ObservationManagePhotosComponent },
           { path: 'birds-index', component: BirdsIndexComponent },
           { path: 'birds-detail/:id', component: BirdsDetailComponent },
           { path: 'life-list', component: LifeListComponent },
           { path: 'user-profile/:username', component: UserProfileComponent },
           // { path: 'account-manage', component: AccountManageComponent},
           { path: 'user-network', component: UserNetworkComponent },
-          { path: 'photos-test', component: PhotosTestComponent },
+          { path: 'testing', component: TestingComponent },
           { path: 'logout', component: LogoutComponent },
         ]
       },

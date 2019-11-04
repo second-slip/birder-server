@@ -21,7 +21,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -80,11 +79,11 @@ import { AboutContactComponent } from './_about/about-contact/about-contact.comp
 import { LockedOutComponent } from './_account/locked-out/locked-out.component';
 import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/confirm-email-resend.component';
 import { FooterComponent } from './footer/footer.component';
-import { PhotosTestComponent } from './photos-test/photos-test.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { GalleryModule } from '@ngx-gallery/core';
 import { LightboxModule } from 'ngx-lightbox';
 import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
+import { TestingComponent } from './testing/testing.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -138,9 +137,8 @@ export function tokenGetter() {
     LockedOutComponent,
     ConfirmEmailResendComponent,
     FooterComponent,
-    PhotosTestComponent,
     ObservationManagePhotosComponent,
-
+    TestingComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
