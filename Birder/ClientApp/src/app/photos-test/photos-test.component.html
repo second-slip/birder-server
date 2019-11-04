@@ -13,7 +13,7 @@
 
   <hr>
 
- <h4>Gallery</h4>
+  <h4>Gallery</h4>
   <!-- <div class="container gallerize-example">
 	<p class="hello">
 		<img *ngFor="let item of items; index as i" 
@@ -22,12 +22,14 @@
   </p>
   </div> -->
   <div class="hello">
-  <div *ngFor="let image of _album; let i=index">
-    <img [src]="image.thumb" (click)="open(i)" />
-    <p>del?</p>
-    <p>{{image.filename}}</p>
+    <div *ngFor="let image of _album; let i=index">
+      <img [src]="image.thumb" (click)="open(i)" />
+      <!-- <p>{{image.filename}}</p> -->
+      <p>
+      <button class="btn btn-danger btn-sm" (click)="onDeletePhoto(image.filename)">Delete</button>
+      </p>
+    </div>
   </div>
-</div>
 
   <hr>
 

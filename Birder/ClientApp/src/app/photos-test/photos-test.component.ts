@@ -115,6 +115,9 @@ export class PhotosTestComponent implements OnInit {
         });
   }
 
+  onDeletePhoto(filename: string): void {
+    console.log(filename);
+  }
 
   getPhotos(id: number): void {
     this.photosService.getPhotos(id)

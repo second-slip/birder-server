@@ -20,15 +20,18 @@ app-photos-test {
   //   padding: 5px;
   // }
   .hello {
-
+    text-align: right;
     display: flex;
     flex-wrap: wrap;
     img {
-      // width: 100px;
-      // height: 90px;
-      // object-fit: cover;
       margin: 5px;
     }
+    button {
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+
   }
   
   .g-overlay {
