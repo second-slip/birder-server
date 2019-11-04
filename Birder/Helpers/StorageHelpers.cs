@@ -9,6 +9,11 @@ namespace Birder.Helpers
 {
     public static class StorageHelpers
     {
+        public static string GetFileName(IFormFile file)
+        {
+            var fileExt = Path.GetExtension(file.FileName);
+            return string.Concat(Guid.NewGuid(), fileExt);
+        }
         public static List<PhotographDto> UpdatePhotographsDto(List<string> urls)
         {
             var model = new List<PhotographDto>();

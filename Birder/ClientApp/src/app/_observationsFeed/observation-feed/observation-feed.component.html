@@ -33,7 +33,7 @@
       <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
         <div class="timeline-item"
           attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
-          <h3><b>{{observation.quantity}}</b> 
+          <h3><b>{{observation.quantity}}</b>
             <a routerLink="/birds-detail/{{observation.bird.birdId}}">
               {{observation.bird.englishName}}
             </a>
@@ -45,6 +45,10 @@
 
           <a routerLink="/observation-detail/{{observation.observationId}}">
             View
+          </a>
+          <a *ngIf="observation.user.userName === user.userName"
+            routerLink="/observation-manage-photos/{{observation.observationId}}">
+            | Manage Photos
           </a>
           <a *ngIf="observation.user.userName === user.userName"
             routerLink="/observation-edit/{{observation.observationId}}">
