@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 import { PhotosService } from '@app/_services/photos.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
@@ -6,18 +6,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_services/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ToastrService } from 'ngx-toastr';
-import { PhotographDto } from '@app/_models/PhotographDto';
 import { Lightbox } from 'ngx-lightbox';
-import { Album } from '@app/_models/ALbum';
-// import { GalleryItem, Gallery, ImageItem } from '@ngx-gallery/core';
+import { PhotographAlbum } from '@app/_models/PhotographAlbum';
 
 
 @Component({
   selector: 'app-photos-test',
   templateUrl: './photos-test.component.html',
   styleUrls: ['./photos-test.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  encapsulation: ViewEncapsulation.None
 })
 export class PhotosTestComponent implements OnInit {
   files: File[] = [];
@@ -25,30 +22,15 @@ export class PhotosTestComponent implements OnInit {
   observation: ObservationViewModel;
   errorReport: ErrorReportViewModel;
 
-  private _album: Array<Album> = [];
+  private _album: Array<PhotographAlbum> = [];
   // images = [1, 2, 3, 4, 5, 6, 7].map(() => `https://picsum.photos/900/500?random&t=${Math.random()}`);
-  // images: PhotographDto[];
-  // items: GalleryItem[];
 
-  constructor(private router: Router, private _lightbox: Lightbox
+  constructor(private router: Router
     , private route: ActivatedRoute
+    , private _lightbox: Lightbox
     , private observationService: ObservationService
     , private photosService: PhotosService
     , private toast: ToastrService) {
-
-    // for (let i = 1; i <= 13; i++) {
-    //   const src = 'https://preview.ibb.co/jrsA6R/img12.jpg';
-    //   const caption = 'Image ' + i + ' caption here';
-    //   const thumb = 'https://preview.ibb.co/jrsA6R/img12.jpg';
-    //   const album = {
-    //      src: src,
-    //      caption: caption,
-    //      thumb: thumb
-    //   };
-
-    //   this._album.push(album);
-    // }
-
   }
 
   open(index: number): void {
@@ -123,15 +105,12 @@ export class PhotosTestComponent implements OnInit {
     this.photosService.getPhotos(id)
       .subscribe(
         (result: any) => {
-          // this.images = result;
-          this._album = result.map((sp): Album => ({ // IProduct specified here ensures we get excess property checks
-            src: sp.address,
-            caption: 'My caption',
-            thumb: sp.address,
-            filename: sp.filename
+          this._album = result.map((photo): PhotographAlbum => ({ // IProduct specified here ensures we get excess property checks
+            src: photo.address,
+            caption: '',
+            thumb: photo.address,
+            filename: photo.filename
           }));
-          // this._album = result;
-          // this.basicLightboxExample();
         },
         (error: ErrorReportViewModel) => {
           this.errorReport = error;

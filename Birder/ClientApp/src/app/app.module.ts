@@ -86,6 +86,7 @@ import { ObservationsManagePhotosComponent } from './_observations/observations-
 import { GalleryModule } from '@ngx-gallery/core';
 // import { LightboxModule } from '@ngx-gallery/lightbox';
 import { LightboxModule } from 'ngx-lightbox';
+import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -141,6 +142,7 @@ export function tokenGetter() {
     FooterComponent,
     PhotosTestComponent,
     ObservationsManagePhotosComponent,
+    ObservationManagePhotosComponent,
 
   ],
   imports: [
