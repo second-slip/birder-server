@@ -7,17 +7,16 @@
   <div *ngIf="observation">
     <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
     observed at {{observation.observationDateTime}}
-    observed by {{observation.user.userName }}
+    observed by {{ observation.user.userName }}
   </div>
 
   <hr>
 
   <div *ngIf="_album.length==0 || _album">
     <h4>Gallery</h4>
-    <div class="hello">
+    <div class="photo-gallery">
       <div *ngFor="let image of _album; let i=index">
         <img [src]="image.thumb" (click)="open(i)" />
-        <!-- <p>{{image.filename}}</p> -->
         <p>
           <button class="btn btn-danger btn-sm" (click)="onDeletePhoto(image.filename)">Delete</button>
         </p>

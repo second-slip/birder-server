@@ -75,12 +75,14 @@ namespace Birder.Controllers
             return Ok(model);
         }
 
-        [HttpGet, Route("DeletePhotograph")]
-        public async Task<IActionResult> DeletePhotographAsync(int observationId)
+        [HttpPost, Route("DeletePhotograph")]
+        public async Task<IActionResult> PostDeletePhotographAsync(int observationId, string filename)
         {
-            var urls = await _fileClient.GetAllFileUrl(observationId.ToString());
-            var model = StorageHelpers.UpdatePhotographsDto(urls);
-            return Ok(model);
+            //var urls = await _fileClient.GetAllFileUrl(observationId.ToString());
+            //var model = StorageHelpers.UpdatePhotographsDto(urls);
+            await _fileClient.DeleteFile(observationId.ToString(), filename);
+
+            return Ok();
         }
     }
 }

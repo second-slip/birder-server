@@ -104,7 +104,7 @@ export class PhotosTestComponent implements OnInit {
     this.photosService.getPhotos(id)
       .subscribe(
         (result: any) => {
-          this._album = result.map((photo): PhotographAlbum => ({ // IProduct specified here ensures we get excess property checks
+          this._album = result.map((photo): PhotographAlbum => ({
             src: photo.address,
             caption: '',
             thumb: photo.address,
@@ -116,5 +116,4 @@ export class PhotosTestComponent implements OnInit {
           // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
   }
-
 }
