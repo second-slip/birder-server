@@ -82,9 +82,7 @@ import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/con
 import { FooterComponent } from './footer/footer.component';
 import { PhotosTestComponent } from './photos-test/photos-test.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { ObservationsManagePhotosComponent } from './_observations/observations-manage-photos/observations-manage-photos.component';
 import { GalleryModule } from '@ngx-gallery/core';
-// import { LightboxModule } from '@ngx-gallery/lightbox';
 import { LightboxModule } from 'ngx-lightbox';
 import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
 
@@ -141,7 +139,6 @@ export function tokenGetter() {
     ConfirmEmailResendComponent,
     FooterComponent,
     PhotosTestComponent,
-    ObservationsManagePhotosComponent,
     ObservationManagePhotosComponent,
 
   ],

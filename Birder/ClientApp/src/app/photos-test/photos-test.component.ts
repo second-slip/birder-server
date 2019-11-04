@@ -9,7 +9,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Lightbox } from 'ngx-lightbox';
 import { PhotographAlbum } from '@app/_models/PhotographAlbum';
 
-
 @Component({
   selector: 'app-photos-test',
   templateUrl: './photos-test.component.html',
@@ -31,16 +30,6 @@ export class PhotosTestComponent implements OnInit {
     , private observationService: ObservationService
     , private photosService: PhotosService
     , private toast: ToastrService) {
-  }
-
-  open(index: number): void {
-    // open lightbox
-    this._lightbox.open(this._album, index);
-  }
-
-  close(): void {
-    // close lightbox programmatically
-    this._lightbox.close();
   }
 
   ngOnInit() {
@@ -99,6 +88,16 @@ export class PhotosTestComponent implements OnInit {
 
   onDeletePhoto(filename: string): void {
     console.log(filename);
+  }
+
+  open(index: number): void {
+    // open lightbox
+    this._lightbox.open(this._album, index);
+  }
+
+  close(): void {
+    // close lightbox programmatically
+    this._lightbox.close();
   }
 
   getPhotos(id: number): void {
