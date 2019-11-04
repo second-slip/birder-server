@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using Birder.Helpers;
+﻿using Birder.Helpers;
 using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {
@@ -35,34 +34,31 @@ namespace Birder.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    //logging
+                    _logger.LogError(LoggingEvents.GetListNotFound, $"Invalid ModelState at UploadPhotographAsync");
                     return BadRequest();
                 }
 
                 if (model.Files.Count == 0)
                 {
-                    //logging
+                    _logger.LogError(LoggingEvents.GetListNotFound, $"Empty Files argument at UploadPhotographAsync");
                     return BadRequest("No files received from the upload");
                 }
 
                 if (model.ObservationId == 0)
                 {
-                    //logging
+                    _logger.LogError(LoggingEvents.GetListNotFound, $"Invalid ObservationId argument at UploadPhotographAsync");
                     return BadRequest("No observationId is supplied");
                 }
 
-                //var fileName = file.FileName; //Sanitize("/" + UserId + "/" + file.FileName);
-
-                for (int i = 0; i < model.Files.Count; i++)
+                foreach (IFormFile file in model.Files)
                 {
-                    if (model.Files[i].Length > 0 && StorageHelpers.IsImage(model.Files[i]))
+                    if (file.Length > 0 && StorageHelpers.IsImage(file))
                     {
-                        // add helpers for these...
-                        var fileExt = Path.GetExtension(model.Files[i].FileName);
-                        var fileName = string.Concat(Guid.NewGuid(), fileExt);
-                        using (var stream = model.Files[i].OpenReadStream())
+                        string filename = StorageHelpers.GetFileName(file);
+
+                        using (var stream = file.OpenReadStream())
                         {
-                            await _fileClient.SaveFile(model.ObservationId.ToString(), fileName, stream);
+                            await _fileClient.SaveFile(model.ObservationId.ToString(), filename, stream);
                             //isUploaded = await StorageExtension.UploadFileToStorage(stream, observationId.ToString(), formFile.FileName, _config["BlobStorageKey"], _config["BlobStorage:Account"]);
                         }
                     }
@@ -77,12 +73,17 @@ namespace Birder.Controllers
             }
         }
      
-
         [HttpGet, Route("GetPhotographs")]
         public async Task<IActionResult> GetPhotographsByObservationAsync(int observationId)
         {
             try
             {
+                if (observationId == 0)
+                {
+                    _logger.LogError(LoggingEvents.GetListNotFound, $"Invalid ObservationId argument at GetPhotographsByObservationAsync");
+                    return BadRequest("No observationId is supplied");
+                }
+
                 var urls = await _fileClient.GetAllFileUrl(observationId.ToString());
                 List<PhotographDto> model = StorageHelpers.UpdatePhotographsDto(urls);
                 
@@ -101,8 +102,19 @@ namespace Birder.Controllers
         {
             try
             {
-                await _fileClient.DeleteFile(observationId.ToString(), filename);
+                if (string.IsNullOrEmpty(filename))
+                {
+                    _logger.LogError(LoggingEvents.GetListNotFound, $"Invalid filename argument at PostDeletePhotographAsync");
+                    return BadRequest("No filename is supplied");
+                }
 
+                if (observationId == 0)
+                {
+                    _logger.LogError(LoggingEvents.GetListNotFound, $"Invalid ObservationId argument at PostDeletePhotographAsync");
+                    return BadRequest("No observationId is supplied");
+                }
+
+                await _fileClient.DeleteFile(observationId.ToString(), filename);
                 return Ok();
             }
             catch (Exception ex)
