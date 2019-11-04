@@ -25,7 +25,7 @@ export class PhotosTestComponent implements OnInit {
   observation: ObservationViewModel;
   errorReport: ErrorReportViewModel;
 
-  private _album: Array<any> = [];
+  private _album: Array<Album> = [];
   // images = [1, 2, 3, 4, 5, 6, 7].map(() => `https://picsum.photos/900/500?random&t=${Math.random()}`);
   // images: PhotographDto[];
   // items: GalleryItem[];
@@ -124,7 +124,8 @@ export class PhotosTestComponent implements OnInit {
           this._album = result.map((sp): Album => ({ // IProduct specified here ensures we get excess property checks
             src: sp.address,
             caption: 'My caption',
-            thumb: sp.address
+            thumb: sp.address,
+            filename: sp.filename
           }));
           // this._album = result;
           // this.basicLightboxExample();

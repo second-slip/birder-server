@@ -25,7 +25,7 @@ namespace Birder.Controllers
 
         // Index() and other actions
         [HttpPost]
-        public async Task<IActionResult> UploadPhotograph([FromForm] UploadPhotographsDto model)
+        public async Task<IActionResult> UploadPhotographAsync([FromForm] UploadPhotographsDto model)
         {
             //try { }
             if (!ModelState.IsValid)
@@ -68,7 +68,15 @@ namespace Birder.Controllers
      
 
         [HttpGet, Route("GetPhotographs")]
-        public async Task<IActionResult> GetPhotographsByObservation(int observationId)
+        public async Task<IActionResult> GetPhotographsByObservationAsync(int observationId)
+        {
+            var urls = await _fileClient.GetAllFileUrl(observationId.ToString());
+            var model = StorageHelpers.UpdatePhotographsDto(urls);
+            return Ok(model);
+        }
+
+        [HttpGet, Route("DeletePhotograph")]
+        public async Task<IActionResult> DeletePhotographAsync(int observationId)
         {
             var urls = await _fileClient.GetAllFileUrl(observationId.ToString());
             var model = StorageHelpers.UpdatePhotographsDto(urls);

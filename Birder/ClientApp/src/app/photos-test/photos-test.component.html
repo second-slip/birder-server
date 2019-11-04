@@ -13,7 +13,7 @@
 
   <hr>
 
- <h4>Lightbox Example</h4>
+ <h4>Gallery</h4>
   <!-- <div class="container gallerize-example">
 	<p class="hello">
 		<img *ngFor="let item of items; index as i" 
@@ -24,6 +24,8 @@
   <div class="hello">
   <div *ngFor="let image of _album; let i=index">
     <img [src]="image.thumb" (click)="open(i)" />
+    <p>del?</p>
+    <p>{{image.filename}}</p>
   </div>
 </div>
 
