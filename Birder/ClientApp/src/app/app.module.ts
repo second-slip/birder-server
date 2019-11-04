@@ -186,7 +186,6 @@ export function tokenGetter() {
     { provide: RequestCache, useClass: RequestCacheWithMap },
     httpInterceptorProviders,
     [AuthGuard],
-
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: LOCALE_ID, useValue: 'en-GB' }
   ],
