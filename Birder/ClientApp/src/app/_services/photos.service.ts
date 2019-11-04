@@ -22,6 +22,14 @@ export class PhotosService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
+  postDeletePhoto(model: FormData): Observable<any | ErrorReportViewModel> {
+    const headers = new HttpHeaders({ 'Content-Disposition': 'multipart/form-data' });
+
+    return this.http.post('api/Photograph/DeletePhotograph', model, { headers: headers })
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
   postPhotos(model: FormData): Observable<any | ErrorReportViewModel> {
     const headers = new HttpHeaders({ 'Content-Disposition': 'multipart/form-data' });
 

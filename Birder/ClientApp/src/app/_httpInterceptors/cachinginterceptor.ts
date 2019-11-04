@@ -46,6 +46,7 @@ export class CachingInterceptor implements HttpInterceptor {
 function isCachable(request: HttpRequest<any>) {
   return request.method === 'GET'
     && request.url.indexOf('api/Test') !== 0
+    && request.url.indexOf('api/Photograph') !== 0
     && request.url.indexOf('https://preview.ibb.co') !== 0
     && request.url.indexOf('api/ObservationFeed') !== 0
     && request.url.indexOf('api/ObservationAnalysis') !== 0  // do not cache requests containing 'api/ObservationAnalysis'

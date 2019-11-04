@@ -20,7 +20,6 @@ export class PhotosTestComponent implements OnInit {
   fileUploadProgress: string = null;
   observation: ObservationViewModel;
   errorReport: ErrorReportViewModel;
-
   private _album: Array<PhotographAlbum> = [];
   // images = [1, 2, 3, 4, 5, 6, 7].map(() => `https://picsum.photos/900/500?random&t=${Math.random()}`);
 
@@ -56,11 +55,11 @@ export class PhotosTestComponent implements OnInit {
         if (events.type === HttpEventType.UploadProgress) {
           this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
         } else if (events.type === HttpEventType.Response) {
+          this.toast.success('Success', 'New photographs were uploaded');
           this.fileUploadProgress = '';
-          this.toast.success('Please login again', 'Avatar successfully changed');
-
           this.files = [];
-          // this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-avatar' } });
+          this._album = [];
+          this.getPhotos(this.observation.observationId);
         }
       },
         (error: ErrorReportViewModel) => {
@@ -78,16 +77,27 @@ export class PhotosTestComponent implements OnInit {
         (observation: ObservationViewModel) => {
           this.observation = observation;
           this.getPhotos(observation.observationId);
-
         },
         (error: ErrorReportViewModel) => {
           this.errorReport = error;
-          // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+          this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
   }
 
   onDeletePhoto(filename: string): void {
-    console.log(filename);
+    const formData = new FormData();
+    formData.append('observationId', this.observation.observationId.toString());
+    formData.append('filename', filename);
+
+    this.photosService.postDeletePhoto(formData)
+    .subscribe(_ => {
+        this.toast.success('Success', 'Photo was deleted');
+        this._album = [];
+        this.getPhotos(this.observation.observationId);
+      },
+      (error: ErrorReportViewModel) => {
+        this.errorReport = error;
+      });
   }
 
   open(index: number): void {

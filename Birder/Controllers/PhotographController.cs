@@ -8,6 +8,7 @@ using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Birder.Controllers
 {
@@ -16,73 +17,99 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class PhotographController : ControllerBase
     {
+        private readonly ILogger _logger;
         private readonly IFileClient _fileClient;
 
-        public PhotographController(IFileClient fileClient)
+        public PhotographController(ILogger<PhotographController> logger
+                                  , IFileClient fileClient)
+                                    
         {
+            _logger = logger;
             _fileClient = fileClient;
         }
 
-        // Index() and other actions
         [HttpPost]
         public async Task<IActionResult> UploadPhotographAsync([FromForm] UploadPhotographsDto model)
         {
-            //try { }
-            if (!ModelState.IsValid)
+            try
             {
-                //logging
-                return BadRequest();
-            }
-
-            if (model.Files.Count == 0)
-            {
-                //logging
-                return BadRequest("No files received from the upload");
-            }
-
-            if (model.ObservationId == 0)
-            {
-                //logging
-                return BadRequest("No observationId is supplied");
-            }
-
-            //var fileName = file.FileName; //Sanitize("/" + UserId + "/" + file.FileName);
-
-            for (int i = 0; i < model.Files.Count; i++)
-            {
-                if (model.Files[i].Length > 0) //if (StorageExtension.IsImage(formFile))
+                if (!ModelState.IsValid)
                 {
-                    // add helpers for these...
-                    var fileExt = Path.GetExtension(model.Files[i].FileName);
-                    var fileName = string.Concat(Guid.NewGuid(), fileExt);
-                    using (var stream = model.Files[i].OpenReadStream())
+                    //logging
+                    return BadRequest();
+                }
+
+                if (model.Files.Count == 0)
+                {
+                    //logging
+                    return BadRequest("No files received from the upload");
+                }
+
+                if (model.ObservationId == 0)
+                {
+                    //logging
+                    return BadRequest("No observationId is supplied");
+                }
+
+                //var fileName = file.FileName; //Sanitize("/" + UserId + "/" + file.FileName);
+
+                for (int i = 0; i < model.Files.Count; i++)
+                {
+                    if (model.Files[i].Length > 0 && StorageHelpers.IsImage(model.Files[i]))
                     {
-                        await _fileClient.SaveFile(model.ObservationId.ToString(), fileName, stream);
-                        //isUploaded = await StorageExtension.UploadFileToStorage(stream, observationId.ToString(), formFile.FileName, _config["BlobStorageKey"], _config["BlobStorage:Account"]);
+                        // add helpers for these...
+                        var fileExt = Path.GetExtension(model.Files[i].FileName);
+                        var fileName = string.Concat(Guid.NewGuid(), fileExt);
+                        using (var stream = model.Files[i].OpenReadStream())
+                        {
+                            await _fileClient.SaveFile(model.ObservationId.ToString(), fileName, stream);
+                            //isUploaded = await StorageExtension.UploadFileToStorage(stream, observationId.ToString(), formFile.FileName, _config["BlobStorageKey"], _config["BlobStorage:Account"]);
+                        }
                     }
                 }
-            }
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, $"An error uploading photographs for ObservationId: {model.ObservationId}");
+                return BadRequest("An unexpected error occurred");
+            }
         }
      
 
         [HttpGet, Route("GetPhotographs")]
         public async Task<IActionResult> GetPhotographsByObservationAsync(int observationId)
         {
-            var urls = await _fileClient.GetAllFileUrl(observationId.ToString());
-            var model = StorageHelpers.UpdatePhotographsDto(urls);
-            return Ok(model);
+            try
+            {
+                var urls = await _fileClient.GetAllFileUrl(observationId.ToString());
+                List<PhotographDto> model = StorageHelpers.UpdatePhotographsDto(urls);
+                
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, $"An error occurred getting the photographs for ObservationId: {observationId}");
+                return BadRequest("An unexpected error occurred");
+            }
         }
 
         [HttpPost, Route("DeletePhotograph")]
-        public async Task<IActionResult> PostDeletePhotographAsync(int observationId, string filename)
+        public async Task<IActionResult> PostDeletePhotographAsync([FromForm] int observationId, 
+                                                                   [FromForm] string filename)
         {
-            //var urls = await _fileClient.GetAllFileUrl(observationId.ToString());
-            //var model = StorageHelpers.UpdatePhotographsDto(urls);
-            await _fileClient.DeleteFile(observationId.ToString(), filename);
+            try
+            {
+                await _fileClient.DeleteFile(observationId.ToString(), filename);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, $"An error occurred deleting the photograph with id: {filename}");
+                return BadRequest("An unexpected error occurred");
+            }
         }
     }
 }
