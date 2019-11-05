@@ -132,11 +132,15 @@
           </mat-expansion-panel>
           <!--  -->
           <!-- </mat-accordion> -->
+          <div class="obs-creation">
+              <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
+            </div>
         </div>
 
         <div>
 
           <hr>
+
 
           <button (click)="goBack()">go back</button>
 
