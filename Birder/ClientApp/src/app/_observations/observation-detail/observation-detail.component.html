@@ -40,7 +40,11 @@
             </mat-expansion-panel-header>
             <!--  -->
             <ng-container *ngIf="_album.length>0; else noItems">
-
+                <div class="photo-gallery">
+                    <div *ngFor="let image of _album; let i=index">
+                        <img [src]="image.thumb" (click)="open(i)" />
+                    </div>
+                </div>
             </ng-container>
             <ng-template #noItems>No photos</ng-template>
             <!--  -->

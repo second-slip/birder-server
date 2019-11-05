@@ -37,6 +37,8 @@ namespace Birder.Services
             urls.Add("https://preview.ibb.co/jrsA6R/img12.jpg");
             urls.Add("https://preview.ibb.co/jrsA6R/img12.jpg");
             urls.Add("https://preview.ibb.co/jrsA6R/img12.jpg");
+            urls.Add("https://preview.ibb.co/jrsA6R/img12.jpg");
+            urls.Add("https://preview.ibb.co/jrsA6R/img12.jpg");
             return Task.FromResult(urls);
         }
 

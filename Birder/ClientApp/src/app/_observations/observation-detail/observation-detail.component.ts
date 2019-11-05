@@ -9,7 +9,8 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { LocationViewModel } from '@app/_models/LocationViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
 import { TokenService } from '@app/_services/token.service';
-
+import { PhotosService } from '@app/_services/photos.service';
+import { Lightbox } from 'ngx-lightbox';
 
 @Component({
   selector: 'app-observation-detail',
@@ -24,12 +25,14 @@ export class ObservationDetailComponent implements OnInit {
   private _album: Array<PhotographAlbum> = [];
 
   constructor(private observationService: ObservationService
-            , private tokenService: TokenService
-            , private route: ActivatedRoute
-            , private location: Location
-            , private router: Router
-            , private geocodeService: GeocodeService
-            , private ref: ChangeDetectorRef) { }
+    , private _lightbox: Lightbox
+    , private photosService: PhotosService
+    , private tokenService: TokenService
+    , private route: ActivatedRoute
+    , private location: Location
+    , private router: Router
+    , private geocodeService: GeocodeService
+    , private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getUser();
@@ -44,6 +47,7 @@ export class ObservationDetailComponent implements OnInit {
         (observation: ObservationViewModel) => {
           this.observation = observation;
           this.getGeolocation();
+          this.getPhotos(observation.observationId);
         },
         (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
@@ -52,22 +56,22 @@ export class ObservationDetailComponent implements OnInit {
 
   getGeolocation(): void {
     this.geocodeService.reverseGeocode(this.observation.locationLatitude, this.observation.locationLongitude)
-    .subscribe(
-      (data: LocationViewModel) => {
-      this.geolocation = data.formattedAddress;
+      .subscribe(
+        (data: LocationViewModel) => {
+          this.geolocation = data.formattedAddress;
 
-      this.ref.detectChanges();
-    },
-    (error: any) => {
-      //
-    }
-    );
+          this.ref.detectChanges();
+        },
+        (error: any) => {
+          //
+        }
+      );
   }
 
   goBack(): void {
     this.location.back();
   }
-  
+
   getUser(): void {
     this.tokenService.getAuthenticatedUserDetails()
       .subscribe(
@@ -83,6 +87,32 @@ export class ObservationDetailComponent implements OnInit {
             defaultLocationLongitude: -2.4608560000000352,
           };
           this.user = userTemp;
+        });
+  }
+  open(index: number): void {
+    // open lightbox
+    this._lightbox.open(this._album, index);
+  }
+
+  close(): void {
+    // close lightbox programmatically
+    this._lightbox.close();
+  }
+
+  getPhotos(id: number): void {
+    this.photosService.getPhotos(id)
+      .subscribe(
+        (result: any) => {
+          this._album = result.map((photo): PhotographAlbum => ({
+            src: photo.address,
+            caption: '',
+            thumb: photo.address,
+            filename: photo.filename
+          }));
+        },
+        (error: ErrorReportViewModel) => {
+          // this.errorReport = error;
+          // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
   }
 }
