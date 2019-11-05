@@ -7,6 +7,8 @@ import { ObservationService } from '@app/_services/observation.service';
 import { GeocodeService } from '@app/_services/geocode.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { LocationViewModel } from '@app/_models/LocationViewModel';
+import { UserViewModel } from '@app/_models/UserViewModel';
+import { TokenService } from '@app/_services/token.service';
 
 
 @Component({
@@ -16,11 +18,13 @@ import { LocationViewModel } from '@app/_models/LocationViewModel';
   encapsulation: ViewEncapsulation.None
 })
 export class ObservationDetailComponent implements OnInit {
+  user: UserViewModel;
   observation: ObservationViewModel;
-  geolocation: string;
+  geolocation = 'location';
   private _album: Array<PhotographAlbum> = [];
 
   constructor(private observationService: ObservationService
+            , private tokenService: TokenService
             , private route: ActivatedRoute
             , private location: Location
             , private router: Router
@@ -28,7 +32,7 @@ export class ObservationDetailComponent implements OnInit {
             , private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    // this.loadingMap = true;
+    this.getUser();
     this.getObservation();
   }
 
@@ -62,5 +66,23 @@ export class ObservationDetailComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+  
+  getUser(): void {
+    this.tokenService.getAuthenticatedUserDetails()
+      .subscribe(
+        (data: UserViewModel) => {
+          this.user = data;
+        },
+        (error: any) => {
+          console.log('could not get the user, using default coordinates');
+          const userTemp = <UserViewModel>{
+            userName: '',
+            avatar: '',
+            defaultLocationLatitude: 54.972237,
+            defaultLocationLongitude: -2.4608560000000352,
+          };
+          this.user = userTemp;
+        });
   }
 }

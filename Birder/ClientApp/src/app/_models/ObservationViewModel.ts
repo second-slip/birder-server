@@ -19,9 +19,7 @@ export interface ObservationViewModel {
     creationDate: Date | string;
     lastUpdateDate: Date | string;
     birdId: number;
-    // ApplicationUserId: string; // not required, but do need a vanilla user object
     bird: BirdSummaryViewModel;
-    // ApplicationUser: ApplicationUser;
     user: UserViewModel;
     // ObservationTags: ObservationTag[];
 }

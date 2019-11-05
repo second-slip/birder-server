@@ -4,14 +4,11 @@
 </div>
 
 <div class="container" *ngIf="observation">
-
-  <!-- <div class="container"> -->
   <div class="row">
-    <div class='col-sm-1'>
-    </div>
+    <div class='col-sm-1'></div>
     <div class="col-sm-10">
       <div class="observation-add-container">
-        <h2 class="section-title">Observation Details</h2>
+        <h3 class="section-title">Observation Report</h3>
         <!-- <div *ngIf="invalidAddObservation" class="alert alert-danger">
                 <p>There is an error in your observation</p>
                 <ul>
@@ -21,11 +18,15 @@
                 </ul>
               </div> -->
 
-        <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
-        observed at {{observation.observationDateTime}}
-        observed by {{observation.user.userName }}
+        <p class="report-summary"><a routerLink="/user-profile/{{observation.user.userName}}">
+            {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
+          </a> observed <b>{{observation.quantity}}</b> <a routerLink="/birds-detail/{{observation.bird.birdId}}">
+            {{observation.bird.englishName}}
+          </a> <small><em> {{ observation.bird.species }} </em></small>
+          <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy' }}
+        </p>
 
-        
+
         <div class="example-headers-align">
           <mat-expansion-panel [expanded]="_album.length>0">
             <mat-expansion-panel-header>
@@ -33,42 +34,16 @@
                 Photographs
               </mat-panel-title>
               <mat-panel-description>
-                <small></small>
+                  {{ _album.length > 1 ? _album.length + ' photos' : 'No photos'}}
                 <mat-icon>add_photo_alternate</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
+            <!--  -->
+            <ng-container *ngIf="_album.length>0; else noItems">
 
-            <!-- Details start -->
-            <!-- <mat-form-field class="half-width">
-                    <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
-                    <mat-error *ngFor="let validation of addObservation_validation_messages.quantity">
-                      <mat-error class="error-message"
-                        *ngIf="addObservationForm.get('quantity').hasError(validation.type) && (addObservationForm.get('quantity').dirty || addObservationForm.get('quantity').touched)">
-                        {{validation.message}}</mat-error>
-                    </mat-error>
-                  </mat-form-field>
-    
-                  <mat-form-field class="full-width">
-                    <mat-select placeholder="Select species" formControlName="birdId" type="birdId" required>
-                      <mat-option *ngFor="let bird of birdsSpecies" [value]="bird.birdId">
-                        {{bird.birdId}}, {{bird.englishName}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngFor="let validation of addObservation_validation_messages.birdId">
-                      <mat-error class="error-message"
-                        *ngIf="addObservationForm.get('birdId').hasError(validation.type) && (addObservationForm.get('birdId').dirty || addObservationForm.get('birdId').touched)">
-                        {{validation.message}}</mat-error>
-                    </mat-error>
-                  </mat-form-field> -->
-
-            <!-- <mat-form-field class="full-width">
-                    <input matInput [matDatepicker]="picker" placeholder="Choose a date"
-                      formControlName="observationDateTime">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field> -->
-            <!-- Details end -->
-
+            </ng-container>
+            <ng-template #noItems>No photos</ng-template>
+            <!--  -->
 
           </mat-expansion-panel>
           <!--  -->
@@ -79,22 +54,12 @@
               </mat-panel-title>
               <mat-panel-description>
                 <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
-                {{geolocation}}
+                {{ geolocation }}
                 <mat-icon>add_location</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
             <!-- Map start -->
             <div>
-              <!-- <h4>Location map</h4> -->
-              <!-- <form (ngSubmit)="useGeolocation(searchAddress)">
-                      <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
-                        [ngModelOptions]="{standalone: true}" required>
-                      <button type="submit" triggers="mouseenter:mouseleave"
-                        ngbPopover='- Type a place name (e.g. Canterbury, UK); or an specific address (e.g. 1 High St, Canterbury CT1 2JH)'
-                        popoverTitle="Search help">Show Location</button>
-                      <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
-                    </form> -->
-
               <!-- <p *ngIf="geoError">
                       <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
                         <strong>Warning!</strong> Better check yourself, you're not looking too good.
@@ -104,7 +69,7 @@
                 [zoom]="8" [disableDefaultUI]="false" [zoomControl]="true">
                 <agm-marker [latitude]="observation?.locationLatitude" [longitude]="observation?.locationLongitude">
                   <agm-info-window [isOpen]="true"><b>{{observation.quantity}} {{observation.bird.englishName}}</b>
-                    <br>Observed at {{geolocation}}</agm-info-window>
+                    <br>Observed at {{ geolocation }}</agm-info-window>
                 </agm-marker>
               </agm-map>
               <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon"><small><em>You can change the
@@ -164,8 +129,10 @@
           <!--  -->
           <!-- </mat-accordion> -->
         </div>
+
         <div>
-          <br>
+
+          <hr>
 
           <button (click)="goBack()">go back</button>
 
@@ -177,7 +144,6 @@
           </a>
         </div>
       </div>
-      <div class='col-sm-1'>
-      </div>
+      <div class='col-sm-1'></div>
     </div>
   </div>
