@@ -3,39 +3,204 @@
   <mat-spinner></mat-spinner>
 </div>
 
-<div *ngIf="observation">
-  <h2>Observation id: {{observation.observationId}}</h2>
-  <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
-  observed at {{observation.observationDateTime}}
-  observed by {{observation.user.userName }}
+<div class="container" *ngIf="observation">
 
-  <!-- <p>latitude: {{observation.locationLatitude}}; longitude: {{observation.locationLongitude}}; address: {{geolocation}} -->
-  <div class="container">
-    <h4>Location map</h4>
-    <agm-map [latitude]="observation?.locationLatitude"
-             [longitude]="observation?.locationLongitude"
-             [zoom]="8"
-             [disableDefaultUI]="false"
-             [zoomControl]="true">
-      <agm-marker [latitude]="observation?.locationLatitude"
-                  [longitude]="observation?.locationLongitude">
-        <agm-info-window [isOpen]="true"><b>{{observation.quantity}} {{observation.bird.englishName}}</b>
-          <br>Observed at {{geolocation}}</agm-info-window>
-      </agm-marker>
-    </agm-map>
-    <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon"><small><em>You can change the location in
-          the <a routerLink="/observation-edit/{{observation.observationId}}">edit observation</a>
-          page</em></small></span>
+  <!-- <div class="container"> -->
+  <div class="row">
+    <div class='col-sm-1'>
+    </div>
+    <div class="col-sm-10">
+      <div class="observation-add-container">
+        <h2 class="section-title">Observation Details</h2>
+        <!-- <div *ngIf="invalidAddObservation" class="alert alert-danger">
+                <p>There is an error in your observation</p>
+                <ul>
+                  <li *ngFor="let error of errorReport.modelStateErrors">
+                    {{ error }}
+                  </li>
+                </ul>
+              </div> -->
+
+        <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
+        observed at {{observation.observationDateTime}}
+        observed by {{observation.user.userName }}
+
+        <!-- <p>latitude: {{observation.locationLatitude}}; longitude: {{observation.locationLongitude}}; address: {{geolocation}} -->
+        <div class="example-headers-align">
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Details
+              </mat-panel-title>
+              <mat-panel-description>
+                <small></small>
+                <mat-icon>nature_people</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <!-- Details start -->
+            <!-- <mat-form-field class="half-width">
+                    <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
+                    <mat-error *ngFor="let validation of addObservation_validation_messages.quantity">
+                      <mat-error class="error-message"
+                        *ngIf="addObservationForm.get('quantity').hasError(validation.type) && (addObservationForm.get('quantity').dirty || addObservationForm.get('quantity').touched)">
+                        {{validation.message}}</mat-error>
+                    </mat-error>
+                  </mat-form-field>
+    
+                  <mat-form-field class="full-width">
+                    <mat-select placeholder="Select species" formControlName="birdId" type="birdId" required>
+                      <mat-option *ngFor="let bird of birdsSpecies" [value]="bird.birdId">
+                        {{bird.birdId}}, {{bird.englishName}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngFor="let validation of addObservation_validation_messages.birdId">
+                      <mat-error class="error-message"
+                        *ngIf="addObservationForm.get('birdId').hasError(validation.type) && (addObservationForm.get('birdId').dirty || addObservationForm.get('birdId').touched)">
+                        {{validation.message}}</mat-error>
+                    </mat-error>
+                  </mat-form-field> -->
+
+            <!-- <mat-form-field class="full-width">
+                    <input matInput [matDatepicker]="picker" placeholder="Choose a date"
+                      formControlName="observationDateTime">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field> -->
+            <!-- Details end -->
+
+
+          </mat-expansion-panel>
+          <!--  -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Location
+              </mat-panel-title>
+              <mat-panel-description>
+                <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+                <small></small>
+                <mat-icon>add_location</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <!-- Map start -->
+            <div class="container">
+              <!-- <h4>Location map</h4> -->
+              <!-- <form (ngSubmit)="useGeolocation(searchAddress)">
+                      <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
+                        [ngModelOptions]="{standalone: true}" required>
+                      <button type="submit" triggers="mouseenter:mouseleave"
+                        ngbPopover='- Type a place name (e.g. Canterbury, UK); or an specific address (e.g. 1 High St, Canterbury CT1 2JH)'
+                        popoverTitle="Search help">Show Location</button>
+                      <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
+                    </form> -->
+
+              <!-- <p *ngIf="geoError">
+                      <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
+                        <strong>Warning!</strong> Better check yourself, you're not looking too good.
+                      </ngb-alert>
+                    </p> -->
+              <agm-map [latitude]="observation?.locationLatitude" [longitude]="observation?.locationLongitude"
+                [zoom]="8" [disableDefaultUI]="false" [zoomControl]="true">
+                <agm-marker [latitude]="observation?.locationLatitude" [longitude]="observation?.locationLongitude">
+                  <agm-info-window [isOpen]="true"><b>{{observation.quantity}} {{observation.bird.englishName}}</b>
+                    <br>Observed at {{geolocation}}</agm-info-window>
+                </agm-marker>
+              </agm-map>
+              <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon"><small><em>You can change the
+                    location in
+                    the <a routerLink="/observation-edit/{{observation.observationId}}">edit observation</a>
+                    page</em></small></span>
+
+            </div>
+            <!-- Map end -->
+          </mat-expansion-panel>
+          <!--  -->
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Notes
+              </mat-panel-title>
+              <mat-panel-description>
+                <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+                <!-- Add general/specific notes on the observation -->
+                <small></small>
+                <mat-icon>create</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <!-- Notes start -->
+            <mat-form-field class="full-width">
+              <textarea matInput type="noteGeneral" placeholder="General comments"
+                disabled>{{observation.noteGeneral}}</textarea>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <textarea matInput type="noteHabitat" placeholder="Comments on habitat"
+                disabled>{{ observation.noteHabitat }}</textarea>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <textarea matInput type="noteWeather" placeholder="Comments on weather"
+                disabled>{{ observation.noteWeather }}</textarea>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <textarea matInput type="noteAppearance" placeholder="Comments on appearance"
+                disabled>{{ observation.noteAppearance }}</textarea>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <textarea matInput type="noteBehaviour" placeholder="Comments on behaviour"
+                disabled>{{ observation.noteBehaviour }}</textarea>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <textarea matInput type="noteVocalisation" placeholder="Comments on song"
+                disabled>{{ observation.noteVocalisation }}</textarea>
+            </mat-form-field>
+            <!-- Notes end -->
+          </mat-expansion-panel>
+          <!--  -->
+          <!-- </mat-accordion> -->
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div>
+          <!-- <h4>Location map</h4>
+
+        </div> -->
+          <br>
+
+          <button (click)="goBack()">go back</button>
+
+          <a routerLink="/observation-edit/{{observation.observationId}}">
+            Edit
+          </a>
+          <a routerLink="/observation-delete/{{observation.observationId}}">
+            Delete
+          </a>
+        </div>
+      </div>
+      <div class='col-sm-1'>
+      </div>
+    </div>
   </div>
-  <br>
-
-  <button (click)="goBack()">go back</button>
-
-  <a routerLink="/observation-edit/{{observation.observationId}}">
-    Edit
-  </a>
-  <a routerLink="/observation-delete/{{observation.observationId}}">
-    Delete
-  </a>
-
-</div>
