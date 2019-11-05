@@ -25,16 +25,16 @@
         observed at {{observation.observationDateTime}}
         observed by {{observation.user.userName }}
 
-        <!-- <p>latitude: {{observation.locationLatitude}}; longitude: {{observation.locationLongitude}}; address: {{geolocation}} -->
+        
         <div class="example-headers-align">
-          <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel [expanded]="_album.length>0">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Details
+                Photographs
               </mat-panel-title>
               <mat-panel-description>
                 <small></small>
-                <mat-icon>nature_people</mat-icon>
+                <mat-icon>add_photo_alternate</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -79,12 +79,12 @@
               </mat-panel-title>
               <mat-panel-description>
                 <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
-                <small></small>
+                {{geolocation}}
                 <mat-icon>add_location</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
             <!-- Map start -->
-            <div class="container">
+            <div>
               <!-- <h4>Location map</h4> -->
               <!-- <form (ngSubmit)="useGeolocation(searchAddress)">
                       <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
@@ -164,30 +164,7 @@
           <!--  -->
           <!-- </mat-accordion> -->
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div>
-          <!-- <h4>Location map</h4>
-
-        </div> -->
           <br>
 
           <button (click)="goBack()">go back</button>

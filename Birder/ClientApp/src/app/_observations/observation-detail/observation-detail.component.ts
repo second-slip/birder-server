@@ -1,11 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
-import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { ObservationService } from '../../_services/observation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { GeocodeService } from '../../_services/geocode.service';
-import { LocationViewModel } from '../../_models/LocationViewModel';
+import { ObservationViewModel } from '@app/_models/ObservationViewModel';
+import { PhotographAlbum } from '@app/_models/PhotographAlbum';
+import { ObservationService } from '@app/_services/observation.service';
+import { GeocodeService } from '@app/_services/geocode.service';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { LocationViewModel } from '@app/_models/LocationViewModel';
+
 
 @Component({
   selector: 'app-observation-detail',
@@ -16,6 +18,7 @@ import { LocationViewModel } from '../../_models/LocationViewModel';
 export class ObservationDetailComponent implements OnInit {
   observation: ObservationViewModel;
   geolocation: string;
+  private _album: Array<PhotographAlbum> = [];
 
   constructor(private observationService: ObservationService
             , private route: ActivatedRoute
