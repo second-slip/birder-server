@@ -34,19 +34,29 @@
                 Photographs
               </mat-panel-title>
               <mat-panel-description>
-                  {{ _album.length > 1 ? _album.length + ' photos' : 'No photos'}}
+                {{ _album.length > 1 ? _album.length + ' photos' : 'No photos'}}
                 <mat-icon>add_photo_alternate</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
             <!--  -->
             <ng-container *ngIf="_album.length>0; else noItems">
-                <div class="photo-gallery">
-                    <div *ngFor="let image of _album; let i=index">
-                        <img [src]="image.thumb" (click)="open(i)" />
-                    </div>
+              <div class="photo-gallery">
+                <div *ngFor="let image of _album; let i=index">
+                  <img [src]="image.thumb" (click)="open(i)" />
                 </div>
+              </div>
+              <div class="content-right">
+                <a class="btn btn-success btn-sm" *ngIf="observation.user.userName === user.userName"
+                  routerLink="/observation-manage-photos/{{observation.observationId}}">Add or Remove Photos</a>
+              </div>
             </ng-container>
-            <ng-template #noItems>No photos</ng-template>
+            <ng-template #noItems>
+              <p><em>There are no photographs attached to this observation...</em></p>
+              <div>
+                <a class="btn btn-success btn-sm" *ngIf="observation.user.userName === user.userName"
+                  routerLink="/observation-manage-photos/{{observation.observationId}}">Add or Remove Photos</a>
+              </div>
+            </ng-template>
             <!--  -->
 
           </mat-expansion-panel>
@@ -76,10 +86,13 @@
                     <br>Observed at {{ geolocation }}</agm-info-window>
                 </agm-marker>
               </agm-map>
-              <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon"><small><em>You can change the
-                    location in
-                    the <a routerLink="/observation-edit/{{observation.observationId}}">edit observation</a>
-                    page</em></small></span>
+              <div *ngIf="observation.user.userName === user.userName">
+
+                <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon"><small><em>You can change the
+                      location in
+                      the <a routerLink="/observation-edit/{{observation.observationId}}">edit observation</a>
+                      page</em></small></span>
+              </div>
 
             </div>
             <!-- Map end -->
@@ -132,23 +145,26 @@
           </mat-expansion-panel>
           <!--  -->
           <!-- </mat-accordion> -->
-          <div class="obs-creation">
-              <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
-            </div>
+          <div>
+            <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at
+                {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
+          </div>
         </div>
 
-        <div>
-
+        <div class="content-right">
           <hr>
-
-
-          <button (click)="goBack()">go back</button>
-
-          <a routerLink="/observation-edit/{{observation.observationId}}">
-            Edit
+          <a [routerLink]="" (click)="goBack()">Go Back</a>
+          <a *ngIf="observation.user.userName === user.userName"
+            routerLink="/observation-manage-photos/{{observation.observationId}}">
+            | Manage Photos
           </a>
-          <a routerLink="/observation-delete/{{observation.observationId}}">
-            Delete
+          <a *ngIf="observation.user.userName === user.userName"
+            routerLink="/observation-edit/{{observation.observationId}}">
+            | Edit
+          </a>
+          <a *ngIf="observation.user.userName === user.userName"
+            routerLink="/observation-delete/{{observation.observationId}}">
+            | Delete
           </a>
         </div>
       </div>
