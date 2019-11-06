@@ -1,15 +1,15 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ParentErrorStateMatcher } from '../../../validators';
-import { ObservationService } from '../../_services/observation.service';
+import { Component, ViewEncapsulation, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ObservationViewModel } from '@app/_models/ObservationViewModel';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
+import { ParentErrorStateMatcher } from 'validators';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
-import { BirdsService } from '../../_services/birds.service';
-import { GeocodeService } from '../../_services/geocode.service';
-import { LocationViewModel } from '../../_models/LocationViewModel';
-import { BirderStatus } from '../../_models/BirdIndexOptions';
+import { ObservationService } from '@app/_services/observation.service';
+import { BirdsService } from '@app/_services/birds.service';
+import { GeocodeService } from '@app/_services/geocode.service';
+import { BirderStatus } from '@app/_models/BirdIndexOptions';
+import { LocationViewModel } from '@app/_models/LocationViewModel';
 
 @Component({
   selector: 'app-observation-edit',
