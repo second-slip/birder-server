@@ -10,6 +10,9 @@ import { BirdsService } from '@app/_services/birds.service';
 import { GeocodeService } from '@app/_services/geocode.service';
 import { BirderStatus } from '@app/_models/BirdIndexOptions';
 import { LocationViewModel } from '@app/_models/LocationViewModel';
+import { TokenService } from '@app/_services/token.service';
+import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-observation-edit',
@@ -37,8 +40,10 @@ export class ObservationEditComponent implements OnInit {
   };
 
   constructor(private router: Router
+    , private toast: ToastrService
     , private route: ActivatedRoute
     , private observationService: ObservationService
+    , private tokenService: TokenService
     , private birdsService: BirdsService
     , private formBuilder: FormBuilder
     , private geocodeService: GeocodeService
@@ -94,6 +99,11 @@ export class ObservationEditComponent implements OnInit {
       .subscribe(
         (observation: ObservationViewModel) => {
           this.observation = observation;
+          if (this.tokenService.checkIsRecordOwner(observation.user.userName) === false) {
+            this.toast.error(`Only the observation owner can edit their own report`, `Not allowed`);
+            this.router.navigate(['/observation-feed']);
+            return;
+          }
           this.createForms();
           this.getGeolocation();
         },

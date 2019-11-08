@@ -8,6 +8,7 @@ import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ToastrService } from 'ngx-toastr';
 import { Lightbox } from 'ngx-lightbox';
 import { PhotographAlbum } from '@app/_models/PhotographAlbum';
+import { TokenService } from '@app/_services/token.service';
 
 @Component({
   selector: 'app-observation-manage-photos',
@@ -26,6 +27,7 @@ export class ObservationManagePhotosComponent implements OnInit {
   constructor(private router: Router
     , private route: ActivatedRoute
     , private _lightbox: Lightbox
+    , private tokenService: TokenService
     , private observationService: ObservationService
     , private photosService: PhotosService
     , private toast: ToastrService) {
@@ -75,6 +77,11 @@ export class ObservationManagePhotosComponent implements OnInit {
       .subscribe(
         (observation: ObservationViewModel) => {
           this.observation = observation;
+          if (this.tokenService.checkIsRecordOwner(observation.user.userName) === false) {
+            this.toast.error(`Only the observation owner can edit their own report`, `Not allowed`);
+            this.router.navigate(['/observation-feed']);
+            return;
+          }
           this.getPhotos(observation.observationId);
         },
         (error: ErrorReportViewModel) => {

@@ -4,6 +4,8 @@ import { ObservationService } from '../../_services/observation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import { TokenService } from '@app/_services/token.service';
 
 @Component({
   selector: 'app-observation-delete',
@@ -15,6 +17,8 @@ export class ObservationDeleteComponent implements OnInit {
   errorReport: ErrorReportViewModel;
 
   constructor(private observationService: ObservationService
+    , private toast: ToastrService
+    , private tokenService: TokenService
     , private route: ActivatedRoute
     , private location: Location
     , private router: Router) { }
@@ -28,7 +32,14 @@ export class ObservationDeleteComponent implements OnInit {
 
     this.observationService.getObservation(id)
       .subscribe(
-        (observation: ObservationViewModel) => { this.observation = observation; },
+        (observation: ObservationViewModel) => {
+          this.observation = observation;
+          if (this.tokenService.checkIsRecordOwner(observation.user.userName) === false) {
+            this.toast.error(`Only the observation owner can delete their own report`, `Not allowed`);
+            this.router.navigate(['/observation-feed']);
+            return;
+          }
+        },
         (error: ErrorReportViewModel) => {
           this.errorReport = error;
         });
