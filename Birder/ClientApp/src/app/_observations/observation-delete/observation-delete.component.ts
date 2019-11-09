@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { ObservationService } from '../../_services/observation.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,7 +10,8 @@ import { TokenService } from '@app/_services/token.service';
 @Component({
   selector: 'app-observation-delete',
   templateUrl: './observation-delete.component.html',
-  styleUrls: ['./observation-delete.component.scss']
+  styleUrls: ['./observation-delete.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ObservationDeleteComponent implements OnInit {
   observation: ObservationViewModel;
@@ -48,9 +49,11 @@ export class ObservationDeleteComponent implements OnInit {
   deleteObservation(): void {
     this.observationService.deleteObservation(this.observation.observationId)
       .subscribe(_ => {
-          this.router.navigate(['/observation-feed']);
-        },
+        this.toast.success(`You have successfully deleted your observation`, `Successfully deleted`);
+        this.router.navigate(['/observation-feed']);
+      },
         (error: ErrorReportViewModel) => {
+          this.toast.error(`An error occurred deleing the observation report`, `Unsuccessful`);
           this.errorReport = error;
         });
   }

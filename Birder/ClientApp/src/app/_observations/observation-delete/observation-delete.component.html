@@ -1,29 +1,52 @@
-
 <div *ngIf="!observation" class="loading">
   <p><em>Loading...</em></p>
   <mat-spinner></mat-spinner>
 </div>
 
-<div *ngIf="errorReport" class="alert alert-danger">
-  <p>{{errorReport.friendlyMessage}}</p>
-</div>
+<div class="container" *ngIf="observation">
+  <div class="row">
+    <div class='col-sm-1'></div>
+    <div class="col-sm-10">
+      <div class="observation-add-container">
+        <h3 class="section-title">Delete Observation Report</h3>
+        <!-- <div *ngIf="invalidAddObservation" class="alert alert-danger">
+                <p>There is an error in your observation</p>
+                <ul>
+                  <li *ngFor="let error of errorReport.modelStateErrors">
+                    {{ error }}
+                  </li>
+                </ul>
+              </div> -->
 
-<div *ngIf="observation">
-  <h2>Observation id: {{observation.observationId}}</h2>
-  <br>
-  <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}} observed at {{observation.observationDateTime}}
-  <br>
-  observed by {{observation.user.userName }}
-  <br>
-  <button (click)="goBack()">go back</button>
-  <button (click)="deleteObservation()">Delete this observation</button>
+        <p class="report-summary">You observed <b>{{observation.quantity}}</b> <a
+            routerLink="/birds-detail/{{observation.bird.birdId}}">
+            {{observation.bird.englishName}}
+          </a> <small><em> {{ observation.bird.species }} </em></small>
+          <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy' }}
+        </p>
 
+        <div>
+          <button class="btn btn-danger" (click)="deleteObservation()">
+            Delete
+          </button>
+        </div>
+        <div>
+          <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at
+              {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
+        </div>
+      </div>
 
-  <a routerLink="/observation-edit/{{observation.observationId}}">
-    Edit
-  </a>
-  <a routerLink="/observation-delete/{{observation.observationId}}">
-    Delete
-  </a>
-
+      <div class="content-right">
+        <hr>
+        <a [routerLink]="" (click)="goBack()">Go Back</a>
+        <a routerLink="/observation-edit/{{observation.observationId}}">
+          | Edit
+        </a>
+        <a routerLink="/observation-detail/{{observation.observationId}}">
+          | View
+        </a>
+      </div>
+    </div>
+    <div class='col-sm-1'></div>
+  </div>
 </div>

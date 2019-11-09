@@ -1,0 +1,76 @@
+app-observation-delete {
+  .container {
+    margin-top: 10px;
+    // margin-right: 10px;
+  }
+
+  .example-headers-align .mat-expansion-panel-header-title,
+  .example-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+  }
+
+  .example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .info-message {
+    margin-top: 20px;
+    text-align: left;
+  }
+
+  .aligned-with-icon {
+    position: absolute;
+    text-align: left;
+    // margin-top: 5px;
+    // margin-left: 5px; /* optional */
+  }
+
+  .section-title {
+    margin-bottom: 20px;
+  }
+
+  .report-summary {
+    font-size: 18px;
+  }
+
+  .observation-add-container {
+    padding: 2px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .full-width {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .half-width {
+    width: 50%;
+    margin-bottom: 10px;
+  }
+
+  .error-message {
+    font-size: 12px;
+  }
+
+  .double-line-hint {
+    .mat-input-hint-wrapper {
+      flex-wrap: wrap;
+
+      .hint-line {
+        flex: 0 0 100%;
+      }
+    }
+  }
+
+  .btn {
+    margin: 10px;
+    text-align: center;
+  }
+
+  .content-right {
+    text-align: right;
+  }
+}
