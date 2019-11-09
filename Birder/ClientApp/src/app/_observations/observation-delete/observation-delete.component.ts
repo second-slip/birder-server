@@ -35,7 +35,7 @@ export class ObservationDeleteComponent implements OnInit {
         (observation: ObservationViewModel) => {
           this.observation = observation;
           if (this.tokenService.checkIsRecordOwner(observation.user.userName) === false) {
-            this.toast.error(`Only the observation owner can delete their own report`, `Not allowed`);
+            this.toast.error(`Only the observation owner can delete their report`, `Not allowed`);
             this.router.navigate(['/observation-feed']);
             return;
           }

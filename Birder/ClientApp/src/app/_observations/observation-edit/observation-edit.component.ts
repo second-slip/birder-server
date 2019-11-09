@@ -11,7 +11,6 @@ import { GeocodeService } from '@app/_services/geocode.service';
 import { BirderStatus } from '@app/_models/BirdIndexOptions';
 import { LocationViewModel } from '@app/_models/LocationViewModel';
 import { TokenService } from '@app/_services/token.service';
-import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -100,7 +99,7 @@ export class ObservationEditComponent implements OnInit {
         (observation: ObservationViewModel) => {
           this.observation = observation;
           if (this.tokenService.checkIsRecordOwner(observation.user.userName) === false) {
-            this.toast.error(`Only the observation owner can edit their own report`, `Not allowed`);
+            this.toast.error(`Only the observation owner can edit their report`, `Not allowed`);
             this.router.navigate(['/observation-feed']);
             return;
           }
