@@ -1,8 +1,102 @@
+<div *ngIf="!observation" class="loading">
+    <p><em>Loading...</em></p>
+    <mat-spinner></mat-spinner>
+  </div>
+  
+  <div class="container" *ngIf="observation">
+    <div class="row">
+      <div class='col-sm-1'></div>
+      <div class="col-sm-10">
+        <div class="observation-edit-container">
+          <h3 class="section-title">Add or Remove Photographs</h3>
+          <!-- <div *ngIf="invalidAddObservation" class="alert alert-danger">
+                  <p>There is an error in your observation</p>
+                  <ul>
+                    <li *ngFor="let error of errorReport.modelStateErrors">
+                      {{ error }}
+                    </li>
+                  </ul>
+                </div> -->
+  
+          <p class="report-summary">You observed <b>{{observation.quantity}}</b> <a
+              routerLink="/birds-detail/{{observation.bird.birdId}}">
+              {{observation.bird.englishName}}
+            </a> <small><em> {{ observation.bird.species }} </em></small>
+            <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy' }}
+          </p>
+
+          <hr>
+
+          <div *ngIf="_album.length==0 || _album">
+            <p>You have added {{ _album.length }} photographs:</p>
+            <div class="photo-gallery">
+                <div *ngFor="let image of _album; let i=index">
+                    <img [src]="image.thumb" (click)="open(i)" />
+                    <p>
+                        <button class="btn btn-danger btn-sm" (click)="onDeletePhoto(image.filename)">Delete</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+            <ngx-dropzone-label>
+                <div>
+                    <h3>Drop your photos here or click here to select files...</h3>
+                </div>
+            </ngx-dropzone-label>
+            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
+                [removable]="true" (removed)="onRemove(f)">
+                <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-image-preview>
+        </div>
+    
+        <div class="row">
+            <div class="col progress" *ngIf="fileUploadProgress">
+                <p>Upload progress: {{ fileUploadProgress }}</p>
+            </div>
+    
+            <div class="col button-submit">
+                <button class="btn btn-success" [disabled]="files.length==0 || fileUploadProgress"
+                    (click)="onSavePhotos()">Upload
+                    Photographs</button>
+            </div>
+        </div>
+  
+          <!-- <div>
+            <button class="btn btn-danger" (click)="deleteObservation()">
+              Delete
+            </button>
+          </div> -->
+
+        </div>
+  
+        <div class="content-right">
+          <hr>
+          <!-- <div>
+            <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at
+                {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
+          </div> -->
+
+          <a [routerLink]="" (click)="goBack()">Go Back</a>
+          <a routerLink="/observation-edit/{{observation.observationId}}">
+            | Edit
+          </a>
+          <a routerLink="/observation-detail/{{observation.observationId}}">
+            | View
+          </a>
+        </div>
+      </div>
+      <div class='col-sm-1'></div>
+    </div>
+  </div>
+
+<!-- 
 <div class="container">
 
     <h4>Manage Photographs</h4>
-
-    <!-- <hr> -->
 
     <div *ngIf="observation">
         <b>{{observation.quantity}}</b> {{observation.bird.englishName}} {{observation.quantity > 1 ? 'were' : 'was'}}
@@ -50,4 +144,4 @@
         </div>
     </div>
 
-</div>
+</div> -->
