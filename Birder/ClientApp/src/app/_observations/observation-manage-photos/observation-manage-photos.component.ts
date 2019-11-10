@@ -96,14 +96,14 @@ export class ObservationManagePhotosComponent implements OnInit {
     formData.append('filename', filename);
 
     this.photosService.postDeletePhoto(formData)
-    .subscribe(_ => {
+      .subscribe(_ => {
         this.toast.success('Success', 'Photo was deleted');
         this._album = [];
         this.getPhotos(this.observation.observationId);
       },
-      (error: ErrorReportViewModel) => {
-        this.errorReport = error;
-      });
+        (error: ErrorReportViewModel) => {
+          this.errorReport = error;
+        });
   }
 
   open(index: number): void {
@@ -122,7 +122,7 @@ export class ObservationManagePhotosComponent implements OnInit {
         (result: any) => {
           this._album = result.map((photo): PhotographAlbum => ({
             src: photo.address,
-            caption: '',
+            caption: this.observation.bird.englishName,
             thumb: photo.address,
             filename: photo.filename
           }));

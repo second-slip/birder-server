@@ -105,7 +105,7 @@ export class ObservationDetailComponent implements OnInit {
         (result: any) => {
           this._album = result.map((photo): PhotographAlbum => ({
             src: photo.address,
-            caption: '',
+            caption: this.observation.bird.englishName,
             thumb: photo.address,
             filename: photo.filename
           }));

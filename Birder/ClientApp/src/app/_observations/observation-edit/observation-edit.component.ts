@@ -12,6 +12,7 @@ import { BirderStatus } from '@app/_models/BirdIndexOptions';
 import { LocationViewModel } from '@app/_models/LocationViewModel';
 import { TokenService } from '@app/_services/token.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-observation-edit',
@@ -45,6 +46,7 @@ export class ObservationEditComponent implements OnInit {
     , private tokenService: TokenService
     , private birdsService: BirdsService
     , private formBuilder: FormBuilder
+    , private location: Location
     , private geocodeService: GeocodeService
     , private ref: ChangeDetectorRef) { }
 
@@ -89,6 +91,10 @@ export class ObservationEditComponent implements OnInit {
           console.log('unsuccessful add observation');
         }
       );
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   getObservation(): void {

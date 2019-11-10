@@ -207,10 +207,35 @@
               <!-- </mat-accordion> -->
             </div>
 
-            <button class="submit-btn" color="primary" mat-raised-button type="submit"
+            <!-- <button class="submit-btn" color="primary" mat-raised-button type="submit"
               [disabled]="!editObservationForm.valid">
-              Submit
+              Save Changes
+            </button> -->
+
+            <div>
+              <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated
+                  at
+                  {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
+            </div>
+            <!-- </div> -->
+            <button class="btn btn-success" [disabled]="!editObservationForm.valid">
+              Save Changes
             </button>
+
+            <div class="content-right">
+              <hr>
+              <a [routerLink]="" (click)="goBack()">Go Back</a>
+              <a routerLink="/observation-edit/{{observation.observationId}}">
+                | Edit
+              </a>
+              <a routerLink="/observation-delete/{{observation.observationId}}">
+                | Delete
+              </a>
+            </div>
+
+
+
+
 
           </form>
         </div>

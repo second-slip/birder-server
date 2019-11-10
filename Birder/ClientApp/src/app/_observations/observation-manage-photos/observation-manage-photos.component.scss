@@ -13,7 +13,7 @@ app-observation-manage-photos {
     margin-top: 10px;
     // margin-right: 30px;
   }
-  
+
   .section-title {
     margin-bottom: 20px;
   }
@@ -26,9 +26,9 @@ app-observation-manage-photos {
     padding: 2px;
     text-align: center;
     display: flex;
-    flex-direction: column
+    flex-direction: column;
   }
-  
+
   .full-width {
     width: 100%;
     margin-bottom: 10px;
@@ -61,7 +61,6 @@ app-observation-manage-photos {
     text-align: right;
   }
 
-
   .button-submit {
     margin-top: 20px;
     text-align: right;
@@ -73,9 +72,6 @@ app-observation-manage-photos {
   }
 
   .photo-gallery {
-    // text-align: right;
-    // display: flex;
-    // flex-wrap: wrap;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
