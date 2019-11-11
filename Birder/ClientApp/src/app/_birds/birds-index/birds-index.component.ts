@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { BirdsService } from '../../_services/birds.service';
+import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, PageEvent, MatPaginator, MatSort } from '@angular/material';
+import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
+import { BirdsService } from '@app/_services/birds.service';
 import { Router } from '@angular/router';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { BirdSummaryViewModel, BirdsDto } from '../../_models/BirdSummaryViewModel';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-birds-index',
@@ -15,7 +13,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class BirdsIndexComponent implements OnInit {
   displayedColumns: string[] = ['englishName', 'btoStatusInBritain', 'conservationStatus'];
-  dataSource: MatTableDataSource<BirdSummaryViewModel>;
+  dataSource: MatTableDataSource<BirdSummaryViewModel[]>;
   length: number;
 
   pageEvent: PageEvent;
@@ -24,7 +22,7 @@ export class BirdsIndexComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private birdsService: BirdsService
-            , private router: Router) { }
+    , private router: Router) { }
 
   ngOnInit() {
     this.getBirds(1, 25);
@@ -41,7 +39,7 @@ export class BirdsIndexComponent implements OnInit {
   //   }
   // }
 
-  onPaginateChange(event){
+  onPaginateChange(event) {
     // alert(JSON.stringify('Current page index: ' + event.pageIndex));
 
     this.getBirds(event.pageIndex + 1, event.pageSize);
@@ -58,19 +56,18 @@ export class BirdsIndexComponent implements OnInit {
   getBirds(pageIndex: number, pageSize: number): void {
     this.birdsService.getBirds(pageIndex, pageSize)
       .subscribe(
-        (data: BirdsDto) => { // (data: BirdSummaryViewModel[]) => {
+        (data: any) => { // (data: BirdSummaryViewModel[]) => {
           this.dataSource = data.items;  // new MatTableDataSource(data.items);
           this.length = data.totalItems;
-         },
+        },
         (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);
         },
         () => {
           // operations when URL request is completed
-          
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
-       });
+        });
   }
 }
 
