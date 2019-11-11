@@ -57,7 +57,7 @@ export class BirdsIndexComponent implements OnInit {
   }
 
   getBirds(pageIndex: number, pageSize: number): void {
-    this.birdsService.getBirdsIndex(pageIndex, pageSize)
+    this.birdsService.getBirds(pageIndex, pageSize)
       .subscribe(
         (data: any) => { // (data: BirdSummaryViewModel[]) => {
           this.dataSource = data.items;  // new MatTableDataSource(data.items);

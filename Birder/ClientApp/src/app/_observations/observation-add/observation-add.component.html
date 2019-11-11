@@ -41,7 +41,7 @@
               <mat-form-field class="full-width">
                 <mat-select placeholder="Select species" formControlName="birdId" type="birdId" required>
                   <mat-option *ngFor="let bird of birdsSpecies" [value]="bird.birdId">
-                      <p>{{bird.englishName}}, <em> {{ bird.species }}</em></p>
+                      <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
                   </mat-option>
                 </mat-select>
                 <mat-error *ngFor="let validation of addObservation_validation_messages.birdId">

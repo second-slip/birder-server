@@ -52,7 +52,7 @@ export class ObservationEditComponent implements OnInit {
 
   ngOnInit() {
     this.getObservation();
-    this.getBirds(BirderStatus.Common);
+    this.getBirds();
   }
 
   createForms(): void {
@@ -118,8 +118,8 @@ export class ObservationEditComponent implements OnInit {
         });
   }
 
-  getBirds(filter: BirderStatus): void {
-    this.birdsService.getBirds(filter)
+  getBirds(): void {
+    this.birdsService.getBirdsDdl()
       .subscribe(
         (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
         (error: ErrorReportViewModel) => {

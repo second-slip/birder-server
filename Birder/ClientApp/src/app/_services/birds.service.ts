@@ -17,7 +17,7 @@ export class BirdsService {
   constructor(private http: HttpClient
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  getBirdsIndex(pageIndex: number, pageSize: number): Observable<any | ErrorReportViewModel> {
+  getBirds(pageIndex: number, pageSize: number): Observable<any | ErrorReportViewModel> {
     const params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
@@ -29,11 +29,11 @@ export class BirdsService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getBirds(filter: BirderStatus): Observable<BirdSummaryViewModel[] | ErrorReportViewModel> {
-    const options = filter ?
-      { params: new HttpParams().set('filter', filter.toString()) } : {};
+  getBirdsDdl(): Observable<BirdSummaryViewModel[] | ErrorReportViewModel> {
+    // const options = filter ?
+    //   { params: new HttpParams().set('filter', filter.toString()) } : {};
 
-    return this.http.get<BirdSummaryViewModel[]>('api/Birds/BirdsList', options)
+    return this.http.get<BirdSummaryViewModel[]>('api/Birds/BirdsList')
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
