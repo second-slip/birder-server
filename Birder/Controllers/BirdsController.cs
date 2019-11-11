@@ -86,7 +86,58 @@ namespace Birder.Controllers
             }
         }
 
-        
+        [HttpGet, Route("BirdsList")]
+        public async Task<IActionResult> GetBirdsListAsync(BirderStatus filter)
+        {
+            try
+            {
+                if (_cache.TryGetValue(CacheEntries.BirdsSummaryList, out IEnumerable<BirdSummaryViewModel> birdsCache))
+                {
+                    if (filter == BirderStatus.Common)
+                    {
+                        var commonBirdsCache = (from birds in birdsCache
+                                                where birds.BirderStatus == "Common"
+                                                select birds);
+                        return Ok(commonBirdsCache);
+                    }
+                    else
+                    {
+                        return Ok(birdsCache);
+                    }
+                }
+                else
+                {
+                    var birds = await _birdRepository.GetBirdSummaryListAsync();
+
+                    if (birds == null)
+                    {
+                        _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
+                        return NotFound();
+                    }
+
+                    var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);
+
+                    _cache.Set(CacheEntries.BirdsSummaryList, viewModel, TimeSpan.FromDays(1));
+
+                    if (filter == BirderStatus.Common)
+                    {
+                        var filteredViewModel = (from items in viewModel
+                                                 where items.BirderStatus == "Common"
+                                                 select items);
+                        return Ok(filteredViewModel);
+                    }
+
+                    return Ok(viewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the birds list");
+                return BadRequest("An error occurred");
+            }
+        }
+
+
 
         [HttpGet, Route("GetBird")]
         public async Task<IActionResult> GetBirdAsync(int id)
