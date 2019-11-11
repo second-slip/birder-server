@@ -2,11 +2,10 @@ import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { BirdsService } from '../../_services/birds.service';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
+import { BirdSummaryViewModel, BirdsDto } from '../../_models/BirdSummaryViewModel';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BirderStatus } from '../../_models/BirdIndexOptions';
 
 @Component({
   selector: 'app-birds-index',
@@ -16,7 +15,7 @@ import { BirderStatus } from '../../_models/BirdIndexOptions';
 })
 export class BirdsIndexComponent implements OnInit {
   displayedColumns: string[] = ['englishName', 'btoStatusInBritain', 'conservationStatus'];
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<BirdSummaryViewModel>;
   length: number;
 
   pageEvent: PageEvent;
@@ -59,7 +58,7 @@ export class BirdsIndexComponent implements OnInit {
   getBirds(pageIndex: number, pageSize: number): void {
     this.birdsService.getBirds(pageIndex, pageSize)
       .subscribe(
-        (data: any) => { // (data: BirdSummaryViewModel[]) => {
+        (data: BirdsDto) => { // (data: BirdSummaryViewModel[]) => {
           this.dataSource = data.items;  // new MatTableDataSource(data.items);
           this.length = data.totalItems;
          },

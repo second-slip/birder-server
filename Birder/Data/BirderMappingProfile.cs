@@ -91,6 +91,9 @@ namespace Birder.Data
               .ForMember(a => a.BirderStatus, b => b.MapFrom(a => a.BirderStatus))
               .ReverseMap();
 
+            CreateMap<Bird, BirdsDdlDto>()
+                .ReverseMap();
+
             CreateMap<QueryResult<Bird>, BirdsDto>()
                 .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
 

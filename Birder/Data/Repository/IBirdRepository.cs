@@ -6,7 +6,7 @@ namespace Birder.Data.Repository
 {
     public interface IBirdRepository
     {
-        Task<IEnumerable<Bird>> GetBirdSummaryListAsync();
+        Task<IEnumerable<Bird>> GetBirdsDdlAsync();
         Task<Bird> GetBirdAsync(int id);
 
         Task<QueryResult<Bird>> GetBirdsAsync(int pageIndex, int pageSize);

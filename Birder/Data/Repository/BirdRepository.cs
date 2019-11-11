@@ -29,7 +29,7 @@ namespace Birder.Data.Repository
                     select b).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Bird>> GetBirdSummaryListAsync()
+        public async Task<IEnumerable<Bird>> GetBirdsDdlAsync()
         {
             return await _dbContext.Birds
                     .Include(cs => cs.BirdConservationStatus)
@@ -45,7 +45,7 @@ namespace Birder.Data.Repository
 
             var query = _dbContext.Birds
                 .Include(u => u.BirdConservationStatus)
-                .AsNoTracking() //????????
+                .AsNoTracking()
                 .AsQueryable();
 
             query = query.OrderBy(s => s.BirderStatus)

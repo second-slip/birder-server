@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ParentErrorStateMatcher } from '../../../validators';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { BirdSummaryViewModel } from '../../_models/BirdSummaryViewModel';
+import { BirdSummaryViewModel, BirdsDdlDto } from '../../_models/BirdSummaryViewModel';
 import { BirdsService } from '../../_services/birds.service';
 import { LocationViewModel } from '../../_models/LocationViewModel';
 import { GeocodeService } from '../../_services/geocode.service';
@@ -21,7 +21,7 @@ import { BirderStatus } from '../../_models/BirdIndexOptions';
 })
 export class ObservationAddComponent implements OnInit {
   addObservationForm: FormGroup;
-  birdsSpecies: BirdSummaryViewModel[];
+  birdsSpecies: BirdsDdlDto[];
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
   invalidAddObservation: boolean;

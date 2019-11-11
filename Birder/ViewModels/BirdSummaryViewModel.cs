@@ -26,4 +26,13 @@
 
         public string BirderStatus { get; set; }
     }
+
+    public class BirdsDdlDto
+    {
+        public int BirdId { get; set; }
+
+        public string Species { get; set; }
+
+        public string EnglishName { get; set; }
+    }
 }

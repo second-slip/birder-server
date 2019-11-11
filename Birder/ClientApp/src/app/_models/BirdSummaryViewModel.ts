@@ -12,3 +12,14 @@ export interface BirdSummaryViewModel {
     conservationListColourCode: string;
     birderStatus: string;
 }
+
+export interface BirdsDdlDto {
+    birdId: number;
+    species: string;
+    englishName: string;
+}
+
+export interface BirdsDto {
+    totalItems: number;
+    items: BirdSummaryViewModel[];
+}

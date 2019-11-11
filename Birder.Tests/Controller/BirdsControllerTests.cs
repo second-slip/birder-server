@@ -41,7 +41,7 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
-            mockRepo.Setup(repo => repo.GetBirdSummaryListAsync())
+            mockRepo.Setup(repo => repo.GetBirdsDdlAsync())
                  .ReturnsAsync(GetTestBirds());
 
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
@@ -58,7 +58,7 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
-            mockRepo.Setup(repo => repo.GetBirdSummaryListAsync())
+            mockRepo.Setup(repo => repo.GetBirdsDdlAsync())
                  .ReturnsAsync(GetTestBirds());
 
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
@@ -79,7 +79,7 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
-            mockRepo.Setup(repo => repo.GetBirdSummaryListAsync())
+            mockRepo.Setup(repo => repo.GetBirdsDdlAsync())
                  .Returns(Task.FromResult<IEnumerable<Bird>>(null));
 
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
@@ -96,7 +96,7 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
-            mockRepo.Setup(repo => repo.GetBirdSummaryListAsync())
+            mockRepo.Setup(repo => repo.GetBirdsDdlAsync())
                 .ThrowsAsync(new InvalidOperationException());
 
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
