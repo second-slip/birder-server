@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Birder.Controllers;
 using Birder.Data.Model;
 using Birder.ViewModels;
 using System.Collections.Generic;
@@ -89,6 +90,9 @@ namespace Birder.Data
               .ForMember(a => a.ConservationListColourCode, b => b.MapFrom(a => a.BirdConservationStatus.ConservationListColourCode))
               .ForMember(a => a.BirderStatus, b => b.MapFrom(a => a.BirderStatus))
               .ReverseMap();
+
+            CreateMap<QueryResult<Bird>, BirdsDto>()
+                .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
 
             CreateMap<TweetDay, TweetDayViewModel>()
               .ForMember(d => d.Bird, m => m.MapFrom(d => d.Bird))

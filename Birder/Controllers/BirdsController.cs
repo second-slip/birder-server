@@ -36,27 +36,27 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBirdsAsync(BirderStatus filter) // int pageIndex, int pageSize)
+        public async Task<IActionResult> GetBirdsAsync(int pageIndex, int pageSize)
         {
             try
             {
-                if (_cache.TryGetValue(CacheEntries.BirdsSummaryList, out IEnumerable<BirdSummaryViewModel> birdsCache))
-                {
-                    if (filter == BirderStatus.Common)
-                    {
-                        var commonBirdsCache = (from birds in birdsCache
-                                                where birds.BirderStatus == "Common"
-                                                select birds);
-                        return Ok(commonBirdsCache);
-                    }
-                    else
-                    {
-                        return Ok(birdsCache);
-                    }
-                }
-                else
-                {
-                    var birds = await _birdRepository.GetBirdSummaryListAsync();
+                //if (_cache.TryGetValue(CacheEntries.BirdsSummaryList, out IEnumerable<BirdSummaryViewModel> birdsCache))
+                //{
+                //    if (filter == BirderStatus.Common)
+                //    {
+                //        var commonBirdsCache = (from birds in birdsCache
+                //                                where birds.BirderStatus == "Common"
+                //                                select birds);
+                //        return Ok(commonBirdsCache);
+                //    }
+                //    else
+                //    {
+                //        return Ok(birdsCache);
+                //    }
+                //}
+                //else
+                //{
+                    var birds = await _birdRepository.GetBirdsAsync(pageIndex, pageSize);
 
                     if (birds == null)
                     {
@@ -64,20 +64,20 @@ namespace Birder.Controllers
                         return NotFound();
                     }
 
-                    var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);
+                    var viewModel = _mapper.Map<QueryResult<Bird>, BirdsDto>(birds);
 
-                    _cache.Set(CacheEntries.BirdsSummaryList, viewModel, TimeSpan.FromDays(1));
+                    //_cache.Set(CacheEntries.BirdsSummaryList, viewModel, TimeSpan.FromDays(1));
 
-                    if (filter == BirderStatus.Common)
-                    {
-                        var filteredViewModel = (from items in viewModel
-                                                 where items.BirderStatus == "Common"
-                                                 select items);
-                        return Ok(filteredViewModel);
-                    }
+                    //if (filter == BirderStatus.Common)
+                    //{
+                    //    var filteredViewModel = (from items in viewModel
+                    //                             where items.BirderStatus == "Common"
+                    //                             select items);
+                    //    return Ok(filteredViewModel);
+                    //}
 
                     return Ok(viewModel);
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -85,6 +85,8 @@ namespace Birder.Controllers
                 return BadRequest("An error occurred");
             }
         }
+
+        
 
         [HttpGet, Route("GetBird")]
         public async Task<IActionResult> GetBirdAsync(int id)
@@ -107,5 +109,11 @@ namespace Birder.Controllers
                 return BadRequest("An error occurred");
             }
         }
+    }
+
+    public class BirdsDto
+    {
+        public int TotalItems { get; set; }
+        public IEnumerable<BirdSummaryViewModel> Items { get; set; }
     }
 }

@@ -17,6 +17,18 @@ export class BirdsService {
   constructor(private http: HttpClient
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
+  getBirdsIndex(pageIndex: number, pageSize: number): Observable<any | ErrorReportViewModel> {
+    const params = new HttpParams()
+    .set('pageIndex', pageIndex.toString())
+    .set('pageSize', pageSize.toString());
+    // const options = pageIndex ?
+    //   { params: new HttpParams().set('pageIndex', pageIndex.toString()).set('pageSize', pageSize.toString()) } : {};
+    // console.log(options);
+    return this.http.get<any>('api/Birds', {params})
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
   getBirds(filter: BirderStatus): Observable<BirdSummaryViewModel[] | ErrorReportViewModel> {
     const options = filter ?
       { params: new HttpParams().set('filter', filter.toString()) } : {};

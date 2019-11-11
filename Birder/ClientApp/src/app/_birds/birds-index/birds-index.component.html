@@ -9,15 +9,17 @@
   </div>
 
   <div class="row">
-    <div class="col-9">
+      <div class="col-1"></div>
+    <div class="col-10">
       <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)"
           placeholder="Type to filter or search the birds list...">
       </mat-form-field>
     </div>
-    <div class="col-3">
+    <div class="col-1"></div>
+    <!-- <div class="col-3">
       <mat-checkbox (change)="hello($event)">Show all bird species</mat-checkbox>
-    </div>
+    </div> -->
   </div>
 
   <!-- Removed *ngIf check because it causes all sorts of problems and causes sort and paginater to be
@@ -53,7 +55,7 @@ undefined.  see https://stackoverflow.com/questions/48785965/angular-matpaginato
       </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[25, 50, 100]" [length]="length" (page)="onPaginateChange($event)" showFirstLastButtons></mat-paginator>
   </div>
   <div>
       <small><br><sup>1</sup> The British list of 616 species occurring in Britain is kept by the British Ornithologists' Union (BOU).  See <a href="https://www.bto.org/about-birds/birdfacts/british-list" target="_blank"> here</a> for the full data and the explanation.
