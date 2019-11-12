@@ -23,7 +23,7 @@ namespace Birder.Data.Repository
                 .Include(y => y.Bird)
                     .ThenInclude(u => u.BirdConservationStatus)
                 .Include(au => au.ApplicationUser)
-                //.AsNoTracking() ????????
+                .AsNoTracking() // ????????
                 .AsQueryable();
 
             //query = query.ApplyFiltering(queryObj);

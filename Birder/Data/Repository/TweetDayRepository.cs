@@ -8,18 +8,12 @@ namespace Birder.Data.Repository
 {
     public class TweetDayRepository: Repository<TweetDay>, ITweetDayRepository
     {
-        //private readonly ApplicationDbContext _dbContext;
-
         public TweetDayRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
-            //_dbContext = dbContext;
         }
 
         public async Task<TweetDay> GetTweetOfTheDayAsync(DateTime date)
         {
-            //    .Where(y => y.CreationDate == DateTime.Now);
-            //return await SingleOrDefault(td => td.DisplayDay == date)
-            //                    .Include(b => b.Bird);
             var tweet = await (from td in _dbContext.TweetDays
                                    .Include(b => b.Bird)
                                where (td.DisplayDay == date)
@@ -31,6 +25,7 @@ namespace Birder.Data.Repository
                                .Include(b => b.Bird)
                          select td).FirstOrDefaultAsync();
             }
+
             return tweet;
         }
 

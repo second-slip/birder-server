@@ -3,7 +3,6 @@ using Birder.Controllers;
 using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
-using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,13 +40,13 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
-            mockRepo.Setup(repo => repo.GetBirdsDdlAsync())
-                 .ReturnsAsync(GetTestBirds());
+            mockRepo.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>()))
+                 .ReturnsAsync(GetQueryResult(30));
 
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
-            var result = await controller.GetBirdsAsync(BirderStatus.Common);
+            var result = await controller.GetBirdsAsync(1, 25);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -58,20 +57,21 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
-            mockRepo.Setup(repo => repo.GetBirdsDdlAsync())
-                 .ReturnsAsync(GetTestBirds());
+            mockRepo.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>()))
+                 //.ReturnsAsync(GetTestBirds());
+            .ReturnsAsync(GetQueryResult(30));
 
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
-            var result = await controller.GetBirdsAsync(BirderStatus.Common);
+            var result = await controller.GetBirdsAsync(1, 25);
 
             // Assert
             var objectResult = result as ObjectResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            Assert.IsAssignableFrom<IEnumerable<BirdSummaryViewModel>>(objectResult.Value);
+            Assert.IsAssignableFrom<BirdsDto>(objectResult.Value);
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace Birder.Tests.Controller
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
-            var result = await controller.GetBirdsAsync(BirderStatus.Common);
+            var result = await controller.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>());
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -96,13 +96,13 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
-            mockRepo.Setup(repo => repo.GetBirdsDdlAsync())
+            mockRepo.Setup(repo => repo.GetBirdsAsync(1, 25))
                 .ThrowsAsync(new InvalidOperationException());
 
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
-            var result = await controller.GetBirdsAsync(BirderStatus.Common);
+            var result = await controller.GetBirdsAsync(1, 25);
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
@@ -193,7 +193,16 @@ namespace Birder.Tests.Controller
 
         #endregion
 
+        private QueryResult<Bird> GetQueryResult(int length)
+        {
+            var result = new QueryResult<Bird>();
+            var bird = new Bird() { BirdId = 1 };
 
+            result.TotalItems = length;
+            result.Items = GetTestBirds();
+
+            return result;
+        }
         #region BirdRepository mock methods
 
         private Bird GetTestBird()
