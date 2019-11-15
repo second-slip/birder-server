@@ -113,15 +113,15 @@ namespace Birder
                 };
             });
 
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy(MyAllowSpecificOrigins,
-            //    builder =>
-            //    {
-            //        builder.WithOrigins("http://localhost:55722",
-            //                            "https://localhost:55722");
-            //    });
-            //});
+            services.AddCors(options =>
+            {
+               options.AddPolicy(MyAllowSpecificOrigins,
+               builder =>
+               {
+                   builder.WithOrigins("http://localhost:55722",
+                                       "https://localhost:55722");
+               });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
