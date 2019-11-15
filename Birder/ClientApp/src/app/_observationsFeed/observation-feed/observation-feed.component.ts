@@ -20,8 +20,8 @@ import { TokenService } from '@app/_services/token.service';
 export class ObservationFeedComponent implements OnInit {
   user: UserViewModel;
   currentFilter: ObservationFeedFilter = 0;
-  private loadingObs: boolean;
-  private allLoaded = false;
+  loadingObs: boolean;
+  allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
   private itemHeight = 145;

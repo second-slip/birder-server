@@ -177,7 +177,8 @@ export function tokenGetter() {
       }
     }),
     AgmCoreModule.forRoot({
-      apiKey: environment.mapKey
+      // apiKey: environment.mapKey
+      apiKey: 'MY_API_KEY'
     })
 
   ],

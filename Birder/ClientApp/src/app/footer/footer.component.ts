@@ -8,10 +8,10 @@ import { Title } from '@angular/platform-browser';
   encapsulation: ViewEncapsulation.None
 })
 export class FooterComponent implements OnInit {
-  private currentYear: number;
+  currentYear: number;
   // private title: string;
 
-  constructor(private titleService: Title) { }
+  constructor() { }
 
   ngOnInit() {
     // this.title = this.titleService.getTitle();
