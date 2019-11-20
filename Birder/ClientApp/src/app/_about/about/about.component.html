@@ -22,6 +22,15 @@
 
           <mat-tab>
             <ng-template mat-tab-label>
+              <mat-icon class="tab-icon">help_outline</mat-icon>
+              Contribute
+            </ng-template>
+
+            <app-about-contribute></app-about-contribute>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
               <mat-icon class="tab-icon">flight_takeoff</mat-icon>
               Features
             </ng-template>
@@ -32,7 +41,7 @@
           <mat-tab>
             <ng-template mat-tab-label>
               <mat-icon class="tab-icon">flight_land</mat-icon>
-              Features under development
+              Coming soon
             </ng-template>
 
             <app-about-features-development></app-about-features-development>

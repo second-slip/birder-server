@@ -84,6 +84,7 @@ import { GalleryModule } from '@ngx-gallery/core';
 import { LightboxModule } from 'ngx-lightbox';
 import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
+import { AboutContributeComponent } from './_about/about-contribute/about-contribute.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -139,6 +140,7 @@ export function tokenGetter() {
     FooterComponent,
     ObservationManagePhotosComponent,
     TestingComponent,
+    AboutContributeComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
