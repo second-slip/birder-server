@@ -1,6 +1,11 @@
 app-about-technology {
+  ul { margin-bottom: -10px; 
+    list-style-type: none;
+  }
+
   .container {
     margin-top: 15px;
+    text-align: center;
   }
 
   .section-title {
