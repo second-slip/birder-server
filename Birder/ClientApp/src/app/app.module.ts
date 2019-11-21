@@ -85,6 +85,23 @@ import { LightboxModule } from 'ngx-lightbox';
 import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
 import { AboutContributeComponent } from './_about/about-contribute/about-contribute.component';
+import { NgcCookieConsentModule, NgcCookieConsentConfig} from 'ngx-cookieconsent';
+
+const cookieConfig: NgcCookieConsentConfig = {
+  cookie: {
+    domain: 'localhost' // or 'your.domain.com' // it is mandatory to set a domain, for cookies to work properly (see https://goo.gl/S2Hy2A)
+  },
+  palette: {
+    popup: {
+      background: '#000'
+    },
+    button: {
+      background: '#f1d600'
+    }
+  },
+  theme: 'edgeless',
+  type: 'opt-out'
+};
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -171,6 +188,7 @@ export function tokenGetter() {
     NgxDropzoneModule,
     GalleryModule,
     LightboxModule,
+    NgcCookieConsentModule.forRoot(cookieConfig),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
