@@ -1,4 +1,3 @@
-
 .profile-img {
   margin-top: -5px;
   margin-right: 5px;
@@ -10,48 +9,47 @@
 }
 
 li .fa {
-    margin-right: 10px;
-  }
-  
-  .flex-column {
-    width: 100%;
-  }
-  
-  .navbar {
-    padding: 0;
-  }
-  
-  .navbar-brand {
-    padding: 15px;
-  }
-  
-  .navbar-toggler {
-    margin-right: 15px;
-  }
-  
-  .nav-link {
-    padding-left: 16px;
-  }
-  
-   /* Highlighting rules for nav menu items  */
-  li.link-active a,
-  li.link-active a:hover,
-  li.link-active a:focus {
-    background-color: #4189C7;
-    color: white;
-  }
-  
-   /* Keep the nav menu independent of scrolling and on top of other items  */
-  .main-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-  }
-  
+  margin-right: 10px;
+}
 
-  /* @media (min-width: 576px) {
+.flex-column {
+  width: 100%;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.navbar-brand {
+  padding: 15px;
+}
+
+.navbar-toggler {
+  margin-right: 15px;
+}
+
+.nav-link {
+  padding-left: 16px;
+}
+
+/* Highlighting rules for nav menu items  */
+li.link-active a,
+li.link-active a:hover,
+li.link-active a:focus {
+  background-color: #4189c7;
+  color: white;
+}
+
+/* Keep the nav menu independent of scrolling and on top of other items  */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+/* @media (min-width: 576px) {
      On small screens, convert the nav menu to a vertical sidebar 
     .main-nav {
       height: 100%;
@@ -90,5 +88,3 @@ li .fa {
       text-overflow: ellipsis;
     }
   } */
-
-  

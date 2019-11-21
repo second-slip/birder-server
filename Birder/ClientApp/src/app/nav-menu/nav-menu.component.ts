@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../_services/authentication.service';
 import { Subscription } from 'rxjs';
-import { UserViewModel } from '../_models/UserViewModel';
-import { TokenService } from '../_services/token.service';
+import { UserViewModel } from '@app/_models/UserViewModel';
+import { AuthenticationService } from '@app/_services/authentication.service';
+import { TokenService } from '@app/_services/token.service';
 
 @Component({
   selector: 'app-nav-menu',
