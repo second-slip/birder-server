@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-about-contact',
@@ -12,5 +12,4 @@ export class AboutContactComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
