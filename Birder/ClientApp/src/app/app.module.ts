@@ -89,7 +89,7 @@ import { NgcCookieConsentModule, NgcCookieConsentConfig} from 'ngx-cookieconsent
 
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
-    'domain': 'localhost'
+    'domain': environment.cookieDomain // 'localhost'
   },
   'position': 'bottom',
   'theme': 'classic',
@@ -210,8 +210,8 @@ export function tokenGetter() {
       }
     }),
     AgmCoreModule.forRoot({
-      // apiKey: environment.mapKey
-      apiKey: 'MY_API_KEY'
+      apiKey: environment.mapKey
+      // apiKey: 'MY_API_KEY'
     })
 
   ],
