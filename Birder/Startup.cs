@@ -47,12 +47,8 @@ namespace Birder
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            //var config = new StringBuilder(  Configuration["ConnectionStrings:MagsConnectionMssql"]);
-            //string conn = config.Replace("ENVPW", Configuration["DB_PW"])
-            //                    .ToString();
-
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer("Server=db;Database=BirderDb;User=sa;Password=utepura0M9;"));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentityCore<ApplicationUser>(options =>
             {

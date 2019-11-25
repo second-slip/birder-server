@@ -1,5 +1,3 @@
-using Birder.Data;
-using Birder.Helpers;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +9,7 @@ namespace Birder
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run(); //.MigrateDatabase<ApplicationDbContext>().Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

@@ -12,7 +12,6 @@
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <UserSecretsId>ead41ccc-1a3c-4e9b-b173-a50392209612</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,6 +41,13 @@
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20190314110549_observation model adjustment.cs" />
+    <Compile Remove="Data\Migrations\20190314110549_observation model adjustment.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190420122624_App user.cs" />
+    <Compile Remove="Data\Migrations\20190420122624_App user.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
