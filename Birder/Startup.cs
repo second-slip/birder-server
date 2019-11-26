@@ -47,6 +47,8 @@ namespace Birder
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            // var connection = @"Server=db;Database=master;User=sa;Password=DipperDipso1%;";
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
