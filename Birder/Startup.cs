@@ -53,8 +53,10 @@ namespace Birder
             var t = @"Server=tcp:birder.database.windows.net,1433;Initial Catalog=BirderDb;Persist Security Info=False;User ID=dipper;Password=ToryBoy1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False; Connection Timeout=30;";
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(t));
-                // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                // options.UseSqlServer(t));
+                  options.UseSqlServer(Configuration["ConnectionStrings:LocalConnection"]));
+                // options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
+            var y = Configuration["ConnectionStrings:LocalConnection"];
 
             services.AddIdentityCore<ApplicationUser>(options =>
             {
