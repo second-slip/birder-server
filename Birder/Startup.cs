@@ -48,9 +48,11 @@ namespace Birder
             });
 
             // var connection = @"Server=db;Database=master;User=sa;Password=DipperDipso1%;";
+            var connection = @"server=custdb;Initial catalog=Birder;User=sa;Password=DipperDipso1%;MultipleActiveResultSets=True;";
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(connection));
+                // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentityCore<ApplicationUser>(options =>
             {

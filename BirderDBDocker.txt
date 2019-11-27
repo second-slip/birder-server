@@ -1,1 +1,1 @@
-FROM MyLocalRegistry:5000/birderdb-image
+FROM MyLocalRegistry:5000/custdb-image
