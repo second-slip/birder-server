@@ -87,10 +87,13 @@ namespace Birder
             services.AddSingleton<ISystemClockService, SystemClockService>();
             services.AddSingleton<IUrlService, UrlService>();
 
-            services.AddScoped<IFileClient, LocalFileClient>(client =>
+    //         CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
+    // CloudConfigurationManager.GetSetting("StorageConnectionString"));
+
+            services.AddScoped<IFileClient, AzureBlobFileClient>(client =>
             {
                 var cloudConnStr = Configuration["StorageConnectionString"];
-                return new LocalFileClient(cloudConnStr);
+                return new AzureBlobFileClient(cloudConnStr);
             });
 
             services.AddTransient<IEmailSender, EmailSender>();

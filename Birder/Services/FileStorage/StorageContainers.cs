@@ -3,7 +3,7 @@ namespace Birder.Services
 {
     public class StorageContainers
     {
-        public const string Avatar = "Avatar";
+        public const string Avatar = "avatar";
         //public const string ListItems = 1001;
         //public const int GetItem = 1002;
         //public const int InsertItem = 1003;

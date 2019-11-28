@@ -1,4 +1,6 @@
-
+# run the following commands from C:\Users\Andre\source\repos\Birder :
+# docker-compose build
+# docker-compose up
 version: "3.4"
 services:
     birder:

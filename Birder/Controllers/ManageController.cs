@@ -157,14 +157,14 @@ namespace Birder.Controllers
                     return BadRequest("An error occurred");
                 }
 
-                string[] supportedTypes = new[] { "jpg", "jpeg", "png", "bmp" };
-                var fileExt = Path.GetExtension(file.FileName).Substring(1);
-                if (!supportedTypes.Contains(fileExt))
-                {
-                    string message = $"IFormFile is not a supported image type. Type: {fileExt}";
-                    _logger.LogError(LoggingEvents.UpdateItem, message);
-                    return BadRequest(message);
-                }
+                // string[] supportedTypes = new[] { "jpg", "jpeg", "png", "bmp" };
+                // var fileExt = Path.GetExtension(file.FileName).Substring(1);
+                // if (!supportedTypes.Contains(fileExt))
+                // {
+                //     string message = $"IFormFile is not a supported image type. Type: {fileExt}";
+                //     _logger.LogError(LoggingEvents.UpdateItem, message);
+                //     return BadRequest(message);
+                // }
 
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 if (user == null)
