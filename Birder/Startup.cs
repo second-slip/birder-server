@@ -47,8 +47,11 @@ namespace Birder
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            // var t = @"Server=tcp:birder.database.windows.net,1433;Initial Catalog=BirderDb;Persist Security Info=False;User ID=X;Password=Y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False; Connection Timeout=30;";
+
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                  options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
+                // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentityCore<ApplicationUser>(options =>
             {
