@@ -44,6 +44,7 @@
     "querystringify": "^2.1.1",
     "rxjs": "^6.5.3",
     "rxjs-compat": "^6.5.3",
+    "serialize-javascript": "^2.1.2",
     "stringstream": "^1.0.0",
     "tar": "^4.4.13",
     "tslib": "^1.10.0",
