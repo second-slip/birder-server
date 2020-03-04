@@ -35,6 +35,7 @@
     "hammerjs": "^2.0.8",
     "handlebars": "^4.7.3",
     "jquery": "^3.4.1",
+    "latest-version": "^5.1.0",
     "lodash.mergewith": "^4.6.2",
     "ngx-cookieconsent": "^2.2.3",
     "ngx-dropzone": "^2.2.2",
