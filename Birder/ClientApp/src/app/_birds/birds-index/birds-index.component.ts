@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, PageEvent, MatPaginator, MatSort } from '@angular/material';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { BirdsService } from '@app/_services/birds.service';
 import { Router } from '@angular/router';
