@@ -25,6 +25,7 @@
     "@angular/router": "^9.0.4",
     "@auth0/angular-jwt": "^2.1.2",
     "@ng-bootstrap/ng-bootstrap": "^4.2.2",
+    "@nguniversal/aspnetcore-engine": "^9.0.1",
     "@nguniversal/module-map-ngfactory-loader": "^7.1.1",
     "@ngx-gallery/core": "^4.0.3",
     "@ngx-gallery/lightbox": "^4.0.3",
@@ -73,7 +74,7 @@
     "protractor": "^5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~5.17.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.8.3"
   },
   "optionalDependencies": {
     "node-sass": "^4.9.0"
