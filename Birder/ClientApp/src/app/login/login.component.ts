@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
   encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
+  requesting: boolean;
   loginForm: FormGroup;
   errorMessage: string;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -46,13 +47,17 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(value): void {
+    this.requesting = true;
     this.errorMessage = null;
+    this.loginForm.disable();
     this.authenticationService.login(value)
       .pipe(first())
       .subscribe(_ => {
         this.router.navigate([this.returnUrl]);
       },
         (error: AuthenticationErrorViewModel) => {
+          this.requesting = false;
+          this.loginForm.enable();
           console.log(error);
           switch (error.failureReason) {
             case AuthenticationFailureReason.EmailConfirmationRequired: {

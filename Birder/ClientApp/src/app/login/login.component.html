@@ -41,8 +41,12 @@
               {{validation.message}}</mat-error>
           </mat-error>
 
-          <button class="submit-btn" color="primary" mat-raised-button type="submit" [disabled]="!loginForm.valid">
+          <button *ngIf="!requesting" class="submit-btn" color="primary" mat-raised-button type="submit" [disabled]="!loginForm.valid">
             Login
+          </button>
+          <button *ngIf="requesting" class="btn btn-primary" type="button" disabled>
+            Checking your credentials...
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           </button>
 
           <div>
