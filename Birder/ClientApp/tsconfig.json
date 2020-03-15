@@ -1,6 +1,5 @@
 {
   "compileOnSave": false,
-  "disableTypeScriptVersionCheck": true,
   "compilerOptions": {
     "importHelpers": true,
     "outDir": "./dist/out-tsc",
