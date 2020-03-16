@@ -11,7 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -181,7 +180,7 @@ export function tokenGetter() {
     AppRoutingModule,
     BrowserAnimationsModule,
     MatIconModule,
-    MatButtonModule,
+    // MatButtonModule,
     MatInputModule,
     MatIconModule,
     MatTooltipModule,
