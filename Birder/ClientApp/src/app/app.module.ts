@@ -26,7 +26,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatListModule } from '@angular/material/list';
+// import { MatListModule } from '@angular/material/list';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './_services/auth-guard.service';
 import { LogoutComponent } from './logout/logout.component';
@@ -194,7 +194,7 @@ export function tokenGetter() {
     MatExpansionModule,
     MatTabsModule,
     MatBadgeModule,
-    MatPaginatorModule, MatSortModule, MatTableModule, MatGridListModule, MatListModule,
+    MatPaginatorModule, MatSortModule, MatTableModule, MatGridListModule,
     MatToolbarModule,
     ToastrModule.forRoot(),
     NgxDropzoneModule,
