@@ -17,9 +17,8 @@
       <div class="flex-container network-list">
         <img class="avatar" src="{{user.avatar}}">
         <a class="avatar-title" routerLink="/user-profile/{{user.userName}}">{{user.userName}}</a>
-        <div><button mat-button color="primary" (click)="followOrUnfollow($event.target, user)">
-            {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
-      </div>
+        <div><button class="btn btn-link btn-sm" (click)="followOrUnfollow($event.target, user)">
+          {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
     </div>
 
     <p *ngIf="users.length == 0 && customSearch == true">We found no search results</p>

@@ -35,6 +35,7 @@
     "jquery": "^3.4.1",
     "latest-version": "^5.1.0",
     "lodash.mergewith": "^4.6.2",
+    "ng-bootstrap": "^1.6.3",
     "ngx-cookieconsent": "^2.2.3",
     "ngx-dropzone": "^2.2.2",
     "ngx-lightbox": "^2.1.2",
