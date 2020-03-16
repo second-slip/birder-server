@@ -41,7 +41,7 @@
               {{validation.message}}</mat-error>
           </mat-error>
 
-          <button *ngIf="!requesting" class="submit-btn" color="primary" mat-raised-button type="submit" [disabled]="!loginForm.valid">
+          <button *ngIf="!requesting" class="btn btn-primary" color="primary" mat-raised-button type="submit" [disabled]="!loginForm.valid">
             Login
           </button>
           <button *ngIf="requesting" class="btn btn-primary" type="button" disabled>

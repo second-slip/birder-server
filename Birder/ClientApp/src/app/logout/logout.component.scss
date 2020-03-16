@@ -1,38 +1,35 @@
 app-logout {
-     .container {
-       margin-top: 50px;
+  .container {
+    margin-top: 50px;
     //   // margin-left: 50px;
     //   // margin-right: 50px;
     //   // overflow-wrap: true;
-     }
+  }
 
-     .logout-container {
-        padding: 20px;
-        text-align: center;
-      }
-  
-    .section-title {
-      display: flex;
-      flex-direction: column;
-       justify-content: center;
-      align-items: center;
-      text-align: center;
+  .logout-container {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .section-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     //   min-height: 100vh;
     //position: fixed; /* or absolute */
     top: 50%;
-    
-    }
+  }
 
-    .submit-btn {
-        margin-top: 30px;
-        margin-left: 20px;
-      }
+  .btn {
+    margin-top: 20px;
+    margin-left: 20px;
+  }
 
-    .centered {
-        position: fixed; /* or absolute */
-        top: 50%;
-        left: 50%;
-      }
-  
-
+  .centered {
+    position: fixed; /* or absolute */
+    top: 50%;
+    left: 50%;
+  }
 }
