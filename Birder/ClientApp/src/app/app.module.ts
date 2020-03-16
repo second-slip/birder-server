@@ -178,7 +178,6 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     MatIconModule,
     MatInputModule,
-    MatIconModule,
     MatTooltipModule,
     MatDatepickerModule,
     MatNativeDateModule,
