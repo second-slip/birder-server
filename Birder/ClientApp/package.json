@@ -26,7 +26,6 @@
     "@auth0/angular-jwt": "^2.1.2",
     "@ng-bootstrap/ng-bootstrap": "^6.0.0",
     "@nguniversal/aspnetcore-engine": "^9.0.1",
-    "@nguniversal/module-map-ngfactory-loader": "^8.2.6",
     "@ngx-gallery/core": "^4.0.3",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.4.1",
