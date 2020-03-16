@@ -66,7 +66,6 @@ import { ResetPasswordConfirmationComponent } from './_account/reset-password-co
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { environment } from '../environments/environment';
 import { AboutComponent } from './_about/about/about.component';
-import { MatGridListModule } from '@angular/material/grid-list';
 import { AboutFeaturesComponent } from './_about/about-features/about-features.component';
 import { AboutTechnologyComponent } from './_about/about-technology/about-technology.component';
 import { AboutFeaturesDevelopmentComponent } from './_about/about-features-development/about-features-development.component';
@@ -188,7 +187,7 @@ export function tokenGetter() {
     MatExpansionModule,
     MatTabsModule,
     MatBadgeModule,
-    MatPaginatorModule, MatSortModule, MatTableModule, MatGridListModule,
+    MatPaginatorModule, MatSortModule, MatTableModule,
     ToastrModule.forRoot(),
     NgxDropzoneModule,
     GalleryModule,
