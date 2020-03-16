@@ -12,7 +12,6 @@ import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -178,7 +177,6 @@ export function tokenGetter() {
     AppRoutingModule,
     BrowserAnimationsModule,
     MatIconModule,
-    // MatButtonModule,
     MatInputModule,
     MatIconModule,
     MatTooltipModule,
@@ -187,7 +185,6 @@ export function tokenGetter() {
     MatCheckboxModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatChipsModule,
     MatAutocompleteModule,
     MatExpansionModule,
     MatTabsModule,
