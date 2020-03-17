@@ -8,6 +8,13 @@
   height: 30px;
 }
 
+.img-responsive {
+  height: auto;
+  width: auto;
+  max-height: 32px;
+  max-width: 32px;
+}
+
 li .fa {
   margin-right: 10px;
 }
@@ -22,6 +29,10 @@ li .fa {
 
 .navbar-brand {
   padding: 15px;
+}
+
+.brand-text {
+  padding-left: 10px;
 }
 
 .navbar-toggler {
