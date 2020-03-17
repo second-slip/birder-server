@@ -41,7 +41,7 @@
               <mat-form-field class="full-width">
                 <mat-select placeholder="Select species" formControlName="birdId" type="birdId" required>
                   <mat-option *ngFor="let bird of birdsSpecies" [value]="bird.birdId">
-                      <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
+                    <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
                   </mat-option>
                 </mat-select>
                 <mat-error *ngFor="let validation of addObservation_validation_messages.birdId">
@@ -153,15 +153,17 @@
           </div>
 
           <div class="info-message" *ngIf="hideAlert==false">
-              <p>
-                  <ngb-alert [dismissible]="true" [type]="'info'" (close)="dismissAlert()">
-                      <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon">
-                          <em>&nbsp;&nbsp;  You can upload photographs and add tags in the next page, after you have added the observation.</em></span>
-                  </ngb-alert>
-                </p>
+            <p>
+              <ngb-alert [dismissible]="true" [type]="'info'" (close)="dismissAlert()">
+                <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon">
+                  <em>&nbsp;&nbsp; You can upload photographs and add tags in the next page, after you have added the
+                    observation.</em></span>
+              </ngb-alert>
+            </p>
           </div>
 
-          <button class="submit-btn" color="primary" mat-raised-button type="submit" [disabled]="!addObservationForm.valid">
+          <button class="submit-btn" color="primary" mat-raised-button type="submit"
+            [disabled]="!addObservationForm.valid">
             Sumbit
           </button>
 
