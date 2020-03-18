@@ -20,6 +20,7 @@ import { TokenService } from '@app/_services/token.service';
 export class ObservationFeedComponent implements OnInit {
   user: UserViewModel;
   currentFilter: ObservationFeedFilter = 0;
+
   loadingObs: boolean;
   allLoaded = false;
   private cache = [];
@@ -53,13 +54,11 @@ export class ObservationFeedComponent implements OnInit {
 
 
   itemResults$: Observable<ObservationViewModel[]> = this.pageToLoad$
-  
+
     .pipe(
       tap(_ => this.loading = true),
-      
-      flatMap((page: number) => {
 
-        
+      flatMap((page: number) => {
 
         return this.observationsFeedService.getObservationsFeed(page, this.currentFilter)
           .pipe(

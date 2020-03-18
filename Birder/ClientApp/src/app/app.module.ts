@@ -81,6 +81,8 @@ import { ObservationManagePhotosComponent } from './_observations/observation-ma
 import { TestingComponent } from './testing/testing.component';
 import { AboutContributeComponent } from './_about/about-contribute/about-contribute.component';
 import { NgcCookieConsentModule, NgcCookieConsentConfig} from 'ngx-cookieconsent';
+import { AuthenticationService } from './_services/authentication.service';
+import { TokenService } from './_services/token.service';
 
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
@@ -209,7 +211,7 @@ export function tokenGetter() {
 
   ],
   providers: [
-    [GeocodeService],
+    [GeocodeService, AuthenticationService, TokenService],
     { provide: RequestCache, useClass: RequestCacheWithMap },
     httpInterceptorProviders,
     [AuthGuard],

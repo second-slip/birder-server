@@ -11,8 +11,7 @@ import { TweetDay } from '../_models/TweetDay';
 })
 export class TweetsService {
 
-  constructor(private http: HttpClient
-    , private httpErrorHandlerService: HttpErrorHandlerService) { }
+  constructor(private http: HttpClient, private httpErrorHandlerService: HttpErrorHandlerService) { }
 
   getTweetDay(): Observable<TweetDay | ErrorReportViewModel> {
     return this.http.get<TweetDay>('api/Tweets/GetTweetDay')

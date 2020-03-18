@@ -19,7 +19,7 @@ export class UserProfileComponent {
   observations: ObservationViewModel[]; // lazy load on demand
 
   constructor(private networkService: NetworkService
-    , private userProfileService: UserProfileService
+            , private userProfileService: UserProfileService
             , private route: ActivatedRoute
             , private toast: ToastrService
             , private router: Router) {
