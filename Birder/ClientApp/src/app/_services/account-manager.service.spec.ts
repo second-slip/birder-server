@@ -6,7 +6,7 @@ describe('AccountManagerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: AccountManagerService = TestBed.get(AccountManagerService);
+    const service: AccountManagerService = TestBed.inject(AccountManagerService);
     expect(service).toBeTruthy();
   });
 });
