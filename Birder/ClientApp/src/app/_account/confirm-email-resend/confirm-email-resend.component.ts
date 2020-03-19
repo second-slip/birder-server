@@ -24,8 +24,8 @@ export class ConfirmEmailResendComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder
     , private accountService: AccountService
-    , private toast: ToastrService
-    , private router: Router) { }
+    , private toast: ToastrService) { }
+    // , private router: Router) { }
 
   ngOnInit() {
     this.createForms();

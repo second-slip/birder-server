@@ -4,6 +4,7 @@ import { LoginComponent } from './login.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService } from '@app/_services/authentication.service';
 import { of } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -21,7 +22,7 @@ describe('LoginComponent', () => {
         ])
       ],
       declarations: [ LoginComponent ],
-      providers: [
+      providers: [ FormBuilder,
         { provide: AuthenticationService, useValue: mockAuthenticationService }
       ]
     })
