@@ -14,7 +14,8 @@ describe('LifeListComponent', () => {
     mockObservationsAnalysisService = jasmine.createSpyObj(['getLifeList', 'getObservationAnalysis']);
 
     TestBed.configureTestingModule({
-      declarations: [ LifeListComponent,
+      declarations: [ LifeListComponent ],
+      providers: [
       { provide: ObservationsAnalysisService, useValue: mockObservationsAnalysisService }
     ]
     })
@@ -24,8 +25,9 @@ describe('LifeListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LifeListComponent);
     component = fixture.componentInstance;
-    mockObservationsAnalysisService.getLifeList.and.returnValue(of(null));
     mockObservationsAnalysisService.getObservationAnalysis.and.returnValue(of(null));
+    mockObservationsAnalysisService.getLifeList.and.returnValue(of(null));
+    // mockObservationsAnalysisService.getObservationAnalysis.and.returnValue(of(null));
     fixture.detectChanges();
   });
 
