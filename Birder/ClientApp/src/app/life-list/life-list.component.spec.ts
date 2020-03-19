@@ -25,13 +25,14 @@ describe('LifeListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LifeListComponent);
     component = fixture.componentInstance;
-    mockObservationsAnalysisService.getObservationAnalysis.and.returnValue(of(null));
-    mockObservationsAnalysisService.getLifeList.and.returnValue(of(null));
     // mockObservationsAnalysisService.getObservationAnalysis.and.returnValue(of(null));
-    fixture.detectChanges();
+    // mockObservationsAnalysisService.getLifeList.and.returnValue(of(null));
+    // mockObservationsAnalysisService.getObservationAnalysis.and.returnValue(of(null));
+    // fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

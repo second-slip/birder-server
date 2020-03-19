@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LayoutAccountManagerComponent } from './layout-account-manager.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('LayoutAccountManagerComponent', () => {
   let component: LayoutAccountManagerComponent;
@@ -8,7 +9,8 @@ describe('LayoutAccountManagerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LayoutAccountManagerComponent ]
+      declarations: [ LayoutAccountManagerComponent ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   }));

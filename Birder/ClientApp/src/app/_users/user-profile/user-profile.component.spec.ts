@@ -6,6 +6,7 @@ import { UserProfileService } from '@app/_services/user-profile.service';
 import { NetworkService } from '@app/_services/network.service';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -29,7 +30,8 @@ describe('UserProfileComponent', () => {
         { provide: UserProfileService, useValue: mockUserProfileService },
         { provide: NetworkService, useValue: mockNetworkService },
         { provide: ToastrService, useValue: mockToastr }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
   }));
@@ -37,13 +39,15 @@ describe('UserProfileComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
-    mockUserProfileService.getUserProfile.and.returnValue(of(null));
-    mockNetworkService.postFollowUser.and.returnValue(of(null));
-    mockNetworkService.postUnfollowUser.and.returnValue(of(null));
-    fixture.detectChanges();
+    // mockUserProfileService.getUserProfile.and.returnValue(of(null));
+    // mockNetworkService.postFollowUser.and.returnValue(of(true));
+    // mockNetworkService.postUnfollowUser.and.returnValue(of(true));
+     fixture.detectChanges();
   });
 
   it('should create', () => {
+        // mockNetworkService.postUnfollowUser.and.returnValue(of(true));
+        fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

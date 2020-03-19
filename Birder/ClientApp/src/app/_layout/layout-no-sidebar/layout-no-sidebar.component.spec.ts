@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LayoutNoSidebarComponent } from './layout-no-sidebar.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('LayoutNoSidebarComponent', () => {
   let component: LayoutNoSidebarComponent;
@@ -8,7 +9,8 @@ describe('LayoutNoSidebarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LayoutNoSidebarComponent ]
+      declarations: [ LayoutNoSidebarComponent ],
+      schemas:  [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   }));
