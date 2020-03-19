@@ -15,7 +15,7 @@ describe('ConfirmEmailResendComponent', () => {
 
   beforeEach(async(() => {
     mockAccountService = jasmine.createSpyObj(['resendEmailConfirmation']);
-    mockToastr = jasmine.createSpyObj(['info']);
+    mockToastr = jasmine.createSpyObj(['error']);
 
     TestBed.configureTestingModule({
       declarations: [ ConfirmEmailResendComponent ],

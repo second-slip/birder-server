@@ -15,8 +15,6 @@ import { first } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class ResetPasswordComponent implements OnInit {
-  // code: string;
-
   matching_passwords_group: FormGroup;
   resetPasswordForm: FormGroup;
   errorReport: ErrorReportViewModel;

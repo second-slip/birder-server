@@ -19,8 +19,7 @@ describe('LoginComponent', () => {
     mockToastr = jasmine.createSpyObj(['info']);
 
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes([
+      imports: [ RouterTestingModule.withRoutes([
           // { path: 'login', component: DummyLoginLayoutComponent },
         ])
       ],

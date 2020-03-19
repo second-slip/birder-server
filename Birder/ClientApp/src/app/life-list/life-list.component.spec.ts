@@ -1,14 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LifeListComponent } from './life-list.component';
+import { ObservationsAnalysisService } from '@app/_services/observations-analysis.service';
+import { of } from 'rxjs';
 
 describe('LifeListComponent', () => {
   let component: LifeListComponent;
   let fixture: ComponentFixture<LifeListComponent>;
 
+  let mockObservationsAnalysisService;
+
   beforeEach(async(() => {
+    mockObservationsAnalysisService = jasmine.createSpyObj(['getLifeList', 'getObservationAnalysis']);
+
     TestBed.configureTestingModule({
-      declarations: [ LifeListComponent ]
+      declarations: [ LifeListComponent,
+      { provide: ObservationsAnalysisService, useValue: mockObservationsAnalysisService }
+    ]
     })
     .compileComponents();
   }));
@@ -16,6 +24,8 @@ describe('LifeListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LifeListComponent);
     component = fixture.componentInstance;
+    mockObservationsAnalysisService.getLifeList.and.returnValue(of(null));
+    mockObservationsAnalysisService.getObservationAnalysis.and.returnValue(of(null));
     fixture.detectChanges();
   });
 
