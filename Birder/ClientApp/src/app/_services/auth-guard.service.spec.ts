@@ -21,6 +21,7 @@ describe('AuthGuardService', () => {
         }
       }),
     ],
+    providers: [ AuthGuard ]
   }));
 
   it('should be created', () => {
