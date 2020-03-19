@@ -4,6 +4,7 @@ import { TokenService } from './token.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { JwtModule } from '@auth0/angular-jwt';
 import { tokenGetter } from '@app/app.module';
+import { AuthenticationService } from './authentication.service';
 
 describe('TokenService', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -17,7 +18,7 @@ describe('TokenService', () => {
       }
     }), ],
     providers: [
-      TokenService
+      TokenService, AuthenticationService
     ]
   }));
 
