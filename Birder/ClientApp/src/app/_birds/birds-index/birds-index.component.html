@@ -1,8 +1,7 @@
 <div class="container">
   <h3>British bird species</h3>
 
-    <!-- Switch between list view or grid view -->
-
+  <!-- Switch between list view or grid view -->
   <div *ngIf="!birds" class="loading">
     <p><em>Loading the list of British bird species...</em></p>
     <mat-spinner></mat-spinner>
@@ -24,76 +23,22 @@
         <td>{{ record.birdId }}</td>
         <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
           <br><small><em>{{ record.species }}</em></small></td>
-          <td><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
-          <td [style.color]="record.conservationListColourCode"><small>{{ record.conservationStatus }}</small></td>
-        <!-- <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
-          <br><small><em>{{ record.species }}</em></small></td>
         <td><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
-        <td [style.color]="record.conservationListColourCode"><small>{{ record.conservationStatus }}</small></td> -->
+        <td [style.color]="record.conservationListColourCode"><small>{{ record.conservationStatus }}</small></td>
       </tr>
     </tbody>
   </table>
 
-  <!-- <div class="row">
-      <div class="col-1"></div>
-    <div class="col-10">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)"
-          placeholder="Type to filter or search the birds list...">
-      </mat-form-field>
-    </div>
-    <div class="col-1"></div>
-     <div class="col-3">
-      <mat-checkbox (change)="hello($event)">Show all bird species</mat-checkbox>
-    </div>
-  </div> -->
 
-  <!-- Removed *ngIf check because it causes all sorts of problems and causes sort and paginater to be
-undefined.  see https://stackoverflow.com/questions/48785965/angular-matpaginator-not-working -->
-
-  <div class="mat-elevation-z8">
-    <!-- <table mat-table [dataSource]="dataSource" matSort>
-
-
-      <ng-container matColumnDef="englishName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Species </th>
-        <td mat-cell *matCellDef="let bird"><a routerLink="/birds-detail/{{bird.birdId}}"> {{ bird.englishName }}</a>
-          <br><small><em>{{bird.species}}</em></small></td>
-      </ng-container>
-
-
-      <ng-container matColumnDef="btoStatusInBritain">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status in Britain / Population estimate in
-          Britain<sup>1</sup> </th>
-        <td mat-cell *matCellDef="let bird"> {{bird.btoStatusInBritain}}
-          <br> {{ bird.populationSize }}
-        </td>
-      </ng-container>
-
-
-      <ng-container matColumnDef="conservationStatus">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Risk Assessment<sup>2</sup> </th>
-        <td mat-cell *matCellDef="let bird" [style.color]="bird.conservationListColourCode">
-          {{bird.conservationStatus}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let bird; columns: displayedColumns;">
-      </tr>
-    </table> -->
-
-    <!-- <mat-paginator [pageSizeOptions]="[25, 50, 100]" [length]="length" (page)="onPaginateChange($event)"
-      showFirstLastButtons></mat-paginator> -->
-  <!-- </div>
-  <div> -->
-    <hr>
-    <p>With boundary links:</p>
-  <ngb-pagination [collectionSize]="length" [(page)]="page" [pageSize]="25" [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
-  
   <hr>
-  
+  <!-- <p>With boundary links:</p> -->
+  <ngb-pagination class="d-flex justify-content-center" [collectionSize]="length" [(page)]="page" [pageSize]="25"
+    [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
+
+  <hr>
+
   <pre>Current page: {{page}}</pre>
-  </div>
+
   <div>
     <small><br><sup>1</sup> The British list of 616 species occurring in Britain is kept by the British Ornithologists'
       Union (BOU). See <a href="https://www.bto.org/about-birds/birdfacts/british-list" target="_blank"> here</a> for
@@ -110,16 +55,16 @@ undefined.  see https://stackoverflow.com/questions/48785965/angular-matpaginato
 
 
 <!-- <div class="container"> -->
-  <!-- <h3>British bird species</h3>
+<!-- <h3>British bird species</h3>
   <p>Use mat-gris-list: https://material.angular.io/components/grid-list/examples
     <br>Switch between list view or grid view</p> -->
 
-  <!-- <div *ngIf="!dataSource" class="loading">
+<!-- <div *ngIf="!dataSource" class="loading">
     <p><em>Loading the list of British bird species...</em></p>
     <mat-spinner></mat-spinner>
   </div> -->
 
-  <!-- <div class="row">
+<!-- <div class="row">
       <div class="col-1"></div>
     <div class="col-10">
       <mat-form-field>
@@ -133,21 +78,21 @@ undefined.  see https://stackoverflow.com/questions/48785965/angular-matpaginato
     </div>
   </div> -->
 
-  <!-- Removed *ngIf check because it causes all sorts of problems and causes sort and paginater to be
+<!-- Removed *ngIf check because it causes all sorts of problems and causes sort and paginater to be
 undefined.  see https://stackoverflow.com/questions/48785965/angular-matpaginator-not-working -->
 
-  <!-- <div class="mat-elevation-z8">
+<!-- <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort> -->
 
-      <!-- Species names -->
-      <!-- <ng-container matColumnDef="englishName">
+<!-- Species names -->
+<!-- <ng-container matColumnDef="englishName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Species </th>
         <td mat-cell *matCellDef="let bird"><a routerLink="/birds-detail/{{bird.birdId}}"> {{ bird.englishName }}</a>
           <br><small><em>{{bird.species}}</em></small></td>
       </ng-container> -->
 
-      <!-- Status & population in UK -->
-      <!-- <ng-container matColumnDef="btoStatusInBritain">
+<!-- Status & population in UK -->
+<!-- <ng-container matColumnDef="btoStatusInBritain">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Status in Britain / Population estimate in
           Britain<sup>1</sup> </th>
         <td mat-cell *matCellDef="let bird"> {{bird.btoStatusInBritain}}
@@ -155,14 +100,14 @@ undefined.  see https://stackoverflow.com/questions/48785965/angular-matpaginato
         </td>
       </ng-container> -->
 
-      <!-- Risk -->
-      <!-- <ng-container matColumnDef="conservationStatus">
+<!-- Risk -->
+<!-- <ng-container matColumnDef="conservationStatus">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Risk Assessment<sup>2</sup> </th>
         <td mat-cell *matCellDef="let bird" [style.color]="bird.conservationListColourCode">
           {{bird.conservationStatus}} </td>
       </ng-container> -->
 
-      <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+<!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let bird; columns: displayedColumns;">
       </tr>
     </table>
