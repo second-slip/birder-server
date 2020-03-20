@@ -9,7 +9,8 @@ import { Title } from '@angular/platform-browser';
 })
 export class AboutComponent implements OnInit {
 
-  constructor(private titleService: Title) { }
+  // constructor(private titleService: Title) { }
+  constructor() { }
 
   ngOnInit() {
     // this.setTitle();

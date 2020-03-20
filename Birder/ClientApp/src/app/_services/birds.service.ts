@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { Observable } from 'rxjs';
-import { BirdsDdlDto, BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
+import { BirdsDdlDto, BirdSummaryViewModel, BirdsDto } from '@app/_models/BirdSummaryViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -16,12 +16,12 @@ export class BirdsService {
   constructor(private http: HttpClient
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  getBirds(pageIndex: number, pageSize: number): Observable<BirdsDdlDto | ErrorReportViewModel> {
+  getBirds(pageIndex: number, pageSize: number): Observable<BirdsDto | ErrorReportViewModel> {
     const params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.http.get<BirdsDdlDto>('api/Birds', { params })
+    return this.http.get<BirdsDto>('api/Birds', { params })
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
