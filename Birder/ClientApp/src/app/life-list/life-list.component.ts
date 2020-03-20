@@ -13,7 +13,9 @@ import { ObservationAnalysisViewModel } from '../_models/ObservationAnalysisView
 export class LifeListComponent implements OnInit {
   lifeList: LifeListViewModel[];
   analysis: ObservationAnalysisViewModel;
-  page = 4;
+  // new
+  // page = 4;
+  // totalItems: number; // length: number;
 
   constructor(private observationsAnalysisService: ObservationsAnalysisService) { }
 
