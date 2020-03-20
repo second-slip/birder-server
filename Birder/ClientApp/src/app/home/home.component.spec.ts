@@ -36,8 +36,8 @@ describe('HomeComponent', () => {
     fixture = TestBed.createComponent(HomeComponent);
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
-    mockAuthenticationService.checkIsAuthenticatedObservable.and.returnValue(of(isAuthenticated));
-    fixture.detectChanges();
+    // mockAuthenticationService.checkIsAuthenticatedObservable.and.returnValue(of(isAuthenticated));
+    // fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -32,6 +32,8 @@ describe('LifeListComponent', () => {
   });
 
   it('should create', () => {
+    mockObservationsAnalysisService.getObservationAnalysis.and.returnValue(of(null));
+    mockObservationsAnalysisService.getLifeList.and.returnValue(of([]));
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
