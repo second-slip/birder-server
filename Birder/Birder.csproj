@@ -32,7 +32,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="Moq" Version="4.13.1" />
-    <PackageReference Include="SendGrid" Version="9.13.0" />
+    <PackageReference Include="SendGrid" Version="9.13.1" />
     <PackageReference Include="System.Runtime.Caching" Version="4.7.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
