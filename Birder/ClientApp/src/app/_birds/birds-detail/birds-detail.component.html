@@ -114,30 +114,30 @@
         </div> -->
 
       <!--  -->
-      <div class="mat-elevation-z8">
+      <!-- <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort>
 
-          <!-- Quantity observed -->
+
           <ng-container matColumnDef="quantity">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Qty </th>
             <td mat-cell *matCellDef="let observation"> {{ observation.quantity }} </td>
           </ng-container>
 
-          <!-- Species -->
+
           <ng-container matColumnDef="bird">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Species </th>
             <td mat-cell *matCellDef="let observation"> {{ observation.bird.englishName }} <small><i>
                   {{ observation.bird.species }} </i></small> </td>
           </ng-container>
 
-          <!-- Date & time -->
+
           <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Observation Date & Time </th>
             <td mat-cell *matCellDef="let observation">
               {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}} </td>
           </ng-container>
 
-          <!-- User -->
+          
           <ng-container matColumnDef="user">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Birder </th>
             <td mat-cell *matCellDef="let observation"> {{ observation.user.userName }} </td>
@@ -149,7 +149,7 @@
         </table>
 
         <mat-paginator [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons></mat-paginator>
-      </div>
+      </div> -->
       <!--  -->
 
     </mat-expansion-panel>

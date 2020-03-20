@@ -4,11 +4,11 @@ import { BirdsIndexComponent } from './birds-index.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BirdsService } from '@app/_services/birds.service';
 import { of } from 'rxjs';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+
 import { HarnessLoader } from '@angular/cdk/testing';
-import { MatPaginatorHarness } from '@angular/material/paginator/testing';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatPaginatorModule } from '@angular/material/paginator';
+// import { MatPaginatorModule } from '@angular/material/paginator';
 
 // let loader: HarnessLoader;
 
