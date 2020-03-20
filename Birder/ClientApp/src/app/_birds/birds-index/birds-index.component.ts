@@ -32,7 +32,7 @@ export class BirdsIndexComponent implements OnInit {
     this.getBirds(1, 25);
   }
 
-  changePage(hello: number) { // event) { // page: number) {
+  changePage() { // event) { // page: number) {
     // alert(this.page);
     this.getBirds(this.page, 25);
     // console.log(event);

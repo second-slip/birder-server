@@ -1,7 +1,7 @@
 <div class="container">
   <h3>British bird species</h3>
-  <p>Use mat-gris-list: https://material.angular.io/components/grid-list/examples
-    <br>Switch between list view or grid view</p>
+
+    <!-- Switch between list view or grid view -->
 
   <div *ngIf="!birds" class="loading">
     <p><em>Loading the list of British bird species...</em></p>
@@ -86,7 +86,7 @@ undefined.  see https://stackoverflow.com/questions/48785965/angular-matpaginato
   <div> -->
     <hr>
     <p>With boundary links:</p>
-  <ngb-pagination [collectionSize]="length" [(page)]="page" [pageSize]="60" [boundaryLinks]="true" (pageChange)="changePage($event)"></ngb-pagination>
+  <ngb-pagination [collectionSize]="length" [(page)]="page" [pageSize]="25" [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
   
   <hr>
   
