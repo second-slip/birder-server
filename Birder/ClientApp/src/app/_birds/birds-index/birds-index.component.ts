@@ -1,8 +1,5 @@
-import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
-// import { PageEvent, MatPaginator } from '@angular/material/paginator';
-// import { MatSort } from '@angular/material/sort';
-// import { MatTableDataSource } from '@angular/material/table';
-import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { BirdSummaryViewModel, BirdsDto } from '@app/_models/BirdSummaryViewModel';
 import { BirdsService } from '@app/_services/birds.service';
 import { Router } from '@angular/router';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
@@ -14,16 +11,9 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
   encapsulation: ViewEncapsulation.None
 })
 export class BirdsIndexComponent implements OnInit {
-  // displayedColumns: string[] = ['englishName', 'btoStatusInBritain', 'conservationStatus'];
-  // dataSource: MatTableDataSource<BirdSummaryViewModel[]>;
   birds: BirdSummaryViewModel[];
   length: number;
   page: number = 1;
-
-  // pageEvent: PageEvent;
-
-  // @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  // @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private birdsService: BirdsService
     , private router: Router) { }
@@ -33,45 +23,13 @@ export class BirdsIndexComponent implements OnInit {
   }
 
   changePage() { // event) { // page: number) {
-    // alert(this.page);
     this.getBirds(this.page, 25);
-    // console.log(event);
-    // if (page !== this.previousPage) {
-    //   this.previousPage = page;
-    //   this.loadData();
-    // }
   }
-
-  // hello(e) {
-  //   console.log(e);
-  //   if (e.checked) {
-  //     // alert('I have been checked');
-  //     this.getBirds(BirderStatus.Uncommon);
-  //   } else {
-  //     // alert('I have been unchecked');
-  //     this.getBirds(BirderStatus.Common);
-  //   }
-  // }
-
-  // onPaginateChange(event) {
-  //   // alert(JSON.stringify('Current page index: ' + event.pageIndex));
-
-  //   this.getBirds(event.pageIndex + 1, event.pageSize);
-  // }
-
-  // applyFilter(filterValue: string) {
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
-
-  //   if (this.dataSource.paginator) {
-  //     this.dataSource.paginator.firstPage();
-  //   }
-  // }
 
   getBirds(page: number, pageSize: number): void {
     this.birdsService.getBirds(page, pageSize)
       .subscribe(
-        (data: any) => { // (data: BirdSummaryViewModel[]) => {
-          // this.dataSource = data.items;  // new MatTableDataSource(data.items);
+        (data: BirdsDto) => { // (data: BirdSummaryViewModel[]) => {
           this.birds = data.items;
           this.length = data.totalItems;
         },
@@ -80,8 +38,6 @@ export class BirdsIndexComponent implements OnInit {
         },
         () => {
           // operations when URL request is completed
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
         });
   }
 }
