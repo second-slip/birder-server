@@ -45,6 +45,7 @@ namespace Birder.Data.Repository
 
             var query = _dbContext.Birds
                 .Include(u => u.BirdConservationStatus)
+                .Where(s => s.BirderStatus == BirderStatus.Common)
                 .AsNoTracking()
                 .AsQueryable();
 
