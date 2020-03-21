@@ -6,7 +6,6 @@ import { Location } from '@angular/common';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { ObservationViewModel } from '../../_models/ObservationViewModel';
 
-
 @Component({
   selector: 'app-birds-detail',
   templateUrl: './birds-detail.component.html',

@@ -1,14 +1,14 @@
 app-birds-detail {
   // Expnasion panel
-  .example-headers-align .mat-expansion-panel-header-title,
-  .example-headers-align .mat-expansion-panel-header-description {
-    flex-basis: 0;
-  }
+  // .example-headers-align .mat-expansion-panel-header-title,
+  // .example-headers-align .mat-expansion-panel-header-description {
+  //   flex-basis: 0;
+  
 
-  .example-headers-align .mat-expansion-panel-header-description {
-    justify-content: space-between;
-    align-items: center;
-  }
+  // .example-headers-align .mat-expansion-panel-header-description {
+  //   justify-content: space-between;
+  //   align-items: center;
+  // }
 
   .flex-container {
     display: flex;
@@ -24,10 +24,10 @@ app-birds-detail {
     width: 100%;
   }
 
-  .mat-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
+  // .mat-form-field {
+  //   font-size: 14px;
+  //   width: 100%;
+  // }
 
   td,
   th {
