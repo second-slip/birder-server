@@ -10,27 +10,69 @@ app-birds-detail {
   //   align-items: center;
   // }
 
+
   .flex-container {
     display: flex;
     flex-direction: column;
+
+
   }
 
   .full-width {
-    width: auto;
-    margin-bottom: 1px;
+    // width: fit-content;
+    margin-bottom: 0.5px;
   }
 
+  .mat-form-field-underline {
+    display: none;
+    }
+
+  // dl {
+  //   border: 3px double #ccc;
+  //   padding: 0.5em;
+  // }
+  // dt {
+  //   float: left;
+  //   clear: left;
+  //   width: fit-content;
+  //   // text-align: right;
+  //   font-weight: normal;
+  //   // color: green;
+
+  // }
+  // dt::after {
+  //   content: ":";
+  // }
+  // dd {
+  //   font-weight: bold;
+  //   margin: 0 0 0 50px;
+  //   padding: 0 0 0.5em 0;
+  // }
+
+  // dl dt {
+  //   float: left;
+  //   width: max-content;
+  //   // text-align: right;
+  // }
+  
+  // dd {
+  //   float: left;
+  //   margin-left: 10px;
+  // }
+
+
   table {
+    // width: 100%;
+  }
+
+  .mat-form-field {
+    font-size: 14px;
     width: 100%;
   }
 
-  // .mat-form-field {
-  //   font-size: 14px;
-  //   width: 100%;
+  
+  // td,
+  // th {
+  //   width: auto;
   // }
-
-  td,
-  th {
-    width: auto;
-  }
 }

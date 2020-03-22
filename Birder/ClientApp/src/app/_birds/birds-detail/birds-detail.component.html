@@ -7,17 +7,51 @@
   <h3> {{ bird.englishName }} <small><i>{{ bird.species }}</i></small></h3>
   <br>
   <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs">
-    <li [ngbNavItem]="1" [destroyOnHide]="true">
+    <li [ngbNavItem]="1" [destroyOnHide]="false">
       <a ngbNavLink>Summary</a>
       <ng-template ngbNavContent>
         <ngb-alert [dismissible]="false" class="d-block mt-3" type="danger">
           This tab content DOM will de destroyed when not active
         </ngb-alert>
+
+        
+
+        <div class="row">
+          <div class="flex-container col-8">
+            <img src="./assets/Birder-Logo-With-Text.png" alt="Trulli" width="100%" height="100%">
+          </div>
+          <div class="flex-container col-4">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Class" value="{{ bird.class }}" disabled>
+              </mat-form-field>
+    
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Order" value="{{ bird.order }}" disabled>
+              </mat-form-field>
+    
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Family" value="{{ bird.family }}" disabled>
+              </mat-form-field>
+    
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Genus" value="{{ bird.genus }}" disabled>
+              </mat-form-field>
+    
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Species" value="{{ bird.species }}" disabled>
+              </mat-form-field>
+          </div>
+        </div>
+
+
+
+
+        <hr>
   
-        <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+        <!-- <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
           master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro
           keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat
-          salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+          salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p> -->
       </ng-template>
     </li>
     <li [ngbNavItem]="2">
