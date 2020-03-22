@@ -14,7 +14,7 @@ import { ObservationViewModel } from '../../_models/ObservationViewModel';
 })
 export class BirdsDetailComponent {
   bird: BirdDetailViewModel;
-  // observations: ObservationViewModel[];
+  observations: ObservationViewModel[];
   expanded: boolean;
   // executed: boolean;
   // displayedColumns: string[] = ['quantity', 'bird', 'user', 'date'];

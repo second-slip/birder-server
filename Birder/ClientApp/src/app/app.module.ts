@@ -80,6 +80,7 @@ import { AboutContributeComponent } from './_about/about-contribute/about-contri
 import { NgcCookieConsentModule, NgcCookieConsentConfig} from 'ngx-cookieconsent';
 import { AuthenticationService } from './_services/authentication.service';
 import { TokenService } from './_services/token.service';
+import { ObservationsListComponent } from './observations-list/observations-list.component';
 
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
@@ -165,6 +166,7 @@ export function tokenGetter() {
     ObservationManagePhotosComponent,
     TestingComponent,
     AboutContributeComponent,
+    ObservationsListComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
