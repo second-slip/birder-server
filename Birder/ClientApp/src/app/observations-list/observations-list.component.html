@@ -9,7 +9,8 @@
                 <th scope="col">#</th>
                 <th scope="col">Qty</th>
                 <th scope="col">Date/Time</th>
-                <th scope="col">By</th>
+                <th scope="col">User</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -17,7 +18,8 @@
                 <th scope="row">{{ i + 1 }}</th>
                 <td>{{ record.quantity }}</td>
                 <td>{{ record.observationDateTime | date: 'dd/MM/yyyy \'at\' h:mm a' }}</td>
-                <td>{{ record.user.userName }}</td>
+                <td><a routerLink="/user-profile/{{ record.user.userName }}">{{ record.user.userName }}</a></td>
+                <td><a routerLink="/observation-detail/{{ record.observationId }}">View</a></td>
             </tr>
         </tbody>
     </table>

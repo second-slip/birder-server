@@ -76,9 +76,9 @@
     <li [ngbNavItem]="3" [destroyOnHide]="false">
       <a ngbNavLink>Sightings</a>
       <ng-template ngbNavContent let-active>
-        <ngb-alert *ngIf="active" [dismissible]="false" class="d-block mt-3">
+        <!-- <ngb-alert *ngIf="active" [dismissible]="false" class="d-block mt-3">
           While tab content DOM is never destroyed, this alert exists only when current tab is active
-        </ngb-alert>
+        </ngb-alert> -->
 
         <ng-container *ngIf="tabstatus['3'] === true">
           <app-observations-list [birdId]="this.bird.birdId"></app-observations-list>

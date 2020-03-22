@@ -31,15 +31,8 @@ export class ObservationsListComponent implements OnInit {
           // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         },
         () => {
-          // operations when URL request is completed
-          // this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
         });
-    // );
-
-
   }
-
 }
 
 
