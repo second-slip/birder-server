@@ -1,30 +1,24 @@
-<p>observations-list works!</p>
-
 <p>
-    Today's item: {{birdId}}
-  </p>
+    Bird id: {{birdId}}
+</p>
 
 <div>
     <table class="table table-striped" *ngIf="observations">
         <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Id</th>
-            <!-- <th scope="col">Species</th>
-
-            <th scope="col">Status / Population</th>
-            <th scope="col">Risk Flag</th> -->
-          </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Date/Time</th>
+                <th scope="col">By</th>
+            </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let record of observations; index as i">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ record.observationId }}</td>
-            <!-- <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
-              <br><small><em>{{ record.species }}</em></small></td>
-            <td><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
-            <td [style.color]="record.conservationListColourCode"><small>{{ record.conservationStatus }}</small></td> -->
-          </tr>
+            <tr *ngFor="let record of observations; index as i">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ record.quantity }}</td>
+                <td>{{ record.observationDateTime | date: 'dd/MM/yyyy \'at\' h:mm a' }}</td>
+                <td>{{ record.user.userName }}</td>
+            </tr>
         </tbody>
-      </table>
+    </table>
 </div>

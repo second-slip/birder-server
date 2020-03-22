@@ -9,32 +9,22 @@ import { BirdsService } from '@app/_services/birds.service';
   styleUrls: ['./observations-list.component.scss']
 })
 export class ObservationsListComponent implements OnInit {
-  // birdId: number;
-  isActived = false;
   observations: ObservationViewModel[];
   @Input() birdId: number;
 
   constructor(private birdsService: BirdsService) { }
 
   ngOnInit(): void {
-    // alert(this.isActived);
-    // alert(this.observations);
     if (!this.observations) {
-
       this.loadObservations(this.birdId);
-
-      // this.observations = new Obser {observationId = 1}
-      // alert(this.observations.length);
     }
-    // alert(this.observations.length);
   }
 
   loadObservations(birdId: number): void {
-        this.birdsService.getObservations(birdId)
+    this.birdsService.getObservations(birdId)
       .subscribe(
         (data: ObservationViewModel[]) => {
           this.observations = data;
-          // this.dataSource = new MatTableDataSource(data);
         },
         (error: ErrorReportViewModel) => {
           console.log('bad request');
