@@ -16,6 +16,7 @@ export class BirdsDetailComponent {
   bird: BirdDetailViewModel;
   observations: ObservationViewModel[];
   expanded: boolean;
+  tabstatus = {};
   // executed: boolean;
   // displayedColumns: string[] = ['quantity', 'bird', 'user', 'date'];
   // dataSource: MatTableDataSource<ObservationViewModel>;
