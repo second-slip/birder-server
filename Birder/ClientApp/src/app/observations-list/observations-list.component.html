@@ -1,27 +1,30 @@
 <p>observations-list works!</p>
 
+<p>
+    Today's item: {{birdId}}
+  </p>
+
 <div>
-    <table class="table table-striped">  
-        <!-- *ngIf="lifeList" -->
+    <table class="table table-striped" *ngIf="observations">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Id</th>
             <!-- <th scope="col">Species</th>
-                
+
             <th scope="col">Status / Population</th>
             <th scope="col">Risk Flag</th> -->
           </tr>
         </thead>
         <tbody>
-          <!-- <tr *ngFor="let record of lifeList; index as i"> -->
-            <!-- <th scope="row">{{ i + 1 }}</th> -->
-            <!-- <td>{{ observationId }}</td> -->
+          <tr *ngFor="let record of observations; index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ record.observationId }}</td>
             <!-- <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
               <br><small><em>{{ record.species }}</em></small></td>
             <td><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
             <td [style.color]="record.conservationListColourCode"><small>{{ record.conservationStatus }}</small></td> -->
-          <!-- </tr> -->
+          </tr>
         </tbody>
       </table>
 </div>
