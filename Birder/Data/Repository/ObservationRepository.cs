@@ -2,7 +2,6 @@
 using Birder.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -66,16 +65,31 @@ namespace Birder.Data.Repository
         //        .ToListAsync();
         //}
 
-        public async Task<IEnumerable<Observation>> GetObservationsAsync(Expression<Func<Observation, bool>> predicate)
+        public async Task<QueryResult<Observation>> GetObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
         {
-            return await _dbContext.Observations
+            var result = new QueryResult<Observation>();
+
+            var query = _dbContext.Observations
                 .Include(y => y.Bird)
                     .ThenInclude(u => u.BirdConservationStatus)
                 .Include(au => au.ApplicationUser)
-                .Where(predicate)
-                .OrderByDescending(d => d.ObservationDateTime)
+                //.Where(predicate)
+                //.OrderByDescending(d => d.ObservationDateTime)
                 .AsNoTracking()
-                .ToListAsync();
+                .AsQueryable();
+            //.ToListAsync();
+
+            query = query.Where(predicate);
+
+            query = query.OrderByDescending(d => d.ObservationDateTime);
+
+            result.TotalItems = await query.CountAsync();
+
+            query = query.ApplyPaging(pageIndex, pageSize);
+
+            result.Items = await query.ToListAsync();
+
+            return result;
         }
 
         public async Task<Observation> GetObservationAsync(int id, bool includeRelated)

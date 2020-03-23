@@ -8,4 +8,10 @@ namespace Birder.ViewModels
         public IEnumerable<ObservationViewModel> Items { get; set; }
         public ObservationFeedFilter ReturnFilter { get; set; }
     }
+
+    public class ObservationDto
+    {
+        public int TotalItems { get; set; }
+        public IEnumerable<ObservationViewModel> Items { get; set; }
+    }
 }

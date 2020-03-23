@@ -74,11 +74,11 @@ namespace Birder.Controllers
 
 
         [HttpGet, Route("GetObservationsByBirdSpecies")]
-        public async Task<IActionResult> GetObservationsByBirdSpeciesAsync(int birdId)
+        public async Task<IActionResult> GetObservationsByBirdSpeciesAsync(int birdId, int pageIndex)
         {
             try
             {
-                var observations = await _observationRepository.GetObservationsAsync(cs => cs.BirdId == birdId);
+                var observations = await _observationRepository.GetObservationsAsync(cs => cs.BirdId == birdId, pageIndex, 10);
 
                 if (observations == null)
                 {
@@ -87,7 +87,7 @@ namespace Birder.Controllers
                     return NotFound(message);
                 }
 
-                return Ok(_mapper.Map<IEnumerable<Observation>, IEnumerable<ObservationViewModel>>(observations));
+                return Ok(_mapper.Map<QueryResult<Observation>, ObservationDto>(observations));
             }
             catch (Exception ex)
             {
