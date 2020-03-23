@@ -179,7 +179,7 @@ namespace Birder.Tests.Controller
         #endregion
 
 
-        #region GetObservationsBySpeciesAsync
+        #region GetObservationsByBirdSpeciesAsync
 
         [Theory]
         [InlineData(1)]
@@ -214,7 +214,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId);
+            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 1);
 
             // Assert
             string expectedMessage = $"Observations with birdId '{birdId}' was not found.";
@@ -258,7 +258,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId);
+            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 1);
 
             // Assert
             string expectedMessage = "An error occurred";
@@ -303,7 +303,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId);
+            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 1);
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
