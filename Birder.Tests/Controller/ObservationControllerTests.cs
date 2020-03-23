@@ -214,7 +214,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationsBySpeciesAsync(birdId);
+            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId);
 
             // Assert
             string expectedMessage = $"Observations with birdId '{birdId}' was not found.";
@@ -258,7 +258,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationsBySpeciesAsync(birdId);
+            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId);
 
             // Assert
             string expectedMessage = "An error occurred";
@@ -303,7 +303,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationsBySpeciesAsync(birdId);
+            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId);
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);

@@ -74,7 +74,7 @@ namespace Birder.Controllers
 
 
         [HttpGet, Route("GetObservationsBySpecies")]
-        public async Task<IActionResult> GetObservationsBySpeciesAsync(int birdId)
+        public async Task<IActionResult> GetObservationsByBirdSpeciesAsync(int birdId)
         {
             try
             {
