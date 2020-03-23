@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { Observable } from 'rxjs';
-import { BirdsDdlDto, BirdSummaryViewModel, BirdsDto } from '@app/_models/BirdSummaryViewModel';
+import { BirdSummaryViewModel, BirdsDto } from '@app/_models/BirdSummaryViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { BirdDetailViewModel } from '@app/_models/BirdDetailViewModel';
-import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 
 @Injectable({
   providedIn: 'root'
@@ -40,13 +39,4 @@ export class BirdsService {
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
-
-  // getObservations(birdId: number): Observable<ObservationViewModel[] | ErrorReportViewModel> {
-  //   const options = birdId ?
-  //     { params: new HttpParams().set('birdId', birdId.toString()) } : {};
-
-  //   return this.http.get<ObservationViewModel[]>('api/Observation/GetObservationsBySpecies', options)
-  //     .pipe(
-  //       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
-  // }
 }
