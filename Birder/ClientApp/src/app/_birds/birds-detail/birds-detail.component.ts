@@ -14,6 +14,7 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 export class BirdsDetailComponent {
   bird: BirdDetailViewModel;
   tabstatus = {};
+  active;
 
   constructor(private birdsService: BirdsService
     , private route: ActivatedRoute
@@ -21,8 +22,17 @@ export class BirdsDetailComponent {
     , private router: Router) {
     route.params.subscribe(_ => {
       this.getBird();
+      // the next two statements reset the tabs.  This is required when the page is reloaded
+      // with different data.  Otherwise the 'sightings' child component keeps its original data.
+      this.active = 1;
+      this.tabstatus = {};
     });
   }
+
+  x(): void {
+    // this.tabstatus.
+  }
+
 
   getBird(): void {
     const id = +this.route.snapshot.paramMap.get('id');
