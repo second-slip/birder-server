@@ -31,7 +31,7 @@
     </table>
 
     <hr>
-    <ngb-pagination class="d-flex justify-content-center" [collectionSize]="length" [(page)]="page" [pageSize]="25"
+    <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItems" [(page)]="page" [pageSize]="pageSize"
       [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
     <!-- <pre>Current page: {{page}}</pre> -->
     <hr>

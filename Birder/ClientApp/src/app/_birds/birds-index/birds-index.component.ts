@@ -12,18 +12,19 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 })
 export class BirdsIndexComponent implements OnInit {
   birds: BirdSummaryViewModel[];
-  length: number;
-  page: number = 1;
+  totalItems: number;
+  page = 1;
+  pageSize = 25;
 
   constructor(private birdsService: BirdsService
     , private router: Router) { }
 
   ngOnInit() {
-    this.getBirds(1, 25);
+    this.getBirds(1, this.pageSize);
   }
 
   changePage() { // event) { // page: number) {
-    this.getBirds(this.page, 25);
+    this.getBirds(this.page, this.pageSize);
   }
 
   getBirds(page: number, pageSize: number): void {
@@ -31,7 +32,7 @@ export class BirdsIndexComponent implements OnInit {
       .subscribe(
         (data: BirdsDto) => { // (data: BirdSummaryViewModel[]) => {
           this.birds = data.items;
-          this.length = data.totalItems;
+          this.totalItems = data.totalItems;
         },
         (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);
