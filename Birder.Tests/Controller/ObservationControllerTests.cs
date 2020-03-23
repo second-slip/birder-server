@@ -238,7 +238,7 @@ namespace Birder.Tests.Controller
             var mockBirdRepo = new Mock<IBirdRepository>();
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+            mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                        .ThrowsAsync(new InvalidOperationException());
 
             var controller = new ObservationController(
@@ -258,7 +258,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 1);
+            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 10);
 
             // Assert
             string expectedMessage = "An error occurred";
@@ -283,8 +283,8 @@ namespace Birder.Tests.Controller
             var mockBirdRepo = new Mock<IBirdRepository>();
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
-                       .ReturnsAsync(GetTestObservations(length, bird));
+            mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                       .ReturnsAsync(GetQueryResult(length, bird));
 
             var controller = new ObservationController(
                 _mapper
@@ -303,7 +303,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 1);
+            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 10);
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -1183,6 +1183,17 @@ namespace Birder.Tests.Controller
                 ApplicationUser = user,
                 ObservationDateTime = _systemClock.GetNow
             };
+        }
+
+        private QueryResult<Observation> GetQueryResult(int length, Bird bird)
+        {
+            var result = new QueryResult<Observation>();
+            //var bird = new Bird() { BirdId = 1 };
+
+            result.TotalItems = length;
+            result.Items = GetTestObservations(length, bird);
+
+            return result;
         }
 
         private IEnumerable<Observation> GetTestObservations(int length, Bird bird)
