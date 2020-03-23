@@ -5,6 +5,7 @@ import { tap, catchError, take } from 'rxjs/operators';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { ObservationViewModel } from '../_models/ObservationViewModel';
+import { ObservationDto } from '@app/_models/ObservationFeedDto';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -61,11 +62,11 @@ export class ObservationService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getObservationsByBirdSpecies(birdId: number): Observable<ObservationViewModel[] | ErrorReportViewModel> {
+  getObservationsByBirdSpecies(birdId: number): Observable<ObservationDto | ErrorReportViewModel> {
     const options = birdId ?
       { params: new HttpParams().set('birdId', birdId.toString()) } : {};
 
-    return this.http.get<ObservationViewModel[]>('api/Observation/GetObservationsByBirdSpecies', options)
+    return this.http.get<ObservationDto>('api/Observation/GetObservationsByBirdSpecies', options)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

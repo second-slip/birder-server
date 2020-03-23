@@ -78,7 +78,7 @@ namespace Birder.Data.Repository
                 .ToListAsync();
         }
 
-            public async Task<QueryResult<Observation>> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
+        public async Task<QueryResult<Observation>> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
         {
             var result = new QueryResult<Observation>();
 
@@ -104,6 +104,7 @@ namespace Birder.Data.Repository
 
             return result;
         }
+        
 
         public async Task<Observation> GetObservationAsync(int id, bool includeRelated)
         {

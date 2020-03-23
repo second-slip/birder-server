@@ -9,3 +9,12 @@ export interface ObservationFeedDto {
     // displayMessage: boolean;
     // message: string;
 }
+
+export interface ObservationDto {
+    totalItems: number;
+    // totalPages: number;
+    items: ObservationViewModel[];
+    // returnFilter: ObservationFeedFilter;
+    // displayMessage: boolean;
+    // message: string;
+}
