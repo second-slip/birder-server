@@ -41,12 +41,12 @@ export class BirdsService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getObservations(birdId: number): Observable<ObservationViewModel[] | ErrorReportViewModel> {
-    const options = birdId ?
-      { params: new HttpParams().set('birdId', birdId.toString()) } : {};
+  // getObservations(birdId: number): Observable<ObservationViewModel[] | ErrorReportViewModel> {
+  //   const options = birdId ?
+  //     { params: new HttpParams().set('birdId', birdId.toString()) } : {};
 
-    return this.http.get<ObservationViewModel[]>('api/Observation/GetObservationsBySpecies', options)
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
-  }
+  //   return this.http.get<ObservationViewModel[]>('api/Observation/GetObservationsBySpecies', options)
+  //     .pipe(
+  //       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  // }
 }

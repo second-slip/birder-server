@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { BirdsService } from '@app/_services/birds.service';
+import { ObservationService } from '@app/_services/observation.service';
 
 @Component({
   selector: 'app-observations-list',
@@ -13,7 +13,7 @@ export class ObservationsListComponent implements OnInit {
   observations: ObservationViewModel[];
   @Input() birdId: number;
 
-  constructor(private birdsService: BirdsService) { }
+  constructor(private observationsService: ObservationService) { }
 
   ngOnInit(): void {
     if (!this.observations) {
@@ -22,7 +22,7 @@ export class ObservationsListComponent implements OnInit {
   }
 
   loadObservations(birdId: number): void {
-    this.birdsService.getObservations(birdId)
+    this.observationsService.getObservationsByBirdSpecies(birdId)
       .subscribe(
         (data: ObservationViewModel[]) => {
           this.observations = data;
