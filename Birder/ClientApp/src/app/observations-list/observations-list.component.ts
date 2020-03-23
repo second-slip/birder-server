@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { BirdsService } from '@app/_services/birds.service';
@@ -6,7 +6,8 @@ import { BirdsService } from '@app/_services/birds.service';
 @Component({
   selector: 'app-observations-list',
   templateUrl: './observations-list.component.html',
-  styleUrls: ['./observations-list.component.scss']
+  styleUrls: ['./observations-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ObservationsListComponent implements OnInit {
   observations: ObservationViewModel[];
