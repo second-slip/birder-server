@@ -2,6 +2,7 @@
 using Birder.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -65,7 +66,19 @@ namespace Birder.Data.Repository
         //        .ToListAsync();
         //}
 
-        public async Task<QueryResult<Observation>> GetObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
+        public async Task<IEnumerable<Observation>> GetObservationsAsync(Expression<Func<Observation, bool>> predicate)
+        {
+            return await _dbContext.Observations
+                .Include(y => y.Bird)
+                    .ThenInclude(u => u.BirdConservationStatus)
+                .Include(au => au.ApplicationUser)
+                .Where(predicate)
+                .OrderByDescending(d => d.ObservationDateTime)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+            public async Task<QueryResult<Observation>> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
         {
             var result = new QueryResult<Observation>();
 
