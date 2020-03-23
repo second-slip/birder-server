@@ -62,11 +62,16 @@ export class ObservationService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getObservationsByBirdSpecies(birdId: number): Observable<ObservationDto | ErrorReportViewModel> {
-    const options = birdId ?
-      { params: new HttpParams().set('birdId', birdId.toString()) } : {};
+  getObservationsByBirdSpecies(birdId: number, pageIndex: number, pageSize: number): Observable<ObservationDto | ErrorReportViewModel> {
+    // const options = birdId ?
+    //   { params: new HttpParams().set('birdId', birdId.toString()) } : {};
 
-    return this.http.get<ObservationDto>('api/Observation/GetObservationsByBirdSpecies', options)
+      const params = new HttpParams()
+      .set('birdId', birdId.toString())
+      .set('pageIndex', pageIndex.toString())
+      .set('pageSize', pageSize.toString());
+
+    return this.http.get<ObservationDto>('api/Observation/GetObservationsByBirdSpecies', { params })
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationService } from '@app/_services/observation.service';
+import { ObservationDto } from '@app/_models/ObservationFeedDto';
 
 @Component({
   selector: 'app-observations-list',
@@ -12,20 +13,27 @@ import { ObservationService } from '@app/_services/observation.service';
 export class ObservationsListComponent implements OnInit {
   observations: ObservationViewModel[];
   @Input() birdId: number;
+  totalItems: number;
+  page: number = 1;
 
   constructor(private observationsService: ObservationService) { }
 
   ngOnInit(): void {
     if (!this.observations) {
-      this.loadObservations(this.birdId);
+      this.getObservations(this.birdId, this.page, 25);
     }
   }
 
-  loadObservations(birdId: number): void {
-    this.observationsService.getObservationsByBirdSpecies(birdId)
+  changePage() { // event) { // page: number) {
+    this.getObservations(this.birdId, this.page, 25);
+  }
+
+  getObservations(birdId: number, page: number, pageSize: number): void {
+    this.observationsService.getObservationsByBirdSpecies(birdId, page, pageSize)
       .subscribe(
-        (data: ObservationViewModel[]) => {
-          this.observations = data;
+        (data: ObservationDto) => {
+          this.totalItems = data.totalItems;
+          this.observations = data.items;
         },
         (error: ErrorReportViewModel) => {
           console.log('bad request');
