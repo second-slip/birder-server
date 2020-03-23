@@ -34,7 +34,11 @@
             </table>
 
         </ng-container>
-        <ng-template #noItems>No Items!</ng-template>
+        <ng-template #noItems>
+            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+                No sightings of this species has been recorded.
+            </ngb-alert>
+        </ng-template>
 
     </div>
 </div>
