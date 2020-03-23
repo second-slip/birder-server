@@ -5,12 +5,12 @@ import { ObservationService } from '@app/_services/observation.service';
 import { ObservationDto } from '@app/_models/ObservationFeedDto';
 
 @Component({
-  selector: 'app-observations-list',
-  templateUrl: './observations-list.component.html',
-  styleUrls: ['./observations-list.component.scss'],
+  selector: 'app-bird-observations-list',
+  templateUrl: './bird-observations-list.component.html',
+  styleUrls: ['./bird-observations-list.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ObservationsListComponent implements OnInit {
+export class BirdObservationsListComponent implements OnInit {
   observations: ObservationViewModel[];
   @Input() birdId: number;
   totalItems: number;
