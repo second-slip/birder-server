@@ -78,7 +78,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var observations = await _observationRepository.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, 10);
+                var observations = await _observationRepository.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
 
                 if (observations == null)
                 {

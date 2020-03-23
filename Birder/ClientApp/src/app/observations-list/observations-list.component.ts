@@ -14,18 +14,19 @@ export class ObservationsListComponent implements OnInit {
   observations: ObservationViewModel[];
   @Input() birdId: number;
   totalItems: number;
-  page: number = 1;
+  page = 1;
+  pageSize = 10;
 
   constructor(private observationsService: ObservationService) { }
 
   ngOnInit(): void {
     if (!this.observations) {
-      this.getObservations(this.birdId, this.page, 25);
+      this.getObservations(this.birdId, this.page, this.pageSize);
     }
   }
 
   changePage() { // event) { // page: number) {
-    this.getObservations(this.birdId, this.page, 25);
+    this.getObservations(this.birdId, this.page, this.pageSize);
   }
 
   getObservations(birdId: number, page: number, pageSize: number): void {
