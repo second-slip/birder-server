@@ -307,9 +307,9 @@ namespace Birder.Tests.Controller
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
-            var actualObs = Assert.IsAssignableFrom<IEnumerable<ObservationViewModel>>(objectResult.Value);
-            Assert.Equal(length, actualObs.Count());
-            Assert.Equal(birdId, actualObs.First().BirdId);
+            var actualObs = Assert.IsType<ObservationDto>(objectResult.Value);
+            Assert.Equal(length, actualObs.TotalItems);
+            Assert.Equal(birdId, actualObs.Items.First().BirdId);
         }
 
         #endregion
