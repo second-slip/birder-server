@@ -4,12 +4,11 @@
         <mat-spinner></mat-spinner>
     </div>
 
-
-
     <div *ngIf="observations">
         <ng-container *ngIf="observations.length; else noItems">
             <p class="italic">
-                The {{ observations[0].bird.englishName }} has been spotted {{ observations.length }} {{ observations.length > 1 ? 'times:' : 'time:' }}
+                The {{ observations[0].bird.englishName }} has been spotted {{ totalItems }}
+                {{ totalItems > 1 ? 'times:' : 'time:' }}
             </p>
 
             <table class="table table-striped">
@@ -34,8 +33,8 @@
             </table>
 
             <hr>
-            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItems" [(page)]="page" [pageSize]="pageSize"
-              [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
+            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItems" [(page)]="page"
+                [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
 
         </ng-container>
         <ng-template #noItems>
