@@ -65,7 +65,7 @@ export class ObservationService {
     const options = birdId ?
       { params: new HttpParams().set('birdId', birdId.toString()) } : {};
 
-    return this.http.get<ObservationViewModel[]>('api/Observation/GetObservationsBySpecies', options)
+    return this.http.get<ObservationViewModel[]>('api/Observation/GetObservationsByBirdSpecies', options)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
