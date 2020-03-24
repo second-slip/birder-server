@@ -11,6 +11,7 @@ import { UserViewModel } from '@app/_models/UserViewModel';
 describe('BirdObservationsListComponent', () => {
   let component: BirdObservationsListComponent;
   let fixture: ComponentFixture<BirdObservationsListComponent>;
+
   let observations: ObservationViewModel[];
   let bird: BirdSummaryViewModel;
   let user: UserViewModel;
@@ -22,12 +23,12 @@ describe('BirdObservationsListComponent', () => {
     mockObservationService = jasmine.createSpyObj(['getObservationsByBirdSpecies']);
 
     TestBed.configureTestingModule({
-      declarations: [ BirdObservationsListComponent ],
+      declarations: [BirdObservationsListComponent],
       providers: [
         { provide: ObservationService, useValue: mockObservationService }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -52,25 +53,26 @@ describe('BirdObservationsListComponent', () => {
       hasPhotos: true, observationDateTime: '2019-05-06T11:32:03.796', creationDate: '2019-05-06T11:32:03.796',
       lastUpdateDate: '2019-05-06T11:32:03.796', birdId: 1,
       bird: bird, user: user
-  }];
+    }, {
+      observationId: 2, locationLatitude: 1, locationLongitude: 1, quantity: 1,
+      noteGeneral: 'string', noteHabitat: 'string', noteWeather: 'string',
+      noteAppearance: 'string', noteBehaviour: 'string', noteVocalisation: 'string',
+      hasPhotos: true, observationDateTime: '2019-05-06T11:32:03.796', creationDate: '2019-05-06T11:32:03.796',
+      lastUpdateDate: '2019-05-06T11:32:03.796', birdId: 1,
+      bird: bird, user: user
+    }];
 
-
-
-  query = { totalItems: 1, items: observations };
-
-
-
-
-
-    // fixture.detectChanges();
+    query = { totalItems: 2, items: observations };
   });
 
-  it('should create', () => {
+  it('should create and load observations', () => {
     mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
     fixture.detectChanges();
-    expect(component.observations.length).toBe(1);
     expect(component).toBeTruthy();
+    expect(component.totalItems).toBe(2);
+    expect(component.observations.length).toBe(2);
   });
+
 });
 
 
@@ -78,12 +80,12 @@ function createMockOb(): void {
   // this.observations = [];
   // this.isActived = true;
   let myObj: ObservationViewModel = {
-      observationId: 1, locationLatitude: 1, locationLongitude: 1, quantity: 1,
-      noteGeneral: 'string', noteHabitat: 'string', noteWeather: 'string',
-      noteAppearance: 'string', noteBehaviour: 'string', noteVocalisation: 'string',
-      hasPhotos: true, observationDateTime: 'string', creationDate: 'string',
-      lastUpdateDate: 'string', birdId: 1,
-      bird: null, user: null
+    observationId: 1, locationLatitude: 1, locationLongitude: 1, quantity: 1,
+    noteGeneral: 'string', noteHabitat: 'string', noteWeather: 'string',
+    noteAppearance: 'string', noteBehaviour: 'string', noteVocalisation: 'string',
+    hasPhotos: true, observationDateTime: 'string', creationDate: 'string',
+    lastUpdateDate: 'string', birdId: 1,
+    bird: null, user: null
   };
   console.log(myObj);
   this.observations.push(myObj);
