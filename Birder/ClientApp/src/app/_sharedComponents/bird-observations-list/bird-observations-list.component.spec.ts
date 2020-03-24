@@ -3,11 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BirdObservationsListComponent } from './bird-observations-list.component';
 import { ObservationService } from '@app/_services/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
-import { of, Observable, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ObservationDto } from '@app/_models/ObservationFeedDto';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 describe('BirdObservationsListComponent', () => {
   let component: BirdObservationsListComponent;
@@ -121,19 +120,3 @@ describe('BirdObservationsListComponent', () => {
     expect(mockObservationService.getObservationsByBirdSpecies).toHaveBeenCalled();
   });
 });
-
-
-function createMockOb(): void {
-  // this.observations = [];
-  // this.isActived = true;
-  let myObj: ObservationViewModel = {
-    observationId: 1, locationLatitude: 1, locationLongitude: 1, quantity: 1,
-    noteGeneral: 'string', noteHabitat: 'string', noteWeather: 'string',
-    noteAppearance: 'string', noteBehaviour: 'string', noteVocalisation: 'string',
-    hasPhotos: true, observationDateTime: 'string', creationDate: 'string',
-    lastUpdateDate: 'string', birdId: 1,
-    bird: null, user: null
-  };
-  console.log(myObj);
-  this.observations.push(myObj);
-}
