@@ -35,6 +35,8 @@ describe('BirdObservationsListComponent', () => {
     fixture = TestBed.createComponent(BirdObservationsListComponent);
     component = fixture.componentInstance;
 
+    // move this to each test case to make the 'Arrange' step explicit
+
     bird = {
       birdId: 1, species: 'string', englishName: 'string', populationSize: 'string',
       btoStatusInBritain: 'string', thumbnailUrl: 'string', songUrl: 'string',
@@ -65,18 +67,38 @@ describe('BirdObservationsListComponent', () => {
     query = { totalItems: observations.length, items: observations };
 
     mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
-    // fixture.detectChanges();
   });
 
   it('should not have observations after construction', () => {
+    // Arrange -- common arrange steps factored out to beforeEach(()
+    
     // fixture.detectChanges() runs ngOnInIt()
+    // Assert
     expect(component).toBeTruthy();
     expect(component.observations).toBeUndefined();
   });
 
   it('should load observations on ngOnInIt', () => {
+    // Arrange -- common arrange steps factored out to beforeEach(()
+
+    // Act or change
     fixture.detectChanges();
+
+    // Assert
     expect(component).toBeTruthy();
+    expect(component.totalItems).toBe(2);
+    expect(component.observations.length).toBe(2);
+    expect(component.observations[0].birdId === 1).toBeTrue();
+  });
+
+  it('should call change page', () => {
+    // Arrange -- common arrange steps factored out to beforeEach(()
+
+    // Act or change
+    component.changePage();
+
+    // Assert
+    expect(mockObservationService.getObservationsByBirdSpecies).toHaveBeenCalled();
     expect(component.totalItems).toBe(2);
     expect(component.observations.length).toBe(2);
     expect(component.observations[0].birdId === 1).toBeTrue();

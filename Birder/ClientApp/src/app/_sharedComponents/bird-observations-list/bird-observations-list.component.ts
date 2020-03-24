@@ -25,7 +25,7 @@ export class BirdObservationsListComponent implements OnInit {
     }
   }
 
-  changePage() { // event) { // page: number) {
+  changePage(): void { // event) { // page: number) {
     this.getObservations(this.birdId, this.page, this.pageSize);
   }
 

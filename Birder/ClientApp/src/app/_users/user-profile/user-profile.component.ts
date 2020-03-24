@@ -7,7 +7,6 @@ import { NetworkService } from '@app/_services/network.service';
 import { UserProfileService } from '@app/_services/user-profile.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
-
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
