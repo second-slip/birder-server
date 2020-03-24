@@ -34,6 +34,8 @@ describe('ObservationFeedComponent', () => {
     .compileComponents();
   }));
 
+  // see: https://angular.io/guide/testing#component-with-async-service
+
   beforeEach(() => {
     fixture = TestBed.createComponent(ObservationFeedComponent);
     component = fixture.componentInstance;

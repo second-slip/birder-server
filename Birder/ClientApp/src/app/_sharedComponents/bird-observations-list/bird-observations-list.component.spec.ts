@@ -63,16 +63,25 @@ describe('BirdObservationsListComponent', () => {
     }];
 
     query = { totalItems: 2, items: observations };
+
+    mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
+    // fixture.detectChanges();
   });
 
-  it('should create and load observations', () => {
-    mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
+  it('should not have observations after construction', () => {
+    // fixture.detectChanges() runs ngOnInIt()
+    expect(component).toBeTruthy();
+    expect(component.observations).toBeUndefined();
+  });
+
+  it('should load observations after ngOnInIt', () => {
+    // mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
     fixture.detectChanges();
     expect(component).toBeTruthy();
     expect(component.totalItems).toBe(2);
     expect(component.observations.length).toBe(2);
+    expect(component.observations[0].birdId === 1).toBeTrue();
   });
-
 });
 
 
