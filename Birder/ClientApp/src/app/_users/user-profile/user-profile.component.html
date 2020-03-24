@@ -8,7 +8,7 @@
       <div class="profile-text">
         <p>Joined on {{ userProfile.registrationDate | date: 'EEEE, d MMMM yyyy'}}</p>
       </div>
-      <div *ngIf="userProfile.isOwnProfile == false"><button mat-stroked-button color="primary"
+      <div *ngIf="userProfile.isOwnProfile == false"><button type="button" class="btn btn-primary"
           (click)="followOrUnfollow($event.target, userProfile)">
           {{ userProfile.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
     </div>

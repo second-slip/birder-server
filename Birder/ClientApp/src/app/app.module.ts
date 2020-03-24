@@ -50,7 +50,7 @@ import { UserProfileComponent } from './_users/user-profile/user-profile.compone
 import { UserNetworkComponent } from './_network/user-network/user-network.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AccountManagerProfileComponent } from './_accountManager/account-manager-profile/account-manager-profile.component';
-import { AccountSideMenuComponent } from './account-side-menu/account-side-menu.component';
+import { AccountSideMenuComponent } from './_accountManager/account-side-menu/account-side-menu.component';
 import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/layout-account-manager.component';
 import { AccountManagerLocationComponent } from './_accountManager/account-manager-location/account-manager-location.component';
 import { AccountManagerPasswordComponent } from './_accountManager/account-manager-password/account-manager-password.component';
