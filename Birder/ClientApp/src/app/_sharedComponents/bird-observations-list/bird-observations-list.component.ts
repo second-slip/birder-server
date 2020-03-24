@@ -39,8 +39,8 @@ export class BirdObservationsListComponent implements OnInit {
         (error: ErrorReportViewModel) => {
           console.log('bad request');
           // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
-        },
-        () => {
         });
+        // () => {
+        // });
   }
 }

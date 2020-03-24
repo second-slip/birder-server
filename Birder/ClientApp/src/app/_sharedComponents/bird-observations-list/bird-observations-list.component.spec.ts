@@ -3,10 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BirdObservationsListComponent } from './bird-observations-list.component';
 import { ObservationService } from '@app/_services/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
-import { of } from 'rxjs';
+import { of, Observable, throwError } from 'rxjs';
 import { ObservationDto } from '@app/_models/ObservationFeedDto';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 describe('BirdObservationsListComponent', () => {
   let component: BirdObservationsListComponent;
@@ -16,6 +17,7 @@ describe('BirdObservationsListComponent', () => {
   let bird: BirdSummaryViewModel;
   let user: UserViewModel;
   let query: ObservationDto;
+  let error;
 
   let mockObservationService;
 
@@ -66,12 +68,12 @@ describe('BirdObservationsListComponent', () => {
 
     query = { totalItems: observations.length, items: observations };
 
-    mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
+    // mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
   });
 
   it('should not have observations after construction', () => {
     // Arrange -- common arrange steps factored out to beforeEach(()
-    
+
     // fixture.detectChanges() runs ngOnInIt()
     // Assert
     expect(component).toBeTruthy();
@@ -80,6 +82,7 @@ describe('BirdObservationsListComponent', () => {
 
   it('should load observations on ngOnInIt', () => {
     // Arrange -- common arrange steps factored out to beforeEach(()
+    mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
 
     // Act or change
     fixture.detectChanges();
@@ -93,6 +96,7 @@ describe('BirdObservationsListComponent', () => {
 
   it('should call change page', () => {
     // Arrange -- common arrange steps factored out to beforeEach(()
+    mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
 
     // Act or change
     component.changePage();
@@ -102,6 +106,19 @@ describe('BirdObservationsListComponent', () => {
     expect(component.totalItems).toBe(2);
     expect(component.observations.length).toBe(2);
     expect(component.observations[0].birdId === 1).toBeTrue();
+  });
+
+  it('should log message in console on error', () => {
+    // Arrange
+    mockObservationService.getObservationsByBirdSpecies.and.returnValue(throwError('error'));
+    spyOn(window.console, 'log');
+
+    // Act (or change)
+    component.ngOnInit();  // or component.changePage();  or fixture.detectChanges();
+
+    // Assert
+    expect(window.console.log).toHaveBeenCalledWith('bad request');
+    expect(mockObservationService.getObservationsByBirdSpecies).toHaveBeenCalled();
   });
 });
 
