@@ -10,52 +10,42 @@
   <!-- Workaround to lazy load tab 3 -->
   <!-- https://github.com/ng-bootstrap/ng-bootstrap/issues/1584 -->
 
-  <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs" (navChange)="tabstatus[$event.nextId]=true">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs"
+    (navChange)="tabstatus[$event.nextId]=true">
     <li [ngbNavItem]="1" [destroyOnHide]="false">
-      <a ngbNavLink>Summary</a>
+      <a ngbNavLink>Summary <span class="badge badge-pill badge-primary">4</span></a>
       <ng-template ngbNavContent>
         <!-- <ngb-alert [dismissible]="false" class="d-block mt-3" type="danger">
           This tab content DOM will de destroyed when not active
         </ngb-alert> -->
-
-        
 
         <div class="row">
           <div class="flex-container col-8">
             <img src="./assets/Birder-Logo-With-Text.png" alt="Trulli" width="100%" height="100%">
           </div>
           <div class="flex-container col-4">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Class" value="{{ bird.class }}" disabled>
-              </mat-form-field>
-    
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Order" value="{{ bird.order }}" disabled>
-              </mat-form-field>
-    
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Family" value="{{ bird.family }}" disabled>
-              </mat-form-field>
-    
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Genus" value="{{ bird.genus }}" disabled>
-              </mat-form-field>
-    
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Species" value="{{ bird.species }}" disabled>
-              </mat-form-field>
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Class" value="{{ bird.class }}" disabled>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Order" value="{{ bird.order }}" disabled>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Family" value="{{ bird.family }}" disabled>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Genus" value="{{ bird.genus }}" disabled>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Species" value="{{ bird.species }}" disabled>
+            </mat-form-field>
           </div>
         </div>
 
-
-
-
-        <hr>
-  
-        <!-- <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-          master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro
-          keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat
-          salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p> -->
       </ng-template>
     </li>
     <li [ngbNavItem]="2">
@@ -64,194 +54,23 @@
         <ngb-alert [dismissible]="false" class="d-block mt-3" type="success">
           This tab content DOM will always stay in DOM
         </ngb-alert>
-  
-        <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-          farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts
-          ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-          helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson
-          8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester
-          stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+
       </ng-template>
     </li>
     <li [ngbNavItem]="3" [destroyOnHide]="false">
       <a ngbNavLink>Sightings</a>
       <ng-template ngbNavContent let-active>
-        <!-- <ngb-alert *ngIf="active" [dismissible]="false" class="d-block mt-3">
-          While tab content DOM is never destroyed, this alert exists only when current tab is active
-        </ngb-alert> -->
-
         <ng-container *ngIf="tabstatus['3'] === true">
           <app-bird-observations-list [birdId]="this.bird.birdId"></app-bird-observations-list>
-          </ng-container>
-
-        
-  
-
+        </ng-container>
       </ng-template>
     </li>
   </ul>
-  
+
   <div [ngbNavOutlet]="nav" class="mt-2"></div>
-  
-  <!-- <pre>Active: {{ active }}</pre> -->
-
-
-
-<!-- 
-  <div class="example-headers-align"> -->
-    <!-- <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Details
-        </mat-panel-title>
-        <mat-panel-description>
-          Detailed information...
-          <mat-icon>nature_people</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div class="row">
-        <div class="flex-container col-6">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Class" value="{{ bird.class }}" disabled>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Order" value="{{ bird.order }}" disabled>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Family" value="{{ bird.family }}" disabled>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Genus" value="{{ bird.genus }}" disabled>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Species" value="{{ bird.species }}" disabled>
-          </mat-form-field>
-        </div>
-        <div class="flex-container col-6">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="BTO Status in Britain" value="{{ bird.btoStatusInBritain }}" disabled>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Population estimate in Britain" value="{{ bird.populationSize }}" disabled>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Conservation Status" value="{{ bird.birdConservationStatus.conservationList }}"
-              [style.color]="bird.birdConservationStatus.conservationListColourCode" disabled>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Birder Status" value="{{ bird.birderStatus }}" disabled>
-          </mat-form-field>
-
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Category" value="{{ bird.category }}" disabled>
-          </mat-form-field>
-        </div>
-      </div>
-    </mat-expansion-panel> -->
-
-    <!-- <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Location
-        </mat-panel-title>
-        <mat-panel-description>
-
-          Where did you observe it?
-          <mat-icon>add_location</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>I'm visible because I am open</p>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Photographs
-        </mat-panel-title>
-        <mat-panel-description>
-
-          Latest photos from Flickr
-          <mat-icon>add_photo_alternate</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <p>I'm visible because I am open</p>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="expanded" (opened)="lazyLoadObservations()">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Latest Observations
-        </mat-panel-title>
-        <mat-panel-description>
-
-          Add tags to organise your obervations
-          <mat-icon>local_offer</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header> -->
-
-      <!-- <ng-template matExpansionPanelContent>
-         {{ lazyObservations }}
-      </ng-template> -->
-      <!-- <div *ngIf="observations">
-          <p *ngIf="observations.length < 1">The {{ bird.englishName }} has never been observed.</p>
-          <p *ngIf="observations.length > 1">The {{ bird.englishName }} has been observed {{ observations.length }} times:</p>
-        </div> -->
-
-      <!--  -->
-      <!-- <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort>
-
-
-          <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Qty </th>
-            <td mat-cell *matCellDef="let observation"> {{ observation.quantity }} </td>
-          </ng-container>
-
-
-          <ng-container matColumnDef="bird">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Species </th>
-            <td mat-cell *matCellDef="let observation"> {{ observation.bird.englishName }} <small><i>
-                  {{ observation.bird.species }} </i></small> </td>
-          </ng-container>
-
-
-          <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Observation Date & Time </th>
-            <td mat-cell *matCellDef="let observation">
-              {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}} </td>
-          </ng-container>
-
-          
-          <ng-container matColumnDef="user">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Birder </th>
-            <td mat-cell *matCellDef="let observation"> {{ observation.user.userName }} </td>
-          </ng-container>
-
-      
-      
-      
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let observation; columns: displayedColumns;">
-          </tr>
-        </table>
-
-        <mat-paginator [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons></mat-paginator>
-      </div> -->
-
-
-    <!-- </mat-expansion-panel> -->
-
-  <!-- </div> -->
 
   <div>
-    <button (click)="goBack()">go back</button>
+    <button (click)="goBack()">go back to birds list</button>
   </div>
 
 </div>
@@ -373,15 +192,15 @@
       </mat-expansion-panel-header>
 
        <ng-template matExpansionPanelContent> -->
-        <!-- {{ lazyObservations }} -->
-      <!-- </ng-template> -->
-      <!-- <div *ngIf="observations">
+<!-- {{ lazyObservations }} -->
+<!-- </ng-template> -->
+<!-- <div *ngIf="observations">
           <p *ngIf="observations.length < 1">The {{ bird.englishName }} has never been observed.</p>
           <p *ngIf="observations.length > 1">The {{ bird.englishName }} has been observed {{ observations.length }} times:</p>
         </div> -->
 
-      <!--  -->
-      <!-- <div class="mat-elevation-z8">
+<!--  -->
+<!-- <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource" matSort>
 
 
@@ -419,7 +238,7 @@
       </div> -->
 
 
-    <!-- </mat-expansion-panel>
+<!-- </mat-expansion-panel>
 
   </div>
 

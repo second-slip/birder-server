@@ -20,8 +20,7 @@
         <ng-template mat-tab-label>
           <span matBadge={{userProfile.following.length}} matBadgeOverlap="false">Following</span>
         </ng-template>
-        <!-- <p><em>Find Birders to follow</em></p> -->
-        <!-- // -->
+
         <div *ngFor="let following of userProfile.following">
             <div class="flex-container network-list">
               <img class="avatar" src="{{following.avatar}}" onerror="this.src='https://img.icons8.com/color/96/000000/user.png';">

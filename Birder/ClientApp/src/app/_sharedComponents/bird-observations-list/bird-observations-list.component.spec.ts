@@ -62,7 +62,7 @@ describe('BirdObservationsListComponent', () => {
       bird: bird, user: user
     }];
 
-    query = { totalItems: 2, items: observations };
+    query = { totalItems: observations.length, items: observations };
 
     mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
     // fixture.detectChanges();
@@ -74,8 +74,7 @@ describe('BirdObservationsListComponent', () => {
     expect(component.observations).toBeUndefined();
   });
 
-  it('should load observations after ngOnInIt', () => {
-    // mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
+  it('should load observations on ngOnInIt', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
     expect(component.totalItems).toBe(2);
