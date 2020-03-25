@@ -76,6 +76,16 @@ export class ObservationService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
+  getObservationsByUser(pageIndex: number): Observable<ObservationDto | ErrorReportViewModel> {
+    const params = new HttpParams()
+    .set('pageIndex', pageIndex.toString());
+    // .set('filter', filter.toString());
+
+    return this.http.get<ObservationDto>(`api/ObservationFeed`, {params})
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
   announceObservationsChanged(): void {
     this.observationsChanged.next();
   }
