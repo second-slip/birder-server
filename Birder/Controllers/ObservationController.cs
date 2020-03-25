@@ -97,6 +97,30 @@ namespace Birder.Controllers
             }
         }
 
+        [HttpGet, Route("GetObservationsByUser")]
+        public async Task<IActionResult> GetObservationsByUserAsync(string username, int pageIndex, int pageSize)
+        {
+            try
+            {
+                var observations = await _observationRepository.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
+
+                if (observations == null)
+                {
+                    string message = $"Observations with username '{username}' was not found.";
+                    _logger.LogWarning(LoggingEvents.GetListNotFound, message);
+                    return NotFound(message);
+                }
+
+                return Ok(_mapper.Map<QueryResult<Observation>, ObservationDto>(observations));
+            }
+            catch (Exception ex)
+            {
+                string message = $"An error occurred getting Observations with username '{username}'.";
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
+                return BadRequest("An error occurred");
+            }
+        }
+
 
         [HttpPost, Route("CreateObservation")]
         public async Task<IActionResult> CreateObservationAsync(ObservationViewModel model)
