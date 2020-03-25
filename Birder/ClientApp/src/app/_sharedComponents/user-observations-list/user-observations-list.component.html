@@ -1,1 +1,47 @@
-<p>user-observations-list works!</p>
+<div class="container">
+    <div *ngIf="!observations" class="loading">
+        <p><em>Loading...</em></p>
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="observations">
+        <ng-container *ngIf="observations.length; else noItems">
+            <p class="italic">
+                The {{ observations[0].bird.englishName }} has been spotted {{ totalItems }}
+                {{ totalItems > 1 ? 'times:' : 'time:' }}
+            </p>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Date/Time</th>
+                        <th scope="col">User</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let record of observations; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ record.quantity }}</td>
+                        <td>{{ record.observationDateTime | date: 'dd/MM/yyyy \'at\' h:mm a' }}</td>
+                        <td><a routerLink="/user-profile/{{ record.user.userName }}">{{ record.user.userName }}</a></td>
+                        <td><a routerLink="/observation-detail/{{ record.observationId }}">View</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr>
+            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItems" [(page)]="page"
+                [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
+
+        </ng-container>
+        <ng-template #noItems>
+            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+                No sightings of this species has been recorded.
+            </ngb-alert>
+        </ng-template>
+
+    </div>
+</div>
