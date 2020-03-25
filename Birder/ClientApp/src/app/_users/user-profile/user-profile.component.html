@@ -31,6 +31,8 @@
       <a ngbNavLink>Following <span class="badge badge-pill badge-primary">{{ userProfile.following.length }}</span></a>
       <ng-template ngbNavContent>
 
+        <ng-container *ngIf="userProfile.following.length; else noItems">
+
         <div *ngFor="let following of userProfile.following">
           <div class="flex-container network-list">
             <img class="avatar" src="{{following.avatar}}"
@@ -42,12 +44,21 @@
             <!-- <div *ngIf="following.isOwnProfile == true"><em>You</em></div> -->
           </div>
         </div>
+      </ng-container>
+
+      <ng-template #noItems>
+        <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+            No following.
+        </ngb-alert>
+    </ng-template>
 
       </ng-template>
     </li>
     <li [ngbNavItem]="2">
       <a ngbNavLink>Followers <span class="badge badge-pill badge-primary">{{ userProfile.followers.length }}</span></a>
       <ng-template ngbNavContent>
+
+        <ng-container *ngIf="userProfile.followers.length; else noItems">
 
         <div *ngFor="let follower of userProfile.followers">
           <div class="flex-container network-list">
@@ -60,6 +71,14 @@
             <!-- <div *ngIf="following.isOwnProfile == true"><em>You</em></div> -->
           </div>
         </div>
+
+      </ng-container>
+
+      <ng-template #noItems>
+        <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+            No followers.
+        </ngb-alert>
+    </ng-template>
 
 
       </ng-template>
