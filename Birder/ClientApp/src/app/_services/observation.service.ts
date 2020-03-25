@@ -66,7 +66,7 @@ export class ObservationService {
     // const options = birdId ?
     //   { params: new HttpParams().set('birdId', birdId.toString()) } : {};
 
-      const params = new HttpParams()
+    const params = new HttpParams()
       .set('birdId', birdId.toString())
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
@@ -76,12 +76,13 @@ export class ObservationService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getObservationsByUser(pageIndex: number): Observable<ObservationDto | ErrorReportViewModel> {
+  getObservationsByUser(username: string, pageIndex: number, pageSize: number): Observable<ObservationDto | ErrorReportViewModel> {
     const params = new HttpParams()
-    .set('pageIndex', pageIndex.toString());
-    // .set('filter', filter.toString());
+      .set('username', username)
+      .set('pageIndex', pageIndex.toString())
+      .set('pageSize', pageSize.toString());
 
-    return this.http.get<ObservationDto>(`api/ObservationFeed`, {params})
+    return this.http.get<ObservationDto>(`api/Observation/GetObservationsByUser`, { params })
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
