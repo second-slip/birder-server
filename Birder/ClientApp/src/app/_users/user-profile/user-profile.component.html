@@ -62,7 +62,7 @@
       <a ngbNavLink>Sightings</a>
       <ng-template ngbNavContent let-active>
         <ng-container *ngIf="tabstatus['3'] === true">
-          <!-- <app-bird-observations-list [birdId]="this.bird.birdId"></app-bird-observations-list> -->
+          <app-user-observations-list [username]="this.userProfile.userName"></app-user-observations-list>
         </ng-container>
       </ng-template>
     </li>
