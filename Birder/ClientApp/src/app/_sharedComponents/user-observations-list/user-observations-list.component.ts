@@ -12,7 +12,7 @@ import { ObservationDto } from '@app/_models/ObservationFeedDto';
 })
 export class UserObservationsListComponent implements OnInit {
   observations: ObservationViewModel[];
-  @Input() birdId: number;
+  @Input() username: string;
   totalItems: number;
   page = 1;
   pageSize = 10;
@@ -21,16 +21,16 @@ export class UserObservationsListComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.observations) {
-      this.getObservations(this.birdId, this.page, this.pageSize);
+      this.getObservations(this.username, this.page, this.pageSize);
     }
   }
 
   changePage(): void { // event) { // page: number) {
-    this.getObservations(this.birdId, this.page, this.pageSize);
+    this.getObservations(this.username, this.page, this.pageSize);
   }
 
-  getObservations(birdId: number, page: number, pageSize: number): void {
-    this.observationsService.getObservationsByBirdSpecies(birdId, page, pageSize)
+  getObservations(username: string, page: number, pageSize: number): void {
+    this.observationsService.getObservationsByUser(username, page, pageSize)
       .subscribe(
         (data: ObservationDto) => {
           this.totalItems = data.totalItems;
