@@ -179,6 +179,57 @@ namespace Birder.Tests.Controller
         #endregion
 
 
+        #region GetObservationsByUserAsync
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("Test")]
+        [InlineData("TestAgain")]
+        public async Task GetObservationsByUserAsync_ReturnsNotFound_WhenObservationsIsNotFound(string username)
+        {
+            //Arrange
+            var requestingUser = GetUser("Any");
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+                       .Returns(Task.FromResult<IEnumerable<Observation>>(null));
+
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            // Act
+            var result = await controller.GetObservationsByUserAsync(username, 1, 1);
+
+            // Assert
+            string expectedMessage = $"Observations with username '{username}' was not found.";
+
+            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal(expectedMessage, actual);
+        }
+
+
+
+        #endregion
+
+
         #region GetObservationsByBirdSpeciesAsync
 
         [Theory]

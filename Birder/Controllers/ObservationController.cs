@@ -115,7 +115,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                string message = $"An error occurred getting Observations with username '{username}'.";
+                string message = $"An error occurred getting observations with username '{username}'.";
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
                 return BadRequest("An error occurred");
             }
