@@ -1,4 +1,10 @@
-<div class="container" *ngIf="userProfile">
+<div class="container">
+  <div *ngIf="!userProfile" class="loading">
+      <p><em>Loading...</em></p>
+      <mat-spinner></mat-spinner>
+  </div>
+
+<div *ngIf="userProfile">
   <div class="flex-container">
     <div>
       <img class="avatar-main" src="{{userProfile.avatar}}"

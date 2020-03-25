@@ -57,7 +57,6 @@ export class UserProfileComponent {
             element.innerText = 'Unfollow';
           },
           (error: ErrorReportViewModel) => {
-            // console.log(error);
             this.toast.error(error.serverCustomMessage, 'An error occurred');
           });
       return;
@@ -70,7 +69,6 @@ export class UserProfileComponent {
             element.innerText = 'Follow';
           },
           (error: ErrorReportViewModel) => {
-            // console.log(error);
             this.toast.error(error.serverCustomMessage, 'An error occurred');
           });
       return;

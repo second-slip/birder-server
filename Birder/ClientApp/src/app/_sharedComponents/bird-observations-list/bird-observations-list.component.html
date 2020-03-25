@@ -7,8 +7,9 @@
     <div *ngIf="observations">
         <ng-container *ngIf="observations.length; else noItems">
             <p class="italic">
-                The {{ observations[0].bird.englishName }} has been spotted {{ totalItems }}
-                {{ totalItems > 1 ? 'times:' : 'time:' }}
+                Total Observations: {{ totalItems }}
+                <!-- The {{ observations[0].bird.englishName }} has been spotted {{ totalItems }}
+                {{ totalItems > 1 ? 'times:' : 'time:' }} -->
             </p>
 
             <table class="table table-striped">

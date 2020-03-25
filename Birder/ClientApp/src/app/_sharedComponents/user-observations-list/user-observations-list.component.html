@@ -7,8 +7,8 @@
     <div *ngIf="observations">
         <ng-container *ngIf="observations.length; else noItems">
             <p class="italic">
-                The {{ observations[0].bird.englishName }} has been spotted {{ totalItems }}
-                {{ totalItems > 1 ? 'times:' : 'time:' }}
+                Total Observations: {{ totalItems }}
+                <!-- {{ totalItems > 1 ? 'times:' : 'time:' }} -->
             </p>
 
             <table class="table table-striped">
@@ -39,7 +39,7 @@
         </ng-container>
         <ng-template #noItems>
             <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-                No sightings of this species has been recorded.
+                No sightings.
             </ngb-alert>
         </ng-template>
 
