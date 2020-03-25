@@ -1,7 +1,9 @@
 <div class="container" *ngIf="userProfile">
   <div class="flex-container">
     <div>
-      <img class="avatar-main" src="{{userProfile.avatar}}" onerror="this.src='https://img.icons8.com/color/96/000000/user.png';" alt="Smiley face" height="126" width="126">
+      <img class="avatar-main" src="{{userProfile.avatar}}"
+        onerror="this.src='https://img.icons8.com/color/96/000000/user.png';" alt="Smiley face" height="126"
+        width="126">
     </div>
     <div>
       <h4>{{ userProfile.userName }}</h4>
@@ -14,55 +16,122 @@
     </div>
   </div>
 
-  <div>
-    <mat-tab-group mat-align-tabs="start">
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <span matBadge={{userProfile.following.length}} matBadgeOverlap="false">Following</span>
-        </ng-template>
+  <!-- Workaround to lazy load tab 3 -->
+  <!-- https://github.com/ng-bootstrap/ng-bootstrap/issues/1584 -->
+
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs"
+    (navChange)="tabstatus[$event.nextId]=true">
+    <li [ngbNavItem]="1" [destroyOnHide]="false">
+      <a ngbNavLink>Following <span class="badge badge-pill badge-primary">{{ userProfile.following.length }}</span></a>
+      <ng-template ngbNavContent>
 
         <div *ngFor="let following of userProfile.following">
-            <div class="flex-container network-list">
-              <img class="avatar" src="{{following.avatar}}" onerror="this.src='https://img.icons8.com/color/96/000000/user.png';">
-              <a class="avatar-title" routerLink="/user-profile/{{following.userName}}">{{following.userName}}</a>
-              <div *ngIf="following.isOwnProfile == false"><button class="btn btn-link btn-sm"
+          <div class="flex-container network-list">
+            <img class="avatar" src="{{following.avatar}}"
+              onerror="this.src='https://img.icons8.com/color/96/000000/user.png';">
+            <a class="avatar-title" routerLink="/user-profile/{{following.userName}}">{{following.userName}}</a>
+            <div *ngIf="following.isOwnProfile == false"><button class="btn btn-link btn-sm"
                 (click)="followOrUnfollow($event.target, following)">
                 {{ following.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
             <!-- <div *ngIf="following.isOwnProfile == true"><em>You</em></div> -->
-            </div>
+          </div>
         </div>
-        <!--  -->
-      </mat-tab>
 
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <span matBadge={{userProfile.followers.length}} matBadgeOverlap="false">Followers</span>
-        </ng-template>
-        <!-- -->
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Followers <span class="badge badge-pill badge-primary">{{ userProfile.followers.length }}</span></a>
+      <ng-template ngbNavContent>
+
         <div *ngFor="let follower of userProfile.followers">
-            <div class="flex-container network-list">
-              <img class="avatar" src="{{follower.avatar}}" onerror="this.src='https://img.icons8.com/color/96/000000/user.png';">
-              <a class="avatar-title" routerLink="/user-profile/{{follower.userName}}">{{follower.userName}}</a>
-              <div *ngIf="follower.isOwnProfile == false"><button class="btn btn-link btn-sm"
+          <div class="flex-container network-list">
+            <img class="avatar" src="{{follower.avatar}}"
+              onerror="this.src='https://img.icons8.com/color/96/000000/user.png';">
+            <a class="avatar-title" routerLink="/user-profile/{{follower.userName}}">{{follower.userName}}</a>
+            <div *ngIf="follower.isOwnProfile == false"><button class="btn btn-link btn-sm"
                 (click)="followOrUnfollow($event.target, follower)">
                 {{ follower.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
             <!-- <div *ngIf="following.isOwnProfile == true"><em>You</em></div> -->
-            </div>
+          </div>
         </div>
-        <!--  -->
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <span matBadge="1" matBadgeOverlap="false">Awards</span>
-        </ng-template>
-        Content 3
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          Latest observations
-        </ng-template>
-        Content 4
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+
+
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3" [destroyOnHide]="false">
+      <a ngbNavLink>Sightings</a>
+      <ng-template ngbNavContent let-active>
+        <ng-container *ngIf="tabstatus['3'] === true">
+          <!-- <app-bird-observations-list [birdId]="this.bird.birdId"></app-bird-observations-list> -->
+        </ng-container>
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="4" [destroyOnHide]="false">
+      <a ngbNavLink>Awards</a>
+      <ng-template ngbNavContent>
+        <!-- <ng-container *ngIf="tabstatus['3'] === true"> -->
+        <!-- <app-bird-observations-list [birdId]="this.bird.birdId"></app-bird-observations-list> -->
+        <!-- </ng-container> -->
+      </ng-template>
+    </li>
+  </ul>
+
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
 </div>
+
+
+
+
+<!-- <div>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span matBadge={{userProfile.following.length}} matBadgeOverlap="false">Following</span>
+      </ng-template>
+
+      <div *ngFor="let following of userProfile.following">
+          <div class="flex-container network-list">
+            <img class="avatar" src="{{following.avatar}}" onerror="this.src='https://img.icons8.com/color/96/000000/user.png';">
+            <a class="avatar-title" routerLink="/user-profile/{{following.userName}}">{{following.userName}}</a>
+            <div *ngIf="following.isOwnProfile == false"><button class="btn btn-link btn-sm"
+              (click)="followOrUnfollow($event.target, following)">
+              {{ following.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+           <div *ngIf="following.isOwnProfile == true"><em>You</em></div>
+          </div>
+      </div>
+
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span matBadge={{userProfile.followers.length}} matBadgeOverlap="false">Followers</span>
+      </ng-template>
+
+      <div *ngFor="let follower of userProfile.followers">
+          <div class="flex-container network-list">
+            <img class="avatar" src="{{follower.avatar}}" onerror="this.src='https://img.icons8.com/color/96/000000/user.png';">
+            <a class="avatar-title" routerLink="/user-profile/{{follower.userName}}">{{follower.userName}}</a>
+            <div *ngIf="follower.isOwnProfile == false"><button class="btn btn-link btn-sm"
+              (click)="followOrUnfollow($event.target, follower)">
+              {{ follower.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+           <div *ngIf="following.isOwnProfile == true"><em>You</em></div>
+          </div>
+      </div>
+
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span matBadge="1" matBadgeOverlap="false">Awards</span>
+      </ng-template>
+      Content 3
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        Latest observations
+      </ng-template>
+      Content 4
+    </mat-tab>
+  </mat-tab-group>
+</div> -->

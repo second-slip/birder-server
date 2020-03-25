@@ -2,7 +2,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserProfileViewModel, NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
-import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { NetworkService } from '@app/_services/network.service';
 import { UserProfileService } from '@app/_services/user-profile.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
@@ -15,7 +14,8 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 })
 export class UserProfileComponent {
   userProfile: UserProfileViewModel;
-  observations: ObservationViewModel[]; // lazy load on demand
+  tabstatus = {};
+  active;
 
   constructor(private networkService: NetworkService
             , private userProfileService: UserProfileService
@@ -72,9 +72,6 @@ export class UserProfileComponent {
       return;
     }
   }
-
-  getObservations(): void { }
-
 }
 
             // const index = this.user.following.findIndex(i => i.userName === data.userName);

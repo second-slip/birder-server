@@ -13,7 +13,7 @@
   <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs"
     (navChange)="tabstatus[$event.nextId]=true">
     <li [ngbNavItem]="1" [destroyOnHide]="false">
-      <a ngbNavLink>Summary <span class="badge badge-pill badge-primary">4</span></a>
+      <a ngbNavLink>Summary</a>
       <ng-template ngbNavContent>
         <!-- <ngb-alert [dismissible]="false" class="d-block mt-3" type="danger">
           This tab content DOM will de destroyed when not active
