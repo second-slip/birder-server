@@ -6,6 +6,7 @@ import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
 import { ObservationDto } from '@app/_models/ObservationFeedDto';
+import { throwError, of } from 'rxjs';
 
 describe('UserObservationsListComponent', () => {
   let component: UserObservationsListComponent;
@@ -41,7 +42,7 @@ describe('UserObservationsListComponent', () => {
     };
 
     user = {
-      userName: 'string', avatar: 'string',
+      userName: 'test', avatar: 'string',
       defaultLocationLatitude: 1, defaultLocationLongitude: 1
     };
 
@@ -72,5 +73,47 @@ describe('UserObservationsListComponent', () => {
     // Assert
     expect(component).toBeTruthy();
     expect(component.observations).toBeUndefined();
+  });
+
+  it('should load observations on ngOnInIt', () => {
+    // Arrange -- common arrange steps factored out to beforeEach(()
+    mockObservationService.getObservationsByUser.and.returnValue(of(query));
+
+    // Act or change
+    fixture.detectChanges();
+
+    // Assert
+    expect(component).toBeTruthy();
+    expect(component.totalItems).toBe(2);
+    expect(component.observations.length).toBe(2);
+    expect(component.observations[0].user.userName === 'test').toBeTrue();
+  });
+
+  it('should call change page', () => {
+    // Arrange -- common arrange steps factored out to beforeEach(()
+    mockObservationService.getObservationsByUser.and.returnValue(of(query));
+
+    // Act or change
+    component.changePage();
+
+    // Assert
+    expect(mockObservationService.getObservationsByUser).toHaveBeenCalled();
+    expect(component.totalItems).toBe(2);
+    expect(component.observations.length).toBe(2);
+    expect(component.observations[0].birdId === 1).toBeTrue();
+    expect(component.observations[0].user.userName === 'test').toBeTrue();
+  });
+
+  it('should log message in console on error', () => {
+    // Arrange
+    mockObservationService.getObservationsByUser.and.returnValue(throwError('error'));
+    spyOn(window.console, 'log');
+
+    // Act (or change)
+    component.ngOnInit();  // or component.changePage();  or fixture.detectChanges();
+
+    // Assert
+    expect(window.console.log).toHaveBeenCalledWith('bad request');
+    expect(mockObservationService.getObservationsByUser).toHaveBeenCalled();
   });
 });
