@@ -269,7 +269,48 @@ namespace Birder.Tests.Controller
             Assert.Equal(expectedMessage, actual);
         }
 
+        [Theory]
+        [InlineData("Test", 1, 4)]
+        [InlineData("TestUser", 2, 3)]
+        [InlineData("TestUsername", 3, 2)]
+        public async Task GetObservationsByUserAsync_ReturnsOkWithObservations_OnSuccessfulRequest(string username, int birdId, int length)
+        {
+            //Arrange
+            var requestingUser = GetUser("Any");
+            var bird = new Bird() { BirdId = birdId };
 
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockBirdRepo = new Mock<IBirdRepository>();
+            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+            var mockObsRepo = new Mock<IObservationRepository>();
+            mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                       .ReturnsAsync(GetQueryResult(length, bird));
+
+            var controller = new ObservationController(
+                _mapper
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object);
+
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+            };
+
+            // Act
+            var result = await controller.GetObservationsByUserAsync(username, 1, 10);
+
+            // Assert
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            var actualObs = Assert.IsType<ObservationDto>(objectResult.Value);
+            Assert.Equal(length, actualObs.TotalItems);
+            Assert.Equal(birdId, actualObs.Items.First().BirdId);
+        }
 
         #endregion
 
