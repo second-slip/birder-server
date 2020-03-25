@@ -16,7 +16,6 @@ describe('BirdObservationsListComponent', () => {
   let bird: BirdSummaryViewModel;
   let user: UserViewModel;
   let query: ObservationDto;
-  let error;
 
   let mockObservationService;
 
