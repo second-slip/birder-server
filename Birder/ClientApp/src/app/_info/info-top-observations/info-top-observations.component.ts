@@ -17,7 +17,7 @@ export class InfoTopObservationsComponent implements OnInit {
   active;
 
   constructor(private observationService: ObservationService
-            , private observationsAnalysisService: ObservationsAnalysisService) { }
+    , private observationsAnalysisService: ObservationsAnalysisService) { }
 
   ngOnInit() {
     this.getTopObservationsAnalysis();
@@ -25,7 +25,6 @@ export class InfoTopObservationsComponent implements OnInit {
       .subscribe(_ => {
         this.onObservationsChanged();
       });
-    // this.getObservationAnalysis();
   }
 
   onObservationsChanged(): void {
@@ -47,5 +46,4 @@ export class InfoTopObservationsComponent implements OnInit {
         }
       );
   }
-
 }
