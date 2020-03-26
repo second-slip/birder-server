@@ -14,6 +14,7 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 export class InfoTopObservationsComponent implements OnInit {
   analysis: TopObservationsAnalysisViewModel;
   subscription: Subscription;
+  active;
 
   constructor(private observationService: ObservationService
             , private observationsAnalysisService: ObservationsAnalysisService) { }
@@ -36,6 +37,9 @@ export class InfoTopObservationsComponent implements OnInit {
       .subscribe(
         (data: TopObservationsAnalysisViewModel) => {
           this.analysis = data;
+          if (this.analysis.topMonthlyObservations.length === 0) {
+            this.active = 2;
+          }
         },
         (error: ErrorReportViewModel) => {
           console.log(error);

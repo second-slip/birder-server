@@ -10,7 +10,7 @@
     <h4 class="title">Your Top Observations</h4>
     <br>
 
-    <ul ngbNav #nav="ngbNav" [destroyOnHide]="false" class="nav nav-pills nav-fill">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav nav-pills nav-fill">
 
       <li [ngbNavItem]="1" [destroyOnHide]="false">
         <a ngbNavLink>30 days</a>
