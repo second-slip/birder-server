@@ -1,37 +1,55 @@
 <div class="container">
 
-  <h4 class="title">Your Top Observations</h4>
-  <br>
-
   <div *ngIf="!analysis" class="loading">
     <p><em>Loading...</em></p>
     <mat-spinner></mat-spinner>
   </div>
 
-  <div class="container" *ngIf="analysis">
-    <ngb-tabset justify="fill">
-      <ngb-tab title="Last 30 Days">
-        <ng-template ngbTabContent>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Species</th>
-                <th scope="col">Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let record of analysis.topMonthlyObservations; index as i">
-                <th scope="row">{{ i + 1 }}</th>
-                <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.name }}</a></td>
-                <td>{{ record.count | number }}</td>
-              </tr>
-            </tbody>
-          </table>
+  <div *ngIf="analysis">
+
+    <h4 class="title">Your Top Observations</h4>
+    <br>
+
+    <ul ngbNav #nav="ngbNav" [destroyOnHide]="false" class="nav nav-pills nav-fill">
+
+      <li [ngbNavItem]="1" [destroyOnHide]="false">
+        <a ngbNavLink>30 days</a>
+        <ng-template ngbNavContent>
+          <ng-container *ngIf="analysis.topMonthlyObservations.length; else noItems">
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Species</th>
+                  <th scope="col">Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let record of analysis.topMonthlyObservations; index as i">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.name }}</a></td>
+                  <td>{{ record.count | number }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </ng-container>
+
+          <ng-template #noItems>
+            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+              You have not made any observations in the last 30 days.
+            </ngb-alert>
+          </ng-template>
+
         </ng-template>
-      </ngb-tab>
-      <ngb-tab title="All Time">
-          <ng-template ngbTabContent>
+      </li>
+
+      <li [ngbNavItem]="2" [destroyOnHide]="false">
+        <a ngbNavLink>All time</a>
+        <ng-template ngbNavContent>
+          <ng-container *ngIf="analysis.topObservations.length; else noItems">
+
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -48,13 +66,27 @@
                 </tr>
               </tbody>
             </table>
+
+          </ng-container>
+
+          <ng-template #noItems>
+            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+              No observations.
+            </ngb-alert>
           </ng-template>
-        </ngb-tab>
-    </ngb-tabset>
-    <div>
-      <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon">
-        <small><em>  See the full list in your
-            <a routerLink="/life-list">Life List</a> page</em></small></span>
-        </div>
+
+        </ng-template>
+      </li>
+
+    </ul>
+
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+  </div>
+
+  <div>
+    <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon">
+      <small><em> See the full list in your
+          <a routerLink="/life-list">Life List</a> page</em></small></span>
   </div>
 </div>
