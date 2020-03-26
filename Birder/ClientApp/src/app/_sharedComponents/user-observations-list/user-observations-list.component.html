@@ -15,21 +15,23 @@
                 <thead>
                     <tr>
                         <!-- <th scope="col">#</th> -->
-                        <th scope="col">Species</th>
                         <th scope="col">Qty</th>
+                        <th scope="col">Species</th>
                         <th scope="col">Date/Time</th>
-                        <th scope="col">User</th>
+                        <!-- <th scope="col">User</th> -->
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let record of observations; index as i">
                         <!-- <th scope="row">{{ i + 1 }}</th> -->
-                        <td>{{ record.bird.englishName }}</td>
                         <td>{{ record.quantity }}</td>
+                        <!-- <td>{{ record.bird.englishName }} <small class="italic">{{ record.bird.species }}</small></td> -->
+                        <td><a routerLink="/birds-detail/{{record.bird.birdId}}">{{ record.bird.englishName }}</a>
+                            <small class="italic"> {{ record.bird.species }}</small></td>
                         <td>{{ record.observationDateTime | date: 'dd/MM/yyyy \'at\' h:mm a' }}</td>
-                        <td><a routerLink="/user-profile/{{ record.user.userName }}">{{ record.user.userName }}</a></td>
-                        <td><a routerLink="/observation-detail/{{ record.observationId }}">View</a></td>
+                        <!-- <td><a routerLink="/user-profile/{{ record.user.userName }}">{{ record.user.userName }}</a></td> -->
+                        <td><a class="btn btn-primary btn-sm" routerLink="/observation-detail/{{ record.observationId }}">View</a></td>
                     </tr>
                 </tbody>
             </table>
