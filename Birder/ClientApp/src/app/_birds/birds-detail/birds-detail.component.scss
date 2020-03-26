@@ -3,19 +3,15 @@ app-birds-detail {
   // .example-headers-align .mat-expansion-panel-header-title,
   // .example-headers-align .mat-expansion-panel-header-description {
   //   flex-basis: 0;
-  
 
   // .example-headers-align .mat-expansion-panel-header-description {
   //   justify-content: space-between;
   //   align-items: center;
   // }
 
-
   .flex-container {
     display: flex;
     flex-direction: column;
-
-
   }
 
   .full-width {
@@ -25,7 +21,11 @@ app-birds-detail {
 
   .mat-form-field-underline {
     display: none;
-    }
+  }
+
+  .bold {
+    font-weight: bold;
+  }
 
   // dl {
   //   border: 3px double #ccc;
@@ -54,12 +54,11 @@ app-birds-detail {
   //   width: max-content;
   //   // text-align: right;
   // }
-  
+
   // dd {
   //   float: left;
   //   margin-left: 10px;
   // }
-
 
   table {
     // width: 100%;
@@ -70,7 +69,6 @@ app-birds-detail {
     width: 100%;
   }
 
-  
   // td,
   // th {
   //   width: auto;

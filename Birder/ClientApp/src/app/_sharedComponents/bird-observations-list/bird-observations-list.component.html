@@ -15,7 +15,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <!-- <th scope="col">#</th> -->
                         <th scope="col">Qty</th>
                         <th scope="col">Date/Time</th>
                         <th scope="col">User</th>
@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let record of observations; index as i">
-                        <th scope="row">{{ i + 1 }}</th>
+                        <!-- <th scope="row">{{ i + 1 }}</th> -->
                         <td>{{ record.quantity }}</td>
                         <td>{{ record.observationDateTime | date: 'dd/MM/yyyy \'at\' h:mm a' }}</td>
                         <td><a routerLink="/user-profile/{{ record.user.userName }}">{{ record.user.userName }}</a></td>

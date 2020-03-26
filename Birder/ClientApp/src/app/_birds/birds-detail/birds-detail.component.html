@@ -51,20 +51,68 @@
     <li [ngbNavItem]="2">
       <a ngbNavLink>Detailed information</a>
       <ng-template ngbNavContent>
-        <ngb-alert [dismissible]="false" class="d-block mt-3" type="success">
-          This tab content DOM will always stay in DOM
-        </ngb-alert>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-6 mb-3 mb-md-0">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Scientific classification</h5>
+                  <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+                  <p>Class: <span class="bold">{{ bird.class }}</span></p>
+                  <p>Order: <span class="bold">{{ bird.order }}</span></p>
+                  <p>Family: <span class="bold">{{ bird.family }}</span></p>
+                  <p>Genus: <span class="bold">{{ bird.genus }}</span></p>
+                  <p>Species: <span class="bold">{{ bird.species }}</span></p>
+                  <br>
+                  <h5 class="card-title">Common names</h5>
+                  <p>English name: <span class="bold">{{ bird.englishName }}</span></p>
+                  <p>International name: <span class="bold">{{ bird.internationalName == '' ? 'N/a' : bird.internationalName }}</span></p>
+                  <!-- totalItems > 1 ? 'times:' : 'time:' -->
+                  <!-- <p>Family: <span class="bold">{{ bird.family }}</span></p>  -->
+                  <!-- <a href="#!" class="btn btn-primary">Go somewhere</a> -->
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Conservation status in the UK</h5>
+                  <p>Risk status: <span class="bold" [style.color]="bird.birdConservationStatus.conservationListColourCode">{{ bird.birdConservationStatus.conservationList }}</span></p>
+                  <p>{{ bird.birdConservationStatus.description }}</p>
+                  <br>
+                  <h5 class="card-title">BTO status in the UK</h5>
+                  <p>BTO status (UK): <span class="bold">{{ bird.btoStatusInBritain }}</span></p>
+                  <p>Population estimate (UK): <span class="bold">{{ bird.populationSize }}</span></p>
+                  <p>Birder category: <span class="bold">{{ bird.birderStatus }} species</span></p>
+                  <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+                  <!-- <a href="#!" class="btn btn-primary">Go somewhere</a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
       </ng-template>
     </li>
     <li [ngbNavItem]="3" [destroyOnHide]="false">
+      <a ngbNavLink>Voice</a>
+      <ng-template ngbNavContent let-active>
+        <ng-container>
+
+        </ng-container>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="4" [destroyOnHide]="false">
       <a ngbNavLink>Sightings</a>
       <ng-template ngbNavContent let-active>
-        <ng-container *ngIf="tabstatus['3'] === true">
+        <ng-container *ngIf="tabstatus['4'] === true">
           <app-bird-observations-list [birdId]="this.bird.birdId"></app-bird-observations-list>
         </ng-container>
       </ng-template>
     </li>
+    
   </ul>
 
   <div [ngbNavOutlet]="nav" class="mt-2"></div>
