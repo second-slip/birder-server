@@ -1,46 +1,75 @@
 <div class="container">
 
-  <h4 class="title">Your Birder Network</h4>
-  <br>
+  <div *ngIf="!network" class="loading">
+    <p><em>Loading...</em></p>
+    <mat-spinner></mat-spinner>
+  </div>
 
   <div *ngIf="network">
-      <mat-tab-group mat-align-tabs="start">
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <span matBadge={{network.following.length}} matBadgeOverlap="false">Following</span>
-          </ng-template>
-          <!-- <p><em>Find Birders to follow</em></p> -->
-          <!-- // -->
-          <div *ngFor="let following of network.following">
+
+    <h4 class="title">Your Birder Network</h4>
+    <br>
+
+    <ul ngbNav #nav="ngbNav" [destroyOnHide]="false" class="nav nav-pills nav-fill">
+
+      <li [ngbNavItem]="1" [destroyOnHide]="false">
+        <a ngbNavLink>Following <span class="badge badge-pill badge-light"> {{ network.following.length }}</span></a>
+        <ng-template ngbNavContent>
+          <ng-container *ngIf="network.following.length; else noItems">
+
+            <div *ngFor="let following of network.following">
               <div class="flex-container network-list">
                 <img class="avatar" src="{{following.avatar}}">
                 <a class="avatar-title" routerLink="/user-profile/{{following.userName}}">{{following.userName}}</a>
                 <div *ngIf="following.isOwnProfile == false"><button class="btn btn-link btn-sm"
-                  (click)="followOrUnfollow($event.target, following)">
-                  {{ following.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
-              <!-- <div *ngIf="following.isOwnProfile == true"><em>You</em></div> -->
+                    (click)="followOrUnfollow($event.target, following)">
+                    {{ following.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+                <!-- <div *ngIf="following.isOwnProfile == true"><em>You</em></div> -->
               </div>
-          </div>
-          <!--  -->
-        </mat-tab>
-  
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <span matBadge={{network.followers.length}} matBadgeOverlap="false">Followers</span>
+            </div>
+
+          </ng-container>
+
+          <ng-template #noItems>
+            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+              No following.
+            </ngb-alert>
           </ng-template>
-          <!-- -->
-          <div *ngFor="let follower of network.followers">
+
+        </ng-template>
+      </li>
+
+      <li [ngbNavItem]="2" [destroyOnHide]="false">
+        <a ngbNavLink>Followers <span class="badge badge-pill badge-light"> {{ network.followers.length }}</span></a>
+        <ng-template ngbNavContent>
+          <ng-container *ngIf="network.followers.length; else noItems">
+
+            <div *ngFor="let follower of network.followers">
               <div class="flex-container network-list">
                 <img class="avatar" src="{{follower.avatar}}">
                 <a class="avatar-title" routerLink="/user-profile/{{follower.userName}}">{{follower.userName}}</a>
                 <div *ngIf="follower.isOwnProfile == false"><button class="btn btn-link btn-sm"
-                  (click)="followOrUnfollow($event.target, follower)">
-                  {{ follower.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
-              <!-- <div *ngIf="following.isOwnProfile == true"><em>You</em></div> -->
+                    (click)="followOrUnfollow($event.target, follower)">
+                    {{ follower.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+                <!-- <div *ngIf="following.isOwnProfile == true"><em>You</em></div> -->
               </div>
-          </div>
-          <!--  -->
-        </mat-tab>
-      </mat-tab-group>
-    </div>
+            </div>
+
+          </ng-container>
+
+          <ng-template #noItems>
+            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+              No followers.
+            </ngb-alert>
+          </ng-template>
+        </ng-template>
+      </li>
+
+    </ul>
+
+
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+  </div>
+
 </div>
