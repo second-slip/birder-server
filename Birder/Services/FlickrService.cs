@@ -11,7 +11,7 @@ namespace Birder.Services
     public interface IFlickrService
     {
         PhotoCollection GetFlickrPhotoCollection(string queryString);
-        string GetBirdProfilePhoto(string queryString);
+        string GetThumbnailUrl(string queryString);
     }
 
     public class FlickrService : IFlickrService
@@ -23,10 +23,8 @@ namespace Birder.Services
             _config = config;
         }
 
-        public string GetBirdProfilePhoto(string queryString)
+        public string GetThumbnailUrl(string queryString)
         {
-            // refactor.  This should only get the url string
-
             Flickr flickr = new Flickr(_config["Flickr:FlickrApiKey"], _config["Flickr:FlickrSecret"]);
             {
                 var options = new PhotoSearchOptions

@@ -124,7 +124,7 @@ namespace Birder.Controllers
                     }
                     else
                     {
-                        item.Bird.ThumbnailUrl = _flickrService.GetBirdProfilePhoto(item.Bird.Species);
+                        item.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(item.Bird.Species);
                         _cache.Set(string.Concat("thumb-", item.Bird.BirdId), item.Bird.ThumbnailUrl);
                     }
                 }
