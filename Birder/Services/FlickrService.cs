@@ -32,7 +32,7 @@ namespace Birder.Services
                     Text = queryString,
                     Page = 1,
                     PerPage = 1,
-                    Extras = PhotoSearchExtras.LargeSquareUrl,
+                    Extras = PhotoSearchExtras.SmallUrl,
                     SafeSearch = SafetyLevel.Safe,
                     MediaType = MediaType.Photos
                 };

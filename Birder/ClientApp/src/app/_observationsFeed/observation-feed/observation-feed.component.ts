@@ -20,12 +20,11 @@ import { TokenService } from '@app/_services/token.service';
 export class ObservationFeedComponent implements OnInit {
   user: UserViewModel;
   currentFilter: ObservationFeedFilter = 0;
-
-  loadingObs: boolean;
+  // loadingObs: boolean;
   allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
-  private itemHeight = 145;
+  private itemHeight = 166;
   private numberOfItems = 10;
   private pageByScroll$ = fromEvent(window, 'scroll')
     .pipe(
@@ -64,7 +63,7 @@ export class ObservationFeedComponent implements OnInit {
           .pipe(
             tap((resp: ObservationFeedDto) => {
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
-              if (this.currentFilter != resp.returnFilter) {
+              if (this.currentFilter !== resp.returnFilter) {
                 this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
                 this.currentFilter = resp.returnFilter;
               }
@@ -116,7 +115,7 @@ export class ObservationFeedComponent implements OnInit {
             .pipe(
               tap((resp: ObservationFeedDto) => {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
-                if (this.currentFilter != resp.returnFilter) {
+                if (this.currentFilter !== resp.returnFilter) {
                   this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
                   this.currentFilter = resp.returnFilter;
                 }

@@ -33,57 +33,14 @@
         <div class="timeline-item"
           attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
 
-          <div class="mb-3">
-            <div class="row">
-              <div class="col-sm-2 d-none d-lg-block">
-                <img src="{{ observation.bird.thumbnailUrl }}" class="card-img" alt="{{ observation.bird.species }}" width="75px" height="75px">
-              </div>
-              <div class="col-sm-10">
-                <!-- <div class="body"> -->
-                  <!-- <h5 class="card-title">Card title</h5> -->
-                  <!-- <p class="text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
-                  <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
-                  <h3><b>{{observation.quantity}}</b>
-                    <a routerLink="/birds-detail/{{observation.bird.birdId}}">
-                      {{observation.bird.englishName}}
-                    </a>
-                    {{observation.quantity > 1 ? 'were' : 'was'}}
-                    spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
-                      {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
-                    </a>
-                  </h3>
 
-       
-                  <a routerLink="/observation-detail/{{observation.observationId}}">
-                    View
-                  </a>
-                  <a *ngIf="observation.user.userName === user.userName"
-                    routerLink="/observation-manage-photos/{{observation.observationId}}">
-                    | Manage Photos
-                  </a>
-                  <a *ngIf="observation.user.userName === user.userName"
-                    routerLink="/observation-edit/{{observation.observationId}}">
-                    | Edit
-                  </a>
-                  <a *ngIf="observation.user.userName === user.userName"
-                    routerLink="/observation-delete/{{observation.observationId}}">
-                    | Delete
-                  </a>
-                <!-- </div> -->
-              </div>
-            </div>
-          </div>
-
-
-          <!-- <div class="container-fluid">
           <div class="row">
-            <div class="col-sm-2 col-md-2 d-none d-lg-block">
-
-              <img src="https://live.staticflickr.com/65535/49712985117_a7a9deee1a_s.jpg" alt="Trulli" width="75px" height="75px">
+            <div class="col-sm-2 d-none d-lg-block">
+              <img src="{{ observation.bird.thumbnailUrl }}" class="card-img" alt="{{ observation.bird.species }}">
+                <!-- width="75px" height="75px" -->
             </div>
-            <div class="col-sm-10 col-md-10 col-lg-10">
-              
-              <h3><b>{{observation.quantity}}</b>
+            <div class="col-sm-10">
+              <h4 class="lines"><b>{{observation.quantity}}</b>
                 <a routerLink="/birds-detail/{{observation.bird.birdId}}">
                   {{observation.bird.englishName}}
                 </a>
@@ -91,28 +48,30 @@
                 spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
                   {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
                 </a>
-              </h3>
-    
-              <a routerLink="/observation-detail/{{observation.observationId}}">
-                View
-              </a>
-              <a *ngIf="observation.user.userName === user.userName"
-                routerLink="/observation-manage-photos/{{observation.observationId}}">
-                | Manage Photos
-              </a>
-              <a *ngIf="observation.user.userName === user.userName"
-                routerLink="/observation-edit/{{observation.observationId}}">
-                | Edit
-              </a>
-              <a *ngIf="observation.user.userName === user.userName"
-                routerLink="/observation-delete/{{observation.observationId}}">
-                | Delete
-              </a>
+              </h4>
+
+              <p class="lines">Andrew</p>
+
+              <p class="lines">
+                <a routerLink="/observation-detail/{{observation.observationId}}">
+                  View
+                </a>
+                <!-- <a *ngIf="observation.user.userName === user.userName"
+                  routerLink="/observation-manage-photos/{{observation.observationId}}">
+                  | Manage Photos
+                </a> -->
+                <a *ngIf="observation.user.userName === user.userName"
+                  routerLink="/observation-edit/{{observation.observationId}}">
+                  | Edit
+                </a>
+                <a *ngIf="observation.user.userName === user.userName"
+                  routerLink="/observation-delete/{{observation.observationId}}">
+                  | Delete
+                </a>
+              </p>
+
             </div>
           </div>
-
-        </div> -->
-
         </div>
       </div>
     </ng-container>

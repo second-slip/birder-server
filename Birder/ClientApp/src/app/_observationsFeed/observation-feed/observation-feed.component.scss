@@ -42,14 +42,14 @@ app-observation-feed {
   $border-color: rgba(rgb(2, 117, 216), 0.3);
 
   .timeline-item {
-    padding: 3em 2em 5em;
+    padding: 3em 2em 1em;
     position: relative;
     color: rgba(black, 0.7);
     border-left: 2px solid $border-color;
 
-    // p {
-    // 	font-size: 1rem;
-    // }
+    h4.lines { margin: 7px; }
+
+    p.lines  { margin: 7px; }
 
     &::before {
       content: attr(myValue);
