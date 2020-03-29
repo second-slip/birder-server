@@ -118,7 +118,15 @@ namespace Birder.Controllers
                 //
                 foreach (var item in observations.Items)
                 {
-                    item.Bird.ThumbnailUrl = _flickrService.GetBirdProfilePhoto(item.Bird.Species);
+                    if (_cache.TryGetValue(string.Concat("thumb-", item.Bird.BirdId), out string cacheUrl))
+                    {
+                        item.Bird.ThumbnailUrl = cacheUrl;
+                    }
+                    else
+                    {
+                        item.Bird.ThumbnailUrl = _flickrService.GetBirdProfilePhoto(item.Bird.Species);
+                        _cache.Set(string.Concat("thumb-", item.Bird.BirdId), item.Bird.ThumbnailUrl);
+                    }
                 }
                 //
 
