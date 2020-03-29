@@ -2,6 +2,7 @@
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.Helpers;
+using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,23 +20,28 @@ namespace Birder.Controllers
     public class ObservationFeedController : ControllerBase
     {
         private const int pageSize = 10;
-        //private IMemoryCache _cache;
+        private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
 
+        private readonly IFlickrService _flickrService;
+
         public ObservationFeedController(IMapper mapper
-                                       //, IMemoryCache memoryCache
+                                       , IMemoryCache memoryCache
                                        , ILogger<ObservationFeedController> logger
                                        , UserManager<ApplicationUser> userManager
-                                       , IObservationRepository observationRepository)
+                                       , IObservationRepository observationRepository
+                                       , IFlickrService flickrService)
         {
             _mapper = mapper;
             _logger = logger;
-            //_cache = memoryCache;
+            _cache = memoryCache;
             _userManager = userManager;
             _observationRepository = observationRepository;
+
+            _flickrService = flickrService;
         }
 
         [HttpGet]
@@ -81,6 +87,21 @@ namespace Birder.Controllers
                         _logger.LogWarning(LoggingEvents.GetListNotFound, "Network observations list is null");
                         return NotFound("Observations not found");
                     }
+
+                    //
+                    foreach (var item in networkObservations.Items)
+                    {
+                        if (_cache.TryGetValue(string.Concat("thumb-", item.Bird.BirdId), out string cacheUrl))
+                        {
+                            item.Bird.ThumbnailUrl = cacheUrl;
+                        }
+                        else
+                        {
+                            item.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(item.Bird.Species);
+                            _cache.Set(string.Concat("thumb-", item.Bird.BirdId), item.Bird.ThumbnailUrl);
+                        }
+                    }
+                    //
 
                     if (networkObservations.TotalItems > 0 || pageIndex > 1)
                     {

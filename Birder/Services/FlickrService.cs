@@ -32,13 +32,12 @@ namespace Birder.Services
                     Text = queryString,
                     Page = 1,
                     PerPage = 1,
-                    Extras = PhotoSearchExtras.AllUrls,
+                    Extras = PhotoSearchExtras.LargeSquareUrl,
                     SafeSearch = SafetyLevel.Safe,
                     MediaType = MediaType.Photos
                 };
                 PhotoCollection photos = flickr.PhotosSearch(options);
-
-                return photos.FirstOrDefault().ThumbnailUrl;
+                return photos.FirstOrDefault().LargeSquareThumbnailUrl;
             }
 
 
