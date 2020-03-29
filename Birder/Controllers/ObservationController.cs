@@ -29,6 +29,8 @@ namespace Birder.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
 
+        private readonly IFlickrService _flickrService;
+
         public ObservationController(IMapper mapper
                                    , IMemoryCache memoryCache
                                    , ISystemClockService systemClock
@@ -36,7 +38,8 @@ namespace Birder.Controllers
                                    , IBirdRepository birdRepository
                                    , ILogger<ObservationController> logger
                                    , UserManager<ApplicationUser> userManager
-                                   , IObservationRepository observationRepository)
+                                   , IObservationRepository observationRepository
+                                   , IFlickrService flickrService)
         {
             _mapper = mapper;
             _logger = logger;
@@ -46,6 +49,7 @@ namespace Birder.Controllers
             _systemClock = systemClock;
             _birdRepository = birdRepository;
             _observationRepository = observationRepository;
+            _flickrService = flickrService;
         }
 
         [HttpGet, Route("GetObservation")]
@@ -110,6 +114,13 @@ namespace Birder.Controllers
                     _logger.LogWarning(LoggingEvents.GetListNotFound, message);
                     return NotFound(message);
                 }
+
+                //
+                foreach (var item in observations.Items)
+                {
+                    item.Bird.ThumbnailUrl = _flickrService.GetBirdProfilePhoto(item.Bird.Species);
+                }
+                //
 
                 return Ok(_mapper.Map<QueryResult<Observation>, ObservationDto>(observations));
             }
