@@ -24,7 +24,7 @@ export class ObservationFeedComponent implements OnInit {
   allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
-  private itemHeight = 166;
+  private itemHeight = 177;
   private numberOfItems = 10;
   private pageByScroll$ = fromEvent(window, 'scroll')
     .pipe(
