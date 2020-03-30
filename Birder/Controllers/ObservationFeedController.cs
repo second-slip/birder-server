@@ -20,7 +20,7 @@ namespace Birder.Controllers
     public class ObservationFeedController : ControllerBase
     {
         private const int pageSize = 10;
-        private IMemoryCache _cache;
+        //private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -29,7 +29,7 @@ namespace Birder.Controllers
         //private readonly IFlickrService _flickrService;
 
         public ObservationFeedController(IMapper mapper
-                                       , IMemoryCache memoryCache
+                                       //, IMemoryCache memoryCache
                                        , ILogger<ObservationFeedController> logger
                                        , UserManager<ApplicationUser> userManager
                                        , IObservationRepository observationRepository
@@ -38,7 +38,7 @@ namespace Birder.Controllers
         {
             _mapper = mapper;
             _logger = logger;
-            _cache = memoryCache;
+            //_cache = memoryCache;
             _userManager = userManager;
             _observationRepository = observationRepository;
             _profilePhotosService = profilePhotosService;
@@ -90,7 +90,7 @@ namespace Birder.Controllers
                     }
 
                     //
-                    _profilePhotosService.GetProfilePhoto(networkObservations.Items);
+                    _profilePhotosService.GetThumbnailsUrls(networkObservations.Items);
                     //
 
                     //

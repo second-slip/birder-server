@@ -10,7 +10,7 @@ namespace Birder.Services
 
     public interface IProfilePhotosService
     {
-        IEnumerable<Observation> GetProfilePhoto(IEnumerable<Observation> observations);
+        IEnumerable<Observation> GetThumbnailsUrls(IEnumerable<Observation> observations);
     }
 
     public class ProfilePhotosService : IProfilePhotosService
@@ -25,23 +25,29 @@ namespace Birder.Services
             _flickrService = flickrService;
         }
 
-        public IEnumerable<Observation> GetProfilePhoto(IEnumerable<Observation> observations)
+        /// <summary>
+        /// Sets the bird thumbnail url from the Flickr API or the cache
+        /// </summary>
+        /// <param name="observations"></param>
+        /// <returns></returns>
+        public IEnumerable<Observation> GetThumbnailsUrls(IEnumerable<Observation> observations)
         {
+            // ToDo: cache entry expiry date
             //
-            foreach (var item in observations)
+            foreach (var observation in observations)
             {
-                if (_cache.TryGetValue(string.Concat("thumb-", item.Bird.BirdId), out string cacheUrl))
+                if (_cache.TryGetValue(string.Concat("thumb-", observation.Bird.BirdId), out string cacheUrl))
                 {
-                    item.Bird.ThumbnailUrl = cacheUrl;
+                    observation.Bird.ThumbnailUrl = cacheUrl;
                 }
                 else
                 {
-                    item.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(item.Bird.Species);
-                    _cache.Set(string.Concat("thumb-", item.Bird.BirdId), item.Bird.ThumbnailUrl);
+                    observation.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Bird.Species);
+                    _cache.Set(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
                 }
             }
+
             return observations;
-            //
         }
     }
 }
