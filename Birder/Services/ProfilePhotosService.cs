@@ -31,6 +31,8 @@ namespace Birder.Services
         /// <returns></returns>
         public IEnumerable<Observation> GetThumbnailsUrl(IEnumerable<Observation> observations)
         {
+            // ToDo: add an extra step to check if observation.Bird.ThumbnailUrl is null or empty
+            // Why?  Implement if we add some fixed image urls to the database...
             foreach (var observation in observations)
             {
                 if (_cache.TryGetValue(string.Concat("thumb-", observation.Bird.BirdId), out string cacheUrl))
@@ -39,8 +41,9 @@ namespace Birder.Services
                 }
                 else
                 {
-                    observation.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Bird.Species);
-                    //_cache.Set(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
+                    // temp in dev to avoid hitting the API...
+                    observation.Bird.ThumbnailUrl = "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
+                    //observation.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Bird.Species);
                     AddResponseToCache(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
                 }
             }
