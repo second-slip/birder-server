@@ -90,7 +90,7 @@ namespace Birder.Controllers
                     }
 
                     //
-                    _profilePhotosService.GetThumbnailsUrls(networkObservations.Items);
+                    _profilePhotosService.GetThumbnailsUrl(networkObservations.Items);
                     //
 
                     //
