@@ -3,7 +3,6 @@ using Birder.Controllers;
 using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
-using Birder.Helpers;
 using Birder.Services;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
