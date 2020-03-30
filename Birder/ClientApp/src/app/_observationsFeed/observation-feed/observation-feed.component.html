@@ -36,7 +36,7 @@
 
           <div class="row">
             <div class="col-sm-2 d-none d-lg-block">
-              <img src="{{ observation.bird.thumbnailUrl }}" class="card-img" alt="{{ observation.bird.species }}">
+              <img src="{{ observation.bird.thumbnailUrl }}" class="card-img" alt="{{ observation.bird.species }}" placement="bottom" ngbTooltip="{{ observation.bird.species }}">
               <!-- width="75px" height="75px" -->
             </div>
             <div class="col-sm-10">
@@ -79,7 +79,13 @@
     </ng-container>
     <ng-template #noItems>No Items!</ng-template>
   </div>
-  <ng-template #loading>loading animation...</ng-template>
+  <ng-template #loading>
+    <!-- <div *ngIf="!analysis" class="loading"></div> -->
+    <div class="loading">
+      <p><em>Loading your feed...</em></p>
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
 
 
 
