@@ -1,4 +1,5 @@
 ﻿using Birder.Data.Model;
+using Birder.Helpers;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
@@ -31,11 +32,13 @@ namespace Birder.Services
         /// <returns></returns>
         public IEnumerable<Observation> GetUrlForObservations(IEnumerable<Observation> observations)
         {
+            if (observations == null)
+                throw new ArgumentNullException("observations", "The observations collection is null");
             // ToDo: add an extra step to check if observation.Bird.ThumbnailUrl is null or empty
             // Why?  Implement if we add some fixed image urls to the database...
             foreach (var observation in observations)
             {
-                if (_cache.TryGetValue(GetCacheId(observation.Bird.BirdId), out string cacheUrl))
+                if (_cache.TryGetValue(GetCacheEntryKey(observation.Bird.BirdId), out string cacheUrl))
                 {
                     observation.Bird.ThumbnailUrl = cacheUrl;
                 }
@@ -58,7 +61,10 @@ namespace Birder.Services
         /// <returns></returns>
         public Observation GetUrlForObservation(Observation observation)
         {
-            if (_cache.TryGetValue(GetCacheId(observation.Bird.BirdId), out string cacheUrl))
+            if (observation == null)
+                throw new ArgumentNullException("observation", "The observation is null");
+
+            if (_cache.TryGetValue(GetCacheEntryKey(observation.Bird.BirdId), out string cacheUrl))
             {
                 observation.Bird.ThumbnailUrl = cacheUrl;
             }
@@ -75,13 +81,12 @@ namespace Birder.Services
 
         public void AddResponseToCache(int birdId, string url)
         {
-            string id = string.Concat("birdId-", birdId);
-            _cache.Set(id, url, TimeSpan.FromDays(5));
+            _cache.Set(GetCacheEntryKey(birdId), url, TimeSpan.FromDays(5));
         }
 
-        public string GetCacheId(int birdId)
+        public string GetCacheEntryKey(int birdId)
         {
-            return string.Concat("birdId-", birdId);
+            return string.Concat(CacheEntryKeys.BirdThumbUrl, birdId);
         }
     }
 }
