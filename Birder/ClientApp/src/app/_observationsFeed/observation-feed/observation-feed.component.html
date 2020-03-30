@@ -37,7 +37,7 @@
           <div class="row">
             <div class="col-sm-2 d-none d-lg-block">
               <img src="{{ observation.bird.thumbnailUrl }}" class="card-img" alt="{{ observation.bird.species }}">
-                <!-- width="75px" height="75px" -->
+              <!-- width="75px" height="75px" -->
             </div>
             <div class="col-sm-10">
               <h4 class="lines"><b>{{observation.quantity}}</b>
@@ -50,12 +50,9 @@
                 </a>
               </h4>
 
-
-
-              <p class="lines1"><mat-icon>location_on</mat-icon><span class="aligned-with-icon">Andrew</span></p>
-
-              <!-- <mat-icon svgIcon="thumbs-up" aria-hidden="false" aria-label="Example thumbs up SVG icon"></mat-icon> -->
-
+              <p class="location">
+                <mat-icon>location_on</mat-icon><span class="aligned-with-icon"> --insert location-- </span>
+              </p>
 
               <p class="lines">
                 <a routerLink="/observation-detail/{{observation.observationId}}">
