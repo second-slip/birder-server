@@ -28,7 +28,7 @@ namespace Birder.Controllers
         private readonly IBirdRepository _birdRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
-        private readonly IProfilePhotosService _profilePhotosService;
+        //private readonly IProfilePhotosService _profilePhotosService;
 
         public ObservationController(IMapper mapper
                                    , IMemoryCache memoryCache
@@ -37,8 +37,8 @@ namespace Birder.Controllers
                                    , IBirdRepository birdRepository
                                    , ILogger<ObservationController> logger
                                    , UserManager<ApplicationUser> userManager
-                                   , IObservationRepository observationRepository
-                                   , IProfilePhotosService profilePhotosService)
+                                   , IObservationRepository observationRepository)
+                                   //, IProfilePhotosService profilePhotosService)
         {
             _mapper = mapper;
             _logger = logger;
@@ -48,7 +48,7 @@ namespace Birder.Controllers
             _systemClock = systemClock;
             _birdRepository = birdRepository;
             _observationRepository = observationRepository;
-            _profilePhotosService = profilePhotosService;
+            //_profilePhotosService = profilePhotosService;
         }
 
         [HttpGet, Route("GetObservation")]
@@ -114,7 +114,7 @@ namespace Birder.Controllers
                     return NotFound(message);
                 }
 
-                _profilePhotosService.GetThumbnailsUrl(observations.Items);
+                //_profilePhotosService.GetThumbnailsUrl(observations.Items);
 
                 return Ok(_mapper.Map<QueryResult<Observation>, ObservationDto>(observations));
             }
