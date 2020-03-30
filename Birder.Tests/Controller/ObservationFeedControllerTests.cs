@@ -42,7 +42,6 @@ namespace Birder.Tests.Controller
             //_systemClock = new SystemClockService();
 
             _mockProfilePhotosService = new Mock<IProfilePhotosService>();
-
         }
 
 
