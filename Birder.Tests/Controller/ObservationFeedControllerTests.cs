@@ -63,7 +63,7 @@ namespace Birder.Tests.Controller
             //mockP.Setup(obs => obs.GetThumbnailsUrl(It.IsAny<IEnumerable<Observation>>()))
             //.Returns(SharedFunctions.GetTestObservations(1, bird));
             //var bird = new Bird();
-            _mockProfilePhotosService.Setup(obs => obs.GetThumbnailsUrl(It.IsAny<IEnumerable<Observation>>()))
+            _mockProfilePhotosService.Setup(obs => obs.SetThumbnailUrl(It.IsAny<IEnumerable<Observation>>()))
             .Returns(SharedFunctions.GetTestObservations(1, new Bird()));
 
             var controller = new ObservationFeedController(_mapper, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);

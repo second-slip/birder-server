@@ -8,8 +8,8 @@ namespace Birder.Services
 
     public interface IProfilePhotosService
     {
-        IEnumerable<Observation> GetThumbnailsUrl(IEnumerable<Observation> observations);
-        Observation GetThumbnailsUrl(Observation observation);
+        IEnumerable<Observation> SetThumbnailUrl(IEnumerable<Observation> observations);
+        Observation SetThumbnailUrl(Observation observation);
     }
 
     public class ProfilePhotosService : IProfilePhotosService
@@ -29,13 +29,13 @@ namespace Birder.Services
         /// </summary>
         /// <param name="observations"></param>
         /// <returns></returns>
-        public IEnumerable<Observation> GetThumbnailsUrl(IEnumerable<Observation> observations)
+        public IEnumerable<Observation> SetThumbnailUrl(IEnumerable<Observation> observations)
         {
             // ToDo: add an extra step to check if observation.Bird.ThumbnailUrl is null or empty
             // Why?  Implement if we add some fixed image urls to the database...
             foreach (var observation in observations)
             {
-                if (_cache.TryGetValue(string.Concat("thumb-", observation.Bird.BirdId), out string cacheUrl))
+                if (_cache.TryGetValue(GetCacheId(observation.Bird.BirdId), out string cacheUrl))
                 {
                     observation.Bird.ThumbnailUrl = cacheUrl;
                 }
@@ -44,7 +44,7 @@ namespace Birder.Services
                     // temp in dev to avoid hitting the API...
                     observation.Bird.ThumbnailUrl = "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
                     //observation.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Bird.Species);
-                    AddResponseToCache(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
+                    AddResponseToCache(observation.Bird.BirdId, observation.Bird.ThumbnailUrl);
                 }
             }
 
@@ -56,25 +56,32 @@ namespace Birder.Services
         /// </summary>
         /// <param name="observation"></param>
         /// <returns></returns>
-        public Observation GetThumbnailsUrl(Observation observation)
+        public Observation SetThumbnailUrl(Observation observation)
         {
-            if (_cache.TryGetValue(string.Concat("thumb-", observation.Bird.BirdId), out string cacheUrl))
+            if (_cache.TryGetValue(GetCacheId(observation.Bird.BirdId), out string cacheUrl))
             {
                 observation.Bird.ThumbnailUrl = cacheUrl;
             }
             else
             {
-                observation.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Bird.Species);
-                //_cache.Set(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
-                AddResponseToCache(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
+                // temp in dev to avoid hitting the API...
+                observation.Bird.ThumbnailUrl = "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
+                //observation.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Bird.Species);
+                AddResponseToCache(observation.Bird.BirdId, observation.Bird.ThumbnailUrl);
             }
 
             return observation;
         }
 
-        public void AddResponseToCache(string id, string url)
+        public void AddResponseToCache(int birdId, string url)
         {
+            string id = string.Concat("birdId-", birdId);
             _cache.Set(id, url, TimeSpan.FromDays(5));
+        }
+
+        public string GetCacheId(int birdId)
+        {
+            return string.Concat("birdId-", birdId);
         }
     }
 }
