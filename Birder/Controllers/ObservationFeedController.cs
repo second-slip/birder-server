@@ -25,7 +25,7 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
-        private readonly IProfilePhotosService _profilePhotosService;
+        private readonly IBirdThumbnailPhotoService _profilePhotosService;
         //private readonly IFlickrService _flickrService;
 
         public ObservationFeedController(IMapper mapper
@@ -33,7 +33,7 @@ namespace Birder.Controllers
                                        , ILogger<ObservationFeedController> logger
                                        , UserManager<ApplicationUser> userManager
                                        , IObservationRepository observationRepository
-                                       , IProfilePhotosService profilePhotosService)
+                                       , IBirdThumbnailPhotoService profilePhotosService)
                                        //, IFlickrService flickrService)
         {
             _mapper = mapper;
@@ -90,7 +90,7 @@ namespace Birder.Controllers
                     }
 
                     //
-                    _profilePhotosService.SetThumbnailUrl(networkObservations.Items);
+                    _profilePhotosService.GetUrlForObservations(networkObservations.Items);
                     //
 
                     //

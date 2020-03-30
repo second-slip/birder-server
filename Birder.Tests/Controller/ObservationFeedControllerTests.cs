@@ -26,7 +26,7 @@ namespace Birder.Tests.Controller
         private readonly IMapper _mapper;
         private readonly Mock<ILogger<ObservationFeedController>> _logger;
         //private readonly ISystemClockService _systemClock;
-        private readonly Mock<IProfilePhotosService> _mockProfilePhotosService;
+        private readonly Mock<IBirdThumbnailPhotoService> _mockProfilePhotosService;
 
         public ObservationFeedControllerTests()
         {
@@ -39,7 +39,7 @@ namespace Birder.Tests.Controller
             _mapper = mappingConfig.CreateMapper();
             //_systemClock = new SystemClockService();
 
-            _mockProfilePhotosService = new Mock<IProfilePhotosService>();
+            _mockProfilePhotosService = new Mock<IBirdThumbnailPhotoService>();
         }
 
 
@@ -60,7 +60,7 @@ namespace Birder.Tests.Controller
             //mockP.Setup(obs => obs.GetThumbnailsUrl(It.IsAny<IEnumerable<Observation>>()))
             //.Returns(SharedFunctions.GetTestObservations(1, bird));
             //var bird = new Bird();
-            _mockProfilePhotosService.Setup(obs => obs.SetThumbnailUrl(It.IsAny<IEnumerable<Observation>>()))
+            _mockProfilePhotosService.Setup(obs => obs.GetUrlForObservations(It.IsAny<IEnumerable<Observation>>()))
             .Returns(SharedFunctions.GetTestObservations(1, new Bird()));
 
             var controller = new ObservationFeedController(_mapper, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);

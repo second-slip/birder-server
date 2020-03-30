@@ -6,18 +6,18 @@ using System.Collections.Generic;
 namespace Birder.Services
 {
 
-    public interface IProfilePhotosService
+    public interface IBirdThumbnailPhotoService
     {
-        IEnumerable<Observation> SetThumbnailUrl(IEnumerable<Observation> observations);
-        Observation SetThumbnailUrl(Observation observation);
+        IEnumerable<Observation> GetUrlForObservations(IEnumerable<Observation> observations);
+        Observation GetUrlForObservation(Observation observation);
     }
 
-    public class ProfilePhotosService : IProfilePhotosService
+    public class BirdThumbnailPhotoService : IBirdThumbnailPhotoService
     {
         private IMemoryCache _cache;
         private readonly IFlickrService _flickrService;
 
-        public ProfilePhotosService(IMemoryCache memoryCache
+        public BirdThumbnailPhotoService(IMemoryCache memoryCache
                                    , IFlickrService flickrService)
         {
             _cache = memoryCache;
@@ -29,7 +29,7 @@ namespace Birder.Services
         /// </summary>
         /// <param name="observations"></param>
         /// <returns></returns>
-        public IEnumerable<Observation> SetThumbnailUrl(IEnumerable<Observation> observations)
+        public IEnumerable<Observation> GetUrlForObservations(IEnumerable<Observation> observations)
         {
             // ToDo: add an extra step to check if observation.Bird.ThumbnailUrl is null or empty
             // Why?  Implement if we add some fixed image urls to the database...
@@ -56,7 +56,7 @@ namespace Birder.Services
         /// </summary>
         /// <param name="observation"></param>
         /// <returns></returns>
-        public Observation SetThumbnailUrl(Observation observation)
+        public Observation GetUrlForObservation(Observation observation)
         {
             if (_cache.TryGetValue(GetCacheId(observation.Bird.BirdId), out string cacheUrl))
             {
