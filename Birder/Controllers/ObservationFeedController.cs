@@ -25,23 +25,24 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
-
-        private readonly IFlickrService _flickrService;
+        private readonly IProfilePhotosService _profilePhotosService;
+        //private readonly IFlickrService _flickrService;
 
         public ObservationFeedController(IMapper mapper
                                        , IMemoryCache memoryCache
                                        , ILogger<ObservationFeedController> logger
                                        , UserManager<ApplicationUser> userManager
                                        , IObservationRepository observationRepository
-                                       , IFlickrService flickrService)
+                                       , IProfilePhotosService profilePhotosService)
+                                       //, IFlickrService flickrService)
         {
             _mapper = mapper;
             _logger = logger;
             _cache = memoryCache;
             _userManager = userManager;
             _observationRepository = observationRepository;
-
-            _flickrService = flickrService;
+            _profilePhotosService = profilePhotosService;
+            //_flickrService = flickrService;
         }
 
         [HttpGet]
@@ -89,18 +90,22 @@ namespace Birder.Controllers
                     }
 
                     //
-                    foreach (var item in networkObservations.Items)
-                    {
-                        if (_cache.TryGetValue(string.Concat("thumb-", item.Bird.BirdId), out string cacheUrl))
-                        {
-                            item.Bird.ThumbnailUrl = cacheUrl;
-                        }
-                        else
-                        {
-                            item.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(item.Bird.Species);
-                            _cache.Set(string.Concat("thumb-", item.Bird.BirdId), item.Bird.ThumbnailUrl);
-                        }
-                    }
+                    _profilePhotosService.GetProfilePhoto(networkObservations.Items);
+                    //
+
+                    //
+                    //foreach (var item in networkObservations.Items)
+                    //{
+                    //    if (_cache.TryGetValue(string.Concat("thumb-", item.Bird.BirdId), out string cacheUrl))
+                    //    {
+                    //        item.Bird.ThumbnailUrl = cacheUrl;
+                    //    }
+                    //    else
+                    //    {
+                    //        item.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(item.Bird.Species);
+                    //        _cache.Set(string.Concat("thumb-", item.Bird.BirdId), item.Bird.ThumbnailUrl);
+                    //    }
+                    //}
                     //
 
                     if (networkObservations.TotalItems > 0 || pageIndex > 1)
