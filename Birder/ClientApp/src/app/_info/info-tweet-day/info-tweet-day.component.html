@@ -1,18 +1,25 @@
-<div class="container" *ngIf="tweet">
-  <div class="title">
-    <h4>Tweet of the Day</h4>
-    <span class="bird">
-      <h4><a routerLink="/birds-detail/{{tweet.bird.birdId}}">
-          {{tweet.bird.englishName}}
-        </a></h4>
-      <small><em>{{tweet.bird.species}}</em></small>
-    </span>
+<div class="container">
+
+  <div *ngIf="!tweet" class="loading">
+    <p><em>Loading...</em></p>
+    <mat-spinner></mat-spinner>
   </div>
-  <br>
-  <div class="container">
-    <audio controls>
-      <source src={{tweet.bird.songUrl}} type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
+
+  <div *ngIf="tweet">
+    <div class="title">
+      <h4>Tweet of the Day</h4>
+      <span class="bird">
+        <h4><a routerLink="/birds-detail/{{tweet.bird.birdId}}">
+            {{tweet.bird.englishName}}
+          </a></h4>
+        <small><em>{{tweet.bird.species}}</em></small>
+      </span>
+    </div>
+    <br>
+    <div class="container">
+      <audio controls>
+        <source src={{tweet.bird.songUrl}} type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
   </div>
-</div>

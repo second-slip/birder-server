@@ -1,4 +1,12 @@
-<div class="container" *ngIf="analysis">
-    <h3><small>You have spotted </small> {{analysis.uniqueSpeciesCount}} <small> bird species <br>in</small>
-        {{analysis.totalObservationsCount}} <small> observation(s) </small></h3>
-</div>
+<div class="container">
+
+    <div *ngIf="!analysis" class="loading">
+        <p><em>Loading...</em></p>
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="analysis">
+
+        <h3><small>You have spotted </small> {{analysis.uniqueSpeciesCount}} <small> bird species <br>in</small>
+            {{analysis.totalObservationsCount}} <small> observation(s) </small></h3>
+    </div>
