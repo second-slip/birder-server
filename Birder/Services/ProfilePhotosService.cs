@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Birder.Services
 {
@@ -33,8 +31,6 @@ namespace Birder.Services
         /// <returns></returns>
         public IEnumerable<Observation> GetThumbnailsUrl(IEnumerable<Observation> observations)
         {
-            // ToDo: cache entry expiry date
-            //
             foreach (var observation in observations)
             {
                 if (_cache.TryGetValue(string.Concat("thumb-", observation.Bird.BirdId), out string cacheUrl))
@@ -44,7 +40,8 @@ namespace Birder.Services
                 else
                 {
                     observation.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Bird.Species);
-                    _cache.Set(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
+                    //_cache.Set(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
+                    AddResponseToCache(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
                 }
             }
 
@@ -65,10 +62,16 @@ namespace Birder.Services
             else
             {
                 observation.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Bird.Species);
-                _cache.Set(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
+                //_cache.Set(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
+                AddResponseToCache(string.Concat("thumb-", observation.Bird.BirdId), observation.Bird.ThumbnailUrl);
             }
 
             return observation;
+        }
+
+        public void AddResponseToCache(string id, string url)
+        {
+            _cache.Set(id, url, TimeSpan.FromDays(5));
         }
     }
 }
