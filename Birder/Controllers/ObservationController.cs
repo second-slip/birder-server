@@ -28,8 +28,7 @@ namespace Birder.Controllers
         private readonly IBirdRepository _birdRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
-
-        private readonly IFlickrService _flickrService;
+        private readonly IProfilePhotosService _profilePhotosService;
 
         public ObservationController(IMapper mapper
                                    , IMemoryCache memoryCache
@@ -39,7 +38,7 @@ namespace Birder.Controllers
                                    , ILogger<ObservationController> logger
                                    , UserManager<ApplicationUser> userManager
                                    , IObservationRepository observationRepository
-                                   , IFlickrService flickrService)
+                                   , IProfilePhotosService profilePhotosService)
         {
             _mapper = mapper;
             _logger = logger;
@@ -49,7 +48,7 @@ namespace Birder.Controllers
             _systemClock = systemClock;
             _birdRepository = birdRepository;
             _observationRepository = observationRepository;
-            _flickrService = flickrService;
+            _profilePhotosService = profilePhotosService;
         }
 
         [HttpGet, Route("GetObservation")]
@@ -115,20 +114,7 @@ namespace Birder.Controllers
                     return NotFound(message);
                 }
 
-                //
-                foreach (var item in observations.Items)
-                {
-                    if (_cache.TryGetValue(string.Concat("thumb-", item.Bird.BirdId), out string cacheUrl))
-                    {
-                        item.Bird.ThumbnailUrl = cacheUrl;
-                    }
-                    else
-                    {
-                        item.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(item.Bird.Species);
-                        _cache.Set(string.Concat("thumb-", item.Bird.BirdId), item.Bird.ThumbnailUrl);
-                    }
-                }
-                //
+                _profilePhotosService.GetThumbnailsUrl(observations.Items);
 
                 return Ok(_mapper.Map<QueryResult<Observation>, ObservationDto>(observations));
             }
