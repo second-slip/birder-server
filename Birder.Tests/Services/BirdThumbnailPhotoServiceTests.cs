@@ -1,8 +1,11 @@
-﻿using Birder.Services;
+﻿using Birder.Data.Model;
+using Birder.Services;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Birder.Tests.Services
@@ -62,7 +65,30 @@ namespace Birder.Tests.Services
             // Assert
             Assert.Equal("The observations collection is null (Parameter 'observations')", ex.Message);
         }
-            
+
+        [Fact]
+        public void GetUrlForObservations_OnFlickrServiceError_ReturnsDefaultUrl()
+        {
+            // Arrange
+            var mockCache = new Mock<IMemoryCache>();
+            var mockLogger = new Mock<ILogger<BirdThumbnailPhotoService>>();
+            var mockFlickrService = new Mock<IFlickrService>();
+            mockFlickrService.Setup(serve => serve.GetThumbnailUrl(It.IsAny<string>()))
+                .Throws(new InvalidOperationException());
+
+            var service = new BirdThumbnailPhotoService(mockCache.Object, mockLogger.Object, mockFlickrService.Object);
+
+            const string expected = "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
+            var observations = new List<Observation> { new Observation() { Bird = new Bird() } };
+
+            // Act
+            var result = service.GetUrlForObservations(observations);
+
+            // Assert
+            Assert.IsAssignableFrom<IEnumerable<Observation>>(result);
+            Assert.Equal(expected, result.FirstOrDefault().Bird.ThumbnailUrl);
+        }
+
 
 
 
