@@ -4,7 +4,7 @@
 <ngb-carousel *ngIf="currentResults">
     <ng-template ngbSlide *ngFor="let image of currentResults">
         <div class="picsum-img-wrapper">
-            <img [src]="image" alt="Random slide">
+            <img [src]="image.url" alt="image.url">
         </div>
         <div class="carousel-caption">
             <h3>No mouse navigation</h3>
