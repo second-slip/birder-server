@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from 'environments/environment';
-import { FlickrService, FlickrUrls } from '@app/flickr.service';
+import { FlickrService } from '@app/flickr.service';
+import { FlickrUrlsViewModel } from '@app/_models/FlickrUrlsViewModel';
 
 @Component({
   selector: 'app-testing',
@@ -12,9 +10,7 @@ import { FlickrService, FlickrUrls } from '@app/flickr.service';
   encapsulation: ViewEncapsulation.None
 })
 export class TestingComponent implements OnInit {
-
-  // currentResults: any[] = [];
-  currentResults: FlickrUrls[];
+  currentResults: FlickrUrlsViewModel[];
 
   constructor(private flickr: FlickrService) { }
 

@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
+import { FlickrUrlsViewModel } from './_models/FlickrUrlsViewModel';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,6 @@ export class FlickrService {
   apiUrl = environment.flickrApiUrl;
   baseUrl = `${this.apiUrl}?api_key=${this.apiKey}&format=json&nojsoncallback=1&method=flickr.photos.`;
   flickrPhotoSearch = `${this.baseUrl}search&per_page=20&tags=`;
-  // flickrPhotoGetInfo = `${this.baseUrl}getInfo&photo_id=`;
-  // newTerm: string;
-  // tagModeAll: false;
 
   constructor(private http: HttpClient) { }
 
@@ -21,7 +19,6 @@ export class FlickrService {
     // const tagMode = this.tagModeAll ? '&tag_mode=all' : '';
     // console.log(tagMode);
     // this.newTerm = term ? term : this.newTerm;
-    // return this.httpService.getFlickrPhotoSearch(term ? term : this.newTerm, page, tagMode);
     // return this.getFlickrPhotoSearch(term ? term : this.newTerm, page, tagMode);
     return this.getFlickrPhotoSearch(term, page, '');
   }
@@ -30,8 +27,8 @@ export class FlickrService {
     return this.http.get(`${this.flickrPhotoSearch}${encodeURIComponent(term)}&page=${page}${tagMode}`);
   }
 
-  getPhotoThumnail(data): FlickrUrls[] {
-    const uls: FlickrUrls[] = [];
+  getPhotoThumnail(data): FlickrUrlsViewModel[] {
+    const uls: FlickrUrlsViewModel[] = [];
 
     // for (let i = 0; i < data.length; i++) {
     //   gq.push({
@@ -47,13 +44,7 @@ export class FlickrService {
       });
     });
 
-    // console.log(uls);
-
     return uls;
   }
 }
 
-export interface FlickrUrls {
-  id: number;
-  url: string;
-}
