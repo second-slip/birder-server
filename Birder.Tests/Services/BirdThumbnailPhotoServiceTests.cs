@@ -1,18 +1,16 @@
-﻿using Birder.Data.Model;
-using Birder.Services;
+﻿using Birder.Services;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Birder.Tests.Services
 {
     public class BirdThumbnailPhotoServiceTests
     {
-        private readonly Mock<IMemoryCache> _mockCache;
-        private readonly Mock<IFlickrService> _mockFlickrService;
+        //private readonly Mock<IMemoryCache> _mockCache;
+        //private readonly Mock<IFlickrService> _mockFlickrService;
         public BirdThumbnailPhotoServiceTests()
         {
             //_systemClockService = new BirdThumbnailPhotoService();
@@ -20,16 +18,16 @@ namespace Birder.Tests.Services
             //_mockFlickrService = new Mock<IFlickrService>();
         }
 
-
         [Fact]
         public void DetermineCacheEntryId_SingleInt_ReturnsCorrectString()
         {
             // Arrange
             var mockCache = new Mock<IMemoryCache>();
             var mockFlickrService = new Mock<IFlickrService>();
+            var mockLogger = new Mock<ILogger<BirdThumbnailPhotoService>>();
             var birdId = 1;
 
-            var service = new BirdThumbnailPhotoService(mockCache.Object, mockFlickrService.Object);
+            var service = new BirdThumbnailPhotoService(mockCache.Object, mockLogger.Object, mockFlickrService.Object);
 
             // Act
             var actual = service.GetCacheEntryKey(birdId);
@@ -53,7 +51,9 @@ namespace Birder.Tests.Services
             // Arrange
             var mockCache = new Mock<IMemoryCache>();
             var mockFlickrService = new Mock<IFlickrService>();
-            var service = new BirdThumbnailPhotoService(mockCache.Object, mockFlickrService.Object);
+            var mockLogger = new Mock<ILogger<BirdThumbnailPhotoService>>();
+
+            var service = new BirdThumbnailPhotoService(mockCache.Object, mockLogger.Object, mockFlickrService.Object);
 
             // Act
             var ex = Assert.Throws<ArgumentNullException>(() =>
@@ -67,10 +67,5 @@ namespace Birder.Tests.Services
 
 
         #endregion
-
-
-
-
-
     }
 }
