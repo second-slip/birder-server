@@ -19,36 +19,19 @@
           This tab content DOM will de destroyed when not active
         </ngb-alert> -->
 
-        <div class="row">
-          <div class="flex-container col-8">
-            <img src="https://live.staticflickr.com/65535/49712985117_a7a9deee1a_q.jpg" alt="Trulli" width="150px" height="150px">
-          </div>
-          <div>
-            <img src="https://live.staticflickr.com/65535/49712985117_a7a9deee1a_s.jpg" alt="Trulli" width="75px" height="75px">
-          </div>
+        <ngb-carousel *ngIf="images">
+          <ng-template ngbSlide *ngFor="let image of images">
+              <div class="picsum-img-wrapper">
+                  <img [src]="image.url" alt="image.url">
+              </div>
+              <div class="carousel-caption">
+                  <h3>No mouse navigation</h3>
+                  <p>This carousel hides navigation arrows and indicators.</p>
+              </div>
+          </ng-template>
+      </ngb-carousel>
 
-          <div class="flex-container col-4">
-            <mat-form-field class="full-width">
-              <input matInput placeholder="Class" value="{{ bird.class }}" disabled>
-            </mat-form-field>
-
-            <mat-form-field class="full-width">
-              <input matInput placeholder="Order" value="{{ bird.order }}" disabled>
-            </mat-form-field>
-
-            <mat-form-field class="full-width">
-              <input matInput placeholder="Family" value="{{ bird.family }}" disabled>
-            </mat-form-field>
-
-            <mat-form-field class="full-width">
-              <input matInput placeholder="Genus" value="{{ bird.genus }}" disabled>
-            </mat-form-field>
-
-            <mat-form-field class="full-width">
-              <input matInput placeholder="Species" value="{{ bird.species }}" disabled>
-            </mat-form-field>
-          </div>
-        </div>
+ 
 
       </ng-template>
     </li>

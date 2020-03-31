@@ -17,7 +17,6 @@ export class FlickrService {
 
   getSearchResults(page: number, term = null): Observable<{}> {
     // const tagMode = this.tagModeAll ? '&tag_mode=all' : '';
-    // console.log(tagMode);
     // this.newTerm = term ? term : this.newTerm;
     // return this.getFlickrPhotoSearch(term ? term : this.newTerm, page, tagMode);
     return this.getFlickrPhotoSearch(term, page, '');
@@ -28,23 +27,15 @@ export class FlickrService {
   }
 
   getPhotoThumnail(data): FlickrUrlsViewModel[] {
-    const uls: FlickrUrlsViewModel[] = [];
-
-    // for (let i = 0; i < data.length; i++) {
-    //   gq.push({
-    //     id: i + 1,
-    //     url: `https://farm${data.farm}.staticflickr.com/${data.server}/${data.id}_${data.secret}_n.jpg`
-    //   });
-    // }
+    const urls: FlickrUrlsViewModel[] = [];
 
     data.forEach((element, index) => {
-      uls.push({
+      urls.push({
         id: index + 1,
         url: `https://farm${element.farm}.staticflickr.com/${element.server}/${element.id}_${element.secret}_n.jpg`
       });
     });
 
-    return uls;
+    return urls;
   }
 }
-
