@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
@@ -16,9 +16,6 @@ export class FlickrService {
   constructor(private http: HttpClient) { }
 
   getSearchResults(page: number, term = null): Observable<{}> {
-    // const tagMode = this.tagModeAll ? '&tag_mode=all' : '';
-    // this.newTerm = term ? term : this.newTerm;
-    // return this.getFlickrPhotoSearch(term ? term : this.newTerm, page, tagMode);
     return this.getFlickrPhotoSearch(term, page, '');
   }
 
