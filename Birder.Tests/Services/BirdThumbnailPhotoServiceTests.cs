@@ -89,6 +89,28 @@ namespace Birder.Tests.Services
             Assert.Equal(expected, result.FirstOrDefault().Bird.ThumbnailUrl);
         }
 
+        [Fact]
+        public void GetUrlForObservations_OnFlickrServiceSuccess_ReturnsUrl()
+        {
+            // Arrange
+            const string expected = "https://testUrl.png";
+            var concreteCache = new MemoryCache(new MemoryCacheOptions());
+            var mockLogger = new Mock<ILogger<BirdThumbnailPhotoService>>();
+            var mockFlickrService = new Mock<IFlickrService>();
+            mockFlickrService.Setup(serve => serve.GetThumbnailUrl(It.IsAny<string>()))
+                .Returns(expected);
+
+            var service = new BirdThumbnailPhotoService(concreteCache, mockLogger.Object, mockFlickrService.Object);
+
+            var observations = new List<Observation> { new Observation() { Bird = new Bird() } };
+
+            // Act
+            var result = service.GetUrlForObservations(observations);
+
+            // Assert
+            Assert.IsAssignableFrom<IEnumerable<Observation>>(result);
+            Assert.Equal(expected, result.FirstOrDefault().Bird.ThumbnailUrl);
+        }
 
 
 
