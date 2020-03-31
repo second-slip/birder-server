@@ -20,6 +20,8 @@ namespace Birder.Services
         private readonly ILogger _logger;
         private readonly IFlickrService _flickrService;
 
+        private const string defaultUrl = "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
+
         public BirdThumbnailPhotoService(IMemoryCache memoryCache
                                        , ILogger<BirdThumbnailPhotoService> logger
                                        , IFlickrService flickrService)
@@ -51,16 +53,13 @@ namespace Birder.Services
                     }
                     else
                     {
-
-                        // temp in dev to avoid hitting the API...
-                        observation.Bird.ThumbnailUrl = "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
-                        //observation.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Bird.Species);
+                        observation.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Bird.Species);
                         AddResponseToCache(observation.Bird.BirdId, observation.Bird.ThumbnailUrl);
                     }
                 }
                 catch (Exception ex)
                 {
-                    observation.Bird.ThumbnailUrl = "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
+                    observation.Bird.ThumbnailUrl = defaultUrl;
                     string message = $"An error occurred setting the thumbnail url for birdId '{observation.Bird.BirdId}'.";
                     _logger.LogError(LoggingEvents.GetItem, ex, message);
                 }
