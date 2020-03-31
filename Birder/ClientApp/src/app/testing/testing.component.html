@@ -1,14 +1,1 @@
 <p>testing works!</p>
-
-
-<ngb-carousel *ngIf="currentResults">
-    <ng-template ngbSlide *ngFor="let image of currentResults">
-        <div class="picsum-img-wrapper">
-            <img [src]="image.url" alt="image.url">
-        </div>
-        <div class="carousel-caption">
-            <h3>No mouse navigation</h3>
-            <p>This carousel hides navigation arrows and indicators.</p>
-        </div>
-    </ng-template>
-</ngb-carousel>

@@ -21,17 +21,17 @@
 
         <ngb-carousel *ngIf="images">
           <ng-template ngbSlide *ngFor="let image of images">
-              <div class="picsum-img-wrapper">
-                  <img [src]="image.url" alt="image.url">
-              </div>
-              <div class="carousel-caption">
-                  <h3>No mouse navigation</h3>
-                  <p>This carousel hides navigation arrows and indicators.</p>
-              </div>
+            <div class="picsum-img-wrapper">
+              <img [src]="image.url" alt="image.url">
+            </div>
+            <div class="carousel-caption">
+              <h3>No mouse navigation</h3>
+              <p>This carousel hides navigation arrows and indicators.</p>
+            </div>
           </ng-template>
-      </ngb-carousel>
+        </ngb-carousel>
 
- 
+
 
       </ng-template>
     </li>
@@ -54,7 +54,8 @@
                   <br>
                   <h5 class="card-title">Common names</h5>
                   <p class="classification">English name: <span class="bold">{{ bird.englishName }}</span></p>
-                  <p class="classification">International name: <span class="bold">{{ bird.internationalName == '' ? 'N/a' : bird.internationalName }}</span></p>
+                  <p class="classification">International name: <span
+                      class="bold">{{ bird.internationalName == '' ? 'N/a' : bird.internationalName }}</span></p>
                   <!-- totalItems > 1 ? 'times:' : 'time:' -->
                   <!-- <p>Family: <span class="bold">{{ bird.family }}</span></p>  -->
                   <!-- <a href="#!" class="btn btn-primary">Go somewhere</a> -->
@@ -71,7 +72,9 @@
                   <p>Birder category: <span class="bold">{{ bird.birderStatus }} species</span></p>
                   <br>
                   <h5 class="card-title">Conservation status in the UK</h5>
-                  <p>Risk status: <span class="bold" [style.color]="bird.birdConservationStatus.conservationListColourCode">{{ bird.birdConservationStatus.conservationList }}</span></p>
+                  <p>Risk status: <span class="bold"
+                      [style.color]="bird.birdConservationStatus.conservationListColourCode">{{ bird.birdConservationStatus.conservationList }}</span>
+                  </p>
                   <p>{{ bird.birdConservationStatus.description }}</p>
                   <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
                   <!-- <a href="#!" class="btn btn-primary">Go somewhere</a> -->
@@ -99,7 +102,7 @@
         </ng-container>
       </ng-template>
     </li>
-    
+
   </ul>
 
   <div [ngbNavOutlet]="nav" class="mt-2"></div>
