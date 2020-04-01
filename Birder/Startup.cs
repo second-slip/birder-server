@@ -128,9 +128,7 @@ namespace Birder
                builder =>
                {
                    builder.WithOrigins("http://localhost:55722",
-                                       "https://localhost:55722",
-                                       "https://www.xeno-canto.org")
-                                       .AllowAnyHeader();
+                                       "https://localhost:55722");
                });
             });
         }

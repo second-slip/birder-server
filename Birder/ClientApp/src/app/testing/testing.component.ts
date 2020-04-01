@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class TestingComponent implements OnInit {
   species = '';
-  baseUrl = 'https://www.xeno-canto.org/api/2/recordings?query='; // =cnt:brazil';
+  baseUrl = 'https://cors-anywhere.herokuapp.com/https://www.xeno-canto.org/api/2/recordings?query='; // =cnt:brazil';
   // searchString = 'flickrPhotoSearch = `${this.baseUrl}search&per_page=20&tags=`;';
   recordingLength = '+len_gt:40';
 
@@ -28,17 +28,19 @@ export class TestingComponent implements OnInit {
   }
 
 
-  getFlickrPhotoSearch(term: string): Observable<Xeno> {
+  getFlickrPhotoSearch(term: string) {
     console.log(`${encodeURIComponent(term)}`);
 
     const replaced = term.split(' ').join('+');
 
-    console.log(`${this.baseUrl}${replaced}${this.recordingLength}`);
+    // console.log(`${this.baseUrl}${replaced}${this.recordingLength}`);
+
+    // return this.http.get(`${this.baseUrl}${replaced}${this.recordingLength}`);
 
     return this.http.get<Xeno>(`${this.baseUrl}${replaced}${this.recordingLength}`)
     .pipe(
-      map(o => ({ // IProduct specified here ensures we get excess property checks
-        numRecordings: o.numRecordings, // number in server interface, map to string 
+      map(o => ({
+        numRecordings: o.numRecordings,
         numSpecies: o.numSpecies,
         page: o.page,
         numPages: o.numPages,
