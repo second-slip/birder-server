@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { IXenoCantoResponse, IVoice } from '@app/_models/IXenoCantoResponse';
-import { XenoCantoService } from '@app/xeno-canto.service';
 
 @Component({
   selector: 'app-testing',
@@ -9,16 +7,9 @@ import { XenoCantoService } from '@app/xeno-canto.service';
   encapsulation: ViewEncapsulation.None
 })
 export class TestingComponent implements OnInit {
-  recordings: IXenoCantoResponse;
 
-  constructor(private xeno: XenoCantoService) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.xeno.getRecordings('troglodytes troglodytes')
-      .subscribe((results: IXenoCantoResponse) => {
-        results.recordings.length = 10;
-        this.recordings = results;
-        console.log(results);
-      });
-  }
+  ngOnInit() { }
+
 }
