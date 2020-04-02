@@ -3,10 +3,10 @@ export interface IXenoCantoResponse {
     numSpecies: string;
     page: string;
     numPages: string;
-    recordings: IVoice[];
+    recordings: IMappedRecordings[];
   }
 
-  export interface IVoice {
+  export interface IMappedRecordings {
     id: number;
     url: string;
   }

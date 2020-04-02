@@ -33,20 +33,6 @@ export class XenoCantoService {
   }
 
 
-  poop(data) {
-    const urls: IVoice[] = [];
-    data.length = 10;
-
-    data.forEach((element, index) => {
-      let sub = element.sono['full'].substr(0, this.getPosition(element.sono['full'], '\/', 6));
-      urls.push({
-        id: index + 1,
-        url: `${sub}${element['file-name']}`
-      });
-    });
-    return urls;
-  }
-
   getPosition(stringa, subString, index) {
     return stringa.split(subString, index).join(subString).length + 1;
   }
@@ -55,3 +41,18 @@ export class XenoCantoService {
     return searchTerm.split(' ').join('+');
   }
 }
+
+// This was previously used to map the recordings array to IVoice
+  // poop(data) {
+  //   const urls: IVoice[] = [];
+  //   data.length = 10;
+
+  //   data.forEach((element, index) => {
+  //     let sub = element.sono['full'].substr(0, this.getPosition(element.sono['full'], '\/', 6));
+  //     urls.push({
+  //       id: index + 1,
+  //       url: `${sub}${element['file-name']}`
+  //     });
+  //   });
+  //   return urls;
+  // }
