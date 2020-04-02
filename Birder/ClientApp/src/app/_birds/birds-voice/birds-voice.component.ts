@@ -25,7 +25,11 @@ export class BirdsVoiceComponent implements OnInit {
   loadRecordings(): void {
     this.xeno.getRecordings(this.species)
       .subscribe((results: IXenoCantoResponse) => {
-        results.recordings.length = 10;
+        if (results.recordings.length > 10) {
+          results.recordings.length = 10;
+        }
+
+        console.log(results);
         this.recordings = results;
         this.page = 1;
       });

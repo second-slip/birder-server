@@ -4,7 +4,7 @@
         <mat-spinner></mat-spinner>
     </div>
 
-    <div class="container" *ngIf="recordings">
+    <div *ngIf="recordings">
 
         <ng-container *ngIf="recordings.recordings.length; else noItems">
             <p>Bird song recordings from Xeno-Canto...</p>
@@ -20,7 +20,6 @@
                         Your browser does not support the audio element.
                     </audio>
                 </div>
-
             </div>
 
             <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="recordings.recordings.length">

@@ -100,7 +100,9 @@
       <a ngbNavLink>Sightings</a>
       <ng-template ngbNavContent let-active>
         <ng-container *ngIf="tabstatus['4'] === true">
+
           <app-bird-observations-list [birdId]="this.bird.birdId"></app-bird-observations-list>
+          
         </ng-container>
       </ng-template>
     </li>
