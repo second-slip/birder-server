@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { IXenoCantoResponse, IVoice } from './_models/IXenoCantoResponse';
-import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { IXenoCantoResponse, IMappedRecordings } from './_models/IXenoCantoResponse';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { url } from 'inspector';
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +23,13 @@ export class XenoCantoService {
           numSpecies: o.numSpecies,
           page: o.page,
           numPages: o.numPages,
-          recordings: o.recordings.map((element: IVoice, index) => ({
+          recordings: o.recordings.map((element: IMappedRecordings, index) => ({
             id: index,
             url: `${element['sono']['full'].substr(0, this.getPosition(element['sono']['full'], '\/', 6))}${element['file-name']}`
           }))
         }))
       );
   }
-
 
   getPosition(stringa, subString, index) {
     return stringa.split(subString, index).join(subString).length + 1;
@@ -42,7 +40,7 @@ export class XenoCantoService {
   }
 }
 
-// This was previously used to map the recordings array to IVoice
+// This was previously used to map the recordings array to IMappedRecordings:
   // poop(data) {
   //   const urls: IVoice[] = [];
   //   data.length = 10;
