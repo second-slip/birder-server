@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { IXenoCantoResponse } from './_models/IXenoCantoResponse';
-import { Observable } from 'rxjs';
+import { IXenoCantoResponse, IVoice } from './_models/IXenoCantoResponse';
+import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
+import { url } from 'inspector';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +24,31 @@ export class XenoCantoService {
           numSpecies: o.numSpecies,
           page: o.page,
           numPages: o.numPages,
-          recordings: o.recordings
+          recordings: o.recordings.map((element: IVoice, index) => ({
+            id: index,
+            url: `${element['sono']['full'].substr(0, this.getPosition(element['sono']['full'], '\/', 6))}${element['file-name']}`
+          }))
         }))
       );
+  }
+
+
+  poop(data) {
+    const urls: IVoice[] = [];
+    data.length = 10;
+
+    data.forEach((element, index) => {
+      let sub = element.sono['full'].substr(0, this.getPosition(element.sono['full'], '\/', 6));
+      urls.push({
+        id: index + 1,
+        url: `${sub}${element['file-name']}`
+      });
+    });
+    return urls;
+  }
+
+  getPosition(stringa, subString, index) {
+    return stringa.split(subString, index).join(subString).length + 1;
   }
 
   formatSearchTerm(searchTerm: string): string {

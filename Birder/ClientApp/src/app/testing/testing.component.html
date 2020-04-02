@@ -1,12 +1,12 @@
 <p>testing works!</p>
 
-<div *ngIf="jimmy">
-    <ng-container *ngIf="jimmy.length; else noItems">
+<div *ngIf="recordings">
+    <ng-container *ngIf="recordings.recordings.length; else noItems">
         <p class="italic">
             Total recordings: {{ recordings.recordings.length }}
         </p>
 
-        <div *ngFor="let item of jimmy">
+        <div *ngFor="let item of recordings.recordings">
             <div class="container">
                 <audio controls>
                   <source src="{{item.url}}" type="audio/mpeg">
