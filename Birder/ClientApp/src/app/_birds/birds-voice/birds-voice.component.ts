@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-birds-voice',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./birds-voice.component.scss']
 })
 export class BirdsVoiceComponent implements OnInit {
+  @Input() species: string;
 
   constructor() { }
 
