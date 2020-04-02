@@ -13,6 +13,7 @@ export class BirdsVoiceComponent implements OnInit {
   recordings: IXenoCantoResponse;
   page: number;
   pageSize = 10;
+  error = false;
 
   constructor(private xeno: XenoCantoService) { }
 
@@ -24,9 +25,13 @@ export class BirdsVoiceComponent implements OnInit {
 
   loadRecordings(): void {
     this.xeno.getRecordings(this.species)
-      .subscribe((results: IXenoCantoResponse) => {
-        this.recordings = results;
-        this.page = 1;
-      });
+      .subscribe(
+        ((results: IXenoCantoResponse) => {
+          this.recordings = results;
+          this.page = 1;
+        }),
+        (_ => {
+          this.error = true;
+        }));
   }
 }

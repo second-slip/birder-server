@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf="!recordings" class="loading">
+    <div *ngIf="!recordings && !error" class="loading">
         <p><em>Loading...</em></p>
         <mat-spinner></mat-spinner>
     </div>
@@ -34,9 +34,15 @@
 
         <ng-template #noItems>
             <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-                No sightings of this species has been recorded.
+                There are no recordings available for this species
             </ngb-alert>
         </ng-template>
-
     </div>
+
+    <ng-container *ngIf="error">
+        <ngb-alert [dismissible]="false" class="d-block mt-3" type="danger">
+            There was an error getting the recordings.  Please try again later.
+        </ngb-alert>
+    </ng-container>
+
 </div>
