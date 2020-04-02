@@ -89,7 +89,9 @@
     <li [ngbNavItem]="3" [destroyOnHide]="false">
       <a ngbNavLink>Voice</a>
       <ng-template ngbNavContent let-active>
-        <ng-container>
+        <ng-container *ngIf="tabstatus['3'] === true">
+
+          <app-birds-voice [species]="this.bird.species"></app-birds-voice>
 
         </ng-container>
       </ng-template>

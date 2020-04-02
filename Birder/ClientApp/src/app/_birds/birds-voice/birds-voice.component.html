@@ -1,1 +1,39 @@
-<p>Bird song recordings from Xeno-Canto...</p>
+<div class="container">
+    <div *ngIf="!recordings" class="loading">
+        <p><em>Loading...</em></p>
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div class="container" *ngIf="recordings">
+
+        <ng-container *ngIf="recordings.recordings.length; else noItems">
+            <p>Bird song recordings from Xeno-Canto...</p>
+            <p class="italic">
+                Total recordings: {{ recordings.recordings.length }}
+            </p>
+
+            <div
+                *ngFor="let item of recordings.recordings | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                <div>
+                    <audio controls>
+                        <source src="{{item.url}}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+            </div>
+
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="recordings.recordings.length">
+            </ngb-pagination>
+
+            <hr>
+
+        </ng-container>
+        <ng-template #noItems>
+            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+                No sightings of this species has been recorded.
+            </ngb-alert>
+        </ng-template>
+
+    </div>
+</div>
