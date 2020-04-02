@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IXenoCantoResponse } from './_models/IXenoCantoResponse';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 

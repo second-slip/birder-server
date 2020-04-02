@@ -5,4 +5,3 @@ export interface IXenoCantoResponse {
     numPages: string;
     recordings: [];
   }
-  
