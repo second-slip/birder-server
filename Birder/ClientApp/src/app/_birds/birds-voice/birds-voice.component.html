@@ -5,12 +5,8 @@
     </div>
 
     <div *ngIf="recordings">
-
         <ng-container *ngIf="recordings.recordings.length; else noItems">
-            <p>Bird song recordings from Xeno-Canto...</p>
-            <p class="italic">
-                Total recordings: {{ recordings.recordings.length }}
-            </p>
+            <h5>Bird song recordings</h5>
 
             <div
                 *ngFor="let item of recordings.recordings | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
@@ -22,12 +18,20 @@
                 </div>
             </div>
 
-            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="recordings.recordings.length">
+            <div class="small-italic">
+                Total recordings: {{ recordings.recordings.length }}
+            </div>
+
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="recordings.recordings.length"
+                class="d-flex justify-content-center" size="sm" [maxSize]="9" [rotate]="true" [boundaryLinks]="true">
             </ngb-pagination>
 
-            <hr>
+            <hr class="test">
+            <div class="info"><small>The recordings are from <em><a href='https://www.xeno-canto.org/'
+                            target='_blank'>xeno-canto.org</a></em></small></div>
 
         </ng-container>
+
         <ng-template #noItems>
             <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
                 No sightings of this species has been recorded.

@@ -12,27 +12,21 @@ export class BirdsVoiceComponent implements OnInit {
   @Input() species: string;
   recordings: IXenoCantoResponse;
   page: number;
-  pageSize = 3;
+  pageSize = 10;
 
   constructor(private xeno: XenoCantoService) { }
 
   ngOnInit(): void {
     if (!this.recordings) {
-    this.loadRecordings();
+      this.loadRecordings();
     }
   }
 
   loadRecordings(): void {
     this.xeno.getRecordings(this.species)
       .subscribe((results: IXenoCantoResponse) => {
-        if (results.recordings.length > 10) {
-          results.recordings.length = 10;
-        }
-
-        console.log(results);
         this.recordings = results;
         this.page = 1;
       });
   }
-
 }

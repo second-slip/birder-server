@@ -1,3 +1,17 @@
 app-birds-voice {
     text-align: center;
+
+    .info {
+        text-align: right;
+    }
+
+    .small-italic {
+        font-size: small;
+        font-style: italic;
+        margin-bottom: 8px;
+    }
+
+    hr.test {
+        margin-bottom: 0px;
+    }
 }
