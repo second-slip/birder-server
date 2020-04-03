@@ -12,7 +12,7 @@ describe('XenoCantoService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ]
+      imports: [HttpClientTestingModule]
     });
     service = TestBed.inject(XenoCantoService);
     httpClient = TestBed.inject(HttpClient);
@@ -27,4 +27,22 @@ describe('XenoCantoService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+
+
+  describe('formatSearchTerm', () => {
+
+    it('should return formatted string', () => {
+      // arrange
+      const testString = 'space replaced';
+      const expectedString = 'space+replaced';
+
+      // act
+      let actual = service.formatSearchTerm(testString);
+
+      // assert
+      expect(actual).toEqual(expectedString);
+    });
+  });
+
 });
