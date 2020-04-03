@@ -25,14 +25,14 @@ export class XenoCantoService {
           numPages: o.numPages,
           recordings: o.recordings.map((element: IRecording, index) => ({
             id: index,
-            url: `${element['sono']['full'].substr(0, this.getPosition(element['sono']['full'], '\/', 6))}${element['file-name']}`
+            url: `${element['sono']['full'].substr(0, this.getSubStringStartPosition(element['sono']['full'], '\/', 6))}${element['file-name']}`
           }))
         }))
       );
   }
 
-  getPosition(inputString, subString, index) {
-    return inputString.split(subString, index).join(subString).length + 1;
+  getSubStringStartPosition(inputString, subString, index): number {
+    return (inputString.split(subString, index).join(subString).length) + 1;
   }
 
   formatSearchTerm(searchTerm: string): string {

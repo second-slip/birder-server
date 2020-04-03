@@ -28,6 +28,21 @@ describe('XenoCantoService', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('getSubStringStartPosition', () => {
+
+    it('should return expected index', () => {
+      const testString = '0/1/2/3/4/5/';
+      const subString = '\/';
+      const index = 2;
+      const expected = 4;
+
+      let actual = service.getSubStringStartPosition(testString, subString, index);
+
+      expect(actual).toBe(expected);
+
+    });
+
+  });
 
 
   describe('formatSearchTerm', () => {
