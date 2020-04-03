@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { XenoCantoService } from './xeno-canto.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
+import { IXenoCantoResponse, IRecording } from './_models/IXenoCantoResponse';
 
 describe('XenoCantoService', () => {
   let service: XenoCantoService;
@@ -26,6 +27,37 @@ describe('XenoCantoService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('getRecordings (http get)', () => {
+    let expectedResponse: IXenoCantoResponse;
+    let recordings: IRecording[];
+
+    beforeEach(() => {
+      // heroService = TestBed.inject(HeroesService);
+      recordings = [{ id: 1, url: 'string' }, { id: 2, url: 'string' }, { id: 3, url: 'string' }];
+
+      expectedResponse = {
+        numRecordings: 'string', numSpecies: 'string', page: 'string', numPages: 'string',
+        recordings: recordings
+      };
+    });
+
+    it('should return expected heroes (called once)', () => {
+
+      service.getRecordings('').subscribe(
+        heroes => expect(heroes).toEqual(expectedResponse, 'should return expected heroes'),
+        fail
+      );
+
+      // HeroService should have made one request to GET heroes from expected URL
+      const req = httpTestingController.expectOne('/data');
+      expect(req.request.method).toEqual('GET');
+
+      // Respond with the mock heroes
+      req.flush(expectedResponse);
+    });
+
   });
 
   describe('getSubStringStartPosition', () => {
