@@ -31,8 +31,8 @@ export class XenoCantoService {
       );
   }
 
-  getPosition(stringa, subString, index) {
-    return stringa.split(subString, index).join(subString).length + 1;
+  getPosition(inputString, subString, index) {
+    return inputString.split(subString, index).join(subString).length + 1;
   }
 
   formatSearchTerm(searchTerm: string): string {
