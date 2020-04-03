@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IXenoCantoResponse, IMappedRecordings } from './_models/IXenoCantoResponse';
+import { IXenoCantoResponse, IRecording } from './_models/IXenoCantoResponse';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -23,7 +23,7 @@ export class XenoCantoService {
           numSpecies: o.numSpecies,
           page: o.page,
           numPages: o.numPages,
-          recordings: o.recordings.map((element: IMappedRecordings, index) => ({
+          recordings: o.recordings.map((element: IRecording, index) => ({
             id: index,
             url: `${element['sono']['full'].substr(0, this.getPosition(element['sono']['full'], '\/', 6))}${element['file-name']}`
           }))
