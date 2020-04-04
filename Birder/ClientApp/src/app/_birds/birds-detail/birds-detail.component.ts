@@ -54,6 +54,7 @@ export class BirdsDetailComponent {
       .subscribe((results: any) => {
         this.images = this.flickr.getPhotoThumnail(results.photos.photo);
       });
+      // error...?
   }
 
   goBack(): void {
