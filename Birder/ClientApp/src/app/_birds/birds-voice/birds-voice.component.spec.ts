@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BirdsVoiceComponent } from './birds-voice.component';
-import { XenoCantoService } from '@app/xeno-canto.service';
+import { XenoCantoService } from '@app/_services/xeno-canto.service';
 import { IXenoCantoResponse, IRecording } from '@app/_models/IXenoCantoResponse';
 import { of, throwError } from 'rxjs';
 

@@ -4,7 +4,7 @@ import { BirdDetailViewModel } from '../../_models/BirdDetailViewModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { FlickrService } from '@app/flickr.service';
+import { FlickrService } from '@app/_services/flickr.service';
 import { FlickrUrlsViewModel } from '@app/_models/FlickrUrlsViewModel';
 
 @Component({

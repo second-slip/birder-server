@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IXenoCantoResponse, IRecording } from './_models/IXenoCantoResponse';
+import { IXenoCantoResponse, IRecording } from '../_models/IXenoCantoResponse';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';

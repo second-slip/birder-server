@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
-import { XenoCantoService } from '@app/xeno-canto.service';
+import { XenoCantoService } from '@app/_services/xeno-canto.service';
 import { IXenoCantoResponse } from '@app/_models/IXenoCantoResponse';
 
 @Component({

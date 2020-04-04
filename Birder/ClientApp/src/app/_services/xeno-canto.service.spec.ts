@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { XenoCantoService } from './xeno-canto.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
-import { IXenoCantoResponse, IRecording } from './_models/IXenoCantoResponse';
+import { IXenoCantoResponse, IRecording } from '../_models/IXenoCantoResponse';
 
 describe('XenoCantoService', () => {
   let service: XenoCantoService;
