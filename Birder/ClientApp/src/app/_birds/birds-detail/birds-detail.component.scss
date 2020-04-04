@@ -1,27 +1,16 @@
 app-birds-detail {
-  // Expnasion panel
-  // .example-headers-align .mat-expansion-panel-header-title,
-  // .example-headers-align .mat-expansion-panel-header-description {
-  //   flex-basis: 0;
 
-  // .example-headers-align .mat-expansion-panel-header-description {
-  //   justify-content: space-between;
-  //   align-items: center;
-  // }
 
   .flex-container {
     display: flex;
     flex-direction: column;
   }
 
-  // .full-width {
-  //   // width: fit-content;
-  //   margin-bottom: 0.5px;
-  // }
-
-  // .mat-form-field-underline {
-  //   display: none;
-  // }
+  .photos-info {
+    text-align: center;
+    font-size: small;
+    font-style: italic;
+  }
 
   p.classification { margin: 8px; }
 
