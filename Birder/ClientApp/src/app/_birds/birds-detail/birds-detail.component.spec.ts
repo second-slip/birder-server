@@ -6,16 +6,18 @@ import { BirdsService } from '@app/_services/birds.service';
 import { of } from 'rxjs';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HarnessLoader } from '@angular/cdk/testing';
+import { BirdDetailViewModel } from '@app/_models/BirdDetailViewModel';
+import { Router } from '@angular/router';
 
 // let loader: HarnessLoader;
 
 describe('BirdsDetailComponent', () => {
   let component: BirdsDetailComponent;
   let fixture: ComponentFixture<BirdsDetailComponent>;
+  let router: Router;
+  let bird: BirdDetailViewModel;
 
   let mockBirdsService;
-
-
 
   beforeEach(async(() => {
     mockBirdsService = jasmine.createSpyObj(['getBird', 'getObservations']);
@@ -35,6 +37,8 @@ describe('BirdsDetailComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BirdsDetailComponent);
+
+    router = TestBed.inject(Router);
     // loader = TestbedHarnessEnvironment.loader(fixture);
     
     component = fixture.componentInstance;

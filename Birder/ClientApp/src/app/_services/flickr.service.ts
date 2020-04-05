@@ -23,6 +23,7 @@ export class FlickrService {
     return this.http.get(`${this.flickrPhotoSearch}${encodeURIComponent(term)}&page=${page}${tagMode}`);
   }
 
+    // ToDo: rename...
   getPhotoThumnail(data): FlickrUrlsViewModel[] {
     const urls: FlickrUrlsViewModel[] = [];
 

@@ -27,8 +27,8 @@ export class BirdsDetailComponent {
     , private router: Router) {
     route.params.subscribe(_ => {
       this.getBird();
-      // the next two statements reset the tabs.  This is required when the page is reloaded
-      // with different data.  Otherwise the 'sightings' child component keeps its original data.
+      // the next two statements reset the tabs.  This is required when the page is reloaded with
+      // different data.  Otherwise the 'sightings' & 'voice' child components keep its original data.
       this.active = 1;
       this.tabstatus = {};
     });
