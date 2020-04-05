@@ -6,6 +6,8 @@ import { FlickrService } from '@app/_services/flickr.service';
 import { ActivatedRouteStub } from 'testing/activated-route-stub';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { BirdDetailViewModel } from '@app/_models/BirdDetailViewModel';
 
 
 
@@ -19,7 +21,6 @@ describe('BirdsDetailComponent', () => {
   beforeEach(() => {
     activatedRoute = new ActivatedRouteStub();
   });
-
 
   let mockBirdsService;
   let mockFlickrService;
@@ -43,12 +44,16 @@ describe('BirdsDetailComponent', () => {
         { provide: FlickrService, useValue: mockFlickrService },
         { provide: Router, useValue: routerSpy },
         {
-          provide: ActivatedRoute,
-          useValue: {
-            params: of({ id: 123 })
-          }
+          provide: ActivatedRoute, useValue: ActivatedRouteStub
         }
-      ]
+        // {
+        //   provide: ActivatedRoute,
+        //   useValue: {
+        //     params: of({ id: '123' })
+        //   }
+        // }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
   }));
@@ -57,7 +62,8 @@ describe('BirdsDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BirdsDetailComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+
+    activatedRoute.setParamMap({ id: 1 });
   });
 
   it('should create', () => {
@@ -81,17 +87,17 @@ describe('BirdsDetailComponent', () => {
       internationalName: 'string', category: 'string', creationDate: 'Date | string',
       lastUpdateDate: 'Date | string'
     };
-    // Arrange -- common arrange steps factored out to beforeEach(()
+
     mockBirdsService.getBird.and.returnValue(of(bird));
 
-    // Act or change
-    component.getBird(1);
+    fixture.detectChanges();
+    // // Act or change
+    // component.getBird(1);
+
+    // // fixture.detectChanges();
 
     // Assert
     expect(mockBirdsService.getBird).toHaveBeenCalled();
-    // expect(component.totalItems).toBe(2);
-    // expect(component.observations.length).toBe(2);
-    // expect(component.observations[0].birdId === 1).toBeTrue();
   });
 
 

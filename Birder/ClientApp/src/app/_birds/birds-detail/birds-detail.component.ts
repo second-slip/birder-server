@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { BirdsService } from '../../_services/birds.service';
 import { BirdDetailViewModel } from '../../_models/BirdDetailViewModel';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { FlickrUrlsViewModel } from '@app/_models/FlickrUrlsViewModel';
   styleUrls: ['./birds-detail.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class BirdsDetailComponent {
+export class BirdsDetailComponent implements OnInit {
   birdId: number;
   bird: BirdDetailViewModel;
   images: FlickrUrlsViewModel[];
@@ -36,12 +36,14 @@ export class BirdsDetailComponent {
     });
   }
 
+  ngOnInit() {}
+
   getBird(id: number): void {
     this.birdsService.getBird(id)
       .subscribe(
         (data: BirdDetailViewModel) => {
           this.bird = data;
-          this.getImages(data.species);
+          // this.getImages(data.species);
         },
         (error: ErrorReportViewModel) => {
           // TODO: show toast error
