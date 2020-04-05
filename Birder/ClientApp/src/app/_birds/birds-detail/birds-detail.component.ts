@@ -44,8 +44,9 @@ export class BirdsDetailComponent {
           this.getImages(data.species);
         },
         (error: ErrorReportViewModel) => {
-          console.log('bad request');
-          this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+          // console.log('bad request');
+          this.gotoBirdsList();
+          // TODO: this is right for typing bad param, but what about server error?
         });
   }
 
@@ -55,6 +56,10 @@ export class BirdsDetailComponent {
         this.images = this.flickr.getPhotoThumnail(results.photos.photo);
       });
       // error...?
+  }
+
+  gotoBirdsList() {
+    this.router.navigate(['../'], {relativeTo: this.route});
   }
 
   goBack(): void {
