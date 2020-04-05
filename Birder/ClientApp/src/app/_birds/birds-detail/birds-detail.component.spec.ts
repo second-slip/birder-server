@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BirdsDetailComponent } from './birds-detail.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BirdsService } from '@app/_services/birds.service';
@@ -9,6 +8,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { BirdDetailViewModel } from '@app/_models/BirdDetailViewModel';
 import { Router } from '@angular/router';
 import { ActivatedRouteStub } from 'testing/activated-route-stub';
+import { FlickrService } from '@app/_services/flickr.service';
 
 // let loader: HarnessLoader;
 
@@ -21,18 +21,19 @@ describe('BirdsDetailComponent', () => {
   let activatedRoute: ActivatedRouteStub;
 
   let mockBirdsService;
+  let mockFlickrService;
 
   beforeEach(async(() => {
     mockBirdsService = jasmine.createSpyObj(['getBird', 'getObservations']);
+    mockFlickrService = jasmine.createSpyObj(['getPhotoThumnail']);
 
     TestBed.configureTestingModule({
-      imports: [ RouterTestingModule.withRoutes([
-          // { path: 'login', component: DummyLoginLayoutComponent },
-        ])
+      imports: [ RouterTestingModule.withRoutes([ ])
       ],
       declarations: [ BirdsDetailComponent ],
       providers: [
-        { provide: BirdsService, useValue: mockBirdsService }
+        { provide: BirdsService, useValue: mockBirdsService },
+        { provide: FlickrService, useValue: mockFlickrService }
       ]
     })
     .compileComponents();
@@ -43,7 +44,7 @@ describe('BirdsDetailComponent', () => {
 
     router = TestBed.inject(Router);
     // loader = TestbedHarnessEnvironment.loader(fixture);
-    
+
     component = fixture.componentInstance;
     mockBirdsService.getBird.and.returnValue(of(null));
     mockBirdsService.getObservations.and.returnValue(of([]));

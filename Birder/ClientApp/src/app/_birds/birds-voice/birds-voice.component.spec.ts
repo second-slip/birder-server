@@ -4,27 +4,23 @@ import { BirdsVoiceComponent } from './birds-voice.component';
 import { XenoCantoService } from '@app/_services/xeno-canto.service';
 import { IXenoCantoResponse, IRecording } from '@app/_models/IXenoCantoResponse';
 import { of, throwError } from 'rxjs';
-import { FlickrService } from '@app/_services/flickr.service';
 
 describe('BirdsVoiceComponent', () => {
   let component: BirdsVoiceComponent;
   let fixture: ComponentFixture<BirdsVoiceComponent>;
 
   let mockXenoCantoService;
-  let mockFlickrService;
 
   let response: IXenoCantoResponse;
   let recordings: IRecording[];
 
   beforeEach(async(() => {
     mockXenoCantoService = jasmine.createSpyObj(['getRecordings']);
-    mockFlickrService = jasmine.createSpyObj(['getPhotoThumnail']);
 
     TestBed.configureTestingModule({
       declarations: [BirdsVoiceComponent],
       providers: [
         { provide: XenoCantoService, useValue: mockXenoCantoService },
-        { provide: FlickrService, useValue: mockFlickrService }
       ]
     })
       .compileComponents();
