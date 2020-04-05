@@ -23,7 +23,8 @@ export class UserProfileComponent {
             , private toast: ToastrService
             , private router: Router) {
                 route.params.subscribe(_ => {
-                  this.getUser();
+                  this.route.paramMap.subscribe(pmap => this.getUser(pmap.get('username')));
+                  // this.getUser();
                   // the next two statements reset the tabs.  This is required when the page is reloaded
                   // with different data.  Otherwise the 'sightings' child component keeps its original data.
                   this.active = 1;
@@ -31,8 +32,8 @@ export class UserProfileComponent {
                 });
   }
 
-  getUser(): void {
-    const username = this.route.snapshot.paramMap.get('username');
+  getUser(username: string): void {
+    // const username = this.route.snapshot.paramMap.get('username');
 
     this.userProfileService.getUserProfile(username)
       .subscribe(
@@ -53,7 +54,7 @@ export class UserProfileComponent {
         .subscribe(
           (data: NetworkUserViewModel) => {
             this.toast.info('You are now following ' + data.userName, 'Success');
-            this.getUser();
+            this.getUser(this.userProfile.userName);
             element.innerText = 'Unfollow';
           },
           (error: ErrorReportViewModel) => {
@@ -65,7 +66,7 @@ export class UserProfileComponent {
         .subscribe(
           (data: NetworkUserViewModel) => {
             this.toast.info('You have unfollowed ' + data.userName, 'Success');
-            this.getUser();
+            this.getUser(this.userProfile.userName);
             element.innerText = 'Follow';
           },
           (error: ErrorReportViewModel) => {
