@@ -15,10 +15,9 @@ import { FlickrUrlsViewModel } from '@app/_models/FlickrUrlsViewModel';
 })
 export class BirdsDetailComponent {
   bird: BirdDetailViewModel;
+  images: FlickrUrlsViewModel[];
   tabstatus = {};
   active;
-
-  images: FlickrUrlsViewModel[];
 
   constructor(private birdsService: BirdsService
     , private flickr: FlickrService
@@ -44,9 +43,8 @@ export class BirdsDetailComponent {
           this.getImages(data.species);
         },
         (error: ErrorReportViewModel) => {
-          // console.log('bad request');
+          // TODO: show toast error
           this.gotoBirdsList();
-          // TODO: this is right for typing bad param, but what about server error?
         });
   }
 
@@ -59,7 +57,7 @@ export class BirdsDetailComponent {
   }
 
   gotoBirdsList() {
-    this.router.navigate(['../'], {relativeTo: this.route});
+    this.router.navigate(['/birds-index'], {relativeTo: this.route});
   }
 
   goBack(): void {
