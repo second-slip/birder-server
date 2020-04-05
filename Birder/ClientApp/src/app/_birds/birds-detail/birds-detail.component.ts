@@ -14,6 +14,7 @@ import { FlickrUrlsViewModel } from '@app/_models/FlickrUrlsViewModel';
   encapsulation: ViewEncapsulation.None
 })
 export class BirdsDetailComponent {
+  birdId: number;
   bird: BirdDetailViewModel;
   images: FlickrUrlsViewModel[];
   tabstatus = {};
@@ -25,7 +26,9 @@ export class BirdsDetailComponent {
     , private location: Location
     , private router: Router) {
     route.params.subscribe(_ => {
-      this.getBird();
+      // this.birdId = +this.route.snapshot.paramMap.get('id');
+      this.route.paramMap.subscribe(pmap => this.getBird(+pmap.get('id')));
+      // this.getBird();
       // the next two statements reset the tabs.  This is required when the page is reloaded with
       // different data.  Otherwise the 'sightings' & 'voice' child components keep its original data.
       this.active = 1;
@@ -33,9 +36,7 @@ export class BirdsDetailComponent {
     });
   }
 
-  getBird(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-
+  getBird(id: number): void {
     this.birdsService.getBird(id)
       .subscribe(
         (data: BirdDetailViewModel) => {

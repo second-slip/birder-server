@@ -2,71 +2,62 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BirdsDetailComponent } from './birds-detail.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BirdsService } from '@app/_services/birds.service';
-import { of } from 'rxjs';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { HarnessLoader } from '@angular/cdk/testing';
-import { BirdDetailViewModel } from '@app/_models/BirdDetailViewModel';
-import { Router } from '@angular/router';
-import { ActivatedRouteStub } from 'testing/activated-route-stub';
 import { FlickrService } from '@app/_services/flickr.service';
-import { FlickrUrlsViewModel } from '@app/_models/FlickrUrlsViewModel';
-import { ConservationStatus } from '@app/_models/ConserverationStatus';
+import { ActivatedRouteStub } from 'testing/activated-route-stub';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
 
-// let loader: HarnessLoader;
+
 
 describe('BirdsDetailComponent', () => {
+
   let component: BirdsDetailComponent;
   let fixture: ComponentFixture<BirdsDetailComponent>;
-  let router: Router;
-
-  let bird: BirdDetailViewModel;
-  let conserveStatus: ConservationStatus;
-  let images: FlickrUrlsViewModel[];
 
   let activatedRoute: ActivatedRouteStub;
+
+  beforeEach(() => {
+    activatedRoute = new ActivatedRouteStub();
+  });
+
 
   let mockBirdsService;
   let mockFlickrService;
 
+  // the `id` value is irrelevant because ignored by service stub
+  beforeEach(() => activatedRoute.setParamMap({ id: 99999 }));
+
   beforeEach(async(() => {
-    mockBirdsService = jasmine.createSpyObj(['getBird', 'getObservations']);
+    const routerSpy = createRouterSpy();
+    function createRouterSpy() {
+      return jasmine.createSpyObj('Router', ['navigate']);
+    }
+    mockBirdsService = jasmine.createSpyObj(['getBird']);
     mockFlickrService = jasmine.createSpyObj(['getPhotoThumnail']);
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])
-      ],
+      imports: [RouterTestingModule.withRoutes([])],
       declarations: [BirdsDetailComponent],
       providers: [
         { provide: BirdsService, useValue: mockBirdsService },
-        { provide: FlickrService, useValue: mockFlickrService }
+        { provide: FlickrService, useValue: mockFlickrService },
+        { provide: Router, useValue: routerSpy },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({ id: 123 })
+          }
+        }
       ]
     })
       .compileComponents();
   }));
 
+
   beforeEach(() => {
     fixture = TestBed.createComponent(BirdsDetailComponent);
-    router = TestBed.inject(Router);
     component = fixture.componentInstance;
-    // fixture.detectChanges();
-
-    images = [{ id: 1, url: 'string' }, { id: 1, url: 'string' }, { id: 1, url: 'string' }];
-
-    conserveStatus = {
-      conservationStatusId: 1, conservationList: 'string',
-      conservationListColourCode: 'string', description: 'string', creationDate: 'Date | string',
-      lastUpdateDate: 'Date | string', birds: []
-    };
-
-    bird = {
-      birdId: 1, class: 'string', order: 'string', family: 'string',
-      genus: 'string', species: 'string', englishName: 'string', populationSize: 'string',
-      btoStatusInBritain: 'string', thumbnailUrl: 'string', songUrl: 'string',
-      birderStatus: 'string', birdConservationStatus: conserveStatus,
-      internationalName: 'string', category: 'string', creationDate: 'Date | string',
-      lastUpdateDate: 'Date | string'
-    };
-    mockBirdsService.getBird.and.returnValue(of(bird));
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -74,4 +65,54 @@ describe('BirdsDetailComponent', () => {
     expect(component.bird).toBeUndefined();
     expect(component.images).toBeUndefined();
   });
+
+  it('should call change page', () => {
+    const conserveStatus = {
+      conservationStatusId: 1, conservationList: 'string',
+      conservationListColourCode: 'string', description: 'string', creationDate: 'Date | string',
+      lastUpdateDate: 'Date | string', birds: []
+    };
+
+    const bird = {
+      birdId: 1, class: 'string', order: 'string', family: 'string',
+      genus: 'string', species: 'string', englishName: 'string', populationSize: 'string',
+      btoStatusInBritain: 'string', thumbnailUrl: 'string', songUrl: 'string',
+      birderStatus: 'string', birdConservationStatus: conserveStatus,
+      internationalName: 'string', category: 'string', creationDate: 'Date | string',
+      lastUpdateDate: 'Date | string'
+    };
+    // Arrange -- common arrange steps factored out to beforeEach(()
+    mockBirdsService.getBird.and.returnValue(of(bird));
+
+    // Act or change
+    component.getBird(1);
+
+    // Assert
+    expect(mockBirdsService.getBird).toHaveBeenCalled();
+    // expect(component.totalItems).toBe(2);
+    // expect(component.observations.length).toBe(2);
+    // expect(component.observations[0].birdId === 1).toBeTrue();
+  });
+
+
 });
+
+
+
+// images = [{ id: 1, url: 'string' }, { id: 1, url: 'string' }, { id: 1, url: 'string' }];
+
+// conserveStatus = {
+//   conservationStatusId: 1, conservationList: 'string',
+//   conservationListColourCode: 'string', description: 'string', creationDate: 'Date | string',
+//   lastUpdateDate: 'Date | string', birds: []
+// };
+
+// bird = {
+//   birdId: 1, class: 'string', order: 'string', family: 'string',
+//   genus: 'string', species: 'string', englishName: 'string', populationSize: 'string',
+//   btoStatusInBritain: 'string', thumbnailUrl: 'string', songUrl: 'string',
+//   birderStatus: 'string', birdConservationStatus: conserveStatus,
+//   internationalName: 'string', category: 'string', creationDate: 'Date | string',
+//   lastUpdateDate: 'Date | string'
+// };
+// mockBirdsService.getBird.and.returnValue(of(bird));
