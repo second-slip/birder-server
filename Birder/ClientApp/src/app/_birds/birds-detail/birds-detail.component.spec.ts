@@ -8,6 +8,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { BirdDetailViewModel } from '@app/_models/BirdDetailViewModel';
 import { Router } from '@angular/router';
+import { ActivatedRouteStub } from 'testing/activated-route-stub';
 
 // let loader: HarnessLoader;
 
@@ -16,6 +17,8 @@ describe('BirdsDetailComponent', () => {
   let fixture: ComponentFixture<BirdsDetailComponent>;
   let router: Router;
   let bird: BirdDetailViewModel;
+
+  let activatedRoute: ActivatedRouteStub;
 
   let mockBirdsService;
 
