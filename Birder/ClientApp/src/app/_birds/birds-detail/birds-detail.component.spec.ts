@@ -10,7 +10,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BirdDetailViewModel } from '@app/_models/BirdDetailViewModel';
 
 
-
 describe('BirdsDetailComponent', () => {
 
   let component: BirdsDetailComponent;
