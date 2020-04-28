@@ -5,7 +5,7 @@
       <div class="col-sm-8">
         <div class="resend-email-container">
           <h4 class="section-title">Send the email again?</h4>
-          <p>If you have not recieved the email confirmation we sent you request another one using the form below.
+          <p>If you have not recieved the email confirmation we sent you, please request another one using the form below.
           <br>We advise you check your 'spam' or 'junk' folder first.</p>
           <form [formGroup]="resendConfirmEmailForm" novalidate (ngSubmit)="onSubmit(resendConfirmEmailForm.value)">
             <mat-form-field class="full-width">
@@ -16,10 +16,19 @@
                   {{validation.message}}</mat-error>
               </mat-error>
             </mat-form-field>
-            <button class="submit-btn" type="submit" class="btn btn-primary"
-              [disabled]="!resendConfirmEmailForm.valid">
+            <!--  -->
+            <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!resendConfirmEmailForm.valid">
               Submit
             </button>
+            <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
+              Generating email...
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+            <!--  -->
+            <!-- <button class="submit-btn" type="submit" class="btn btn-primary"
+              [disabled]="!resendConfirmEmailForm.valid">
+              Submit
+            </button> -->
           </form>
         </div>
       </div>

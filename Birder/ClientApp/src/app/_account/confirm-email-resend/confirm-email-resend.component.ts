@@ -12,6 +12,7 @@ import { first } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class ConfirmEmailResendComponent implements OnInit {
+  requesting: boolean;
   resendConfirmEmailForm: FormGroup;
   // parentErrorStateMatcher = new ParentErrorStateMatcher();
 
@@ -25,7 +26,6 @@ export class ConfirmEmailResendComponent implements OnInit {
   constructor(private formBuilder: FormBuilder
     , private accountService: AccountService
     , private toast: ToastrService) { }
-    // , private router: Router) { }
 
   ngOnInit() {
     this.createForms();
@@ -41,13 +41,17 @@ export class ConfirmEmailResendComponent implements OnInit {
   }
 
   onSubmit(value): void {
+    this.requesting = true;
+
     this.accountService.resendEmailConfirmation(value)
       .pipe(first())
       .subscribe(_ => {
         this.toast.info('A new confirmation email has been sent.', 'Email resent');
+        this.requesting = false;
       },
         (_ => {
+          this.requesting = false;
           this.toast.error('A network error occurred.  Please try again later', 'Error');
         }));
-   }
+  }
 }
