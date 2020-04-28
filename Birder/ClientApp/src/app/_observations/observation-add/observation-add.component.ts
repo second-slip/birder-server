@@ -20,6 +20,7 @@ import { BirderStatus } from '../../_models/BirdIndexOptions';
   encapsulation: ViewEncapsulation.None
 })
 export class ObservationAddComponent implements OnInit {
+  requesting: boolean;
   addObservationForm: FormGroup;
   birdsSpecies: BirdsDdlDto[];
   parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -147,6 +148,7 @@ export class ObservationAddComponent implements OnInit {
   }
 
   onSubmit(value): void {
+    this.requesting = true;
     this.observationService.addObservation(value)
       .subscribe(
         (data: ObservationViewModel) => {
@@ -154,7 +156,7 @@ export class ObservationAddComponent implements OnInit {
           this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
         },
         (error: ErrorReportViewModel) => {
-          // console.log(error); alert('hello');
+          this.requesting = false;
           this.errorReport = error;
           this.invalidAddObservation = true;
           console.log(error);

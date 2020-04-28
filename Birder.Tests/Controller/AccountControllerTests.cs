@@ -134,14 +134,14 @@ namespace Birder.Tests.Controller
             var result = await controller.PostRegisterAsync(testModel);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(result);
+            var objectResult = Assert.IsType<OkResult>(result);
             Assert.NotNull(objectResult);
-            Assert.True(objectResult is OkObjectResult);
+            Assert.True(objectResult is OkResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
 
-            var expected = "New user successfully created";
-            objectResult.Value.Should().BeOfType<string>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
+            //var expected = "New user successfully created";
+            //objectResult.Value.Should().BeOfType<string>();
+            //objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
         #endregion
