@@ -43,7 +43,7 @@ export class BirdsDetailComponent implements OnInit {
       .subscribe(
         (data: BirdDetailViewModel) => {
           this.bird = data;
-          // this.getImages(data.species);
+          this.getImages(data.species);
         },
         (error: ErrorReportViewModel) => {
           // TODO: show toast error
