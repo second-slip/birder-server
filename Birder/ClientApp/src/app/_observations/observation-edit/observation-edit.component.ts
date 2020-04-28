@@ -21,6 +21,7 @@ import { Location } from '@angular/common';
   encapsulation: ViewEncapsulation.None
 })
 export class ObservationEditComponent implements OnInit {
+  requesting: boolean;
   observation: ObservationViewModel;
   editObservationForm: FormGroup;
   birdsSpecies: BirdsDdlDto[];
@@ -79,6 +80,7 @@ export class ObservationEditComponent implements OnInit {
   }
 
   onSubmit(value): void {
+    this.requesting = true;
     this.observationService.updateObservation(this.observation.observationId, value)
       .subscribe(
         (data: ObservationViewModel) => {
@@ -86,6 +88,7 @@ export class ObservationEditComponent implements OnInit {
           this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
         },
         (error: ErrorReportViewModel) => {
+          this.requesting = false;
           this.errorReport = error;
           console.log(error.friendlyMessage);
           console.log('unsuccessful add observation');

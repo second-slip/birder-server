@@ -214,9 +214,19 @@
                   {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
             </div>
             <!-- </div> -->
-            <button class="btn btn-success" [disabled]="!editObservationForm.valid">
+            <!-- <button class="btn btn-success" [disabled]="!editObservationForm.valid">
               Save Changes
+            </button> -->
+
+            <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!editObservationForm.valid">
+              Update observation
             </button>
+            <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
+              Saving observation...
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+
+
 
             <div class="content-right">
               <hr>
