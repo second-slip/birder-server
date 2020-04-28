@@ -67,9 +67,19 @@
               {{validation.message}}</mat-error>
           </mat-error> -->
 
-          <button type="submit" class="btn btn-primary" [disabled]="!userRegisterForm.valid">
+          <!-- <button type="submit" class="btn btn-primary" [disabled]="!userRegisterForm.valid">
             Submit
+          </button> -->
+
+          <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!userRegisterForm.valid">
+            Register
           </button>
+          <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
+            Registering...
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </button>
+
+
 
         </form>
 

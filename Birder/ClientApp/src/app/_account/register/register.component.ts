@@ -14,6 +14,7 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
   encapsulation: ViewEncapsulation.None
 })
 export class RegisterComponent implements OnInit {
+  requesting: boolean;
   invalidRegistration: boolean;
   isUsernameAvailable: boolean;
   errorReport: ErrorReportViewModel;
@@ -43,7 +44,6 @@ export class RegisterComponent implements OnInit {
       // { type: 'pattern', message: 'Your password must contain at least one uppercase, one lowercase, and one number' }
     ]
   };
-
 
   constructor(private formBuilder: FormBuilder
             , private accountService: AccountService
@@ -114,6 +114,8 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    this.requesting = true;
+
     const viewModelObject = <RegisterViewModel> {
       userName: value.userName,
       email: value.email,
@@ -127,6 +129,7 @@ export class RegisterComponent implements OnInit {
          this.router.navigate(['/confirm-email']);
        },
       (error: ErrorReportViewModel) => {
+        this.requesting = false;
         this.errorReport = error;
         this.invalidRegistration = true;
         console.log(error.friendlyMessage);
