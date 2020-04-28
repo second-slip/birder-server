@@ -38,9 +38,12 @@
             <!-- Google map control end -->
 
 
-            <button type="button" class="btn btn-primary"
-              [disabled]="!setLocationForm.valid">
-              Set Default Location
+            <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!setLocationForm.valid">
+              Set default location
+            </button>
+            <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
+              Setting default location...
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
 
           </form>

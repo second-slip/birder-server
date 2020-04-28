@@ -1,13 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
-import { GeocodeService } from '../../_services/geocode.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { LocationViewModel } from '../../_models/LocationViewModel';
-import { SetLocationViewModel } from '../../_models/SetLocationViewModel';
-import { UserViewModel } from '../../_models/UserViewModel';
-import { TokenService } from '../../_services/token.service';
-import { AccountManagerService } from '../../_services/account-manager.service';
+import { SetLocationViewModel } from '@app/_models/SetLocationViewModel';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { UserViewModel } from '@app/_models/UserViewModel';
+import { TokenService } from '@app/_services/token.service';
+import { AccountManagerService } from '@app/_services/account-manager.service';
+import { LocationViewModel } from '@app/_models/LocationViewModel';
+import { GeocodeService } from '@app/_services/geocode.service';
+
 
 @Component({
   selector: 'app-account-manager-location',
@@ -16,6 +17,7 @@ import { AccountManagerService } from '../../_services/account-manager.service';
   encapsulation: ViewEncapsulation.None
 })
 export class AccountManagerLocationComponent implements OnInit {
+  requesting: boolean;
   model: SetLocationViewModel;
   setLocationForm: FormGroup;
   errorReport: ErrorReportViewModel;
@@ -27,9 +29,6 @@ export class AccountManagerLocationComponent implements OnInit {
   constructor(private router: Router
     , private tokenService: TokenService
     , private accountManager: AccountManagerService
-    // , private route: ActivatedRoute
-    // , private observationService: ObservationService
-    // , private birdsService: BirdsService
     , private formBuilder: FormBuilder
     , private geocodeService: GeocodeService
     , private ref: ChangeDetectorRef) { }
@@ -131,24 +130,23 @@ export class AccountManagerLocationComponent implements OnInit {
   }
 
   onSubmit(value): void {
-
+    this.requesting = true;
     const model = <SetLocationViewModel> {
       defaultLocationLatitude: value.locationLatitude,
       defaultLocationLongitude: value.locationLongitude,
     };
 
-// console.log(model);
-
     this.accountManager.postSetLocation(model)
     .subscribe(
        (data: SetLocationViewModel) => {
-         console.log('successful registration');
+        //  console.log('successful registration');
          this.router.navigate(['login']);
        },
       (error: ErrorReportViewModel) => {
         // if (error.status === 400) { }
         // this.errorReport = error;
         // this.unsuccessful = true;
+        this.requesting = false;
         console.log(error.friendlyMessage);
         console.log('unsuccessful registration');
       });
