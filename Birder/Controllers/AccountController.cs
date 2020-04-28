@@ -64,7 +64,7 @@ namespace Birder.Controllers
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var url = _urlService.GetConfirmEmailUrl(newUser.UserName, code);
                     await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
-                    return Ok("New user successfully created");
+                    return Ok(); //ToDo: Is this adequate?  Created reponse?
                 }
 
                 ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
