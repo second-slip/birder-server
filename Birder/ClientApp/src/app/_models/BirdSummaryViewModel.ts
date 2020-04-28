@@ -7,7 +7,7 @@ export interface BirdSummaryViewModel {
     populationSize: string;
     btoStatusInBritain: string;
     thumbnailUrl: string;
-    songUrl: string;
+    // songUrl: string;
     conservationStatus: string;
     conservationListColourCode: string;
     birderStatus: string;

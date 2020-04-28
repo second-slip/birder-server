@@ -18,7 +18,7 @@
 
         public string ThumbnailUrl { get; set; }
 
-        public string SongUrl { get; set; }
+        //public string SongUrl { get; set; }
 
         public string ConservationStatus { get; set; }
 

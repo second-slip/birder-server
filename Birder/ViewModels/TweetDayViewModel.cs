@@ -9,6 +9,8 @@ namespace Birder.ViewModels
     {
         public int TweetDayId { get; set; }
 
+        public string SongUrl { get; set; }
+
         public DateTime DisplayDay { get; set; }
 
         public DateTime CreationDate { get; set; }

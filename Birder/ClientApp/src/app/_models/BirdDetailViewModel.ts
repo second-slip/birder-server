@@ -13,7 +13,7 @@ export interface BirdDetailViewModel {
     populationSize: string;
     btoStatusInBritain: string;
     thumbnailUrl: string;
-    songUrl: string;
+    // songUrl: string;
     creationDate: Date | string;
     lastUpdateDate: Date | string;
     birdConservationStatus: ConservationStatus;
