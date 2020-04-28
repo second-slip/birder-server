@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Birder.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,7 +42,7 @@ namespace Birder.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     DefaultLocationLatitude = table.Column<double>(nullable: false),
                     DefaultLocationLongitude = table.Column<double>(nullable: false),
-                    ProfileImage = table.Column<string>(nullable: true),
+                    Avatar = table.Column<string>(nullable: false),
                     RegistrationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -55,16 +54,17 @@ namespace Birder.Migrations
                 name: "ConservationStatus",
                 columns: table => new
                 {
-                    ConserverationStatusId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ConservationStatus = table.Column<string>(nullable: false),
+                    ConservationStatusId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ConservationList = table.Column<string>(nullable: false),
+                    ConservationListColourCode = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     LastUpdateDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ConservationStatus", x => x.ConserverationStatusId);
+                    table.PrimaryKey("PK_ConservationStatus", x => x.ConservationStatusId);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,7 +72,7 @@ namespace Birder.Migrations
                 columns: table => new
                 {
                     TagId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
@@ -85,7 +85,7 @@ namespace Birder.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -106,7 +106,7 @@ namespace Birder.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -201,13 +201,13 @@ namespace Birder.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction); // changed from cascade to noaction
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Network_AspNetUsers_FollowerId",
                         column: x => x.FollowerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction); // changed from cascade to noaction
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,7 +215,7 @@ namespace Birder.Migrations
                 columns: table => new
                 {
                     BirdId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Class = table.Column<string>(nullable: false),
                     Order = table.Column<string>(nullable: false),
                     Family = table.Column<string>(nullable: false),
@@ -230,26 +230,27 @@ namespace Birder.Migrations
                     SongUrl = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     LastUpdateDate = table.Column<DateTime>(nullable: false),
-                    ConserverationStatusId = table.Column<int>(nullable: false),
+                    ConservationStatusId = table.Column<int>(nullable: false),
                     BirderStatus = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bird", x => x.BirdId);
                     table.ForeignKey(
-                        name: "FK_Bird_ConservationStatus_ConserverationStatusId",
-                        column: x => x.ConserverationStatusId,
+                        name: "FK_Bird_ConservationStatus_ConservationStatusId",
+                        column: x => x.ConservationStatusId,
                         principalTable: "ConservationStatus",
-                        principalColumn: "ConserverationStatusId",
+                        principalColumn: "ConservationStatusId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
 
             migrationBuilder.CreateTable(
                 name: "Observation",
                 columns: table => new
                 {
                     ObservationId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     LocationLatitude = table.Column<double>(nullable: false),
                     LocationLongitude = table.Column<double>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
@@ -284,12 +285,15 @@ namespace Birder.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            // Below code is for seeding the identity
+            migrationBuilder.Sql("DBCC CHECKIDENT ('Observation', RESEED, 1000)");
+
             migrationBuilder.CreateTable(
                 name: "TweetDay",
                 columns: table => new
                 {
                     TweetDayId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DisplayDay = table.Column<DateTime>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     LastUpdateDate = table.Column<DateTime>(nullable: false),
@@ -370,9 +374,9 @@ namespace Birder.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bird_ConserverationStatusId",
+                name: "IX_Bird_ConservationStatusId",
                 table: "Bird",
-                column: "ConserverationStatusId");
+                column: "ConservationStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Network_FollowerId",

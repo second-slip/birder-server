@@ -15,7 +15,7 @@ namespace Birder.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -146,9 +146,6 @@ namespace Birder.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PopulationSize")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SongUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Species")
@@ -322,6 +319,9 @@ namespace Birder.Migrations
 
                     b.Property<DateTime>("LastUpdateDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("SongUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TweetDayId");
 
