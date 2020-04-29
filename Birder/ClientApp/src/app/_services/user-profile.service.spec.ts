@@ -52,7 +52,7 @@ describe('UserProfileService', () => {
     });
 
     it('should return expected UserProfile (called once)', () => {
-      const username = 'andrew';
+      const username = 'test';
 
       userProfileService.getUserProfile(username).subscribe(
         heroes => expect(heroes).toEqual(expectedProfile, 'should return expected user profile'),
@@ -68,7 +68,7 @@ describe('UserProfileService', () => {
     });
 
     it('should return ErrorReportViewModel if throws 404 error', () => {
-      const username = 'andrew';
+      const username = 'test';
 
       userProfileService.getUserProfile(username).subscribe(
         data => fail('Should have failed with 404 error'),
