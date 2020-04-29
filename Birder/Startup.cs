@@ -90,8 +90,8 @@ namespace Birder
             services.AddSingleton<ISystemClockService, SystemClockService>();
             services.AddSingleton<IUrlService, UrlService>();
 
-    //         CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
-    // CloudConfigurationManager.GetSetting("StorageConnectionString"));
+            // CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
+            // CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
             services.AddScoped<IFileClient, AzureBlobFileClient>(client =>
             {

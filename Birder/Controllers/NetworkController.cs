@@ -45,7 +45,7 @@ namespace Birder.Controllers
             {
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
 
-                if (requestingUser == null)
+                if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItem, "User not found");
                     return NotFound("Requesting user not found");
@@ -74,7 +74,7 @@ namespace Birder.Controllers
             {
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
 
-                if (requestingUser == null)
+                if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
                     return NotFound("Requesting user not found");
@@ -114,7 +114,7 @@ namespace Birder.Controllers
 
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
 
-                if (requestingUser == null)
+                if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
                     return NotFound("Requesting user not found");
@@ -146,7 +146,7 @@ namespace Birder.Controllers
 
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
 
-                if (requestingUser == null)
+                if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.UpdateItem, "Requesting user not found");
                     return NotFound("Requesting user not found");
@@ -154,7 +154,7 @@ namespace Birder.Controllers
 
                 var userToFollow = await _userManager.GetUserWithNetworkAsync(userToFollowDetails.UserName);
 
-                if (userToFollow == null)
+                if (userToFollow is null)
                 {
                     _logger.LogError(LoggingEvents.UpdateItem, "User to follow not found");
                     return NotFound("User to follow not found");
@@ -195,7 +195,7 @@ namespace Birder.Controllers
 
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
 
-                if (requestingUser == null)
+                if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.UpdateItem, "Requesting user not found");
                     return NotFound("Requesting user not found");
@@ -203,7 +203,7 @@ namespace Birder.Controllers
 
                 var userToUnfollow = await _userManager.GetUserWithNetworkAsync(userToUnfollowDetails.UserName);
 
-                if (userToUnfollow == null)
+                if (userToUnfollow is null)
                 {
                     _logger.LogError(LoggingEvents.UpdateItem, "User to Unfollow not found");
                     return NotFound("User to Unfollow not found");

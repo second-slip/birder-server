@@ -45,7 +45,7 @@ namespace Birder.Controllers
             {
                 var username = User.Identity.Name;
 
-                if (username == null)
+                if (username is null)
                 {
                     return Unauthorized();
                 }
@@ -77,7 +77,7 @@ namespace Birder.Controllers
             {
                 var username = User.Identity.Name;
 
-                if (username == null)
+                if (username is null)
                 {
                     return Unauthorized();
                 }
@@ -89,6 +89,8 @@ namespace Birder.Controllers
                 }
 
                 var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
+
+                // observations is null check?
 
                 _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
