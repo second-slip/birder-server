@@ -12,17 +12,20 @@ describe('TestingComponent', () => {
 
   let activatedRoute: ActivatedRouteStub;
 
+  beforeEach(() => {
+    activatedRoute = new ActivatedRouteStub();
+  });
+
+  beforeEach(() => activatedRoute.setParamMap({ id: 999 }));
+
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],
       declarations: [ TestingComponent ],
       providers: [
-        // { provide: ActivatedRoute, useValue: ActivatedRouteStub }
-        // {
-        //   provide: ActivatedRoute, useValue: {
-        //     queryParams: of({ id: '2' })
-        //   }
-        // }
+        // { provide: ActivatedRoute, useValue: activatedRoute }
+
       ]
     })
     .compileComponents();
@@ -32,13 +35,14 @@ describe('TestingComponent', () => {
     // activatedRoute.setParamMap({ id: 1 });
     // activatedRoute = new ActivatedRouteStub();
     // activatedRoute.setParamMap({ id: 99999 });
+    
     fixture = TestBed.createComponent(TestingComponent);
     component = fixture.componentInstance;
     // fixture.detectChanges();
   });
 
   // beforeEach(() => { activatedRoute = new ActivatedRouteStub(); });
-  // beforeEach(() => activatedRoute.setParamMap({ id: '99999' }));
+  // beforeEach(() => activatedRoute.setParamMap({ id: 99999 }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

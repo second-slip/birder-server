@@ -1,3 +1,6 @@
+// export for convenience.
+export { ActivatedRoute } from '@angular/router';
+
 import { convertToParamMap, ParamMap, Params } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 
@@ -22,3 +25,10 @@ export class ActivatedRouteStub {
     this.subject.next(convertToParamMap(params));
   }
 }
+
+
+/*
+Copyright Google LLC. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+*/
