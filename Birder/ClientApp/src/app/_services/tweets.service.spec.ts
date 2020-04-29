@@ -9,7 +9,7 @@ import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 describe('TweetsService', () => {
-  let httpClient: HttpClient;
+  // let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let tweetsService: TweetsService;
 
@@ -27,7 +27,7 @@ describe('TweetsService', () => {
 
     // Inject the http, test controller, and service-under-test
     // as they will be referenced by each test.
-    httpClient = TestBed.inject(HttpClient);
+    // httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
     tweetsService = TestBed.inject(TweetsService);
   });
