@@ -39,16 +39,7 @@ describe('BirdsDetailComponent', () => {
       providers: [
         { provide: BirdsService, useValue: mockBirdsService },
         { provide: FlickrService, useValue: mockFlickrService },
-        { provide: Router, useValue: routerSpy },
-        // {
-        //   provide: ActivatedRoute, useValue: ActivatedRouteStub
-        // }
-        // {
-        //   provide: ActivatedRoute,
-        //   useValue: {
-        //     params: of({ id: '123' })
-        //   }
-        // }
+        // { provide: Router, useValue: routerSpy },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -60,28 +51,29 @@ describe('BirdsDetailComponent', () => {
     fixture = TestBed.createComponent(BirdsDetailComponent);
     component = fixture.componentInstance;
 
-    activatedRoute.setParamMap({ id: 1 });
+    // activatedRoute.setParamMap({ id: 1 });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-    expect(component.bird).toBeUndefined();
-    expect(component.images).toBeUndefined();
-  });
+  // it('should create', () => {
+  //   // fixture.detectChanges();
+  //   expect(component).toBeTruthy();
+  //   expect(component.bird).toBeUndefined();
+  //   expect(component.images).toBeUndefined();
+  // });
 
-  it('should call change page', () => {
+  it('should call getBird', () => {
     const conserveStatus = {
-      conservationStatusId: 1, conservationList: 'string',
-      conservationListColourCode: 'string', description: 'string', creationDate: 'Date | string',
+      conservationStatusId: 1, conservationList: '',
+      conservationListColourCode: '', description: '', creationDate: 'Date | string',
       lastUpdateDate: 'Date | string', birds: []
     };
 
     const bird = {
-      birdId: 1, class: 'string', order: 'string', family: 'string',
-      genus: 'string', species: 'string', englishName: 'string', populationSize: 'string',
-      btoStatusInBritain: 'string', thumbnailUrl: 'string', songUrl: 'string',
-      birderStatus: 'string', birdConservationStatus: conserveStatus,
-      internationalName: 'string', category: 'string', creationDate: 'Date | string',
+      birdId: 0, class: '', order: '', family: '',
+      genus: '', species: '', englishName: '', populationSize: '',
+      btoStatusInBritain: '', thumbnailUrl: '',
+      birderStatus: '', birdConservationStatus: conserveStatus,
+      internationalName: '', category: '', creationDate: 'Date | string',
       lastUpdateDate: 'Date | string'
     };
 
@@ -102,20 +94,20 @@ describe('BirdsDetailComponent', () => {
 
 
 
-// images = [{ id: 1, url: 'string' }, { id: 1, url: 'string' }, { id: 1, url: 'string' }];
+// images = [{ id: 1, url: '' }, { id: 1, url: '' }, { id: 1, url: '' }];
 
 // conserveStatus = {
-//   conservationStatusId: 1, conservationList: 'string',
-//   conservationListColourCode: 'string', description: 'string', creationDate: 'Date | string',
+//   conservationStatusId: 1, conservationList: '',
+//   conservationListColourCode: '', description: '', creationDate: 'Date | string',
 //   lastUpdateDate: 'Date | string', birds: []
 // };
 
 // bird = {
-//   birdId: 1, class: 'string', order: 'string', family: 'string',
-//   genus: 'string', species: 'string', englishName: 'string', populationSize: 'string',
-//   btoStatusInBritain: 'string', thumbnailUrl: 'string', songUrl: 'string',
-//   birderStatus: 'string', birdConservationStatus: conserveStatus,
-//   internationalName: 'string', category: 'string', creationDate: 'Date | string',
+//   birdId: 1, class: '', order: '', family: '',
+//   genus: '', species: '', englishName: '', populationSize: '',
+//   btoStatusInBritain: '', thumbnailUrl: '', songUrl: '',
+//   birderStatus: '', birdConservationStatus: conserveStatus,
+//   internationalName: '', category: '', creationDate: 'Date | string',
 //   lastUpdateDate: 'Date | string'
 // };
 // mockBirdsService.getBird.and.returnValue(of(bird));

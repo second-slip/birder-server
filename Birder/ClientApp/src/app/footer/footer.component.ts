@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-footer',
@@ -9,7 +8,6 @@ import { Title } from '@angular/platform-browser';
 })
 export class FooterComponent implements OnInit {
   currentYear: number;
-  // private title: string;
 
   constructor() { }
 
@@ -17,5 +15,4 @@ export class FooterComponent implements OnInit {
     // this.title = this.titleService.getTitle();
     this.currentYear = new Date().getFullYear();
   }
-
 }
