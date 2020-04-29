@@ -9,9 +9,9 @@ import { environment } from 'environments/environment';
   providedIn: 'root'
 })
 export class XenoCantoService {
-  corsAnywhereUrl = environment.corsAnywhereUrl;
-  xenoCantoApiBaseUrl = environment.xenoCantoApiBaseUrl;
-  recordingLength = '+len_gt:40';
+  private corsAnywhereUrl = environment.corsAnywhereUrl;
+  private xenoCantoApiBaseUrl = environment.xenoCantoApiBaseUrl;
+  private recordingLength = '+len_gt:40';
 
   constructor(private http: HttpClient) { }
 
