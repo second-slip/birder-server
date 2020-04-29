@@ -45,7 +45,7 @@ describe('TweetsService', () => {
     beforeEach(() => {
       tweetsService = TestBed.inject(TweetsService);
       expectedTweet = {
-        tweetDayId: 1, displayDay: 'Date | string', creationDate: 'Date | string',
+        tweetDayId: 1, songUrl: '', displayDay: 'Date | string', creationDate: 'Date | string',
         lastUpdateDate: 'Date | string', bird: bird
       };
     });

@@ -38,7 +38,7 @@ describe('BirdObservationsListComponent', () => {
 
     bird = {
       birdId: 1, species: 'string', englishName: 'string', populationSize: 'string',
-      btoStatusInBritain: 'string', thumbnailUrl: 'string', songUrl: 'string',
+      btoStatusInBritain: 'string', thumbnailUrl: 'string',
       conservationStatus: 'string', conservationListColourCode: 'string', birderStatus: 'string',
     };
 

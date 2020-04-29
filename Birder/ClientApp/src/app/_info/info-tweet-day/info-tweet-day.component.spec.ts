@@ -31,10 +31,10 @@ describe('InfoTweetDayComponent', () => {
     fixture = TestBed.createComponent(InfoTweetDayComponent);
     component = fixture.componentInstance;
 
-    let myObj = {tweetDayId: 11, displayDay: new Date(Date.now()), creationDate: new Date(Date.now()),
+    let myObj = {tweetDayId: 11, songUrl: '', displayDay: new Date(Date.now()), creationDate: new Date(Date.now()),
     lastUpdateDate: new Date(Date.now()),
     bird: {birdId: 1, species: '', englishName: '', populationSize: '', btoStatusInBritain: '',
-     thumbnailUrl: '', songUrl: '', conservationStatus: '', conservationListColourCode: '', birderStatus: '' } };
+     thumbnailUrl: '', conservationStatus: '', conservationListColourCode: '', birderStatus: '' } };
     heroes = myObj;
 
     mockTweetsService.getTweetDay.and.returnValue(of(heroes));

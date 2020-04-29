@@ -17,10 +17,8 @@ describe('BirdsDetailComponent', () => {
 
   let activatedRoute: ActivatedRouteStub;
 
-  beforeEach(() => {
-    activatedRoute = new ActivatedRouteStub();
-  });
-
+  beforeEach(() => { activatedRoute = new ActivatedRouteStub(); });
+  beforeEach(() => activatedRoute.setParamMap({ id: 99999 }));
   let mockBirdsService;
   let mockFlickrService;
 
@@ -42,9 +40,9 @@ describe('BirdsDetailComponent', () => {
         { provide: BirdsService, useValue: mockBirdsService },
         { provide: FlickrService, useValue: mockFlickrService },
         { provide: Router, useValue: routerSpy },
-        {
-          provide: ActivatedRoute, useValue: ActivatedRouteStub
-        }
+        // {
+        //   provide: ActivatedRoute, useValue: ActivatedRouteStub
+        // }
         // {
         //   provide: ActivatedRoute,
         //   useValue: {
