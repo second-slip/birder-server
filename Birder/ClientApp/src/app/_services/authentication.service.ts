@@ -17,7 +17,6 @@ const httpOptions = {
 })
 
 export class AuthenticationService {
-
   private isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isAuthenticated$: Observable<boolean> = this.isAuthenticated.asObservable();
 

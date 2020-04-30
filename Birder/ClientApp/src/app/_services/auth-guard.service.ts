@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
   
-    constructor(private jwtHelper: JwtHelperService
-            , private router: Router) { }
+    constructor(private jwtHelper: JwtHelperService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const token = localStorage.getItem('jwt');

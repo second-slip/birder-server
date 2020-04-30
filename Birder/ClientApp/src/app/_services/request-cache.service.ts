@@ -32,8 +32,7 @@ export class RequestCacheWithMap implements RequestCache {
     const isExpired = cached.lastRead < (Date.now() - maxAge);
     const expired = isExpired ? 'expired ' : '';
 
-    console.log(
-      `Found ${expired}cached response for "${url}".`);
+    console.log(`Found ${expired}cached response for "${url}".`);
     return isExpired ? undefined : cached.response;
   }
 

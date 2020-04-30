@@ -7,7 +7,6 @@ import { UserProfileViewModel } from '@app/_models/UserProfileViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 describe('UserProfileService', () => {
-  // let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let userProfileService: UserProfileService;
 

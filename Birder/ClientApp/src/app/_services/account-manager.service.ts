@@ -28,26 +28,26 @@ export class AccountManagerService {
 
   postUpdateProfile(viewModel: ManageProfileViewModel): Observable<ManageProfileViewModel | ErrorReportViewModel> {
     return this.http.post<ManageProfileViewModel>('api/Manage/UpdateProfile', viewModel, httpOptions)
-    .pipe(
-      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   postChangePassword(viewModel: ChangePasswordViewModel): Observable<ChangePasswordViewModel | ErrorReportViewModel> {
     return this.http.post<ChangePasswordViewModel>('api/Manage/ChangePassword', viewModel, httpOptions)
-    .pipe(
-      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   postSetLocation(viewModel: SetLocationViewModel): Observable<SetLocationViewModel | ErrorReportViewModel> {
     return this.http.post<SetLocationViewModel>('api/Manage/SetLocation', viewModel, httpOptions)
-    .pipe(
-      first(),
-      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe(
+        first(),
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   postAvatar(formData: FormData): Observable<any | ErrorReportViewModel> {
     return this.http.post('api/Manage/UploadAvatar', formData, { reportProgress: true, observe: 'events' })
-    .pipe(
-      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 }
