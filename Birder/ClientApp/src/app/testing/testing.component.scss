@@ -1,5 +1,16 @@
 app-testing {
 
-  
+  .form-label {
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .form-control {
+    margin-bottom: 20px;
+  }
+
+  .rounded-edges {
+    border-radius: 0.6rem;
+    }
   
 }
