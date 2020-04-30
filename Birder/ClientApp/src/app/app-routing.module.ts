@@ -74,7 +74,7 @@ const routes: Routes = [
           { path: 'user-profile/:username', component: UserProfileComponent },
           // { path: 'account-manage', component: AccountManageComponent},
           { path: 'user-network', component: UserNetworkComponent },
-          { path: 'testing/:id', component: TestingComponent },
+          { path: 'testing', component: TestingComponent },
           { path: 'logout', component: LogoutComponent },
         ]
       },

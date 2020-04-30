@@ -7,22 +7,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./testing.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-// export class TestingComponent implements OnInit {
-export class TestingComponent {
-  id: number;
+export class TestingComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute) {
+  constructor() {
 
-    route.params.subscribe(_ => {
-      this.route.paramMap.subscribe(pmap => this.hello(+pmap.get('id')));
-      
-    })
   }
 
-    hello(id: number): void {
-      alert(id);
-      this.id = id;
-    }
-  // ngOnInit() { }
+
+  ngOnInit() { }
 
 }
