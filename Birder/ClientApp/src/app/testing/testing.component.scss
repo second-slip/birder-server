@@ -1,8 +1,28 @@
 app-testing {
+  // .form-container {
+  //   width: 400px;
+  //   margin: 0 auto;
+  //   background-color: #66ffff;
+  // }
+
+  .container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .form-container {
+    width: 800px;
+  }
 
   .form-label {
-    font-weight: bold;
+    // font-weight: bold;
     margin-bottom: 20px;
+  }
+
+  .bold-centre-align {
+    padding-right: 40px;
+    text-align: right;
+    font-weight: bold;
   }
 
   .form-control {
@@ -11,6 +31,5 @@ app-testing {
 
   .rounded-edges {
     border-radius: 0.6rem;
-    }
-  
+  }
 }

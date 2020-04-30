@@ -1,59 +1,70 @@
 <p>testing works!</p>
 
-<tbody>
-    <tr>
-        <td class="_3B-Sc _2Rd94">
-            <label class="form-label" for="username">Username</label>
-        </td>
-        <td class="_3fj1I _2Rd94 _3Y0vz">
-            <input class="form-control rounded-edges" id="username" name="username" type="text" value="AndrewSCross">
-        </td>
-    </tr>
-    <tr>
-        <td class="_3B-Sc _2Rd94">
-            <label class="form-label" for="email">Email</label>
-        </td>
-        <td class="_3fj1I _2Rd94 _3Y0vz">
-            <input class="form-control rounded-edges" id="email" name="email" type="text" value="as@outlook.com">
-        </td>
-    </tr>
-    <tr>
-        <td class="_3B-Sc _2Rd94"><label for="enableSpeaker">Speaker</label></td>
-        <td class="_3fj1I _2Rd94 _3Y0vz"><label class="_3gYx2 _3IeyC _3Hyb7" tabindex="0" id="enableSpeaker"><input
-                    class="_2LPMm" name="enableSpeaker" type="checkbox" checked=""><span
-                    class="XX5iQ _3laKa"></span></label></td>
-    </tr>
-    <tr>
-        <td class="_3B-Sc _2Rd94"><label for="enableSoundEffects">Sound effects</label></td>
-        <td class="_3fj1I _2Rd94 _3Y0vz"><label class="_3gYx2 _3IeyC _3Hyb7" tabindex="0" id="enableSoundEffects"><input
-                    class="_2LPMm" name="enableSoundEffects" type="checkbox" checked=""><span
-                    class="XX5iQ _3laKa"></span></label></td>
-    </tr>
-    <tr>
-        <td class="_3B-Sc _2Rd94"><label for="coachEnabled">Motivational messages</label></td>
-        <td class="_3fj1I _2Rd94 _3Y0vz"><label class="_3gYx2 _3IeyC _3Hyb7" tabindex="0" id="coachEnabled"><input
-                    class="_2LPMm" name="coachEnabled" type="checkbox" checked=""><span
-                    class="XX5iQ _3laKa"></span></label></td>
-    </tr>
-    <tr>
-        <td class="_3B-Sc _2Rd94">Profile picture</td>
-        <td class="_3fj1I _2Rd94 _3Y0vz">
-            <div class="_3gYx2 _1VgNe" data-test="image-file"><label
-                    class="_1Iqar _3ZQ9H _18se6 vy3TL _3iIWE _1Mkpg _1Dtxl _1sVAI sweRn _1BWZU _1LIf4 QVrnU"><input
-                        accept="image/*" class="_1xlKK" name="picture" type="file">Choose file</label></div>
-            <div class="_2D4_6">maximum image size is 1 MB</div>
-        </td>
-    </tr>
-    <tr>
-        <td></td>
-        <td><a class="_1kkBa _3Y0vz" href="/settings/deactivate">Disable my account</a></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td><a class="_1kkBa _3Y0vz" href="https://drive-thru.duolingo.com/" tabindex="0">Delete my account</a></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td><a class="_1kkBa _3Y0vz" href="https://drive-thru.duolingo.com/" tabindex="0">Export my data</a></td>
-    </tr>
-</tbody>
+<div class="container">
+    <div class="row">
+        <div class="form-group form-test" form [formGroup]="manageProfileForm" novalidate>
+            <tbody>
+                <tr>
+                    <td class="bold-centre-align">
+                        <label class="form-label" for="username">Username</label>
+                    </td>
+                    <td>
+                        <input class="form-control rounded-edges" id="username" name="username" type="text"
+                        formControlName="username">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bold-centre-align">
+                        <label class="form-label" for="email">Email</label>
+                    </td>
+                    <td class="_3fj1I _2Rd94 _3Y0vz">
+                        <input class="form-control rounded-edges" id="email" name="email" type="text"
+                        formControlName="email">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="_3B-Sc _2Rd94"><label for="enableSpeaker">Speaker</label></td>
+                    <td class="_3fj1I _2Rd94 _3Y0vz"><label class="_3gYx2 _3IeyC _3Hyb7" tabindex="0"
+                            id="enableSpeaker"><input class="_2LPMm" name="enableSpeaker" type="checkbox"
+                                checked=""><span class="XX5iQ _3laKa"></span></label></td>
+                </tr>
+                <tr>
+                    <td class="_3B-Sc _2Rd94"><label for="enableSoundEffects">Sound effects</label></td>
+                    <td class="_3fj1I _2Rd94 _3Y0vz"><label class="_3gYx2 _3IeyC _3Hyb7" tabindex="0"
+                            id="enableSoundEffects"><input class="_2LPMm" name="enableSoundEffects" type="checkbox"
+                                checked=""><span class="XX5iQ _3laKa"></span></label></td>
+                </tr>
+                <tr>
+                    <td class="_3B-Sc _2Rd94"><label for="coachEnabled">Motivational messages</label></td>
+                    <td class="_3fj1I _2Rd94 _3Y0vz"><label class="_3gYx2 _3IeyC _3Hyb7" tabindex="0"
+                            id="coachEnabled"><input class="_2LPMm" name="coachEnabled" type="checkbox" checked=""><span
+                                class="XX5iQ _3laKa"></span></label></td>
+                </tr>
+                <!-- <tr>
+            <td class="_3B-Sc _2Rd94">Profile picture</td>
+            <td class="_3fj1I _2Rd94 _3Y0vz">
+                <div class="t" data-test="image-file"><label
+                        class="_1Iqar _3ZQ9H _18se6 vy3TL _3iIWE _1Mkpg _1Dtxl _1sVAI sweRn _1BWZU _1LIf4 QVrnU"><input
+                            accept="image/*" class="btn btn-success" name="picture" type="file">Choose file</label></div>
+                <div class="_2D4_6">maximum image size is 1 MB</div>
+            </td>
+        </tr> -->
+                <tr>
+                    <td></td>
+                    <td><a class="_1kkBa _3Y0vz" href="/settings/deactivate">Disable my account</a></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><a class="_1kkBa _3Y0vz" href="https://drive-thru.duolingo.com/" tabindex="0">Delete my
+                            account</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><a class="_1kkBa _3Y0vz" href="https://drive-thru.duolingo.com/" tabindex="0">Export my data</a>
+                    </td>
+                </tr>
+            </tbody>
+        </div>
+    </div>
+</div>
