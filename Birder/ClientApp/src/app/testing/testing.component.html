@@ -10,7 +10,20 @@
                     </td>
                     <td>
                         <input class="form-control rounded-edges" id="username" name="username" type="text"
-                        formControlName="username">
+                        formControlName="username" required>
+
+                        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert alert-danger">
+                        
+                            <div *ngIf="username.errors.usernameValidator">
+                                CCC
+                            </div>
+                            <div *ngIf="username.errors.minlength">
+                                username must be at least 4 characters long.
+                            </div>
+                            <div *ngIf="username.errors.forbiddenName">
+                                username cannot be Bob.
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <tr>

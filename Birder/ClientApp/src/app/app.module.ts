@@ -83,6 +83,7 @@ import { TokenService } from './_services/token.service';
 import { UserObservationsListComponent } from './_sharedComponents/user-observations-list/user-observations-list.component';
 import { BirdObservationsListComponent } from './_sharedComponents/bird-observations-list/bird-observations-list.component';
 import { BirdsVoiceComponent } from './_birds/birds-voice/birds-voice.component';
+import { UsernameValidator } from 'validators';
 
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -216,6 +217,7 @@ export function tokenGetter() {
     { provide: RequestCache, useClass: RequestCacheWithMap },
     httpInterceptorProviders,
     [AuthGuard],
+    [UsernameValidator],
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: LOCALE_ID, useValue: 'en-GB' }
   ],

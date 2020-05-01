@@ -8,6 +8,8 @@ import { AccountService } from '@app/_services/account.service';
 import { Router } from '@angular/router';
 import { AccountManagerService } from '@app/_services/account-manager.service';
 import { first } from 'rxjs/operators';
+import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
+
 
 @Component({
   selector: 'app-account-manager-profile',
@@ -30,6 +32,7 @@ export class AccountManagerProfileComponent implements OnInit {
       { type: 'minlength', message: 'Username must be at least 5 characters long' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       { type: 'pattern', message: 'Your username must be alphanumeric (no special characters) and must not contain spaces' },
+      { type: 'restrictedName', message: 'Username may not contain the name "birder"' }
     ],
     'email': [
       { type: 'required', message: 'Email is required' },
@@ -57,7 +60,8 @@ export class AccountManagerProfileComponent implements OnInit {
         Validators.maxLength(25),
         Validators.minLength(5),
         Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
-        Validators.required
+        Validators.required,
+        RestrictedNameValidator(/birder/i),
       ])),
       email: new FormControl(this.user.email, Validators.compose([
         Validators.required,

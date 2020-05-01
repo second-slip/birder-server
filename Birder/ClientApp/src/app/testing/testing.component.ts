@@ -7,6 +7,8 @@ import { ManageProfileViewModel } from '@app/_models/ManageProfileViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { UsernameValidator } from 'validators';
+import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
 
 @Component({
   selector: 'app-testing',
@@ -29,6 +31,8 @@ export class TestingComponent implements OnInit {
       { type: 'minlength', message: 'Username must be at least 5 characters long' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       { type: 'pattern', message: 'Your username must be alphanumeric (no special characters) and must not contain spaces' },
+      { type: 'validUsername', message: 'XXX' },
+      
     ],
     'email': [
       { type: 'required', message: 'Email is required' },
@@ -40,13 +44,14 @@ export class TestingComponent implements OnInit {
     private formBuilder: FormBuilder
     , private accountService: AccountService // validate username needs to be separate service...
     , private router: Router
+    , public usernameValidator: UsernameValidator
     , private accountManager: AccountManagerService) { }
 
   ngOnInit() {
     this.getUserProfile();
   }
 
-  get name() { return this.manageProfileForm.get('username'); }
+  get username() { return this.manageProfileForm.get('username'); }
 
   get email() { return this.manageProfileForm.get('email'); }
 
@@ -54,16 +59,15 @@ export class TestingComponent implements OnInit {
 
     this.manageProfileForm = this.formBuilder.group({
       username: new FormControl(this.user.userName, Validators.compose([
-        // ValidateEmailNotTaken.createValidator(this.accountService),
-        // this.validateEmailNotTaken.bind(this),
-        // UsernameValidator.validUsername,
-        // forbiddenNameValidator(/bob/),
-        // forbiddenNameValidator1(/bob/).bind(this),
         Validators.maxLength(25),
         Validators.minLength(5),
         Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
         Validators.required,
-        this.validateUsername.bind(this)
+        RestrictedNameValidator(/birder/),
+        //forbiddenNameValidatorHorror(/bob/),
+        // this.usernameValidator.checkUsername.bind(this.usernameValidator)
+        // this.validUsername()
+        //this.validateUsername.bind(this)
         // forbiddenNameValidator1.bind(this)
         
       ])),
@@ -93,7 +97,7 @@ export class TestingComponent implements OnInit {
     .subscribe(
       (isAvailable: boolean) => {
       console.log(isAvailable);
-      return isAvailable ? {'username': {value: control.value}} : null;
+      return isAvailable ? null: null; // {'username': {value: control.value}}
         // const convertedName = res['user_name'];
         // return convertedName === val ? { alreadyExist: true } : null;
       }),
@@ -134,6 +138,8 @@ export class TestingComponent implements OnInit {
   /** A hero's name can't match the given regular expression */
 
 
+
+
 }
 
 export function forbiddenNameValidator1(): ValidatorFn {
@@ -161,10 +167,28 @@ export function forbiddenNameValidator1(): ValidatorFn {
   };
 }
 
-
-export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+export function forbiddenNameValidatorHorror(nameRe: RegExp): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
     const forbidden = nameRe.test(control.value);
-    return forbidden ? {'forbiddenName': {value: control.value}} : null;
-  };
-}
+    return this.accountService.checkValidUsername(forbidden) // httpService.validateUsername(val)
+    .subscribe(
+      (isAvailable: boolean) => {
+      console.log(isAvailable);
+      return isAvailable ? {'forbiddenName': {value: control.value}} : null;
+        // const convertedName = res['user_name'];
+        // return convertedName === val ? { alreadyExist: true } : null;
+      })
+    // return forbidden ? {'forbiddenName': {value: control.value}} : null;
+    }
+  }
+  
+
+
+
+// export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+//   return (control: AbstractControl): {[key: string]: any} | null => {
+//     const forbidden = nameRe.test(control.value);
+//     return forbidden ? {'forbiddenName': {value: control.value}} : null;
+//   };
+// }
+
