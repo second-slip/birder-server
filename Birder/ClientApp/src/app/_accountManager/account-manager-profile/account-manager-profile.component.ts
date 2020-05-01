@@ -10,7 +10,6 @@ import { AccountManagerService } from '@app/_services/account-manager.service';
 import { first } from 'rxjs/operators';
 import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
 
-
 @Component({
   selector: 'app-account-manager-profile',
   templateUrl: './account-manager-profile.component.html',

@@ -217,7 +217,7 @@ export function tokenGetter() {
     { provide: RequestCache, useClass: RequestCacheWithMap },
     httpInterceptorProviders,
     [AuthGuard],
-    [UsernameValidator],
+    // [UsernameValidator],
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: LOCALE_ID, useValue: 'en-GB' }
   ],

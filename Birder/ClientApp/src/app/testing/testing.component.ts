@@ -171,8 +171,7 @@ export function forbiddenNameValidatorHorror(nameRe: RegExp): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
     const forbidden = nameRe.test(control.value);
     return this.accountService.checkValidUsername(forbidden) // httpService.validateUsername(val)
-    .subscribe(
-      (isAvailable: boolean) => {
+    .subscribe((isAvailable: boolean) => {
       console.log(isAvailable);
       return isAvailable ? {'forbiddenName': {value: control.value}} : null;
         // const convertedName = res['user_name'];
