@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { RegisterViewModel } from '../../_models/RegisterViewModel';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
 
 @Component({
   selector: 'app-register',
@@ -28,6 +29,7 @@ export class RegisterComponent implements OnInit {
       { type: 'minlength', message: 'Username must be at least 5 characters long' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       { type: 'pattern', message: 'Your username must be alphanumeric (no special characters) and must not contain spaces' },
+      { type: 'restrictedName', message: 'Username may not contain the name "birder"' }
     ],
     'email': [
       { type: 'required', message: 'Email is required' },
@@ -95,7 +97,8 @@ export class RegisterComponent implements OnInit {
        Validators.maxLength(25),
        Validators.minLength(5),
        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
-       Validators.required
+       Validators.required,
+       RestrictedNameValidator(/birder/i)
       ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
