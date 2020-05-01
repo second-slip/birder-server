@@ -181,14 +181,3 @@ export function forbiddenNameValidatorHorror(nameRe: RegExp): ValidatorFn {
     // return forbidden ? {'forbiddenName': {value: control.value}} : null;
     }
   }
-  
-
-
-
-// export function forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
-//   return (control: AbstractControl): {[key: string]: any} | null => {
-//     const forbidden = nameRe.test(control.value);
-//     return forbidden ? {'forbiddenName': {value: control.value}} : null;
-//   };
-// }
-
