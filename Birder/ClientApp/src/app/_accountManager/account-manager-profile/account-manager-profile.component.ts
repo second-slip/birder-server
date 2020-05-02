@@ -1,14 +1,15 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { ManageProfileViewModel } from '@app/_models/ManageProfileViewModel';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { ParentErrorStateMatcher } from 'validators';
+import { ParentErrorStateMatcher, UsernameValidator1 } from 'validators';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '@app/_services/account.service';
 import { Router } from '@angular/router';
 import { AccountManagerService } from '@app/_services/account-manager.service';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
+import { forbiddenNameValidator1 } from '@app/testing/testing.component';
 
 @Component({
   selector: 'app-account-manager-profile',
@@ -31,7 +32,8 @@ export class AccountManagerProfileComponent implements OnInit {
       { type: 'minlength', message: 'Username must be at least 5 characters long' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       { type: 'pattern', message: 'Your username must be alphanumeric (no special characters) and must not contain spaces' },
-      { type: 'restrictedName', message: 'Username may not contain the name "birder"' }
+      { type: 'restrictedName', message: 'Username may not contain the name "birder"' },
+      { type: 'andrew', message: 'XXXXXXXXXXXXX' }
     ],
     'email': [
       { type: 'required', message: 'Email is required' },
@@ -61,6 +63,9 @@ export class AccountManagerProfileComponent implements OnInit {
         Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
         Validators.required,
         RestrictedNameValidator(/birder/i),
+        // forbiddenNameValidator1().bind(this)
+        // this.forbiddenNameValidator1()
+        // UsernameValidator1()
       ])),
       email: new FormControl(this.user.email, Validators.compose([
         Validators.required,
@@ -68,6 +73,8 @@ export class AccountManagerProfileComponent implements OnInit {
       ])),
     });
   }
+
+
 
   validateUsernameIsAvailable(username: string) {
     return this.accountService.checkValidUsername(username)

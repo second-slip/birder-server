@@ -83,7 +83,7 @@ import { TokenService } from './_services/token.service';
 import { UserObservationsListComponent } from './_sharedComponents/user-observations-list/user-observations-list.component';
 import { BirdObservationsListComponent } from './_sharedComponents/bird-observations-list/bird-observations-list.component';
 import { BirdsVoiceComponent } from './_birds/birds-voice/birds-voice.component';
-import { UsernameValidator } from 'validators';
+// import { UsernameValidator } from 'validators';
 
 
 const cookieConfig: NgcCookieConsentConfig = {

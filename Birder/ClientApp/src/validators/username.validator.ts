@@ -40,19 +40,21 @@ export class UsernameValidator {
   }
 
 }
-// export class UsernameValidator {
 
-//   constructor(private accountService: AccountService) {}
+export class UsernameValidator1 {
 
-//   static validUsername(fc: FormControl) {
-//     if (fc.value.toLowerCase() === 'abc123' || fc.value.toLowerCase() === '123abc') {
-//       return {
-//         validUsername: true
-//       };
-//     } else {
-//       return null;
-//     }
-//   }
+  constructor(private accountService: AccountService) { }
+
+  static validUsername(fc: FormControl) {
+    if (fc.value.toLowerCase() === 'abc123' || fc.value.toLowerCase() === '123abc') {
+      return {
+        validUsername: true
+      };
+    } else {
+      return null;
+    }
+  }
+}
 
 
   // hello(fc: FormControl) {

@@ -31,7 +31,7 @@ export class TestingComponent implements OnInit {
       { type: 'minlength', message: 'Username must be at least 5 characters long' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       { type: 'pattern', message: 'Your username must be alphanumeric (no special characters) and must not contain spaces' },
-      { type: 'validUsername', message: 'XXX' },
+      { type: 'usernameNot', message: 'XXX' },
       
     ],
     'email': [
@@ -67,8 +67,8 @@ export class TestingComponent implements OnInit {
         //forbiddenNameValidatorHorror(/bob/),
         // this.usernameValidator.checkUsername.bind(this.usernameValidator)
         // this.validUsername()
-        //this.validateUsername.bind(this)
-        // forbiddenNameValidator1.bind(this)
+        this.validateUsername.bind(this)
+        // this.forbiddenNameValidator1.bind(this)
         
       ])),
       email: new FormControl(this.user.email, Validators.compose([
@@ -119,7 +119,7 @@ export class TestingComponent implements OnInit {
           // const convertedName = res['user_name'];
           // return convertedName === val ? { alreadyExist: true } : null;
           console.log(isAvailable);
-          return isAvailable ? {'username': {value: control.value}} : null;
+          return isAvailable ? {'usernameNot': {value: control.value}} : null;
               // return forbidden ? {'forbiddenName': {value: control.value}} : null;
       // returns either null if the control value is valid or a validation error object
         })
@@ -151,7 +151,7 @@ export function forbiddenNameValidator1(): ValidatorFn {
         // const convertedName = res['user_name'];
         // return convertedName === val ? { alreadyExist: true } : null;
         console.log(isAvailable);
-        return isAvailable ? {'username': {value: control.value}} : null;
+        return isAvailable ? {'usernameNot': {value: control.value}} : null;
             // return forbidden ? {'forbiddenName': {value: control.value}} : null;
     // returns either null if the control value is valid or a validation error object
       })
