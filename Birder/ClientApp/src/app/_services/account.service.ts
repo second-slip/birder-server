@@ -59,16 +59,4 @@ export class AccountService {
       catchError(err => this.httpErrorHandlerService.handleHttpError(err))
     );
   }
-
-  checkValidUsername1(username: string) {
-    username = username.trim();
-
-    const options = username ?
-    { params: new HttpParams().set('username', username) } : {};
-
-    return this.http.get<boolean>('api/Account/IsUsernameAvailable', options)
-    .pipe(
-      catchError(err => this.httpErrorHandlerService.handleHttpError(err))
-    );
-  }
 }
