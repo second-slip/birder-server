@@ -83,6 +83,7 @@ import { TokenService } from './_services/token.service';
 import { UserObservationsListComponent } from './_sharedComponents/user-observations-list/user-observations-list.component';
 import { BirdObservationsListComponent } from './_sharedComponents/bird-observations-list/bird-observations-list.component';
 import { BirdsVoiceComponent } from './_birds/birds-voice/birds-voice.component';
+import { Testing2Component } from './testing2/testing2.component';
 // import { UsernameValidator } from 'validators';
 
 
@@ -173,6 +174,7 @@ export function tokenGetter() {
     UserObservationsListComponent,
     BirdObservationsListComponent,
     BirdsVoiceComponent,
+    Testing2Component,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

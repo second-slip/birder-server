@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { ManageProfileViewModel } from '@app/_models/ManageProfileViewModel';
-import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, ValidatorFn, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ParentErrorStateMatcher } from 'validators';
 import { ToastrService } from 'ngx-toastr';
@@ -28,6 +28,7 @@ export class AccountManagerProfileComponent implements OnInit {
   isUsernameAvailable = true;
   emailChanged = false;
 
+
   manageProfile_validation_messages = {
     'userName': [
       { type: 'required', message: 'Username is required' },
@@ -35,7 +36,7 @@ export class AccountManagerProfileComponent implements OnInit {
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       { type: 'pattern', message: 'Your username must be alphanumeric (no special characters) and must not contain spaces' },
       { type: 'restrictedName', message: 'Username may not contain the name "birder"' },
-      { type: 'emailTaken', message: 'XXXXXXXXXXXXX' }
+      // { type: 'usernameExists', message: 'XXXXXXXXXXXXX' }
     ],
     'email': [
       { type: 'required', message: 'Email is required' },
@@ -71,17 +72,6 @@ export class AccountManagerProfileComponent implements OnInit {
       ])),
     });
   }
-
-
-  checkEmailNotTaken(email: string) {
-    // alert();
-    return this.http
-      .get('assets/users.json')
-      .pipe(map(res => res.json()),
-      map(users => users.filter(user => user.name === email)))
-      // map(users => !users.length));
-  }
-
 
 
   validateUsernameIsAvailable(username: string) {
