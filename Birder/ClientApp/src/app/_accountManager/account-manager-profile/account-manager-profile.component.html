@@ -21,7 +21,7 @@
                 This was old way of checking if the username is available -->
               <mat-icon *ngIf="(manageProfileForm.get('username').valid)" matSuffix
                 color="primary" matTooltip="This username is available">check</mat-icon>
-              <mat-icon *ngIf="(manageProfileForm.get('username').invalid)" matSuffix
+              <mat-icon *ngIf="(manageProfileForm.get('username').invalid) && (manageProfileForm.get('username').dirty || manageProfileForm.get('username').touched)" matSuffix
                 color="warn" matTooltip="This username is taken">cancel</mat-icon>
               <mat-error *ngFor="let validation of manageProfile_validation_messages.username">
                 <mat-error class="error-message"
