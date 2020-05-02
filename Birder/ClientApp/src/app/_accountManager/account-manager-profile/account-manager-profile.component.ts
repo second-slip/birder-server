@@ -1,15 +1,17 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { ManageProfileViewModel } from '@app/_models/ManageProfileViewModel';
-import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { ParentErrorStateMatcher, UsernameValidator1 } from 'validators';
+import { ParentErrorStateMatcher } from 'validators';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '@app/_services/account.service';
 import { Router } from '@angular/router';
 import { AccountManagerService } from '@app/_services/account-manager.service';
-import { first, map } from 'rxjs/operators';
+import { first, delay, map, debounceTime } from 'rxjs/operators';
 import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
-import { forbiddenNameValidator1 } from '@app/testing/testing.component';
+import { HttpClient } from '@angular/common/http';
+import { pipe, Observable, of } from 'rxjs';
+
 
 @Component({
   selector: 'app-account-manager-profile',
@@ -33,7 +35,7 @@ export class AccountManagerProfileComponent implements OnInit {
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       { type: 'pattern', message: 'Your username must be alphanumeric (no special characters) and must not contain spaces' },
       { type: 'restrictedName', message: 'Username may not contain the name "birder"' },
-      { type: 'andrew', message: 'XXXXXXXXXXXXX' }
+      { type: 'emailTaken', message: 'XXXXXXXXXXXXX' }
     ],
     'email': [
       { type: 'required', message: 'Email is required' },
@@ -42,6 +44,7 @@ export class AccountManagerProfileComponent implements OnInit {
   };
 
   constructor(private toast: ToastrService
+    , private http: HttpClient
             , private formBuilder: FormBuilder
             , private accountService: AccountService // validate username needs to be separate service...
             , private router: Router
@@ -51,27 +54,32 @@ export class AccountManagerProfileComponent implements OnInit {
     this.getUserProfile();
   }
 
+
   createForms() {
 
     this.manageProfileForm = this.formBuilder.group({
       userName: new FormControl(this.user.userName, Validators.compose([
-        // ValidateEmailNotTaken.createValidator(this.accountService),
-        // this.validateEmailNotTaken.bind(this),
-        // UsernameValidator.validUsername,
         Validators.maxLength(25),
         Validators.minLength(5),
         Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
         Validators.required,
         RestrictedNameValidator(/birder/i),
-        // forbiddenNameValidator1().bind(this)
-        // this.forbiddenNameValidator1()
-        // UsernameValidator1()
       ])),
       email: new FormControl(this.user.email, Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
     });
+  }
+
+
+  checkEmailNotTaken(email: string) {
+    // alert();
+    return this.http
+      .get('assets/users.json')
+      .pipe(map(res => res.json()),
+      map(users => users.filter(user => user.name === email)))
+      // map(users => !users.length));
   }
 
 

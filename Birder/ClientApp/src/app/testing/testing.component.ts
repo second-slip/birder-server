@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormControl, Validators, FormGroup, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormBuilder, FormControl, Validators, FormGroup, AbstractControl, ValidatorFn, AsyncValidator, ValidationErrors } from '@angular/forms';
 import { AccountService } from '@app/_services/account.service';
 import { AccountManagerService } from '@app/_services/account-manager.service';
 import { ManageProfileViewModel } from '@app/_models/ManageProfileViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { UsernameValidator } from 'validators';
 import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
 
@@ -31,7 +31,7 @@ export class TestingComponent implements OnInit {
       { type: 'minlength', message: 'Username must be at least 5 characters long' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       { type: 'pattern', message: 'Your username must be alphanumeric (no special characters) and must not contain spaces' },
-      { type: 'usernameNot', message: 'XXX' },
+      { type: 'notAvailable', message: 'XXX' },
       
     ],
     'email': [
@@ -137,7 +137,49 @@ export class TestingComponent implements OnInit {
 
   /** A hero's name can't match the given regular expression */
 
-
+  private validateUsernameIsAvailable2(): ValidatorFn {
+    
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const forbidden = this.validateUsernameIsAvailable7(control.value);
+      console.log(forbidden);
+      return forbidden ? {'notAvailable': {value: control.value}} : null;
+    };
+  }
+  // return this.accountService.checkValidUsername(control.value)
+  //   .subscribe(
+  //     (data: boolean) => {
+  //       return data ? { notAvailable: true } : null;
+        
+  //       // this.isUsernameAvailable = data;
+  //     },
+  //     (error: ErrorReportViewModel) => {
+  //       return null;
+  //       // this.isUsernameAvailable = false;
+  //     }
+  //   );
+//   }
+// }
+validateUsernameIsAvailable7(username: string): Observable<boolean> {
+  // return new Promise(resolve => {
+  this.accountService.checkValidUsername(username)
+    .subscribe(
+      (data: boolean) => {
+        console.log(1);
+        return Observable.of(data);
+        // if (data) { resolve(false) }
+        // else { resolve(false) }
+        // this.isUsernameAvailable = data;
+      },
+      (error: ErrorReportViewModel) => {
+        console.log(2);
+        return Observable.of(false);
+        // this.isUsernameAvailable = false;
+      }
+    );
+  // });
+  console.log(3);
+  return Observable.of(false);
+}
 
 
 }
@@ -165,6 +207,12 @@ export function forbiddenNameValidator1(): ValidatorFn {
     // return forbidden ? {'forbiddenName': {value: control.value}} : null;
     // returns either null if the control value is valid or a validation error object
   };
+}
+
+class CustomAsyncValidatorDirective implements AsyncValidator {
+  validate(control: AbstractControl): Observable<ValidationErrors|null> {
+    return of({'custom': true});
+  }
 }
 
 export function forbiddenNameValidatorHorror(nameRe: RegExp): ValidatorFn {
