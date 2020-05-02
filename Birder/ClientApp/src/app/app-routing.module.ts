@@ -31,6 +31,7 @@ import { AccountManagerAvatarComponent } from './_accountManager/account-manager
 import { AboutComponent } from './_about/about/about.component';
 import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
+import { Testing2Component } from './testing2/testing2.component';
 
 
 const routes: Routes = [
@@ -74,7 +75,7 @@ const routes: Routes = [
           { path: 'user-profile/:username', component: UserProfileComponent },
           // { path: 'account-manage', component: AccountManageComponent},
           { path: 'user-network', component: UserNetworkComponent },
-          { path: 'testing', component: TestingComponent },
+          { path: 'testing', component: Testing2Component },
           { path: 'logout', component: LogoutComponent },
         ]
       },

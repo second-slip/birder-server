@@ -16,15 +16,16 @@
         <div *ngIf="user">
           <form [formGroup]="manageProfileForm" novalidate (ngSubmit)="onSubmit(manageProfileForm.value)">
             <mat-form-field class="full-width">
-              <input matInput type="text" maxlength="25" placeholder="Username" formControlName="userName" required
-                (input)="checkUsernameIsAvailable()">
-              <mat-icon *ngIf="(isUsernameAvailable) && (manageProfileForm.get('userName').valid)" matSuffix
+              <input matInput type="text" maxlength="25" placeholder="username" formControlName="username" required>
+                <!-- (input)="checkUsernameIsAvailable()">  
+                This was old way of checking if the username is available -->
+              <mat-icon *ngIf="(manageProfileForm.get('username').valid)" matSuffix
                 color="primary" matTooltip="This username is available">check</mat-icon>
-              <mat-icon *ngIf="(!isUsernameAvailable) && (manageProfileForm.get('userName').valid)" matSuffix
+              <mat-icon *ngIf="(manageProfileForm.get('username').invalid)" matSuffix
                 color="warn" matTooltip="This username is taken">cancel</mat-icon>
-              <mat-error *ngFor="let validation of manageProfile_validation_messages.userName">
+              <mat-error *ngFor="let validation of manageProfile_validation_messages.username">
                 <mat-error class="error-message"
-                  *ngIf="manageProfileForm.get('userName').hasError(validation.type) && (manageProfileForm.get('userName').dirty || manageProfileForm.get('userName').touched)">
+                  *ngIf="manageProfileForm.get('username').hasError(validation.type) && (manageProfileForm.get('username').dirty || manageProfileForm.get('username').touched)">
                   {{validation.message}}
                 </mat-error>
               </mat-error>

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
-import { AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { AsyncValidatorFn, AbstractControl, ValidationErrors, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UsernameValidationService } from '@app/username-validation-service.service';
+import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
 
 @Component({
   selector: 'app-testing2',
@@ -10,34 +12,60 @@ import { AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/fo
 })
 export class Testing2Component implements OnInit {
 
-  constructor() { }
+  frmAsyncValidator: FormGroup;
 
-  ngOnInit(): void {
+  constructor(
+    private formBuilder: FormBuilder,
+    private usernameService: UsernameValidationService
+  ) {
+    // this.frmAsyncValidator = this.createForm();
   }
 
-  takenUsernames = [
-    'hello',
-    'world',
-    'username'
-    // ...
-  ];
-
-
-
-  checkIfUsernameExists(username: string): Observable<boolean> {
-    return of(this.takenUsernames.includes(username)).pipe(delay(1000));
+  ngOnInit() {
+    this.frmAsyncValidator = this.createForm();
   }
 
-  usernameValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.checkIfUsernameExists(control.value).pipe(
-        map(res => {
-          // if res is true, username exists, return true
-          return res ? { usernameExists: true } : { usernameExists: true };
-          // NB: Return null if there is no error
-        })
+  hasError(field: string, error: string): boolean {
+    if (error === 'any' || error === '') {
+      return (
+        this.frmAsyncValidator.controls[field].dirty &&
+        this.frmAsyncValidator.controls[field].invalid
       );
-    };
+    }
+
+    // this.frmLogin.controls[field].pending;
+
+    return (
+      this.frmAsyncValidator.controls[field].dirty &&
+      this.frmAsyncValidator.controls[field].hasError(error)
+    );
+  }
+
+  // @TODO: Touch on Perfomance
+
+  createForm(): FormGroup {
+    return this.formBuilder.group({
+      username: [
+        'chicken', {
+          validators: [Validators.maxLength(25),
+          Validators.minLength(5),
+          Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
+          Validators.required,
+          RestrictedNameValidator(/birder/i)],
+          asyncValidators: [this.usernameService.usernameValidator()],
+          updateOn: 'blur'
+        }
+      ],
+      email: [
+        // this updates on blur
+        'a@b.com',
+        {
+          validators: [Validators.required],
+          // asyncValidators: [this.usernameService.usernameValidator()],
+          updateOn: 'blur'
+        }
+      ]
+    });
   }
 
 }

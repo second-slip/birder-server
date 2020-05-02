@@ -11,6 +11,7 @@ import { first, delay, map, debounceTime } from 'rxjs/operators';
 import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
 import { HttpClient } from '@angular/common/http';
 import { pipe, Observable, of } from 'rxjs';
+import { UsernameValidationService } from '@app/username-validation-service.service';
 
 
 @Component({
@@ -30,13 +31,13 @@ export class AccountManagerProfileComponent implements OnInit {
 
 
   manageProfile_validation_messages = {
-    'userName': [
+    'username': [
       { type: 'required', message: 'Username is required' },
       { type: 'minlength', message: 'Username must be at least 5 characters long' },
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       { type: 'pattern', message: 'Your username must be alphanumeric (no special characters) and must not contain spaces' },
       { type: 'restrictedName', message: 'Username may not contain the name "birder"' },
-      // { type: 'usernameExists', message: 'XXXXXXXXXXXXX' }
+      { type: 'usernameExists', message: 'XXXXXXXXXXXXX' }
     ],
     'email': [
       { type: 'required', message: 'Email is required' },
@@ -45,33 +46,59 @@ export class AccountManagerProfileComponent implements OnInit {
   };
 
   constructor(private toast: ToastrService
-    , private http: HttpClient
-            , private formBuilder: FormBuilder
-            , private accountService: AccountService // validate username needs to be separate service...
-            , private router: Router
-            , private accountManager: AccountManagerService) { }
+    , private usernameService: UsernameValidationService
+    , private formBuilder: FormBuilder
+    , private accountService: AccountService // validate username needs to be separate service...
+    , private router: Router
+    , private accountManager: AccountManagerService) { }
 
   ngOnInit() {
     this.getUserProfile();
   }
 
-
-  createForms() {
-
-    this.manageProfileForm = this.formBuilder.group({
-      userName: new FormControl(this.user.userName, Validators.compose([
-        Validators.maxLength(25),
-        Validators.minLength(5),
-        Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
-        Validators.required,
-        RestrictedNameValidator(/birder/i),
-      ])),
-      email: new FormControl(this.user.email, Validators.compose([
-        Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-      ])),
+  createForm(): FormGroup {
+    return this.formBuilder.group({
+      username: [
+        'chicken', {
+          validators: [Validators.maxLength(25),
+          Validators.minLength(5),
+          Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
+          Validators.required,
+          RestrictedNameValidator(/birder/i)],
+          asyncValidators: [this.usernameService.usernameValidator()],
+          updateOn: 'blur'
+        }
+      ],
+      email: [
+        // this updates on blur
+        'a@b.com',
+        {
+          validators: [Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')],
+          updateOn: 'blur'
+        }
+      ]
     });
   }
+
+
+  // createForms() {
+
+  //   this.manageProfileForm = this.formBuilder.group({
+  //     userName: new FormControl(this.user.userName, Validators.compose([
+  //       Validators.maxLength(25),
+  //       Validators.minLength(5),
+  //       Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
+  //       Validators.required,
+  //       RestrictedNameValidator(/birder/i),
+  //       this.usernameService.usernameValidator()
+  //     ])),
+  //     email: new FormControl(this.user.email, Validators.compose([
+  //       Validators.required,
+  //       Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+  //     ])),
+  //   });
+  // }
 
 
   validateUsernameIsAvailable(username: string) {
@@ -87,12 +114,12 @@ export class AccountManagerProfileComponent implements OnInit {
   }
 
   checkUsernameIsAvailable(): void {
-    if (this.manageProfileForm.get('userName').value === this.user.userName) {
+    if (this.manageProfileForm.get('username').value === this.user.userName) {
       // this.isUsernameAvailable = true;
       return;
     }
-    if (this.manageProfileForm.get('userName').valid) {
-      this.validateUsernameIsAvailable(this.manageProfileForm.get('userName').value);
+    if (this.manageProfileForm.get('username').valid) {
+      this.validateUsernameIsAvailable(this.manageProfileForm.get('username').value);
     } else {
       // alert('do nothing');
     }
@@ -103,7 +130,8 @@ export class AccountManagerProfileComponent implements OnInit {
       .subscribe(
         (data: ManageProfileViewModel) => {
           this.user = data;
-          this.createForms();
+          this.manageProfileForm = this.createForm();
+          // this.createForm();
         },
         (error: ErrorReportViewModel) => {
           this.toast.error(error.friendlyMessage, 'An error occurred');
