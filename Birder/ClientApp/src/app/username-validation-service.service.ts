@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, catchError, } from 'rxjs/operators';
 import { AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpParams, HttpClient } from '@angular/common/http';
@@ -11,8 +11,7 @@ import { TokenService } from './_services/token.service';
 })
 export class UsernameValidationService {
 
-  constructor(private http: HttpClient, private token: TokenService
-    , private httpErrorHandlerService: HttpErrorHandlerService) { }
+  constructor(private http: HttpClient, private token: TokenService) { }
 
   checkIfUsernameExists(username: string): Observable<boolean | any> {
     const options = username ?
