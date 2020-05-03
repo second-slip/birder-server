@@ -19,10 +19,12 @@
               <input matInput type="text" maxlength="25" placeholder="username" formControlName="username" required>
                 <!-- (input)="checkUsernameIsAvailable()">  
                 This was old way of checking if the username is available -->
-              <mat-icon *ngIf="(manageProfileForm.get('username').valid)" matSuffix
-                color="primary" matTooltip="This username is available">check</mat-icon>
-              <mat-icon *ngIf="(manageProfileForm.get('username').invalid) && (manageProfileForm.get('username').dirty || manageProfileForm.get('username').touched)" matSuffix
-                color="warn" matTooltip="This username is taken">cancel</mat-icon>
+              <!-- <mat-spinner *ngIf="(manageProfileForm.get('username').pending)" matSuffix
+                color="primary" matTooltip="This username is available">check</mat-spinner> -->
+              <!-- <mat-icon *ngIf="(manageProfileForm.get('username').invalid) && (manageProfileForm.get('username').dirty || manageProfileForm.get('username').touched)" matSuffix
+                color="warn" matTooltip="This username is taken">cancel</mat-icon> -->
+                <p matSuffix style="display: inline;"></p>
+                <mat-spinner *ngIf="(manageProfileForm.get('username').pending)" matSuffix [diameter]="18" style="float: right; margin-left: 8px"></mat-spinner>
               <mat-error *ngFor="let validation of manageProfile_validation_messages.username">
                 <mat-error class="error-message"
                   *ngIf="manageProfileForm.get('username').hasError(validation.type) && (manageProfileForm.get('username').dirty || manageProfileForm.get('username').touched)">

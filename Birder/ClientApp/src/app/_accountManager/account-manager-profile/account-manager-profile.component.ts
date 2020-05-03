@@ -55,21 +55,21 @@ export class AccountManagerProfileComponent implements OnInit {
   createForm(): FormGroup {
     return this.formBuilder.group({
       username: [
-        [this.user.userName],
+        this.user.userName,
         {
           validators: [
             Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(25),
-          Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
-          RestrictedNameValidator(/birder/i)],
+            Validators.minLength(5),
+            Validators.maxLength(25),
+            Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // ^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$
+            RestrictedNameValidator(/birder/i)],
           asyncValidators: [this.usernameService.usernameValidator()],
           updateOn: 'blur'
         }
       ],
       email: [
         // this updates on blur
-        [this.user.email],
+        this.user.email,
         {
           validators: [Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')],
@@ -99,37 +99,12 @@ export class AccountManagerProfileComponent implements OnInit {
   // }
 
 
-  // validateUsernameIsAvailable(username: string) {
-  //   return this.accountService.checkValidUsername(username)
-  //     .subscribe(
-  //       (data: boolean) => {
-  //         this.isUsernameAvailable = data;
-  //       },
-  //       (error: ErrorReportViewModel) => {
-  //         this.isUsernameAvailable = false;
-  //       }
-  //     );
-  // }
-
-  // checkUsernameIsAvailable(): void {
-  //   if (this.manageProfileForm.get('username').value === this.user.userName) {
-  //     // this.isUsernameAvailable = true;
-  //     return;
-  //   }
-  //   if (this.manageProfileForm.get('username').valid) {
-  //     this.validateUsernameIsAvailable(this.manageProfileForm.get('username').value);
-  //   } else {
-  //     // alert('do nothing');
-  //   }
-  // }
-
   getUserProfile() {
     this.accountManager.getUserProfile()
       .subscribe(
         (data: ManageProfileViewModel) => {
           this.user = data;
-          this.manageProfileForm = this.createForm();
-          // this.createForm();
+          this.manageProfileForm = this.createForm();  // this.createForm();
         },
         (error: ErrorReportViewModel) => {
           this.toast.error(error.friendlyMessage, 'An error occurred');

@@ -55,3 +55,29 @@ export class UsernameValidationService {
   //   // using http, we simulate an internet connection by delaying it by a second
   //   return of(this.takenUsernames.includes(username)).pipe(delay(1000));
   // }
+
+  // old implementation from component:
+
+    // validateUsernameIsAvailable(username: string) {
+  //   return this.accountService.checkValidUsername(username)
+  //     .subscribe(
+  //       (data: boolean) => {
+  //         this.isUsernameAvailable = data;
+  //       },
+  //       (error: ErrorReportViewModel) => {
+  //         this.isUsernameAvailable = false;
+  //       }
+  //     );
+  // }
+
+  // checkUsernameIsAvailable(): void {
+  //   if (this.manageProfileForm.get('username').value === this.user.userName) {
+  //     // this.isUsernameAvailable = true;
+  //     return;
+  //   }
+  //   if (this.manageProfileForm.get('username').valid) {
+  //     this.validateUsernameIsAvailable(this.manageProfileForm.get('username').value);
+  //   } else {
+  //     // alert('do nothing');
+  //   }
+  // }
