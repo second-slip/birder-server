@@ -233,7 +233,7 @@ namespace Birder.Controllers
         {
             try
             {
-                if(string.IsNullOrEmpty(username))
+                if (string.IsNullOrEmpty(username))
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred in is username available.");
                     throw new ArgumentException(username, "null or empty argument was passed to GetIsUsernameAvailableAsync()");

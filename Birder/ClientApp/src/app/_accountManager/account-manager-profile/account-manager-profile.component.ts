@@ -34,7 +34,8 @@ export class AccountManagerProfileComponent implements OnInit {
       { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
       { type: 'pattern', message: 'Your username must be alphanumeric (no special characters) and must not contain spaces' },
       { type: 'restrictedName', message: 'Username may not contain the name "birder"' },
-      { type: 'usernameExists', message: 'Username is not available.  Please type another one...' }
+      { type: 'usernameExists', message: 'Username is not available.  Please type another one...' },
+      { type: 'serverError', message: 'Unable to connect to the server.  Please try again.' }
     ],
     'email': [
       { type: 'required', message: 'Email is required' },
