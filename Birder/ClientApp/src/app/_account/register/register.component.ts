@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
-import { UsernameValidator, PasswordValidator, ParentErrorStateMatcher } from '../../../validators';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { PasswordValidator, ParentErrorStateMatcher } from '../../../validators';
 import { AccountService } from '../../_services/account.service';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -59,28 +59,7 @@ export class RegisterComponent implements OnInit {
     this.userRegisterForm = this.createForm();  //this.createForms();
   }
 
-  // validateUsernameIsAvailable(username: string) {
-  //   return this.accountService.checkValidUsername(username)
-  //   .subscribe(
-  //     (data: boolean) => {
-  //       this.isUsernameAvailable = data;
-  //     },
-  //     (error: ErrorReportViewModel) => {
-  //       this.isUsernameAvailable = false;
-  //       // ToDo: Toast notification
-  //     }
-  //   );
-  // }
-
-  // checkUsernameIsAvailable(): void {
-  //   if (this.userRegisterForm.get('userName').valid) {
-  //     this.validateUsernameIsAvailable(this.userRegisterForm.get('userName').value);
-  //   } else {
-  //     // alert('do nothing');
-  //   }
-  // }
   createForm(): FormGroup {
-
     // matching passwords validation
     this.matching_passwords_group = new FormGroup({
       password: new FormControl('', Validators.compose([
@@ -108,15 +87,13 @@ export class RegisterComponent implements OnInit {
         }
       ],
       email: [
-        // this updates on blur
         '',
         {
           validators: [Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')],
           // updateOn: 'blur'
         }
-      ]
-      ,
+      ],
       matching_passwords: this.matching_passwords_group
     });
   }
