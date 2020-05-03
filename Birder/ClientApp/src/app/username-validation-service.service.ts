@@ -20,7 +20,7 @@ export class UsernameValidationService {
     return this.http.get<boolean>('api/Account/IsUsernameAvailable', options)
       .pipe(
         // catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
-        catchError(err => { return of(err); }));   
+        catchError(err => { return of(err); }));
   }
 
   usernameValidator(): AsyncValidatorFn {
@@ -34,15 +34,15 @@ export class UsernameValidationService {
           // if isUsernameAvailable is true, username is available, return null
           // if isUsernameAvailable is false, username is taken, return error
           if (isUsernameAvailable['status'] != 'ok') { return { serverError: true }; } else {
-            return isUsernameAvailable[status] == 'ok' ? null : { usernameExists: true };
+            return isUsernameAvailable ? null : { usernameExists: true };
           }
         }));
-        // (error: any) => {
-        //   console.log('hello');
-        //   alert();
-        //   return  { usernameError: true };
-        // })
-        // );
+      // (error: any) => {
+      //   console.log('hello');
+      //   alert();
+      //   return  { usernameError: true };
+      // })
+      // );
     }
   }
 }

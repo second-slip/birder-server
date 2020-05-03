@@ -134,7 +134,7 @@ export class AccountManagerProfileComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data: ManageProfileViewModel) => {
-          this.user = data;
+          this.user = data;  // why?
           this.toast.success('Please re-login', 'Your profile was changed');
           if (this.emailChanged === true) {
             this.router.navigate(['/confirm-email']);
