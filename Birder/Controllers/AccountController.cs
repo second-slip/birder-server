@@ -233,10 +233,10 @@ namespace Birder.Controllers
         {
             try
             {
-                if(username == null)
+                if(string.IsNullOrEmpty(username))
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred in is username available.");
-                    throw new ArgumentNullException(username, "null argument was passed to GetIsUsernameAvailableAsync()");
+                    throw new ArgumentException(username, "null or empty argument was passed to GetIsUsernameAvailableAsync()");
                 }
 
                 if (await _userManager.FindByNameAsync(username) != null)
