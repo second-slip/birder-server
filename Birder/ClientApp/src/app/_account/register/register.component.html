@@ -16,12 +16,15 @@
 
         <form [formGroup]="userRegisterForm" novalidate (ngSubmit)="onSubmit(userRegisterForm.value)">
           <mat-form-field class="full-width">
-            <input matInput maxlength="25" placeholder="Username" formControlName="userName" required (input)="checkUsernameIsAvailable()">
-            <mat-icon *ngIf="(isUsernameAvailable) && (userRegisterForm.get('userName').valid)" matSuffix color="primary" matTooltip="This username is available">check</mat-icon>
-            <mat-icon *ngIf="(!isUsernameAvailable) && (userRegisterForm.get('userName').valid)" matSuffix color="warn" matTooltip="This username is taken">cancel</mat-icon>
-            <mat-error *ngFor="let validation of userRegister_validation_messages.userName">
+            <input matInput maxlength="25" placeholder="username" formControlName="username" required>
+             <!-- (input)="checkUsernameIsAvailable()"> -->
+            <!-- <mat-icon *ngIf="(isUsernameAvailable) && (userRegisterForm.get('username').valid)" matSuffix color="primary" matTooltip="This username is available">check</mat-icon>
+            <mat-icon *ngIf="(!isUsernameAvailable) && (userRegisterForm.get('username').valid)" matSuffix color="warn" matTooltip="This username is taken">cancel</mat-icon> -->
+            <p matSuffix style="display: inline;"></p>
+            <mat-spinner *ngIf="(userRegisterForm.get('username').pending)" matSuffix [diameter]="18" style="float: right; margin-left: 8px"></mat-spinner>
+            <mat-error *ngFor="let validation of userRegister_validation_messages.username">
               <mat-error class="error-message"
-                *ngIf="userRegisterForm.get('userName').hasError(validation.type) && (userRegisterForm.get('userName').dirty || userRegisterForm.get('userName').touched)">
+                *ngIf="userRegisterForm.get('username').hasError(validation.type) && (userRegisterForm.get('username').dirty || userRegisterForm.get('username').touched)">
                 {{validation.message}}
               </mat-error>
             </mat-error>

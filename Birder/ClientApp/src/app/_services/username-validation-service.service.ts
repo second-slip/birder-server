@@ -30,10 +30,13 @@ export class UsernameValidationService {
       }
       return this.checkIfUsernameExists(control.value).pipe(
         map(isUsernameAvailable => {
-          console.log(isUsernameAvailable['status']);
+          // if (isUsernameAvailable['status'] !== undefined)
+          // console.log(isUsernameAvailable['status']);
           // if isUsernameAvailable is true, username is available, return null
           // if isUsernameAvailable is false, username is taken, return error
-          if (isUsernameAvailable['status'] != 'ok') { return { serverError: true }; } else {
+          // a normal response will be boolean with no status.
+          // if an error is raised it will have a response status, etc
+          if (isUsernameAvailable['status'] !== undefined) { return { serverError: true }; } else {
             return isUsernameAvailable ? null : { usernameExists: true };
           }
         }));
