@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { AsyncValidatorFn, AbstractControl, ValidationErrors, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UsernameValidationService } from '@app/username-validation-service.service';
+import { UsernameValidationService } from '@app/_services/username-validation-service.service';
 import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
 
 @Component({

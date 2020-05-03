@@ -3,8 +3,8 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, } from 'rxjs/operators';
 import { AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpParams, HttpClient } from '@angular/common/http';
-import { HttpErrorHandlerService } from './_services/http-error-handler.service';
-import { TokenService } from './_services/token.service';
+import { HttpErrorHandlerService } from './http-error-handler.service';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root'

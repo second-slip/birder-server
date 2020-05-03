@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { AccountManagerService } from '@app/_services/account-manager.service';
 import { first } from 'rxjs/operators';
 import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
-import { UsernameValidationService } from '@app/username-validation-service.service';
+import { UsernameValidationService } from '@app/_services/username-validation-service.service';
 
 
 @Component({
