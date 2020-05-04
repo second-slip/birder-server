@@ -13,9 +13,12 @@ using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestSupport.EfHelpers;
 using Xunit;
+using Xunit.Extensions.AssertExtensions;
 
 namespace Birder.Tests.Controller
 {
@@ -35,6 +38,33 @@ namespace Birder.Tests.Controller
             _mapper = mappingConfig.CreateMapper();
             _logger = new Mock<ILogger<NetworkController>>();
         }
+
+        [Fact]
+        public async Task Chicken_Fried_Rice()
+        {
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                //You have to create the database
+                //context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
+                //context.SeedDatabaseFourBooks();
+
+                context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+                context.SaveChanges();
+
+                context.ConservationStatuses.Count().ShouldEqual(1);
+
+                //ATTEMPT
+                //context.Books.First().Title = "New Title";
+                //context.SaveChanges();
+
+                ////VERIFY
+                //context.Books.First().Title.ShouldEqual("New Title");
+            }
+        }
+
 
         //[Fact]
         //public async Task PostFollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
