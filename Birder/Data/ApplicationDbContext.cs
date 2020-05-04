@@ -53,12 +53,14 @@ namespace Birder.Data
             builder.Entity<Network>()
                     .HasOne(l => l.ApplicationUser)
                     .WithMany(a => a.Followers)
-                    .HasForeignKey(l => l.ApplicationUserId);
+                    .HasForeignKey(l => l.ApplicationUserId)
+                    .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Network>()
                     .HasOne(l => l.Follower)
                     .WithMany(a => a.Following)
-                    .HasForeignKey(l => l.FollowerId);
+                    .HasForeignKey(l => l.FollowerId)
+                    .OnDelete(DeleteBehavior.NoAction);
 
 
             //builder.Entity<NotificationTemplate>().HasData(new NotificationTemplate { Id = 1, Name = "Test", Body = "HTML<>", CreatedDate = DateTime.Now, IsInactive = false });
