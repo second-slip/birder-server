@@ -283,7 +283,7 @@ namespace Birder.Tests.Controller
             controller.ModelState.AddModelError("Test", "This is a test model error");
 
             // Act
-            var result = await controller.PostUnfollowUserAsync(GetTestNetworkUserViewModel("Test User"));
+            var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel("Test User"));
 
             var modelState = controller.ModelState;
             Assert.Equal(1, modelState.ErrorCount);
@@ -327,7 +327,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.PostUnfollowUserAsync(GetTestNetworkUserViewModel(userToUnfollow));
+            var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -361,7 +361,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.PostUnfollowUserAsync(GetTestNetworkUserViewModel(userToUnfollow));
+            var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -393,7 +393,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.PostUnfollowUserAsync(GetTestNetworkUserViewModel(userToUnfollow));
+            var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -429,7 +429,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.PostUnfollowUserAsync(GetTestNetworkUserViewModel(userToUnfollow));
+            var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
@@ -460,7 +460,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.PostUnfollowUserAsync(GetTestNetworkUserViewModel(userToUnfollow));
+            var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -476,13 +476,5 @@ namespace Birder.Tests.Controller
 
         #endregion
 
-        #region Mock methods
-
-        private NetworkUserViewModel GetTestNetworkUserViewModel(string username)
-        {
-            return new NetworkUserViewModel() { UserName = username };
-        }
-
-        #endregion
     }
 }

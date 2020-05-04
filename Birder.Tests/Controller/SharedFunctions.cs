@@ -1,5 +1,6 @@
 ﻿using Birder.Data;
 using Birder.Data.Model;
+using Birder.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -80,6 +81,11 @@ namespace Birder.Tests.Controller
                     null,
                     null,
                     null);
+        }
+
+        public static NetworkUserViewModel GetTestNetworkUserViewModel(string username)
+        {
+            return new NetworkUserViewModel() { UserName = username };
         }
 
         public static Mock<SignInManager<ApplicationUser>> InitialiseMockSignInManager(Mock<UserManager<ApplicationUser>> userManager)
