@@ -200,14 +200,12 @@ namespace Birder.Migrations
                         name: "FK_Network_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Network_AspNetUsers_FollowerId",
                         column: x => x.FollowerId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -227,7 +225,6 @@ namespace Birder.Migrations
                     PopulationSize = table.Column<string>(nullable: true),
                     BtoStatusInBritain = table.Column<string>(nullable: true),
                     ThumbnailUrl = table.Column<string>(nullable: true),
-                    SongUrl = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     LastUpdateDate = table.Column<DateTime>(nullable: false),
                     ConservationStatusId = table.Column<int>(nullable: false),
@@ -243,7 +240,6 @@ namespace Birder.Migrations
                         principalColumn: "ConservationStatusId",
                         onDelete: ReferentialAction.Cascade);
                 });
-
 
             migrationBuilder.CreateTable(
                 name: "Observation",
@@ -285,15 +281,13 @@ namespace Birder.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            // Below code is for seeding the identity
-            migrationBuilder.Sql("DBCC CHECKIDENT ('Observation', RESEED, 1000)");
-
             migrationBuilder.CreateTable(
                 name: "TweetDay",
                 columns: table => new
                 {
                     TweetDayId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SongUrl = table.Column<string>(nullable: true),
                     DisplayDay = table.Column<DateTime>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     LastUpdateDate = table.Column<DateTime>(nullable: false),

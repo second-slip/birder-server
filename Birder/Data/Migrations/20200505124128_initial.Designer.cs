@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200428231740_initial")]
+    [Migration("20200505124128_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,9 +148,6 @@ namespace Birder.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PopulationSize")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SongUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Species")
@@ -325,6 +322,9 @@ namespace Birder.Migrations
                     b.Property<DateTime>("LastUpdateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("SongUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("TweetDayId");
 
                     b.HasIndex("BirdId");
@@ -477,13 +477,13 @@ namespace Birder.Migrations
                     b.HasOne("Birder.Data.Model.ApplicationUser", "ApplicationUser")
                         .WithMany("Followers")
                         .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Birder.Data.Model.ApplicationUser", "Follower")
                         .WithMany("Following")
                         .HasForeignKey("FollowerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
