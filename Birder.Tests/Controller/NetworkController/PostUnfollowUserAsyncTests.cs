@@ -18,15 +18,17 @@ using Xunit.Extensions.AssertExtensions;
 
 namespace Birder.Tests.Controller
 {
-    public class PostFollowUserAsyncTests
+    public class PostUnfollowUserAsyncTests
     {
         private readonly IMapper _mapper;
         private readonly Mock<ILogger<NetworkController>> _logger;
-        //private readonly UserManager<ApplicationUser> _userManager;
+        //private readonly UserManager<ApplicationUser> userManager;
 
-        public PostFollowUserAsyncTests()
+        public PostUnfollowUserAsyncTests()
         {
-            //_userManager = SharedFunctions.InitialiseUserManager();
+            //// remove after refactor.....
+            //userManager = SharedFunctions.InitialiseUserManager();
+            ////
             var mappingConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new BirderMappingProfile());
@@ -35,71 +37,11 @@ namespace Birder.Tests.Controller
             _logger = new Mock<ILogger<NetworkController>>();
         }
 
-        [Fact]
-        public async Task PostFollowUserAsync_ReturnsNotFound_WhenRequestingUserIsNullFromRepository()
-        {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
-
-            using (var context = new ApplicationDbContext(options))
-            {
-                //You have to create the database
-                context.CreateEmptyViaWipe();
-                context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
-
-                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-
-                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
-                context.SaveChanges();
-
-                context.Users.Count().ShouldEqual(2);
-
-                // Arrange
-
-                //*******************
-                var userManager = SharedFunctions.InitialiseUserManager(context);
-                //**********************
-
-                var mockRepo = new Mock<INetworkRepository>();
-
-                var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-                string requestingUser = "This requested user does not exist";
-
-                string userToFollow = "This requested user does not exist";
-
-                controller.ControllerContext = new ControllerContext()
-                {
-                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
-                };
-
-                // Act
-                var result = await controller.PostFollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToFollow));
-
-                // Assert
-                var objectResult = result as ObjectResult;
-                Assert.NotNull(objectResult);
-                Assert.IsType<NotFoundObjectResult>(result);
-                Assert.True(objectResult is NotFoundObjectResult);
-                Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
-                Assert.IsType<string>(objectResult.Value);
-                Assert.Equal("Requesting user not found", objectResult.Value);
-            }
-        }
-
-
-
-
-        #region Follow action tests
+        #region Unfollow action tests
 
         [Fact]
-        public async Task PostFollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
+        public async Task PostUnfollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
         {
-
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
             var mockRepo = new Mock<INetworkRepository>();
@@ -116,9 +58,8 @@ namespace Birder.Tests.Controller
             //Add model error
             controller.ModelState.AddModelError("Test", "This is a test model error");
 
-
             // Act
-            var result = await controller.PostFollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel("Test User"));
+            var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel("Test User"));
 
             var modelState = controller.ModelState;
             Assert.Equal(1, modelState.ErrorCount);
@@ -140,9 +81,8 @@ namespace Birder.Tests.Controller
         }
 
 
-
         [Fact]
-        public async Task PostFollowUserAsync_ReturnsNotFound_WhenUserToFollowIsNullFromRepository()
+        public async Task PostUnfollowUserAsync_ReturnsNotFound_WhenRequestingUserIsNullFromRepository()
         {
             var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
@@ -152,6 +92,61 @@ namespace Birder.Tests.Controller
                 context.CreateEmptyViaWipe();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();
+
+                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+
+                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+
+                context.SaveChanges();
+
+                context.Users.Count().ShouldEqual(2);
+                // Arrange
+                //*******************
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+                //**
+                var mockRepo = new Mock<INetworkRepository>();
+
+                var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+
+                string requestingUser = "This requested user does not exist";
+
+                string userToUnfollow = "This requested user does not exist";
+
+                controller.ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
+                };
+
+                // Act
+                var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
+
+                // Assert
+                var objectResult = result as ObjectResult;
+                Assert.NotNull(objectResult);
+                Assert.IsType<NotFoundObjectResult>(result);
+                Assert.True(objectResult is NotFoundObjectResult);
+                Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+                var actual = Assert.IsType<string>(objectResult.Value);
+                Assert.Equal("Requesting user not found", actual);
+            }
+        }
+
+        [Fact]
+        public async Task PostUnfollowUserAsync_ReturnsNotFound_WhenUserToFollowIsNullFromRepository()
+        {
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                //You have to create the database
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
+                //context.SeedDatabaseFourBooks();
+
+                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
                 context.Users.Add(SharedFunctions.CreateUser("testUser2"));
@@ -163,8 +158,7 @@ namespace Birder.Tests.Controller
                 // Arrange
                 //*******************
                 var userManager = SharedFunctions.InitialiseUserManager(context);
-                //**********************
-
+                //**
                 var mockRepo = new Mock<INetworkRepository>();
                 //mockRepo.Setup(x => x.GetUserAndNetworkAsync(It.IsAny<string>()))
                 //        .Returns(Task.FromResult<ApplicationUser>(null));
@@ -175,7 +169,7 @@ namespace Birder.Tests.Controller
 
                 string requestingUser = "testUser1";
 
-                string userToFollow = "This requested user does not exist";
+                string userToUnfollow = "This requested user does not exist";
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -183,7 +177,7 @@ namespace Birder.Tests.Controller
                 };
 
                 // Act
-                var result = await controller.PostFollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToFollow));
+                var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
                 // Assert
                 var objectResult = result as ObjectResult;
@@ -191,13 +185,13 @@ namespace Birder.Tests.Controller
                 Assert.IsType<NotFoundObjectResult>(result);
                 Assert.True(objectResult is NotFoundObjectResult);
                 Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
-                Assert.IsType<string>(objectResult.Value);
-                Assert.Equal("User to follow not found", objectResult.Value);
+                var actual = Assert.IsType<string>(objectResult.Value);
+                Assert.Equal("User to Unfollow not found", actual);
             }
         }
 
         [Fact]
-        public async Task PostFollowUserAsync_ReturnsBadRequest_FollowerAndToFollowAreEqual()
+        public async Task PostUnfollowUserAsync_ReturnsBadRequest_FollowerAndToFollowAreEqual()
         {
             var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
@@ -208,16 +202,19 @@ namespace Birder.Tests.Controller
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();
 
+                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
                 context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
                 context.SaveChanges();
 
                 context.Users.Count().ShouldEqual(2);
+
                 // Arrange
                 //*******************
                 var userManager = SharedFunctions.InitialiseUserManager(context);
-                //**********************
+                //**
                 var mockRepo = new Mock<INetworkRepository>();
 
                 var mockUnitOfWork = new Mock<IUnitOfWork>();
@@ -226,7 +223,7 @@ namespace Birder.Tests.Controller
 
                 string requestingUser = "testUser1";
 
-                string userToFollow = requestingUser;
+                string userToUnfollow = requestingUser;
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -234,7 +231,7 @@ namespace Birder.Tests.Controller
                 };
 
                 // Act
-                var result = await controller.PostFollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToFollow));
+                var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
                 // Assert
                 var objectResult = result as ObjectResult;
@@ -243,12 +240,12 @@ namespace Birder.Tests.Controller
                 Assert.True(objectResult is BadRequestObjectResult);
                 Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
                 var actual = Assert.IsType<string>(objectResult.Value);
-                Assert.Equal("Trying to follow yourself", actual);
+                Assert.Equal("Trying to unfollow yourself", actual);
             }
         }
 
         [Fact]
-        public async Task PostFollowUserAsync_ReturnsBadRequestWithstringObject_WhenExceptionIsRaised()
+        public async Task PostUnfollowUserAsync_ReturnsBadRequestWithstringObject_WhenExceptionIsRaised()
         {
             var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
@@ -258,6 +255,8 @@ namespace Birder.Tests.Controller
                 context.CreateEmptyViaWipe();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();
+
+                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
                 context.Users.Add(SharedFunctions.CreateUser("testUser2"));
@@ -269,7 +268,7 @@ namespace Birder.Tests.Controller
                 // Arrange
                 //*******************
                 var userManager = SharedFunctions.InitialiseUserManager(context);
-                //**********************
+                //**
                 var mockRepo = new Mock<INetworkRepository>();
                 mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
                     .Verifiable();
@@ -282,7 +281,7 @@ namespace Birder.Tests.Controller
 
                 string requestingUser = "testUser1";
 
-                string userToFollow = "testUser2";
+                string userToUnfollow = "testUser2";
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -290,17 +289,17 @@ namespace Birder.Tests.Controller
                 };
 
                 // Act
-                var result = await controller.PostFollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToFollow));
+                var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
                 // Assert
                 Assert.IsType<BadRequestObjectResult>(result);
                 var objectResult = result as ObjectResult;
-                Assert.Equal($"An error occurred trying to follow user: {userToFollow}", objectResult.Value);
+                Assert.Equal($"An error occurred trying to unfollow user: {userToUnfollow}", objectResult.Value);
             }
         }
 
         [Fact]
-        public async Task PostFollowUserAsync_ReturnsOkObject_WhenRequestIsValid()
+        public async Task PostUnfollowUserAsync_ReturnsOkObject_WhenRequestIsValid()
         {
             var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
@@ -310,6 +309,8 @@ namespace Birder.Tests.Controller
                 context.CreateEmptyViaWipe();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();
+
+                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
                 context.Users.Add(SharedFunctions.CreateUser("testUser2"));
@@ -321,7 +322,7 @@ namespace Birder.Tests.Controller
                 // Arrange
                 //*******************
                 var userManager = SharedFunctions.InitialiseUserManager(context);
-                //**********************
+                //**
                 var mockRepo = new Mock<INetworkRepository>();
                 mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
                     .Verifiable();
@@ -333,7 +334,7 @@ namespace Birder.Tests.Controller
 
                 string requestingUser = "testUser1";
 
-                string userToFollow = "testUser2";
+                string userToUnfollow = "testUser2";
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -341,7 +342,7 @@ namespace Birder.Tests.Controller
                 };
 
                 // Act
-                var result = await controller.PostFollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToFollow));
+                var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
                 // Assert
                 var objectResult = result as ObjectResult;
@@ -352,11 +353,10 @@ namespace Birder.Tests.Controller
                 Assert.IsType<NetworkUserViewModel>(objectResult.Value);
 
                 var model = objectResult.Value as NetworkUserViewModel;
-                Assert.Equal(userToFollow, model.UserName);
+                Assert.Equal(userToUnfollow, model.UserName);
             }
         }
 
         #endregion
-
     }
 }
