@@ -15,14 +15,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using TestSupport.EfHelpers;
 using Xunit;
+using Xunit.Extensions.AssertExtensions;
 
 namespace Birder.Tests.Controller
 {
     public class ObservationFeedControllerTests
     {
         private const int pageSize = 10;
-        private IMemoryCache _cache;
+        //private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly Mock<ILogger<ObservationFeedController>> _logger;
         //private readonly ISystemClockService _systemClock;
@@ -30,7 +32,7 @@ namespace Birder.Tests.Controller
 
         public ObservationFeedControllerTests()
         {
-            _cache = new MemoryCache(new MemoryCacheOptions());
+            //_cache = new MemoryCache(new MemoryCacheOptions());
             _logger = new Mock<ILogger<ObservationFeedController>>();
             var mappingConfig = new MapperConfiguration(cfg =>
             {
@@ -38,7 +40,6 @@ namespace Birder.Tests.Controller
             });
             _mapper = mappingConfig.CreateMapper();
             //_systemClock = new SystemClockService();
-
             _mockProfilePhotosService = new Mock<IBirdThumbnailPhotoService>();
         }
 
@@ -166,36 +167,53 @@ namespace Birder.Tests.Controller
         [InlineData(45)]
         public async Task GetObservationsFeedAsync_FilterOwn_ReturnsOkWithNetwork_WhenNoOwnObservations(int length)
         {
-            // Arrange
-            var requestingUsername = "Tenko";
-            var userManager = SharedFunctions.InitialiseUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.SetupSequence(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(new QueryResult<Observation>())
-                .ReturnsAsync(GetQueryResult(length));
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            var requestFilter = ObservationFeedFilter.Own;
-
-            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
-
-            controller.ControllerContext = new ControllerContext()
+            using (var context = new ApplicationDbContext(options))
             {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
-            };
+                //You have to create the database
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
 
-            // Act
-            var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-            // Assert
-            var returnFilter = ObservationFeedFilter.Network;
+                context.SaveChanges();
 
-            var objectResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
-            Assert.Equal(length, actual.TotalItems);
-            Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
-            Assert.Equal(returnFilter, actual.ReturnFilter);
+                context.Users.Count().ShouldEqual(2);
+
+                // Arrange
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+                var requestingUsername = "testUser1";
+                //var userManager = SharedFunctions.InitialiseUserManager();
+                var mockObsRepo = new Mock<IObservationRepository>();
+                mockObsRepo.SetupSequence(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                    .ReturnsAsync(new QueryResult<Observation>())
+                    .ReturnsAsync(GetQueryResult(length));
+
+                var requestFilter = ObservationFeedFilter.Own;
+
+                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+
+                controller.ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext()
+                    { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+                };
+
+                // Act
+                var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+
+                // Assert
+                var returnFilter = ObservationFeedFilter.Network;
+
+                var objectResult = Assert.IsType<OkObjectResult>(result);
+                Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+                var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
+                Assert.Equal(length, actual.TotalItems);
+                Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+                Assert.Equal(returnFilter, actual.ReturnFilter);
+            }
         }
 
         [Theory]
@@ -204,37 +222,54 @@ namespace Birder.Tests.Controller
         [InlineData(45)]
         public async Task GetObservationsFeedAsync_FilterOwn_ReturnsOkWithPublic_WhenNoOwnOrNetworkObservations(int length)
         {
-            // Arrange
-            var requestingUsername = "Tenko";
-            var userManager = SharedFunctions.InitialiseUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.SetupSequence(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(new QueryResult<Observation>())
-                .ReturnsAsync(new QueryResult<Observation>())
-                .ReturnsAsync(GetQueryResult(length));
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            var requestFilter = ObservationFeedFilter.Own;
-
-            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
-
-            controller.ControllerContext = new ControllerContext()
+            using (var context = new ApplicationDbContext(options))
             {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
-            };
+                //You have to create the database
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
 
-            // Act
-            var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-            // Assert
-            var returnFilter = ObservationFeedFilter.Public;
+                context.SaveChanges();
 
-            var objectResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
-            Assert.Equal(length, actual.TotalItems);
-            Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
-            Assert.Equal(returnFilter, actual.ReturnFilter);
+                context.Users.Count().ShouldEqual(2);
+
+                // Arrange
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+                var requestingUsername = "testUser1";
+
+                var mockObsRepo = new Mock<IObservationRepository>();
+                mockObsRepo.SetupSequence(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                    .ReturnsAsync(new QueryResult<Observation>())
+                    .ReturnsAsync(new QueryResult<Observation>())
+                    .ReturnsAsync(GetQueryResult(length));
+
+                var requestFilter = ObservationFeedFilter.Own;
+
+                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+
+                controller.ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext()
+                    { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+                };
+
+                // Act
+                var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+
+                // Assert
+                var returnFilter = ObservationFeedFilter.Public;
+
+                var objectResult = Assert.IsType<OkObjectResult>(result);
+                Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+                var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
+                Assert.Equal(length, actual.TotalItems);
+                Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+                Assert.Equal(returnFilter, actual.ReturnFilter);
+            }
         }
 
 
@@ -246,66 +281,100 @@ namespace Birder.Tests.Controller
         [Fact]
         public async Task GetObservationsFeedAsync_FilterNetwork_ReturnsNotFound_WhenUserIsNull()
         {
-            // Arrange
-            var requestingUsername = "Does not exist";
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            var userManager = SharedFunctions.InitialiseUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            //mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-            //    .Returns(Task.FromResult<QueryResult<Observation>>(null));
-
-            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
-
-            controller.ControllerContext = new ControllerContext()
+            using (var context = new ApplicationDbContext(options))
             {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
-            };
+                //You have to create the database
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
 
-            var filter = ObservationFeedFilter.Network;
+                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-            // Act
-            var result = await controller.GetObservationsFeedAsync(1, filter);
+                context.SaveChanges();
 
-            // Assert
-            string expectedMessage = "Requesting user not found";
+                context.Users.Count().ShouldEqual(2);
 
-            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
-            var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal(expectedMessage, actual);
+                // Arrange
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+                var requestingUsername = "Does not exist";
+
+
+                var mockObsRepo = new Mock<IObservationRepository>();
+                //mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                //    .Returns(Task.FromResult<QueryResult<Observation>>(null));
+
+                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+
+                controller.ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext()
+                    { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+                };
+
+                var filter = ObservationFeedFilter.Network;
+
+                // Act
+                var result = await controller.GetObservationsFeedAsync(1, filter);
+
+                // Assert
+                string expectedMessage = "Requesting user not found";
+
+                var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+                Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+                var actual = Assert.IsType<string>(objectResult.Value);
+                Assert.Equal(expectedMessage, actual);
+            }
         }
 
         [Fact]
         public async Task GetObservationsFeedAsync_FilterNetwork_ReturnsNotFound_WhenRepoReturnsNull()
         {
-            // Arrange
-            var requestingUsername = "Tenko";
-            var userManager = SharedFunctions.InitialiseUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(Task.FromResult<QueryResult<Observation>>(null));
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
-
-            controller.ControllerContext = new ControllerContext()
+            using (var context = new ApplicationDbContext(options))
             {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
-            };
+                //You have to create the database
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
 
-            var filter = ObservationFeedFilter.Network;
+                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-            // Act
-            var result = await controller.GetObservationsFeedAsync(1, filter);
+                context.SaveChanges();
 
-            // Assert
-            string expectedMessage = $"Observations not found";
+                context.Users.Count().ShouldEqual(2);
 
-            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
-            var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal(expectedMessage, actual);
+                // Arrange
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+                var requestingUsername = "testUser1";
+
+                var mockObsRepo = new Mock<IObservationRepository>();
+                mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                    .Returns(Task.FromResult<QueryResult<Observation>>(null));
+
+                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+
+                controller.ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext()
+                    { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+                };
+
+                var filter = ObservationFeedFilter.Network;
+
+                // Act
+                var result = await controller.GetObservationsFeedAsync(1, filter);
+
+                // Assert
+                string expectedMessage = $"Observations not found";
+
+                var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+                Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+                var actual = Assert.IsType<string>(objectResult.Value);
+                Assert.Equal(expectedMessage, actual);
+            }
         }
 
         [Theory]
@@ -314,36 +383,53 @@ namespace Birder.Tests.Controller
         [InlineData(45)]
         public async Task GetObservationsFeedAsync_FilterNetwork_ReturnsOkWithNetwork_OnSuccessfulRequest(int length)
         {
-            // Arrange
-            var requestingUsername = "Tenko";
-            var userManager = SharedFunctions.InitialiseUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                //.ReturnsAsync(new QueryResult<Observation>())
-                .ReturnsAsync(GetQueryResult(length));
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            var requestFilter = ObservationFeedFilter.Network;
-
-            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
-
-            controller.ControllerContext = new ControllerContext()
+            using (var context = new ApplicationDbContext(options))
             {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
-            };
+                //You have to create the database
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
 
-            // Act
-            var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-            // Assert
-            var returnFilter = ObservationFeedFilter.Network;
+                context.SaveChanges();
 
-            var objectResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
-            Assert.Equal(length, actual.TotalItems);
-            Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
-            Assert.Equal(returnFilter, actual.ReturnFilter);
+                context.Users.Count().ShouldEqual(2);
+
+                // Arrange
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+                var requestingUsername = "testUser1";
+                //var userManager = SharedFunctions.InitialiseUserManager();
+                var mockObsRepo = new Mock<IObservationRepository>();
+                mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                    //.ReturnsAsync(new QueryResult<Observation>())
+                    .ReturnsAsync(GetQueryResult(length));
+
+                var requestFilter = ObservationFeedFilter.Network;
+
+                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+
+                controller.ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext()
+                    { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+                };
+
+                // Act
+                var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+
+                // Assert
+                var returnFilter = ObservationFeedFilter.Network;
+
+                var objectResult = Assert.IsType<OkObjectResult>(result);
+                Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+                var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
+                Assert.Equal(length, actual.TotalItems);
+                Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+                Assert.Equal(returnFilter, actual.ReturnFilter);
+            }
         }
 
         [Theory]
@@ -352,36 +438,54 @@ namespace Birder.Tests.Controller
         [InlineData(31)]
         public async Task GetObservationsFeedAsync_FilterNetwork_ReturnsOkWithPublic_WhenNoNetwork(int length)
         {
-            // Arrange
-            var requestingUsername = "Tenko";
-            var userManager = SharedFunctions.InitialiseUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.SetupSequence(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(new QueryResult<Observation>())
-                .ReturnsAsync(GetQueryResult(length));
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            var requestFilter = ObservationFeedFilter.Network;
-
-            var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
-
-            controller.ControllerContext = new ControllerContext()
+            using (var context = new ApplicationDbContext(options))
             {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
-            };
+                //You have to create the database
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
 
-            // Act
-            var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-            // Assert
-            var returnFilter = ObservationFeedFilter.Public;
+                context.SaveChanges();
 
-            var objectResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
-            Assert.Equal(length, actual.TotalItems);
-            Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
-            Assert.Equal(returnFilter, actual.ReturnFilter);
+                context.Users.Count().ShouldEqual(2);
+
+                // Arrange
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+
+                var requestingUsername = "testUser1";
+                //var userManager = SharedFunctions.InitialiseUserManager();
+                var mockObsRepo = new Mock<IObservationRepository>();
+                mockObsRepo.SetupSequence(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+                    .ReturnsAsync(new QueryResult<Observation>())
+                    .ReturnsAsync(GetQueryResult(length));
+
+                var requestFilter = ObservationFeedFilter.Network;
+
+                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+
+                controller.ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext()
+                    { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+                };
+
+                // Act
+                var result = await controller.GetObservationsFeedAsync(1, requestFilter);
+
+                // Assert
+                var returnFilter = ObservationFeedFilter.Public;
+
+                var objectResult = Assert.IsType<OkObjectResult>(result);
+                Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+                var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
+                Assert.Equal(length, actual.TotalItems);
+                Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+                Assert.Equal(returnFilter, actual.ReturnFilter);
+            }
         }
 
 

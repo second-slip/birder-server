@@ -21,11 +21,9 @@ namespace Birder.Tests.Controller
     {
         private readonly IMapper _mapper;
         private readonly Mock<ILogger<UserProfileController>> _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
 
         public UserProfileControllerTests()
         {
-            _userManager = SharedFunctions.InitialiseUserManager();
             var mappingConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new BirderMappingProfile());
