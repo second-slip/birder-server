@@ -11,7 +11,7 @@ namespace Birder.Helpers
     public static class UserManagerExtensionMethods
     {
         /// <summary>
-        /// Gobble, gobble...
+        /// Returns a User with their collections of followers and following
         /// </summary>
         /// <param name="userManager"></param>
         /// <param name="username"></param>
@@ -19,7 +19,7 @@ namespace Birder.Helpers
         public static async Task<ApplicationUser> GetUserWithNetworkAsync(this UserManager<ApplicationUser> userManager, string username)
         {
             if (string.IsNullOrEmpty(username))
-                throw new NullReferenceException("The username argument is null or empty");
+                throw new ArgumentException("The argument is null or empty", "username");
 
             return await userManager.Users
                          .Include(x => x.Followers)
@@ -32,21 +32,32 @@ namespace Birder.Helpers
 
         public static async Task<IEnumerable<ApplicationUser>> GetFollowersNotFollowedAsync(this UserManager<ApplicationUser> userManager, IEnumerable<string> followersNotBeingFollowed)
         {
-            // If followersNotBeingFollowed.Count() != 0
-            //return await _dbContext.Users.Where(users => followersNotBeingFollowed.Contains(users.UserName)).ToListAsync();
+            if (followersNotBeingFollowed is null)
+                throw new ArgumentException("The argument is null or empty", "followersNotBeingFollowed");
+
             return await userManager.Users.Where(users => followersNotBeingFollowed.Contains(users.UserName)).ToListAsync();
         }
 
         public static async Task<IEnumerable<ApplicationUser>> GetSuggestedBirdersToFollowAsync(this UserManager<ApplicationUser> userManager, string username, IEnumerable<string> followingList)
         {
+            if (string.IsNullOrEmpty(username))
+                throw new ArgumentException("The argument is null or empty", "username");
+
+            if (followingList is null)
+                throw new ArgumentException("The argument is null or empty", "followingList");
             // If user is following every follower
-            //return await _dbContext.Users.Where(users => !followingList.Contains(users.UserName) && users.UserName != user.UserName).ToListAsync();
+
             return await userManager.Users.Where(users => !followingList.Contains(users.UserName) && users.UserName != username).ToListAsync();
         }
 
         public static async Task<IEnumerable<ApplicationUser>> SearchBirdersToFollowAsync(this UserManager<ApplicationUser> userManager, string searchCriterion, IEnumerable<string> followingList)
         {
-            //return await _dbContext.Users.Where(users => users.NormalizedUserName.Contains(searchCriterion.ToUpper()) && !followingList.Contains(users.UserName)).ToListAsync();
+            if (string.IsNullOrEmpty(searchCriterion))
+                throw new ArgumentException("The argument is null or empty", "searchCriterion");
+
+            if (followingList is null)
+                throw new ArgumentException("The argument is null or empty", "followingList");
+
             return await userManager.Users.Where(users => users.NormalizedUserName.Contains(searchCriterion.ToUpper()) && !followingList.Contains(users.UserName)).ToListAsync();
         }
     }
