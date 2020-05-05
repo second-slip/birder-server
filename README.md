@@ -12,6 +12,7 @@ Here's the file structure:
 
 The environment.ts file should look like this:
 
+```
 export const environment = {
     production: true,
     corsAnywhereUrl: 'https://cors-anywhere.herokuapp.com/',
@@ -21,4 +22,5 @@ export const environment = {
     cookieDomain: 'localhost',
     mapKey: ''<<<add Google Maps Api Key>>>',' 
   };
+  ```
 
