@@ -35,7 +35,7 @@ namespace Birder.Tests.Controller
             _logger = new Mock<ILogger<NetworkController>>();
         }
 
-        // -- exception test
+
         [Fact]
         public async Task GetNetworkAsync_Exception_ReturnsBadRequest()
         {
@@ -58,8 +58,6 @@ namespace Birder.Tests.Controller
                 context.Users.Count().ShouldEqual(2);
 
                 // Arrange
-
-                //*******************
                 var userManager = SharedFunctions.InitialiseUserManager(context);
                 // Arrange
                 var mockRepo = new Mock<INetworkRepository>();

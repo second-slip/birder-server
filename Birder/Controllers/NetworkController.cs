@@ -97,7 +97,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "Network");
-                return BadRequest("An error occurred");
+                return BadRequest("An unexpected error occurred");
             }
         }
 
