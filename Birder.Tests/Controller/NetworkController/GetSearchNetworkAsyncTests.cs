@@ -61,14 +61,9 @@ namespace Birder.Tests.Controller
 
                 // Arrange
                 var userManager = SharedFunctions.InitialiseUserManager(context);
-                // Arrange
                 var mockRepo = new Mock<INetworkRepository>();
-
                 var mockUnitOfWork = new Mock<IUnitOfWork>();
-
                 var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-                //string requestedUsername = "Tenko";
 
                 string requesterUsername = string.Empty;
 

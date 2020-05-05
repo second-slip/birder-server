@@ -42,7 +42,7 @@ namespace Birder.Controllers
 
                 var requestedUser = await _userManager.GetUserWithNetworkAsync(requestedUsername);
 
-                if (requestedUser == null)
+                if (requestedUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
                     return NotFound("Requested user not found");
@@ -69,7 +69,7 @@ namespace Birder.Controllers
 
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(requesterUsername);
 
-                if (requestingUser == null)
+                if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
                     return NotFound("Requesting user not found");
