@@ -59,7 +59,7 @@ namespace Birder.Tests.Controller
 
                 // Arrange
                 var userManager = SharedFunctions.InitialiseUserManager(context);
-                // Arrange
+
                 var mockRepo = new Mock<INetworkRepository>();
 
                 var mockUnitOfWork = new Mock<IUnitOfWork>();
