@@ -5,7 +5,6 @@ using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;

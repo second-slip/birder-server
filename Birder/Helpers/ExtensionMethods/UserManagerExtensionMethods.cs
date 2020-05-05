@@ -18,6 +18,9 @@ namespace Birder.Helpers
         /// <returns></returns>
         public static async Task<ApplicationUser> GetUserWithNetworkAsync(this UserManager<ApplicationUser> userManager, string username)
         {
+            if (string.IsNullOrEmpty(username))
+                throw new NullReferenceException("The username argument is null or empty");
+
             return await userManager.Users
                          .Include(x => x.Followers)
                              .ThenInclude(x => x.Follower)

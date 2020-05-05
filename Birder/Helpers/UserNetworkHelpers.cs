@@ -10,7 +10,7 @@ namespace Birder.Helpers
     {
         public static List<string> GetFollowersUserNames(ICollection<Network> followers)
         {
-            if (followers == null)
+            if (followers is null)
                 throw new NullReferenceException("The followers collection is null");
 
             return (from user in followers
@@ -19,7 +19,7 @@ namespace Birder.Helpers
 
         public static List<string> GetFollowingUserNames(ICollection<Network> following)
         {
-            if (following == null)
+            if (following is null)
                 throw new NullReferenceException("The following collection is null");
 
             return (from user in following
@@ -28,7 +28,7 @@ namespace Birder.Helpers
 
         public static IEnumerable<string> GetFollowersNotBeingFollowedUserNames(ApplicationUser loggedinUser)
         {
-            if (loggedinUser == null)
+            if (loggedinUser is null)
                 throw new NullReferenceException("The user is null");
 
             List<string> followersUsernamesList = GetFollowersUserNames(loggedinUser.Followers);
@@ -43,7 +43,7 @@ namespace Birder.Helpers
             if (string.IsNullOrEmpty(requestingUsername))
                 throw new ArgumentNullException(nameof(requestingUsername), "The requestingUsername is null");
 
-            if (requestedUsersFollowing == null)
+            if (requestedUsersFollowing is null)
                 throw new ArgumentNullException(nameof(requestedUsersFollowing), "The following collection is null");
 
             return requestedUsersFollowing.Any(cus => cus.ApplicationUser.UserName == requestingUsername);
@@ -54,7 +54,7 @@ namespace Birder.Helpers
             if(string.IsNullOrEmpty(requestingUsername))
                 throw new ArgumentNullException(nameof(requestingUsername), "The requestingUsername is null");
 
-            if(requestedUsersFollowers == null)
+            if(requestedUsersFollowers is null)
                 throw new ArgumentNullException(nameof(requestedUsersFollowers), "The followers collection is null");
 
             return requestedUsersFollowers.Any(cus => cus.Follower.UserName == requestingUsername);
@@ -63,10 +63,10 @@ namespace Birder.Helpers
 
         public static IEnumerable<FollowingViewModel> SetupFollowingCollection(ApplicationUser requestingUser, IEnumerable<FollowingViewModel> following)
         {
-            if (following == null)
+            if (following is null)
                 throw new ArgumentNullException(nameof(following), "The following collection is null");
 
-            if (requestingUser == null)
+            if (requestingUser is null)
                 throw new ArgumentNullException(nameof(requestingUser), "The requesting user is null");
 
             for (int i = 0; i < following.Count(); i++)
@@ -81,10 +81,10 @@ namespace Birder.Helpers
 
         public static IEnumerable<FollowerViewModel> SetupFollowersCollection(ApplicationUser requestingUser, IEnumerable<FollowerViewModel> followers)
         {
-            if (followers == null)
+            if (followers is null)
                 throw new ArgumentNullException(nameof(followers), "The followers collection is null");
 
-            if (requestingUser == null)
+            if (requestingUser is null)
                 throw new ArgumentNullException(nameof(requestingUser), "The requesting user is null");
 
             for (int i = 0; i < followers.Count(); i++)
