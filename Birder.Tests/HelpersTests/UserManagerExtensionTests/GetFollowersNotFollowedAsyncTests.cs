@@ -49,7 +49,7 @@ namespace Birder.Tests.HelpersTests
 
                 context.CreateEmptyViaWipe();
                 context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
+                //context.SeedDatabaseFourBooks();  // int number of users?
 
                 context.Users.Add(SharedFunctions.CreateUser(usernameToAct));
                 context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
