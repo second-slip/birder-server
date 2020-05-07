@@ -18,6 +18,7 @@ using Xunit;
 using System;
 using Xunit.Extensions.AssertExtensions;
 using TestSupport.EfHelpers;
+using Birder.TestsHelpers;
 
 namespace Birder.Tests.Controller
 {
