@@ -41,7 +41,7 @@ namespace Birder.Tests.HelpersTests
         }
 
         [Fact]
-        public async Task GetUserWithNetworkAsync_ReturnsUser_WithOneFollowerandFollowed()
+        public async Task GetUserWithNetworkAsync_ReturnsUser_WithNetwork()
         {
             var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
