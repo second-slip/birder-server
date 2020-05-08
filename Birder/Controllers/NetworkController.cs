@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.Helpers;
@@ -10,10 +6,12 @@ using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-
-
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {
@@ -89,13 +87,13 @@ namespace Birder.Controllers
                 {
                     var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
                     //var users = await _userManager.GetSuggestedBirdersToFollowAsync(requestingUser.UserName, followingUsernamesList);
-                    var users = await _userManager.GetUsersAsync(users => !followingUsernamesList.Contains(users.UserName) && users.UserName != requestingUser.UserName);
+                    var users = await _userManager.GetUsersAsync(user => !followingUsernamesList.Contains(user.UserName) && user.UserName != requestingUser.UserName);
                     return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                 }
                 else
                 {
                     //var users = await _userManager.GetFollowersNotFollowedAsync(followersNotBeingFollowed);
-                    var users = await _userManager.GetUsersAsync(users => followersNotBeingFollowed.Contains(users.UserName));
+                    var users = await _userManager.GetUsersAsync(user => followersNotBeingFollowed.Contains(user.UserName));
                     return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                 }
             }
@@ -129,7 +127,7 @@ namespace Birder.Controllers
                 followingUsernamesList.Add(requestingUser.UserName);
 
                 //var users = await _userManager.SearchBirdersToFollowAsync(searchCriterion, followingUsernamesList);
-                var users = await _userManager.GetUsersAsync(users => users.NormalizedUserName.Contains(searchCriterion.ToUpper()) && !followingUsernamesList.Contains(users.UserName));
+                var users = await _userManager.GetUsersAsync(user => user.NormalizedUserName.Contains(searchCriterion.ToUpper()) && !followingUsernamesList.Contains(user.UserName));
                 return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
             }
             catch (Exception ex)
