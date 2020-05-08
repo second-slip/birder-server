@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+
 
 namespace Birder.Helpers
 {
@@ -36,6 +38,15 @@ namespace Birder.Helpers
         /// <param name="userManager"></param>
         /// <param name="followersNotBeingFollowed"></param>
         /// <returns></returns>
+        /// 
+        // ****************** Hang On -- this just returns a list of users
+        // ****************** generic GetUsers() method with predicate!!!!
+
+        public static async Task<IEnumerable<ApplicationUser>> GetUsersAsync(this UserManager<ApplicationUser> userManager, Expression<Func<ApplicationUser, bool>> predicate)
+        {
+            return await userManager.Users.Where(predicate).ToListAsync();
+        }
+
         public static async Task<IEnumerable<ApplicationUser>> GetFollowersNotFollowedAsync(this UserManager<ApplicationUser> userManager, IEnumerable<string> followersNotBeingFollowed)
         {
             if (followersNotBeingFollowed is null)

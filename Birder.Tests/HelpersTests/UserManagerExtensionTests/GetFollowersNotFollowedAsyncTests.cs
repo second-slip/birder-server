@@ -37,7 +37,7 @@ namespace Birder.Tests.HelpersTests
         }
 
         [Fact]
-        public async Task GetFollowersNotFollowedAsync_ReturnsEmptyCollection_WithEmptyArgument()
+        public async Task GetFollowersNotFollowedAsync_EmptyCollectionArgument_ReturnsNoUsers()
         {
             var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
@@ -65,6 +65,53 @@ namespace Birder.Tests.HelpersTests
                 // Assert
                 actual.ShouldBeType<List<ApplicationUser>>();
                 actual.ShouldBeEmpty();
+            }
+        }
+
+                    [Fact]
+        public async Task GetFollowersNotFollowedAsync_OneFollowerNotFollowed_ReturnsOneUser()
+        {
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                // Arrange
+                string usernameToTest = "TestUser1";
+                string followerUsername = "TestUser2";
+
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
+                //context.SeedDatabaseFourBooks();  // int number of users?
+
+                context.Users.Add(SharedFunctions.CreateUser(usernameToTest));
+                context.Users.Add(SharedFunctions.CreateUser(followerUsername));
+                context.SaveChanges();
+                context.Users.Count().ShouldEqual(2);
+
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+
+                var userToTest = await userManager.FindByNameAsync(usernameToTest);
+                var follower = await userManager.FindByNameAsync(followerUsername);
+
+                // follower follows userToTest
+                context.Network.Add(new Network()
+                {
+                    ApplicationUser = userToTest,
+                    Follower = follower,
+                });
+
+                context.SaveChanges();
+                context.Network.Count().ShouldEqual(1);
+
+                IEnumerable<string> followersNotBeingFollowed = new List<string> { followerUsername };
+
+                // Act
+                var actual = await userManager.GetFollowersNotFollowedAsync(followersNotBeingFollowed);
+
+                // Assert
+                actual.ShouldBeType<List<ApplicationUser>>();
+                actual.Count().ShouldEqual(1);
+                actual.FirstOrDefault().UserName.ShouldEqual(followerUsername);
             }
         }
     }
