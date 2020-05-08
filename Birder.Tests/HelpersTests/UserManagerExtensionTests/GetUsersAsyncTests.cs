@@ -17,7 +17,9 @@ namespace Birder.Tests.HelpersTests
         public GetUsersAsyncTests() { }
 
 
-        #region test GetFollowersNotFollowed predicate
+        #region test with GetFollowersNotFollowed predicate
+
+        //user => followersNotBeingFollowed.Contains(user.UserName
 
         [Fact]
         public async Task GetUsersAsync_FollowersNotFollowedEmptyCollectionArgument_ReturnsNoUsers()
@@ -101,7 +103,7 @@ namespace Birder.Tests.HelpersTests
         #endregion
 
 
-        #region test GetSuggestedBirdersToFollowAsync predicate
+        #region test with SuggestedBirdersToFollow predicate
 
         //user => !followingUsernamesList.Contains(user.UserName) 
                                             // && user.UserName != requestingUser.UserName
@@ -173,8 +175,7 @@ namespace Birder.Tests.HelpersTests
         #endregion
 
 
-
-        #region test SearchBirdersToFollow predicate
+        #region test with SearchBirdersToFollow predicate
 
         //user => user.NormalizedUserName.Contains(searchCriterion.ToUpper()) 
         //&& !followingUsernamesList.Contains(user.UserName)
