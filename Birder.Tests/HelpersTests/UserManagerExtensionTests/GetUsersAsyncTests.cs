@@ -16,25 +16,6 @@ namespace Birder.Tests.HelpersTests
     {
         public GetUsersAsyncTests() { }
 
-        [Fact]
-        public async Task GetUsersAsync_ReturnsException_WhenArgumentIsNull()
-        {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
-
-            using (var context = new ApplicationDbContext(options))
-            {
-                // Arrange
-                context.CreateEmptyViaWipe();
-                context.Database.EnsureCreated();
-                //IEnumerable<string> followersNotBeingFollowed;
-
-                var userManager = SharedFunctions.InitialiseUserManager(context);
-
-                // Act & Assert
-                var ex = await Assert.ThrowsAsync<ArgumentException>(() => userManager.GetUsersAsync(null));
-                Assert.Equal("The argument is null or empty (Parameter 'predicate')", ex.Message);
-            }
-        }
 
         #region test GetFollowersNotFollowed predicate
 
@@ -46,14 +27,14 @@ namespace Birder.Tests.HelpersTests
             using (var context = new ApplicationDbContext(options))
             {
                 // Arrange
-                string usernameToAct = "TestUser1";
+                string requestingUsername = "TestUser1";
                 string usernameToFollow = "TestUser2";
 
                 context.CreateEmptyViaWipe();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
-                context.Users.Add(SharedFunctions.CreateUser(usernameToAct));
+                context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
                 context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
                 context.SaveChanges();
                 context.Users.Count().ShouldEqual(2);
@@ -78,27 +59,27 @@ namespace Birder.Tests.HelpersTests
             using (var context = new ApplicationDbContext(options))
             {
                 // Arrange
-                string usernameToTest = "TestUser1";
+                string requestingUsername = "TestUser1";
                 string followerUsername = "TestUser2";
 
                 context.CreateEmptyViaWipe();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
-                context.Users.Add(SharedFunctions.CreateUser(usernameToTest));
+                context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
                 context.Users.Add(SharedFunctions.CreateUser(followerUsername));
                 context.SaveChanges();
                 context.Users.Count().ShouldEqual(2);
 
                 var userManager = SharedFunctions.InitialiseUserManager(context);
 
-                var userToTest = await userManager.FindByNameAsync(usernameToTest);
+                var requestingUser = await userManager.FindByNameAsync(requestingUsername);
                 var follower = await userManager.FindByNameAsync(followerUsername);
 
                 // follower follows userToTest
                 context.Network.Add(new Network()
                 {
-                    ApplicationUser = userToTest,
+                    ApplicationUser = requestingUser,
                     Follower = follower,
                 });
 
@@ -118,5 +99,109 @@ namespace Birder.Tests.HelpersTests
         }
 
         #endregion
+
+
+        #region test GetSuggestedBirdersToFollowAsync predicate
+
+        //user => !followingUsernamesList.Contains(user.UserName) 
+        // && user.UserName != requestingUser.UserName
+
+        [Fact]
+        public async Task GetUsersAsync_OneSuggestedUserToFollow_ReturnsUser()
+        {
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                // Arrange
+                string requestingUsername = "TestUser1";
+                string usernameToFollow = "TestUser2";
+
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
+                //context.SeedDatabaseFourBooks();  // int number of users?
+
+                context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
+                context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
+                context.SaveChanges();
+                context.Users.Count().ShouldEqual(2);
+                IEnumerable<string> followingUsernamesList = new List<string>();
+
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+
+                // Act
+                var actual = await userManager.GetUsersAsync(user => !followingUsernamesList.Contains(user.UserName) && user.UserName != requestingUsername);
+
+                // Assert
+                actual.ShouldBeType<List<ApplicationUser>>();
+                actual.Count().ShouldEqual(1);
+            }
+        }
+
+        [Fact]
+        public async Task GetUsersAsync_NoSuggestedUserToFollow_ReturnsNoUser()
+        {
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                // Arrange
+                string requestingUsername = "TestUser1";
+                string usernameToFollow = "TestUser2";
+
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
+                //context.SeedDatabaseFourBooks();  // int number of users?
+
+                context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
+                context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
+                context.SaveChanges();
+                context.Users.Count().ShouldEqual(2);
+                IEnumerable<string> followingUsernamesList = new List<string> { usernameToFollow };
+
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+
+                // Act
+                var actual = await userManager.GetUsersAsync(user => !followingUsernamesList.Contains(user.UserName) && user.UserName != requestingUsername);
+
+                // Assert
+                actual.ShouldBeType<List<ApplicationUser>>();
+                actual.ShouldBeEmpty();
+            }
+        }
+
+        #endregion
+
+
+
+        #region test SearchBirdersToFollow predicate
+
+        //user => user.NormalizedUserName.Contains(searchCriterion.ToUpper()) 
+                                        //&& !followingUsernamesList.Contains(user.UserName)
+
+
+
+        #endregion
+
+
+        [Fact]
+        public async Task GetUsersAsync_ReturnsException_WhenArgumentIsNull()
+        {
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                // Arrange
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
+                //IEnumerable<string> followersNotBeingFollowed;
+
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+
+                // Act & Assert
+                var ex = await Assert.ThrowsAsync<ArgumentException>(() => userManager.GetUsersAsync(null));
+                Assert.Equal("The argument is null or empty (Parameter 'predicate')", ex.Message);
+            }
+        }
     }
 }

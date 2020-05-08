@@ -126,7 +126,7 @@ namespace Birder.Controllers
                 var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
                 followingUsernamesList.Add(requestingUser.UserName);
 
-                //var users = await _userManager.SearchBirdersToFollowAsync(searchCriterion, followingUsernamesList);
+                //var users = await _SearchBirdersToFollowAsync(searchCriterion, followingUsernamesList);
                 var users = await _userManager.GetUsersAsync(user => user.NormalizedUserName.Contains(searchCriterion.ToUpper()) && !followingUsernamesList.Contains(user.UserName));
                 return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
             }

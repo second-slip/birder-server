@@ -7,7 +7,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-
 namespace Birder.Helpers
 {
     public static class UserManagerExtensionMethods
@@ -33,7 +32,7 @@ namespace Birder.Helpers
         }
 
         /// <summary>
-        /// Returns a list of Users that match the supplied predicate
+        /// Returns a list of Users which match the supplied predicate
         /// </summary>
         /// <param name="userManager"></param>
         /// <param name="predicate"></param>
