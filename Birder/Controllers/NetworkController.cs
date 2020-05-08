@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+
+
 
 namespace Birder.Controllers
 {
@@ -85,12 +88,14 @@ namespace Birder.Controllers
                 if (followersNotBeingFollowed.Count() == 0)
                 {
                     var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
-                    var users = await _userManager.GetSuggestedBirdersToFollowAsync(requestingUser.UserName, followingUsernamesList);
+                    //var users = await _userManager.GetSuggestedBirdersToFollowAsync(requestingUser.UserName, followingUsernamesList);
+                    var users = await _userManager.GetUsersAsync(users => !followingUsernamesList.Contains(users.UserName) && users.UserName != requestingUser.UserName);
                     return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                 }
                 else
                 {
-                    var users = await _userManager.GetFollowersNotFollowedAsync(followersNotBeingFollowed);
+                    //var users = await _userManager.GetFollowersNotFollowedAsync(followersNotBeingFollowed);
+                    var users = await _userManager.GetUsersAsync(users => followersNotBeingFollowed.Contains(users.UserName));
                     return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                 }
             }
@@ -123,7 +128,8 @@ namespace Birder.Controllers
                 var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
                 followingUsernamesList.Add(requestingUser.UserName);
 
-                var users = await _userManager.SearchBirdersToFollowAsync(searchCriterion, followingUsernamesList);
+                //var users = await _userManager.SearchBirdersToFollowAsync(searchCriterion, followingUsernamesList);
+                var users = await _userManager.GetUsersAsync(users => users.NormalizedUserName.Contains(searchCriterion.ToUpper()) && !followingUsernamesList.Contains(users.UserName));
                 return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
             }
             catch (Exception ex)
