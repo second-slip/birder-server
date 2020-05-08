@@ -104,7 +104,7 @@ namespace Birder.Tests.HelpersTests
         #region test GetSuggestedBirdersToFollowAsync predicate
 
         //user => !followingUsernamesList.Contains(user.UserName) 
-        // && user.UserName != requestingUser.UserName
+                                            // && user.UserName != requestingUser.UserName
 
         [Fact]
         public async Task GetUsersAsync_OneSuggestedUserToFollow_ReturnsUser()
@@ -177,9 +177,79 @@ namespace Birder.Tests.HelpersTests
         #region test SearchBirdersToFollow predicate
 
         //user => user.NormalizedUserName.Contains(searchCriterion.ToUpper()) 
-                                        //&& !followingUsernamesList.Contains(user.UserName)
+        //&& !followingUsernamesList.Contains(user.UserName)
+
+        [Theory]
+        [InlineData("2")]
+        [InlineData("TestUser2")]
+        [InlineData("Test")]
+        [InlineData("User")]
+        [InlineData("")]
+        public async Task GetUsersAsync_SearchCriterion_ReturnsOneUser(string searchCriterion)
+        {
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                // Arrange
+                string requestingUsername = "TestUser1";
+                string usernameToFollow = "TestUser2";
+
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
+                //context.SeedDatabaseFourBooks();  // int number of users?
+
+                context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
+                context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
+                context.SaveChanges();
+                context.Users.Count().ShouldEqual(2);
+                IEnumerable<string> followingUsernamesList = new List<string> { requestingUsername };
+
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+
+                // Act
+                var actual = await userManager.GetUsersAsync(user => user.NormalizedUserName.Contains(searchCriterion.ToUpper()) && !followingUsernamesList.Contains(user.UserName));
+
+                // Assert
+                actual.ShouldBeType<List<ApplicationUser>>();
+                actual.Count().ShouldEqual(1);
+            }
+        }
 
 
+        [Theory]
+        [InlineData("1")]
+        [InlineData("TestUser1")]
+        public async Task GetUsersAsync_SearchCriterion_ReturnsNoUser(string searchCriterion)
+        {
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                // Arrange
+                string requestingUsername = "TestUser1";
+                string usernameToFollow = "TestUser2";
+
+                context.CreateEmptyViaWipe();
+                context.Database.EnsureCreated();
+                //context.SeedDatabaseFourBooks();  // int number of users?
+
+                context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
+                context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
+                context.SaveChanges();
+                context.Users.Count().ShouldEqual(2);
+                IEnumerable<string> followingUsernamesList = new List<string> { requestingUsername };
+
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+
+                // Act
+                var actual = await userManager.GetUsersAsync(user => user.NormalizedUserName.Contains(searchCriterion.ToUpper()) && !followingUsernamesList.Contains(user.UserName));
+
+                // Assert
+                actual.ShouldBeType<List<ApplicationUser>>();
+                actual.ShouldBeEmpty();
+            }
+        }
 
         #endregion
 
