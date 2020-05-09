@@ -12,8 +12,9 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 })
 export class UserNetworkComponent implements OnInit {
   users: NetworkUserViewModel[];
-  searchTerm: string;
+  // searchTerm: string;
   customSearch = false;
+  loading = false;
 
   constructor(private networkService: NetworkService
     , private toast: ToastrService) { }
@@ -22,13 +23,21 @@ export class UserNetworkComponent implements OnInit {
     this.getNetwork();
   }
 
-  search(): void {
-    this.searchNetwork(this.searchTerm);
-    this.customSearch = true;
-  }
+  // search(value: any): void {
+    
+  //   // console.log(value)
+  //   // alert(value.searchTerm);
+  //   this.searchNetwork(value.searchTerm);
+  //   this.customSearch = true;
+  // }
 
-  searchNetwork(searchCriterion: string): void {
-    this.networkService.getSearchNetwork(searchCriterion)
+  searchNetwork(value: any): void {
+
+    this.customSearch = true;
+    this.loading = true;
+
+
+    this.networkService.getSearchNetwork(value.searchTerm)
       .subscribe(
         (data: NetworkUserViewModel[]) => {
           this.users = data;
@@ -37,6 +46,7 @@ export class UserNetworkComponent implements OnInit {
           } else {
             this.toast.warning('No results were found', 'Search unsuccessful');
           }
+          this.loading = false;
         },
         (error: ErrorReportViewModel) => {
           if (error.type === 'client-side or network error occurred') {
@@ -44,14 +54,17 @@ export class UserNetworkComponent implements OnInit {
           } else {
             this.toast.error('Try a different search query', 'Search unsuccessful');
           }
+          this.loading = false;
         });
   }
 
   getNetwork(): void {
+    this.loading = true;
     this.networkService.getNetworkSuggestions()
       .subscribe(
         (data: NetworkUserViewModel[]) => {
           this.users = data;
+          this.loading = false;
         },
         (error: ErrorReportViewModel) => {
           this.toast.error(error.serverCustomMessage, 'An error occurred');
