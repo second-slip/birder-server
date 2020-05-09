@@ -12,9 +12,8 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 })
 export class UserNetworkComponent implements OnInit {
   users: NetworkUserViewModel[];
-  // searchTerm: string;
   customSearch = false;
-  loading = false;
+  searching = false;
 
   constructor(private networkService: NetworkService
     , private toast: ToastrService) { }
@@ -23,17 +22,9 @@ export class UserNetworkComponent implements OnInit {
     this.getNetwork();
   }
 
-  // search(value: any): void {
-    
-  //   // console.log(value)
-  //   // alert(value.searchTerm);
-  //   this.searchNetwork(value.searchTerm);
-  //   this.customSearch = true;
-  // }
-
   searchNetwork(value: any): void {
     this.customSearch = true;
-    this.loading = true;
+    this.searching = true;
 
     this.networkService.getSearchNetwork(value.searchTerm)
       .subscribe(
@@ -44,7 +35,7 @@ export class UserNetworkComponent implements OnInit {
           } else {
             this.toast.warning('No results were found', 'Search unsuccessful');
           }
-          this.loading = false;
+          this.searching = false;
         },
         (error: ErrorReportViewModel) => {
           if (error.type === 'client-side or network error occurred') {
@@ -52,17 +43,15 @@ export class UserNetworkComponent implements OnInit {
           } else {
             this.toast.error('Try a different search query', 'Search unsuccessful');
           }
-          this.loading = false;
+          this.searching = false;
         });
   }
 
   getNetwork(): void {
-    this.loading = true;
     this.networkService.getNetworkSuggestions()
       .subscribe(
         (data: NetworkUserViewModel[]) => {
           this.users = data;
-          this.loading = false;
         },
         (error: ErrorReportViewModel) => {
           this.toast.error(error.serverCustomMessage, 'An error occurred');
