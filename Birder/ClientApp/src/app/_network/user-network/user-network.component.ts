@@ -32,10 +32,8 @@ export class UserNetworkComponent implements OnInit {
   // }
 
   searchNetwork(value: any): void {
-
     this.customSearch = true;
     this.loading = true;
-
 
     this.networkService.getSearchNetwork(value.searchTerm)
       .subscribe(

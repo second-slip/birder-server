@@ -1,17 +1,19 @@
 <div class="container">
   <h3>Build your Birder network</h3>
 
-
-  <form id="searchForm" class="form-inline" novalidate #searchForm="ngForm" (ngSubmit)="searchNetwork(searchForm.value)">
-    <!-- <div class="form-group">
-      <label class="sr-only">Email</label>
-      <p class="form-control-static">email@example.com</p>
-    </div> -->
+  <form id="searchForm" class="form-inline" novalidate #searchForm="ngForm"
+    (ngSubmit)="searchNetwork(searchForm.value)">
     <div class="form-group mx-sm-3">
       <label for="search" class="sr-only">Password</label>
       <input type="text" class="form-control" id="search" name="searchTerm" placeholder="Search" ngModel required>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!searchForm.valid">Search the Birder network</button>
+    <button *ngIf="(!loading && !customSearch)" type="submit" class="btn btn-primary"
+      [disabled]="!searchForm.valid">Search the Birder
+      network</button>
+    <button *ngIf="(loading) && (customSearch)" class="btn btn-primary" type="submit" disabled>
+      Searching the Birder network
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    </button>
   </form>
 
   <!-- <div>
