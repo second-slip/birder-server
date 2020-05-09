@@ -17,7 +17,7 @@ namespace Birder.Tests.HelpersTests
         public GetUsersAsyncTests() { }
 
 
-        #region test with GetFollowersNotFollowed predicate
+        #region test with FollowersNotFollowed predicate
 
         //user => followersNotBeingFollowed.Contains(user.UserName
 

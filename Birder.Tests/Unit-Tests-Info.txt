@@ -1,0 +1,4 @@
+﻿
+
+Migrations could break unit tests which rely on TestSupport.EfHelpers.
+Hover over the context.Database.EnsureCreated() method for info

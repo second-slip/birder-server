@@ -15,7 +15,7 @@ namespace Birder.Helpers
         /// Returns a User with their collections of followers and following
         /// </summary>
         /// <param name="userManager"></param>
-        /// <param name=nameof(username)></param>
+        /// <param name="username"></param>
         /// <returns></returns>
         public static async Task<ApplicationUser> GetUserWithNetworkAsync(this UserManager<ApplicationUser> userManager, string username)
         {
