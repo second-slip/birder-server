@@ -22,6 +22,17 @@ export class UserNetworkComponent implements OnInit {
     this.getNetwork();
   }
 
+  getNetwork(): void {
+    this.networkService.getNetworkSuggestions()
+      .subscribe(
+        (data: NetworkUserViewModel[]) => {
+          this.users = data;
+        },
+        (error: ErrorReportViewModel) => {
+          this.toast.error(error.serverCustomMessage, 'An error occurred');
+        });
+  }
+
   searchNetwork(value: any): void {
     this.customSearch = true;
     this.searching = true;
@@ -44,17 +55,6 @@ export class UserNetworkComponent implements OnInit {
             this.toast.error('Try a different search query', 'Search unsuccessful');
           }
           this.searching = false;
-        });
-  }
-
-  getNetwork(): void {
-    this.networkService.getNetworkSuggestions()
-      .subscribe(
-        (data: NetworkUserViewModel[]) => {
-          this.users = data;
-        },
-        (error: ErrorReportViewModel) => {
-          this.toast.error(error.serverCustomMessage, 'An error occurred');
         });
   }
 
