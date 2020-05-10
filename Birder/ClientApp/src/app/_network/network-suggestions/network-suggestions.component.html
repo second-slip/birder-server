@@ -1,1 +1,28 @@
-<p>network-suggestions works!</p>
+<div *ngIf="users; else loading">
+    <h5>Suggested Birders to follow</h5>
+
+
+    <ng-container *ngIf="users.length; else noItems">
+        <div *ngFor="let user of users">
+            <div class="flex-container network-list">
+                <img class="avatar" src="{{user.avatar}}">
+                <a class="avatar-title" routerLink="/user-profile/{{user.userName}}">{{user.userName}}</a>
+                <div><button class="btn btn-link btn-sm" (click)="followOrUnfollow($event.target, user)">
+                        {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #noItems>
+        <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+            There are no suggestions at this time...
+        </ngb-alert>
+    </ng-template>
+</div>
+
+<ng-template #loading>
+    <div class="loading">
+        <p><em>Loading...</em></p>
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

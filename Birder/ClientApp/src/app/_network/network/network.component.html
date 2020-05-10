@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="container" *ngIf="network">
     <h3>Build your Birder network</h3>
 
 
@@ -67,6 +67,8 @@
       <a ngbNavLink>Suggestions</a>
       <ng-template ngbNavContent let-active>
         <ng-container> 
+
+          <app-network-suggestions></app-network-suggestions>
             
         <!-- </ng-container> *ngIf="tabstatus['3'] === true"> -->
           <!-- <app-user-observations-list [username]="this.userProfile.userName"></app-user-observations-list> -->
