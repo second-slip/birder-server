@@ -84,6 +84,10 @@ import { UserObservationsListComponent } from './_sharedComponents/user-observat
 import { BirdObservationsListComponent } from './_sharedComponents/bird-observations-list/bird-observations-list.component';
 import { BirdsVoiceComponent } from './_birds/birds-voice/birds-voice.component';
 import { Testing2Component } from './testing2/testing2.component';
+import { NetworkSearchComponent } from './_network/network-search/network-search.component';
+import { NetworkSuggestionsComponent } from './_network/network-suggestions/network-suggestions.component';
+import { NetworkComponent } from './_network/network/network.component';
+import { NetworkUserComponent } from './_network/network-user/network-user.component';
 // import { UsernameValidator } from 'validators';
 
 
@@ -175,6 +179,10 @@ export function tokenGetter() {
     BirdObservationsListComponent,
     BirdsVoiceComponent,
     Testing2Component,
+    NetworkSearchComponent,
+    NetworkSuggestionsComponent,
+    NetworkComponent,
+    NetworkUserComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

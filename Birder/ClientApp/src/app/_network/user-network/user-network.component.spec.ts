@@ -61,7 +61,6 @@ describe('UserNetworkComponent', () => {
 
       // Assert
       expect(component).toBeTruthy();
-      // expect(component.totalItems).toBe(2);
       expect(component.users.length).toBe(3);
       expect(component.users[0].userName === '1').toBeTrue();
     });
