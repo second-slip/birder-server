@@ -14,7 +14,7 @@ import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 })
 export class NetworkComponent implements OnInit {
   network: UserNetworkDto;
-  subscription: Subscription;
+  subscription;
   tabstatus = {};
   active;
   
@@ -64,7 +64,7 @@ export class NetworkComponent implements OnInit {
       } else {
         this.networkService.postUnfollowUser(user)
           .subscribe(
-            (data: NetworkUserViewModel) => { // _______________________
+            (data: NetworkUserViewModel) => {
               this.toast.info('You have unfollowed ' + data.userName, 'Success');
             },
             (error: ErrorReportViewModel) => {
