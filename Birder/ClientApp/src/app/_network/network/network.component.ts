@@ -54,23 +54,21 @@ export class NetworkComponent implements OnInit {
       if (action === 'Follow') {
         this.networkService.postFollowUser(user)
           .subscribe(
-            (data: NetworkUserViewModel) => { // _______________________
-              // this.getUser(); // obsolete due to event subsciption
-              // element.innerText = 'Unfollow';
+            (data: NetworkUserViewModel) => {
+              this.toast.info('You are now following ' + data.userName, 'Success');
             },
             (error: ErrorReportViewModel) => {
-              console.log(error);
+              this.toast.error(error.serverCustomMessage, 'An error occurred');
             });
         return;
       } else {
         this.networkService.postUnfollowUser(user)
           .subscribe(
             (data: NetworkUserViewModel) => { // _______________________
-              // this.getUser(); // obsolete due to event subsciption
-              // element.innerText = 'Follow';
+              this.toast.info('You have unfollowed ' + data.userName, 'Success');
             },
             (error: ErrorReportViewModel) => {
-              console.log(error);
+              this.toast.error(error.serverCustomMessage, 'An error occurred');
             });
         return;
       }

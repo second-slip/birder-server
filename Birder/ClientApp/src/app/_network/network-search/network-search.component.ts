@@ -67,7 +67,6 @@ export class NetworkSearchComponent {
             element.innerText = 'Follow';
           },
           (error: ErrorReportViewModel) => {
-            console.log(error);
             this.toast.error(error.serverCustomMessage, 'An error occurred');
           });
       return;
