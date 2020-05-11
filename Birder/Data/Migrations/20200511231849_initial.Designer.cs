@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200505124128_initial")]
+    [Migration("20200511231849_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -190,6 +190,53 @@ namespace Birder.Migrations
                     b.HasKey("ConservationStatusId");
 
                     b.ToTable("ConservationStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            ConservationStatusId = 1,
+                            ConservationList = "Red",
+                            ConservationListColourCode = "Red",
+                            CreationDate = new DateTime(2020, 5, 12, 0, 18, 49, 336, DateTimeKind.Local).AddTicks(9609),
+                            Description = "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.",
+                            LastUpdateDate = new DateTime(2020, 5, 12, 0, 18, 49, 340, DateTimeKind.Local).AddTicks(1049)
+                        },
+                        new
+                        {
+                            ConservationStatusId = 2,
+                            ConservationList = "Amber",
+                            ConservationListColourCode = "Yellow",
+                            CreationDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8261),
+                            Description = "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.",
+                            LastUpdateDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8321)
+                        },
+                        new
+                        {
+                            ConservationStatusId = 3,
+                            ConservationList = "Green",
+                            ConservationListColourCode = "Green",
+                            CreationDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8385),
+                            Description = "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.",
+                            LastUpdateDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8392)
+                        },
+                        new
+                        {
+                            ConservationStatusId = 4,
+                            ConservationList = "Former breeder",
+                            ConservationListColourCode = "Black",
+                            CreationDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8425),
+                            Description = "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.",
+                            LastUpdateDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8431)
+                        },
+                        new
+                        {
+                            ConservationStatusId = 5,
+                            ConservationList = "Not assessed",
+                            ConservationListColourCode = "Black",
+                            CreationDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8461),
+                            Description = "This species was not assessed in the UK Birds of Conservation Concern 4.",
+                            LastUpdateDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8467)
+                        });
                 });
 
             modelBuilder.Entity("Birder.Data.Model.Network", b =>

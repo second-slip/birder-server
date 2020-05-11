@@ -1,6 +1,7 @@
 ﻿using Birder.Data.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Birder.Data
 {
@@ -61,6 +62,56 @@ namespace Birder.Data
                     .WithMany(a => a.Following)
                     .HasForeignKey(l => l.FollowerId)
                     .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<ConservationStatus>().HasData(new ConservationStatus
+            {
+                ConservationStatusId = 1,
+                ConservationList = "Red",
+                ConservationListColourCode = "Red",
+                Description = "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.",
+                CreationDate = DateTime.Now,
+                LastUpdateDate = DateTime.Now
+            });
+
+            builder.Entity<ConservationStatus>().HasData(new ConservationStatus
+            {
+                ConservationStatusId = 2,
+                ConservationList = "Amber",
+                ConservationListColourCode = "Yellow",
+                Description = "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.",
+                CreationDate = DateTime.Now,
+                LastUpdateDate = DateTime.Now
+            });
+
+            builder.Entity<ConservationStatus>().HasData(new ConservationStatus
+            {
+                ConservationStatusId = 3,
+                ConservationList = "Green",
+                ConservationListColourCode = "Green",
+                Description = "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.",
+                CreationDate = DateTime.Now,
+                LastUpdateDate = DateTime.Now
+            });
+
+            builder.Entity<ConservationStatus>().HasData(new ConservationStatus
+            {
+                ConservationStatusId = 4,
+                ConservationList = "Former breeder",
+                ConservationListColourCode = "Black",
+                Description = "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.",
+                CreationDate = DateTime.Now,
+                LastUpdateDate = DateTime.Now
+            });
+
+            builder.Entity<ConservationStatus>().HasData(new ConservationStatus
+            {
+                ConservationStatusId = 5,
+                ConservationList = "Not assessed",
+                ConservationListColourCode = "Black",
+                Description = "This species was not assessed in the UK Birds of Conservation Concern 4.",
+                CreationDate = DateTime.Now,
+                LastUpdateDate = DateTime.Now
+            });
 
 
             //builder.Entity<NotificationTemplate>().HasData(new NotificationTemplate { Id = 1, Name = "Test", Body = "HTML<>", CreatedDate = DateTime.Now, IsInactive = false });
