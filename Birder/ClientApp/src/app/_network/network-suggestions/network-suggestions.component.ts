@@ -30,6 +30,7 @@ export class NetworkSuggestionsComponent implements OnInit {
         });
   }
 
+  // This is repeated in several places.  Factor into its own component...
   followOrUnfollow(element, user: NetworkUserViewModel): void {
     const action = element.innerText;
 
