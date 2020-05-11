@@ -13,9 +13,6 @@ import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
   encapsulation: ViewEncapsulation.None
 })
 export class NetworkComponent implements OnInit {
-  // *********************
-    // => disable network info???
-  // *********************
   network: UserNetworkDto;
   subscription: Subscription;
   tabstatus = {};
@@ -23,7 +20,6 @@ export class NetworkComponent implements OnInit {
   
   constructor(private networkService: NetworkService
     , private toast: ToastrService) { }
-
 
     ngOnInit() {
       this.active = 1;
@@ -51,6 +47,7 @@ export class NetworkComponent implements OnInit {
           });
     }
 
+    // This is repeated in several places.  Factor into its own component...
     followOrUnfollow(element, user: NetworkUserViewModel): void {
       const action = element.innerText;
   
