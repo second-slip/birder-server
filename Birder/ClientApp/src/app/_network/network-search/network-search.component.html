@@ -1,1 +1,36 @@
-<p>network-search works!</p>
+
+<div class="container">
+  
+    <form id="searchForm" class="form-inline" novalidate #searchForm="ngForm"
+      (ngSubmit)="searchNetwork(searchForm.value)">
+      <div class="form-group mx-sm-3">
+        <label for="search" class="sr-only">Password</label>
+        <input type="text" class="form-control" id="search" name="searchTerm" placeholder="type search criterion" ngModel
+          required>
+      </div>
+      <button *ngIf="(!searching)" type="submit" class="btn btn-primary" [disabled]="!searchForm.valid">Search the Birder
+        network</button>
+      <button *ngIf="(searching)" class="btn btn-primary" type="submit" disabled>
+        Searching the Birder network
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      </button>
+    </form>
+  
+    <hr>
+
+    <div class="container" *ngIf="users">
+        <h5>Search results</h5>
+    
+        <div *ngFor="let user of users">
+          <div class="flex-container network-list">
+            <img class="avatar" src="{{user.avatar}}">
+            <a class="avatar-title" routerLink="/user-profile/{{user.userName}}">{{user.userName}}</a>
+            <div><button class="btn btn-link btn-sm" (click)="followOrUnfollow($event.target, user)">
+                {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+          </div>
+        </div>
+    
+        <p *ngIf="users.length == 0">We found no search results</p>
+    
+      </div>
+</div>

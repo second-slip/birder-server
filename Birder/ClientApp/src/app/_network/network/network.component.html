@@ -76,9 +76,11 @@
       </ng-template>
     </li>
 
-    <li [ngbNavItem]="4" [destroyOnHide]="false">
+    <li [ngbNavItem]="4" [destroyOnHide]="true">
       <a ngbNavLink>Search</a>
       <ng-template ngbNavContent>
+
+        <app-network-search></app-network-search>
         <!-- <ng-container *ngIf="tabstatus['3'] === true"> -->
         <!-- <app-bird-observations-list [birdId]="this.bird.birdId"></app-bird-observations-list> -->
         <!-- </ng-container> -->
