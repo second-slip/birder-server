@@ -5,7 +5,8 @@ import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { NetworkService } from '@app/_services/network.service';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 describe('NetworkSuggestionsComponent', () => {
   let component: NetworkSuggestionsComponent;
@@ -14,6 +15,7 @@ describe('NetworkSuggestionsComponent', () => {
   let mockNetworkService;
   let mockToastr;
   let suggestedUsers: NetworkUserViewModel[];
+  let mockError: ErrorReportViewModel;
   
 
   beforeEach(async(() => {
@@ -60,8 +62,34 @@ describe('NetworkSuggestionsComponent', () => {
       expect(component).toBeTruthy();
       expect(component.users.length).toBe(3);
       expect(component.users[0].userName === '1').toBeTrue();
-    });
+    });  
 
   });
+
+  describe('error returned by service', () => {
+
+    it('it should return ErrorReportViewModel and show toastr error', () => {
+      // Arrange
+      mockError = {
+        message: '', 
+        type: 'string',
+        errorNumber: 404,
+        serverCustomMessage: 'custom message',
+        friendlyMessage: 'string',
+        modelStateErrors: []
+      }
+      
+      mockNetworkService.getNetworkSuggestions.and.returnValue(throwError(mockError));
+
+      // Act or change
+      component.getNetwork();
+
+      // Assert
+      expect(component).toBeTruthy();
+      expect(mockNetworkService.getNetworkSuggestions).toHaveBeenCalled();
+      expect(mockToastr.error).toHaveBeenCalledWith(mockError.serverCustomMessage, 'An error occurred');
+      expect(component).toBeTruthy();
+    });
+  })
     
 });
