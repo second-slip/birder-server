@@ -1,4 +1,4 @@
-<div *ngIf="!isLoading; else loading">
+<div *ngIf="!requesting; else loading">
   <ng-container *ngIf="tweet; else noItem">
     <div class="container">
       <h4>Tweet of the Day</h4>

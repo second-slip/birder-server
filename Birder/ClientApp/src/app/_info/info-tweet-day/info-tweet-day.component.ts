@@ -11,8 +11,7 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 })
 export class InfoTweetDayComponent implements OnInit {
   tweet: TweetDay;
-  // error = false;
-  isLoading: boolean;
+  requesting: boolean;
 
   constructor(private tweetsService: TweetsService) { }
 
@@ -21,19 +20,16 @@ export class InfoTweetDayComponent implements OnInit {
   }
 
   getTweetOfTheDay(): void {
-    this.isLoading = true;
+    this.requesting = true;
     this.tweetsService.getTweetDay()
       .subscribe(
         (data: TweetDay) => {
           this.tweet = data;
-          this.isLoading = false;
+          this.requesting = false;
         },
         (error: ErrorReportViewModel) => {
-          console.log(error);
-          // this.error = true;
-          this.isLoading = false
-          // alert('error...');
-          // ToDo: Something with the error (perhaps show a message)
+          // console.log(error);
+          this.requesting = false
         }
       );
   }
