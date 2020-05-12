@@ -14,6 +14,7 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 export class InfoObservationCountComponent implements OnInit {
   analysis: ObservationAnalysisViewModel;
   subscription: Subscription;
+  requesting: boolean;
 
   constructor(private observationService: ObservationService
             , private observationsAnalysisService: ObservationsAnalysisService) { }
@@ -32,13 +33,16 @@ export class InfoObservationCountComponent implements OnInit {
   }
 
   getObservationAnalysis(): void {
+    this.requesting = true;
     this.observationsAnalysisService.getObservationAnalysis()
       .subscribe(
         (data: ObservationAnalysisViewModel) => {
           this.analysis = data;
+          this.requesting = false;
         },
         (error: ErrorReportViewModel) => {
-          console.log(error);
+          // console.log(error);
+          this.requesting = false;
           // ToDo: Something with the error (perhaps show a message)
         }
       );

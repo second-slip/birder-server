@@ -1,22 +1,39 @@
-<div class="container">
+<div *ngIf="!requesting; else loading">
+    <ng-container *ngIf="analysis && analysis.totalObservationsCount > 0; else zeroCount">
+        <div class="container">
+            <h3><small>You have spotted </small> {{analysis.uniqueSpeciesCount}} <small> bird species <br>in</small>
+                {{analysis.totalObservationsCount}} <small>
+                    {{ analysis.totalObservationsCount > 1 ? 'observations' : 'observation' }} </small></h3>
+        </div>
+    </ng-container>
 
-    <div *ngIf="!analysis" class="loading">
+    <ng-template #zeroCount>
+        <ng-container *ngIf="analysis && analysis.totalObservationsCount === 0; else error">
+            <div class="container">
+                <p>You have not logged an observation yet. <br>
+                    <a routerLink="/observation-add">Click here</a> to log your first sighting.</p>
+            </div>
+        </ng-container>
+    </ng-template>
+
+
+    <ng-template #error>
+        <!-- <ng-container *ngIf="error; else loading"> -->
+        <div class="container">
+            <p class="hello">
+                <ngb-alert [dismissible]="false">
+                    <strong>We're sorry!</strong> The data are not available
+                </ngb-alert>
+            </p>
+        </div>
+        <!-- </ng-container> -->
+    </ng-template>
+
+</div>
+
+<ng-template #loading>
+    <div class="container">
         <p><em>Loading...</em></p>
         <mat-spinner style="margin:0 auto;"></mat-spinner>
     </div>
-
-    <div *ngIf="analysis.totalObservationsCount > 0">
-
-        <h3><small>You have spotted </small> {{analysis.uniqueSpeciesCount}} <small> bird species <br>in</small>
-            {{analysis.totalObservationsCount}} <small>
-                {{ analysis.totalObservationsCount > 1 ? 'observations' : 'observation' }} </small></h3>
-
-    </div>
-
-    <div *ngIf="analysis.totalObservationsCount === 0">
-
-        <h3>poop</h3>
-
-    </div>
-
-</div>
+</ng-template>
