@@ -1,10 +1,13 @@
 app-info-observation-count {
-  
-text-align: center;
-background: #dce513;
+  // text-align: center;
+  //background: #dce513;
   //padding: 10px;
   // margin: 10px;
-border-radius: 10px;
-    
+  //border-radius: 10px;
 
+  .container {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 }
