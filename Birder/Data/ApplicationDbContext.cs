@@ -23,10 +23,8 @@ namespace Birder.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            // New method for adding iniital data
-            //builder.Entity<NotificationTemplate>().HasData(new NotificationTemplate { Id = 1, Name = "Test", Body = "HTML<>", CreatedDate = DateTime.Now, IsInactive = false });
-
             base.OnModelCreating(builder);
+
             builder.Entity<Observation>().ToTable("Observation");
             builder.Entity<Bird>().ToTable("Bird");
             builder.Entity<ConservationStatus>().ToTable("ConservationStatus");
@@ -114,13 +112,6 @@ namespace Birder.Data
             });
 
 
-            //builder.Entity<NotificationTemplate>().HasData(new NotificationTemplate { Id = 1, Name = "Test", Body = "HTML<>", CreatedDate = DateTime.Now, IsInactive = false });
-
-            //builder.Entity<ConserverationStatus>().HasData(new ConserverationStatus { ConserverationStatusId = 1, ConservationStatus = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-            //builder.Entity<ConserverationStatus>().HasData(new ConserverationStatus { ConserverationStatusId = 2, ConservationStatus = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-            //builder.Entity<ConserverationStatus>().HasData(new ConserverationStatus { ConserverationStatusId = 3, ConservationStatus = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-
-            //builder.Entity<Bird>().HasData(new Bird {  });
             // Note on first migration to change cascade delete in migration file to 'NoAction'
 
             //migrationBuilder.CreateTable(

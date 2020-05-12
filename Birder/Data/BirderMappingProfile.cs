@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Birder.Controllers;
 using Birder.Data.Model;
 using Birder.ViewModels;
 using System.Collections.Generic;
