@@ -11,6 +11,7 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 })
 export class InfoTweetDayComponent implements OnInit {
   tweet: TweetDay;
+  error = false;
 
   constructor(private tweetsService: TweetsService) { }
 
@@ -26,6 +27,8 @@ export class InfoTweetDayComponent implements OnInit {
         },
         (error: ErrorReportViewModel) => {
           console.log(error);
+          this.error = true;
+          // alert('error...');
           // ToDo: Something with the error (perhaps show a message)
         }
       );

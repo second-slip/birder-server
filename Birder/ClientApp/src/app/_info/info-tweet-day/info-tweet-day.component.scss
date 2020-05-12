@@ -1,8 +1,17 @@
 app-info-tweet-day {
     text-align: center;
-}
 
-.bird {
-    display: block;
-    line-height: 0%;
+    .container {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .bird {
+        display: block;
+        line-height: 0%;
+    }
+
+    .loading {
+        text-align: center;
+    }
 }

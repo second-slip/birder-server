@@ -1,12 +1,5 @@
-<div class="container">
-
-  <div *ngIf="!tweet" class="loading">
-    <p><em>Loading...</em></p>
-    <mat-spinner></mat-spinner>
-  </div>
-
-  <div *ngIf="tweet">
-    <div class="title">
+<ng-container *ngIf="tweet; else error">
+  <!-- <div class="container">
       <h4>Tweet of the Day</h4>
       <span class="bird">
         <h4><a routerLink="/birds-detail/{{tweet.bird.birdId}}">
@@ -22,4 +15,25 @@
         Your browser does not support the audio element.
       </audio>
     </div>
+  </div> -->
+</ng-container>
+
+<ng-template #error>
+    <ng-container *ngIf="error; else loading">
+      <div class="container">
+        <h4>Tweet of the Day</h4>
+        <p class="hello">
+          <ngb-alert [dismissible]="false">
+            <strong>We're sorry!</strong> The tweet is not available...
+          </ngb-alert>
+        </p>
+      </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #loading>
+  <div class="container">
+    <p><em>Loading...</em></p>
+    <mat-spinner style="margin:0 auto;"></mat-spinner>
   </div>
+</ng-template>
