@@ -45,7 +45,7 @@ namespace Birder.Controllers
             {
                 var username = User.Identity.Name;
 
-                if (username is null)
+                if (string.IsNullOrEmpty(username))
                 {
                     return Unauthorized();
                 }

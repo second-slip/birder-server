@@ -1,5 +1,6 @@
 ﻿using Birder.Data.Model;
 using Birder.Helpers;
+using Birder.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -122,6 +123,9 @@ namespace Birder.Data.Repository
                     .ThenInclude(t => t.Tag)
                         .SingleOrDefaultAsync(m => m.ObservationId == id);
         }
+
+
+
 
         //public async Task<bool> ObservationExists(int id)
         //{

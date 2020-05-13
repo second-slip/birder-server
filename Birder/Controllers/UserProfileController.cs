@@ -32,6 +32,8 @@ namespace Birder.Controllers
         [HttpGet] //, Route("GetUserProfile")]
         public async Task<IActionResult> GetUserProfileAsync(string requestedUsername)
         {
+            // add properties for no. of species /observations
+            // bild new query object
             try
             {
                 if (string.IsNullOrEmpty(requestedUsername))
