@@ -31,9 +31,9 @@ namespace Birder.Tests.Repository
                 context.Database.OpenConnection();
                 context.Database.EnsureCreated();
 
-                context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
                 for (int i = 1; i < 30; i++)
                 {
@@ -88,9 +88,9 @@ namespace Birder.Tests.Repository
                 context.Database.OpenConnection();
                 context.Database.EnsureCreated();
 
-                context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
                 for (int i = 1; i < 30; i++)
                 {
@@ -142,9 +142,9 @@ namespace Birder.Tests.Repository
                 context.Database.OpenConnection();
                 context.Database.EnsureCreated();
 
-                context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
                 for (int i = 1; i < 30; i++)
                 {
