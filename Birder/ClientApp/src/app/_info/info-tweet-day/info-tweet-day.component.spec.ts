@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InfoTweetDayComponent } from './info-tweet-day.component';
 import { TweetsService } from '@app/_services/tweets.service';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { TweetDay } from '@app/_models/TweetDay';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 describe('InfoTweetDayComponent', () => {
   let component: InfoTweetDayComponent;
@@ -12,6 +13,7 @@ describe('InfoTweetDayComponent', () => {
   let mockTweetsService;
   let mockTweet: TweetDay;
   let mockBird: BirdSummaryViewModel;
+  let mockError: ErrorReportViewModel
 
   beforeEach(async(() => {
     mockTweetsService = jasmine.createSpyObj(['getTweetDay']);
@@ -35,7 +37,7 @@ describe('InfoTweetDayComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('loads tweet on creation', () => {
+  describe('successfully requests tweet', () => {
 
     // check DOM displays the correct ng-template...
 
@@ -72,27 +74,31 @@ describe('InfoTweetDayComponent', () => {
 
   });
 
+  describe('error request', () => {
+
+    // check DOM displays the correct ng-template...
+
+    it('should return ErrorViewModel on error', () => {
+      // Arrange
+      mockError = {
+        message: '',
+        type: 'string',
+        errorNumber: 404,
+        serverCustomMessage: 'Try a different search query',
+        friendlyMessage: 'string',
+        modelStateErrors: []
+      }
+
+      mockTweetsService.getTweetDay.and.returnValue(throwError(mockError));
+
+      // Act or change
+      component.ngOnInit();
+
+      // Assert
+      expect(component).toBeTruthy();
+      expect(mockTweetsService.getTweetDay).toHaveBeenCalled();
+    });
+
+  });
+
 });
-
-
-
-// this.observations = [];
-// // this.isActived = true;
-// let myObj: ObservationViewModel = { observationId: 1, locationLatitude: 1, locationLongitude: 1,
-//   quantity: 1,
-//   noteGeneral: 'string',
-//   noteHabitat: 'string',
-//   noteWeather: 'string',
-//   noteAppearance: 'string',
-//   noteBehaviour: 'string',
-//   noteVocalisation: 'string',
-//   hasPhotos: true,
-//   // SelectedPrivacyLevel: PrivacyLevel;
-//   observationDateTime: 'string',
-//   creationDate: 'string',
-//   lastUpdateDate: 'string',
-//   birdId: 1,
-//   bird: null,
-//   user: null  };
-//   console.log(myObj);
-// this.observations.push(myObj);
