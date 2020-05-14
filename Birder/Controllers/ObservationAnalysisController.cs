@@ -94,17 +94,17 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
-                {
-                    var viewModelCache = ObservationsAnalysisHelper.MapTopObservations(observationsCache, _systemClock.GetToday.AddDays(-30));
-                    return Ok(viewModelCache);
-                }
+                //if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
+                //{
+                //    var viewModelCache = ObservationsAnalysisHelper.MapTopObservations(observationsCache, _systemClock.GetToday.AddDays(-30));
+                //    return Ok(viewModelCache);
+                //}
 
                 var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
 
                 // observations is null check?
 
-                _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
+                //_cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
                 var viewModel = ObservationsAnalysisHelper.MapTopObservations(observations, _systemClock.GetToday.AddDays(-30));
 
@@ -129,15 +129,15 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
-                {
-                    var viewModelCache = ObservationsAnalysisHelper.MapLifeList(observationsCache);
-                    return Ok(viewModelCache);
-                }
+                //if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
+                //{
+                //    var viewModelCache = ObservationsAnalysisHelper.MapLifeList(observationsCache);
+                //    return Ok(viewModelCache);
+                //}
 
                 var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
 
-                _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
+                //_cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
                 var viewModel = ObservationsAnalysisHelper.MapLifeList(observations);
 
