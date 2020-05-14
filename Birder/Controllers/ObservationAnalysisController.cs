@@ -58,13 +58,13 @@ namespace Birder.Controllers
                 //    return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
                 //}
 
-                //var observations = await _observationRepository.GetObservationsAsync(x => x.ApplicationUser.UserName == username);
+                // var observations = await _observationRepository.GetObservationsAsync(x => x.ApplicationUser.UserName == username);
 
                 //_cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
-                //var viewModel = _mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observations);
+                // var viewModel = _mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observations);
 
-                var viewModel = _obsSummaryService.GOA(x => x.ApplicationUser.UserName == username);
+                var viewModel = await _obsSummaryService.GOA(x => x.ApplicationUser.UserName == username);
                 
                 return Ok(viewModel);
             }
