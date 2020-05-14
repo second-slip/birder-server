@@ -24,14 +24,14 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         private readonly ISystemClockService _systemClock;
         private readonly IObservationRepository _observationRepository;
-        private readonly IObsSummaryService _obsSummaryService;
+        private readonly IObservationsAnalysisService _obsSummaryService;
 
         public ObservationAnalysisController(IObservationRepository observationRepository
                                             , ILogger<ObservationAnalysisController> logger
                                             , IMemoryCache memoryCache
                                             , ISystemClockService systemClock
                                             , IMapper mapper
-                                            , IObsSummaryService obsSummaryService)
+                                            , IObservationsAnalysisService obsSummaryService)
         {
             _obsSummaryService = obsSummaryService;
             _mapper = mapper;
@@ -69,7 +69,7 @@ namespace Birder.Controllers
 
                 // var viewModel = _mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observations);
 
-                var viewModel = await _obsSummaryService.GOA(x => x.ApplicationUser.UserName == username);
+                var viewModel = await _obsSummaryService.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == username);
 
                 _cache.Set(CacheEntries.ObservationsSummary, viewModel, _systemClock.GetEndOfToday);
 

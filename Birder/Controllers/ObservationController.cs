@@ -171,6 +171,7 @@ namespace Birder.Controllers
                 await _unitOfWork.CompleteAsync();
 
                 _cache.Remove(CacheEntries.ObservationsList);
+                _cache.Remove(CacheEntries.ObservationsSummary);
                 return CreatedAtAction(nameof(CreateObservationAsync), _mapper.Map<Observation, ObservationViewModel>(observation));
             }
             catch (Exception ex)
@@ -228,6 +229,7 @@ namespace Birder.Controllers
                 await _unitOfWork.CompleteAsync();
 
                 _cache.Remove(CacheEntries.ObservationsList);
+                _cache.Remove(CacheEntries.ObservationsSummary);
 
                 return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
 
@@ -265,6 +267,7 @@ namespace Birder.Controllers
                 await _unitOfWork.CompleteAsync();
 
                 _cache.Remove(CacheEntries.ObservationsList);
+                _cache.Remove(CacheEntries.ObservationsSummary);
 
                 return Ok(id);
             }

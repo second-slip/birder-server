@@ -10,21 +10,20 @@ using System.Threading.Tasks;
 
 namespace Birder.Services
 {
-
-    public interface IObsSummaryService
+    public interface IObservationsAnalysisService
     {
-        Task<ObservationAnalysisViewModel> GOA(Expression<Func<Observation, bool>> predicate);
+        Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate);
     }
-    public class ObsSummaryService: IObsSummaryService
-    {
 
+    public class ObservationsAnalysisService: IObservationsAnalysisService
+    {
         private readonly ApplicationDbContext _dbContext;
-        public ObsSummaryService(ApplicationDbContext dbContext)
+        public ObservationsAnalysisService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<ObservationAnalysisViewModel> GOA(Expression<Func<Observation, bool>> predicate)
+        public async Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate)
         {
             var result = new ObservationAnalysisViewModel();
 
