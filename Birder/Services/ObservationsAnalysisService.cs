@@ -15,6 +15,10 @@ namespace Birder.Services
         Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate);
     }
 
+    // Using the 'thin' controller I was retrieving the user's full list of Observation
+    // then analysing the in memory collection.  
+    // This is the better alternative.  Counts are executed on the db.
+
     public class ObservationsAnalysisService: IObservationsAnalysisService
     {
         private readonly ApplicationDbContext _dbContext;
