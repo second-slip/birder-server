@@ -3,7 +3,8 @@
     public enum CacheEntries
     {
         ObservationsList = 0,
-        BirdsSummaryList = 1
+        BirdsSummaryList = 1,
+        ObservationsSummary = 2
     }
 
     public class CacheEntryKeys

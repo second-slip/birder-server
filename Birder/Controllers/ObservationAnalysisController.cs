@@ -58,6 +58,11 @@ namespace Birder.Controllers
                 //    return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
                 //}
 
+                if (_cache.TryGetValue(CacheEntries.ObservationsSummary, out ObservationAnalysisViewModel observationsSummaryCache))
+                {
+                    return Ok(observationsSummaryCache);
+                }
+
                 // var observations = await _observationRepository.GetObservationsAsync(x => x.ApplicationUser.UserName == username);
 
                 //_cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
@@ -65,7 +70,9 @@ namespace Birder.Controllers
                 // var viewModel = _mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observations);
 
                 var viewModel = await _obsSummaryService.GOA(x => x.ApplicationUser.UserName == username);
-                
+
+                _cache.Set(CacheEntries.ObservationsSummary, viewModel, _systemClock.GetEndOfToday);
+
                 return Ok(viewModel);
             }
             catch (Exception ex)
