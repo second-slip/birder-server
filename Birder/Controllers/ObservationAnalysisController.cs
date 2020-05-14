@@ -24,13 +24,16 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         private readonly ISystemClockService _systemClock;
         private readonly IObservationRepository _observationRepository;
+        private readonly IObsSummaryService _obsSummaryService;
 
         public ObservationAnalysisController(IObservationRepository observationRepository
                                             , ILogger<ObservationAnalysisController> logger
                                             , IMemoryCache memoryCache
                                             , ISystemClockService systemClock
-                                            , IMapper mapper)
+                                            , IMapper mapper
+                                            , IObsSummaryService obsSummaryService)
         {
+            _obsSummaryService = obsSummaryService;
             _mapper = mapper;
             _logger = logger;
             _cache = memoryCache;
@@ -50,17 +53,19 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
-                {
-                    return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
-                }
+                //if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
+                //{
+                //    return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
+                //}
 
-                var observations = await _observationRepository.GetObservationsAsync(x => x.ApplicationUser.UserName == username);
+                //var observations = await _observationRepository.GetObservationsAsync(x => x.ApplicationUser.UserName == username);
 
-                _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
+                //_cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
-                var viewModel = _mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observations);
+                //var viewModel = _mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observations);
 
+                var viewModel = _obsSummaryService.GOA(x => x.ApplicationUser.UserName == username);
+                
                 return Ok(viewModel);
             }
             catch (Exception ex)
