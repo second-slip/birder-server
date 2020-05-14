@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Birder.Data.Model;
+using System.Linq;
 
 namespace Birder.Helpers
 {
@@ -24,6 +25,19 @@ namespace Birder.Helpers
         //        return query.OrderBy(columnsMap[queryObj.SortBy]);
         //    else
         //        return query.OrderByDescending(columnsMap[queryObj.SortBy]);
+        //}
+
+        //public static IQueryable<Observation> ApplyGrouping(this IQueryable<Observation> query) //, VehicleQuery queryObj)
+        //{
+
+        //    return query.GroupBy(b => b.BirdId);
+        //    //if (queryObj.MakeId.HasValue)
+        //    //    query = query.Where(v => v.Model.MakeId == queryObj.MakeId.Value);
+
+        //    //if (queryObj.ModelId.HasValue)
+        //    //    query = query.Where(v => v.ModelId == queryObj.ModelId.Value);
+
+        //    //return query;
         //}
 
         public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> query, int page, int pageSize) // IQueryObject queryObj)

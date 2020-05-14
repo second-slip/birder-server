@@ -8,11 +8,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
+
 namespace Birder.Services
 {
     public interface IObservationsAnalysisService
     {
         Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate);
+
+        //Task<TopObservationsAnalysisViewModel> GetTop5(Expression<Func<Observation, bool>> predicate, DateTime startDate);
     }
 
     // Using the 'thin' controller I was retrieving the user's full list of Observation
@@ -26,6 +29,48 @@ namespace Birder.Services
         {
             _dbContext = dbContext;
         }
+
+//        public async Task<TopObservationsAnalysisViewModel> GetTop5(Expression<Func<Observation, bool>> predicate, DateTime startDate)
+//        {
+//            var result = new TopObservationsAnalysisViewModel();
+
+//            var query = _dbContext.Observations
+//                .Include(y => y.Bird)
+//                    //.ThenInclude(u => u.BirdConservationStatus)
+//                .Include(au => au.ApplicationUser)
+//                .AsNoTracking()
+//                .AsQueryable();
+
+//            query = query.Where(predicate);
+
+//            //         var firstProducts = query
+//            //.GroupBy(p => p.BirdId)
+//            //.Select(g => g.OrderBy(p => p.BirdId).Take(5))
+//            //.ToListAsync();
+
+////            result.TopObservations = query
+////.GroupBy(p => p.BirdId)
+////.Select(n => new TopObservationsViewModel {
+////    BirdId = n.FirstOrDefault().BirdId,
+////    Name = n.FirstOrDefault().Bird.EnglishName, //Name = n.FirstOrDefault().Bird?.EnglishName,
+////    Count = n.Count()
+////}).OrderByDescending(g => g.Count).Take(5).ToListAsync();
+//////.ToListAsync();
+
+//            //result.TopObservations = query.GroupBy(b => b.BirdId)
+//            //                    .Select(n => new TopObservationsViewModel
+//            //                    {
+//            //                        BirdId = n.FirstOrDefault().BirdId,
+//            //                        Name = n.FirstOrDefault().Bird.EnglishName, //Name = n.FirstOrDefault().Bird?.EnglishName,
+//            //                        Count = n.Count()
+//            //                    })
+//            //                    .OrderByDescending(n => n.Count)
+//            //                    .Take(5);
+
+//           return result;
+
+
+//        }
 
         public async Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate)
         {
