@@ -170,8 +170,9 @@ namespace Birder.Controllers
                 _observationRepository.Add(observation);
                 await _unitOfWork.CompleteAsync();
 
-                _cache.Remove(CacheEntries.ObservationsList);
-                _cache.Remove(CacheEntries.ObservationsSummary);
+                ClearCache();
+                //_cache.Remove(CacheEntries.ObservationsList);
+                //_cache.Remove(CacheEntries.ObservationsSummary);
                 return CreatedAtAction(nameof(CreateObservationAsync), _mapper.Map<Observation, ObservationViewModel>(observation));
             }
             catch (Exception ex)
@@ -228,8 +229,9 @@ namespace Birder.Controllers
 
                 await _unitOfWork.CompleteAsync();
 
-                _cache.Remove(CacheEntries.ObservationsList);
-                _cache.Remove(CacheEntries.ObservationsSummary);
+                ClearCache();
+                //_cache.Remove(CacheEntries.ObservationsList);
+                //_cache.Remove(CacheEntries.ObservationsSummary);
 
                 return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
 
@@ -266,8 +268,9 @@ namespace Birder.Controllers
                 
                 await _unitOfWork.CompleteAsync();
 
-                _cache.Remove(CacheEntries.ObservationsList);
-                _cache.Remove(CacheEntries.ObservationsSummary);
+                //_cache.Remove(CacheEntries.ObservationsList);
+                //_cache.Remove(CacheEntries.ObservationsSummary);
+                ClearCache();
 
                 return Ok(id);
             }
@@ -276,6 +279,12 @@ namespace Birder.Controllers
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"An error occurred updating observation with id: {id}");
                 return BadRequest("An unexpected error occurred");
             }
+        }
+
+        private void ClearCache()
+        {
+            _cache.Remove(CacheEntries.ObservationsList);
+            _cache.Remove(CacheEntries.ObservationsSummary);
         }
     }
 }
