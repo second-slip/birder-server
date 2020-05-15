@@ -17,6 +17,19 @@ namespace Birder.TestsHelpers
 {
     public static class SharedFunctions
     {
+
+        public static ClaimsPrincipal GetTestClaimsPrincipal()
+        {
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, "example name"),
+                new Claim(ClaimTypes.NameIdentifier, "1"),
+                new Claim("custom-claim", "example claim value"),
+            }, "mock"));
+
+            return user;
+        }
+
         public static Mock<UserManager<ApplicationUser>> InitialiseMockUserManager()
         {
             return new Mock<UserManager<ApplicationUser>>(
