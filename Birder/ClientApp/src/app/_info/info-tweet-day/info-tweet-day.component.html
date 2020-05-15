@@ -1,5 +1,4 @@
 <div *ngIf="!requesting; else loading">
-  
   <ng-container *ngIf="tweet; else error">
     <div class="container">
       <h4>Tweet of the Day</h4>
@@ -19,17 +18,15 @@
     </div>
   </ng-container>
 
+
   <ng-template #error>
-    <!-- <ng-container *ngIf="error; else loading"> -->
     <div class="container">
-      <h4>Tweet of the Day</h4>
       <p>
         <ngb-alert [dismissible]="false">
           <strong>We're sorry!</strong> The tweet is not available...
         </ngb-alert>
       </p>
     </div>
-    <!-- </ng-container> -->
   </ng-template>
 
 </div>
