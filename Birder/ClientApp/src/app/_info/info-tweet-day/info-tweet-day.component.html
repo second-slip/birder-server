@@ -1,5 +1,5 @@
 <div *ngIf="!requesting; else loading">
-  <ng-container *ngIf="tweet.bird; else noItem">
+  <ng-container *ngIf="tweet; else error">
     <div class="container">
       <h4>Tweet of the Day</h4>
       <span class="bird">
@@ -18,11 +18,11 @@
     </div>
   </ng-container>
 
-  <ng-template #noItem>
+  <ng-template #error>
     <!-- <ng-container *ngIf="error; else loading"> -->
     <div class="container">
       <h4>Tweet of the Day</h4>
-      <p class="hello">
+      <p>
         <ngb-alert [dismissible]="false">
           <strong>We're sorry!</strong> The tweet is not available...
         </ngb-alert>

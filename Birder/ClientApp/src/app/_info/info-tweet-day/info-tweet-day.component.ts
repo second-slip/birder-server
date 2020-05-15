@@ -16,6 +16,7 @@ export class InfoTweetDayComponent implements OnInit {
   constructor(private tweetsService: TweetsService) { }
 
   ngOnInit(): void {
+    console.log(this.tweet);
     this.getTweetOfTheDay();
   }
 
