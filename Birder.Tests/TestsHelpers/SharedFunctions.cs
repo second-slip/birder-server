@@ -18,6 +18,38 @@ namespace Birder.TestsHelpers
     public static class SharedFunctions
     {
 
+        public static Observation GetObservation(ApplicationUser user, Bird bird)
+        {
+            return new Observation
+            {
+                ApplicationUser = user,
+                Bird = bird,
+                SelectedPrivacyLevel = PrivacyLevel.Public,
+                HasPhotos = true,
+                CreationDate = DateTime.Now,
+                LastUpdateDate = DateTime.Now,
+                ObservationDateTime = DateTime.Now
+
+            };
+        }
+
+        public static Bird GetBird(ConservationStatus status)
+        {
+            return new Bird
+            {
+                BirdConservationStatus = status,
+                BirderStatus = BirderStatus.Common,
+                Class = "",
+                Order = "",
+                Family = "",
+                Genus = "",
+                Species = "",
+                EnglishName = "",
+                CreationDate = DateTime.Now,
+                LastUpdateDate = DateTime.Now,
+            };
+        }
+
         public static ClaimsPrincipal GetTestClaimsPrincipal()
         {
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
