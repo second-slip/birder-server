@@ -15,6 +15,7 @@ export class InfoNetworkComponent implements OnInit {
   // user: UserProfileViewModel;
   network: UserNetworkDto;
   subscription: Subscription;
+  requesting: boolean
 
   constructor(private networkService: NetworkService) { }
 
@@ -31,12 +32,16 @@ export class InfoNetworkComponent implements OnInit {
   }
 
   getUserNetwork(): void {
+
+    this.requesting = true;
     this.networkService.getUserNetwork()
       .subscribe(
         (data: UserNetworkDto) => {
           this.network = data;
+          this.requesting = false;
         },
         (error: ErrorReportViewModel) => {
+          this.requesting = false;
           console.log(error);
         });
   }

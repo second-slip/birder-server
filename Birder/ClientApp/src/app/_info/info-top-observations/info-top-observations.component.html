@@ -1,7 +1,7 @@
 <div *ngIf="!requesting; else loading">
   <ng-container *ngIf="analysis; else noItem">
     <div class="container">
-      <h4>Your Top Observations</h4>
+      <h4 class="container">Your Top Observations</h4>
 
       <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav nav-pills nav-fill">
 
