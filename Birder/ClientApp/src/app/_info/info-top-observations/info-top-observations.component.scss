@@ -1,15 +1,16 @@
 app-info-top-observations {
-
-    
-    
-    .title {
-    text-align: center;
+    .container {
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 
-    .aligned-with-icon{
-        position: absolute;
-        // margin-top: 5px;
-        // margin-left: 5px; /* optional */
+    .bird {
+        display: block;
+        line-height: 0%;
     }
 
+    .loading {
+        text-align: center;
+    }
 }
