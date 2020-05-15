@@ -74,7 +74,10 @@ namespace Birder.Services
 
         public async Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate)
         {
-            var result = new ObservationAnalysisViewModel();
+            if (predicate is null)
+                throw new ArgumentException("The argument is null or empty", nameof(predicate));
+
+            var model = new ObservationAnalysisViewModel();
 
             var query = _dbContext.Observations
                 .Include(y => y.Bird)
@@ -84,11 +87,11 @@ namespace Birder.Services
 
             query = query.Where(predicate);
 
-            result.TotalObservationsCount = await query.CountAsync();
+            model.TotalObservationsCount = await query.CountAsync();
 
-            result.UniqueSpeciesCount = await query.Select(i => i.BirdId).Distinct().CountAsync();
+            model.UniqueSpeciesCount = await query.Select(i => i.BirdId).Distinct().CountAsync();
 
-            return result;
+            return model;
         }
     }
 }

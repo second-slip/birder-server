@@ -14,10 +14,7 @@ namespace Birder.Tests.HelpersTests
     public class GetUserWithNetworkAsyncTests
     {
 
-        public GetUserWithNetworkAsyncTests()
-        {
-
-        }
+        public GetUserWithNetworkAsyncTests() { }
 
         [Theory]
         [InlineData("")]
