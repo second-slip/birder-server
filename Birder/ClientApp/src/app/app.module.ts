@@ -85,6 +85,7 @@ import { BirdsVoiceComponent } from './_birds/birds-voice/birds-voice.component'
 import { NetworkSearchComponent } from './_network/network-search/network-search.component';
 import { NetworkSuggestionsComponent } from './_network/network-suggestions/network-suggestions.component';
 import { NetworkComponent } from './_network/network/network.component';
+import { BirdsIndexGridViewComponent } from './_birds/birds-index-grid-view/birds-index-grid-view.component';
 
 // import { UsernameValidator } from 'validators';
 
@@ -178,6 +179,7 @@ export function tokenGetter() {
     NetworkSearchComponent,
     NetworkSuggestionsComponent,
     NetworkComponent,
+    BirdsIndexGridViewComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
