@@ -24,7 +24,7 @@ describe('NetworkComponent', () => {
 
     // const spy = spyOn(mockNetworkService..messagePublished$, 'subscribe')
 
-    mockSub = jasmine.createSpyObj(['subscription']);
+    mockSub = jasmine.createSpyObj(['networkChangeSubscription']);
 
     TestBed.configureTestingModule({
       imports: [FormsModule],
