@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NetworkService } from '@app/_services/network.service';
 import { UserNetworkDto } from '@app/_models/UserNetworkDto';
@@ -12,9 +12,9 @@ import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
   styleUrls: ['./network.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NetworkComponent implements OnInit {
+export class NetworkComponent implements OnInit, OnDestroy {
   network: UserNetworkDto;
-  subscription;
+  networkChangeSubscription: Subscription;
   tabstatus = {};
   active;
   
@@ -26,10 +26,14 @@ export class NetworkComponent implements OnInit {
       this.tabstatus = {};
       
       this.getUserNetwork();
-      this.subscription = this.networkService.networkChanged$
+      this.networkChangeSubscription = this.networkService.networkChanged$
       .subscribe(_ => {
         this.onNetworkChanged();
       });
+    }
+
+    ngOnDestroy() {
+      this.networkChangeSubscription.unsubscribe();
     }
   
     onNetworkChanged() {
