@@ -1,5 +1,5 @@
 # Birder
-Birder is a social network platform for logging, sharing and analysing bird observations. Ultimately, the aim is to feed an algorithm which will help with bird identification. 
+Birder is a social network-style platform for logging, sharing and analysing bird observations. Ultimately, the aim is to feed an algorithm which will help with bird identification. 
 
 
 ### Technical information
