@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ObservationService } from '../../_services/observation.service';
 import { ObservationsAnalysisService } from '../../_services/observations-analysis.service';
 import { Subscription } from 'rxjs';
@@ -11,9 +11,9 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
   styleUrls: ['./info-top-observations.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class InfoTopObservationsComponent implements OnInit {
+export class InfoTopObservationsComponent implements OnInit, OnDestroy {
   analysis: TopObservationsAnalysisViewModel;
-  subscription: Subscription;
+  observationsChangeSubscription: Subscription;
   requesting: boolean;
   active;
 
@@ -22,10 +22,14 @@ export class InfoTopObservationsComponent implements OnInit {
 
   ngOnInit() {
     this.getTopObservationsAnalysis();
-    this.subscription = this.observationService.observationsChanged$
+    this.observationsChangeSubscription = this.observationService.observationsChanged$
       .subscribe(_ => {
         this.onObservationsChanged();
       });
+  }
+
+  ngOnDestroy() {
+    this.observationsChangeSubscription.unsubscribe();
   }
 
   onObservationsChanged(): void {

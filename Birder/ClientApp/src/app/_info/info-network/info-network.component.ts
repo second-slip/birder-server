@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { NetworkUserViewModel } from '../../_models/UserProfileViewModel';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { Subscription } from 'rxjs';
@@ -11,20 +11,24 @@ import { NetworkService } from '../../_services/network.service';
   styleUrls: ['./info-network.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class InfoNetworkComponent implements OnInit {
+export class InfoNetworkComponent implements OnInit, OnDestroy {
   // user: UserProfileViewModel;
   network: UserNetworkDto;
-  subscription: Subscription;
+  networkChangeSubscription: Subscription;
   requesting: boolean
 
   constructor(private networkService: NetworkService) { }
 
   ngOnInit() {
     this.getUserNetwork();
-    this.subscription = this.networkService.networkChanged$
+    this.networkChangeSubscription = this.networkService.networkChanged$
     .subscribe(_ => {
       this.onNetworkChanged();
     });
+  }
+
+  ngOnDestroy() {
+    this.networkChangeSubscription.unsubscribe();
   }
 
   onNetworkChanged() {

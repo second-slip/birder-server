@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ObservationService } from '../../_services/observation.service';
 import { ObservationsAnalysisService } from '../../_services/observations-analysis.service';
@@ -11,9 +11,9 @@ import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
   styleUrls: ['./info-observation-count.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class InfoObservationCountComponent implements OnInit {
+export class InfoObservationCountComponent implements OnInit, OnDestroy {
+  observationsChangeSubscription: Subscription;
   analysis: ObservationAnalysisViewModel;
-  subscription: Subscription;
   requesting: boolean;
 
   constructor(private observationService: ObservationService
@@ -21,11 +21,15 @@ export class InfoObservationCountComponent implements OnInit {
 
   ngOnInit() {
     this.getObservationAnalysis();
-    this.subscription = this.observationService.observationsChanged$
+    this.observationsChangeSubscription = this.observationService.observationsChanged$
       .subscribe(_ => {
         this.onObservationsChanged();
       });
     // this.getObservationAnalysis();
+  }
+
+  ngOnDestroy() {
+    this.observationsChangeSubscription.unsubscribe();
   }
 
   onObservationsChanged(): void {
