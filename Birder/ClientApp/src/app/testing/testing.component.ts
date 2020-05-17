@@ -42,8 +42,6 @@ export class TestingComponent implements OnInit {
 
   private _filter(value: string): BirdsDdlDto[] {
     const filterValue = value.toLowerCase();
-    
-
     return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
   }
 

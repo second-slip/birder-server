@@ -66,16 +66,36 @@ export class ObservationAddComponent implements OnInit {
     this.addObservationForm.controls['bird']
     this.filteredOptions = this.addObservationForm.controls['bird'].valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value))
+      map(value => value.length >= 1 ? this._filter(value): this.birdsSpecies)
+      // map(value => this._filter(value))
     );
   }
 
-  private _filter(value: string): BirdsDdlDto[] {
-   
-    const filterValue = value.toLowerCase();
+  displayFn(bird: BirdsDdlDto): string {
+    // console.log(bird);
+    // console.log(bird.englishName);
+    return bird && bird.englishName ? bird.englishName : null;
+  }
 
+  // init() {
+  //   this.filteredOptions = this.myControl.valueChanges.pipe(
+  //     startWith(''),
+  //     map(value => value.length >= 1 ? this._filter(value): this.birdsSpecies)
+  //     // map(value => this._filter(value))
+  //   );
+  // }
+
+  private _filter(value: string): BirdsDdlDto[] {
+    const filterValue = value.toLowerCase();
     return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
   }
+
+  // private _filter(value: string): BirdsDdlDto[] {
+   
+  //   const filterValue = value.toLowerCase();
+
+  //   return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
+  // }
 
   getGeolocation(): void {
     this.geocodeService.reverseGeocode(this.user.defaultLocationLatitude, this.user.defaultLocationLongitude)
@@ -168,8 +188,6 @@ export class ObservationAddComponent implements OnInit {
   }
 
   onSubmit(value): void {
-    console.log(value);
-    this.honk(value);
     this.requesting = true;
     this.observationService.addObservation(value)
       .subscribe(
@@ -186,9 +204,6 @@ export class ObservationAddComponent implements OnInit {
           console.log('unsuccessful add observation');
         }
       );
-  }
-  honk(bird: BirdSummaryViewModel) {
-console.log(bird)
   }
 
   getBirds(): void {
