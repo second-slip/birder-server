@@ -43,7 +43,7 @@ export class ObservationAddComponent implements OnInit {
     'quantity': [
       { type: 'required', message: 'Quantity is required' }
     ],
-    'birdId': [
+    'bird': [
       { type: 'required', message: 'The observed species is required' }
     ]
   };
@@ -63,8 +63,8 @@ export class ObservationAddComponent implements OnInit {
   }
 
   init() {
-    this.addObservationForm.controls['birdId']
-    this.filteredOptions = this.addObservationForm.controls['birdId'].valueChanges.pipe(
+    this.addObservationForm.controls['bird']
+    this.filteredOptions = this.addObservationForm.controls['bird'].valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value))
     );
@@ -152,7 +152,7 @@ export class ObservationAddComponent implements OnInit {
       quantity: new FormControl(1, Validators.compose([
         Validators.required
       ])),
-      birdId: new FormControl('', Validators.compose([
+      bird: new FormControl('', Validators.compose([
         Validators.required
       ])),
       observationDateTime: new FormControl((new Date()).toISOString(), Validators.compose([
@@ -169,22 +169,26 @@ export class ObservationAddComponent implements OnInit {
 
   onSubmit(value): void {
     console.log(value);
-    // this.requesting = true;
-    // this.observationService.addObservation(value)
-    //   .subscribe(
-    //     (data: ObservationViewModel) => {
-    //       this.addObservationForm.reset();
-    //       this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
-    //     },
-    //     (error: ErrorReportViewModel) => {
-    //       this.requesting = false;
-    //       this.errorReport = error;
-    //       this.invalidAddObservation = true;
-    //       console.log(error);
-    //       console.log(error.friendlyMessage);
-    //       console.log('unsuccessful add observation');
-    //     }
-    //   );
+    this.honk(value);
+    this.requesting = true;
+    this.observationService.addObservation(value)
+      .subscribe(
+        (data: ObservationViewModel) => {
+          this.addObservationForm.reset();
+          this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
+        },
+        (error: ErrorReportViewModel) => {
+          this.requesting = false;
+          this.errorReport = error;
+          this.invalidAddObservation = true;
+          console.log(error);
+          console.log(error.friendlyMessage);
+          console.log('unsuccessful add observation');
+        }
+      );
+  }
+  honk(bird: BirdSummaryViewModel) {
+console.log(bird)
   }
 
   getBirds(): void {

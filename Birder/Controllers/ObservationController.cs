@@ -145,7 +145,7 @@ namespace Birder.Controllers
                     return NotFound("Requesting user not found");
                 }
 
-                var observedBirdSpecies = await _birdRepository.GetBirdAsync(model.BirdId);
+                var observedBirdSpecies = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
 
                 if (observedBirdSpecies == null)
                 {

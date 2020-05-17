@@ -58,7 +58,7 @@ namespace Birder.ViewModels
         public DateTime LastUpdateDate { get; set; }
 
         //[Display(Name = "Observed species")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must choose the bird species you observed")]
+        //[Range(1, int.MaxValue, ErrorMessage = "You must choose the bird species you observed")]
         public int BirdId { get; set; }
         //public string ApplicationUserId { get; set; }
 
