@@ -1,19 +1,18 @@
 import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ParentErrorStateMatcher } from '../../../validators';
-import { Router } from '@angular/router';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { BirdSummaryViewModel, BirdsDdlDto } from '../../_models/BirdSummaryViewModel';
-import { BirdsService } from '../../_services/birds.service';
-import { LocationViewModel } from '../../_models/LocationViewModel';
-import { GeocodeService } from '../../_services/geocode.service';
-import { UserViewModel } from '../../_models/UserViewModel';
-import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { ObservationService } from '../../_services/observation.service';
-import { TokenService } from '../../_services/token.service';
-import { BirderStatus } from '../../_models/BirdIndexOptions';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { BirdsDdlDto, BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
+import { ParentErrorStateMatcher } from 'validators';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { UserViewModel } from '@app/_models/UserViewModel';
+import { Router } from '@angular/router';
+import { BirdsService } from '@app/_services/birds.service';
+import { ObservationService } from '@app/_services/observation.service';
+import { TokenService } from '@app/_services/token.service';
+import { GeocodeService } from '@app/_services/geocode.service';
+import { LocationViewModel } from '@app/_models/LocationViewModel';
+import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 
 @Component({
   selector: 'app-observation-add',
@@ -62,8 +61,8 @@ export class ObservationAddComponent implements OnInit {
     this.getBirds();
   }
 
-  init() {
-    this.addObservationForm.controls['bird']
+  getBirdAutocompleteOptions() {
+    // this.addObservationForm.controls['bird']
     this.filteredOptions = this.addObservationForm.controls['bird'].valueChanges.pipe(
       startWith(''),
       map(value => value.length >= 1 ? this._filter(value): this.birdsSpecies)
@@ -211,7 +210,7 @@ export class ObservationAddComponent implements OnInit {
       .subscribe(
         (data: BirdSummaryViewModel[]) => { 
           this.birdsSpecies = data;
-          this.init();
+          this.getBirdAutocompleteOptions();
          },
         (error: ErrorReportViewModel) => {
           console.log('could not get the birds ddl');
