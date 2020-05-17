@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserViewModel } from '@app/_models/UserViewModel';
 import { AuthenticationService } from '@app/_services/authentication.service';
@@ -7,7 +7,8 @@ import { TokenService } from '@app/_services/token.service';
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.scss']
+  styleUrls: ['./nav-menu.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class NavMenuComponent implements OnInit {
   isNavbarCollapsed = true;

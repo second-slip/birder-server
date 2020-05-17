@@ -21,23 +21,23 @@ namespace Birder.Services
 
         public string GetThumbnailUrl(string queryString)
         {
-            //Flickr flickr = new Flickr(_config["Flickr:FlickrApiKey"], _config["Flickr:FlickrSecret"]);
-            //{
-            //    var options = new PhotoSearchOptions
-            //    {
-            //        Text = queryString,
-            //        Page = 1,
-            //        PerPage = 1,
-            //        Extras = PhotoSearchExtras.SmallUrl,
-            //        SafeSearch = SafetyLevel.Safe,
-            //        MediaType = MediaType.Photos
-            //    };
-            //    PhotoCollection photos = flickr.PhotosSearch(options);
-            //    return photos.FirstOrDefault().LargeSquareThumbnailUrl;
-            //}
+            Flickr flickr = new Flickr(_config["Flickr:FlickrApiKey"], _config["Flickr:FlickrSecret"]);
+            {
+                var options = new PhotoSearchOptions
+                {
+                    Text = queryString,
+                    Page = 1,
+                    PerPage = 1,
+                    Extras = PhotoSearchExtras.SmallUrl,
+                    SafeSearch = SafetyLevel.Safe,
+                    MediaType = MediaType.Photos
+                };
+                PhotoCollection photos = flickr.PhotosSearch(options);
+                return photos.FirstOrDefault().LargeSquareThumbnailUrl;
+            }
 
             // temp in dev to avoid hitting the API...
-            return "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
+            //return "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
         }
 
         public PhotoCollection GetFlickrPhotoCollection(string queryString)

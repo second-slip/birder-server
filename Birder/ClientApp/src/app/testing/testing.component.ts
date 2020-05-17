@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { BirdSummaryViewModel, BirdsDdlDto } from '@app/_models/BirdSummaryViewModel';
+import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { BirdsService } from '@app/_services/birds.service';
 
@@ -17,8 +17,8 @@ export class TestingComponent implements OnInit {
   options: string[] = ['One', 'Two', 'Three'];
   // filteredOptions: Observable<string[]>;
 
-  filteredOptions: Observable<BirdsDdlDto[]>;
-  birdsSpecies: BirdsDdlDto[]
+  filteredOptions: Observable<BirdSummaryViewModel[]>;
+  birdsSpecies: BirdSummaryViewModel[]
 
   constructor(private birdsService: BirdsService) { }
 
@@ -26,7 +26,7 @@ export class TestingComponent implements OnInit {
     this.getBirds();
   }
 
-  displayFn(bird: BirdsDdlDto): string {
+  displayFn(bird: BirdSummaryViewModel): string {
     // console.log(bird);
     // console.log(bird.englishName);
     return bird && bird.englishName ? bird.englishName : null;
@@ -40,7 +40,7 @@ export class TestingComponent implements OnInit {
     );
   }
 
-  private _filter(value: string): BirdsDdlDto[] {
+  private _filter(value: string): BirdSummaryViewModel[] {
     const filterValue = value.toLowerCase();
     return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
   }
