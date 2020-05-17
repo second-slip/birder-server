@@ -201,6 +201,7 @@ export function tokenGetter() {
     MatExpansionModule,
     MatTabsModule,
     MatBadgeModule,
+    MatAutocompleteModule,
     ToastrModule.forRoot(),
     NgxDropzoneModule,
     GalleryModule,
