@@ -63,7 +63,7 @@ namespace Birder.Controllers
         {
             try
             {
-                if (_cache.TryGetValue(CacheEntries.BirdsSummaryList, out IEnumerable<BirdsDdlDto> birdsCache))
+                if (_cache.TryGetValue(CacheEntries.BirdsSummaryList, out IEnumerable<BirdSummaryViewModel> birdsCache))
                 {
                     return Ok(birdsCache);
                 }
@@ -77,7 +77,7 @@ namespace Birder.Controllers
                         return NotFound();
                     }
 
-                    var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdsDdlDto>>(birds);
+                    var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);
 
                     _cache.Set(CacheEntries.BirdsSummaryList, viewModel, TimeSpan.FromDays(1));
 

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angula
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { BirdsDdlDto, BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
+import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { ParentErrorStateMatcher } from 'validators';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
@@ -23,13 +23,13 @@ import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 export class ObservationAddComponent implements OnInit {
   requesting: boolean;
   addObservationForm: FormGroup;
-  birdsSpecies: BirdsDdlDto[]
-  // birdsSpecies: BirdsDdlDto[];
+  birdsSpecies: BirdSummaryViewModel[]
+  // birdsSpecies: BirdSummaryViewModel[];
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
   invalidAddObservation: boolean;
   //
-  filteredOptions: Observable<BirdsDdlDto[]>;
+  filteredOptions: Observable<BirdSummaryViewModel[]>;
   //
   geolocation: string;
   searchAddress = '';
@@ -70,7 +70,7 @@ export class ObservationAddComponent implements OnInit {
     );
   }
 
-  displayFn(bird: BirdsDdlDto): string {
+  displayFn(bird: BirdSummaryViewModel): string {
     // console.log(bird);
     // console.log(bird.englishName);
     return bird && bird.englishName ? bird.englishName : null;
@@ -84,12 +84,12 @@ export class ObservationAddComponent implements OnInit {
   //   );
   // }
 
-  private _filter(value: string): BirdsDdlDto[] {
+  private _filter(value: string): BirdSummaryViewModel[] {
     const filterValue = value.toLowerCase();
     return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  // private _filter(value: string): BirdsDdlDto[] {
+  // private _filter(value: string): BirdSummaryViewModel[] {
    
   //   const filterValue = value.toLowerCase();
 

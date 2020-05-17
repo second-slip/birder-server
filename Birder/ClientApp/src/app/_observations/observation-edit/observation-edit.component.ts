@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { BirdSummaryViewModel, BirdsDdlDto } from '@app/_models/BirdSummaryViewModel';
+import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { ParentErrorStateMatcher } from 'validators';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -24,7 +24,7 @@ export class ObservationEditComponent implements OnInit {
   requesting: boolean;
   observation: ObservationViewModel;
   editObservationForm: FormGroup;
-  birdsSpecies: BirdsDdlDto[];
+  birdsSpecies: BirdSummaryViewModel[];
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
   geolocation: string;
