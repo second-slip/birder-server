@@ -5,7 +5,7 @@ import { BirdSummaryViewModel, BirdsDdlDto } from '@app/_models/BirdSummaryViewM
 import { ParentErrorStateMatcher } from 'validators';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ObservationService } from '@app/_services/observation.service';
+import { ObservationService } from '@app/_sharedServices/observation.service';
 import { BirdsService } from '@app/_services/birds.service';
 import { GeocodeService } from '@app/_services/geocode.service';
 import { BirderStatus } from '@app/_models/BirdIndexOptions';

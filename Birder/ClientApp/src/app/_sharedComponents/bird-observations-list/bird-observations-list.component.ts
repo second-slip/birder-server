@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { ObservationService } from '@app/_services/observation.service';
+import { ObservationService } from '@app/_sharedServices/observation.service';
 import { ObservationDto } from '@app/_models/ObservationFeedDto';
 
 @Component({

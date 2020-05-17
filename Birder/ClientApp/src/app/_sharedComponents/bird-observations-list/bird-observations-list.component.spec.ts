@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BirdObservationsListComponent } from './bird-observations-list.component';
-import { ObservationService } from '@app/_services/observation.service';
+import { ObservationService } from '@app/_sharedServices/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { of, throwError } from 'rxjs';
 import { ObservationDto } from '@app/_models/ObservationFeedDto';

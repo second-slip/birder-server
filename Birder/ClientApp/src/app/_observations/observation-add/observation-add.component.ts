@@ -8,7 +8,7 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
 import { Router } from '@angular/router';
 import { BirdsService } from '@app/_services/birds.service';
-import { ObservationService } from '@app/_services/observation.service';
+import { ObservationService } from '@app/_sharedServices/observation.service';
 import { TokenService } from '@app/_services/token.service';
 import { GeocodeService } from '@app/_services/geocode.service';
 import { LocationViewModel } from '@app/_models/LocationViewModel';

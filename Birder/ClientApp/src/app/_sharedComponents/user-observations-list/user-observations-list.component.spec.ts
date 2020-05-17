@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserObservationsListComponent } from './user-observations-list.component';
-import { ObservationService } from '@app/_services/observation.service';
+import { ObservationService } from '@app/_sharedServices/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';

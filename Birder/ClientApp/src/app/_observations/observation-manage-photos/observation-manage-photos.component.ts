@@ -3,7 +3,7 @@ import { HttpEventType } from '@angular/common/http';
 import { PhotosService } from '@app/_services/photos.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ObservationService } from '@app/_services/observation.service';
+import { ObservationService } from '@app/_sharedServices/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ToastrService } from 'ngx-toastr';
 import { Lightbox } from 'ngx-lightbox';
