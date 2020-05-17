@@ -39,6 +39,24 @@
               </mat-form-field>
 
               <mat-form-field class="full-width">
+                <input type="text"
+                       placeholder="Select species"
+                       aria-label="Number"
+                       matInput
+                       
+                       formControlName="birdId"
+                       [matAutocomplete]="auto"
+                       required>
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let bird of filteredOptions | async" [value]="bird.englishName">
+                      <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+
+              <!-- [formControl]="myControl" -->
+
+              <!-- <mat-form-field class="full-width">
                 <mat-select placeholder="Select species" formControlName="birdId" type="birdId" required>
                   <mat-option *ngFor="let bird of birdsSpecies" [value]="bird.birdId">
                     <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
@@ -49,7 +67,7 @@
                     *ngIf="addObservationForm.get('birdId').hasError(validation.type) && (addObservationForm.get('birdId').dirty || addObservationForm.get('birdId').touched)">
                     {{validation.message}}</mat-error>
                 </mat-error>
-              </mat-form-field>
+              </mat-form-field> -->
 
               <mat-form-field class="full-width">
                 <input matInput [matDatepicker]="picker" placeholder="Choose a date"

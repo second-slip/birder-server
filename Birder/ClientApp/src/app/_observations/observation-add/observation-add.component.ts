@@ -12,6 +12,8 @@ import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { ObservationService } from '../../_services/observation.service';
 import { TokenService } from '../../_services/token.service';
 import { BirderStatus } from '../../_models/BirdIndexOptions';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-observation-add',
@@ -22,10 +24,13 @@ import { BirderStatus } from '../../_models/BirdIndexOptions';
 export class ObservationAddComponent implements OnInit {
   requesting: boolean;
   addObservationForm: FormGroup;
-  birdsSpecies: BirdsDdlDto[];
+  birdsSpecies: BirdsDdlDto[]
+  // birdsSpecies: BirdsDdlDto[];
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
   invalidAddObservation: boolean;
+  //
+  filteredOptions: Observable<BirdsDdlDto[]>;
   //
   geolocation: string;
   searchAddress = '';
@@ -55,6 +60,21 @@ export class ObservationAddComponent implements OnInit {
   ngOnInit() {
     this.getUser();
     this.getBirds();
+  }
+
+  init() {
+    this.addObservationForm.controls['birdId']
+    this.filteredOptions = this.addObservationForm.controls['birdId'].valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): BirdsDdlDto[] {
+   
+    const filterValue = value.toLowerCase();
+
+    return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
   }
 
   getGeolocation(): void {
@@ -148,28 +168,32 @@ export class ObservationAddComponent implements OnInit {
   }
 
   onSubmit(value): void {
-    this.requesting = true;
-    this.observationService.addObservation(value)
-      .subscribe(
-        (data: ObservationViewModel) => {
-          this.addObservationForm.reset();
-          this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
-        },
-        (error: ErrorReportViewModel) => {
-          this.requesting = false;
-          this.errorReport = error;
-          this.invalidAddObservation = true;
-          console.log(error);
-          console.log(error.friendlyMessage);
-          console.log('unsuccessful add observation');
-        }
-      );
+    console.log(value);
+    // this.requesting = true;
+    // this.observationService.addObservation(value)
+    //   .subscribe(
+    //     (data: ObservationViewModel) => {
+    //       this.addObservationForm.reset();
+    //       this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
+    //     },
+    //     (error: ErrorReportViewModel) => {
+    //       this.requesting = false;
+    //       this.errorReport = error;
+    //       this.invalidAddObservation = true;
+    //       console.log(error);
+    //       console.log(error.friendlyMessage);
+    //       console.log('unsuccessful add observation');
+    //     }
+    //   );
   }
 
   getBirds(): void {
     this.birdsService.getBirdsDdl()
       .subscribe(
-        (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
+        (data: BirdSummaryViewModel[]) => { 
+          this.birdsSpecies = data;
+          this.init();
+         },
         (error: ErrorReportViewModel) => {
           console.log('could not get the birds ddl');
         });
