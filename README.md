@@ -28,3 +28,6 @@ export const environment = {
   };
   ```
 
+#### Sample data
+
+T-SQL scripts for adding sample data to the database can be provided on request
