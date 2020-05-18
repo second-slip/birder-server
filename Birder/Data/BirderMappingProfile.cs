@@ -17,6 +17,12 @@ namespace Birder.Data
               .ForMember(a => a.ApplicationUser, b => b.Ignore())
               .ForMember(a => a.CreationDate, b => b.Ignore());
 
+            CreateMap<ObservationEditViewModel, Observation>()
+              .ForMember(a => a.ApplicationUser, b => b.Ignore())
+              .ForMember(a => a.CreationDate, b => b.Ignore())
+              .ForMember(a => a.BirdId, b => b.Ignore())
+              .ForMember(a => a.Bird, b => b.Ignore());
+
             CreateMap<List<Observation>, ObservationAnalysisViewModel>()
               .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count()))
               .ForMember(a => a.UniqueSpeciesCount, b => b.MapFrom(a => a.Select(i => i.BirdId).Distinct().Count()));

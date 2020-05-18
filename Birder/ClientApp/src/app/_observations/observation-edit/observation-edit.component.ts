@@ -13,6 +13,8 @@ import { LocationViewModel } from '@app/_models/LocationViewModel';
 import { TokenService } from '@app/_services/token.service';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-observation-edit',
@@ -31,11 +33,13 @@ export class ObservationEditComponent implements OnInit {
   searchAddress = '';
   geoError: string;
 
+  filteredOptions: Observable<BirdSummaryViewModel[]>;
+
   editObservation_validation_messages = {
     'quantity': [
       { type: 'required', message: 'Quantity is required' }
     ],
-    'birdId': [
+    'bird': [
       { type: 'required', message: 'The observed species is required' }
     ]
   };
@@ -56,13 +60,41 @@ export class ObservationEditComponent implements OnInit {
     this.getBirds();
   }
 
+  displayFn(bird: BirdSummaryViewModel): string {
+    // console.log(bird);
+    // console.log(bird.englishName);
+    return bird && bird.englishName ? bird.englishName : null;
+  }
+
+  // init() {
+  //   this.filteredOptions = this.myControl.valueChanges.pipe(
+  //     startWith(''),
+  //     map(value => value.length >= 1 ? this._filter(value): this.birdsSpecies)
+  //     // map(value => this._filter(value))
+  //   );
+  // }
+
+  getBirdAutocompleteOptions() {
+    // this.addObservationForm.controls['bird']
+    this.filteredOptions = this.editObservationForm.controls['bird'].valueChanges.pipe(
+      startWith(''),
+      map(value => value.length >= 1 ? this._filter(value): this.birdsSpecies)
+      // map(value => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): BirdSummaryViewModel[] {
+    const filterValue = value.toLowerCase();
+    return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
+  }
+
   createForms(): void {
     this.editObservationForm = this.formBuilder.group({
       observationId: new FormControl(this.observation.observationId),
       quantity: new FormControl(this.observation.quantity, Validators.compose([
         Validators.required
       ])),
-      birdId: new FormControl(this.observation.bird.birdId, Validators.compose([
+      bird: new FormControl(this.observation.bird, Validators.compose([
         Validators.required
       ])),
       observationDateTime: new FormControl(this.observation.observationDateTime, Validators.compose([
@@ -124,7 +156,11 @@ export class ObservationEditComponent implements OnInit {
   getBirds(): void {
     this.birdsService.getBirdsDdl()
       .subscribe(
-        (data: BirdSummaryViewModel[]) => { this.birdsSpecies = data; },
+        (data: BirdSummaryViewModel[]) => 
+        {
+           this.birdsSpecies = data; 
+           this.getBirdAutocompleteOptions();
+          },
         (error: ErrorReportViewModel) => {
           console.log('could not get the birds ddl');
         });

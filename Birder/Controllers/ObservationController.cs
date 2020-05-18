@@ -183,7 +183,7 @@ namespace Birder.Controllers
         }
 
         [HttpPut, Route("UpdateObservation")]
-        public async Task<IActionResult> PutObservationAsync(int id, ObservationViewModel model)
+        public async Task<IActionResult> PutObservationAsync(int id, ObservationEditViewModel model)
         {
             try
             {
@@ -214,9 +214,14 @@ namespace Birder.Controllers
                     return Unauthorized("Requesting user is not allowed to edit this observation");
                 }
 
-                _mapper.Map<ObservationViewModel, Observation>(model, observation);
-
-                observation.Bird = await _birdRepository.GetBirdAsync(model.BirdId);
+                _mapper.Map<ObservationEditViewModel, Observation>(model, observation);
+                // if (model.Bird.BirdId != observation.Bird.BirdId)
+                // {
+                //     var bird = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
+                //     observation.Bird = bird;
+                // }
+                var bird = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
+                observation.Bird = bird;
 
                 observation.LastUpdateDate = _systemClock.GetNow;
 

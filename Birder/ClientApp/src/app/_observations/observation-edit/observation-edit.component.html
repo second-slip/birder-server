@@ -54,6 +54,26 @@
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
+                  <input type="bird"
+                         placeholder="Select species"
+                         aria-label="Number"
+                         matInput
+                         formControlName="bird"
+                         [matAutocomplete]="auto"
+                         required>
+                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let bird of filteredOptions | async" [value]="bird">
+                        <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngFor="let validation of editObservation_validation_messages.bird">
+                    <mat-error class="error-message"
+                      *ngIf="editObservationForm.get('bird').hasError(validation.type) && (editObservationForm.get('bird').dirty || editObservationForm.get('bird').touched)">
+                      {{validation.message}}</mat-error>
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- <mat-form-field class="full-width">
                   <mat-select placeholder="Select species" formControlName="birdId" type="number" required>
                     <mat-option *ngFor="let bird of birdsSpecies" [value]="bird.birdId">
                       <p>{{bird.englishName}}, <em> {{ bird.species }}</em> | bird.birderStatus</p>
@@ -64,7 +84,7 @@
                       *ngIf="editObservationForm.get('birdId').hasError(validation.type) && (editObservationForm.get('birdId').dirty || editObservationForm.get('birdId').touched)">
                       {{validation.message}}</mat-error>
                   </mat-error>
-                </mat-form-field>
+                </mat-form-field> -->
 
                 <mat-form-field class="full-width">
                   <input matInput [matDatepicker]="picker" placeholder="Choose a date"
