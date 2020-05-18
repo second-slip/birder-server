@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { TweetDay } from '../../_models/TweetDay';
-import { TweetsService } from '../../_services/tweets.service';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { TweetDay } from '@app/_models/TweetDay';
+import { TweetsService } from '@app/_services/tweets.service';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 @Component({
-  selector: 'app-info-tweet-day',
-  templateUrl: './info-tweet-day.component.html',
-  styleUrls: ['./info-tweet-day.component.scss'],
+  selector: 'app-info-tweet',
+  templateUrl: './info-tweet.component.html',
+  styleUrls: ['./info-tweet.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class InfoTweetDayComponent implements OnInit {
+export class InfoTweetComponent implements OnInit {
   tweet: TweetDay;
   requesting: boolean;
 
@@ -34,3 +34,4 @@ export class InfoTweetDayComponent implements OnInit {
       );
   }
 }
+

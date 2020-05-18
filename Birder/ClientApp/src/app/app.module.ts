@@ -40,7 +40,6 @@ import { AgmCoreModule } from '@agm/core';
 import { GeocodeService } from './_services/geocode.service';
 import { InfoObservationCountComponent } from './_info/info-observation-count/info-observation-count.component';
 import { InfoTopObservationsComponent } from './_info/info-top-observations/info-top-observations.component';
-import { InfoTweetDayComponent } from './_info/info-tweet-day/info-tweet-day.component';
 import { InfoNetworkComponent } from './_info/info-network/info-network.component';
 import { LifeListComponent } from './life-list/life-list.component';
 import { InfoAwardsComponent } from './_info/info-awards/info-awards.component';
@@ -86,6 +85,7 @@ import { NetworkSearchComponent } from './_network/network-search/network-search
 import { NetworkSuggestionsComponent } from './_network/network-suggestions/network-suggestions.component';
 import { NetworkComponent } from './_network/network/network.component';
 import { BirdsIndexGridViewComponent } from './_birds/birds-index-grid-view/birds-index-grid-view.component';
+import { InfoTweetComponent } from './_info/info-tweet/info-tweet.component';
 
 // import { UsernameValidator } from 'validators';
 
@@ -143,7 +143,6 @@ export function tokenGetter() {
     ObservationDeleteComponent,
     InfoObservationCountComponent,
     InfoTopObservationsComponent,
-    InfoTweetDayComponent,
     InfoNetworkComponent,
     LifeListComponent,
     InfoAwardsComponent,
@@ -180,6 +179,7 @@ export function tokenGetter() {
     NetworkSuggestionsComponent,
     NetworkComponent,
     BirdsIndexGridViewComponent,
+    InfoTweetComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
