@@ -2,7 +2,7 @@
 
 namespace Birder.ViewModels
 {
-    public class BirdsDto
+    public class BirdsListDto
     {
         public int TotalItems { get; set; }
         public IEnumerable<BirdSummaryViewModel> Items { get; set; }

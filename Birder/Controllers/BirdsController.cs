@@ -47,7 +47,7 @@ namespace Birder.Controllers
                     return NotFound();
                 }
 
-                var viewModel = _mapper.Map<QueryResult<Bird>, BirdsDto>(birds);
+                var viewModel = _mapper.Map<QueryResult<Bird>, BirdsListDto>(birds);
 
                 return Ok(viewModel);
             }

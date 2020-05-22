@@ -103,7 +103,7 @@ namespace Birder.Data
             //CreateMap<Bird, BirdsDdlDto>()
             //    .ReverseMap();
 
-            CreateMap<QueryResult<Bird>, BirdsDto>()
+            CreateMap<QueryResult<Bird>, BirdsListDto>()
                 .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
 
             CreateMap<TweetDay, TweetDayViewModel>()

@@ -71,7 +71,7 @@ namespace Birder.Tests.Controller
             Assert.NotNull(objectResult);
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            Assert.IsAssignableFrom<BirdsDto>(objectResult.Value);
+            Assert.IsAssignableFrom<BirdsListDto>(objectResult.Value);
         }
 
         [Fact]

@@ -4,7 +4,8 @@ using System;
 namespace Birder.ViewModels
 {
     /// <summary>
-    /// A view model containing nearly all Bird information.  Primarily used in the Bird Detail view.
+    /// A view model containing nearly all Bird information.  
+    /// Primarily used in the Bird Detail view.
     /// </summary>
     public class BirdDetailDto
     {
