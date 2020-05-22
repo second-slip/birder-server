@@ -89,7 +89,7 @@ namespace Birder.Controllers
                     return NotFound(message);
                 }
 
-                return Ok(_mapper.Map<QueryResult<Observation>, ObservationDto>(observations));
+                return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations));
             }
             catch (Exception ex)
             {
@@ -115,7 +115,7 @@ namespace Birder.Controllers
 
                 //_profilePhotosService.GetThumbnailsUrl(observations.Items);
 
-                return Ok(_mapper.Map<QueryResult<Observation>, ObservationDto>(observations));
+                return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations));
             }
             catch (Exception ex)
             {
@@ -238,7 +238,7 @@ namespace Birder.Controllers
                 //_cache.Remove(CacheEntries.ObservationsList);
                 //_cache.Remove(CacheEntries.ObservationsSummary);
 
-                return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
+                return Ok(_mapper.Map<Observation, ObservationEditViewModel>(observation));
 
             }
             catch (Exception ex)

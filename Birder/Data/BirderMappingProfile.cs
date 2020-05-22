@@ -21,7 +21,8 @@ namespace Birder.Data
               .ForMember(a => a.ApplicationUser, b => b.Ignore())
               .ForMember(a => a.CreationDate, b => b.Ignore())
               .ForMember(a => a.BirdId, b => b.Ignore())
-              .ForMember(a => a.Bird, b => b.Ignore());
+              .ForMember(a => a.Bird, b => b.Ignore())
+              .ReverseMap();
 
             CreateMap<List<Observation>, ObservationAnalysisViewModel>()
               .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count()))
@@ -30,8 +31,8 @@ namespace Birder.Data
             CreateMap<QueryResult<Observation>, ObservationFeedDto>()
                 .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
 
-            CreateMap<QueryResult<Observation>, ObservationDto>()
-                .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
+            //CreateMap<QueryResult<Observation>, ObservationDto>()
+            //    .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
 
             //CreateMap<List<Observation>, TopObservationsAnalysisViewModel>()
             //  .ForMember(a => a.TopObservations, opt => opt.MapFrom(a =>  //a.Where(t => t.ObservationDateTime >= opt.Items["Date"])

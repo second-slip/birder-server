@@ -68,7 +68,7 @@ namespace Birder.ViewModels
         //public ICollection<Photograph> Photographs { get; set; }
     }
 
-    public class ObservationViewModel : ObservationDto { }
+    public class ObservationViewModel : ObservationViewDto { }
 
-    public class ObservationEditViewModel : ObservationDto { }
+    public class ObservationEditViewModel : ObservationViewDto { }
 }
