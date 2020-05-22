@@ -297,7 +297,7 @@ namespace Birder.Tests.Controller
             var objectResult = Assert.IsType<CreatedAtActionResult>(result);
             Assert.Equal("CreateObservationAsync", objectResult.ActionName);
             Assert.Equal(StatusCodes.Status201Created, objectResult.StatusCode);
-            var actual = Assert.IsType<ObservationDto>(objectResult.Value);
+            var actual = Assert.IsType<ObservationViewModel>(objectResult.Value);
             Assert.Equal(model.BirdId, actual.BirdId);
         }
 
@@ -309,7 +309,7 @@ namespace Birder.Tests.Controller
             return new Bird() { BirdId = birdId };
         }
 
-        private ObservationDto GetTestObservationViewModel(int id, int birdId)
+        private ObservationViewModel GetTestObservationViewModel(int id, int birdId)
         {
             return new ObservationViewModel()
             {
