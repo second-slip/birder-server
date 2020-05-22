@@ -172,7 +172,7 @@ namespace Birder.Tests.Controller
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
-            var actualObs = Assert.IsType<ObservationViewModel>(objectResult.Value);
+            var actualObs = Assert.IsType<ObservationDto>(objectResult.Value);
             Assert.Equal(id, actualObs.ObservationId);
             Assert.Equal(requestingUser.UserName, actualObs.User.UserName);
         }
@@ -661,9 +661,9 @@ namespace Birder.Tests.Controller
             return new Bird() { BirdId = birdId };
         }
 
-        private ObservationViewModel GetTestObservationViewModel(int id, int birdId)
+        private ObservationDto GetTestObservationViewModel(int id, int birdId)
         {
-            return new ObservationViewModel()
+            return new ObservationDto()
             {
                 ObservationId = id,
                 Bird = new BirdSummaryViewModel() { BirdId = birdId },
@@ -671,9 +671,9 @@ namespace Birder.Tests.Controller
             };
         }
 
-        private ObservationViewModel GetTestObservationViewModel(int id, int birdId, ApplicationUser user)
+        private ObservationDto GetTestObservationViewModel(int id, int birdId, ApplicationUser user)
         {
-            return new ObservationViewModel()
+            return new ObservationDto()
             {
                 ObservationId = id,
                 Bird = new BirdSummaryViewModel() { BirdId = birdId },

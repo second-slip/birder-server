@@ -10,14 +10,14 @@ namespace Birder.Data
     {
         public BirderMappingProfile()
         {
-            CreateMap<Observation, ObservationViewModel>()
+            CreateMap<Observation, ObservationDto>()
               .ForMember(a => a.User, b => b.MapFrom(a => a.ApplicationUser));
 
-            CreateMap<ObservationViewModel, Observation>()
+            CreateMap<ObservationDto, Observation>()
               .ForMember(a => a.ApplicationUser, b => b.Ignore())
               .ForMember(a => a.CreationDate, b => b.Ignore());
 
-            CreateMap<ObservationEditViewModel, Observation>()
+            CreateMap<ObservationEditDto, Observation>()
               .ForMember(a => a.ApplicationUser, b => b.Ignore())
               .ForMember(a => a.CreationDate, b => b.Ignore())
               .ForMember(a => a.BirdId, b => b.Ignore())

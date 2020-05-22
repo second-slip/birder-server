@@ -391,7 +391,7 @@ namespace Birder.Tests.Controller
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            var actual = Assert.IsType<ObservationEditViewModel>(objectResult.Value);
+            var actual = Assert.IsType<ObservationEditDto>(objectResult.Value);
             Assert.Equal(model.ObservationId, actual.ObservationId);
             Assert.Equal(model.BirdId, actual.Bird.BirdId);
         }
@@ -399,9 +399,9 @@ namespace Birder.Tests.Controller
         #endregion
 
 
-        private ObservationEditViewModel GetTestObservationEditViewModel(int id, int birdId)
+        private ObservationEditDto GetTestObservationEditViewModel(int id, int birdId)
         {
-            return new ObservationEditViewModel()
+            return new ObservationEditDto()
             {
                 ObservationId = id,
                 Bird = new BirdSummaryViewModel() { BirdId = birdId },
@@ -409,9 +409,9 @@ namespace Birder.Tests.Controller
             };
         }
 
-        private ObservationEditViewModel GetTestObservationEditViewModel(int id, int birdId, ApplicationUser user)
+        private ObservationEditDto GetTestObservationEditViewModel(int id, int birdId, ApplicationUser user)
         {
-            return new ObservationEditViewModel()
+            return new ObservationEditDto()
             {
                 ObservationId = id,
                 Bird = new BirdSummaryViewModel() { BirdId = birdId },

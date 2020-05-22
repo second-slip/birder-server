@@ -158,7 +158,7 @@ namespace Birder.Tests.Controller
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
             var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
             Assert.Equal(length, actual.TotalItems);
-            Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+            Assert.IsType<ObservationDto>(actual.Items.FirstOrDefault());
             Assert.Equal(filter, actual.ReturnFilter);
         }
 
@@ -212,7 +212,7 @@ namespace Birder.Tests.Controller
                 Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
                 var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
                 Assert.Equal(length, actual.TotalItems);
-                Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+                Assert.IsType<ObservationDto>(actual.Items.FirstOrDefault());
                 Assert.Equal(returnFilter, actual.ReturnFilter);
             }
         }
@@ -268,7 +268,7 @@ namespace Birder.Tests.Controller
                 Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
                 var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
                 Assert.Equal(length, actual.TotalItems);
-                Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+                Assert.IsType<ObservationDto>(actual.Items.FirstOrDefault());
                 Assert.Equal(returnFilter, actual.ReturnFilter);
             }
         }
@@ -428,7 +428,7 @@ namespace Birder.Tests.Controller
                 Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
                 var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
                 Assert.Equal(length, actual.TotalItems);
-                Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+                Assert.IsType<ObservationDto>(actual.Items.FirstOrDefault());
                 Assert.Equal(returnFilter, actual.ReturnFilter);
             }
         }
@@ -484,7 +484,7 @@ namespace Birder.Tests.Controller
                 Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
                 var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
                 Assert.Equal(length, actual.TotalItems);
-                Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+                Assert.IsType<ObservationDto>(actual.Items.FirstOrDefault());
                 Assert.Equal(returnFilter, actual.ReturnFilter);
             }
         }
@@ -560,7 +560,7 @@ namespace Birder.Tests.Controller
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
             var actual = Assert.IsType<ObservationFeedDto>(objectResult.Value);
             Assert.Equal(length, actual.TotalItems);
-            Assert.IsType<ObservationViewModel>(actual.Items.FirstOrDefault());
+            Assert.IsType<ObservationDto>(actual.Items.FirstOrDefault());
             Assert.Equal(filter, actual.ReturnFilter);
         }
 
