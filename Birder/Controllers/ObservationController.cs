@@ -64,7 +64,7 @@ namespace Birder.Controllers
                     return NotFound(message);
                 }
 
-                return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
+                return Ok(_mapper.Map<Observation, ObservationDto>(observation));
             }
             catch (Exception ex)
             {
@@ -89,7 +89,7 @@ namespace Birder.Controllers
                     return NotFound(message);
                 }
 
-                return Ok(_mapper.Map<QueryResult<Observation>, ObservationDto>(observations));
+                return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations));
             }
             catch (Exception ex)
             {
@@ -115,7 +115,7 @@ namespace Birder.Controllers
 
                 //_profilePhotosService.GetThumbnailsUrl(observations.Items);
 
-                return Ok(_mapper.Map<QueryResult<Observation>, ObservationDto>(observations));
+                return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations));
             }
             catch (Exception ex)
             {
@@ -127,7 +127,7 @@ namespace Birder.Controllers
 
 
         [HttpPost, Route("CreateObservation")]
-        public async Task<IActionResult> CreateObservationAsync(ObservationViewModel model)
+        public async Task<IActionResult> CreateObservationAsync(ObservationDto model)
         {
             try
             {
@@ -154,7 +154,7 @@ namespace Birder.Controllers
                     return NotFound(message);
                 }
 
-                var observation = _mapper.Map<ObservationViewModel, Observation>(model);
+                var observation = _mapper.Map<ObservationDto, Observation>(model);
                 observation.ApplicationUser = requestingUser;
                 observation.Bird = observedBirdSpecies;
                 observation.CreationDate = _systemClock.GetNow;
@@ -173,7 +173,7 @@ namespace Birder.Controllers
                 ClearCache();
                 //_cache.Remove(CacheEntries.ObservationsList);
                 //_cache.Remove(CacheEntries.ObservationsSummary);
-                return CreatedAtAction(nameof(CreateObservationAsync), _mapper.Map<Observation, ObservationViewModel>(observation));
+                return CreatedAtAction(nameof(CreateObservationAsync), _mapper.Map<Observation, ObservationDto>(observation));
             }
             catch (Exception ex)
             {
@@ -214,7 +214,7 @@ namespace Birder.Controllers
                     return Unauthorized("Requesting user is not allowed to edit this observation");
                 }
 
-                _mapper.Map<ObservationEditViewModel, Observation>(model, observation);
+                _mapper.Map(model, observation);
                 // if (model.Bird.BirdId != observation.Bird.BirdId)
                 // {
                 //     var bird = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
@@ -235,10 +235,8 @@ namespace Birder.Controllers
                 await _unitOfWork.CompleteAsync();
 
                 ClearCache();
-                //_cache.Remove(CacheEntries.ObservationsList);
-                //_cache.Remove(CacheEntries.ObservationsSummary);
 
-                return Ok(_mapper.Map<Observation, ObservationViewModel>(observation));
+                return Ok(_mapper.Map<Observation, ObservationDto>(observation));
 
             }
             catch (Exception ex)

@@ -1,24 +1,16 @@
-﻿using Birder.Data.Model;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Birder.ViewModels
 {
     public abstract class ObservationDto
     {
-        //[Key]
         public int ObservationId { get; set; }
 
-        //public Geography LocationGeoTest { get; set; } ---> Not supported in EF Core 2.0
         public double LocationLatitude { get; set; }
 
         public double LocationLongitude { get; set; }
 
-        //[Range(1, 1000, ErrorMessage = "The value must be greater than 0")]
-        //[Display(Name = "Individuals")]
         [Range(1, int.MaxValue, ErrorMessage = "The observation count should be at least one individual")]
         public int Quantity { get; set; }
 
@@ -56,16 +48,10 @@ namespace Birder.ViewModels
         public DateTime CreationDate { get; set; }
         public DateTime LastUpdateDate { get; set; }
 
-        //[Display(Name = "Observed species")]
-        //[Range(1, int.MaxValue, ErrorMessage = "You must choose the bird species you observed")]
         public int BirdId { get; set; }
-        //public string ApplicationUserId { get; set; }
 
         public BirdSummaryViewModel Bird { get; set; }
-        //public ApplicationUser ApplicationUser { get; set; }
         public UserViewModel User { get; set; }
-        //public ICollection<ObservationTag> ObservationTags { get; set; }
-        //public ICollection<Photograph> Photographs { get; set; }
     }
 
     public class ObservationViewModel : ObservationDto { }
