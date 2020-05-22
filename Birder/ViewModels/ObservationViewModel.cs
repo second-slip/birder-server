@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Birder.ViewModels
 {
-    public abstract class ObservationDto
+    public abstract class ObservationViewDto
     {
         //[Key]
         public int ObservationId { get; set; }
