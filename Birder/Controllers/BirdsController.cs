@@ -104,7 +104,7 @@ namespace Birder.Controllers
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<Bird, BirdDetailViewModel>(bird));
+                return Ok(_mapper.Map<Bird, BirdDetailDto>(bird));
             }
             catch (Exception ex)
             {

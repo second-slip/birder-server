@@ -91,7 +91,7 @@ namespace Birder.Data
             CreateMap<ApplicationUser, ManageProfileViewModel>()
               .ReverseMap();
 
-            CreateMap<Bird, BirdDetailViewModel>()
+            CreateMap<Bird, BirdDetailDto>()
               .ReverseMap();
 
             CreateMap<Bird, BirdSummaryViewModel>()

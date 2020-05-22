@@ -150,7 +150,7 @@ namespace Birder.Tests.Controller
             Assert.NotNull(objectResult);
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            var model = Assert.IsType<BirdDetailViewModel>(objectResult.Value);
+            var model = Assert.IsType<BirdDetailDto>(objectResult.Value);
             Assert.Equal(birdId, model.BirdId);
         }
 
