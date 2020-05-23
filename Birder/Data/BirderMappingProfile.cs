@@ -31,8 +31,6 @@ namespace Birder.Data
             CreateMap<QueryResult<Observation>, ObservationFeedDto>()
                 .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
 
-            //CreateMap<QueryResult<Observation>, ObservationDto>()
-            //    .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
 
             //CreateMap<List<Observation>, TopObservationsAnalysisViewModel>()
             //  .ForMember(a => a.TopObservations, opt => opt.MapFrom(a =>  //a.Where(t => t.ObservationDateTime >= opt.Items["Date"])
@@ -99,9 +97,6 @@ namespace Birder.Data
               .ForMember(a => a.ConservationListColourCode, b => b.MapFrom(a => a.BirdConservationStatus.ConservationListColourCode))
               .ForMember(a => a.BirderStatus, b => b.MapFrom(a => a.BirderStatus))
               .ReverseMap();
-
-            //CreateMap<Bird, BirdsDdlDto>()
-            //    .ReverseMap();
 
             CreateMap<QueryResult<Bird>, BirdsListDto>()
                 .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
