@@ -24,7 +24,7 @@ export const environment = {
     flickrApiKey: '<<<add Flickr Api Key>>>',
     flickrApiUrl: 'https://api.flickr.com/services/rest/',
     cookieDomain: 'localhost',
-    mapKey: ''<<<add Google Maps Api Key>>>',' 
+    mapKey: '<<<add Google Maps Api Key>>>' 
   };
   ```
 
