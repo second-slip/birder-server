@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "^9.0.6",
     "@angular/router": "^9.0.0",
     "@auth0/angular-jwt": "^2.1.2",
-    "@ng-bootstrap/ng-bootstrap": "^6.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "@nguniversal/aspnetcore-engine": "^9.0.1",
     "@ngx-gallery/core": "^4.0.3",
     "acorn": "^7.1.1",
