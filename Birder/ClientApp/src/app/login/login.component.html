@@ -1,63 +1,56 @@
 <div class="container">
   <div class="row">
-      <div class='col-sm-2'>
-      </div>
-    <div class="col-sm-8">
-      <div class="login-container">
-        <h2 class="section-title">Login</h2>
-        <div *ngIf="errorMessage" class="alert alert-danger">
-          <h4>Login failed</h4>
-          <p>There was an error logging in.  Make sure you have typed the correct email and password.
+
+    <div class="login-container">
+      <h2 class="section-title">Login</h2>
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        <h4>Login failed</h4>
+        <p>There was an error logging in. Make sure you have typed the correct email and password.
           <br>If you have forgotten your password, you can <a [routerLink]='["/forgot-password"]'>reset it</a>.</p>
-        </div>
-        <!-- <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username or password.</div> -->
-        
-        <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit(loginForm.value)">
+      </div>
 
-          <mat-form-field class="full-width">
-            <input matInput type="email" placeholder="Email" formControlName="username" required>
-            <mat-error *ngFor="let validation of login_validation_messages.username">
-              <mat-error class="error-message"
-                *ngIf="loginForm.get('username').hasError(validation.type) && (loginForm.get('username').dirty || loginForm.get('username').touched)">
-                {{validation.message}}</mat-error>
-            </mat-error>
-          </mat-form-field>
+      <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit(loginForm.value)">
 
-          <mat-form-field class="full-width">
-            <input matInput type="password" placeholder="Password" formControlName="password" required>
-            <mat-error *ngFor="let validation of login_validation_messages.password">
-              <mat-error class="error-message"
-                *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
-                {{validation.message}}</mat-error>
-            </mat-error>
-          </mat-form-field>
-
-          <mat-checkbox formControlName="rememberMe">
-            Remember Me?
-          </mat-checkbox>
-          <mat-error *ngFor="let validation of login_validation_messages.rememberMe">
+        <mat-form-field class="full-width">
+          <input matInput type="email" placeholder="Email" formControlName="username" required>
+          <mat-error *ngFor="let validation of login_validation_messages.username">
             <mat-error class="error-message"
-              *ngIf="loginForm.get('rememberMe').hasError(validation.type) && (loginForm.get('rememberMe').dirty || loginForm.get('rememberMe').touched)">
+              *ngIf="loginForm.get('username').hasError(validation.type) && (loginForm.get('username').dirty || loginForm.get('username').touched)">
               {{validation.message}}</mat-error>
           </mat-error>
+        </mat-form-field>
 
-          <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">
-            Login
-          </button>
-          <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
-            Checking your credentials...
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          </button>
+        <mat-form-field class="full-width">
+          <input matInput type="password" placeholder="Password" formControlName="password" required>
+          <mat-error *ngFor="let validation of login_validation_messages.password">
+            <mat-error class="error-message"
+              *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+              {{validation.message}}</mat-error>
+          </mat-error>
+        </mat-form-field>
 
-          <div>
-            <a class="nav-link" [routerLink]='["/forgot-password"]'>Forgot password?</a>
-          </div>
+        <mat-checkbox formControlName="rememberMe">
+          Remember Me?
+        </mat-checkbox>
+        <mat-error *ngFor="let validation of login_validation_messages.rememberMe">
+          <mat-error class="error-message"
+            *ngIf="loginForm.get('rememberMe').hasError(validation.type) && (loginForm.get('rememberMe').dirty || loginForm.get('rememberMe').touched)">
+            {{validation.message}}</mat-error>
+        </mat-error>
 
-        </form>
-      </div>
+        <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">
+          Login
+        </button>
+        <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
+          Checking your credentials...
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+
+        <div>
+          <a class="nav-link" [routerLink]='["/forgot-password"]'>Forgot password?</a>
+        </div>
+
+      </form>
     </div>
-    <div class='col-sm-2'>
-      </div>
   </div>
 </div>
-      
