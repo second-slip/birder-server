@@ -13,4 +13,43 @@ app-home {
     text-align: center;
     border: 3px solid #73ad21;
   }
+
+  //
+
+  // .some-page-wrapper {
+  //   margin: 15px;
+  //   background-color: red;
+  // }
+
+  .btn {
+    margin-top: 20px;
+  }
+  
+  .row-p {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  .column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+    border: 3px solid #73ad21;
+  }
+  
+  // .blue-column {
+  //   background-color: blue;
+  //   // height: 100px;
+  // }
+  
+  // .green-column {
+  //   background-color: green;
+  //   // height: 100px;
+  // }
+  
+
+
 }
