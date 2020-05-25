@@ -1,23 +1,19 @@
 <div class="container">
-    <!-- <div class="row"> -->
     <div class="home-container">
-
-        <div class='some-page-wrapper'>
+        <div class="section">
             <div class='row-p'>
                 <div class='column'>
-                    <div class='blue-column'>
+                    <div>
                         <img src="./assets/Birder-Logo-With-Text.png" alt="Birder">
                     </div>
-                </div>
-                <div class='column'>
                     <div class='green-column'>
                         <div>
-                            <button type="submit" class="btn btn-primary">
-                                New to Birder?  Register here
+                            <button type="submit" class="btn btn-outline-info" [routerLink]='["/register"]'>
+                                New to Birder? Start here
                             </button>
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-outline-info" [routerLink]='["/login"]'>
                                 Already have an account? Login here
                             </button>
                         </div>
@@ -27,10 +23,44 @@
         </div>
 
         <hr>
-        <p>gh</p>
+
+        <div class="section">
+            <p>Section Header</p>
+
+            <div class='row-p'>
 
 
-
-        <!-- Home Container end -->
+                <div class='column'>
+                    <div class='green-column'>
+                        <p>k</p>
+                        <!-- <div>
+                        <button type="submit" class="btn btn-outline-info" [routerLink]='["/register"]'>
+                            New to Birder?  Start here
+                        </button>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-outline-info" [routerLink]='["/login"]'>
+                            Already have an account? Login here
+                        </button>
+                    </div> -->
+                    </div>
+                </div>
+                <!-- <div class='column'>
+                <div class='green-column'>
+                    <h4>Birder</h4>
+                    <div>
+                        <button type="submit" class="btn btn-primary">
+                            New to Birder?  Start here
+                        </button>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">
+                            Already have an account? Login here
+                        </button>
+                    </div>
+                </div>
+            </div> -->
+            </div>
+        </div>
     </div>
 </div>

@@ -21,7 +21,7 @@
         <li class="nav-item" *ngIf="isLoggedIn">
           <a class="nav-link" [routerLink]='["/network"]'>Network</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isLoggedIn">
           <a class="nav-link" [routerLink]='["/testing"]'>Test</a>
         </li>
       </ul>
