@@ -84,16 +84,12 @@ export class ObservationService {
   }
 
   getObservationsShowcase(): Observable<ObservationDto | ErrorReportViewModel> {
-    // const params = new HttpParams()
-    //   .set('pageIndex', pageIndex.toString())
-    //   .set('pageSize', pageSize.toString());
-
     return this.http.get<ObservationDto>(`api/Observation/GetObservationsByUser`, httpOptions)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  announceObservationsChanged(): void {
+  private announceObservationsChanged(): void {
     this.observationsChanged.next();
   }
 }
