@@ -44,7 +44,7 @@
                 <a routerLink="/birds-detail/{{observation.bird.birdId}}">
                   {{observation.bird.englishName}}
                 </a>
-                {{observation.quantity > 1 ? 'were' : 'was'}}
+                {{ observation.quantity > 1 ? 'were' : 'was' }}
                 spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
                   {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
                 </a>
