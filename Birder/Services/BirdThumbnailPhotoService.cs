@@ -14,6 +14,8 @@ namespace Birder.Services
         //Observation GetUrlForObservation(Observation observation);
     }
 
+    // potentially use a distributed cache to limited hits on the external API?
+
     public class BirdThumbnailPhotoService : IBirdThumbnailPhotoService
     {
         private IMemoryCache _cache;

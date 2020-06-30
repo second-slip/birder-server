@@ -62,6 +62,7 @@ namespace Birder.Controllers
 
                     if (userObservations.TotalItems > 0 || pageIndex > 1)
                     {
+                        _profilePhotosService.GetUrlForObservations(userObservations.Items);
                         var modelO = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(userObservations);
                         modelO.ReturnFilter = ObservationFeedFilter.Own;
                         return Ok(modelO);
@@ -89,27 +90,9 @@ namespace Birder.Controllers
                         return NotFound("Observations not found");
                     }
 
-                    //
-                    _profilePhotosService.GetUrlForObservations(networkObservations.Items);
-                    //
-
-                    //
-                    //foreach (var item in networkObservations.Items)
-                    //{
-                    //    if (_cache.TryGetValue(string.Concat("thumb-", item.Bird.BirdId), out string cacheUrl))
-                    //    {
-                    //        item.Bird.ThumbnailUrl = cacheUrl;
-                    //    }
-                    //    else
-                    //    {
-                    //        item.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(item.Bird.Species);
-                    //        _cache.Set(string.Concat("thumb-", item.Bird.BirdId), item.Bird.ThumbnailUrl);
-                    //    }
-                    //}
-                    //
-
                     if (networkObservations.TotalItems > 0 || pageIndex > 1)
                     {
+                        _profilePhotosService.GetUrlForObservations(networkObservations.Items);
                         var modelN = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(networkObservations);
                         modelN.ReturnFilter = ObservationFeedFilter.Network;
                         return Ok(modelN);
@@ -123,6 +106,8 @@ namespace Birder.Controllers
                     _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
                     return NotFound("Observations not found");
                 }
+
+                _profilePhotosService.GetUrlForObservations(publicObservations.Items);
 
                 var model = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(publicObservations);
                 model.ReturnFilter = ObservationFeedFilter.Public;
