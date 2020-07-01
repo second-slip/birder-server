@@ -1,7 +1,7 @@
 <p>showcase-observations-list works!</p>
 
 <div>
-    <div *ngIf="itemResults$ | async as results; else loading">
+    <div *ngIf="observations as results; else loading">
         <ng-container *ngIf="results.length; else noItems">
             <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
                 <div class="timeline-item"
