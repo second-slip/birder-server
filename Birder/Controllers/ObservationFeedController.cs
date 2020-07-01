@@ -119,5 +119,32 @@ namespace Birder.Controllers
                 return BadRequest("An unexpected error occurred");
             }
         }
+
+        [AllowAnonymous]
+        [HttpGet, Route("GetShowcaseObservationsFeed")]
+        public async Task<IActionResult> GetShowcaseObservationsFeed()
+        {
+            try
+            {
+                var observations = await _observationRepository.GetObservationsFeedAsync(obs => obs.Bird.BirderStatus == BirderStatus.Uncommon, 1, 10);
+
+                if (observations == null)
+                {
+                    string message = $"Showcase observations not found.";
+                    _logger.LogWarning(LoggingEvents.GetListNotFound, message);
+                    return NotFound(message);
+                }
+
+                _profilePhotosService.GetUrlForObservations(observations.Items);
+
+                return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations));
+            }
+            catch (Exception ex)
+            {
+                string message = $"An error occurred getting the showcase observations.";
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
+                return BadRequest("An error occurred");
+            }
+        }
     }
 }

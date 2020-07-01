@@ -125,7 +125,6 @@ namespace Birder.Controllers
             }
         }
 
-
         [HttpPost, Route("CreateObservation")]
         public async Task<IActionResult> CreateObservationAsync(ObservationDto model)
         {
