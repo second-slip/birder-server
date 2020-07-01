@@ -1,1 +1,67 @@
 <p>showcase-observations-list works!</p>
+
+<div>
+    <div *ngIf="itemResults$ | async as results; else loading">
+        <ng-container *ngIf="results.length; else noItems">
+            <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
+                <div class="timeline-item"
+                    attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
+
+
+                    <div class="row">
+                        <div class="col-sm-2 d-none d-lg-block">
+                            <img src="{{ observation.bird.thumbnailUrl }}" class="card-img"
+                                alt="{{ observation.bird.species }}" placement="bottom"
+                                ngbTooltip="{{ observation.bird.species }}">
+                            <!-- width="75px" height="75px" -->
+                        </div>
+                        <div class="col-sm-10">
+                            <h4 class="lines"><b>{{observation.quantity}}</b>
+                                <a routerLink="/birds-detail/{{observation.bird.birdId}}">
+                                    {{observation.bird.englishName}}
+                                </a>
+                                {{ observation.quantity > 1 ? 'were' : 'was' }}
+                                spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
+                                    {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
+                                </a>
+                            </h4>
+
+                            <p class="location">
+                                <mat-icon>location_on</mat-icon><span class="aligned-with-icon"> --insert location--
+                                    lat: {{ observation.locationLatitude }} lng: {{ observation.locationLongitude }}
+                                </span>
+                            </p>
+
+                            <p class="lines">
+                                <a routerLink="/observation-detail/{{observation.observationId}}">
+                                    View
+                                </a>
+                                <!-- <a *ngIf="observation.user.userName === user.userName"
+                      routerLink="/observation-manage-photos/{{observation.observationId}}">
+                      | Manage Photos
+                    </a> -->
+                                <a *ngIf="observation.user.userName === user.userName"
+                                    routerLink="/observation-edit/{{observation.observationId}}">
+                                    | Edit
+                                </a>
+                                <a *ngIf="observation.user.userName === user.userName"
+                                    routerLink="/observation-delete/{{observation.observationId}}">
+                                    | Delete
+                                </a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #noItems>No Items!</ng-template>
+    </div>
+
+    <ng-template #loading>
+        <div class="loading">
+            <p><em>Loading your feed...</em></p>
+            <mat-spinner></mat-spinner>
+        </div>
+    </ng-template>
+</div>
