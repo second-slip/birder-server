@@ -31,7 +31,7 @@ export class ObservationsFeedService {
       .set('pageIndex', pageIndex.toString());
       // .set('filter', filter.toString());
 
-    return this.http.get<ObservationFeedDto>(`api/GetShowcaseObservationsFeed`, { params })
+    return this.http.get<ObservationFeedDto>(`api/ObservationFeed/GetShowcaseObservationsFeed`, { params })
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

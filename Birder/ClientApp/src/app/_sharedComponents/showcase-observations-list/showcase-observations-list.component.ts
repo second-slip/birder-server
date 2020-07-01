@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ObservationsFeedService } from '@app/_services/observations-feed.service';
@@ -7,10 +7,12 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 @Component({
   selector: 'app-showcase-observations-list',
   templateUrl: './showcase-observations-list.component.html',
-  styleUrls: ['./showcase-observations-list.component.scss']
+  styleUrls: ['./showcase-observations-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ShowcaseObservationsListComponent implements OnInit {
   observations: ObservationViewModel[];
+  private itemHeight = 177; //177
 
   constructor(private observationsFeedService: ObservationsFeedService) { }
 

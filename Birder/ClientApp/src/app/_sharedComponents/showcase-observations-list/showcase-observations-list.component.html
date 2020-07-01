@@ -1,6 +1,5 @@
-<p>showcase-observations-list works!</p>
 
-<div>
+<div class="container">
     <div *ngIf="observations as results; else loading">
         <ng-container *ngIf="results.length; else noItems">
             <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
@@ -22,7 +21,7 @@
                                 </a>
                                 {{ observation.quantity > 1 ? 'were' : 'was' }}
                                 spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
-                                    {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
+                                    {{ observation.user.userName }}
                                 </a>
                             </h4>
 
@@ -32,14 +31,10 @@
                                 </span>
                             </p>
 
-                            <p class="lines">
+                            <!-- <p class="lines">
                                 <a routerLink="/observation-detail/{{observation.observationId}}">
                                     View
                                 </a>
-                                <!-- <a *ngIf="observation.user.userName === user.userName"
-                      routerLink="/observation-manage-photos/{{observation.observationId}}">
-                      | Manage Photos
-                    </a> -->
                                 <a *ngIf="observation.user.userName === user.userName"
                                     routerLink="/observation-edit/{{observation.observationId}}">
                                     | Edit
@@ -48,7 +43,7 @@
                                     routerLink="/observation-delete/{{observation.observationId}}">
                                     | Delete
                                 </a>
-                            </p>
+                            </p> -->
 
                         </div>
                     </div>
