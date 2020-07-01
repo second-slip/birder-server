@@ -25,4 +25,14 @@ export class ObservationsFeedService {
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
+
+  getShowcaseObservationsFeed(pageIndex: number): Observable<ObservationFeedDto | ErrorReportViewModel> {
+    const params = new HttpParams()
+      .set('pageIndex', pageIndex.toString());
+      // .set('filter', filter.toString());
+
+    return this.http.get<ObservationFeedDto>(`api/GetShowcaseObservationsFeed`, { params })
+      .pipe(
+        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
 }
