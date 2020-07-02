@@ -122,11 +122,11 @@ namespace Birder.Controllers
 
         [AllowAnonymous]
         [HttpGet, Route("GetShowcaseObservationsFeed")]
-        public async Task<IActionResult> GetShowcaseObservationsFeed(int pageIndex)
+        public async Task<IActionResult> GetShowcaseObservationsFeed(int quantity)
         {
             try
             {
-                var observations = await _observationRepository.GetShowcaseObservationsFeedAsync(obs => obs.Bird.BirderStatus == BirderStatus.Uncommon, 10);
+                var observations = await _observationRepository.GetShowcaseObservationsFeedAsync(obs => obs.Bird.BirderStatus == BirderStatus.Uncommon, quantity);
 
                 if (observations == null)
                 {

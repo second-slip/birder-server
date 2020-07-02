@@ -5,7 +5,6 @@
                 <div class="timeline-item"
                     attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
 
-
                     <div class="row">
                         <div class="col-sm-2 d-none d-lg-block">
                             <img src="{{ observation.bird.thumbnailUrl }}" class="card-img"
@@ -37,20 +36,6 @@
                                     </a>
                                     to view the full details of this observation...</i>
                             </p>
-
-                            <!-- <p class="lines">
-                                <a routerLink="/observation-detail/{{observation.observationId}}">
-                                    View
-                                </a>
-                                <a *ngIf="observation.user.userName === user.userName"
-                                    routerLink="/observation-edit/{{observation.observationId}}">
-                                    | Edit
-                                </a>
-                                <a *ngIf="observation.user.userName === user.userName"
-                                    routerLink="/observation-delete/{{observation.observationId}}">
-                                    | Delete
-                                </a>
-                            </p> -->
 
                         </div>
                     </div>
