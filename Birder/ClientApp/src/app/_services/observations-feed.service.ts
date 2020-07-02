@@ -26,9 +26,9 @@ export class ObservationsFeedService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getShowcaseObservationsFeed(pageIndex: number): Observable<ObservationFeedDto | ErrorReportViewModel> {
+  getShowcaseObservationsFeed(quantity: number): Observable<ObservationFeedDto | ErrorReportViewModel> {
     const params = new HttpParams()
-      .set('pageIndex', quantity.toString());
+      .set('quantity', quantity.toString());
       // .set('filter', filter.toString());
 
     return this.http.get<ObservationFeedDto>(`api/ObservationFeed/GetShowcaseObservationsFeed`, { params })

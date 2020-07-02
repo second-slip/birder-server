@@ -17,11 +17,11 @@ export class ShowcaseObservationsListComponent implements OnInit {
   constructor(private observationsFeedService: ObservationsFeedService) { }
 
   ngOnInit(): void {
-    this.getObservations(1);
+    this.getObservations(10);
   }
 
-  getObservations(page: number): void {
-    this.observationsFeedService.getShowcaseObservationsFeed(page)
+  getObservations(quantity: number): void {
+    this.observationsFeedService.getShowcaseObservationsFeed(quantity)
     .subscribe(
       (data: ObservationFeedDto) => {
         // this.totalItems = data.totalItems;
