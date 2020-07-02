@@ -34,7 +34,6 @@ namespace Birder.Controllers
                                        , UserManager<ApplicationUser> userManager
                                        , IObservationRepository observationRepository
                                        , IBirdThumbnailPhotoService profilePhotosService)
-                                       //, IFlickrService flickrService)
         {
             _mapper = mapper;
             _logger = logger;
@@ -42,7 +41,6 @@ namespace Birder.Controllers
             _userManager = userManager;
             _observationRepository = observationRepository;
             _profilePhotosService = profilePhotosService;
-            //_flickrService = flickrService;
         }
 
         [HttpGet]
