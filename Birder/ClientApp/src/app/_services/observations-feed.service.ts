@@ -29,7 +29,6 @@ export class ObservationsFeedService {
   getShowcaseObservationsFeed(quantity: number): Observable<ObservationFeedDto | ErrorReportViewModel> {
     const params = new HttpParams()
       .set('quantity', quantity.toString());
-      // .set('filter', filter.toString());
 
     return this.http.get<ObservationFeedDto>(`api/ObservationFeed/GetShowcaseObservationsFeed`, { params })
       .pipe(
