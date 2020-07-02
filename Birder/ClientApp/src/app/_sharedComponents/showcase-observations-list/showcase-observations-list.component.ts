@@ -12,7 +12,7 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 })
 export class ShowcaseObservationsListComponent implements OnInit {
   observations: ObservationViewModel[];
-  private itemHeight = 177; //177
+  private itemHeight = 192; //177
 
   constructor(private observationsFeedService: ObservationsFeedService) { }
 
