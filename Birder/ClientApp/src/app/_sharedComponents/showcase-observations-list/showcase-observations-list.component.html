@@ -1,4 +1,3 @@
-
 <div class="container">
     <div *ngIf="observations as results; else loading">
         <ng-container *ngIf="results.length; else noItems">
@@ -56,6 +55,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="feedEndAlert">
+                <p>
+                    <ngb-alert [dismissible]="false">
+                        <strong><i>Information </i></strong> There are no more items to load...
+                    </ngb-alert>
+                </p>
             </div>
         </ng-container>
         <ng-template #noItems>No Items!</ng-template>
