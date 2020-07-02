@@ -126,7 +126,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var observations = await _observationRepository.GetObservationsFeedAsync(obs => obs.Bird.BirderStatus == BirderStatus.Uncommon, pageIndex, 10);
+                var observations = await _observationRepository.GetShowcaseObservationsFeedAsync(obs => obs.Bird.BirderStatus == BirderStatus.Uncommon, 10);
 
                 if (observations == null)
                 {
