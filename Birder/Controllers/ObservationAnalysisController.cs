@@ -58,10 +58,13 @@ namespace Birder.Controllers
                 //    return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
                 //}
 
-                if (_cache.TryGetValue(CacheEntries.ObservationsSummary, out ObservationAnalysisViewModel observationsSummaryCache))
-                {
-                    return Ok(observationsSummaryCache);
-                }
+                // CACHE FAULT 4/7/20  **************************************
+                // CACHE WITH USER ID OR USERNAME OR SOMETHING UNIQUE
+                // GET RID -- ONLY CALLS WHEN USER NAVIGATES AWAY FROM VIEW WITH ANALYSIS SIDEBAR
+                // if (_cache.TryGetValue(CacheEntries.ObservationsSummary, out ObservationAnalysisViewModel observationsSummaryCache))
+                // {
+                //     return Ok(observationsSummaryCache);
+                // }
 
                 // var observations = await _observationRepository.GetObservationsAsync(x => x.ApplicationUser.UserName == username);
 
@@ -71,7 +74,7 @@ namespace Birder.Controllers
 
                 var viewModel = await _observationsAnalysisService.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == username);
 
-                _cache.Set(CacheEntries.ObservationsSummary, viewModel, _systemClock.GetEndOfToday);
+                // _cache.Set(CacheEntries.ObservationsSummary, viewModel, _systemClock.GetEndOfToday);
 
                 return Ok(viewModel);
             }
@@ -94,17 +97,20 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
-                {
-                    var viewModelCache = ObservationsAnalysisHelper.MapTopObservations(observationsCache, _systemClock.GetToday.AddDays(-30));
-                    return Ok(viewModelCache);
-                }
+                // CACHE FAULT 4/7/20  **************************************
+                // CACHE WITH USER ID OR USERNAME OR SOMETHING UNIQUE
+                // GET RID -- ONLY CALLS WHEN USER NAVIGATES AWAY FROM VIEW WITH ANALYSIS SIDEBAR
+                // if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
+                // {
+                //     var viewModelCache = ObservationsAnalysisHelper.MapTopObservations(observationsCache, _systemClock.GetToday.AddDays(-30));
+                //     return Ok(viewModelCache);
+                // }
 
                 var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
 
                 // observations is null check?
 
-                _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
+                // _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
                 var viewModel = ObservationsAnalysisHelper.MapTopObservations(observations, _systemClock.GetToday.AddDays(-30));
 
@@ -129,15 +135,18 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
-                {
-                    var viewModelCache = ObservationsAnalysisHelper.MapLifeList(observationsCache);
-                    return Ok(viewModelCache);
-                }
+                // CACHE FAULT 4/7/20  **************************************
+                // CACHE WITH USER ID OR USERNAME OR SOMETHING UNIQUE
+                // GET RID -- ONLY CALLS WHEN USER NAVIGATES AWAY FROM VIEW WITH ANALYSIS SIDEBAR
+                // if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
+                // {
+                //     var viewModelCache = ObservationsAnalysisHelper.MapLifeList(observationsCache);
+                //     return Ok(viewModelCache);
+                // }
 
                 var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
 
-                _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
+                // _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
                 var viewModel = ObservationsAnalysisHelper.MapLifeList(observations);
 
