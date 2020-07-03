@@ -7,7 +7,6 @@ using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -26,7 +25,6 @@ namespace Birder.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
         private readonly IBirdThumbnailPhotoService _profilePhotosService;
-        //private readonly IFlickrService _flickrService;
 
         public ObservationFeedController(IMapper mapper
                                        //, IMemoryCache memoryCache
