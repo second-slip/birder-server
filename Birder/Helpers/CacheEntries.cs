@@ -4,7 +4,8 @@
     {
         ObservationsList = 0,
         BirdsSummaryList = 1,
-        ObservationsSummary = 2
+        ObservationsSummary = 2,
+        ShowcaseObservations = 3
     }
 
     public class CacheEntryKeys

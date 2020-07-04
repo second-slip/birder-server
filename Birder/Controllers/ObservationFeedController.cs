@@ -7,6 +7,7 @@ using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -25,9 +26,12 @@ namespace Birder.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
         private readonly IBirdThumbnailPhotoService _profilePhotosService;
+        private IMemoryCache _cache;
+        private readonly ISystemClockService _systemClock;
 
         public ObservationFeedController(IMapper mapper
-                                       //, IMemoryCache memoryCache
+                                       , IMemoryCache memoryCache
+                                       , ISystemClockService systemClock
                                        , ILogger<ObservationFeedController> logger
                                        , UserManager<ApplicationUser> userManager
                                        , IObservationRepository observationRepository
@@ -35,7 +39,8 @@ namespace Birder.Controllers
         {
             _mapper = mapper;
             _logger = logger;
-            //_cache = memoryCache;
+            _cache = memoryCache;
+            _systemClock = systemClock;
             _userManager = userManager;
             _observationRepository = observationRepository;
             _profilePhotosService = profilePhotosService;
@@ -122,6 +127,11 @@ namespace Birder.Controllers
         {
             try
             {
+                if (_cache.TryGetValue(CacheEntries.ShowcaseObservations, out ObservationFeedDto showcaseObservationsCache))
+                {
+                    return Ok(showcaseObservationsCache);
+                }
+
                 var observations = await _observationRepository.GetShowcaseObservationsFeedAsync(obs => obs.Bird.BirderStatus == BirderStatus.Uncommon, quantity);
 
                 if (observations == null)
@@ -133,7 +143,11 @@ namespace Birder.Controllers
 
                 _profilePhotosService.GetUrlForObservations(observations.Items);
 
-                return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations));
+                var showcaseObservations = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations);
+
+                _cache.Set(CacheEntries.ShowcaseObservations, showcaseObservations, _systemClock.GetEndOfToday);
+
+                return Ok(showcaseObservations);
             }
             catch (Exception ex)
             {
