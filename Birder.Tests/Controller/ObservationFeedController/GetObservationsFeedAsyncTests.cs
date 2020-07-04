@@ -22,25 +22,25 @@ using Xunit.Extensions.AssertExtensions;
 
 namespace Birder.Tests.Controller
 {
-    public class ObservationFeedControllerTests
+    public class GetObservationsFeedAsyncTests
     {
         private const int pageSize = 10;
-        //private IMemoryCache _cache;
+        private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly Mock<ILogger<ObservationFeedController>> _logger;
-        //private readonly ISystemClockService _systemClock;
+        private readonly ISystemClockService _systemClock;
         private readonly Mock<IBirdThumbnailPhotoService> _mockProfilePhotosService;
 
-        public ObservationFeedControllerTests()
+        public GetObservationsFeedAsyncTests()
         {
-            //_cache = new MemoryCache(new MemoryCacheOptions());
+            _cache = new MemoryCache(new MemoryCacheOptions());
             _logger = new Mock<ILogger<ObservationFeedController>>();
             var mappingConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new BirderMappingProfile());
             });
             _mapper = mappingConfig.CreateMapper();
-            //_systemClock = new SystemClockService();
+            _systemClock = new SystemClockService();
             _mockProfilePhotosService = new Mock<IBirdThumbnailPhotoService>();
         }
 
@@ -65,7 +65,7 @@ namespace Birder.Tests.Controller
             _mockProfilePhotosService.Setup(obs => obs.GetUrlForObservations(It.IsAny<IEnumerable<Observation>>()))
             .Returns(SharedFunctions.GetTestObservations(1, new Bird()));
 
-            var controller = new ObservationFeedController(_mapper, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
+            var controller = new ObservationFeedController(_mapper, _cache, _systemClock, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -102,7 +102,7 @@ namespace Birder.Tests.Controller
             mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(Task.FromResult<QueryResult<Observation>>(null));
 
-            var controller = new ObservationFeedController(_mapper, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
+            var controller = new ObservationFeedController(_mapper, _cache, _systemClock, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -140,7 +140,7 @@ namespace Birder.Tests.Controller
             mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(GetQueryResult(length));
 
-            var controller = new ObservationFeedController(_mapper, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
+            var controller = new ObservationFeedController(_mapper, _cache, _systemClock, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -194,7 +194,7 @@ namespace Birder.Tests.Controller
 
                 var requestFilter = ObservationFeedFilter.Own;
 
-                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_mapper, _cache, _systemClock, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -250,7 +250,7 @@ namespace Birder.Tests.Controller
 
                 var requestFilter = ObservationFeedFilter.Own;
 
-                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_mapper, _cache, _systemClock, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -306,7 +306,7 @@ namespace Birder.Tests.Controller
                 //mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                 //    .Returns(Task.FromResult<QueryResult<Observation>>(null));
 
-                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_mapper, _cache, _systemClock, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -355,7 +355,7 @@ namespace Birder.Tests.Controller
                 mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult<QueryResult<Observation>>(null));
 
-                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_mapper, _cache, _systemClock, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -410,7 +410,7 @@ namespace Birder.Tests.Controller
 
                 var requestFilter = ObservationFeedFilter.Network;
 
-                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_mapper, _cache, _systemClock, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -466,7 +466,7 @@ namespace Birder.Tests.Controller
 
                 var requestFilter = ObservationFeedFilter.Network;
 
-                var controller = new ObservationFeedController(_mapper, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_mapper, _cache, _systemClock, _logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -506,7 +506,7 @@ namespace Birder.Tests.Controller
             mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(Task.FromResult<QueryResult<Observation>>(null));
 
-            var controller = new ObservationFeedController(_mapper, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
+            var controller = new ObservationFeedController(_mapper, _cache, _systemClock, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -542,7 +542,7 @@ namespace Birder.Tests.Controller
             mockObsRepo.Setup(obs => obs.GetObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(GetQueryResult(length));
 
-            var controller = new ObservationFeedController(_mapper, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
+            var controller = new ObservationFeedController(_mapper, _cache, _systemClock, _logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
