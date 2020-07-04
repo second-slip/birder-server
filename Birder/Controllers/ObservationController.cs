@@ -169,7 +169,7 @@ namespace Birder.Controllers
                 _observationRepository.Add(observation);
                 await _unitOfWork.CompleteAsync();
 
-                ClearCache();
+                // ClearCache();
                 //_cache.Remove(CacheEntries.ObservationsList);
                 //_cache.Remove(CacheEntries.ObservationsSummary);
                 return CreatedAtAction(nameof(CreateObservationAsync), _mapper.Map<Observation, ObservationDto>(observation));
@@ -233,7 +233,7 @@ namespace Birder.Controllers
 
                 await _unitOfWork.CompleteAsync();
 
-                ClearCache();
+                // ClearCache();
                 //_cache.Remove(CacheEntries.ObservationsList);
                 //_cache.Remove(CacheEntries.ObservationsSummary);
 
@@ -274,7 +274,7 @@ namespace Birder.Controllers
 
                 //_cache.Remove(CacheEntries.ObservationsList);
                 //_cache.Remove(CacheEntries.ObservationsSummary);
-                ClearCache();
+                // ClearCache();
 
                 return Ok(id);
             }
