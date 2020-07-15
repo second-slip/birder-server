@@ -123,7 +123,7 @@ namespace Birder.Controllers
 
         [AllowAnonymous]
         [HttpGet, Route("GetShowcaseObservationsFeed")]
-        public async Task<IActionResult> GetShowcaseObservationsFeed(int quantity)
+        public async Task<IActionResult> GetShowcaseObservationsFeedAsync(int quantity)
         {
             try
             {
