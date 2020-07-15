@@ -136,7 +136,7 @@ namespace Birder.Controllers
 
                 if (observations == null)
                 {
-                    string message = $"Showcase observations not found.";
+                    string message = $"Showcase observations not found";
                     _logger.LogWarning(LoggingEvents.GetListNotFound, message);
                     return NotFound(message);
                 }
@@ -153,7 +153,7 @@ namespace Birder.Controllers
             {
                 string message = $"An error occurred getting the showcase observations.";
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
-                return BadRequest("An error occurred");
+                return BadRequest("An unexpected error occurred");
             }
         }
     }
