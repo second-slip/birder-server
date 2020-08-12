@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@agm/core": "^1.1.0",
-    "@angular-devkit/build-angular": "^0.901.7",
+    "@angular-devkit/build-angular": "^0.1000.5",
     "@angular/cli": "^9.0.0",
     "@angular/common": "^9.0.0",
     "@angular/compiler-cli": "^9.0.0",
