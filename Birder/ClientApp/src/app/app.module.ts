@@ -112,6 +112,7 @@ const cookieConfig: NgcCookieConsentConfig = {
   'type': 'info',
   'content': {
     'message': 'This website uses cookies to ensure you get the best experience on our website.',
+    // We use cookies to ensure that we give you the best experience on our website and monitoring traffic. If you continue to use this site we will assume that you are happy with it
     'dismiss': 'Got it!',
     'deny': 'Refuse cookies',
     'link': 'Learn more',
