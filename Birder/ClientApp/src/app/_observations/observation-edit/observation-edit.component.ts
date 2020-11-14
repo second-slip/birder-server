@@ -57,7 +57,7 @@ export class ObservationEditComponent implements OnInit {
 
   ngOnInit() {
     this.getObservation();
-    this.getBirds();
+    // this.getBirds();
   }
 
   displayFn(bird: BirdSummaryViewModel): string {
@@ -146,6 +146,7 @@ export class ObservationEditComponent implements OnInit {
           }
           this.createForms();
           this.getGeolocation();
+          this.getBirds();
         },
         (error: ErrorReportViewModel) => {
           this.errorReport = error;
@@ -221,16 +222,24 @@ export class ObservationEditComponent implements OnInit {
     }
   }
 
-  placeMarker($event) {
-    this.geocodeService.reverseGeocode($event.coords.lat, $event.coords.lng)
-      .subscribe(
-        (location: LocationViewModel) => {
-          this.editObservationForm.get('locationLatitude').setValue(location.latitude);
-          this.editObservationForm.get('locationLongitude').setValue(location.longitude);
-          this.geolocation = location.formattedAddress;
-          this.ref.detectChanges();
-        },
-        (error: any) => { }
-      );
+  markerDragEnd($event: MouseEvent) {
+    // placeMarker($event) {
+
+      console.log('dragEnd', $event);
+      console.log($event.coords.lat)
+
+    // this.geocodeService.reverseGeocode($event.coords.lat, $event.coords.lng)
+    
+    // this.geocodeService.reverseGeocode($event.latLng.lat, $event.latLng.lng)
+    //   .subscribe(
+    //     (location: LocationViewModel) => {
+    //       this.editObservationForm.get('locationLatitude').setValue(location.latitude);
+    //       alert(this.editObservationForm.get('locationLatitude'));
+    //       this.editObservationForm.get('locationLongitude').setValue(location.longitude);
+    //       this.geolocation = location.formattedAddress;
+    //       this.ref.detectChanges();
+    //     },
+    //     (error: any) => { }
+    //   );
   }
 }

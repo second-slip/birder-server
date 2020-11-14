@@ -122,12 +122,13 @@
                     </ngb-alert>
                   </p>
 
+                  
                   <agm-map [latitude]="editObservationForm.get('locationLatitude').value"
                     [longitude]="editObservationForm.get('locationLongitude').value" [zoom]="8"
                     [disableDefaultUI]="false" [zoomControl]="true">
                     <agm-marker [latitude]="editObservationForm.get('locationLatitude').value"
                       [longitude]="editObservationForm.get('locationLongitude').value" [markerDraggable]="true"
-                      (dragEnd)="placeMarker($event)">
+                      (dragEnd)="markerDragEnd($event)">
                       <agm-info-window [isOpen]="true">Observed at {{geolocation}}</agm-info-window>
                     </agm-marker>
                   </agm-map>
