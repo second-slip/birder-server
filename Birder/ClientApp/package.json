@@ -18,6 +18,7 @@
     "@angular/compiler": "^11.0.0",
     "@angular/core": "^11.0.0",
     "@angular/forms": "^11.0.0",
+    "@angular/google-maps": "^11.0.0",
     "@angular/localize": "^11.0.0",
     "@angular/material": "^9.0.0",
     "@angular/platform-browser": "^11.0.0",
