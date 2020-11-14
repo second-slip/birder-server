@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps'
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
@@ -209,6 +210,7 @@ export function tokenGetter() {
     NgxDropzoneModule,
     GalleryModule,
     LightboxModule,
+    GoogleMapsModule,
     NgcCookieConsentModule.forRoot(cookieConfig),
     JwtModule.forRoot({
       config: {
