@@ -24,6 +24,17 @@ export class ObservationDetailComponent implements OnInit {
   geolocation = 'location';
   private _album: Array<PhotographAlbum> = [];
 
+  center: google.maps.LatLngLiteral;
+  zoom = 8;
+  options: google.maps.MapOptions = {
+    mapTypeId: 'terrain'
+    // zoomControl: false,
+    // scrollwheel: false,
+    // disableDoubleClickZoom: true,
+    // maxZoom: 15,
+    // minZoom: 8,
+  }
+
   constructor(private observationService: ObservationService
     , private _lightbox: Lightbox
     , private photosService: PhotosService
@@ -46,12 +57,20 @@ export class ObservationDetailComponent implements OnInit {
       .subscribe(
         (observation: ObservationViewModel) => {
           this.observation = observation;
+          this.setLocation();
           this.getGeolocation();
           this.getPhotos(observation.observationId);
         },
         (error: ErrorReportViewModel) => {
           this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
+  }
+
+  setLocation(): void {
+    this.center = {
+      lat: this.observation.locationLatitude,
+      lng: this.observation.locationLongitude
+    }
   }
 
   getGeolocation(): void {

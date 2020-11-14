@@ -226,7 +226,6 @@ export class ObservationEditComponent implements OnInit {
     // placeMarker($event) {
 
       console.log('dragEnd', $event);
-      console.log($event.coords.lat)
 
     // this.geocodeService.reverseGeocode($event.coords.lat, $event.coords.lng)
     

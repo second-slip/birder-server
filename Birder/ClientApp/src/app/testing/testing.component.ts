@@ -15,6 +15,9 @@ import { BirdsService } from '@app/_services/birds.service';
 export class TestingComponent implements OnInit {
   myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
+
+  center: google.maps.LatLngLiteral;
+
   // filteredOptions: Observable<string[]>;
 
   filteredOptions: Observable<BirdSummaryViewModel[]>;

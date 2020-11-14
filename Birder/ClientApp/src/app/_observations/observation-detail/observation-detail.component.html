@@ -79,13 +79,29 @@
                         <strong>Warning!</strong> Better check yourself, you're not looking too good.
                       </ngb-alert>
                     </p> -->
-              <agm-map [latitude]="observation?.locationLatitude" [longitude]="observation?.locationLongitude"
+
+              <!-- <agm-map [latitude]="observation?.locationLatitude" [longitude]="observation?.locationLongitude"
                 [zoom]="8" [disableDefaultUI]="false" [zoomControl]="true">
                 <agm-marker [latitude]="observation?.locationLatitude" [longitude]="observation?.locationLongitude">
                   <agm-info-window [isOpen]="true"><b>{{observation.quantity}} {{observation.bird.englishName}}</b>
                     <br>Observed at {{ geolocation }}</agm-info-window>
                 </agm-marker>
-              </agm-map>
+              </agm-map> -->
+
+              <google-map height="500px" width="100%" [zoom]="zoom" [center]="center" [options]="options">
+                <map-marker
+                [position]="center"
+                [title]="Hello"
+
+              >
+              </map-marker>
+              </google-map>
+
+              <!-- [label]="marker.label"
+              [title]="marker.title"
+              [options]="marker.options" -->
+
+
               <div *ngIf="observation.user.userName === user.userName">
 
                 <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon"><small><em>You can change the
