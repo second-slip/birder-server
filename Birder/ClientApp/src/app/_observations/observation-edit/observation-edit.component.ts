@@ -57,7 +57,7 @@ export class ObservationEditComponent implements OnInit {
 
   ngOnInit() {
     this.getObservation();
-    this.getBirds();
+    // this.getBirds();
   }
 
   displayFn(bird: BirdSummaryViewModel): string {
@@ -146,6 +146,7 @@ export class ObservationEditComponent implements OnInit {
           }
           this.createForms();
           this.getGeolocation();
+          this.getBirds();
         },
         (error: ErrorReportViewModel) => {
           this.errorReport = error;
