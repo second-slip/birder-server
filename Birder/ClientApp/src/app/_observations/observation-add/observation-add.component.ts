@@ -47,6 +47,11 @@ export class ObservationAddComponent implements OnInit {
     ]
   };
 
+  zoom = 8;
+  options: google.maps.MapOptions = {
+    mapTypeId: 'terrain'
+  }
+
   constructor(private router: Router
     , private birdsService: BirdsService
     , private observationService: ObservationService
@@ -186,23 +191,51 @@ export class ObservationAddComponent implements OnInit {
     });
   }
 
+  marker;
+  addMarker() {
+    this.marker = ({
+      position: {
+        lat: this.user.defaultLocationLatitude,
+        lng: this.user.defaultLocationLongitude
+      },
+      label: {
+        color: 'red',
+        text: 'Marker label',
+      },
+      title: 'Marker title',
+      options: { animation: google.maps.Animation.BOUNCE },
+    })
+  }
+
   onSubmit(value): void {
     this.requesting = true;
-    this.observationService.addObservation(value)
-      .subscribe(
-        (data: ObservationViewModel) => {
-          this.addObservationForm.reset();
-          this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
-        },
-        (error: ErrorReportViewModel) => {
-          this.requesting = false;
-          this.errorReport = error;
-          this.invalidAddObservation = true;
-          console.log(error);
-          console.log(error.friendlyMessage);
-          console.log('unsuccessful add observation');
-        }
-      );
+
+    console.log(value);
+    console.log(typeof(value));
+    // track marker object separately
+
+
+
+    // update value
+    value.locationLatitude = this.marker.position.lat;
+    value.locationLongitude = this.marker.position.lng;
+
+
+    // this.observationService.addObservation(value)
+    //   .subscribe(
+    //     (data: ObservationViewModel) => {
+    //       this.addObservationForm.reset();
+    //       this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
+    //     },
+    //     (error: ErrorReportViewModel) => {
+    //       this.requesting = false;
+    //       this.errorReport = error;
+    //       this.invalidAddObservation = true;
+    //       console.log(error);
+    //       console.log(error.friendlyMessage);
+    //       console.log('unsuccessful add observation');
+    //     }
+    //   );
   }
 
   getBirds(): void {
@@ -223,6 +256,7 @@ export class ObservationAddComponent implements OnInit {
         (data: UserViewModel) => {
           this.user = data;
           this.createForms();
+          this.addMarker();
           this.getGeolocation();
         },
         (error: any) => {

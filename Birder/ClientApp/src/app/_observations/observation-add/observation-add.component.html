@@ -122,6 +122,23 @@
                     <agm-info-window [isOpen]="true">Observed at {{geolocation}}</agm-info-window>
                   </agm-marker>
                 </agm-map>
+
+                <br>
+
+                <p>form values: {{addObservationForm.get('locationLatitude').value}} , {{addObservationForm.get('locationLongitude').value}}</p>
+                <p>marker values: {{marker?.position.lat}} , {{marker?.position.lng}}</p>
+                
+                <google-map height="500px" width="100%" [zoom]="zoom" [center]="marker?.position"
+                [options]="options">
+                <map-marker #markerElement="mapMarker" [position]="marker?.position"
+                  (mapClick)="openInfoWindow(markerElement)">
+                  <map-info-window>{{ geolocation }}</map-info-window>
+                </map-marker>
+                <!-- <map-info-window>MyContent</map-info-window> -->
+              </google-map>
+
+
+
               </div>
               <!-- Map end -->
             </mat-expansion-panel>
