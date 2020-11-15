@@ -24,17 +24,10 @@ export class ObservationDetailComponent implements OnInit {
   observation: ObservationViewModel;
   geolocation = 'location';
   private _album: Array<PhotographAlbum> = [];
-  locationMarker;
 
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
-
-  openInfo(marker: MapMarker) {
-    console.log(marker);
-    console.log(marker.position);
-    this.infoWindow.open(marker);
-  }
-
-  center: google.maps.LatLngLiteral;
+  locationMarker;
+  // center: google.maps.LatLngLiteral;
   zoom = 8;
   options: google.maps.MapOptions = {
     mapTypeId: 'terrain'
@@ -72,14 +65,12 @@ export class ObservationDetailComponent implements OnInit {
   }
 
 
-  setLocation(): void {
-    this.center = {
-      lat: this.observation.locationLatitude,
-      lng: this.observation.locationLongitude
-    }
-  }
-
-  
+  // setLocation(): void {
+  //   this.center = {
+  //     lat: this.observation.locationLatitude,
+  //     lng: this.observation.locationLongitude
+  //   }
+  // }
 
   addMarker() {
     this.locationMarker = ({
@@ -94,6 +85,11 @@ export class ObservationDetailComponent implements OnInit {
       title: 'Marker title',
       options: { animation: google.maps.Animation.BOUNCE },
     })
+  }
+
+  openInfoWindow(marker: MapMarker) {
+    // console.log(marker);
+    this.infoWindow.open(marker);
   }
 
   getGeolocation(): void {

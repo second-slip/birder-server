@@ -88,16 +88,14 @@
                 </agm-marker>
               </agm-map> -->
 
-              <google-map height="500px" width="100%" [zoom]="zoom" [center]="marker?.position" [options]="options">
-                <map-marker #markerElement="mapMarker" [position]="marker?.position" (mapClick)="openInfo(markerElement)">
+              <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position"
+                [options]="options">
+                <map-marker #markerElement="mapMarker" [position]="locationMarker?.position"
+                  (mapClick)="openInfoWindow(markerElement)">
                   <map-info-window>{{ geolocation }}</map-info-window>
                 </map-marker>
                 <!-- <map-info-window>MyContent</map-info-window> -->
               </google-map>
-
-              <!-- [label]="marker.label"
-              [title]="marker.title"
-              [options]="marker.options" -->
 
 
               <div *ngIf="observation.user.userName === user.userName">
