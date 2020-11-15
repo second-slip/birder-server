@@ -24,6 +24,7 @@ export class ObservationDetailComponent implements OnInit {
   observation: ObservationViewModel;
   geolocation = 'location';
   private _album: Array<PhotographAlbum> = [];
+  locationMarker;
 
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
 
@@ -37,11 +38,6 @@ export class ObservationDetailComponent implements OnInit {
   zoom = 8;
   options: google.maps.MapOptions = {
     mapTypeId: 'terrain'
-    // zoomControl: false,
-    // scrollwheel: false,
-    // disableDoubleClickZoom: true,
-    // maxZoom: 15,
-    // minZoom: 8,
   }
 
   constructor(private observationService: ObservationService
@@ -66,7 +62,7 @@ export class ObservationDetailComponent implements OnInit {
       .subscribe(
         (observation: ObservationViewModel) => {
           this.observation = observation;
-          this.setLocation();
+          this.addMarker();
           this.getGeolocation();
           this.getPhotos(observation.observationId);
         },
@@ -81,6 +77,23 @@ export class ObservationDetailComponent implements OnInit {
       lat: this.observation.locationLatitude,
       lng: this.observation.locationLongitude
     }
+  }
+
+  
+
+  addMarker() {
+    this.locationMarker = ({
+      position: {
+        lat: this.observation.locationLatitude,
+        lng: this.observation.locationLongitude
+      },
+      label: {
+        color: 'red',
+        text: 'Marker label',
+      },
+      title: 'Marker title',
+      options: { animation: google.maps.Animation.BOUNCE },
+    })
   }
 
   getGeolocation(): void {
