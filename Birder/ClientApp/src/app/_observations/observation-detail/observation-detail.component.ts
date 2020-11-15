@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
@@ -11,6 +11,7 @@ import { UserViewModel } from '@app/_models/UserViewModel';
 import { TokenService } from '@app/_services/token.service';
 import { PhotosService } from '@app/_services/photos.service';
 import { Lightbox } from 'ngx-lightbox';
+import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-observation-detail',
@@ -23,6 +24,14 @@ export class ObservationDetailComponent implements OnInit {
   observation: ObservationViewModel;
   geolocation = 'location';
   private _album: Array<PhotographAlbum> = [];
+
+  @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
+
+  openInfo(marker: MapMarker) {
+    console.log(marker);
+    console.log(marker.position);
+    this.infoWindow.open(marker);
+  }
 
   center: google.maps.LatLngLiteral;
   zoom = 8;
@@ -65,6 +74,7 @@ export class ObservationDetailComponent implements OnInit {
           this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
   }
+
 
   setLocation(): void {
     this.center = {

@@ -89,12 +89,10 @@
               </agm-map> -->
 
               <google-map height="500px" width="100%" [zoom]="zoom" [center]="center" [options]="options">
-                <map-marker
-                [position]="center"
-                [title]="Hello"
-
-              >
-              </map-marker>
+                <map-marker #markerElement [position]="center" (mapClick)="openInfo(markerElement)">
+                  <!-- <map-info-window>hello</map-info-window> -->
+                </map-marker>
+                <map-info-window>MyContent</map-info-window>
               </google-map>
 
               <!-- [label]="marker.label"
