@@ -49,6 +49,7 @@ function isCachable(request: HttpRequest<any>) {
     && request.url.indexOf('api/Photograph') !== 0
     && request.url.indexOf('https://preview.ibb.co') !== 0
     && request.url.indexOf('api/ObservationFeed') !== 0
+    && request.url.indexOf('api/Observation/GetObservation') !== 0
     && request.url.indexOf('api/ObservationAnalysis') !== 0  // do not cache requests containing 'api/ObservationAnalysis'
     && request.url.indexOf('api/UserProfile') !== 0
     && request.url.indexOf('api/Network') !== 0
