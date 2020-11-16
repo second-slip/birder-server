@@ -98,6 +98,7 @@
               <!-- Map start -->
               <div class="container">
                 <h4>Location map</h4>
+                <p>Drag the marker on the map; or type an address below; or use your current location</p>
                 <form (ngSubmit)="useGeolocation(searchAddress)">
                   <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
                     [ngModelOptions]="{standalone: true}" required>
@@ -113,7 +114,7 @@
                   </ngb-alert>
                 </p>
 
-                <agm-map [latitude]="addObservationForm.get('locationLatitude').value"
+                <!-- <agm-map [latitude]="addObservationForm.get('locationLatitude').value"
                   [longitude]="addObservationForm.get('locationLongitude').value" [zoom]="8" [disableDefaultUI]="false"
                   [zoomControl]="true">
                   <agm-marker [latitude]="addObservationForm.get('locationLatitude').value"
@@ -121,17 +122,18 @@
                     (dragEnd)="placeMarker($event)">
                     <agm-info-window [isOpen]="true">Observed at {{geolocation}}</agm-info-window>
                   </agm-marker>
-                </agm-map>
+                </agm-map> -->
 
                 <br>
 
                 <p>form values: {{addObservationForm.get('locationLatitude').value}} , {{addObservationForm.get('locationLongitude').value}}</p>
                 <p>marker values: {{marker?.position.lat}} , {{marker?.position.lng}}</p>
-                
+                <p>location: {{geolocation}}</p>
+
                 <google-map height="500px" width="100%" [zoom]="zoom" [center]="marker?.position"
                 [options]="options">
-                <map-marker #markerElement="mapMarker" [position]="marker?.position"
-                  (mapClick)="openInfoWindow(markerElement)">
+                <map-marker #markerElement="mapMarker" [position]="marker?.position" [options]="marker.options"
+                  (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
                   <map-info-window>{{ geolocation }}</map-info-window>
                 </map-marker>
                 <!-- <map-info-window>MyContent</map-info-window> -->

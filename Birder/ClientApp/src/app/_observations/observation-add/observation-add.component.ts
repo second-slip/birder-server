@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { TokenService } from '@app/_services/token.service';
 import { GeocodeService } from '@app/_services/geocode.service';
 import { LocationViewModel } from '@app/_models/LocationViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
+import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-observation-add',
@@ -47,7 +48,8 @@ export class ObservationAddComponent implements OnInit {
     ]
   };
 
-  zoom = 8;
+  @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
+  zoom = 11;
   options: google.maps.MapOptions = {
     mapTypeId: 'terrain'
   }
@@ -101,12 +103,11 @@ export class ObservationAddComponent implements OnInit {
   //   return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
   // }
 
-  getGeolocation(): void {
-    this.geocodeService.reverseGeocode(this.user.defaultLocationLatitude, this.user.defaultLocationLongitude)
+  getGeolocation(latitude: number, longitude:number): void {
+    this.geocodeService.reverseGeocode(latitude, longitude)
       .subscribe(
         (data: LocationViewModel) => {
           this.geolocation = data.formattedAddress;
-
           this.ref.detectChanges();
         },
         (error: any) => {
@@ -203,8 +204,24 @@ export class ObservationAddComponent implements OnInit {
         text: 'Marker label',
       },
       title: 'Marker title',
-      options: { animation: google.maps.Animation.BOUNCE },
+      options: { draggable: true },
+      
     })
+  }
+
+  openInfoWindow(marker: MapMarker) {
+    // console.log(marker);
+    this.infoWindow.open(marker);
+  }
+
+  markerChanged(event: google.maps.MouseEvent): void {
+    // alert(event);
+    console.log(event.latLng.lat());
+    console.log(event.latLng.lng());
+    this.marker.position.lat = event.latLng.lat();
+    this.marker.position.lng = event.latLng.lng();
+
+    this.getGeolocation(event.latLng.lat(), event.latLng.lng());
   }
 
   onSubmit(value): void {
@@ -257,7 +274,7 @@ export class ObservationAddComponent implements OnInit {
           this.user = data;
           this.createForms();
           this.addMarker();
-          this.getGeolocation();
+          this.getGeolocation(this.user.defaultLocationLatitude, this.user.defaultLocationLongitude);
         },
         (error: any) => {
           console.log('could not get the user, using default coordinates');
@@ -269,7 +286,7 @@ export class ObservationAddComponent implements OnInit {
           };
           this.user = userTemp;
           this.createForms();
-          this.getGeolocation();
+          this.getGeolocation(this.user.defaultLocationLatitude, this.user.defaultLocationLongitude);
         });
   }
 
