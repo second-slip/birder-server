@@ -49,7 +49,7 @@ export class ObservationAddComponent implements OnInit {
   };
 
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
-  @ViewChild(MapMarker, { static: false }) mark: MapMarker
+  // @ViewChild(MapMarker, { static: false }) mark: MapMarker
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
   zoom = 11;
   options: google.maps.MapOptions = {
@@ -80,30 +80,15 @@ export class ObservationAddComponent implements OnInit {
   }
 
   displayFn(bird: BirdSummaryViewModel): string {
-    // console.log(bird);
-    // console.log(bird.englishName);
     return bird && bird.englishName ? bird.englishName : null;
   }
 
-  // init() {
-  //   this.filteredOptions = this.myControl.valueChanges.pipe(
-  //     startWith(''),
-  //     map(value => value.length >= 1 ? this._filter(value): this.birdsSpecies)
-  //     // map(value => this._filter(value))
-  //   );
-  // }
 
   private _filter(value: string): BirdSummaryViewModel[] {
     const filterValue = value.toLowerCase();
     return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  // private _filter(value: string): BirdSummaryViewModel[] {
-   
-  //   const filterValue = value.toLowerCase();
-
-  //   return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
-  // }
 
   getGeolocation(latitude: number, longitude:number): void {
     this.geocodeService.reverseGeocode(latitude, longitude)
@@ -123,8 +108,6 @@ export class ObservationAddComponent implements OnInit {
       .subscribe((location: LocationViewModel) => {
         // this.addObservationForm.get('locationLatitude').setValue(location.latitude);
         // this.addObservationForm.get('locationLongitude').setValue(location.longitude);
-        // this.marker.position.lat = location.latitude;
-        // this.marker.position.lng = location.longitude;
         this.marker.position = {
           lat: location.latitude,
           lng: location.longitude
@@ -167,23 +150,10 @@ export class ObservationAddComponent implements OnInit {
     }
   }
 
-  // placeMarker($event) {
-  //   this.geocodeService.reverseGeocode($event.coords.lat, $event.coords.lng)
-  //     .subscribe(
-  //       (location: LocationViewModel) => {
-  //         this.addObservationForm.get('locationLatitude').setValue(location.latitude);
-  //         this.addObservationForm.get('locationLongitude').setValue(location.longitude);
-  //         this.geolocation = location.formattedAddress;
-  //         this.ref.detectChanges();
-  //       },
-  //       (error: any) => { }
-  //     );
-  // }
-
   createForms(): void {
     this.addObservationForm = this.formBuilder.group({
-      locationLatitude: new FormControl(this.user.defaultLocationLatitude),
-      locationLongitude: new FormControl(this.user.defaultLocationLongitude),
+      // locationLatitude: new FormControl(this.user.defaultLocationLatitude),
+      // locationLongitude: new FormControl(this.user.defaultLocationLongitude),
       quantity: new FormControl(1, Validators.compose([
         Validators.required
       ])),
@@ -228,8 +198,6 @@ export class ObservationAddComponent implements OnInit {
     // alert(event);
     console.log(event.latLng.lat());
     console.log(event.latLng.lng());
-    // this.marker.position.lat = event.latLng.lat();
-    // this.marker.position.lng = event.latLng.lng();
 
     this.marker.position =  {
       lat: event.latLng.lat(),
@@ -244,30 +212,44 @@ export class ObservationAddComponent implements OnInit {
 
     console.log(value);
     console.log(typeof(value));
-    // track marker object separately
 
+    const observation = <ObservationViewModel> {
+      quantity: value.quantity,
+      observationDateTime: value.observationDateTime,
+      bird: value.bird,
+      birdId: value.bird.birdId,
+      noteAppearance: value.noteAppearance,
+      noteBehaviour : value.noteAppearance,
+      noteGeneral: value.noteGeneral,
+      noteHabitat: value.noteHabitat,
+      noteVocalisation: value.noteVocalisation,
+      noteWeather: value.noteWeather,
+      //
+      locationLatitude: this.marker.position.lat,
+      locationLongitude: this.marker.position.lng,
+      // the below are set at the server-side
+      observationId: 0,
+      user: null,
+      creationDate: new Date().toISOString(),
+      hasPhotos: false,
+      lastUpdateDate: new Date().toISOString() 
+    }
 
-
-    // update value
-    value.locationLatitude = this.marker.position.lat;
-    value.locationLongitude = this.marker.position.lng;
-
-
-    // this.observationService.addObservation(value)
-    //   .subscribe(
-    //     (data: ObservationViewModel) => {
-    //       this.addObservationForm.reset();
-    //       this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
-    //     },
-    //     (error: ErrorReportViewModel) => {
-    //       this.requesting = false;
-    //       this.errorReport = error;
-    //       this.invalidAddObservation = true;
-    //       console.log(error);
-    //       console.log(error.friendlyMessage);
-    //       console.log('unsuccessful add observation');
-    //     }
-    //   );
+    this.observationService.addObservation(observation)
+      .subscribe(
+        (data: ObservationViewModel) => {
+          this.addObservationForm.reset();
+          this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
+        },
+        (error: ErrorReportViewModel) => {
+          this.requesting = false;
+          this.errorReport = error;
+          this.invalidAddObservation = true;
+          console.log(error);
+          console.log(error.friendlyMessage);
+          console.log('unsuccessful add observation');
+        }
+      );
   }
 
   getBirds(): void {
