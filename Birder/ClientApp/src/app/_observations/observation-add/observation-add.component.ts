@@ -13,7 +13,7 @@ import { TokenService } from '@app/_services/token.service';
 import { GeocodeService } from '@app/_services/geocode.service';
 import { LocationViewModel } from '@app/_models/LocationViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
-import { MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-observation-add',
@@ -48,6 +48,8 @@ export class ObservationAddComponent implements OnInit {
     ]
   };
 
+  @ViewChild(GoogleMap, { static: false }) map: GoogleMap
+  @ViewChild(MapMarker, { static: false }) mark: MapMarker
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
   zoom = 11;
   options: google.maps.MapOptions = {
@@ -119,8 +121,16 @@ export class ObservationAddComponent implements OnInit {
   useGeolocation(searchValue: string) {
     this.geocodeService.geocodeAddress(searchValue)
       .subscribe((location: LocationViewModel) => {
-        this.addObservationForm.get('locationLatitude').setValue(location.latitude);
-        this.addObservationForm.get('locationLongitude').setValue(location.longitude);
+        // this.addObservationForm.get('locationLatitude').setValue(location.latitude);
+        // this.addObservationForm.get('locationLongitude').setValue(location.longitude);
+        // this.marker.position.lat = location.latitude;
+        // this.marker.position.lng = location.longitude;
+        this.marker.position = {
+          lat: location.latitude,
+          lng: location.longitude
+        };
+        this.map.panTo(this.marker.position);
+
         this.geolocation = location.formattedAddress;
         this.searchAddress = '';
         this.ref.detectChanges();
@@ -157,18 +167,18 @@ export class ObservationAddComponent implements OnInit {
     }
   }
 
-  placeMarker($event) {
-    this.geocodeService.reverseGeocode($event.coords.lat, $event.coords.lng)
-      .subscribe(
-        (location: LocationViewModel) => {
-          this.addObservationForm.get('locationLatitude').setValue(location.latitude);
-          this.addObservationForm.get('locationLongitude').setValue(location.longitude);
-          this.geolocation = location.formattedAddress;
-          this.ref.detectChanges();
-        },
-        (error: any) => { }
-      );
-  }
+  // placeMarker($event) {
+  //   this.geocodeService.reverseGeocode($event.coords.lat, $event.coords.lng)
+  //     .subscribe(
+  //       (location: LocationViewModel) => {
+  //         this.addObservationForm.get('locationLatitude').setValue(location.latitude);
+  //         this.addObservationForm.get('locationLongitude').setValue(location.longitude);
+  //         this.geolocation = location.formattedAddress;
+  //         this.ref.detectChanges();
+  //       },
+  //       (error: any) => { }
+  //     );
+  // }
 
   createForms(): void {
     this.addObservationForm = this.formBuilder.group({
@@ -192,7 +202,7 @@ export class ObservationAddComponent implements OnInit {
     });
   }
 
-  marker;
+  marker; // make marker a property?
   addMarker() {
     this.marker = ({
       position: {
@@ -218,8 +228,13 @@ export class ObservationAddComponent implements OnInit {
     // alert(event);
     console.log(event.latLng.lat());
     console.log(event.latLng.lng());
-    this.marker.position.lat = event.latLng.lat();
-    this.marker.position.lng = event.latLng.lng();
+    // this.marker.position.lat = event.latLng.lat();
+    // this.marker.position.lng = event.latLng.lng();
+
+    this.marker.position =  {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng()
+    };
 
     this.getGeolocation(event.latLng.lat(), event.latLng.lng());
   }
