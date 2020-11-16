@@ -173,11 +173,11 @@ export class ObservationAddComponent implements OnInit {
   }
 
   marker; // make marker a property?
-  addMarker() {
+  addMarker(latitude: number, longitude:number) {
     this.marker = ({
       position: {
-        lat: this.user.defaultLocationLatitude,
-        lng: this.user.defaultLocationLongitude
+        lat: latitude,
+        lng: longitude
       },
       label: {
         color: 'red',
@@ -185,9 +185,25 @@ export class ObservationAddComponent implements OnInit {
       },
       title: 'Marker title',
       options: { draggable: true },
-      
     })
+
+    this.getGeolocation(latitude, longitude);
   }
+  // addMarker() {
+  //   this.marker = ({
+  //     position: {
+  //       lat: this.user.defaultLocationLatitude,
+  //       lng: this.user.defaultLocationLongitude
+  //     },
+  //     label: {
+  //       color: 'red',
+  //       text: 'Marker label',
+  //     },
+  //     title: 'Marker title',
+  //     options: { draggable: true },
+      
+  //   })
+  // }
 
   openInfoWindow(marker: MapMarker) {
     // console.log(marker);
@@ -195,16 +211,16 @@ export class ObservationAddComponent implements OnInit {
   }
 
   markerChanged(event: google.maps.MouseEvent): void {
-    // alert(event);
-    console.log(event.latLng.lat());
-    console.log(event.latLng.lng());
+    this.addMarker(event.latLng.lat(), event.latLng.lng());
+    // console.log(event.latLng.lat());
+    // console.log(event.latLng.lng());
 
-    this.marker.position =  {
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    };
+    // this.marker.position =  {
+    //   lat: event.latLng.lat(),
+    //   lng: event.latLng.lng()
+    // };
 
-    this.getGeolocation(event.latLng.lat(), event.latLng.lng());
+    // this.getGeolocation(event.latLng.lat(), event.latLng.lng());
   }
 
   onSubmit(value): void {
@@ -270,8 +286,8 @@ export class ObservationAddComponent implements OnInit {
         (data: UserViewModel) => {
           this.user = data;
           this.createForms();
-          this.addMarker();
-          this.getGeolocation(this.user.defaultLocationLatitude, this.user.defaultLocationLongitude);
+          this.addMarker(data.defaultLocationLatitude, data.defaultLocationLongitude);
+          // this.getGeolocation(this.user.defaultLocationLatitude, this.user.defaultLocationLongitude);
         },
         (error: any) => {
           console.log('could not get the user, using default coordinates');

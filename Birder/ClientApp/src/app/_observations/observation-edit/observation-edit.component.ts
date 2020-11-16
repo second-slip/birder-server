@@ -110,8 +110,8 @@ export class ObservationEditComponent implements OnInit {
         Validators.required
       ])),
       //
-      locationLatitude: new FormControl(this.observation.locationLatitude),
-      locationLongitude: new FormControl(this.observation.locationLongitude),
+      // locationLatitude: new FormControl(this.observation.locationLatitude),
+      // locationLongitude: new FormControl(this.observation.locationLongitude),
       //
       noteGeneral: new FormControl(this.observation.noteGeneral),
       noteHabitat: new FormControl(this.observation.noteHabitat),
@@ -124,7 +124,37 @@ export class ObservationEditComponent implements OnInit {
 
   onSubmit(value): void {
     this.requesting = true;
-    this.observationService.updateObservation(this.observation.observationId, value)
+
+    // console.log(value);
+
+    const observation = <ObservationViewModel> {
+      quantity: value.quantity,
+      observationDateTime: value.observationDateTime,
+      bird: value.bird,
+      birdId: value.bird.birdId,
+      noteAppearance: value.noteAppearance,
+      noteBehaviour : value.noteAppearance,
+      noteGeneral: value.noteGeneral,
+      noteHabitat: value.noteHabitat,
+      noteVocalisation: value.noteVocalisation,
+      noteWeather: value.noteWeather,
+      observationId: this.observation.observationId,
+      user: this.observation.user, 
+      creationDate: this.observation.creationDate,
+      hasPhotos: false, // might have a problem
+      //
+      locationLatitude: this.marker.position.lat,
+      locationLongitude: this.marker.position.lng,
+      // the below are set at the server-side
+      lastUpdateDate: new Date().toISOString() 
+    }
+
+    // console.log(observation);
+
+    // console.log(this.observation);
+
+
+    this.observationService.updateObservation(this.observation.observationId, observation)
       .subscribe(
         (data: ObservationViewModel) => {
           this.editObservationForm.reset();
@@ -201,16 +231,16 @@ export class ObservationEditComponent implements OnInit {
   }
 
   markerChanged(event: google.maps.MouseEvent): void {
-    // alert(event);
-    console.log(event.latLng.lat());
-    console.log(event.latLng.lng());
+    this.addMarker(event.latLng.lat(), event.latLng.lng());
+    // console.log(event.latLng.lat());
+    // console.log(event.latLng.lng());
 
-    this.marker.position =  {
-      lat: event.latLng.lat(),
-      lng: event.latLng.lng()
-    };
+    // this.marker.position =  {
+    //   lat: event.latLng.lat(),
+    //   lng: event.latLng.lng()
+    // };
 
-    this.getGeolocation(event.latLng.lat(), event.latLng.lng());
+    // this.getGeolocation(event.latLng.lat(), event.latLng.lng());
   }
 
 
@@ -230,9 +260,10 @@ export class ObservationEditComponent implements OnInit {
   useGeolocation(searchValue: string) {
     this.geocodeService.geocodeAddress(searchValue)
       .subscribe((location: LocationViewModel) => {
-        this.editObservationForm.get('locationLatitude').setValue(location.latitude);
-        this.editObservationForm.get('locationLongitude').setValue(location.longitude);
-        this.geolocation = location.formattedAddress;
+        // this.editObservationForm.get('locationLatitude').setValue(location.latitude);
+        // this.editObservationForm.get('locationLongitude').setValue(location.longitude);
+        // this.geolocation = location.formattedAddress;
+        this.addMarker(location.latitude, location.longitude);
         this.searchAddress = '';
         this.ref.detectChanges();
       }

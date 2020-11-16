@@ -125,7 +125,7 @@
                   </p>
 
                   
-                  <agm-map [latitude]="editObservationForm.get('locationLatitude').value"
+                  <!-- <agm-map [latitude]="editObservationForm.get('locationLatitude').value"
                     [longitude]="editObservationForm.get('locationLongitude').value" [zoom]="8"
                     [disableDefaultUI]="false" [zoomControl]="true">
                     <agm-marker [latitude]="editObservationForm.get('locationLatitude').value"
@@ -133,11 +133,11 @@
                       (dragEnd)="markerDragEnd($event)">
                       <agm-info-window [isOpen]="true">Observed at {{geolocation}}</agm-info-window>
                     </agm-marker>
-                  </agm-map>
+                  </agm-map> -->
                 </div>
 
                 <br>
-                <p>form values: {{editObservationForm.get('locationLatitude').value}} , {{editObservationForm.get('locationLongitude').value}}</p>
+                <!-- <p>form values: {{editObservationForm.get('locationLatitude').value}} , {{editObservationForm.get('locationLongitude').value}}</p> -->
                 <p>marker values: {{marker?.position.lat}} , {{marker?.position.lng}}</p>
                 <p>location: {{geolocation}}</p>
 

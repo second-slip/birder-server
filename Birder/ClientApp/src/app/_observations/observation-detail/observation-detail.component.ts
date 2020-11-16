@@ -55,8 +55,8 @@ export class ObservationDetailComponent implements OnInit {
       .subscribe(
         (observation: ObservationViewModel) => {
           this.observation = observation;
-          this.addMarker();
-          this.getGeolocation();
+          this.addMarker(observation.locationLatitude, observation.locationLongitude);
+          // this.getGeolocation();
           this.getPhotos(observation.observationId);
         },
         (error: ErrorReportViewModel) => {
@@ -65,26 +65,21 @@ export class ObservationDetailComponent implements OnInit {
   }
 
 
-  // setLocation(): void {
-  //   this.center = {
-  //     lat: this.observation.locationLatitude,
-  //     lng: this.observation.locationLongitude
-  //   }
-  // }
-
-  addMarker() {
+  addMarker(latitude: number, longitude:number) {
     this.locationMarker = ({
       position: {
-        lat: this.observation.locationLatitude,
-        lng: this.observation.locationLongitude
+        lat: latitude,
+        lng: longitude
       },
       label: {
         color: 'red',
         text: 'Marker label',
       },
       title: 'Marker title',
-      options: { animation: google.maps.Animation.BOUNCE },
+      options: { draggable: true },
     })
+
+    this.getGeolocation(latitude, longitude);
   }
 
   openInfoWindow(marker: MapMarker) {
@@ -92,12 +87,11 @@ export class ObservationDetailComponent implements OnInit {
     this.infoWindow.open(marker);
   }
 
-  getGeolocation(): void {
-    this.geocodeService.reverseGeocode(this.observation.locationLatitude, this.observation.locationLongitude)
+  getGeolocation(latitude: number, longitude:number): void {
+    this.geocodeService.reverseGeocode(latitude, longitude)
       .subscribe(
         (data: LocationViewModel) => {
           this.geolocation = data.formattedAddress;
-
           this.ref.detectChanges();
         },
         (error: any) => {
