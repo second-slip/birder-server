@@ -14,7 +14,7 @@ The Angular web app 'environments' folder is not tracked.  You will need add an 
    └──environment.prod.ts
 ```
 
-The environment.ts file should look like this:
+The (necessary) environment.ts file should look like this:
 
 ```
 export const environment = {
