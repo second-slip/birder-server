@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-observation-edit',
@@ -43,6 +44,14 @@ export class ObservationEditComponent implements OnInit {
       { type: 'required', message: 'The observed species is required' }
     ]
   };
+
+  @ViewChild(GoogleMap, { static: false }) map: GoogleMap
+  // @ViewChild(MapMarker, { static: false }) mark: MapMarker
+  @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
+  zoom = 11;
+  options: google.maps.MapOptions = {
+    mapTypeId: 'terrain'
+  }
 
   constructor(private router: Router
     , private toast: ToastrService
@@ -100,8 +109,10 @@ export class ObservationEditComponent implements OnInit {
       observationDateTime: new FormControl(this.observation.observationDateTime, Validators.compose([
         Validators.required
       ])),
+      //
       locationLatitude: new FormControl(this.observation.locationLatitude),
       locationLongitude: new FormControl(this.observation.locationLongitude),
+      //
       noteGeneral: new FormControl(this.observation.noteGeneral),
       noteHabitat: new FormControl(this.observation.noteHabitat),
       noteWeather: new FormControl(this.observation.noteWeather),
@@ -145,7 +156,7 @@ export class ObservationEditComponent implements OnInit {
             return;
           }
           this.createForms();
-          this.getGeolocation();
+          this.addMarker(observation.locationLatitude, observation.locationLongitude);
           this.getBirds();
         },
         (error: ErrorReportViewModel) => {
@@ -167,9 +178,44 @@ export class ObservationEditComponent implements OnInit {
         });
   }
 
-  // new google maps methods...
-  getGeolocation(): void {
-    this.geocodeService.reverseGeocode(this.observation.locationLatitude, this.observation.locationLongitude)
+  marker; // make marker a property?
+  addMarker(latitude: number, longitude:number) {
+    this.marker = ({
+      position: {
+        lat: latitude,
+        lng: longitude
+      },
+      label: {
+        color: 'red',
+        text: 'Marker label',
+      },
+      title: 'Marker title',
+      options: { draggable: true },
+    })
+
+    this.getGeolocation(latitude, longitude);
+  }
+
+  openInfoWindow(marker: MapMarker) {
+    this.infoWindow.open(marker);
+  }
+
+  markerChanged(event: google.maps.MouseEvent): void {
+    // alert(event);
+    console.log(event.latLng.lat());
+    console.log(event.latLng.lng());
+
+    this.marker.position =  {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng()
+    };
+
+    this.getGeolocation(event.latLng.lat(), event.latLng.lng());
+  }
+
+
+  getGeolocation(latitude: number, longitude:number): void {
+    this.geocodeService.reverseGeocode(latitude, longitude)
       .subscribe(
         (data: LocationViewModel) => {
           this.geolocation = data.formattedAddress;
@@ -222,23 +268,7 @@ export class ObservationEditComponent implements OnInit {
     }
   }
 
-  markerDragEnd($event: MouseEvent) {
-    // placeMarker($event) {
 
-      console.log('dragEnd', $event);
 
-    // this.geocodeService.reverseGeocode($event.coords.lat, $event.coords.lng)
-    
-    // this.geocodeService.reverseGeocode($event.latLng.lat, $event.latLng.lng)
-    //   .subscribe(
-    //     (location: LocationViewModel) => {
-    //       this.editObservationForm.get('locationLatitude').setValue(location.latitude);
-    //       alert(this.editObservationForm.get('locationLatitude'));
-    //       this.editObservationForm.get('locationLongitude').setValue(location.longitude);
-    //       this.geolocation = location.formattedAddress;
-    //       this.ref.detectChanges();
-    //     },
-    //     (error: any) => { }
-    //   );
-  }
+
 }

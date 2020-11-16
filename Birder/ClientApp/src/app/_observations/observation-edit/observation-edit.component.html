@@ -110,10 +110,12 @@
                   <form (ngSubmit)="useGeolocation(searchAddress)">
                     <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
                       [ngModelOptions]="{standalone: true}" required>
-                    <button type="submit" triggers="mouseenter:mouseleave"
+                    
+                      <button type="submit" triggers="mouseenter:mouseleave"
                       ngbPopover='- Type a place name (e.g. Canterbury, UK); or an specific address (e.g. 1 High St, Canterbury CT1 2JH)'
                       popoverTitle="Search help">Show Location</button>
                     <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
+
                   </form>
 
                   <p *ngIf="geoError">
@@ -133,6 +135,20 @@
                     </agm-marker>
                   </agm-map>
                 </div>
+
+                <br>
+                <p>form values: {{editObservationForm.get('locationLatitude').value}} , {{editObservationForm.get('locationLongitude').value}}</p>
+                <p>marker values: {{marker?.position.lat}} , {{marker?.position.lng}}</p>
+                <p>location: {{geolocation}}</p>
+
+                <google-map height="500px" width="100%" [zoom]="zoom" [center]="marker?.position" [options]="options">
+                  <map-marker #markerElement="mapMarker" [position]="marker?.position" [options]="marker.options"
+                    (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
+                    <map-info-window>{{ geolocation }}</map-info-window>
+                  </map-marker>
+                </google-map>
+
+
                 <!-- Google map control end -->
               </mat-expansion-panel>
               <!--  -->

@@ -132,14 +132,13 @@
                 <p>marker values: {{marker?.position.lat}} , {{marker?.position.lng}}</p>
                 <p>location: {{geolocation}}</p>
 
-                <google-map height="500px" width="100%" [zoom]="zoom" [center]="marker?.position"
-                [options]="options">
-                <map-marker #markerElement="mapMarker" [position]="marker?.position" [options]="marker.options"
-                  (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
-                  <map-info-window>{{ geolocation }}</map-info-window>
-                </map-marker>
-                <!-- <map-info-window>MyContent</map-info-window> -->
-              </google-map>
+                <google-map height="500px" width="100%" [zoom]="zoom" [center]="marker?.position" [options]="options">
+                  <map-marker #markerElement="mapMarker" [position]="marker?.position" [options]="marker.options"
+                    (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
+                    <map-info-window>{{ geolocation }}</map-info-window>
+                  </map-marker>
+                  <!-- <map-info-window>MyContent</map-info-window> -->
+                </google-map>
 
 
 
