@@ -5,29 +5,29 @@
     <div class="col-sm-10">
       <div class="set-location-container">
         <h2 class="section-title">Set Default Location</h2>
-        <div *ngIf="user">
-          <form [formGroup]="setLocationForm" novalidate (ngSubmit)="onSubmit(setLocationForm.value)">
+        <div *ngIf="marker">
+          <!-- <form [formGroup]="setLocationForm" novalidate (ngSubmit)="onSubmit(setLocationForm.value)"> -->
 
-            <!-- Google map control -->
-            <!-- <div class="container"> -->
-              <form (ngSubmit)="useGeolocation(searchAddress)">
-                <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
-                  [ngModelOptions]="{standalone: true}" required>
+          <!-- Google map control -->
+          <!-- <div class="container"> -->
+          <form (ngSubmit)="useGeolocation(searchAddress)">
+            <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
+              [ngModelOptions]="{standalone: true}" required>
 
-                <button type="button" class="btn btn-primary" triggers="mouseenter:mouseleave"
-                  ngbPopover='- Type a place name (e.g. Canterbury, UK); or an specific address (e.g. 1 High St, Canterbury CT1 2JH)'
-                  popoverTitle="Search help">Show Location</button>
-                  
-                <button type="button" type="button" class="btn btn-primary" (click)="getCurrentPosition()">Use My Current Location</button>
-              </form>
+            <button type="submit" triggers="mouseenter:mouseleave"
+              ngbPopover='- Type a place name (e.g. Canterbury, UK); or an specific address (e.g. 1 High St, Canterbury CT1 2JH)'
+              popoverTitle="Search help">Show Location</button>
+            <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
 
-              <p *ngIf="geoError">
-                <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
-                  <strong>Warning!</strong> Better check yourself, you're not looking too good.
-                </ngb-alert>
-              </p>
+          </form>
 
-              <agm-map [latitude]="setLocationForm.get('locationLatitude').value"
+          <p *ngIf="geoError">
+            <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
+              <strong>Warning!</strong> Better check yourself, you're not looking too good.
+            </ngb-alert>
+          </p>
+
+          <!-- <agm-map [latitude]="setLocationForm.get('locationLatitude').value"
                 [longitude]="setLocationForm.get('locationLongitude').value" [zoom]="8" [disableDefaultUI]="false"
                 [zoomControl]="true">
                 <agm-marker [latitude]="setLocationForm.get('locationLatitude').value"
@@ -35,20 +35,40 @@
                   (dragEnd)="placeMarker($event)">
                   <agm-info-window [isOpen]="true">Observed at {{geolocation}}</agm-info-window>
                 </agm-marker>
-              </agm-map>
-            <!-- </div> -->
-            <!-- Google map control end -->
+              </agm-map> -->
+
+          <p>marker values: {{marker?.position.lat}} , {{marker?.position.lng}}</p>
+          <p>location: {{geolocation}}</p>
+
+          <google-map height="500px" width="100%" [zoom]="zoom" [center]="marker?.position" [options]="options">
+            <map-marker #markerElement="mapMarker" [position]="marker?.position" [options]="marker.options"
+              (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
+              <map-info-window>{{ geolocation }}</map-info-window>
+            </map-marker>
+          </google-map>
+
+          <br>
+          <!-- </div> -->
+          <!-- Google map control end -->
 
 
-            <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!setLocationForm.valid">
+          <button *ngIf="!requesting" type="submit" class="btn btn-primary" (click)="onSubmit()">
+            Set default location
+          </button>
+          <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
+            Setting default location...
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </button>
+
+          <!-- <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!setLocationForm.valid">
               Set default location
             </button>
             <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
               Setting default location...
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            </button>
+            </button> -->
 
-          </form>
+          <!-- </form> -->
         </div>
       </div>
     </div>
