@@ -19,13 +19,10 @@ import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 })
 export class AccountManagerLocationComponent implements OnInit {
   requesting: boolean;
-  // model: SetLocationViewModel;
-  // setLocationForm: FormGroup;
   errorReport: ErrorReportViewModel;
   geolocation: string;
   searchAddress = '';
   geoError: string;
-  // user: UserViewModel;
 
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
   // @ViewChild(MapMarker, { static: false }) mark: MapMarker
@@ -49,11 +46,6 @@ export class AccountManagerLocationComponent implements OnInit {
     this.tokenService.getAuthenticatedUserDetails()
       .subscribe(
         (data: UserViewModel) => {
-          // this.model.defaultLocationLatitude = data.defaultLocationLatitude;
-          // this.model.defaultLocationLongitude = data.defaultLocationLongitude;
-          // this.user = data;
-          // this.createForms();
-          // this.getGeolocation();
           this.addMarker(data.defaultLocationLatitude, data.defaultLocationLongitude);
         },
         (error: any) => {
@@ -86,15 +78,6 @@ export class AccountManagerLocationComponent implements OnInit {
   markerChanged(event: google.maps.MouseEvent): void {
     this.addMarker(event.latLng.lat(), event.latLng.lng());
   }
-
-  // createForms(): void {
-  //   this.setLocationForm = this.formBuilder.group({
-  //     locationLatitude: new FormControl(this.user.defaultLocationLatitude),
-  //     locationLongitude: new FormControl(this.user.defaultLocationLongitude),
-  //   });
-  // }
-
-  // new google maps methods...
 
   getGeolocation(latitude: number, longitude:number): void {
     this.geocodeService.reverseGeocode(latitude, longitude)
@@ -151,19 +134,6 @@ export class AccountManagerLocationComponent implements OnInit {
       this.geoError = 'Geolocation not supported in this browser';
     }
   }
-
-  // placeMarker($event) {
-  //   this.geocodeService.reverseGeocode($event.coords.lat, $event.coords.lng)
-  //     .subscribe(
-  //       (location: LocationViewModel) => {
-  //         this.setLocationForm.get('locationLatitude').setValue(location.latitude);
-  //         this.setLocationForm.get('locationLongitude').setValue(location.longitude);
-  //         this.geolocation = location.formattedAddress;
-  //         this.ref.detectChanges();
-  //       },
-  //       (error: any) => { }
-  //     );
-  // }
 
   onSubmit(): void {
     this.requesting = true;

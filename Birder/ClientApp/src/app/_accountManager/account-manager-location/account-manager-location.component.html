@@ -6,7 +6,6 @@
       <div class="set-location-container">
         <h2 class="section-title">Set Default Location</h2>
         <div *ngIf="marker">
-          <!-- <form [formGroup]="setLocationForm" novalidate (ngSubmit)="onSubmit(setLocationForm.value)"> -->
 
           <!-- Google map control -->
           <!-- <div class="container"> -->
@@ -27,18 +26,8 @@
             </ngb-alert>
           </p>
 
-          <!-- <agm-map [latitude]="setLocationForm.get('locationLatitude').value"
-                [longitude]="setLocationForm.get('locationLongitude').value" [zoom]="8" [disableDefaultUI]="false"
-                [zoomControl]="true">
-                <agm-marker [latitude]="setLocationForm.get('locationLatitude').value"
-                  [longitude]="setLocationForm.get('locationLongitude').value" [markerDraggable]="true"
-                  (dragEnd)="placeMarker($event)">
-                  <agm-info-window [isOpen]="true">Observed at {{geolocation}}</agm-info-window>
-                </agm-marker>
-              </agm-map> -->
-
-          <p>marker values: {{marker?.position.lat}} , {{marker?.position.lng}}</p>
-          <p>location: {{geolocation}}</p>
+          <!-- <p>marker values: {{marker?.position.lat}} , {{marker?.position.lng}}</p>
+          <p>location: {{geolocation}}</p> -->
 
           <google-map height="500px" width="100%" [zoom]="zoom" [center]="marker?.position" [options]="options">
             <map-marker #markerElement="mapMarker" [position]="marker?.position" [options]="marker.options"
@@ -60,15 +49,6 @@
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           </button>
 
-          <!-- <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!setLocationForm.valid">
-              Set default location
-            </button>
-            <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
-              Setting default location...
-              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            </button> -->
-
-          <!-- </form> -->
         </div>
       </div>
     </div>
