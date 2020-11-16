@@ -112,7 +112,7 @@ export class ObservationAddComponent implements OnInit {
           lat: location.latitude,
           lng: location.longitude
         };
-        this.map.panTo(this.marker.position);
+        // this.map.panTo(this.marker.position);
 
         this.geolocation = location.formattedAddress;
         this.searchAddress = '';
