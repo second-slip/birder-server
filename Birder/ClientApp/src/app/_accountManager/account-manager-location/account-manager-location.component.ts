@@ -33,7 +33,6 @@ export class AccountManagerLocationComponent implements OnInit {
     , private geocodeService: GeocodeService
     , private ref: ChangeDetectorRef) { }
 
-
   ngOnInit() {
     this.getUser();
   }

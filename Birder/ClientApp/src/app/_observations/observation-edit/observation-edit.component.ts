@@ -145,19 +145,14 @@ export class ObservationEditComponent implements OnInit {
       //
       locationLatitude: this.marker.position.lat,
       locationLongitude: this.marker.position.lng,
-      // the below are set at the server-side
+      // the below is set at the server-side
       lastUpdateDate: new Date().toISOString() 
     }
-
-    // console.log(observation);
-
-    // console.log(this.observation);
-
 
     this.observationService.updateObservation(this.observation.observationId, observation)
       .subscribe(
         (data: ObservationViewModel) => {
-          this.editObservationForm.reset();
+          //this.editObservationForm.reset();
           this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
         },
         (error: ErrorReportViewModel) => {
@@ -232,15 +227,6 @@ export class ObservationEditComponent implements OnInit {
 
   markerChanged(event: google.maps.MouseEvent): void {
     this.addMarker(event.latLng.lat(), event.latLng.lng());
-    // console.log(event.latLng.lat());
-    // console.log(event.latLng.lng());
-
-    // this.marker.position =  {
-    //   lat: event.latLng.lat(),
-    //   lng: event.latLng.lng()
-    // };
-
-    // this.getGeolocation(event.latLng.lat(), event.latLng.lng());
   }
 
 
