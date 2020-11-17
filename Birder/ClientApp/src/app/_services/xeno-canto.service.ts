@@ -3,15 +3,14 @@ import { IXenoCantoResponse, IRecording } from '../_models/IXenoCantoResponse';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class XenoCantoService {
-  private corsAnywhereUrl = environment.corsAnywhereUrl;
-  private xenoCantoApiBaseUrl = environment.xenoCantoApiBaseUrl;
-  private recordingLength = '+len_gt:40';
+  private readonly corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/';
+  private readonly xenoCantoApiBaseUrl = 'https://www.xeno-canto.org/api/2/recordings?query=';
+  private readonly recordingLength = '+len_gt:40';
 
   constructor(private http: HttpClient) { }
 

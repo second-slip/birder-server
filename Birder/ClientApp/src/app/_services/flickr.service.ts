@@ -8,10 +8,10 @@ import { FlickrUrlsViewModel } from '../_models/FlickrUrlsViewModel';
   providedIn: 'root'
 })
 export class FlickrService {
-  apiKey = environment.flickrApiKey;
-  apiUrl = environment.flickrApiUrl;
-  baseUrl = `${this.apiUrl}?api_key=${this.apiKey}&format=json&nojsoncallback=1&method=flickr.photos.`;
-  flickrPhotoSearch = `${this.baseUrl}search&per_page=20&tags=`;
+  private readonly apiKey = environment.flickrApiKey;
+  private readonly apiUrl = 'https://api.flickr.com/services/rest/';
+  private readonly baseUrl = `${this.apiUrl}?api_key=${this.apiKey}&format=json&nojsoncallback=1&method=flickr.photos.`;
+  private readonly flickrPhotoSearch = `${this.baseUrl}search&per_page=20&tags=`;
 
   constructor(private http: HttpClient) { }
 
