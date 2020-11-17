@@ -1,23 +1,3 @@
 <p>testing works!</p>
 
-<google-map></google-map>
-
-<form class="example-form">
-    <mat-form-field class="example-full-width">
-      <input type="bird"
-             placeholder="Select species"
-             aria-label="Number"
-             matInput
-             [formControl]="myControl"
-             [matAutocomplete]="auto"
-             required>
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn"> 
-        <!-- [displayWith]="displayFn"> -->
-        <mat-option *ngFor="let bird of filteredOptions | async"  [value]="bird">
-            <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
-  
 
