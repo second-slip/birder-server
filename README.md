@@ -19,10 +19,7 @@ The (necessary) environment.ts file should look like this:
 ```
 export const environment = {
     production: false,
-    corsAnywhereUrl: 'https://cors-anywhere.herokuapp.com/',
-    xenoCantoApiBaseUrl: 'https://www.xeno-canto.org/api/2/recordings?query=',
     flickrApiKey: '<<<add Flickr Api Key>>>',
-    flickrApiUrl: 'https://api.flickr.com/services/rest/',
     cookieDomain: 'localhost',
     mapKey: '<<<add Google Maps Api Key>>>' 
   };
