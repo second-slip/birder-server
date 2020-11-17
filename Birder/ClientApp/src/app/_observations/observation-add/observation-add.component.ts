@@ -74,7 +74,7 @@ export class ObservationAddComponent implements OnInit {
     // this.addObservationForm.controls['bird']
     this.filteredOptions = this.addObservationForm.controls['bird'].valueChanges.pipe(
       startWith(''),
-      map(value => value.length >= 1 ? this._filter(value): this.birdsSpecies)
+      map(value => value.length >= 1 ? this._filter(value) : this.birdsSpecies)
       // map(value => this._filter(value))
     );
   }
@@ -90,7 +90,7 @@ export class ObservationAddComponent implements OnInit {
   }
 
 
-  getGeolocation(latitude: number, longitude:number): void {
+  getGeolocation(latitude: number, longitude: number): void {
     this.geocodeService.reverseGeocode(latitude, longitude)
       .subscribe(
         (data: LocationViewModel) => {
@@ -106,14 +106,11 @@ export class ObservationAddComponent implements OnInit {
   useGeolocation(searchValue: string) {
     this.geocodeService.geocodeAddress(searchValue)
       .subscribe((location: LocationViewModel) => {
-        // this.addObservationForm.get('locationLatitude').setValue(location.latitude);
-        // this.addObservationForm.get('locationLongitude').setValue(location.longitude);
         this.marker.position = {
           lat: location.latitude,
           lng: location.longitude
         };
         // this.map.panTo(this.marker.position);
-
         this.geolocation = location.formattedAddress;
         this.searchAddress = '';
         this.ref.detectChanges();
@@ -152,8 +149,6 @@ export class ObservationAddComponent implements OnInit {
 
   createForms(): void {
     this.addObservationForm = this.formBuilder.group({
-      // locationLatitude: new FormControl(this.user.defaultLocationLatitude),
-      // locationLongitude: new FormControl(this.user.defaultLocationLongitude),
       quantity: new FormControl(1, Validators.compose([
         Validators.required
       ])),
@@ -173,7 +168,7 @@ export class ObservationAddComponent implements OnInit {
   }
 
   marker; // make marker a property?
-  addMarker(latitude: number, longitude:number) {
+  addMarker(latitude: number, longitude: number) {
     this.marker = ({
       position: {
         lat: latitude,
@@ -189,21 +184,6 @@ export class ObservationAddComponent implements OnInit {
 
     this.getGeolocation(latitude, longitude);
   }
-  // addMarker() {
-  //   this.marker = ({
-  //     position: {
-  //       lat: this.user.defaultLocationLatitude,
-  //       lng: this.user.defaultLocationLongitude
-  //     },
-  //     label: {
-  //       color: 'red',
-  //       text: 'Marker label',
-  //     },
-  //     title: 'Marker title',
-  //     options: { draggable: true },
-      
-  //   })
-  // }
 
   openInfoWindow(marker: MapMarker) {
     // console.log(marker);
@@ -212,35 +192,23 @@ export class ObservationAddComponent implements OnInit {
 
   markerChanged(event: google.maps.MouseEvent): void {
     this.addMarker(event.latLng.lat(), event.latLng.lng());
-    // console.log(event.latLng.lat());
-    // console.log(event.latLng.lng());
-
-    // this.marker.position =  {
-    //   lat: event.latLng.lat(),
-    //   lng: event.latLng.lng()
-    // };
-
-    // this.getGeolocation(event.latLng.lat(), event.latLng.lng());
   }
 
-  onSubmit(value): void {
+  onSubmit(formValue: ObservationViewModel): void {
     this.requesting = true;
 
-    console.log(value);
-    console.log(typeof(value));
-
-    const observation = <ObservationViewModel> {
-      quantity: value.quantity,
-      observationDateTime: value.observationDateTime,
-      bird: value.bird,
-      birdId: value.bird.birdId,
-      noteAppearance: value.noteAppearance,
-      noteBehaviour : value.noteAppearance,
-      noteGeneral: value.noteGeneral,
-      noteHabitat: value.noteHabitat,
-      noteVocalisation: value.noteVocalisation,
-      noteWeather: value.noteWeather,
-      //
+    const observation = <ObservationViewModel>{
+      quantity: formValue.quantity,
+      observationDateTime: formValue.observationDateTime,
+      bird: formValue.bird,
+      birdId: formValue.bird.birdId,
+      noteAppearance: formValue.noteAppearance,
+      noteBehaviour: formValue.noteAppearance,
+      noteGeneral: formValue.noteGeneral,
+      noteHabitat: formValue.noteHabitat,
+      noteVocalisation: formValue.noteVocalisation,
+      noteWeather: formValue.noteWeather,
+      // from the marker
       locationLatitude: this.marker.position.lat,
       locationLongitude: this.marker.position.lng,
       // the below are set at the server-side
@@ -248,7 +216,7 @@ export class ObservationAddComponent implements OnInit {
       user: null,
       creationDate: new Date().toISOString(),
       hasPhotos: false,
-      lastUpdateDate: new Date().toISOString() 
+      lastUpdateDate: new Date().toISOString()
     }
 
     this.observationService.addObservation(observation)
@@ -271,10 +239,10 @@ export class ObservationAddComponent implements OnInit {
   getBirds(): void {
     this.birdsService.getBirdsDdl()
       .subscribe(
-        (data: BirdSummaryViewModel[]) => { 
+        (data: BirdSummaryViewModel[]) => {
           this.birdsSpecies = data;
           this.getBirdAutocompleteOptions();
-         },
+        },
         (error: ErrorReportViewModel) => {
           console.log('could not get the birds ddl');
         });

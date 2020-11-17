@@ -8,7 +8,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_sharedServices/observation.service';
 import { BirdsService } from '@app/_services/birds.service';
 import { GeocodeService } from '@app/_services/geocode.service';
-import { BirderStatus } from '@app/_models/BirdIndexOptions';
 import { LocationViewModel } from '@app/_models/LocationViewModel';
 import { TokenService } from '@app/_services/token.service';
 import { ToastrService } from 'ngx-toastr';
@@ -70,25 +69,14 @@ export class ObservationEditComponent implements OnInit {
   }
 
   displayFn(bird: BirdSummaryViewModel): string {
-    // console.log(bird);
-    // console.log(bird.englishName);
     return bird && bird.englishName ? bird.englishName : null;
   }
 
-  // init() {
-  //   this.filteredOptions = this.myControl.valueChanges.pipe(
-  //     startWith(''),
-  //     map(value => value.length >= 1 ? this._filter(value): this.birdsSpecies)
-  //     // map(value => this._filter(value))
-  //   );
-  // }
 
   getBirdAutocompleteOptions() {
-    // this.addObservationForm.controls['bird']
     this.filteredOptions = this.editObservationForm.controls['bird'].valueChanges.pipe(
       startWith(''),
-      map(value => value.length >= 1 ? this._filter(value): this.birdsSpecies)
-      // map(value => this._filter(value))
+      map(value => value.length >= 1 ? this._filter(value) : this.birdsSpecies)
     );
   }
 
@@ -109,10 +97,6 @@ export class ObservationEditComponent implements OnInit {
       observationDateTime: new FormControl(this.observation.observationDateTime, Validators.compose([
         Validators.required
       ])),
-      //
-      // locationLatitude: new FormControl(this.observation.locationLatitude),
-      // locationLongitude: new FormControl(this.observation.locationLongitude),
-      //
       noteGeneral: new FormControl(this.observation.noteGeneral),
       noteHabitat: new FormControl(this.observation.noteHabitat),
       noteWeather: new FormControl(this.observation.noteWeather),
@@ -122,31 +106,29 @@ export class ObservationEditComponent implements OnInit {
     });
   }
 
-  onSubmit(value): void {
+  onSubmit(value: ObservationViewModel): void {
     this.requesting = true;
 
-    // console.log(value);
-
-    const observation = <ObservationViewModel> {
+    const observation = <ObservationViewModel>{
       quantity: value.quantity,
       observationDateTime: value.observationDateTime,
       bird: value.bird,
       birdId: value.bird.birdId,
       noteAppearance: value.noteAppearance,
-      noteBehaviour : value.noteAppearance,
+      noteBehaviour: value.noteAppearance,
       noteGeneral: value.noteGeneral,
       noteHabitat: value.noteHabitat,
       noteVocalisation: value.noteVocalisation,
       noteWeather: value.noteWeather,
       observationId: this.observation.observationId,
-      user: this.observation.user, 
+      user: this.observation.user,
       creationDate: this.observation.creationDate,
       hasPhotos: false, // might have a problem
       //
       locationLatitude: this.marker.position.lat,
       locationLongitude: this.marker.position.lng,
       // the below is set at the server-side
-      lastUpdateDate: new Date().toISOString() 
+      lastUpdateDate: new Date().toISOString()
     }
 
     this.observationService.updateObservation(this.observation.observationId, observation)
@@ -193,18 +175,17 @@ export class ObservationEditComponent implements OnInit {
   getBirds(): void {
     this.birdsService.getBirdsDdl()
       .subscribe(
-        (data: BirdSummaryViewModel[]) => 
-        {
-           this.birdsSpecies = data; 
-           this.getBirdAutocompleteOptions();
-          },
+        (data: BirdSummaryViewModel[]) => {
+          this.birdsSpecies = data;
+          this.getBirdAutocompleteOptions();
+        },
         (error: ErrorReportViewModel) => {
           console.log('could not get the birds ddl');
         });
   }
 
   marker; // make marker a property?
-  addMarker(latitude: number, longitude:number) {
+  addMarker(latitude: number, longitude: number) {
     this.marker = ({
       position: {
         lat: latitude,
@@ -230,7 +211,7 @@ export class ObservationEditComponent implements OnInit {
   }
 
 
-  getGeolocation(latitude: number, longitude:number): void {
+  getGeolocation(latitude: number, longitude: number): void {
     this.geocodeService.reverseGeocode(latitude, longitude)
       .subscribe(
         (data: LocationViewModel) => {
@@ -284,8 +265,4 @@ export class ObservationEditComponent implements OnInit {
       this.geoError = 'Geolocation not supported in this browser';
     }
   }
-
-
-
-
 }

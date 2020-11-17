@@ -54,16 +54,11 @@
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
-                  <input type="bird"
-                         placeholder="Select species"
-                         aria-label="Number"
-                         matInput
-                         formControlName="bird"
-                         [matAutocomplete]="auto"
-                         required>
+                  <input type="bird" placeholder="Select species" aria-label="Number" matInput formControlName="bird"
+                    [matAutocomplete]="auto" required>
                   <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
                     <mat-option *ngFor="let bird of filteredOptions | async" [value]="bird">
-                        <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
+                      <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
                     </mat-option>
                   </mat-autocomplete>
                   <mat-error *ngFor="let validation of editObservation_validation_messages.bird">
@@ -110,8 +105,8 @@
                   <form (ngSubmit)="useGeolocation(searchAddress)">
                     <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
                       [ngModelOptions]="{standalone: true}" required>
-                    
-                      <button type="submit" triggers="mouseenter:mouseleave"
+
+                    <button type="submit" triggers="mouseenter:mouseleave"
                       ngbPopover='- Type a place name (e.g. Canterbury, UK); or an specific address (e.g. 1 High St, Canterbury CT1 2JH)'
                       popoverTitle="Search help">Show Location</button>
                     <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
@@ -124,7 +119,7 @@
                     </ngb-alert>
                   </p>
 
-                  
+
                   <!-- <agm-map [latitude]="editObservationForm.get('locationLatitude').value"
                     [longitude]="editObservationForm.get('locationLongitude').value" [zoom]="8"
                     [disableDefaultUI]="false" [zoomControl]="true">
@@ -221,7 +216,7 @@
                     <mat-icon>local_offer</mat-icon>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
-              <!-- DO NOT USE MAT CHIPS-->
+                <!-- DO NOT USE MAT CHIPS-->
                 <!-- <mat-form-field class="example-chip-list">
             <mat-chip-list #chipList>
               <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
@@ -268,8 +263,8 @@
             <div class="content-right">
               <hr>
               <a [routerLink]="" (click)="goBack()">Go Back</a>
-              <a routerLink="/observation-edit/{{observation.observationId}}">
-                | Edit
+              <a routerLink="/observation-detail/{{observation.observationId}}">
+                | Details
               </a>
               <a routerLink="/observation-delete/{{observation.observationId}}">
                 | Delete

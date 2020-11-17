@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BirdsService } from '@app/_services/birds.service';
 
 @Component({
   selector: 'app-testing',
@@ -9,7 +8,7 @@ import { BirdsService } from '@app/_services/birds.service';
 })
 export class TestingComponent implements OnInit {
 
-  constructor(private birdsService: BirdsService) { }
+  constructor() { }
 
   ngOnInit() { }
 }
