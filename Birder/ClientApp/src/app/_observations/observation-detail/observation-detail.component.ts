@@ -9,6 +9,11 @@ import { TokenService } from '@app/_services/token.service';
 import { PhotosService } from '@app/_services/photos.service';
 import { Lightbox } from 'ngx-lightbox';
 
+/*  ******** information ********
+  child view is accessed via the #map local variable.  This is to access 'geolocation' property.
+  Local varaible binding is only suitable for simple things like this...
+*/
+
 @Component({
   selector: 'app-observation-detail',
   templateUrl: './observation-detail.component.html',
@@ -19,8 +24,6 @@ export class ObservationDetailComponent implements OnInit {
   user: UserViewModel;
   observation: ObservationViewModel;
   private _album: Array<PhotographAlbum> = [];
-
-  // @ViewChild
 
   constructor(private observationService: ObservationService
     , private _lightbox: Lightbox
@@ -59,25 +62,14 @@ export class ObservationDetailComponent implements OnInit {
         (data: UserViewModel) => {
           this.user = data;
         },
-        () => {
-          console.log('could not get the user, using default coordinates');
-          const userTemp = <UserViewModel>{
-            userName: '',
-            avatar: '',
-            defaultLocationLatitude: 54.972237,
-            defaultLocationLongitude: -2.4608560000000352,
-          };
-          this.user = userTemp;
-        });
+        () => { });
   }
 
-  open(index: number): void {
-    // open lightbox
+  open(index: number): void { // open lightbox
     this._lightbox.open(this._album, index);
   }
 
-  close(): void {
-    // close lightbox programmatically
+  close(): void { // close lightbox programmatically
     this._lightbox.close();
   }
 

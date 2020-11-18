@@ -26,17 +26,6 @@ app-observation-detail {
     // margin-left: 5px; /* optional */
   }
 
-  // Workaround for https://github.com/angular/material2/issues/4580.
-  // mat-form-field .mat-form-field {
-  //   &-underline {
-  //     position: relative;
-  //     bottom: auto;
-  //   }
-  //   &-subscript-wrapper {
-  //     position: static;
-  //   }
-  // }
-
   .section-title {
     margin-bottom: 20px;
   }
@@ -110,11 +99,6 @@ app-observation-detail {
 
   img {
     width: 150px;
-  }
-
-  agm-map {
-    height: 300px;
-    // padding: 2px;
   }
 
   .aligned-with-icon {

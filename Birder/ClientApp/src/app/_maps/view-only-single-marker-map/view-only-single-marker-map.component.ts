@@ -3,12 +3,6 @@ import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { LocationViewModel } from '@app/_models/LocationViewModel';
 import { GeocodeService } from '@app/_services/geocode.service';
 
-// export interface ChangePasswordViewModel {
-//   latitude: number;
-//   longitude: number;
-//   geolocation: string;
-// }
-
 @Component({
   selector: 'app-view-only-single-marker-map',
   templateUrl: './view-only-single-marker-map.component.html',
@@ -18,9 +12,8 @@ export class ViewOnlySingleMarkerMapComponent implements OnInit {
   @Input() latitude: number;
   @Input() longitude: number;
 
-  geolocation = 'location';
-
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
+  geolocation: string;
   locationMarker;
   zoom = 8;
   options: google.maps.MapOptions = {
@@ -40,11 +33,6 @@ export class ViewOnlySingleMarkerMapComponent implements OnInit {
         lat: latitude,
         lng: longitude
       },
-      // label: {
-      //   color: 'red',
-      //   text: 'Marker label',
-      // },
-      // title: 'Marker title',
       options: { animation: google.maps.Animation.BOUNCE },
     })
 
@@ -55,6 +43,7 @@ export class ViewOnlySingleMarkerMapComponent implements OnInit {
     this.infoWindow.open(marker);
   }
 
+  // If geolocation string is permanently held in the observation object then the geolocation step is redundant
   getGeolocation(latitude: number, longitude: number): void {
     this.geocodeService.reverseGeocode(latitude, longitude)
       .subscribe(

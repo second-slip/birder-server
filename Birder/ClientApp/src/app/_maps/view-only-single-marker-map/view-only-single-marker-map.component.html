@@ -1,5 +1,13 @@
-<div *ngIf="locationMarker">
+<div *ngIf="!locationMarker" class="loading">
 
+    <p><em>Loading...</em></p>
+
+    <mat-spinner></mat-spinner>
+
+</div>
+
+<div *ngIf="locationMarker">
+    
     <p>{{ geolocation }}</p>
 
     <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
