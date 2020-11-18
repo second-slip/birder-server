@@ -68,7 +68,8 @@
               </mat-panel-title>
               <mat-panel-description>
                 <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
-                {{ geolocation }}
+                Location 
+                <!-- bind to new location property on observation -->
                 <mat-icon>add_location</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
@@ -88,14 +89,19 @@
                 </agm-marker>
               </agm-map> -->
 
-              <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position"
+              <!-- <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position"
                 [options]="options">
                 <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker?.options"
                   (mapClick)="openInfoWindow(markerElement)">
                   <map-info-window>{{ geolocation }}</map-info-window>
                 </map-marker>
-                <!-- <map-info-window>MyContent</map-info-window> -->
-              </google-map>
+              </google-map> -->
+
+              <!-- <br>
+              <p>Take 2</p> -->
+              <app-view-only-single-marker-map [latitude]="observation?.locationLatitude"
+                [longitude]="observation?.locationLongitude">
+              </app-view-only-single-marker-map>
 
 
               <div *ngIf="observation.user.userName === user.userName">

@@ -22,16 +22,16 @@ import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 export class ObservationDetailComponent implements OnInit {
   user: UserViewModel;
   observation: ObservationViewModel;
-  geolocation = 'location';
+  // geolocation = 'location';
   private _album: Array<PhotographAlbum> = [];
 
-  @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
-  locationMarker;
-  // center: google.maps.LatLngLiteral;
-  zoom = 8;
-  options: google.maps.MapOptions = {
-    mapTypeId: 'terrain'
-  }
+  // @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
+  // locationMarker;
+  // // center: google.maps.LatLngLiteral;
+  // zoom = 8;
+  // options: google.maps.MapOptions = {
+  //   mapTypeId: 'terrain'
+  // }
 
   constructor(private observationService: ObservationService
     , private _lightbox: Lightbox
@@ -39,9 +39,10 @@ export class ObservationDetailComponent implements OnInit {
     , private tokenService: TokenService
     , private route: ActivatedRoute
     , private location: Location
-    , private router: Router
-    , private geocodeService: GeocodeService
-    , private ref: ChangeDetectorRef) { }
+    , private router: Router) { }
+    // , private geocodeService: GeocodeService
+    // , private ref: ChangeDetectorRef
+    // ) { }
 
   ngOnInit(): void {
     this.getUser();
@@ -55,7 +56,7 @@ export class ObservationDetailComponent implements OnInit {
       .subscribe(
         (observation: ObservationViewModel) => {
           this.observation = observation;
-          this.addMarker(observation.locationLatitude, observation.locationLongitude);
+          // this.addMarker(observation.locationLatitude, observation.locationLongitude);
           // this.getGeolocation();
           this.getPhotos(observation.observationId);
         },
@@ -65,40 +66,40 @@ export class ObservationDetailComponent implements OnInit {
   }
 
 
-  addMarker(latitude: number, longitude:number) {
-    this.locationMarker = ({
-      position: {
-        lat: latitude,
-        lng: longitude
-      },
-      label: {
-        color: 'red',
-        text: 'Marker label',
-      },
-      title: 'Marker title',
-      options: { draggable: true },
-    })
+  // addMarker(latitude: number, longitude:number) {
+  //   this.locationMarker = ({
+  //     position: {
+  //       lat: latitude,
+  //       lng: longitude
+  //     },
+  //     label: {
+  //       color: 'red',
+  //       text: 'Marker label',
+  //     },
+  //     title: 'Marker title',
+  //     options: { draggable: true },
+  //   })
 
-    this.getGeolocation(latitude, longitude);
-  }
+  //   this.getGeolocation(latitude, longitude);
+  // }
 
-  openInfoWindow(marker: MapMarker) {
-    // console.log(marker);
-    this.infoWindow.open(marker);
-  }
+  // openInfoWindow(marker: MapMarker) {
+  //   // console.log(marker);
+  //   this.infoWindow.open(marker);
+  // }
 
-  getGeolocation(latitude: number, longitude:number): void {
-    this.geocodeService.reverseGeocode(latitude, longitude)
-      .subscribe(
-        (data: LocationViewModel) => {
-          this.geolocation = data.formattedAddress;
-          this.ref.detectChanges();
-        },
-        (error: any) => {
-          //
-        }
-      );
-  }
+  // getGeolocation(latitude: number, longitude:number): void {
+  //   this.geocodeService.reverseGeocode(latitude, longitude)
+  //     .subscribe(
+  //       (data: LocationViewModel) => {
+  //         this.geolocation = data.formattedAddress;
+  //         this.ref.detectChanges();
+  //       },
+  //       (error: any) => {
+  //         //
+  //       }
+  //     );
+  // }
 
   goBack(): void {
     this.location.back();
@@ -121,6 +122,7 @@ export class ObservationDetailComponent implements OnInit {
           this.user = userTemp;
         });
   }
+  
   open(index: number): void {
     // open lightbox
     this._lightbox.open(this._album, index);
