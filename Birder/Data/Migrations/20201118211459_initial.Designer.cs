@@ -10,16 +10,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200511231849_initial")]
+    [Migration("20201118211459_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("Birder.Data.Model.ApplicationUser", b =>
                 {
@@ -44,8 +44,8 @@ namespace Birder.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -57,12 +57,12 @@ namespace Birder.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -83,17 +83,17 @@ namespace Birder.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
+                        .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
@@ -104,7 +104,7 @@ namespace Birder.Migrations
                     b.Property<int>("BirdId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("BirderStatus")
                         .HasColumnType("int");
@@ -169,7 +169,7 @@ namespace Birder.Migrations
                     b.Property<int>("ConservationStatusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ConservationList")
                         .IsRequired()
@@ -197,45 +197,45 @@ namespace Birder.Migrations
                             ConservationStatusId = 1,
                             ConservationList = "Red",
                             ConservationListColourCode = "Red",
-                            CreationDate = new DateTime(2020, 5, 12, 0, 18, 49, 336, DateTimeKind.Local).AddTicks(9609),
+                            CreationDate = new DateTime(2020, 11, 18, 21, 14, 58, 646, DateTimeKind.Local).AddTicks(1741),
                             Description = "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.",
-                            LastUpdateDate = new DateTime(2020, 5, 12, 0, 18, 49, 340, DateTimeKind.Local).AddTicks(1049)
+                            LastUpdateDate = new DateTime(2020, 11, 18, 21, 14, 58, 649, DateTimeKind.Local).AddTicks(5656)
                         },
                         new
                         {
                             ConservationStatusId = 2,
                             ConservationList = "Amber",
                             ConservationListColourCode = "Yellow",
-                            CreationDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8261),
+                            CreationDate = new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(184),
                             Description = "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.",
-                            LastUpdateDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8321)
+                            LastUpdateDate = new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(209)
                         },
                         new
                         {
                             ConservationStatusId = 3,
                             ConservationList = "Green",
                             ConservationListColourCode = "Green",
-                            CreationDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8385),
+                            CreationDate = new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(337),
                             Description = "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.",
-                            LastUpdateDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8392)
+                            LastUpdateDate = new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(343)
                         },
                         new
                         {
                             ConservationStatusId = 4,
                             ConservationList = "Former breeder",
                             ConservationListColourCode = "Black",
-                            CreationDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8425),
+                            CreationDate = new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(366),
                             Description = "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.",
-                            LastUpdateDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8431)
+                            LastUpdateDate = new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(370)
                         },
                         new
                         {
                             ConservationStatusId = 5,
                             ConservationList = "Not assessed",
                             ConservationListColourCode = "Black",
-                            CreationDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8461),
+                            CreationDate = new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(390),
                             Description = "This species was not assessed in the UK Birds of Conservation Concern 4.",
-                            LastUpdateDate = new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8467)
+                            LastUpdateDate = new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(394)
                         });
                 });
 
@@ -259,7 +259,7 @@ namespace Birder.Migrations
                     b.Property<int>("ObservationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
@@ -303,6 +303,9 @@ namespace Birder.Migrations
                     b.Property<DateTime>("ObservationDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ObservationPositionId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -315,7 +318,30 @@ namespace Birder.Migrations
 
                     b.HasIndex("BirdId");
 
+                    b.HasIndex("ObservationPositionId");
+
                     b.ToTable("Observation");
+                });
+
+            modelBuilder.Entity("Birder.Data.Model.ObservationPosition", b =>
+                {
+                    b.Property<int>("ObservationPositionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("FormattedAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("float");
+
+                    b.HasKey("ObservationPositionId");
+
+                    b.ToTable("Position");
                 });
 
             modelBuilder.Entity("Birder.Data.Model.ObservationTag", b =>
@@ -338,12 +364,12 @@ namespace Birder.Migrations
                     b.Property<int>("TagId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("TagId");
 
@@ -355,7 +381,7 @@ namespace Birder.Migrations
                     b.Property<int>("TweetDayId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("BirdId")
                         .HasColumnType("int");
@@ -389,18 +415,18 @@ namespace Birder.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
+                        .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
@@ -411,7 +437,7 @@ namespace Birder.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -435,7 +461,7 @@ namespace Birder.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -517,6 +543,8 @@ namespace Birder.Migrations
                         .HasForeignKey("ConservationStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("BirdConservationStatus");
                 });
 
             modelBuilder.Entity("Birder.Data.Model.Network", b =>
@@ -532,6 +560,10 @@ namespace Birder.Migrations
                         .HasForeignKey("FollowerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Follower");
                 });
 
             modelBuilder.Entity("Birder.Data.Model.Observation", b =>
@@ -545,6 +577,18 @@ namespace Birder.Migrations
                         .HasForeignKey("BirdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Birder.Data.Model.ObservationPosition", "Position")
+                        .WithMany()
+                        .HasForeignKey("ObservationPositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Bird");
+
+                    b.Navigation("Position");
                 });
 
             modelBuilder.Entity("Birder.Data.Model.ObservationTag", b =>
@@ -560,6 +604,10 @@ namespace Birder.Migrations
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Observation");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Birder.Data.Model.TweetDay", b =>
@@ -569,6 +617,8 @@ namespace Birder.Migrations
                         .HasForeignKey("BirdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Bird");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -620,6 +670,37 @@ namespace Birder.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Birder.Data.Model.ApplicationUser", b =>
+                {
+                    b.Navigation("Followers");
+
+                    b.Navigation("Following");
+
+                    b.Navigation("Observations");
+                });
+
+            modelBuilder.Entity("Birder.Data.Model.Bird", b =>
+                {
+                    b.Navigation("Observations");
+
+                    b.Navigation("TweetDay");
+                });
+
+            modelBuilder.Entity("Birder.Data.Model.ConservationStatus", b =>
+                {
+                    b.Navigation("Birds");
+                });
+
+            modelBuilder.Entity("Birder.Data.Model.Observation", b =>
+                {
+                    b.Navigation("ObservationTags");
+                });
+
+            modelBuilder.Entity("Birder.Data.Model.Tag", b =>
+                {
+                    b.Navigation("ObservationTags");
                 });
 #pragma warning restore 612, 618
         }

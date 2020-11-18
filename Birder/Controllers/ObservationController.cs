@@ -27,6 +27,7 @@ namespace Birder.Controllers
         private readonly IBirdRepository _birdRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
+        private readonly IObservationPositionRepository _observationPositionRepository;
         //private readonly IProfilePhotosService _profilePhotosService;
 
         public ObservationController(IMapper mapper
@@ -36,7 +37,8 @@ namespace Birder.Controllers
                                    , IBirdRepository birdRepository
                                    , ILogger<ObservationController> logger
                                    , UserManager<ApplicationUser> userManager
-                                   , IObservationRepository observationRepository)
+                                   , IObservationRepository observationRepository
+                                   , IObservationPositionRepository observationPositionRepository)
                                    //, IProfilePhotosService profilePhotosService)
         {
             _mapper = mapper;
@@ -47,6 +49,7 @@ namespace Birder.Controllers
             _systemClock = systemClock;
             _birdRepository = birdRepository;
             _observationRepository = observationRepository;
+            _observationPositionRepository = observationPositionRepository;
             //_profilePhotosService = profilePhotosService;
         }
 
@@ -154,6 +157,15 @@ namespace Birder.Controllers
                 }
 
                 var observation = _mapper.Map<ObservationDto, Observation>(model);
+
+                var loc = new ObservationPosition()
+                {
+                    Latitude = observation.Position.Latitude,
+                    Longitude = observation.Position.Longitude,
+                    FormattedAddress = observation.Position.FormattedAddress
+                };
+
+                observation.Position = loc;
                 observation.ApplicationUser = requestingUser;
                 observation.Bird = observedBirdSpecies;
                 observation.CreationDate = _systemClock.GetNow;
@@ -166,6 +178,7 @@ namespace Birder.Controllers
                     return BadRequest("An error occurred");
                 }
 
+                _observationPositionRepository.Add(loc);
                 _observationRepository.Add(observation);
                 await _unitOfWork.CompleteAsync();
 

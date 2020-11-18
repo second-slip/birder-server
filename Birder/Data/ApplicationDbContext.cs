@@ -21,6 +21,8 @@ namespace Birder.Data
         public DbSet<Network> Network { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
+        public DbSet<ObservationPosition> Position { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

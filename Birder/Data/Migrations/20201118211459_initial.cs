@@ -11,10 +11,10 @@ namespace Birder.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -25,25 +25,25 @@ namespace Birder.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    DefaultLocationLatitude = table.Column<double>(nullable: false),
-                    DefaultLocationLongitude = table.Column<double>(nullable: false),
-                    Avatar = table.Column<string>(nullable: false),
-                    RegistrationDate = table.Column<DateTime>(nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DefaultLocationLatitude = table.Column<double>(type: "float", nullable: false),
+                    DefaultLocationLongitude = table.Column<double>(type: "float", nullable: false),
+                    Avatar = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,13 +54,13 @@ namespace Birder.Migrations
                 name: "ConservationStatus",
                 columns: table => new
                 {
-                    ConservationStatusId = table.Column<int>(nullable: false)
+                    ConservationStatusId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ConservationList = table.Column<string>(nullable: false),
-                    ConservationListColourCode = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    LastUpdateDate = table.Column<DateTime>(nullable: false)
+                    ConservationList = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConservationListColourCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,12 +68,27 @@ namespace Birder.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Position",
+                columns: table => new
+                {
+                    ObservationPositionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false),
+                    FormattedAddress = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Position", x => x.ObservationPositionId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tag",
                 columns: table => new
                 {
-                    TagId = table.Column<int>(nullable: false)
+                    TagId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,11 +99,11 @@ namespace Birder.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,11 +120,11 @@ namespace Birder.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -126,10 +141,10 @@ namespace Birder.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
-                    ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -146,8 +161,8 @@ namespace Birder.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -170,10 +185,10 @@ namespace Birder.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -190,8 +205,8 @@ namespace Birder.Migrations
                 name: "Network",
                 columns: table => new
                 {
-                    ApplicationUserId = table.Column<string>(nullable: false),
-                    FollowerId = table.Column<string>(nullable: false)
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FollowerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,23 +227,23 @@ namespace Birder.Migrations
                 name: "Bird",
                 columns: table => new
                 {
-                    BirdId = table.Column<int>(nullable: false)
+                    BirdId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Class = table.Column<string>(nullable: false),
-                    Order = table.Column<string>(nullable: false),
-                    Family = table.Column<string>(nullable: false),
-                    Genus = table.Column<string>(nullable: false),
-                    Species = table.Column<string>(nullable: false),
-                    EnglishName = table.Column<string>(nullable: false),
-                    InternationalName = table.Column<string>(nullable: true),
-                    Category = table.Column<string>(nullable: true),
-                    PopulationSize = table.Column<string>(nullable: true),
-                    BtoStatusInBritain = table.Column<string>(nullable: true),
-                    ThumbnailUrl = table.Column<string>(nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    LastUpdateDate = table.Column<DateTime>(nullable: false),
-                    ConservationStatusId = table.Column<int>(nullable: false),
-                    BirderStatus = table.Column<int>(nullable: false)
+                    Class = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Order = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Family = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Genus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Species = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EnglishName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InternationalName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PopulationSize = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BtoStatusInBritain = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ThumbnailUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ConservationStatusId = table.Column<int>(type: "int", nullable: false),
+                    BirderStatus = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -245,24 +260,25 @@ namespace Birder.Migrations
                 name: "Observation",
                 columns: table => new
                 {
-                    ObservationId = table.Column<int>(nullable: false)
+                    ObservationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LocationLatitude = table.Column<double>(nullable: false),
-                    LocationLongitude = table.Column<double>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
-                    NoteGeneral = table.Column<string>(nullable: true),
-                    NoteHabitat = table.Column<string>(nullable: true),
-                    NoteWeather = table.Column<string>(nullable: true),
-                    NoteAppearance = table.Column<string>(nullable: true),
-                    NoteBehaviour = table.Column<string>(nullable: true),
-                    NoteVocalisation = table.Column<string>(nullable: true),
-                    HasPhotos = table.Column<bool>(nullable: false),
-                    SelectedPrivacyLevel = table.Column<int>(nullable: false),
-                    ObservationDateTime = table.Column<DateTime>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    LastUpdateDate = table.Column<DateTime>(nullable: false),
-                    BirdId = table.Column<int>(nullable: false),
-                    ApplicationUserId = table.Column<string>(nullable: true)
+                    LocationLatitude = table.Column<double>(type: "float", nullable: false),
+                    LocationLongitude = table.Column<double>(type: "float", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    NoteGeneral = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NoteHabitat = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NoteWeather = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NoteAppearance = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NoteBehaviour = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NoteVocalisation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HasPhotos = table.Column<bool>(type: "bit", nullable: false),
+                    SelectedPrivacyLevel = table.Column<int>(type: "int", nullable: false),
+                    ObservationDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BirdId = table.Column<int>(type: "int", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ObservationPositionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -279,19 +295,25 @@ namespace Birder.Migrations
                         principalTable: "Bird",
                         principalColumn: "BirdId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Observation_Position_ObservationPositionId",
+                        column: x => x.ObservationPositionId,
+                        principalTable: "Position",
+                        principalColumn: "ObservationPositionId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "TweetDay",
                 columns: table => new
                 {
-                    TweetDayId = table.Column<int>(nullable: false)
+                    TweetDayId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SongUrl = table.Column<string>(nullable: true),
-                    DisplayDay = table.Column<DateTime>(nullable: false),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    LastUpdateDate = table.Column<DateTime>(nullable: false),
-                    BirdId = table.Column<int>(nullable: false)
+                    SongUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DisplayDay = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BirdId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -308,8 +330,8 @@ namespace Birder.Migrations
                 name: "ObservationTag",
                 columns: table => new
                 {
-                    TagId = table.Column<int>(nullable: false),
-                    ObervationId = table.Column<int>(nullable: false)
+                    TagId = table.Column<int>(type: "int", nullable: false),
+                    ObervationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -333,11 +355,11 @@ namespace Birder.Migrations
                 columns: new[] { "ConservationStatusId", "ConservationList", "ConservationListColourCode", "CreationDate", "Description", "LastUpdateDate" },
                 values: new object[,]
                 {
-                    { 1, "Red", "Red", new DateTime(2020, 5, 12, 0, 18, 49, 336, DateTimeKind.Local).AddTicks(9609), "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.", new DateTime(2020, 5, 12, 0, 18, 49, 340, DateTimeKind.Local).AddTicks(1049) },
-                    { 2, "Amber", "Yellow", new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8261), "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.", new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8321) },
-                    { 3, "Green", "Green", new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8385), "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.", new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8392) },
-                    { 4, "Former breeder", "Black", new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8425), "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8431) },
-                    { 5, "Not assessed", "Black", new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8461), "This species was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 5, 12, 0, 18, 49, 341, DateTimeKind.Local).AddTicks(8467) }
+                    { 1, "Red", "Red", new DateTime(2020, 11, 18, 21, 14, 58, 646, DateTimeKind.Local).AddTicks(1741), "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.", new DateTime(2020, 11, 18, 21, 14, 58, 649, DateTimeKind.Local).AddTicks(5656) },
+                    { 2, "Amber", "Yellow", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(184), "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(209) },
+                    { 3, "Green", "Green", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(337), "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(343) },
+                    { 4, "Former breeder", "Black", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(366), "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(370) },
+                    { 5, "Not assessed", "Black", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(390), "This species was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(394) }
                 });
 
             migrationBuilder.CreateIndex(
@@ -400,6 +422,11 @@ namespace Birder.Migrations
                 column: "BirdId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Observation_ObservationPositionId",
+                table: "Observation",
+                column: "ObservationPositionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ObservationTag_ObervationId",
                 table: "ObservationTag",
                 column: "ObervationId");
@@ -450,6 +477,9 @@ namespace Birder.Migrations
 
             migrationBuilder.DropTable(
                 name: "Bird");
+
+            migrationBuilder.DropTable(
+                name: "Position");
 
             migrationBuilder.DropTable(
                 name: "ConservationStatus");
