@@ -15,7 +15,6 @@ import { GeocodeService } from '@app/_services/geocode.service';
   styleUrls: ['./view-only-single-marker-map.component.scss']
 })
 export class ViewOnlySingleMarkerMapComponent implements OnInit {
-  // @Input() location: google.maps.LatLngLiteral; //LocationViewModel;
   @Input() latitude: number;
   @Input() longitude: number;
 
@@ -53,7 +52,6 @@ export class ViewOnlySingleMarkerMapComponent implements OnInit {
   }
 
   openInfoWindow(marker: MapMarker) {
-    // console.log(marker);
     this.infoWindow.open(marker);
   }
 

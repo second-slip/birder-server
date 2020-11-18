@@ -1,12 +1,12 @@
-<div>
-    <p>view-only-single-marker-map works!</p>
+<div *ngIf="locationMarker">
+
+    <p>{{ geolocation }}</p>
 
     <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
         <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker?.options"
             (mapClick)="openInfoWindow(markerElement)">
             <map-info-window>{{ geolocation }}</map-info-window>
         </map-marker>
-        <!-- <map-info-window>MyContent</map-info-window> -->
     </google-map>
 
 </div>

@@ -68,41 +68,17 @@
               </mat-panel-title>
               <mat-panel-description>
                 <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
-                Location 
+                Location
                 <!-- bind to new location property on observation -->
                 <mat-icon>add_location</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
             <!-- Map start -->
             <div>
-              <!-- <p *ngIf="geoError">
-                      <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
-                        <strong>Warning!</strong> Better check yourself, you're not looking too good.
-                      </ngb-alert>
-                    </p> -->
 
-              <!-- <agm-map [latitude]="observation?.locationLatitude" [longitude]="observation?.locationLongitude"
-                [zoom]="8" [disableDefaultUI]="false" [zoomControl]="true">
-                <agm-marker [latitude]="observation?.locationLatitude" [longitude]="observation?.locationLongitude">
-                  <agm-info-window [isOpen]="true"><b>{{observation.quantity}} {{observation.bird.englishName}}</b>
-                    <br>Observed at {{ geolocation }}</agm-info-window>
-                </agm-marker>
-              </agm-map> -->
-
-              <!-- <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position"
-                [options]="options">
-                <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker?.options"
-                  (mapClick)="openInfoWindow(markerElement)">
-                  <map-info-window>{{ geolocation }}</map-info-window>
-                </map-marker>
-              </google-map> -->
-
-              <!-- <br>
-              <p>Take 2</p> -->
               <app-view-only-single-marker-map [latitude]="observation?.locationLatitude"
                 [longitude]="observation?.locationLongitude">
               </app-view-only-single-marker-map>
-
 
               <div *ngIf="observation.user.userName === user.userName">
 

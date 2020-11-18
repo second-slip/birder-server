@@ -1,17 +1,13 @@
-import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { PhotographAlbum } from '@app/_models/PhotographAlbum';
 import { ObservationService } from '@app/_sharedServices/observation.service';
-import { GeocodeService } from '@app/_services/geocode.service';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { LocationViewModel } from '@app/_models/LocationViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
 import { TokenService } from '@app/_services/token.service';
 import { PhotosService } from '@app/_services/photos.service';
 import { Lightbox } from 'ngx-lightbox';
-import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 
 @Component({
   selector: 'app-observation-detail',
@@ -22,16 +18,9 @@ import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 export class ObservationDetailComponent implements OnInit {
   user: UserViewModel;
   observation: ObservationViewModel;
-  // geolocation = 'location';
   private _album: Array<PhotographAlbum> = [];
 
-  // @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
-  // locationMarker;
-  // // center: google.maps.LatLngLiteral;
-  // zoom = 8;
-  // options: google.maps.MapOptions = {
-  //   mapTypeId: 'terrain'
-  // }
+  // @ViewChild
 
   constructor(private observationService: ObservationService
     , private _lightbox: Lightbox
@@ -40,9 +29,6 @@ export class ObservationDetailComponent implements OnInit {
     , private route: ActivatedRoute
     , private location: Location
     , private router: Router) { }
-    // , private geocodeService: GeocodeService
-    // , private ref: ChangeDetectorRef
-    // ) { }
 
   ngOnInit(): void {
     this.getUser();
@@ -56,50 +42,12 @@ export class ObservationDetailComponent implements OnInit {
       .subscribe(
         (observation: ObservationViewModel) => {
           this.observation = observation;
-          // this.addMarker(observation.locationLatitude, observation.locationLongitude);
-          // this.getGeolocation();
           this.getPhotos(observation.observationId);
         },
-        (error: ErrorReportViewModel) => {
+        () => {
           this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
   }
-
-
-  // addMarker(latitude: number, longitude:number) {
-  //   this.locationMarker = ({
-  //     position: {
-  //       lat: latitude,
-  //       lng: longitude
-  //     },
-  //     label: {
-  //       color: 'red',
-  //       text: 'Marker label',
-  //     },
-  //     title: 'Marker title',
-  //     options: { draggable: true },
-  //   })
-
-  //   this.getGeolocation(latitude, longitude);
-  // }
-
-  // openInfoWindow(marker: MapMarker) {
-  //   // console.log(marker);
-  //   this.infoWindow.open(marker);
-  // }
-
-  // getGeolocation(latitude: number, longitude:number): void {
-  //   this.geocodeService.reverseGeocode(latitude, longitude)
-  //     .subscribe(
-  //       (data: LocationViewModel) => {
-  //         this.geolocation = data.formattedAddress;
-  //         this.ref.detectChanges();
-  //       },
-  //       (error: any) => {
-  //         //
-  //       }
-  //     );
-  // }
 
   goBack(): void {
     this.location.back();
@@ -111,7 +59,7 @@ export class ObservationDetailComponent implements OnInit {
         (data: UserViewModel) => {
           this.user = data;
         },
-        (error: any) => {
+        () => {
           console.log('could not get the user, using default coordinates');
           const userTemp = <UserViewModel>{
             userName: '',
@@ -122,7 +70,7 @@ export class ObservationDetailComponent implements OnInit {
           this.user = userTemp;
         });
   }
-  
+
   open(index: number): void {
     // open lightbox
     this._lightbox.open(this._album, index);
@@ -144,7 +92,7 @@ export class ObservationDetailComponent implements OnInit {
             filename: photo.filename
           }));
         },
-        (error: ErrorReportViewModel) => {
+        () => {
           // this.errorReport = error;
           // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
