@@ -1,6 +1,5 @@
 ﻿using Birder.Data.Model;
 using Birder.Helpers;
-using Birder.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

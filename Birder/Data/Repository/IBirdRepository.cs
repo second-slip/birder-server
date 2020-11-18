@@ -8,7 +8,6 @@ namespace Birder.Data.Repository
     {
         Task<IEnumerable<Bird>> GetBirdsDdlAsync();
         Task<Bird> GetBirdAsync(int id);
-
         Task<QueryResult<Bird>> GetBirdsAsync(int pageIndex, int pageSize);
     }
 }
