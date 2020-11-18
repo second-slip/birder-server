@@ -88,6 +88,7 @@ import { NetworkComponent } from './_network/network/network.component';
 import { BirdsIndexGridViewComponent } from './_birds/birds-index-grid-view/birds-index-grid-view.component';
 import { InfoTweetComponent } from './_info/info-tweet/info-tweet.component';
 import { ShowcaseObservationsListComponent } from './_sharedComponents/showcase-observations-list/showcase-observations-list.component';
+import { ViewOnlySingleMarkerMapComponent } from './_maps/view-only-single-marker-map/view-only-single-marker-map.component';
 
 // import { UsernameValidator } from 'validators';
 
@@ -184,6 +185,7 @@ export function tokenGetter() {
     BirdsIndexGridViewComponent,
     InfoTweetComponent,
     ShowcaseObservationsListComponent,
+    ViewOnlySingleMarkerMapComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
