@@ -48,9 +48,11 @@ namespace Birder.Data.Model
         //[Range(1, int.MaxValue, ErrorMessage = "You must choose the bird species you observed")]
         public int BirdId { get; set; }
         public string ApplicationUserId { get; set; }
-        
+        public int ObservationPositionId { get; set; }
+        //
         public Bird Bird { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+        public ObservationPosition Position { get; set; }
         public ICollection<ObservationTag> ObservationTags { get; set; }
         //public ICollection<Photograph> Photographs { get; set; }
     }
