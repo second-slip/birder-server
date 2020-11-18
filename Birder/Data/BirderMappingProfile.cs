@@ -11,9 +11,11 @@ namespace Birder.Data
         public BirderMappingProfile()
         {
             CreateMap<Observation, ObservationDto>()
+              .ForMember(a => a.Position, b => b.MapFrom(a => a.Position))
               .ForMember(a => a.User, b => b.MapFrom(a => a.ApplicationUser));
 
             CreateMap<ObservationDto, Observation>()
+              .ForMember(a => a.Position, b => b.MapFrom(a => a.Position))
               .ForMember(a => a.ApplicationUser, b => b.Ignore())
               .ForMember(a => a.CreationDate, b => b.Ignore());
 
