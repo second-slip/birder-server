@@ -1,11 +1,12 @@
 import { UserViewModel } from './UserViewModel';
 import { BirdSummaryViewModel } from './BirdSummaryViewModel';
+import { ObservationPosition } from './ObservationPosition';
 
 export interface ObservationViewModel {
    [x: string]: any;
     observationId: number;
-    locationLatitude: number;
-    locationLongitude: number;
+    // locationLatitude: number;
+    // locationLongitude: number;
     quantity: number;
     noteGeneral: string;
     noteHabitat: string;
@@ -21,5 +22,6 @@ export interface ObservationViewModel {
     birdId: number;
     bird: BirdSummaryViewModel;
     user: UserViewModel;
+    position: ObservationPosition;
     // ObservationTags: ObservationTag[];
 }
