@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
-import { filter, catchError, tap, map, switchMap } from 'rxjs/operators';
+import { tap, map, switchMap } from 'rxjs/operators';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { LocationViewModel } from '../_models/LocationViewModel';
-import { ObserversModule } from '@angular/cdk/observers';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 declare var google: any;
 
@@ -36,13 +33,14 @@ export class GeocodeService {
   reverseGeocode(latitude: number, longitude: number): Observable<LocationViewModel> {
     const latlng = { lat: latitude, lng: longitude };
 
-    console.log('Start geocoding!');
+    // console.log('Start geocoding!');
     return this.waitForMapsToLoad().pipe(
       switchMap(() => {
         return new Observable<LocationViewModel>(observer => {
           this.geocoder.geocode({ 'location': latlng }, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
-              console.log('Geocoding complete!');
+              // console.log('Geocoding complete!');
+              // console.log(results[0]);
               observer.next({
                 latitude: results[0].geometry.location.lat(),
                 longitude: results[0].geometry.location.lng(),
@@ -60,13 +58,13 @@ export class GeocodeService {
   }
 
   geocodeAddress(location: string): Observable<LocationViewModel> {
-    console.log('Start geocoding!');
+    // console.log('Start geocoding!');
     return this.waitForMapsToLoad().pipe(
       switchMap(() => {
         return new Observable<LocationViewModel>(observer => {
           this.geocoder.geocode({'address': location}, (results, status) => {
             if (status === google.maps.GeocoderStatus.OK) {
-              console.log('Geocoding complete!');
+              // console.log('Geocoding complete!');
               observer.next({
                 latitude: results[0].geometry.location.lat(),
                 longitude: results[0].geometry.location.lng(),
