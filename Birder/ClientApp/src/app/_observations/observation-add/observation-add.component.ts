@@ -55,6 +55,7 @@ export class ObservationAddComponent implements OnInit {
   options: google.maps.MapOptions = {
     mapTypeId: 'terrain'
   }
+  marker;
 
   constructor(private router: Router
     , private birdsService: BirdsService
@@ -83,12 +84,10 @@ export class ObservationAddComponent implements OnInit {
     return bird && bird.englishName ? bird.englishName : null;
   }
 
-
   private _filter(value: string): BirdSummaryViewModel[] {
     const filterValue = value.toLowerCase();
     return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
   }
-
 
   getGeolocation(latitude: number, longitude: number): void {
     this.geocodeService.reverseGeocode(latitude, longitude)
@@ -122,12 +121,12 @@ export class ObservationAddComponent implements OnInit {
     this.geoError = null;
   }
 
-  getCurrentPosition() {
+  getCurrentPosition(): void {
     if (window.navigator.geolocation) {
       window.navigator.geolocation.getCurrentPosition(
-        (position) => {
+        (position: Position) => {
           this.useGeolocation(position.coords.latitude.toString() + ',' + position.coords.longitude.toString());
-        }, (error) => {
+        }, (error: PositionError) => {
           switch (error.code) {
             case 3: // ...deal with timeout
               this.geoError = 'The request to get user location timed out...';
@@ -167,18 +166,17 @@ export class ObservationAddComponent implements OnInit {
     });
   }
 
-  marker; // make marker a property?
-  addMarker(latitude: number, longitude: number) {
+  setMarker(latitude: number, longitude: number) {
     this.marker = ({
       position: {
         lat: latitude,
         lng: longitude
       },
-      label: {
-        color: 'red',
-        text: 'Marker label',
-      },
-      title: 'Marker title',
+      // label: {
+      //   color: 'red',
+      //   text: 'Marker label',
+      // },
+      // title: 'Marker title',
       options: { draggable: true },
     })
 
@@ -191,7 +189,7 @@ export class ObservationAddComponent implements OnInit {
   }
 
   markerChanged(event: google.maps.MouseEvent): void {
-    this.addMarker(event.latLng.lat(), event.latLng.lng());
+    this.setMarker(event.latLng.lat(), event.latLng.lng());
   }
 
   onSubmit(formValue: ObservationViewModel): void {
@@ -254,7 +252,7 @@ export class ObservationAddComponent implements OnInit {
         (data: UserViewModel) => {
           this.user = data;
           this.createForms();
-          this.addMarker(data.defaultLocationLatitude, data.defaultLocationLongitude);
+          this.setMarker(data.defaultLocationLatitude, data.defaultLocationLongitude);
           // this.getGeolocation(this.user.defaultLocationLatitude, this.user.defaultLocationLongitude);
         },
         (error: any) => {
