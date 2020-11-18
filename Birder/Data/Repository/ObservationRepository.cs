@@ -22,6 +22,7 @@ namespace Birder.Data.Repository
             var query = _dbContext.Observations
                 .Include(y => y.Bird)
                     .ThenInclude(u => u.BirdConservationStatus)
+                .Include(p => p.Position)
                 .Include(au => au.ApplicationUser)
                 .AsNoTracking() // ????????
                 .AsQueryable();
@@ -56,6 +57,7 @@ namespace Birder.Data.Repository
             var query = _dbContext.Observations
                 .Include(y => y.Bird)
                     .ThenInclude(u => u.BirdConservationStatus)
+                 .Include(p => p.Position)
                 .Include(au => au.ApplicationUser)
                 .AsNoTracking() // ????????
                 .AsQueryable();
@@ -78,6 +80,7 @@ namespace Birder.Data.Repository
             return await _dbContext.Observations
                 .Include(y => y.Bird)
                     .ThenInclude(u => u.BirdConservationStatus)
+                .Include(p => p.Position)
                 .Include(au => au.ApplicationUser)
                 .Where(predicate)
                 .OrderByDescending(d => d.ObservationDateTime)
@@ -92,6 +95,7 @@ namespace Birder.Data.Repository
             var query = _dbContext.Observations
                 .Include(y => y.Bird)
                     .ThenInclude(u => u.BirdConservationStatus)
+                .Include(p => p.Position)
                 .Include(au => au.ApplicationUser)
                 //.Where(predicate)
                 //.OrderByDescending(d => d.ObservationDateTime)
@@ -123,6 +127,7 @@ namespace Birder.Data.Repository
             }
 
             return await _dbContext.Observations
+                .Include(p => p.Position)
                 .Include(au => au.ApplicationUser)
                 .Include(b => b.Bird)
                 .Include(ot => ot.ObservationTags)
