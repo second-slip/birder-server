@@ -67,8 +67,8 @@
             <!-- Map start -->
             <div>
 
-              <app-view-only-single-marker-map #map [latitude]="observation?.locationLatitude"
-                [longitude]="observation?.locationLongitude">
+              <app-view-only-single-marker-map #map [latitude]="observation?.position.latitude"
+                [longitude]="observation?.position.longitude">
               </app-view-only-single-marker-map>
 
               <div *ngIf="observation.user.userName === user.userName">

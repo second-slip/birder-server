@@ -14,6 +14,7 @@ import { GeocodeService } from '@app/_services/geocode.service';
 import { LocationViewModel } from '@app/_models/LocationViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { ObservationPosition } from '@app/_models/ObservationPosition';
 
 @Component({
   selector: 'app-observation-add',
@@ -195,6 +196,12 @@ export class ObservationAddComponent implements OnInit {
   onSubmit(formValue: ObservationViewModel): void {
     this.requesting = true;
 
+    const position = <ObservationPosition>{
+      latitude: this.marker.position.lat,
+      longitude: this.marker.position.lng,
+      formattedAddress: this.geolocation
+    }
+
     const observation = <ObservationViewModel>{
       quantity: formValue.quantity,
       observationDateTime: formValue.observationDateTime,
@@ -207,8 +214,9 @@ export class ObservationAddComponent implements OnInit {
       noteVocalisation: formValue.noteVocalisation,
       noteWeather: formValue.noteWeather,
       // from the marker
-      locationLatitude: this.marker.position.lat,
-      locationLongitude: this.marker.position.lng,
+      position: position,
+      // locationLatitude: this.marker.position.lat,
+      // locationLongitude: this.marker.position.lng,
       // the below are set at the server-side
       observationId: 0,
       user: null,

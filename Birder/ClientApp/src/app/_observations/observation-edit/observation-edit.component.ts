@@ -15,6 +15,7 @@ import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { ObservationPosition } from '@app/_models/ObservationPosition';
 
 @Component({
   selector: 'app-observation-edit',
@@ -109,6 +110,12 @@ export class ObservationEditComponent implements OnInit {
   onSubmit(value: ObservationViewModel): void {
     this.requesting = true;
 
+    const position = <ObservationPosition>{
+      latitude: this.marker.position.lat,
+      longitude: this.marker.position.lng,
+      formattedAddress: this.geolocation
+    }
+
     const observation = <ObservationViewModel>{
       quantity: value.quantity,
       observationDateTime: value.observationDateTime,
@@ -125,8 +132,9 @@ export class ObservationEditComponent implements OnInit {
       creationDate: this.observation.creationDate,
       hasPhotos: false, // might have a problem
       //
-      locationLatitude: this.marker.position.lat,
-      locationLongitude: this.marker.position.lng,
+      position:position,
+      // locationLatitude: this.marker.position.lat,
+      // locationLongitude: this.marker.position.lng,
       // the below is set at the server-side
       lastUpdateDate: new Date().toISOString()
     }
@@ -163,7 +171,7 @@ export class ObservationEditComponent implements OnInit {
             return;
           }
           this.createForms();
-          this.addMarker(observation.locationLatitude, observation.locationLongitude);
+          this.addMarker(observation.position.latitude, observation.position.longitude);
           this.getBirds();
         },
         (error: ErrorReportViewModel) => {
