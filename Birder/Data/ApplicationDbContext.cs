@@ -20,8 +20,8 @@ namespace Birder.Data
         public DbSet<TweetDay> TweetDays { get; set; }
         public DbSet<Network> Network { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
-
         public DbSet<ObservationPosition> Position { get; set; }
+        public DbSet<ObservationNote> ObservationNotes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -32,6 +32,7 @@ namespace Birder.Data
             builder.Entity<ConservationStatus>().ToTable("ConservationStatus");
             builder.Entity<Tag>().ToTable("Tag");
             builder.Entity<ObservationTag>().ToTable("ObservationTag");
+            builder.Entity<ObservationNote>().ToTable("ObservationNote");
             builder.Entity<TweetDay>().ToTable("TweetDay");
             //builder.Entity<Photograph>().ToTable("Photograph");
 
