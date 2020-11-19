@@ -106,6 +106,9 @@ namespace Birder.Data
             CreateMap<TweetDay, TweetDayViewModel>()
               .ForMember(d => d.Bird, m => m.MapFrom(d => d.Bird))
               .ReverseMap();
+
+            CreateMap<ObservationPosition, ObservationPositionDto>()
+                .ReverseMap();
         }
     }
 }

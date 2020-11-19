@@ -6,8 +6,8 @@ namespace Birder.ViewModels
     public abstract class ObservationDtoBase
     {
         public int ObservationId { get; set; }
-        //public double LocationLatitude { get; set; }
-        //public double LocationLongitude { get; set; }
+        public double LocationLatitude { get; set; }
+        public double LocationLongitude { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "The observation count should be at least one individual")]
         public int Quantity { get; set; }
         public string NoteGeneral { get; set; }
