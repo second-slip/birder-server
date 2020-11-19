@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
+import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
 
 @Component({
   selector: 'app-observation-edit',
@@ -23,16 +24,20 @@ import { ObservationPosition } from '@app/_models/ObservationPosition';
   styleUrls: ['./observation-edit.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ObservationEditComponent implements OnInit {
+export class ObservationEditComponent implements OnInit  {
+  @ViewChild(ViewEditSingleMarkerMapComponent)
+  private timerComponent: ViewEditSingleMarkerMapComponent;
+
   requesting: boolean;
   observation: ObservationViewModel;
   editObservationForm: FormGroup;
   birdsSpecies: BirdSummaryViewModel[];
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
-  geolocation: string;
+  // geolocation: string;
   searchAddress = '';
-  geoError: string;
+  // geoError: string;
+  // childLoaded = false;
 
   filteredOptions: Observable<BirdSummaryViewModel[]>;
 
@@ -45,13 +50,13 @@ export class ObservationEditComponent implements OnInit {
     ]
   };
 
-  @ViewChild(GoogleMap, { static: false }) map: GoogleMap
-  // @ViewChild(MapMarker, { static: false }) mark: MapMarker
-  @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
-  zoom = 11;
-  options: google.maps.MapOptions = {
-    mapTypeId: 'terrain'
-  }
+  // @ViewChild(GoogleMap, { static: false }) map: GoogleMap
+  // // @ViewChild(MapMarker, { static: false }) mark: MapMarker
+  // @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
+  // zoom = 11;
+  // options: google.maps.MapOptions = {
+  //   mapTypeId: 'terrain'
+  // }
 
   constructor(private router: Router
     , private toast: ToastrService
@@ -68,6 +73,19 @@ export class ObservationEditComponent implements OnInit {
     this.getObservation();
     // this.getBirds();
   }
+
+  test() {
+    alert(this.timerComponent.locationMarker.position.lat);
+  }
+
+  // ngAfterViewInit() {
+  //   // Redefine `seconds()` to get from the `CountdownTimerComponent.seconds` ...
+  //   // but wait a tick first to avoid one-time devMode
+  //   // unidirectional-data-flow-violation error
+  //   // setTimeout(() => this.seconds = () => this.timerComponent.seconds, 0);
+  //   // alert(this.timerComponent.locationMarker.position.lat);
+  //   this.childLoaded = true;
+  // }
 
   displayFn(bird: BirdSummaryViewModel): string {
     return bird && bird.englishName ? bird.englishName : null;
@@ -110,11 +128,11 @@ export class ObservationEditComponent implements OnInit {
   onSubmit(value: ObservationViewModel): void {
     this.requesting = true;
 
-    const position = <ObservationPosition>{
-      latitude: this.marker.position.lat,
-      longitude: this.marker.position.lng,
-      formattedAddress: this.geolocation
-    }
+    // const position = <ObservationPosition>{
+    //   latitude: this.marker.position.lat,
+    //   longitude: this.marker.position.lng,
+    //   formattedAddress: this.geolocation
+    // }
 
     const observation = <ObservationViewModel>{
       quantity: value.quantity,
@@ -133,10 +151,8 @@ export class ObservationEditComponent implements OnInit {
       creationDate: this.observation.creationDate,
       hasPhotos: false, // might have a problem
       //
-      position: position,
-      // locationLatitude: this.marker.position.lat,
-      // locationLongitude: this.marker.position.lng,
-      // the below is set at the server-side
+      position: null,
+
       lastUpdateDate: new Date().toISOString()
     }
 
@@ -172,7 +188,7 @@ export class ObservationEditComponent implements OnInit {
             return;
           }
           this.createForms();
-          this.addMarker(observation.position.latitude, observation.position.longitude);
+          // this.addMarker(observation.position.latitude, observation.position.longitude);
           this.getBirds();
         },
         (error: ErrorReportViewModel) => {
@@ -193,85 +209,85 @@ export class ObservationEditComponent implements OnInit {
         });
   }
 
-  marker; // make marker a property?
-  addMarker(latitude: number, longitude: number) {
-    this.marker = ({
-      position: {
-        lat: latitude,
-        lng: longitude
-      },
-      label: {
-        color: 'red',
-        text: 'Marker label',
-      },
-      title: 'Marker title',
-      options: { draggable: true },
-    })
+  // marker; // make marker a property?
+  // addMarker(latitude: number, longitude: number) {
+  //   this.marker = ({
+  //     position: {
+  //       lat: latitude,
+  //       lng: longitude
+  //     },
+  //     label: {
+  //       color: 'red',
+  //       text: 'Marker label',
+  //     },
+  //     title: 'Marker title',
+  //     options: { draggable: true },
+  //   })
 
-    this.getGeolocation(latitude, longitude);
-  }
+  //   // this.getGeolocation(latitude, longitude);
+  // }
 
-  openInfoWindow(marker: MapMarker) {
-    this.infoWindow.open(marker);
-  }
+  // openInfoWindow(marker: MapMarker) {
+  //   this.infoWindow.open(marker);
+  // }
 
-  markerChanged(event: google.maps.MouseEvent): void {
-    this.addMarker(event.latLng.lat(), event.latLng.lng());
-  }
+  // markerChanged(event: google.maps.MouseEvent): void {
+  //   this.addMarker(event.latLng.lat(), event.latLng.lng());
+  // }
 
 
-  getGeolocation(latitude: number, longitude: number): void {
-    this.geocodeService.reverseGeocode(latitude, longitude)
-      .subscribe(
-        (data: LocationViewModel) => {
-          this.geolocation = data.formattedAddress;
-          this.ref.detectChanges();
-        },
-        (error: any) => {
-          //
-        }
-      );
-  }
+  // getGeolocation(latitude: number, longitude: number): void {
+  //   this.geocodeService.reverseGeocode(latitude, longitude)
+  //     .subscribe(
+  //       (data: LocationViewModel) => {
+  //         this.geolocation = data.formattedAddress;
+  //         this.ref.detectChanges();
+  //       },
+  //       (error: any) => {
+  //         //
+  //       }
+  //     );
+  // }
 
-  useGeolocation(searchValue: string) {
-    this.geocodeService.geocodeAddress(searchValue)
-      .subscribe((location: LocationViewModel) => {
-        // this.editObservationForm.get('locationLatitude').setValue(location.latitude);
-        // this.editObservationForm.get('locationLongitude').setValue(location.longitude);
-        // this.geolocation = location.formattedAddress;
-        this.addMarker(location.latitude, location.longitude);
-        this.searchAddress = '';
-        this.ref.detectChanges();
-      }
-      );
-  }
+  // useGeolocation(searchValue: string) {
+  //   this.geocodeService.geocodeAddress(searchValue)
+  //     .subscribe((location: LocationViewModel) => {
+  //       // this.editObservationForm.get('locationLatitude').setValue(location.latitude);
+  //       // this.editObservationForm.get('locationLongitude').setValue(location.longitude);
+  //       // this.geolocation = location.formattedAddress;
+  //       this.addMarker(location.latitude, location.longitude);
+  //       this.searchAddress = '';
+  //       this.ref.detectChanges();
+  //     }
+  //     );
+  // }
 
-  closeAlert() {
-    this.geoError = null;
-  }
+  // closeAlert() {
+  //   this.geoError = null;
+  // }
 
-  getCurrentPosition() {
-    if (window.navigator.geolocation) {
-      window.navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.useGeolocation(position.coords.latitude.toString() + ',' + position.coords.longitude.toString());
-        }, (error) => {
-          switch (error.code) {
-            case 3: // ...deal with timeout
-              this.geoError = 'The request to get user location timed out...';
-              break;
-            case 2: // ...device can't get data
-              this.geoError = 'Location information is unavailable...';
-              break;
-            case 1: // ...user said no ☹️
-              this.geoError = 'User denied the request for Geolocation...';
-              break;
-            default:
-              this.geoError = 'An error occurred with Geolocation...';
-          }
-        });
-    } else {
-      this.geoError = 'Geolocation not supported in this browser';
-    }
-  }
+  // getCurrentPosition() {
+  //   if (window.navigator.geolocation) {
+  //     window.navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         this.useGeolocation(position.coords.latitude.toString() + ',' + position.coords.longitude.toString());
+  //       }, (error) => {
+  //         switch (error.code) {
+  //           case 3: // ...deal with timeout
+  //             this.geoError = 'The request to get user location timed out...';
+  //             break;
+  //           case 2: // ...device can't get data
+  //             this.geoError = 'Location information is unavailable...';
+  //             break;
+  //           case 1: // ...user said no ☹️
+  //             this.geoError = 'User denied the request for Geolocation...';
+  //             break;
+  //           default:
+  //             this.geoError = 'An error occurred with Geolocation...';
+  //         }
+  //       });
+  //   } else {
+  //     this.geoError = 'Geolocation not supported in this browser';
+  //   }
+  // }
 }

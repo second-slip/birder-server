@@ -93,10 +93,10 @@
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    Location
+                    Edit location
                   </mat-panel-title>
                   <mat-panel-description>
-                    Edit location
+                    <small>You can change the oberserved position here</small>
                     <mat-icon>add_location</mat-icon>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
@@ -119,29 +119,17 @@
                     </ngb-alert>
                   </p>
 
-
-                  <!-- <agm-map [latitude]="editObservationForm.get('locationLatitude').value"
-                    [longitude]="editObservationForm.get('locationLongitude').value" [zoom]="8"
-                    [disableDefaultUI]="false" [zoomControl]="true">
-                    <agm-marker [latitude]="editObservationForm.get('locationLatitude').value"
-                      [longitude]="editObservationForm.get('locationLongitude').value" [markerDraggable]="true"
-                      (dragEnd)="markerDragEnd($event)">
-                      <agm-info-window [isOpen]="true">Observed at {{geolocation}}</agm-info-window>
-                    </agm-marker>
-                  </agm-map> -->
                 </div>
 
                 <br>
-                <!-- <p>form values: {{editObservationForm.get('locationLatitude').value}} , {{editObservationForm.get('locationLongitude').value}}</p> -->
-                <p>marker values: {{marker?.position.lat}} , {{marker?.position.lng}}</p>
-                <p>location: {{geolocation}}</p>
 
-                <google-map height="500px" width="100%" [zoom]="zoom" [center]="marker?.position" [options]="options">
-                  <map-marker #markerElement="mapMarker" [position]="marker?.position" [options]="marker.options"
-                    (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
-                    <map-info-window>{{ geolocation }}</map-info-window>
-                  </map-marker>
-                </google-map>
+
+                <app-view-edit-single-marker-map #map [latitude]="observation?.position?.latitude"
+                  [longitude]="observation?.position?.longitude">
+                </app-view-edit-single-marker-map>
+
+
+
 
 
                 <!-- Google map control end -->

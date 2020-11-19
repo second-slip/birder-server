@@ -1,1 +1,22 @@
-<p>view-edit-single-marker-map works!</p>
+<div *ngIf="!locationMarker" class="loading">
+
+    <p><em>Loading...</em></p>
+
+    <mat-spinner></mat-spinner>
+
+</div>
+
+<div *ngIf="locationMarker">
+
+    <p>in the child: {{ locationMarker.position.lat }} , {{locationMarker.position.lng }}</p>
+    
+    <p>{{ geolocation }}</p>
+
+    <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
+        <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker.options"
+          (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
+          <map-info-window>{{ geolocation }}</map-info-window>
+        </map-marker>
+      </google-map> 
+
+</div>
