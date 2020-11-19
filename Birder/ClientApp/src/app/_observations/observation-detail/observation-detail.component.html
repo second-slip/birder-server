@@ -25,7 +25,7 @@
                 Photographs
               </mat-panel-title>
               <mat-panel-description>
-                {{ _album.length > 1 ? _album.length + ' photos' : 'No photos'}}
+                <small>{{ _album.length > 1 ? _album.length + ' photos' : 'No photos'}}</small>
                 <mat-icon>add_photo_alternate</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
@@ -59,7 +59,7 @@
               </mat-panel-title>
               <mat-panel-description>
                 <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
-                {{ map.geolocation }}
+                <small>{{ map.geolocation }}</small>
                 <!-- bind to new location property on observation -->
                 <mat-icon>add_location</mat-icon>
               </mat-panel-description>
@@ -90,7 +90,7 @@
               </mat-panel-title>
               <mat-panel-description>
                 <!-- Add general/specific notes on the observation -->
-                <small></small>
+                <small>Notes count: {{ observation.notes.length }}</small>
                 <mat-icon>create</mat-icon>
               </mat-panel-description>
             </mat-expansion-panel-header>
