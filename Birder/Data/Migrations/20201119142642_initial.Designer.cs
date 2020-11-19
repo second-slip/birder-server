@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201119021251_initial")]
+    [Migration("20201119142642_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,45 +197,45 @@ namespace Birder.Migrations
                             ConservationStatusId = 1,
                             ConservationList = "Red",
                             ConservationListColourCode = "Red",
-                            CreationDate = new DateTime(2020, 11, 19, 2, 12, 50, 250, DateTimeKind.Local).AddTicks(3973),
+                            CreationDate = new DateTime(2020, 11, 19, 14, 26, 41, 792, DateTimeKind.Local).AddTicks(5738),
                             Description = "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.",
-                            LastUpdateDate = new DateTime(2020, 11, 19, 2, 12, 50, 253, DateTimeKind.Local).AddTicks(6523)
+                            LastUpdateDate = new DateTime(2020, 11, 19, 14, 26, 41, 798, DateTimeKind.Local).AddTicks(1804)
                         },
                         new
                         {
                             ConservationStatusId = 2,
                             ConservationList = "Amber",
                             ConservationListColourCode = "Yellow",
-                            CreationDate = new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1755),
+                            CreationDate = new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(969),
                             Description = "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.",
-                            LastUpdateDate = new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1788)
+                            LastUpdateDate = new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1064)
                         },
                         new
                         {
                             ConservationStatusId = 3,
                             ConservationList = "Green",
                             ConservationListColourCode = "Green",
-                            CreationDate = new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1933),
+                            CreationDate = new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1401),
                             Description = "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.",
-                            LastUpdateDate = new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1940)
+                            LastUpdateDate = new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1420)
                         },
                         new
                         {
                             ConservationStatusId = 4,
                             ConservationList = "Former breeder",
                             ConservationListColourCode = "Black",
-                            CreationDate = new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1968),
+                            CreationDate = new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1472),
                             Description = "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.",
-                            LastUpdateDate = new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1973)
+                            LastUpdateDate = new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1482)
                         },
                         new
                         {
                             ConservationStatusId = 5,
                             ConservationList = "Not assessed",
                             ConservationListColourCode = "Black",
-                            CreationDate = new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1999),
+                            CreationDate = new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1533),
                             Description = "This species was not assessed in the UK Birds of Conservation Concern 4.",
-                            LastUpdateDate = new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(2003)
+                            LastUpdateDate = new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1541)
                         });
                 });
 
@@ -276,24 +276,6 @@ namespace Birder.Migrations
                     b.Property<DateTime>("LastUpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("NoteAppearance")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NoteBehaviour")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NoteGeneral")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NoteHabitat")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NoteVocalisation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NoteWeather")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("ObservationDateTime")
                         .HasColumnType("datetime2");
 
@@ -310,6 +292,32 @@ namespace Birder.Migrations
                     b.HasIndex("BirdId");
 
                     b.ToTable("Observation");
+                });
+
+            modelBuilder.Entity("Birder.Data.Model.ObservationNote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NoteType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ObervationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ObservationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObservationId");
+
+                    b.ToTable("ObservationNote");
                 });
 
             modelBuilder.Entity("Birder.Data.Model.ObservationPosition", b =>
@@ -341,15 +349,25 @@ namespace Birder.Migrations
 
             modelBuilder.Entity("Birder.Data.Model.ObservationTag", b =>
                 {
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
                     b.Property<int>("ObervationId")
                         .HasColumnType("int");
 
-                    b.HasKey("TagId", "ObervationId");
+                    b.Property<int?>("ObservationId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ObervationId");
+                    b.Property<int?>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObservationId");
+
+                    b.HasIndex("TagId");
 
                     b.ToTable("ObservationTag");
                 });
@@ -578,6 +596,15 @@ namespace Birder.Migrations
                     b.Navigation("Bird");
                 });
 
+            modelBuilder.Entity("Birder.Data.Model.ObservationNote", b =>
+                {
+                    b.HasOne("Birder.Data.Model.Observation", "Observation")
+                        .WithMany("Notes")
+                        .HasForeignKey("ObservationId");
+
+                    b.Navigation("Observation");
+                });
+
             modelBuilder.Entity("Birder.Data.Model.ObservationPosition", b =>
                 {
                     b.HasOne("Birder.Data.Model.Observation", "Observation")
@@ -593,15 +620,11 @@ namespace Birder.Migrations
                 {
                     b.HasOne("Birder.Data.Model.Observation", "Observation")
                         .WithMany("ObservationTags")
-                        .HasForeignKey("ObervationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ObservationId");
 
                     b.HasOne("Birder.Data.Model.Tag", "Tag")
                         .WithMany("ObservationTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TagId");
 
                     b.Navigation("Observation");
 
@@ -693,6 +716,8 @@ namespace Birder.Migrations
 
             modelBuilder.Entity("Birder.Data.Model.Observation", b =>
                 {
+                    b.Navigation("Notes");
+
                     b.Navigation("ObservationTags");
 
                     b.Navigation("Position");

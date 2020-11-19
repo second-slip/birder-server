@@ -36,18 +36,18 @@ namespace Birder.Data
             builder.Entity<TweetDay>().ToTable("TweetDay");
             //builder.Entity<Photograph>().ToTable("Photograph");
 
-            builder.Entity<ObservationTag>()
-                    .HasKey(ot => new { ot.TagId, ot.ObervationId });
+            //builder.Entity<ObservationTag>()
+            //        .HasKey(ot => new { ot.TagId, ot.ObervationId });
 
-            builder.Entity<ObservationTag>()
-                    .HasOne(ot => ot.Observation)
-                    .WithMany(o => o.ObservationTags)
-                    .HasForeignKey(ot => ot.ObervationId);
+            //builder.Entity<ObservationTag>()
+            //        .HasOne(ot => ot.Observation)
+            //        .WithMany(o => o.ObservationTags)
+            //        .HasForeignKey(ot => ot.ObervationId);
 
-            builder.Entity<ObservationTag>()
-                    .HasOne(ot => ot.Tag)
-                    .WithMany(t => t.ObservationTags)
-                    .HasForeignKey(ot => ot.TagId);
+            //builder.Entity<ObservationTag>()
+            //        .HasOne(ot => ot.Tag)
+            //        .WithMany(t => t.ObservationTags)
+            //        .HasForeignKey(ot => ot.TagId);
 
             builder.Entity<Network>()
                     .HasKey(k => new { k.ApplicationUserId, k.FollowerId });
