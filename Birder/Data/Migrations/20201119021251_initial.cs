@@ -68,21 +68,6 @@ namespace Birder.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Position",
-                columns: table => new
-                {
-                    ObservationPositionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Latitude = table.Column<double>(type: "float", nullable: false),
-                    Longitude = table.Column<double>(type: "float", nullable: false),
-                    FormattedAddress = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Position", x => x.ObservationPositionId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Tag",
                 columns: table => new
                 {
@@ -262,8 +247,6 @@ namespace Birder.Migrations
                 {
                     ObservationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LocationLatitude = table.Column<double>(type: "float", nullable: false),
-                    LocationLongitude = table.Column<double>(type: "float", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     NoteGeneral = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NoteHabitat = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -277,8 +260,7 @@ namespace Birder.Migrations
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     BirdId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ObservationPositionId = table.Column<int>(type: "int", nullable: false)
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -294,12 +276,6 @@ namespace Birder.Migrations
                         column: x => x.BirdId,
                         principalTable: "Bird",
                         principalColumn: "BirdId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Observation_Position_ObservationPositionId",
-                        column: x => x.ObservationPositionId,
-                        principalTable: "Position",
-                        principalColumn: "ObservationPositionId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -350,16 +326,38 @@ namespace Birder.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Position",
+                columns: table => new
+                {
+                    ObservationPositionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false),
+                    FormattedAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ObservationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Position", x => x.ObservationPositionId);
+                    table.ForeignKey(
+                        name: "FK_Position_Observation_ObservationId",
+                        column: x => x.ObservationId,
+                        principalTable: "Observation",
+                        principalColumn: "ObservationId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "ConservationStatus",
                 columns: new[] { "ConservationStatusId", "ConservationList", "ConservationListColourCode", "CreationDate", "Description", "LastUpdateDate" },
                 values: new object[,]
                 {
-                    { 1, "Red", "Red", new DateTime(2020, 11, 18, 21, 14, 58, 646, DateTimeKind.Local).AddTicks(1741), "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.", new DateTime(2020, 11, 18, 21, 14, 58, 649, DateTimeKind.Local).AddTicks(5656) },
-                    { 2, "Amber", "Yellow", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(184), "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(209) },
-                    { 3, "Green", "Green", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(337), "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(343) },
-                    { 4, "Former breeder", "Black", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(366), "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(370) },
-                    { 5, "Not assessed", "Black", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(390), "This species was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 11, 18, 21, 14, 58, 651, DateTimeKind.Local).AddTicks(394) }
+                    { 1, "Red", "Red", new DateTime(2020, 11, 19, 2, 12, 50, 250, DateTimeKind.Local).AddTicks(3973), "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.", new DateTime(2020, 11, 19, 2, 12, 50, 253, DateTimeKind.Local).AddTicks(6523) },
+                    { 2, "Amber", "Yellow", new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1755), "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.", new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1788) },
+                    { 3, "Green", "Green", new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1933), "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.", new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1940) },
+                    { 4, "Former breeder", "Black", new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1968), "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1973) },
+                    { 5, "Not assessed", "Black", new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(1999), "This species was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 11, 19, 2, 12, 50, 255, DateTimeKind.Local).AddTicks(2003) }
                 });
 
             migrationBuilder.CreateIndex(
@@ -422,14 +420,15 @@ namespace Birder.Migrations
                 column: "BirdId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Observation_ObservationPositionId",
-                table: "Observation",
-                column: "ObservationPositionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ObservationTag_ObervationId",
                 table: "ObservationTag",
                 column: "ObervationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Position_ObservationId",
+                table: "Position",
+                column: "ObservationId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TweetDay_BirdId",
@@ -461,25 +460,25 @@ namespace Birder.Migrations
                 name: "ObservationTag");
 
             migrationBuilder.DropTable(
+                name: "Position");
+
+            migrationBuilder.DropTable(
                 name: "TweetDay");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Observation");
+                name: "Tag");
 
             migrationBuilder.DropTable(
-                name: "Tag");
+                name: "Observation");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Bird");
-
-            migrationBuilder.DropTable(
-                name: "Position");
 
             migrationBuilder.DropTable(
                 name: "ConservationStatus");
