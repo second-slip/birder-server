@@ -158,14 +158,14 @@ namespace Birder.Controllers
 
                 var observation = _mapper.Map<ObservationDto, Observation>(model);
 
-                var loc = new ObservationPosition()
+                var position = new ObservationPosition()
                 {
                     Latitude = observation.Position.Latitude,
                     Longitude = observation.Position.Longitude,
                     FormattedAddress = observation.Position.FormattedAddress
                 };
 
-                observation.Position = loc;
+                observation.Position = position;
                 observation.ApplicationUser = requestingUser;
                 observation.Bird = observedBirdSpecies;
                 observation.CreationDate = _systemClock.GetNow;
@@ -178,7 +178,7 @@ namespace Birder.Controllers
                     return BadRequest("An error occurred");
                 }
 
-                _observationPositionRepository.Add(loc);
+                _observationPositionRepository.Add(position);
                 _observationRepository.Add(observation);
                 await _unitOfWork.CompleteAsync();
 
