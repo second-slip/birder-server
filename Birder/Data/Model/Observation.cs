@@ -10,9 +10,9 @@ namespace Birder.Data.Model
         [Key]
         public int ObservationId { get; set; }
 
-        public double LocationLatitude { get; set; }
+        //public double LocationLatitude { get; set; }
 
-        public double LocationLongitude { get; set; }
+        //public double LocationLongitude { get; set; }
 
         //[Range(1, 1000, ErrorMessage = "The value must be greater than 0")]
         [Range(1, int.MaxValue, ErrorMessage = "The observation count should be at least one individual")]
@@ -48,7 +48,7 @@ namespace Birder.Data.Model
         //[Range(1, int.MaxValue, ErrorMessage = "You must choose the bird species you observed")]
         public int BirdId { get; set; }
         public string ApplicationUserId { get; set; }
-        public int ObservationPositionId { get; set; }
+        //public int ObservationPositionId { get; set; }
         //
         public Bird Bird { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
