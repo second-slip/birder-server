@@ -20,6 +20,7 @@ namespace Birder.Data
               .ForMember(a => a.CreationDate, b => b.Ignore());
 
             CreateMap<ObservationEditDto, Observation>()
+              .ForMember(a => a.Position, b => b.Ignore())
               .ForMember(a => a.ApplicationUser, b => b.Ignore())
               .ForMember(a => a.CreationDate, b => b.Ignore())
               .ForMember(a => a.BirdId, b => b.Ignore())
