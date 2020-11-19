@@ -28,6 +28,7 @@ namespace Birder.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationRepository _observationRepository;
         private readonly IObservationPositionRepository _observationPositionRepository;
+        private readonly IObservationNoteRepository _observationNoteRepository;
         //private readonly IProfilePhotosService _profilePhotosService;
 
         public ObservationController(IMapper mapper
@@ -38,7 +39,8 @@ namespace Birder.Controllers
                                    , ILogger<ObservationController> logger
                                    , UserManager<ApplicationUser> userManager
                                    , IObservationRepository observationRepository
-                                   , IObservationPositionRepository observationPositionRepository)
+                                   , IObservationPositionRepository observationPositionRepository
+                                   , IObservationNoteRepository observationNoteRepository)
                                    //, IProfilePhotosService profilePhotosService)
         {
             _mapper = mapper;
@@ -50,6 +52,7 @@ namespace Birder.Controllers
             _birdRepository = birdRepository;
             _observationRepository = observationRepository;
             _observationPositionRepository = observationPositionRepository;
+            _observationNoteRepository = observationNoteRepository;
             //_profilePhotosService = profilePhotosService;
         }
 
@@ -166,6 +169,16 @@ namespace Birder.Controllers
                 };
 
                 observation.Position = position;
+
+                var note = new ObservationNote()
+                {
+                    Note = "Testing 123",
+                    NoteType = ObservationNoteType.General,
+                };
+
+                observation.Notes.Add(note);
+
+
                 observation.ApplicationUser = requestingUser;
                 observation.Bird = observedBirdSpecies;
                 observation.CreationDate = _systemClock.GetNow;
@@ -180,6 +193,7 @@ namespace Birder.Controllers
 
                 _observationPositionRepository.Add(position);
                 _observationRepository.Add(observation);
+                _observationNoteRepository.Add(note);
                 await _unitOfWork.CompleteAsync();
 
                 // ClearCache();

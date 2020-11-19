@@ -110,6 +110,9 @@ namespace Birder.Data
 
             CreateMap<ObservationPosition, ObservationPositionDto>()
                 .ReverseMap();
+
+            CreateMap<ObservationNote, ObservationNoteDto>()
+                .ReverseMap();
         }
     }
 }
