@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -45,7 +45,6 @@ export class ObservationAddComponent implements OnInit {
     ]
   };
 
-
   constructor(private router: Router
     , private birdsService: BirdsService
     , private observationService: ObservationService
@@ -61,7 +60,6 @@ export class ObservationAddComponent implements OnInit {
     this.filteredOptions = this.addObservationForm.controls['bird'].valueChanges.pipe(
       startWith(''),
       map(value => value.length >= 1 ? this._filter(value) : this.birdsSpecies)
-      // map(value => this._filter(value))
     );
   }
 
@@ -73,8 +71,6 @@ export class ObservationAddComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
   }
-
-
 
   createForms(): void {
     this.addObservationForm = this.formBuilder.group({
