@@ -132,7 +132,7 @@ export class ObservationEditComponent implements OnInit {
       creationDate: this.observation.creationDate,
       hasPhotos: false, // might have a problem
       //
-      position:position,
+      position: position,
       // locationLatitude: this.marker.position.lat,
       // locationLongitude: this.marker.position.lng,
       // the below is set at the server-side

@@ -235,6 +235,13 @@ namespace Birder.Controllers
                 var bird = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
                 observation.Bird = bird;
 
+                var position = await _observationPositionRepository.GetAsync(observation.Position.ObservationPositionId);
+                position.Latitude = model.Position.Latitude;
+                position.Longitude = model.Position.Longitude;
+                position.FormattedAddress = model.Position.FormattedAddress;
+
+                // observation.Position = position;
+
                 observation.LastUpdateDate = _systemClock.GetNow;
 
                 TryValidateModel(observation);
