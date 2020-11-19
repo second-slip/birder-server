@@ -98,12 +98,12 @@ export class ObservationEditComponent implements OnInit {
       observationDateTime: new FormControl(this.observation.observationDateTime, Validators.compose([
         Validators.required
       ])),
-      noteGeneral: new FormControl(this.observation.noteGeneral),
-      noteHabitat: new FormControl(this.observation.noteHabitat),
-      noteWeather: new FormControl(this.observation.noteWeather),
-      noteAppearance: new FormControl(this.observation.noteAppearance),
-      noteBehaviour: new FormControl(this.observation.noteBehaviour),
-      noteVocalisation: new FormControl(this.observation.noteVocalisation),
+      // noteGeneral: new FormControl(this.observation.noteGeneral),
+      // noteHabitat: new FormControl(this.observation.noteHabitat),
+      // noteWeather: new FormControl(this.observation.noteWeather),
+      // noteAppearance: new FormControl(this.observation.noteAppearance),
+      // noteBehaviour: new FormControl(this.observation.noteBehaviour),
+      // noteVocalisation: new FormControl(this.observation.noteVocalisation),
     });
   }
 
@@ -121,12 +121,13 @@ export class ObservationEditComponent implements OnInit {
       observationDateTime: value.observationDateTime,
       bird: value.bird,
       birdId: value.bird.birdId,
-      noteAppearance: value.noteAppearance,
-      noteBehaviour: value.noteAppearance,
-      noteGeneral: value.noteGeneral,
-      noteHabitat: value.noteHabitat,
-      noteVocalisation: value.noteVocalisation,
-      noteWeather: value.noteWeather,
+      // noteAppearance: value.noteAppearance,
+      // noteBehaviour: value.noteAppearance,
+      // noteGeneral: value.noteGeneral,
+      // noteHabitat: value.noteHabitat,
+      // noteVocalisation: value.noteVocalisation,
+      // noteWeather: value.noteWeather,
+      notes: null,
       observationId: this.observation.observationId,
       user: this.observation.user,
       creationDate: this.observation.creationDate,

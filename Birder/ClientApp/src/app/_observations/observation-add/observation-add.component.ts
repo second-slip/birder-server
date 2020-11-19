@@ -158,12 +158,12 @@ export class ObservationAddComponent implements OnInit {
       observationDateTime: new FormControl((new Date()).toISOString(), Validators.compose([
         Validators.required
       ])),
-      noteGeneral: new FormControl(''),
-      noteHabitat: new FormControl(''),
-      noteWeather: new FormControl(''),
-      noteAppearance: new FormControl(''),
-      noteBehaviour: new FormControl(''),
-      noteVocalisation: new FormControl(''),
+      // noteGeneral: new FormControl(''),
+      // noteHabitat: new FormControl(''),
+      // noteWeather: new FormControl(''),
+      // noteAppearance: new FormControl(''),
+      // noteBehaviour: new FormControl(''),
+      // noteVocalisation: new FormControl(''),
     });
   }
 
@@ -207,17 +207,18 @@ export class ObservationAddComponent implements OnInit {
       observationDateTime: formValue.observationDateTime,
       bird: formValue.bird,
       birdId: formValue.bird.birdId,
-      noteAppearance: formValue.noteAppearance,
-      noteBehaviour: formValue.noteAppearance,
-      noteGeneral: formValue.noteGeneral,
-      noteHabitat: formValue.noteHabitat,
-      noteVocalisation: formValue.noteVocalisation,
-      noteWeather: formValue.noteWeather,
+      // noteAppearance: formValue.noteAppearance,
+      // noteBehaviour: formValue.noteAppearance,
+      // noteGeneral: formValue.noteGeneral,
+      // noteHabitat: formValue.noteHabitat,
+      // noteVocalisation: formValue.noteVocalisation,
+      // noteWeather: formValue.noteWeather,
       // from the marker
       position: position,
       // locationLatitude: this.marker.position.lat,
       // locationLongitude: this.marker.position.lng,
       // the below are set at the server-side
+      notes: null,
       observationId: 0,
       user: null,
       creationDate: new Date().toISOString(),
