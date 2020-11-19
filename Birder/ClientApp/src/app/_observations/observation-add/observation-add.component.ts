@@ -10,10 +10,8 @@ import { Router } from '@angular/router';
 import { BirdsService } from '@app/_services/birds.service';
 import { ObservationService } from '@app/_sharedServices/observation.service';
 import { TokenService } from '@app/_services/token.service';
-import { GeocodeService } from '@app/_services/geocode.service';
-import { LocationViewModel } from '@app/_models/LocationViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
-import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
 
 @Component({
@@ -23,19 +21,17 @@ import { ObservationPosition } from '@app/_models/ObservationPosition';
   encapsulation: ViewEncapsulation.None
 })
 export class ObservationAddComponent implements OnInit {
+  @ViewChild(ViewEditSingleMarkerMapComponent)
+  private timerComponent: ViewEditSingleMarkerMapComponent;
   requesting: boolean;
   addObservationForm: FormGroup;
   birdsSpecies: BirdSummaryViewModel[]
-  // birdsSpecies: BirdSummaryViewModel[];
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
   invalidAddObservation: boolean;
   //
   filteredOptions: Observable<BirdSummaryViewModel[]>;
   //
-  geolocation: string;
-  searchAddress = '';
-  geoError: string;
   user: UserViewModel;
   //
   hideAlert = false;
@@ -49,23 +45,12 @@ export class ObservationAddComponent implements OnInit {
     ]
   };
 
-  @ViewChild(GoogleMap, { static: false }) map: GoogleMap
-  // @ViewChild(MapMarker, { static: false }) mark: MapMarker
-  @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
-  zoom = 11;
-  options: google.maps.MapOptions = {
-    mapTypeId: 'terrain'
-  }
-  marker;
 
   constructor(private router: Router
     , private birdsService: BirdsService
     , private observationService: ObservationService
-    // , private userService: UserService
     , private tokenService: TokenService
-    , private formBuilder: FormBuilder
-    , private geocodeService: GeocodeService
-    , private ref: ChangeDetectorRef) { }
+    , private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.getUser();
@@ -73,7 +58,6 @@ export class ObservationAddComponent implements OnInit {
   }
 
   getBirdAutocompleteOptions() {
-    // this.addObservationForm.controls['bird']
     this.filteredOptions = this.addObservationForm.controls['bird'].valueChanges.pipe(
       startWith(''),
       map(value => value.length >= 1 ? this._filter(value) : this.birdsSpecies)
@@ -90,62 +74,7 @@ export class ObservationAddComponent implements OnInit {
     return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  getGeolocation(latitude: number, longitude: number): void {
-    this.geocodeService.reverseGeocode(latitude, longitude)
-      .subscribe(
-        (data: LocationViewModel) => {
-          this.geolocation = data.formattedAddress;
-          this.ref.detectChanges();
-        },
-        (error: any) => {
-          //
-        }
-      );
-  }
 
-  useGeolocation(searchValue: string) {
-    this.geocodeService.geocodeAddress(searchValue)
-      .subscribe((location: LocationViewModel) => {
-        this.marker.position = {
-          lat: location.latitude,
-          lng: location.longitude
-        };
-        // this.map.panTo(this.marker.position);
-        this.geolocation = location.formattedAddress;
-        this.searchAddress = '';
-        this.ref.detectChanges();
-      }
-      );
-  }
-
-  closeAlert() {
-    this.geoError = null;
-  }
-
-  getCurrentPosition(): void {
-    if (window.navigator.geolocation) {
-      window.navigator.geolocation.getCurrentPosition(
-        (position: Position) => {
-          this.useGeolocation(position.coords.latitude.toString() + ',' + position.coords.longitude.toString());
-        }, (error: PositionError) => {
-          switch (error.code) {
-            case 3: // ...deal with timeout
-              this.geoError = 'The request to get user location timed out...';
-              break;
-            case 2: // ...device can't get data
-              this.geoError = 'Location information is unavailable...';
-              break;
-            case 1: // ...user said no ☹️
-              this.geoError = 'User denied the request for Geolocation...';
-              break;
-            default:
-              this.geoError = 'An error occurred with Geolocation...';
-          }
-        });
-    } else {
-      this.geoError = 'Geolocation not supported in this browser';
-    }
-  }
 
   createForms(): void {
     this.addObservationForm = this.formBuilder.group({
@@ -158,48 +87,16 @@ export class ObservationAddComponent implements OnInit {
       observationDateTime: new FormControl((new Date()).toISOString(), Validators.compose([
         Validators.required
       ])),
-      // noteGeneral: new FormControl(''),
-      // noteHabitat: new FormControl(''),
-      // noteWeather: new FormControl(''),
-      // noteAppearance: new FormControl(''),
-      // noteBehaviour: new FormControl(''),
-      // noteVocalisation: new FormControl(''),
     });
-  }
-
-  setMarker(latitude: number, longitude: number) {
-    this.marker = ({
-      position: {
-        lat: latitude,
-        lng: longitude
-      },
-      // label: {
-      //   color: 'red',
-      //   text: 'Marker label',
-      // },
-      // title: 'Marker title',
-      options: { draggable: true },
-    })
-
-    this.getGeolocation(latitude, longitude);
-  }
-
-  openInfoWindow(marker: MapMarker) {
-    // console.log(marker);
-    this.infoWindow.open(marker);
-  }
-
-  markerChanged(event: google.maps.MouseEvent): void {
-    this.setMarker(event.latLng.lat(), event.latLng.lng());
   }
 
   onSubmit(formValue: ObservationViewModel): void {
     this.requesting = true;
 
     const position = <ObservationPosition>{
-      latitude: this.marker.position.lat,
-      longitude: this.marker.position.lng,
-      formattedAddress: this.geolocation
+      latitude: this.timerComponent.locationMarker.position.lat,
+      longitude: this.timerComponent.locationMarker.position.lng,
+      formattedAddress: this.timerComponent.geolocation
     }
 
     const observation = <ObservationViewModel>{
@@ -207,17 +104,7 @@ export class ObservationAddComponent implements OnInit {
       observationDateTime: formValue.observationDateTime,
       bird: formValue.bird,
       birdId: formValue.bird.birdId,
-      // noteAppearance: formValue.noteAppearance,
-      // noteBehaviour: formValue.noteAppearance,
-      // noteGeneral: formValue.noteGeneral,
-      // noteHabitat: formValue.noteHabitat,
-      // noteVocalisation: formValue.noteVocalisation,
-      // noteWeather: formValue.noteWeather,
-      // from the marker
       position: position,
-      // locationLatitude: this.marker.position.lat,
-      // locationLongitude: this.marker.position.lng,
-      // the below are set at the server-side
       notes: null,
       observationId: 0,
       user: null,
@@ -261,8 +148,6 @@ export class ObservationAddComponent implements OnInit {
         (data: UserViewModel) => {
           this.user = data;
           this.createForms();
-          this.setMarker(data.defaultLocationLatitude, data.defaultLocationLongitude);
-          // this.getGeolocation(this.user.defaultLocationLatitude, this.user.defaultLocationLongitude);
         },
         (error: any) => {
           console.log('could not get the user, using default coordinates');
@@ -274,7 +159,6 @@ export class ObservationAddComponent implements OnInit {
           };
           this.user = userTemp;
           this.createForms();
-          this.getGeolocation(this.user.defaultLocationLatitude, this.user.defaultLocationLongitude);
         });
   }
 

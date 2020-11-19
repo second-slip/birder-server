@@ -55,10 +55,6 @@ export class ObservationEditComponent implements OnInit {
     this.getObservation();
   }
 
-  test() {
-    alert(this.timerComponent.locationMarker.position.lat);
-  }
-
   displayFn(bird: BirdSummaryViewModel): string {
     return bird && bird.englishName ? bird.englishName : null;
   }
