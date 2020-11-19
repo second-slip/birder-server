@@ -35,8 +35,8 @@ export class ObservationEditComponent implements OnInit  {
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
   // geolocation: string;
-  searchAddress = '';
-  // geoError: string;
+  // searchAddress = '';
+  // // geoError: string;
   // childLoaded = false;
 
   filteredOptions: Observable<BirdSummaryViewModel[]>;
@@ -128,11 +128,11 @@ export class ObservationEditComponent implements OnInit  {
   onSubmit(value: ObservationViewModel): void {
     this.requesting = true;
 
-    // const position = <ObservationPosition>{
-    //   latitude: this.marker.position.lat,
-    //   longitude: this.marker.position.lng,
-    //   formattedAddress: this.geolocation
-    // }
+    const position = <ObservationPosition>{
+      latitude: this.timerComponent.locationMarker.position.lat,
+      longitude: this.timerComponent.locationMarker.position.lng,
+      formattedAddress: this.timerComponent.geolocation
+    }
 
     const observation = <ObservationViewModel>{
       quantity: value.quantity,
@@ -151,7 +151,7 @@ export class ObservationEditComponent implements OnInit  {
       creationDate: this.observation.creationDate,
       hasPhotos: false, // might have a problem
       //
-      position: null,
+      position: position,
 
       lastUpdateDate: new Date().toISOString()
     }

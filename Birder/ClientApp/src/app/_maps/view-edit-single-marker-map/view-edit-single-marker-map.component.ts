@@ -19,6 +19,8 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
   options: google.maps.MapOptions = {
     mapTypeId: 'terrain'
   }
+  searchAddress = '';
+  geoError: string;
 
   constructor(private geocodeService: GeocodeService
     , private ref: ChangeDetectorRef) { }
@@ -61,5 +63,45 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
           //
         }
       );
+  }
+
+  //
+    useGeolocation(searchValue: string) {
+    this.geocodeService.geocodeAddress(searchValue)
+      .subscribe((location: LocationViewModel) => {
+        this.addMarker(location.latitude, location.longitude);
+        this.searchAddress = '';
+        this.ref.detectChanges();
+      }
+      );
+  }
+
+  closeAlert() {
+    this.geoError = null;
+  }
+
+  getCurrentPosition() {
+    if (window.navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.useGeolocation(position.coords.latitude.toString() + ',' + position.coords.longitude.toString());
+        }, (error) => {
+          switch (error.code) {
+            case 3: // ...deal with timeout
+              this.geoError = 'The request to get user location timed out...';
+              break;
+            case 2: // ...device can't get data
+              this.geoError = 'Location information is unavailable...';
+              break;
+            case 1: // ...user said no ☹️
+              this.geoError = 'User denied the request for Geolocation...';
+              break;
+            default:
+              this.geoError = 'An error occurred with Geolocation...';
+          }
+        });
+    } else {
+      this.geoError = 'Geolocation not supported in this browser';
+    }
   }
 }
