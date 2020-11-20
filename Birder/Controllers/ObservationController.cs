@@ -170,6 +170,7 @@ namespace Birder.Controllers
 
                 observation.Position = position;
 
+
                 var note = new ObservationNote()
                 {
                     Note = "Testing 123",
@@ -177,7 +178,6 @@ namespace Birder.Controllers
                 };
 
                 observation.Notes.Add(note);
-
 
                 observation.ApplicationUser = requestingUser;
                 observation.Bird = observedBirdSpecies;

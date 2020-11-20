@@ -388,6 +388,8 @@ namespace Birder.Tests.Controller
                                               It.IsAny<string>(),
                                               It.IsAny<Object>()));
             var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            mockObsPositionRepo.Setup(p => p.GetAsync(It.IsAny<int>()))
+                .ReturnsAsync(SharedFunctions.GetObservationPosition());
             var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
@@ -431,6 +433,7 @@ namespace Birder.Tests.Controller
                 ObservationId = id,
                 Bird = new BirdSummaryViewModel() { BirdId = birdId },
                 BirdId = birdId,
+                Position = new ObservationPositionDto() { }
             };
         }
 
@@ -441,6 +444,7 @@ namespace Birder.Tests.Controller
                 ObservationId = id,
                 Bird = new BirdSummaryViewModel() { BirdId = birdId },
                 BirdId = birdId,
+                Position = new ObservationPositionDto() { }
             };
         }
 
@@ -458,7 +462,8 @@ namespace Birder.Tests.Controller
             {
                 ObservationId = id,
                 ApplicationUser = user,
-                ObservationDateTime = _systemClock.GetNow
+                ObservationDateTime = _systemClock.GetNow,
+                Position = new ObservationPosition() { }
             };
         }
 

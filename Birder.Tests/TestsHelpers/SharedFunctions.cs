@@ -18,6 +18,11 @@ namespace Birder.TestsHelpers
     public static class SharedFunctions
     {
 
+        public static ObservationPosition GetObservationPosition()
+        {
+            return new ObservationPosition() { };
+        }
+
         public static Observation GetObservation(ApplicationUser user, Bird bird)
         {
             return new Observation

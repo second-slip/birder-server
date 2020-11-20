@@ -58,6 +58,7 @@ namespace Birder.Tests.Controller
             //mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
             //           .ThrowsAsync(new InvalidOperationException());
             var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+
             var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
@@ -281,14 +282,18 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.Add(It.IsAny<Observation>()))
                        .Verifiable();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
+            mockObsNotesRepo.Setup(o => o.Add(It.IsAny<ObservationNote>()))
+                        .Verifiable();
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            mockObsPositionRepo.Setup(o => o.Add(It.IsAny<ObservationPosition>()))
+                        .Verifiable();
             var mockObjectValidator = new Mock<IObjectModelValidator>();
             mockObjectValidator.Setup(o => o.Validate(It.IsAny<ActionContext>(),
                                               It.IsAny<ValidationStateDictionary>(),
                                               It.IsAny<string>(),
                                               It.IsAny<Object>()));
-
-            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
-            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
+            
 
             var controller = new ObservationController(
                 _mapper
@@ -336,10 +341,9 @@ namespace Birder.Tests.Controller
                 ObservationId = id,
                 Bird = new BirdSummaryViewModel() { BirdId = birdId },
                 BirdId = birdId,
+                Position = new ObservationPositionDto() { }
             };
         }
-
-
 
         private ApplicationUser GetUser(string username)
         {
@@ -348,9 +352,6 @@ namespace Birder.Tests.Controller
                 UserName = username
             };
         }
-
-
-
 
 
         private IEnumerable<Observation> GetTestObservations(int length, Bird bird)
