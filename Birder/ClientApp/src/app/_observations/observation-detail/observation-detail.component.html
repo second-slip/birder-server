@@ -24,9 +24,9 @@
               <mat-panel-title>
                 Photographs
               </mat-panel-title>
-              <mat-panel-description>
-                <small>{{ _album.length > 1 ? _album.length + ' photos' : 'No photos'}}</small>
+              <mat-panel-description class="mat-panel-description-text">
                 <mat-icon>add_photo_alternate</mat-icon>
+                {{ _album.length > 1 ? _album.length + ' photos' : 'No photos'}}
               </mat-panel-description>
             </mat-expansion-panel-header>
             <!--  -->
@@ -57,11 +57,9 @@
               <mat-panel-title>
                 Location
               </mat-panel-title>
-              <mat-panel-description>
-                <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
-                <small>{{ map.geolocation }}</small>
-                <!-- bind to new location property on observation -->
+              <mat-panel-description class="mat-panel-description-text">
                 <mat-icon>add_location</mat-icon>
+                {{ map.geolocation }}
               </mat-panel-description>
             </mat-expansion-panel-header>
             <!-- Map start -->
@@ -88,43 +86,14 @@
               <mat-panel-title>
                 Notes
               </mat-panel-title>
-              <mat-panel-description>
-                <!-- Add general/specific notes on the observation -->
-                <small>Notes count: {{ observation.notes.length }}</small>
+              <mat-panel-description class="mat-panel-description-text">
                 <mat-icon>create</mat-icon>
+                Notes count: {{ observation.notes.length }}
               </mat-panel-description>
             </mat-expansion-panel-header>
 
             <!-- Notes start -->
-            <!-- <mat-form-field class="full-width">
-              <textarea matInput type="noteGeneral" placeholder="General comments"
-                disabled>{{observation.noteGeneral}}</textarea>
-            </mat-form-field>
 
-            <mat-form-field class="full-width">
-              <textarea matInput type="noteHabitat" placeholder="Comments on habitat"
-                disabled>{{ observation.noteHabitat }}</textarea>
-            </mat-form-field>
-
-            <mat-form-field class="full-width">
-              <textarea matInput type="noteWeather" placeholder="Comments on weather"
-                disabled>{{ observation.noteWeather }}</textarea>
-            </mat-form-field>
-
-            <mat-form-field class="full-width">
-              <textarea matInput type="noteAppearance" placeholder="Comments on appearance"
-                disabled>{{ observation.noteAppearance }}</textarea>
-            </mat-form-field>
-
-            <mat-form-field class="full-width">
-              <textarea matInput type="noteBehaviour" placeholder="Comments on behaviour"
-                disabled>{{ observation.noteBehaviour }}</textarea>
-            </mat-form-field>
-
-            <mat-form-field class="full-width">
-              <textarea matInput type="noteVocalisation" placeholder="Comments on song"
-                disabled>{{ observation.noteVocalisation }}</textarea>
-            </mat-form-field> -->
             <!-- Notes end -->
           </mat-expansion-panel>
           <!--  -->

@@ -29,11 +29,8 @@ export class ObservationAddComponent implements OnInit {
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
   invalidAddObservation: boolean;
-  //
   filteredOptions: Observable<BirdSummaryViewModel[]>;
-  //
   user: UserViewModel;
-  //
   hideAlert = false;
 
   addObservation_validation_messages = {
@@ -112,7 +109,7 @@ export class ObservationAddComponent implements OnInit {
     this.observationService.addObservation(observation)
       .subscribe(
         (data: ObservationViewModel) => {
-          this.addObservationForm.reset();
+          // this.addObservationForm.reset();
           this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
         },
         (error: ErrorReportViewModel) => {

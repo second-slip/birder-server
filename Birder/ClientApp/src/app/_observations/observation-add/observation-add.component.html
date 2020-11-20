@@ -22,7 +22,7 @@
                 <mat-panel-title>
                   Details
                 </mat-panel-title>
-                <mat-panel-description>
+                <mat-panel-description class="mat-panel-description-text">
                   What species, how many individuals, and when?
                   <mat-icon>nature_people</mat-icon>
                 </mat-panel-description>
@@ -58,21 +58,6 @@
                 </mat-error>
               </mat-form-field>
 
-              <!-- [formControl]="myControl" -->
-
-              <!-- <mat-form-field class="full-width">
-                <mat-select placeholder="Select species" formControlName="birdId" type="birdId" required>
-                  <mat-option *ngFor="let bird of birdsSpecies" [value]="bird.birdId">
-                    <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngFor="let validation of addObservation_validation_messages.birdId">
-                  <mat-error class="error-message"
-                    *ngIf="addObservationForm.get('birdId').hasError(validation.type) && (addObservationForm.get('birdId').dirty || addObservationForm.get('birdId').touched)">
-                    {{validation.message}}</mat-error>
-                </mat-error>
-              </mat-form-field> -->
-
               <mat-form-field class="full-width">
                 <input matInput [matDatepicker]="picker" placeholder="Choose a date"
                   formControlName="observationDateTime">
@@ -81,7 +66,6 @@
               </mat-form-field>
               <!-- Details end -->
 
-
             </mat-expansion-panel>
             <!--  -->
             <mat-expansion-panel>
@@ -89,8 +73,7 @@
                 <mat-panel-title>
                   Location
                 </mat-panel-title>
-                <mat-panel-description>
-                  <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+                <mat-panel-description class="mat-panel-description-text">
                   Where did you observe it?
                   <mat-icon>add_location</mat-icon>
                 </mat-panel-description>
@@ -100,7 +83,6 @@
                 <app-view-edit-single-marker-map #map [latitude]="user.defaultLocationLatitude"
                   [longitude]="user.defaultLocationLongitude">
                 </app-view-edit-single-marker-map>
-
               </div>
               <!-- Map end -->
             </mat-expansion-panel>
@@ -110,8 +92,7 @@
                 <mat-panel-title>
                   Notes
                 </mat-panel-title>
-                <mat-panel-description>
-                  <!-- Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+                <mat-panel-description class="mat-panel-description-text">
                   Add general/specific notes on the observation
                   <mat-icon>create</mat-icon>
                 </mat-panel-description>
@@ -134,11 +115,6 @@
               </ngb-alert>
             </p>
           </div>
-
-          <!-- <button type="submit" class="btn btn-primary"
-            [disabled]="!addObservationForm.valid">
-            Sumbit
-          </button> -->
 
           <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!addObservationForm.valid">
             Create observation

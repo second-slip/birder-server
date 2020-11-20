@@ -9,6 +9,11 @@ app-observation-add {
     flex-basis: 0;
   }
 
+  .mat-panel-description-text {
+    font-size: small;
+    align-content: left;
+  }
+
   .example-headers-align .mat-expansion-panel-header-description {
     justify-content: space-between;
     align-items: center;

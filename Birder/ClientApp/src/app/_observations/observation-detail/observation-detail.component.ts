@@ -45,7 +45,6 @@ export class ObservationDetailComponent implements OnInit {
       .subscribe(
         (observation: ObservationViewModel) => {
           this.observation = observation;
-          console.log(this.observation);
           this.getPhotos(observation.observationId);
         },
         () => {

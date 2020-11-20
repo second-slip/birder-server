@@ -14,6 +14,11 @@ app-observation-detail {
     align-items: center;
   }
 
+  .mat-panel-description-text {
+    font-size: small;
+    // align-content: left;
+  }
+
   .info-message {
     margin-top: 20px;
     text-align: left;
