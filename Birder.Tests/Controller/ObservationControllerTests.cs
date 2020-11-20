@@ -62,16 +62,20 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
                        .Returns(Task.FromResult<Observation>(null));
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
-                ,_cache
-                ,_systemClock
-                ,mockUnitOfWork.Object
-                ,mockBirdRepo.Object
-                ,_logger.Object
-                ,mockUserManager.Object
-                ,mockObsRepo.Object);
+                , _cache
+                , _systemClock
+                , mockUnitOfWork.Object
+                , mockBirdRepo.Object
+                , _logger.Object
+                , mockUserManager.Object
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -106,6 +110,8 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
                        .ThrowsAsync(new InvalidOperationException());
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -115,7 +121,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -150,6 +158,8 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
                        .ReturnsAsync(GetTestObservation(id, requestingUser));
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -159,7 +169,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -197,6 +209,8 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
                        .Returns(Task.FromResult<IEnumerable<Observation>>(null));
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -206,7 +220,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -241,6 +257,8 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                        .ThrowsAsync(new InvalidOperationException());
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -250,7 +268,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -286,6 +306,8 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                        .ReturnsAsync(GetQueryResult(length, bird));
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -295,7 +317,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -333,6 +357,8 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
                        .Returns(Task.FromResult<IEnumerable<Observation>>(null));
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -342,7 +368,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -377,6 +405,8 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                        .ThrowsAsync(new InvalidOperationException());
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -386,7 +416,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -422,6 +454,8 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                        .ReturnsAsync(GetQueryResult(length, bird));
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -431,7 +465,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -473,6 +509,8 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
                 .Returns(Task.FromResult<Observation>(null));
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -482,7 +520,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -518,6 +558,8 @@ namespace Birder.Tests.Controller
             var mockObsRepo = new Mock<IObservationRepository>();
             mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
                 .ReturnsAsync(GetTestObservation(0, new ApplicationUser { UserName = "Someone else" }));
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -527,7 +569,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -568,7 +612,8 @@ namespace Birder.Tests.Controller
                                               It.IsAny<ValidationStateDictionary>(),
                                               It.IsAny<string>(),
                                               It.IsAny<Object>()));
-
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -578,7 +623,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -622,7 +669,8 @@ namespace Birder.Tests.Controller
                                               It.IsAny<ValidationStateDictionary>(),
                                               It.IsAny<string>(),
                                               It.IsAny<Object>()));
-
+            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
             var controller = new ObservationController(
                 _mapper
@@ -632,7 +680,9 @@ namespace Birder.Tests.Controller
                 , mockBirdRepo.Object
                 , _logger.Object
                 , mockUserManager.Object
-                , mockObsRepo.Object);
+                , mockObsRepo.Object
+                , mockObsPositionRepo.Object
+                , mockObsNotesRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -719,15 +769,7 @@ namespace Birder.Tests.Controller
                 observations.Add(new Observation
                 {
                     ObservationId = i,
-                    LocationLatitude = 0,
-                    LocationLongitude = 0,
                     Quantity = 1,
-                    NoteGeneral = "",
-                    NoteHabitat = "",
-                    NoteWeather = "",
-                    NoteAppearance = "",
-                    NoteBehaviour = "",
-                    NoteVocalisation = "",
                     HasPhotos = false,
                     SelectedPrivacyLevel = PrivacyLevel.Public,
                     ObservationDateTime = DateTime.Now.AddDays(-4),

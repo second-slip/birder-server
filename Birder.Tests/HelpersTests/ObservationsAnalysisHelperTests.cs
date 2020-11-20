@@ -154,15 +154,7 @@ namespace Birder.Tests.HelpersTests
                     observations.Add(new Observation
                     {
                         ObservationId = y,
-                        LocationLatitude = 0,
-                        LocationLongitude = 0,
                         Quantity = 1,
-                        NoteGeneral = "",
-                        NoteHabitat = "",
-                        NoteWeather = "",
-                        NoteAppearance = "",
-                        NoteBehaviour = "",
-                        NoteVocalisation = "",
                         HasPhotos = false,
                         SelectedPrivacyLevel = PrivacyLevel.Public,
                         ObservationDateTime = DateTime.Now.AddDays(-4),

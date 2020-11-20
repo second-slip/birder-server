@@ -269,15 +269,7 @@ namespace Birder.Tests.Controller
             observations.Add(new Observation
             {
                 ObservationId = 1,
-                LocationLatitude = 0,
-                LocationLongitude = 0,
                 Quantity = 1,
-                NoteGeneral = "",
-                NoteHabitat = "",
-                NoteWeather = "",
-                NoteAppearance = "",
-                NoteBehaviour = "",
-                NoteVocalisation = "",
                 HasPhotos = false,
                 SelectedPrivacyLevel = PrivacyLevel.Public,
                 ObservationDateTime = DateTime.Now.AddDays(-4),
@@ -292,15 +284,7 @@ namespace Birder.Tests.Controller
             observations.Add(new Observation
             {
                 ObservationId = 2,
-                LocationLatitude = 0,
-                LocationLongitude = 0,
                 Quantity = 1,
-                NoteGeneral = "",
-                NoteHabitat = "",
-                NoteWeather = "",
-                NoteAppearance = "",
-                NoteBehaviour = "",
-                NoteVocalisation = "",
                 HasPhotos = false,
                 SelectedPrivacyLevel = PrivacyLevel.Public,
                 ObservationDateTime = DateTime.Now.AddDays(-4),
