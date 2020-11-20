@@ -12,7 +12,7 @@
       <thead>
         <tr>
           <!-- <th scope="col">#</th> -->
-          <th scope="col"></th>
+          <!-- <th scope="col"></th> -->
           <th scope="col">Species</th>
           <th scope="col">Status / Population<sup>1</sup></th>
           <th scope="col">Risk Flag<sup>2</sup></th>
@@ -21,7 +21,7 @@
       <tbody>
         <tr *ngFor="let record of birds; index as i">
           <!-- <th scope="row">{{ i + 1 }}</th> -->
-          <td>{{ record.birdId }}</td>
+          <!-- <td>{{ record.birdId }}</td> -->
           <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
             <br><small><em>{{ record.species }}</em></small></td>
           <td><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
