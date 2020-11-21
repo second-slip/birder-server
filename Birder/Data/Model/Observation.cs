@@ -9,20 +9,11 @@ namespace Birder.Data.Model
         //ToDo: male/female/juvenile? Or is it too much?
         [Key]
         public int ObservationId { get; set; }
-
         [Range(1, int.MaxValue, ErrorMessage = "The observation count should be at least one individual")]
         public int Quantity { get; set; }
-
-        //public string NoteGeneral { get; set; }
-        //public string NoteHabitat { get; set; }
-        //public string NoteWeather { get; set; }
-        //public string NoteAppearance { get; set; }
-        //public string NoteBehaviour { get; set; }
-        //public string NoteVocalisation { get; set; }
-
         public bool HasPhotos { get; set; }
         public PrivacyLevel SelectedPrivacyLevel { get; set; }
-        [Required]
+        //[Required]
         [DataType(DataType.DateTime)]
         public DateTime ObservationDateTime { get; set; }
         public DateTime CreationDate { get; set; }
