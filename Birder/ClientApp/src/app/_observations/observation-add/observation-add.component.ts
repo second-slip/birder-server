@@ -13,6 +13,7 @@ import { TokenService } from '@app/_services/token.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
+import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNote';
 
 @Component({
   selector: 'app-observation-add',
@@ -86,11 +87,27 @@ export class ObservationAddComponent implements OnInit {
   onSubmit(formValue: ObservationViewModel): void {
     this.requesting = true;
 
+    const testNotes: ObservationNote[] = [];
+
+    // const note1 = <ObservationNote>{
+    //   noteType: ObservationNoteType.General, ///????
+    //   note: 'note 1 test'
+    // };
+
+    // testNotes.push(note1);
+
+    // const note2 = <ObservationNote>{
+    //   noteType: ObservationNoteType.General, ///????
+    //   note: 'note 2 test'
+    // };
+
+    // testNotes.push(note2);
+
     const position = <ObservationPosition>{
       latitude: this.timerComponent.locationMarker.position.lat,
       longitude: this.timerComponent.locationMarker.position.lng,
       formattedAddress: this.timerComponent.geolocation
-    }
+    };
 
     const observation = <ObservationViewModel>{
       quantity: formValue.quantity,
@@ -98,7 +115,7 @@ export class ObservationAddComponent implements OnInit {
       bird: formValue.bird,
       birdId: formValue.bird.birdId,
       position: position,
-      notes: null,
+      notes: testNotes,
       observationId: 0,
       user: null,
       creationDate: new Date().toISOString(),

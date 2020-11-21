@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -161,24 +162,6 @@ namespace Birder.Controllers
 
                 var observation = _mapper.Map<ObservationDto, Observation>(model);
 
-                var position = new ObservationPosition()
-                {
-                    Latitude = observation.Position.Latitude,
-                    Longitude = observation.Position.Longitude,
-                    FormattedAddress = observation.Position.FormattedAddress
-                };
-
-                observation.Position = position;
-
-
-                var note = new ObservationNote()
-                {
-                    Note = "Testing 123",
-                    NoteType = ObservationNoteType.General,
-                };
-
-                observation.Notes.Add(note);
-
                 observation.ApplicationUser = requestingUser;
                 observation.Bird = observedBirdSpecies;
                 observation.CreationDate = _systemClock.GetNow;
@@ -191,14 +174,11 @@ namespace Birder.Controllers
                     return BadRequest("An error occurred");
                 }
 
-                _observationPositionRepository.Add(position);
+                _observationPositionRepository.Add(observation.Position);
                 _observationRepository.Add(observation);
-                _observationNoteRepository.Add(note);
+                _observationNoteRepository.AddRange(observation.Notes);
                 await _unitOfWork.CompleteAsync();
 
-                // ClearCache();
-                //_cache.Remove(CacheEntries.ObservationsList);
-                //_cache.Remove(CacheEntries.ObservationsSummary);
                 return CreatedAtAction(nameof(CreateObservationAsync), _mapper.Map<Observation, ObservationDto>(observation));
             }
             catch (Exception ex)

@@ -11,7 +11,7 @@ export enum ObservationNoteType {
 
 export interface ObservationNote {
     id: number;
-    noteType: string; ///????
+    noteType: ObservationNoteType; ///????
     note: string;
     obervationId: number;
     // observation: ObservationViewModel; ????
