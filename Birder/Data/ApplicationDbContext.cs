@@ -20,7 +20,7 @@ namespace Birder.Data
         public DbSet<TweetDay> TweetDays { get; set; }
         public DbSet<Network> Network { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
-        public DbSet<ObservationPosition> Position { get; set; }
+        public DbSet<ObservationPosition> ObservationPosition { get; set; }
         public DbSet<ObservationNote> ObservationNotes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
