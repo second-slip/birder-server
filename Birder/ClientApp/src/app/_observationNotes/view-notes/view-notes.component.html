@@ -1,1 +1,22 @@
-<p>view-notes works!</p>
+<div *ngIf="!notes" class="loading">
+
+    <p><em>Loading...</em></p>
+
+    <mat-spinner></mat-spinner>
+
+</div>
+
+<div *ngIf="notes">
+
+    <p>There are {{ notes.length }} notes</p>
+
+    <br>
+
+    <div *ngFor="let note of notes">
+
+        <p>{{note.noteType}}</p>
+
+        <p>{{note.note}}</p>
+
+    </div>
+</div>
