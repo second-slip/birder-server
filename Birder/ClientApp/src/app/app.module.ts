@@ -90,7 +90,10 @@ import { InfoTweetComponent } from './_info/info-tweet/info-tweet.component';
 import { ShowcaseObservationsListComponent } from './_sharedComponents/showcase-observations-list/showcase-observations-list.component';
 import { ViewOnlySingleMarkerMapComponent } from './_maps/view-only-single-marker-map/view-only-single-marker-map.component';
 import { ViewEditSingleMarkerMapComponent } from './_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
-import { ViewNotesComponent } from './_observationNotes/view-notes/view-notes.component';
+import { ViewOnlyNotesComponent } from './_observationNotes/view-notes/view-only-notes.component';
+import { AddNotesComponent } from './_observationNotes/add-notes/add-notes.component';
+import { ViewAddEditNotesComponent } from './_observationNotes/view-add-edit-notes/view-add-edit-notes.component';
+
 
 // import { UsernameValidator } from 'validators';
 
@@ -189,7 +192,9 @@ export function tokenGetter() {
     ShowcaseObservationsListComponent,
     ViewOnlySingleMarkerMapComponent,
     ViewEditSingleMarkerMapComponent,
-    ViewNotesComponent,
+    ViewOnlyNotesComponent,
+    AddNotesComponent,
+    ViewAddEditNotesComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
