@@ -15,7 +15,7 @@ export class TestingComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    // this.findLocation();
+    this.findLocation();
    }
 
 //   getLocation(term: string):Promise<any> {
@@ -30,7 +30,7 @@ result;
 // defaultLocationLatitude: 54.972237,
 // defaultLocationLongitude: -2.4608560000000352,
 findLocation(): void {
-  this.getLocation(`Whiteknights campus`)
+  this.geocode(`Whiteknights campus`)
     .subscribe(
       (data: any) => (
         (this.result = data.results[0].geometry.location),
@@ -47,13 +47,15 @@ findLocation(): void {
     );
 }
 
-  getLocation(term: string): Observable<any> {
+  geocode(term: string): Observable<any> {
     const API_KEY = "AIzaSyD4IghqI4x7Sld9KP3sP6FtbN7wCPGySmY"; // replace with environment variable
-    return this.http.get(
-      `$https://maps.google.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,
-      &key=${API_KEY}`
+    return this.http.get<any>(
+      `https://maps.google.com/maps/api/geocode/json?address=1600AmphitheatreParkway&key=AIzaSyD4IghqI4x7Sld9KP3sP6FtbN7wCPGySmY`
     ).pipe(
       catchError(async (error) => console.log(error)));
       // catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
+
+  // reverseGeocode(): Observable<any> {
+  // }
 }
