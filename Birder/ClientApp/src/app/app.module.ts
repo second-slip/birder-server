@@ -37,8 +37,6 @@ import { ConfirmEmailComponent } from './_account/confirm-email/confirm-email.co
 import { ObservationEditComponent } from './_observations/observation-edit/observation-edit.component';
 import { ObservationDeleteComponent } from './_observations/observation-delete/observation-delete.component';
 import { JwtModule } from '@auth0/angular-jwt';
-import { AgmCoreModule } from '@agm/core';
-import { GeocodeService } from './_services/geocode.service';
 import { InfoObservationCountComponent } from './_info/info-observation-count/info-observation-count.component';
 import { InfoTopObservationsComponent } from './_info/info-top-observations/info-top-observations.component';
 import { InfoNetworkComponent } from './_info/info-network/info-network.component';
@@ -230,14 +228,9 @@ export function tokenGetter() {
         blacklistedRoutes: ['http://localhost:55722/Authentication/Login']
       }
     }),
-    AgmCoreModule.forRoot({
-      apiKey: environment.mapKey
-      // apiKey: 'MY_API_KEY'
-    })
-
   ],
   providers: [
-    [GeocodeService, AuthenticationService, TokenService],
+    [AuthenticationService, TokenService],
     { provide: RequestCache, useClass: RequestCacheWithMap },
     httpInterceptorProviders,
     [AuthGuard],
