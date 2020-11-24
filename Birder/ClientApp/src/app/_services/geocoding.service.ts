@@ -17,7 +17,6 @@ export class GeocodingService {
       )
   }
 
-  // json?latlng=40.714224,-73.961452
   reverseGeocode(latitude: number, longitude: number): Observable<any> {
     const latLng = latitude + ',' + longitude;
     console.log(latLng);
@@ -25,15 +24,6 @@ export class GeocodingService {
       .pipe(
       )
   }
-
-    // reverseGeocode(): Observable<any> {
-  // }
-
-  // Shared
-
-  // private formatSearchTerm(searchTerm: string): string {
-  //   return searchTerm.split(' ').join('+');
-  // }
 }
 
   // Alternative which returns a Promise
