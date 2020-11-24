@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { LocationViewModel } from '@app/_models/LocationViewModel';
-import { GeocodeService } from '@app/_services/geocode.service';
+import { GeocodingService } from '@app/_services/geocoding.service';
 
 @Component({
   selector: 'app-view-only-single-marker-map',
@@ -20,14 +19,14 @@ export class ViewOnlySingleMarkerMapComponent implements OnInit {
     mapTypeId: 'terrain'
   }
 
-  constructor(private geocodeService: GeocodeService
+  constructor(private geocoding: GeocodingService
     , private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.addMarker(this.latitude, this.longitude);
+    this.addMarker(this.latitude, this.longitude, true);
   }
 
-  addMarker(latitude: number, longitude: number) {
+  addMarker(latitude: number, longitude: number, getAddress: boolean) {
     this.locationMarker = ({
       position: {
         lat: latitude,
@@ -36,19 +35,20 @@ export class ViewOnlySingleMarkerMapComponent implements OnInit {
       options: { animation: google.maps.Animation.BOUNCE },
     })
 
-    this.getGeolocation(latitude, longitude);
+    if (getAddress) { // If geolocation string is permanently held in the observation object then the geolocation step is redundant
+      this.getFormattedAddress(latitude, longitude);
+    }
   }
 
   openInfoWindow(marker: MapMarker) {
     this.infoWindow.open(marker);
   }
 
-  // If geolocation string is permanently held in the observation object then the geolocation step is redundant
-  getGeolocation(latitude: number, longitude: number): void {
-    this.geocodeService.reverseGeocode(latitude, longitude)
+  getFormattedAddress(latitude: number, longitude: number): void {
+    this.geocoding.reverseGeocode(latitude, longitude)
       .subscribe(
-        (data: LocationViewModel) => {
-          this.geolocation = data.formattedAddress;
+        (response: any) => {
+          this.geolocation = response.results[0].formatted_address;
           this.ref.detectChanges();
         },
         (error: any) => {

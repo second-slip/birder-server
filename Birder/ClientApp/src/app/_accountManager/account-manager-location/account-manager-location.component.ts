@@ -20,7 +20,7 @@ export class AccountManagerLocationComponent implements OnInit {
   geolocation: string;
   searchAddress = '';
   geoError: string;
-  marker; // make marker a property?
+  marker;
 
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
@@ -102,11 +102,11 @@ export class AccountManagerLocationComponent implements OnInit {
       );
   }
 
-  closeAlert() {
+  closeAlert(): void {
     this.geoError = null;
   }
 
-  getCurrentPosition() {
+  getCurrentPosition(): void {
     if (window.navigator.geolocation) {
       window.navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -137,8 +137,6 @@ export class AccountManagerLocationComponent implements OnInit {
       defaultLocationLatitude: this.marker.position.lat,
       defaultLocationLongitude: this.marker.position.lng,
     };
-
-    // console.log(model);
 
     this.accountManager.postSetLocation(model)
       .subscribe(
