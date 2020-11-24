@@ -1,5 +1,5 @@
 {
-  "name": "Birder",
+  "name": "birder",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -29,7 +29,6 @@
     "@nguniversal/aspnetcore-engine": "^11.0.0",
     "@ngx-gallery/core": "^4.0.3",
     "acorn": "^7.1.1",
-    "agm-core": "^1.0.0-beta.5",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.4.1",
     "cookieconsent": "^3.1.1",
@@ -67,7 +66,7 @@
     "zone.js": "^0.10.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1100.1",
+    "@angular-devkit/build-angular": "^0.1100.2",
     "@angular/cli": "^11.0.1",
     "@angular/common": "^11.0.0",
     "@angular/compiler-cli": "^11.0.0",
@@ -94,5 +93,8 @@
   },
   "optionalDependencies": {
     "node-sass": "^4.9.0"
-  }
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.0.",
+  "main": "karma.conf.js",
+  "author": ""
 }
