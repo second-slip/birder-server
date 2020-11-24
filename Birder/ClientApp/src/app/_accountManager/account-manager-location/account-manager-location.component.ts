@@ -1,15 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation, ViewChild } from '@angular/core';
-// import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SetLocationViewModel } from '@app/_models/SetLocationViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
 import { TokenService } from '@app/_services/token.service';
 import { AccountManagerService } from '@app/_services/account-manager.service';
-import { LocationViewModel } from '@app/_models/LocationViewModel';
-import { GeocodeService } from '@app/_services/geocode.service';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
-
+import { GeocodingService } from '@app/_services/geocoding.service';
 
 @Component({
   selector: 'app-account-manager-location',
@@ -23,9 +20,9 @@ export class AccountManagerLocationComponent implements OnInit {
   geolocation: string;
   searchAddress = '';
   geoError: string;
+  marker; // make marker a property?
 
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
-  // @ViewChild(MapMarker, { static: false }) mark: MapMarker
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
   zoom = 11;
   options: google.maps.MapOptions = {
@@ -35,7 +32,7 @@ export class AccountManagerLocationComponent implements OnInit {
   constructor(private router: Router
     , private tokenService: TokenService
     , private accountManager: AccountManagerService
-    , private geocodeService: GeocodeService
+    , private geocoding: GeocodingService
     , private ref: ChangeDetectorRef) { }
 
   ngOnInit() {
@@ -46,15 +43,14 @@ export class AccountManagerLocationComponent implements OnInit {
     this.tokenService.getAuthenticatedUserDetails()
       .subscribe(
         (data: UserViewModel) => {
-          this.addMarker(data.defaultLocationLatitude, data.defaultLocationLongitude);
+          this.addMarker(data.defaultLocationLatitude, data.defaultLocationLongitude, true);
         },
         (error: any) => {
           console.log('could not get the user, using default coordinates');
         });
   }
 
-  marker; // make marker a property?
-  addMarker(latitude: number, longitude:number) {
+  addMarker(latitude: number, longitude: number, getAddress: boolean) {
     this.marker = ({
       position: {
         lat: latitude,
@@ -68,7 +64,9 @@ export class AccountManagerLocationComponent implements OnInit {
       options: { draggable: true },
     })
 
-    this.getGeolocation(latitude, longitude);
+    if (getAddress) {
+      this.getFormattedAddress(latitude, longitude);
+    }
   }
 
   openInfoWindow(marker: MapMarker) {
@@ -76,14 +74,14 @@ export class AccountManagerLocationComponent implements OnInit {
   }
 
   markerChanged(event: google.maps.MouseEvent): void {
-    this.addMarker(event.latLng.lat(), event.latLng.lng());
+    this.addMarker(event.latLng.lat(), event.latLng.lng(), true);
   }
 
-  getGeolocation(latitude: number, longitude:number): void {
-    this.geocodeService.reverseGeocode(latitude, longitude)
+  getFormattedAddress(latitude: number, longitude: number): void {
+    this.geocoding.reverseGeocode(latitude, longitude)
       .subscribe(
-        (data: LocationViewModel) => {
-          this.geolocation = data.formattedAddress;
+        (response: any) => {
+          this.geolocation = response.results[0].formatted_address;
           this.ref.detectChanges();
         },
         (error: any) => {
@@ -92,17 +90,15 @@ export class AccountManagerLocationComponent implements OnInit {
       );
   }
 
-  useGeolocation(searchValue: string) {
-    this.geocodeService.geocodeAddress(searchValue)
-      .subscribe((location: LocationViewModel) => {
-        console.log(searchValue);
-        // this.setLocationForm.get('locationLatitude').setValue(location.latitude);
-        // this.setLocationForm.get('locationLongitude').setValue(location.longitude);
-        this.addMarker(location.latitude, location.longitude);
-        this.geolocation = location.formattedAddress;
-        this.searchAddress = '';
-        this.ref.detectChanges();
-      }
+  findAddress(searchValue: string) {
+    this.geocoding.geocode(searchValue)
+      .subscribe(
+        (response: any) => {
+          this.addMarker(response.results[0].geometry.location.lat, response.results[0].geometry.location.lng, false); // false to stop second hit on API to get address...
+          this.geolocation = response.results[0].formatted_address;
+          this.searchAddress = '';
+          this.ref.detectChanges();
+        }
       );
   }
 
@@ -114,7 +110,7 @@ export class AccountManagerLocationComponent implements OnInit {
     if (window.navigator.geolocation) {
       window.navigator.geolocation.getCurrentPosition(
         (position) => {
-          this.useGeolocation(position.coords.latitude.toString() + ',' + position.coords.longitude.toString());
+          this.addMarker(position.coords.latitude, position.coords.longitude, true);
         }, (error) => {
           switch (error.code) {
             case 3: // ...deal with timeout
@@ -137,26 +133,26 @@ export class AccountManagerLocationComponent implements OnInit {
 
   onSubmit(): void {
     this.requesting = true;
-    const model = <SetLocationViewModel> {
+    const model = <SetLocationViewModel>{
       defaultLocationLatitude: this.marker.position.lat,
       defaultLocationLongitude: this.marker.position.lng,
     };
 
-    console.log(model);
+    // console.log(model);
 
     this.accountManager.postSetLocation(model)
-    .subscribe(
-       (data: SetLocationViewModel) => {
-        //  console.log('successful registration');
-         this.router.navigate(['login']);
-       },
-      (error: ErrorReportViewModel) => {
-        // if (error.status === 400) { }
-        // this.errorReport = error;
-        // this.unsuccessful = true;
-        this.requesting = false;
-        console.log(error.friendlyMessage);
-        console.log('unsuccessful registration');
-      });
+      .subscribe(
+        (data: SetLocationViewModel) => {
+          //  console.log('successful registration');
+          this.router.navigate(['login']);
+        },
+        (error: ErrorReportViewModel) => {
+          // if (error.status === 400) { }
+          // this.errorReport = error;
+          // this.unsuccessful = true;
+          this.requesting = false;
+          console.log(error.friendlyMessage);
+          console.log('unsuccessful registration');
+        });
   }
 }

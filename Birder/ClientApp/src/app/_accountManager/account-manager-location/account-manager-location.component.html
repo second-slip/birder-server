@@ -9,7 +9,7 @@
 
           <!-- Google map control -->
           <!-- <div class="container"> -->
-          <form (ngSubmit)="useGeolocation(searchAddress)">
+          <form (ngSubmit)="findAddress(searchAddress)">
             <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
               [ngModelOptions]="{standalone: true}" required>
 
@@ -26,8 +26,8 @@
             </ngb-alert>
           </p>
 
-          <!-- <p>marker values: {{marker?.position.lat}} , {{marker?.position.lng}}</p>
-          <p>location: {{geolocation}}</p> -->
+         <!-- <p>marker values: {{marker?.position.lat}} , {{marker?.position.lng}}</p> -->
+          <p>Address: {{geolocation}}</p>
 
           <google-map height="500px" width="100%" [zoom]="zoom" [center]="marker?.position" [options]="options">
             <map-marker #markerElement="mapMarker" [position]="marker?.position" [options]="marker.options"
