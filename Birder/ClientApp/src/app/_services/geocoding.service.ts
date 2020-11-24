@@ -17,6 +17,15 @@ export class GeocodingService {
       )
   }
 
+  // json?latlng=40.714224,-73.961452
+  reverseGeocode(latitude: number, longitude: number): Observable<any> {
+    const latLng = latitude + ',' + longitude;
+    console.log(latLng);
+    return this.http.get<any>(`${this.apiUrl}latlng=${encodeURIComponent(latLng)}&key=${environment.mapKey}`)
+      .pipe(
+      )
+  }
+
     // reverseGeocode(): Observable<any> {
   // }
 
