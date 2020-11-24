@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { LocationViewModel } from '@app/_models/LocationViewModel';
-import { GeocodeService } from '@app/_services/geocode.service';
+import { GeocodingService } from '@app/_services/geocoding.service';
 
 @Component({
   selector: 'app-view-edit-single-marker-map',
@@ -22,14 +21,14 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
   searchAddress = '';
   geoError: string;
 
-  constructor(private geocodeService: GeocodeService
+  constructor(private geocoding: GeocodingService
     , private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.addMarker(this.latitude, this.longitude);
+    this.addMarker(this.latitude, this.longitude, true);
   }
 
-  addMarker(latitude: number, longitude: number) {
+  addMarker(latitude: number, longitude: number, getAddress: boolean): void {
     this.locationMarker = ({
       position: {
         lat: latitude,
@@ -38,53 +37,52 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
       options: { draggable: true },
     })
 
-    this.getGeolocation(latitude, longitude);
+    if (getAddress) {
+      this.getFormattedAddress(latitude, longitude);
+    }
   }
 
-
-
-    markerChanged(event: google.maps.MouseEvent): void {
-    this.addMarker(event.latLng.lat(), event.latLng.lng());
+  markerChanged(event: google.maps.MouseEvent): void {
+    this.addMarker(event.latLng.lat(), event.latLng.lng(), true);
   }
 
-  openInfoWindow(marker: MapMarker) {
+  openInfoWindow(marker: MapMarker): void {
     this.infoWindow.open(marker);
   }
 
-  // If geolocation string is permanently held in the observation object then the geolocation step is redundant
-  getGeolocation(latitude: number, longitude: number): void {
-    this.geocodeService.reverseGeocode(latitude, longitude)
+  getFormattedAddress(latitude: number, longitude: number): void {
+    this.geocoding.reverseGeocode(latitude, longitude)
       .subscribe(
-        (data: LocationViewModel) => {
-          this.geolocation = data.formattedAddress;
+        (response: any) => {
+          this.geolocation = response.results[0].formatted_address;
           this.ref.detectChanges();
         },
         (error: any) => {
-          //
         }
       );
   }
 
-  //
-    useGeolocation(searchValue: string) {
-    this.geocodeService.geocodeAddress(searchValue)
-      .subscribe((location: LocationViewModel) => {
-        this.addMarker(location.latitude, location.longitude);
-        this.searchAddress = '';
-        this.ref.detectChanges();
-      }
+  findAddress(searchValue: string): void {
+    this.geocoding.geocode(searchValue)
+      .subscribe(
+        (response: any) => {
+          this.addMarker(response.results[0].geometry.location.lat, response.results[0].geometry.location.lng, false); // false to stop second hit on API to get address...
+          this.geolocation = response.results[0].formatted_address;
+          this.searchAddress = '';
+          this.ref.detectChanges();
+        }
       );
   }
 
-  closeAlert() {
+  closeAlert(): void {
     this.geoError = null;
   }
 
-  getCurrentPosition() {
+  getCurrentPosition(): void {
     if (window.navigator.geolocation) {
       window.navigator.geolocation.getCurrentPosition(
         (position) => {
-          this.useGeolocation(position.coords.latitude.toString() + ',' + position.coords.longitude.toString());
+          this.addMarker(position.coords.latitude, position.coords.longitude, true);
         }, (error) => {
           switch (error.code) {
             case 3: // ...deal with timeout

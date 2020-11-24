@@ -1,42 +1,42 @@
 <div *ngIf="!locationMarker" class="loading">
 
-    <p><em>Loading...</em></p>
+  <p><em>Loading...</em></p>
 
-    <mat-spinner></mat-spinner>
+  <mat-spinner></mat-spinner>
 
 </div>
 
 <div *ngIf="locationMarker">
 
-    <div class="container">
-        <form (ngSubmit)="useGeolocation(searchAddress)">
-          <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
-            [ngModelOptions]="{standalone: true}" required>
+  <div class="container">
+    <form (ngSubmit)="findAddress(searchAddress)">
+      <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
+        [ngModelOptions]="{standalone: true}" required>
 
-          <button type="submit" triggers="mouseenter:mouseleave"
-            ngbPopover='- Type a place name (e.g. Canterbury, UK); or an specific address (e.g. 1 High St, Canterbury CT1 2JH)'
-            popoverTitle="Search help">Show Location</button>
-          <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
+      <button type="submit" triggers="mouseenter:mouseleave"
+        ngbPopover='- Type a place name (e.g. Canterbury, UK); or an specific address (e.g. 1 High St, Canterbury CT1 2JH)'
+        popoverTitle="Search help">Show Location</button>
+      <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
 
-        </form>
+    </form>
 
-        <p *ngIf="geoError">
-          <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
-            <strong>Warning!</strong> Better check yourself, you're not looking too good.
-          </ngb-alert>
-        </p>
+    <p *ngIf="geoError">
+      <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
+        <strong>Warning!</strong> Better check yourself, you're not looking too good.
+      </ngb-alert>
+    </p>
 
-      </div>
+  </div>
 
-    <p>in the child: {{ locationMarker.position.lat }} , {{locationMarker.position.lng }}</p>
-    
-    <p>{{ geolocation }}</p>
+  <p>in the child: {{ locationMarker.position.lat }} , {{locationMarker.position.lng }}</p>
 
-    <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
-        <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker.options"
-          (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
-          <map-info-window>{{ geolocation }}</map-info-window>
-        </map-marker>
-      </google-map> 
+  <p>{{ geolocation }}</p>
+
+  <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
+    <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker.options"
+      (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
+      <map-info-window>{{ geolocation }}</map-info-window>
+    </map-marker>
+  </google-map>
 
 </div>

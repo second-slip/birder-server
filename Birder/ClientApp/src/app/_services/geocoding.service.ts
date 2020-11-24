@@ -19,7 +19,6 @@ export class GeocodingService {
 
   reverseGeocode(latitude: number, longitude: number): Observable<any> {
     const latLng = latitude + ',' + longitude;
-    console.log(latLng);
     return this.http.get<any>(`${this.apiUrl}latlng=${encodeURIComponent(latLng)}&key=${environment.mapKey}`)
       .pipe(
       )
