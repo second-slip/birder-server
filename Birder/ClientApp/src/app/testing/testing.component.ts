@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { GeocodingService } from '@app/_services/geocoding.service';
 
 @Component({
   selector: 'app-testing',
@@ -10,52 +8,38 @@ import { catchError } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class TestingComponent implements OnInit {
-  
+  formattedAddress: string;
+  formattedAddress2: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private geo: GeocodingService) { }
 
   ngOnInit() {
     this.findLocation();
-   }
-
-//   getLocation(term: string):Promise<any> {
-//     return this.http.get('http://maps.google.com/maps/api/geocode/json?address=' + term + 'CA&sensor=false')
-//          .toPromise()
-//          .then((response) => Promise.resolve(response.json()))
-//          .catch((error) => Promise.resolve(error.json()));
-//  }
-
-result;
-
-// defaultLocationLatitude: 54.972237,
-// defaultLocationLongitude: -2.4608560000000352,
-findLocation(): void {
-  this.geocode(`Whiteknights campus`)
-    .subscribe(
-      (data: any) => (
-        (this.result = data.results[0].geometry.location),
-        console.log(data.results[0].geometry.location)
-        // (this.latitude = data.results[0].geometry.location.lat),
-        // (this.longitude = data.results[0].geometry.location.lng),
-        // this.map.setCenter(
-        //   new google.maps.LatLng(this.latitude, this.longitude)
-        // ),
-        // this.addMarker()
-      ),
-      (err: any) => console.log(err),
-      () => console.log("All done getting location.")
-    );
-}
-
-  geocode(term: string): Observable<any> {
-    const API_KEY = "AIzaSyD4IghqI4x7Sld9KP3sP6FtbN7wCPGySmY"; // replace with environment variable
-    return this.http.get<any>(
-      `https://maps.google.com/maps/api/geocode/json?address=1600AmphitheatreParkway&key=AIzaSyD4IghqI4x7Sld9KP3sP6FtbN7wCPGySmY`
-    ).pipe(
-      catchError(async (error) => console.log(error)));
-      // catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+    this.findLocation2();
   }
 
-  // reverseGeocode(): Observable<any> {
-  // }
+  findLocation(): void {
+    this.geo.geocode(`83 christchurch road, reading`)
+      .subscribe(
+        (response: any) => {
+          console.log(response.results[0]);
+          this.formattedAddress = response.results[0].formatted_address;
+          // coordinates
+        }),
+      ((error: any) => {
+        console.log(error);
+      });
+  }
+
+  findLocation2(): void {
+    this.geo.reverseGeocode(40.714224, -73.961452)
+      .subscribe(
+        (response: any) => {
+          console.log(response.results[0]);
+          this.formattedAddress2 = response.results[0].formatted_address;
+        }),
+      ((error: any) => {
+        console.log(error);
+      });
+  }
 }
