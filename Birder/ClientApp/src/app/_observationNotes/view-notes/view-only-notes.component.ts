@@ -11,7 +11,5 @@ export class ViewOnlyNotesComponent implements OnInit {
   
   constructor() { }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void { }
 }
