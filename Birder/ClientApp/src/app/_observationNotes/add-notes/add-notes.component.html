@@ -18,7 +18,8 @@
             </div>
 
             <div class="form-group">
-                <label for="note">Note</label>
+                <label for="note">Note {{ model.note ? model.note.length: '0' }}</label>
+                <!-- {{model.note.length}} -->
                 <textarea type="text" class="form-control" id="note" required [(ngModel)]="model.note" name="note"
                     #note="ngModel"></textarea>
                 <div [hidden]="note.valid || note.pristine || note.untouched" class="alert alert-danger">
@@ -49,4 +50,52 @@
             <!-- - -->
         </form>
     </div>
+
+    <hr>
+
+    <div *ngIf="notes">
+        <ng-container *ngIf="notes.length; else noItems">
+            <!-- <p class="italic">
+                Total notes: {{ notes.length }}
+            </p> -->
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Note</th>
+                        <!-- <th scope="col">Date/Time</th> -->
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let note of notes; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ note.noteType }}</td>
+                        <td>{{ note.note }}</td>
+                        <td style="float:right;"><button mat-icon-button color="primary" (click)="removeNote(note)">
+                                <mat-icon>delete_forever</mat-icon>
+                            </button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr>
+            <!-- <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItems" [(page)]="page"
+                [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination> -->
+
+        </ng-container>
+
+        <ng-template #noItems>
+            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+                No Notes.
+            </ngb-alert>
+        </ng-template>
+    </div>
+
+
+
+
+
 </div>

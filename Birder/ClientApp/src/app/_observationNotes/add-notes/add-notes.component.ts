@@ -7,7 +7,7 @@ import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNo
   styleUrls: ['./add-notes.component.scss']
 })
 export class AddNotesComponent implements OnInit {
-  notes: ObservationNote[] = [];
+  notes: NoteModel[] = [];
   //
   // model: ObservationNote;
   keys = Object.keys;
@@ -22,22 +22,36 @@ export class AddNotesComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  addNote(note: ObservationNote): void { 
+  addNote(note: NoteModel): void { 
     this.notes.push(note);
+    // console.log(this.notes);
   }
 
-  removeNote(note: ObservationNote): void { 
+  removeNote(note: NoteModel): void { 
+    // console.log(note);
     const i = this.notes.indexOf(note);
-    this.notes.splice(i);
+    this.notes.splice(i, 1);
   }
 
 
 
-  submitted = false;
+  // submitted = false;
 
   onSubmit() { 
     // this.submitted = true; 
     console.log(this.model);
+
+    // const note = <ObservationNote> {
+    //   id: 0,
+    //   noteType: ObservationNoteType[this.model.noteType],
+    //   note: this.model.note,
+    //   obervationId: 0
+    // }
+
+    // console.log(note);
+
+    this.addNote(this.model);
+
     this.model = new NoteModel('General', '');
   }
 
@@ -86,11 +100,11 @@ export class NoteModel {
 //   // observation: ObservationViewModel; ????
 // }
 
-export class Hero {
-  constructor(
-    public id: number,
-    public name: string,
-    public power: string,
-    public alterEgo?: string
-  ) {  }
-}
+// export class Hero {
+//   constructor(
+//     public id: number,
+//     public name: string,
+//     public power: string,
+//     public alterEgo?: string
+//   ) {  }
+// }

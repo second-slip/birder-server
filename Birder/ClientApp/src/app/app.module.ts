@@ -91,6 +91,7 @@ import { ViewEditSingleMarkerMapComponent } from './_maps/view-edit-single-marke
 import { ViewOnlyNotesComponent } from './_observationNotes/view-notes/view-only-notes.component';
 import { AddNotesComponent } from './_observationNotes/add-notes/add-notes.component';
 import { ViewAddEditNotesComponent } from './_observationNotes/view-add-edit-notes/view-add-edit-notes.component';
+import { MatButtonModule } from '@angular/material/button';
 
 
 // import { UsernameValidator } from 'validators';
@@ -205,6 +206,7 @@ export function tokenGetter() {
     MatIconModule,
     MatInputModule,
     MatTooltipModule,
+    MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
