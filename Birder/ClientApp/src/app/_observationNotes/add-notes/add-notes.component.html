@@ -1,1 +1,52 @@
 <p>add-notes works!</p>
+
+<div class="container">
+    <div>
+        <!-- <div [hidden]="submitted"> -->
+        <h1>Hero Form</h1>
+        <form (ngSubmit)="onSubmit(); heroForm.reset()" #heroForm="ngForm">
+
+            <div class="form-group">
+                <label for="noteType">Type</label>
+                <select class="form-control" id="noteType" required [(ngModel)]="model.noteType" name="noteType"
+                    #noteType="ngModel">
+                    <option *ngFor="let pow of keys1()" [value]="pow">{{pow}}</option>
+                </select>
+                <div [hidden]="noteType.valid || noteType.pristine" class="alert alert-danger">
+                    Power is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="note">Note</label>
+                <input type="text" class="form-control" id="note" required [(ngModel)]="model.note" name="note"
+                    #note="ngModel">
+                <div [hidden]="note.valid || note.pristine" class="alert alert-danger">
+                    Note is required
+                </div>
+            </div>
+
+            <!-- <div class="form-group">
+                <label for="alterEgo">Alter Ego</label>
+                <input type="text" class="form-control" id="alterEgo" [(ngModel)]="model.alterEgo" name="alterEgo">
+            </div> -->
+
+
+
+            <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
+            <!-- <button type="button" class="btn btn-default" (click)="newHero(); heroForm.reset()">New Hero</button>
+            <i>with</i> reset -->
+
+            <!-- &nbsp;&nbsp;
+            <button type="button" class="btn btn-default" (click)="newHero()">New Hero</button>
+            <i>without</i> reset -->
+
+            <!-- NOT SHOWN IN DOCS -->
+            <div>
+                <hr>
+                Name via form.controls = {{showFormControls(heroForm)}}
+            </div>
+            <!-- - -->
+        </form>
+    </div>
+</div>
