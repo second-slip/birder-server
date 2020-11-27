@@ -1,9 +1,6 @@
-<p>add-notes works!</p>
-
 <div class="container">
     <div>
-        <!-- <div [hidden]="submitted"> -->
-        <h1>Hero Form</h1>
+        <p>....Add notes....</p>
         <form (ngSubmit)="onSubmit(); heroForm.reset({ noteType: 'General' })" #heroForm="ngForm">
 
             <div class="form-group">
@@ -19,7 +16,6 @@
 
             <div class="form-group">
                 <label for="note">Note {{ model.note ? model.note.length: '0' }}</label>
-                <!-- {{model.note.length}} -->
                 <textarea type="text" class="form-control" id="note" required [(ngModel)]="model.note" name="note"
                     #note="ngModel"></textarea>
                 <div [hidden]="note.valid || note.pristine || note.untouched" class="alert alert-danger">
@@ -27,27 +23,8 @@
                 </div>
             </div>
 
-            <!-- <div class="form-group">
-                <label for="alterEgo">Alter Ego</label>
-                <input type="text" class="form-control" id="alterEgo" [(ngModel)]="model.alterEgo" name="alterEgo">
-            </div> -->
-
-
-
             <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
-            <!-- <button type="button" class="btn btn-default" (click)="newHero(); heroForm.reset()">New Hero</button>
-            <i>with</i> reset -->
 
-            <!-- &nbsp;&nbsp;
-            <button type="button" class="btn btn-default" (click)="newHero()">New Hero</button>
-            <i>without</i> reset -->
-
-            <!-- NOT SHOWN IN DOCS -->
-            <div>
-                <hr>
-                Name via form.controls = {{showFormControls(heroForm)}}
-            </div>
-            <!-- - -->
         </form>
     </div>
 
@@ -55,17 +32,12 @@
 
     <div *ngIf="notes">
         <ng-container *ngIf="notes.length; else noItems">
-            <!-- <p class="italic">
-                Total notes: {{ notes.length }}
-            </p> -->
-
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th></th>
                         <th scope="col">Type</th>
                         <th scope="col">Note</th>
-                        <!-- <th scope="col">Date/Time</th> -->
                         <th></th>
                     </tr>
                 </thead>
@@ -82,8 +54,6 @@
             </table>
 
             <hr>
-            <!-- <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItems" [(page)]="page"
-                [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination> -->
 
         </ng-container>
 
@@ -93,9 +63,5 @@
             </ngb-alert>
         </ng-template>
     </div>
-
-
-
-
 
 </div>

@@ -6,40 +6,27 @@ import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNo
   templateUrl: './add-notes.component.html',
   styleUrls: ['./add-notes.component.scss']
 })
-export class AddNotesComponent implements OnInit {
+export class AddNotesComponent {
   notes: NoteModel[] = [];
-  //
-  // model: ObservationNote;
-  keys = Object.keys;
+  // keys = Object.keys;
   keys1() : Array<string> { var keys = Object.keys(this.powers); return keys.slice(keys.length / 2); }
-  powers = ObservationNoteType; // ['Really Smart', 'Super Flexible',
-  //'Super Hot', 'Weather Changer'];
+  powers = ObservationNoteType; 
 
-  model = new NoteModel('General', '');
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  model: NoteModel = new NoteModel('General', '');
 
   addNote(note: NoteModel): void { 
     this.notes.push(note);
-    // console.log(this.notes);
   }
 
   removeNote(note: NoteModel): void { 
-    // console.log(note);
     const i = this.notes.indexOf(note);
     this.notes.splice(i, 1);
   }
 
 
-
-  // submitted = false;
-
   onSubmit() { 
     // this.submitted = true; 
-    console.log(this.model);
+    // console.log(this.model);
 
     // const note = <ObservationNote> {
     //   id: 0,
@@ -54,33 +41,6 @@ export class AddNotesComponent implements OnInit {
 
     this.model = new NoteModel('General', '');
   }
-
-  // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.model); }
-
-  // newHero() {
-  //   this.model = new NoteModel(ObservationNoteType.General, '');
-  // }
-
-  // skyDog(): Hero {
-  //   const myHero =  new Hero(42, 'SkyDog',
-  //                          'Fetch any object at any distance',
-  //                          'Leslie Rollover');
-  //   console.log('My hero is called ' + myHero.name); // "My hero is called SkyDog"
-  //   return myHero;
-  // }
-
-  //////// NOT SHOWN IN DOCS ////////
-
-  // Reveal in html:
-  //   Name via form.controls = {{showFormControls(heroForm)}}
-  showFormControls(form: any) {
-    return form && form.controls.note &&
-    form.controls.note.value; // Dr. IQ
-  }
-
-  /////////////////////////////
-
 }
 
 export class NoteModel {
@@ -100,11 +60,3 @@ export class NoteModel {
 //   // observation: ObservationViewModel; ????
 // }
 
-// export class Hero {
-//   constructor(
-//     public id: number,
-//     public name: string,
-//     public power: string,
-//     public alterEgo?: string
-//   ) {  }
-// }
