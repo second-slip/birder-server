@@ -195,45 +195,45 @@ namespace Birder.Migrations
                             ConservationStatusId = 1,
                             ConservationList = "Red",
                             ConservationListColourCode = "Red",
-                            CreationDate = new DateTime(2020, 11, 21, 19, 28, 48, 63, DateTimeKind.Local).AddTicks(1086),
+                            CreationDate = new DateTime(2020, 11, 27, 21, 57, 3, 84, DateTimeKind.Local).AddTicks(1616),
                             Description = "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.",
-                            LastUpdateDate = new DateTime(2020, 11, 21, 19, 28, 48, 66, DateTimeKind.Local).AddTicks(4947)
+                            LastUpdateDate = new DateTime(2020, 11, 27, 21, 57, 3, 87, DateTimeKind.Local).AddTicks(1340)
                         },
                         new
                         {
                             ConservationStatusId = 2,
                             ConservationList = "Amber",
                             ConservationListColourCode = "Yellow",
-                            CreationDate = new DateTime(2020, 11, 21, 19, 28, 48, 67, DateTimeKind.Local).AddTicks(9109),
+                            CreationDate = new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5446),
                             Description = "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.",
-                            LastUpdateDate = new DateTime(2020, 11, 21, 19, 28, 48, 67, DateTimeKind.Local).AddTicks(9135)
+                            LastUpdateDate = new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5473)
                         },
                         new
                         {
                             ConservationStatusId = 3,
                             ConservationList = "Green",
                             ConservationListColourCode = "Green",
-                            CreationDate = new DateTime(2020, 11, 21, 19, 28, 48, 67, DateTimeKind.Local).AddTicks(9268),
+                            CreationDate = new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5594),
                             Description = "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.",
-                            LastUpdateDate = new DateTime(2020, 11, 21, 19, 28, 48, 67, DateTimeKind.Local).AddTicks(9273)
+                            LastUpdateDate = new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5599)
                         },
                         new
                         {
                             ConservationStatusId = 4,
                             ConservationList = "Former breeder",
                             ConservationListColourCode = "Black",
-                            CreationDate = new DateTime(2020, 11, 21, 19, 28, 48, 67, DateTimeKind.Local).AddTicks(9294),
+                            CreationDate = new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5622),
                             Description = "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.",
-                            LastUpdateDate = new DateTime(2020, 11, 21, 19, 28, 48, 67, DateTimeKind.Local).AddTicks(9298)
+                            LastUpdateDate = new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5625)
                         },
                         new
                         {
                             ConservationStatusId = 5,
                             ConservationList = "Not assessed",
                             ConservationListColourCode = "Black",
-                            CreationDate = new DateTime(2020, 11, 21, 19, 28, 48, 67, DateTimeKind.Local).AddTicks(9402),
+                            CreationDate = new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5645),
                             Description = "This species was not assessed in the UK Birds of Conservation Concern 4.",
-                            LastUpdateDate = new DateTime(2020, 11, 21, 19, 28, 48, 67, DateTimeKind.Local).AddTicks(9407)
+                            LastUpdateDate = new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5649)
                         });
                 });
 
@@ -303,9 +303,6 @@ namespace Birder.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NoteType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ObervationId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ObservationId")

@@ -304,7 +304,6 @@ namespace Birder.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NoteType = table.Column<int>(type: "int", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ObervationId = table.Column<int>(type: "int", nullable: false),
                     ObservationId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -316,6 +315,28 @@ namespace Birder.Migrations
                         principalTable: "Observation",
                         principalColumn: "ObservationId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ObservationPosition",
+                columns: table => new
+                {
+                    ObservationPositionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false),
+                    FormattedAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ObservationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ObservationPosition", x => x.ObservationPositionId);
+                    table.ForeignKey(
+                        name: "FK_ObservationPosition_Observation_ObservationId",
+                        column: x => x.ObservationId,
+                        principalTable: "Observation",
+                        principalColumn: "ObservationId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -345,38 +366,16 @@ namespace Birder.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Position",
-                columns: table => new
-                {
-                    ObservationPositionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Latitude = table.Column<double>(type: "float", nullable: false),
-                    Longitude = table.Column<double>(type: "float", nullable: false),
-                    FormattedAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ObservationId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Position", x => x.ObservationPositionId);
-                    table.ForeignKey(
-                        name: "FK_Position_Observation_ObservationId",
-                        column: x => x.ObservationId,
-                        principalTable: "Observation",
-                        principalColumn: "ObservationId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "ConservationStatus",
                 columns: new[] { "ConservationStatusId", "ConservationList", "ConservationListColourCode", "CreationDate", "Description", "LastUpdateDate" },
                 values: new object[,]
                 {
-                    { 1, "Red", "Red", new DateTime(2020, 11, 19, 14, 26, 41, 792, DateTimeKind.Local).AddTicks(5738), "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.", new DateTime(2020, 11, 19, 14, 26, 41, 798, DateTimeKind.Local).AddTicks(1804) },
-                    { 2, "Amber", "Yellow", new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(969), "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.", new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1064) },
-                    { 3, "Green", "Green", new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1401), "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.", new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1420) },
-                    { 4, "Former breeder", "Black", new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1472), "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1482) },
-                    { 5, "Not assessed", "Black", new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1533), "This species was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 11, 19, 14, 26, 41, 801, DateTimeKind.Local).AddTicks(1541) }
+                    { 1, "Red", "Red", new DateTime(2020, 11, 27, 21, 57, 3, 84, DateTimeKind.Local).AddTicks(1616), "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.", new DateTime(2020, 11, 27, 21, 57, 3, 87, DateTimeKind.Local).AddTicks(1340) },
+                    { 2, "Amber", "Yellow", new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5446), "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.", new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5473) },
+                    { 3, "Green", "Green", new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5594), "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.", new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5599) },
+                    { 4, "Former breeder", "Black", new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5622), "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5625) },
+                    { 5, "Not assessed", "Black", new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5645), "This species was not assessed in the UK Birds of Conservation Concern 4.", new DateTime(2020, 11, 27, 21, 57, 3, 88, DateTimeKind.Local).AddTicks(5649) }
                 });
 
             migrationBuilder.CreateIndex(
@@ -444,6 +443,12 @@ namespace Birder.Migrations
                 column: "ObservationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ObservationPosition_ObservationId",
+                table: "ObservationPosition",
+                column: "ObservationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ObservationTag_ObservationId",
                 table: "ObservationTag",
                 column: "ObservationId");
@@ -452,12 +457,6 @@ namespace Birder.Migrations
                 name: "IX_ObservationTag_TagId",
                 table: "ObservationTag",
                 column: "TagId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Position_ObservationId",
-                table: "Position",
-                column: "ObservationId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TweetDay_BirdId",
@@ -489,10 +488,10 @@ namespace Birder.Migrations
                 name: "ObservationNote");
 
             migrationBuilder.DropTable(
-                name: "ObservationTag");
+                name: "ObservationPosition");
 
             migrationBuilder.DropTable(
-                name: "Position");
+                name: "ObservationTag");
 
             migrationBuilder.DropTable(
                 name: "TweetDay");
@@ -501,10 +500,10 @@ namespace Birder.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Tag");
+                name: "Observation");
 
             migrationBuilder.DropTable(
-                name: "Observation");
+                name: "Tag");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
