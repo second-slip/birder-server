@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿
 namespace Birder.Data.Model
 {
     public enum ObservationNoteType
@@ -25,7 +21,6 @@ namespace Birder.Data.Model
         public int Id { get; set; }
         public ObservationNoteType NoteType { get; set; }
         public string Note { get; set; }
-        public int ObervationId { get; set; }
         public Observation Observation { get; set; }
     }
 }
