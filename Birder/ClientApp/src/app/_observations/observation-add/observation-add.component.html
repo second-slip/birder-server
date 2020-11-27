@@ -39,16 +39,11 @@
               </mat-form-field>
 
               <mat-form-field class="full-width">
-                <input type="bird"
-                       placeholder="Select species"
-                       aria-label="Number"
-                       matInput
-                       formControlName="bird"
-                       [matAutocomplete]="auto"
-                       required>
+                <input type="bird" placeholder="Select species" aria-label="Number" matInput formControlName="bird"
+                  [matAutocomplete]="auto" required>
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
                   <mat-option *ngFor="let bird of filteredOptions | async" [value]="bird">
-                      <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
+                    <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
                   </mat-option>
                 </mat-autocomplete>
                 <mat-error *ngFor="let validation of addObservation_validation_messages.bird">
@@ -98,7 +93,7 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
 
-              <p><i>Notes</i> are in development</p>
+              <app-add-notes></app-add-notes>
 
             </mat-expansion-panel>
             <!--  -->

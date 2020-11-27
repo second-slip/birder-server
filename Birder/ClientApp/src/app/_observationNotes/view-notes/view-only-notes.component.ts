@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ObservationNote } from '@app/_models/ObservationNote';
 
 @Component({
@@ -6,10 +6,6 @@ import { ObservationNote } from '@app/_models/ObservationNote';
   templateUrl: './view-only-notes.component.html',
   styleUrls: ['./view-only-notes.component.scss']
 })
-export class ViewOnlyNotesComponent implements OnInit {
+export class ViewOnlyNotesComponent {
   @Input() notes: ObservationNote[];
-  
-  constructor() { }
-
-  ngOnInit(): void { }
 }

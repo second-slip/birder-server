@@ -16,7 +16,7 @@
 
             <div class="form-group">
                 <label for="note">Note {{ model.note ? model.note.length: '0' }}</label>
-                <textarea type="text" class="form-control" id="note" required [(ngModel)]="model.note" name="note"
+                <textarea placeholder="Type your note here... " type="text" class="form-control" id="note" required [(ngModel)]="model.note" name="note"
                     #note="ngModel"></textarea>
                 <div [hidden]="note.valid || note.pristine || note.untouched" class="alert alert-danger">
                     Note is required
