@@ -15,7 +15,7 @@ export class AddNotesComponent implements OnInit {
   powers = ObservationNoteType; // ['Really Smart', 'Super Flexible',
   //'Super Hot', 'Weather Changer'];
 
-  model = new NoteModel(ObservationNoteType.General, ''); // new Hero(0, '', this.powers[0], '');
+  model = new NoteModel('General', '');
 
   constructor() { }
 
@@ -39,7 +39,7 @@ export class AddNotesComponent implements OnInit {
     // this.submitted = true; 
     console.log(this.keys1);
     console.log(this.model);
-    this.model = new NoteModel(0, '');
+    this.model = new NoteModel('General', '');
   }
 
   // TODO: Remove this when we're done
@@ -73,7 +73,7 @@ export class AddNotesComponent implements OnInit {
 export class NoteModel {
   constructor(
     // public id: number,
-    public noteType: ObservationNoteType,
+    public noteType: string,
     public note: string,
   ) {  }
 

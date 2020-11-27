@@ -4,7 +4,7 @@
     <div>
         <!-- <div [hidden]="submitted"> -->
         <h1>Hero Form</h1>
-        <form (ngSubmit)="onSubmit(); heroForm.reset()" #heroForm="ngForm">
+        <form (ngSubmit)="onSubmit(); heroForm.reset({ noteType: 'General' })" #heroForm="ngForm">
 
             <div class="form-group">
                 <label for="noteType">Type</label>
@@ -21,7 +21,7 @@
                 <label for="note">Note</label>
                 <input type="text" class="form-control" id="note" required [(ngModel)]="model.note" name="note"
                     #note="ngModel">
-                <div [hidden]="note.valid || note.pristine" class="alert alert-danger">
+                <div [hidden]="note.valid || note.pristine || note.untouched" class="alert alert-danger">
                     Note is required
                 </div>
             </div>
