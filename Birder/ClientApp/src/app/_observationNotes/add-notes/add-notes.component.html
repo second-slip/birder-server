@@ -16,15 +16,14 @@
 
             <div class="form-group">
                 <label for="note">Note {{ model.note ? model.note.length: '0' }}</label>
-                <textarea placeholder="Type your note here... " type="text" class="form-control" id="note" required [(ngModel)]="model.note" name="note"
-                    #note="ngModel"></textarea>
+                <textarea placeholder="Type your note here... " type="text" class="form-control" id="note" required
+                    [(ngModel)]="model.note" name="note" #note="ngModel"></textarea>
                 <div [hidden]="note.valid || note.pristine || note.untouched" class="alert alert-danger">
                     Note is required
                 </div>
             </div>
 
             <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
-
         </form>
     </div>
 
