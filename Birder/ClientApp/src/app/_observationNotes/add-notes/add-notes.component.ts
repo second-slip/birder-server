@@ -37,7 +37,6 @@ export class AddNotesComponent implements OnInit {
 
   onSubmit() { 
     // this.submitted = true; 
-    console.log(this.keys1);
     console.log(this.model);
     this.model = new NoteModel('General', '');
   }
