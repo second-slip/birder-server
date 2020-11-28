@@ -5,9 +5,6 @@
 
 <div *ngIf="notes">
     <ng-container *ngIf="notes.length; else noItems">
-        <!-- <p class="italic">
-            Total notes: {{ notes.length }}
-        </p> -->
 
         <table class="table table-striped">
             <thead>
@@ -15,8 +12,6 @@
                     <th></th>
                     <th scope="col">Type</th>
                     <th scope="col">Note</th>
-                    <!-- <th scope="col">Date/Time</th> -->
-                    <!-- <th></th> -->
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +31,7 @@
 
     <ng-template #noItems>
         <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-            No Notes.
+            No notes linked to this observation
         </ngb-alert>
     </ng-template>
 </div>
