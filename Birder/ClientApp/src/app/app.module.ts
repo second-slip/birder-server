@@ -93,6 +93,7 @@ import { AddNotesComponent } from './_observationNotes/add-notes/add-notes.compo
 import { ViewAddEditNotesComponent } from './_observationNotes/view-add-edit-notes/view-add-edit-notes.component';
 import { MatButtonModule } from '@angular/material/button';
 import { EditTestComponent } from './_observationNotes/edit-test/edit-test.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 // import { UsernameValidator } from 'validators';
@@ -219,6 +220,7 @@ export function tokenGetter() {
     MatTabsModule,
     MatBadgeModule,
     MatAutocompleteModule,
+    MatDialogModule,
     ToastrModule.forRoot(),
     NgxDropzoneModule,
     GalleryModule,
