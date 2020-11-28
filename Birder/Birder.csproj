@@ -33,8 +33,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0" />
-    <PackageReference Include="Moq" Version="4.15.1" />
-    <PackageReference Include="SendGrid" Version="9.21.1" />
+    <PackageReference Include="Moq" Version="4.15.2" />
+    <PackageReference Include="SendGrid" Version="9.21.2" />
     <PackageReference Include="System.Runtime.Caching" Version="5.0.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
