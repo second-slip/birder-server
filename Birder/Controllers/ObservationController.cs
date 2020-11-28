@@ -221,18 +221,14 @@ namespace Birder.Controllers
                 }
 
                 _mapper.Map<ObservationEditDto, Observation>(model, observation);
-                // if (model.Bird.BirdId != observation.Bird.BirdId)
-                // {
-                //     var bird = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
-                //     observation.Bird = bird;
-                // }
+
                 var bird = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
                 observation.Bird = bird;
 
-                var position = await _observationPositionRepository.GetAsync(observation.Position.ObservationPositionId);
-                position.Latitude = model.Position.Latitude;
-                position.Longitude = model.Position.Longitude;
-                position.FormattedAddress = model.Position.FormattedAddress;
+                //var position = await _observationPositionRepository.GetAsync(observation.Position.ObservationPositionId);
+                //position.Latitude = model.Position.Latitude;
+                //position.Longitude = model.Position.Longitude;
+                //position.FormattedAddress = model.Position.FormattedAddress;
 
                 // observation.Position = position;
 
@@ -246,10 +242,6 @@ namespace Birder.Controllers
                 }
 
                 await _unitOfWork.CompleteAsync();
-
-                // ClearCache();
-                //_cache.Remove(CacheEntries.ObservationsList);
-                //_cache.Remove(CacheEntries.ObservationsSummary);
 
                 return Ok(_mapper.Map<Observation, ObservationEditDto>(observation));
 
