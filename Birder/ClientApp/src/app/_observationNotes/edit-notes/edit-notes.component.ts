@@ -10,7 +10,7 @@ import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.co
   styleUrls: ['./edit-notes.component.scss']
 })
 export class EditNotesComponent implements OnInit {
-  @Input() notes: NoteModel[];
+  @Input() notes: NoteModel[] = [];
 
   constructor(public dialog: MatDialog) { }
 

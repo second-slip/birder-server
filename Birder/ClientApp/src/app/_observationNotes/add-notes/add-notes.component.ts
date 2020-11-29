@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NoteModel } from '@app/_models/NoteModel';
 import { AddNoteDialogComponent } from '../add-note-dialog/add-note-dialog.component';
+import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.component';
 
 @Component({
   selector: 'app-add-notes',
@@ -28,8 +29,27 @@ export class AddNotesComponent {
     });
   }
 
+  openEditNoteDialog(note: NoteModel): void {
+    const dialogRef = this.dialog.open(EditNoteDialogComponent, {
+      width: '325px',
+      data: note
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.editNote(result);
+      }
+    });
+  }
+
   addNote(note: NoteModel): void {
     this.notes.push(note);
+  }
+
+  editNote(note: NoteModel): void {
+    // var foundIndex = items.findIndex(x => x.id == item.id);
+    const i = this.notes.indexOf(note);
+    this.notes[i] = note;
   }
 
   removeNote(note: NoteModel): void {
