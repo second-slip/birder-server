@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNote';
+import { Component } from '@angular/core';
+import { NoteModel } from '@app/_models/NoteModel';
+import { ObservationNoteType } from '@app/_models/ObservationNote';
 
 @Component({
   selector: 'app-add-notes',
@@ -9,42 +10,24 @@ import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNo
 export class AddNotesComponent {
   notes: NoteModel[] = [];
   // keys = Object.keys;
-  keys1() : Array<string> { var keys = Object.keys(this.powers); return keys.slice(keys.length / 2); }
-  powers = ObservationNoteType; 
+  keys1(): Array<string> { var keys = Object.keys(this.powers); return keys.slice(keys.length / 2); }
+  powers = ObservationNoteType;
 
-  model: NoteModel = new NoteModel('General', '');
+  model: NoteModel = new NoteModel(0, 'General', '');
 
-  addNote(note: NoteModel): void { 
+  addNote(note: NoteModel): void {
     this.notes.push(note);
   }
 
-  removeNote(note: NoteModel): void { 
+  removeNote(note: NoteModel): void {
     const i = this.notes.indexOf(note);
     this.notes.splice(i, 1);
   }
 
 
-  onSubmit() { 
+  onSubmit() {
     this.addNote(this.model);
 
-    this.model = new NoteModel('General', '');
+    this.model = new NoteModel(0, 'General', '');
   }
 }
-
-export class NoteModel {
-  constructor(
-    // public id: number,
-    public noteType: string,
-    public note: string,
-  ) {  }
-
-}
-
-// export interface ObservationNote {
-//   id: number;
-//   noteType: ObservationNoteType; ///????
-//   note: string;
-//   obervationId: number;
-//   // observation: ObservationViewModel; ????
-// }
-

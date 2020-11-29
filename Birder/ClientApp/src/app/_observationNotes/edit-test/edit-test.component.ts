@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { NoteModel } from '@app/_models/NoteModel';
 import { AddNoteDialogComponent } from '../add-note-dialog/add-note-dialog.component';
-import { NoteModel } from '../add-notes/add-notes.component';
 
 @Component({
   selector: 'app-edit-test',
@@ -11,8 +11,6 @@ import { NoteModel } from '../add-notes/add-notes.component';
 export class EditTestComponent implements OnInit {
   notes: NoteModel[] = [];
 
-  // model: NoteModel = new NoteModel('General', '');
-
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void { }
@@ -20,7 +18,7 @@ export class EditTestComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(AddNoteDialogComponent, {
       width: '300px',
-      data: new NoteModel('General', '')
+      data: new NoteModel(0, 'General', '')
     });
 
     dialogRef.afterClosed().subscribe(result => {

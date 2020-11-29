@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NoteModel } from '@app/_models/NoteModel';
 import { ObservationNoteType } from '@app/_models/ObservationNote';
-import { NoteModel } from '../add-notes/add-notes.component';
 import { EditTestComponent } from '../edit-test/edit-test.component';
 
 @Component({

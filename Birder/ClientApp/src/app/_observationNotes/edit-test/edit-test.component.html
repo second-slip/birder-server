@@ -1,12 +1,16 @@
-<p>edit-test works!</p>
 
-<button mat-raised-button (click)="openDialog()">Pick one</button>
+
+<button mat-raised-button color="basic" (click)="openDialog()" matTooltip="Add new note">
+    <mat-icon>note_add</mat-icon>
+    Add note
+</button>
 
 <hr>
-<p>Table...</p>
+<!-- just want some space here -->
 
 <div *ngIf="notes">
     <ng-container *ngIf="notes.length; else noItems">
+        <p>Table...</p>
         <table class="table table-striped">
             <thead>
                 <tr>
