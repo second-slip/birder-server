@@ -11,22 +11,32 @@ import { NoteModel } from '../add-notes/add-notes.component';
 export class EditTestComponent implements OnInit {
   notes: NoteModel[] = [];
 
-  model: NoteModel = new NoteModel('General', '');
-  
+  // model: NoteModel = new NoteModel('General', '');
+
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void { }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AddNoteDialogComponent, {
-      width: '250px',
-      data: { type: this.model.noteType, note: this.model.note }
+      width: '300px',
+      data: new NoteModel('General', '')
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.model = result;
+      // console.log('The dialog was closed');
+      if (result) {
+        this.addNote(result);
+      }
     });
   }
 
+  addNote(note: NoteModel): void {
+    this.notes.push(note);
+  }
+
+  removeNote(note: NoteModel): void {
+    const i = this.notes.indexOf(note);
+    this.notes.splice(i, 1);
+  }
 }

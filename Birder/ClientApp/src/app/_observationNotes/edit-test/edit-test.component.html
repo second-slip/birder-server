@@ -2,6 +2,8 @@
 
 <button mat-raised-button (click)="openDialog()">Pick one</button>
 
+<hr>
+<p>Table...</p>
 
 <div *ngIf="notes">
     <ng-container *ngIf="notes.length; else noItems">
@@ -12,6 +14,7 @@
                     <th scope="col">Type</th>
                     <th scope="col">Note</th>
                     <th></th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -19,8 +22,11 @@
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ note.noteType }}</td>
                     <td>{{ note.note }}</td>
-                    <td style="float:right;"><button mat-icon-button color="primary" (click)="removeNote(note)">
-                            <mat-icon>delete_forever</mat-icon>
+                    <td style="float:right;"><button mat-icon-button color="primary" (click)="removeNote(note)" matTooltip="Edit this note">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" (click)="removeNote(note)" matTooltip="Delete this note">
+                            <mat-icon>delete</mat-icon>
                         </button></td>
                 </tr>
             </tbody>
