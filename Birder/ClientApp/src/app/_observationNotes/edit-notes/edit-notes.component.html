@@ -1,6 +1,5 @@
 
-
-<button mat-raised-button color="basic" (click)="openAddNoteDialog()" matTooltip="Add new note">
+<button mat-raised-button color="basic" type="button" (click)="openAddNoteDialog()" matTooltip="Add new note">
     <mat-icon>note_add</mat-icon>
     Add note
 </button>
@@ -10,7 +9,6 @@
 
 <div *ngIf="notes">
     <ng-container *ngIf="notes.length; else noItems">
-        <p>Table...</p>
         <table class="table table-striped">
             <thead>
                 <tr>

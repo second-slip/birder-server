@@ -94,8 +94,7 @@ export class ObservationAddComponent implements OnInit {
     const notes: ObservationNote[] = this.notesComponent.notes.map(note => ({
       id: 0,
       noteType: ObservationNoteType[note.noteType],
-      note: note.note,
-      obervationId: 0
+      note: note.note
     }));
 
     const position = <ObservationPosition>{

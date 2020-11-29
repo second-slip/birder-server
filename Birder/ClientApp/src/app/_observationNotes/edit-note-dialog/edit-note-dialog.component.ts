@@ -9,12 +9,12 @@ import { ObservationNoteType } from '@app/_models/ObservationNote';
   styleUrls: ['./edit-note-dialog.component.scss']
 })
 export class EditNoteDialogComponent implements OnInit {
-  keys1() : Array<string> { var keys = Object.keys(this.powers); return keys.slice(keys.length / 2); }
-  powers = ObservationNoteType; 
+  keys1(): Array<string> { var keys = Object.keys(this.powers); return keys.slice(keys.length / 2); }
+  powers = ObservationNoteType;
 
   constructor(
     public dialogRef: MatDialogRef<any>,
-    @Inject(MAT_DIALOG_DATA) public model: NoteModel) { }
+    @Inject(MAT_DIALOG_DATA) public data: NoteModel) { }
 
   ngOnInit(): void {
   }

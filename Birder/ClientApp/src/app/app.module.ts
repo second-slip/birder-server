@@ -90,12 +90,11 @@ import { ViewOnlySingleMarkerMapComponent } from './_maps/view-only-single-marke
 import { ViewEditSingleMarkerMapComponent } from './_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
 import { ViewOnlyNotesComponent } from './_observationNotes/view-notes/view-only-notes.component';
 import { AddNotesComponent } from './_observationNotes/add-notes/add-notes.component';
-import { ViewAddEditNotesComponent } from './_observationNotes/view-add-edit-notes/view-add-edit-notes.component';
 import { MatButtonModule } from '@angular/material/button';
-import { EditTestComponent } from './_observationNotes/edit-test/edit-test.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddNoteDialogComponent } from './_observationNotes/add-note-dialog/add-note-dialog.component';
 import { EditNoteDialogComponent } from './_observationNotes/edit-note-dialog/edit-note-dialog.component';
+import { EditNotesComponent } from './_observationNotes/edit-notes/edit-notes.component';
 
 
 // import { UsernameValidator } from 'validators';
@@ -197,10 +196,9 @@ export function tokenGetter() {
     ViewEditSingleMarkerMapComponent,
     ViewOnlyNotesComponent,
     AddNotesComponent,
-    ViewAddEditNotesComponent,
-    EditTestComponent,
     AddNoteDialogComponent,
     EditNoteDialogComponent,
+    EditNotesComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

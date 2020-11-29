@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
 import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
+import { EditNotesComponent } from '@app/_observationNotes/edit-notes/edit-notes.component';
+import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNote';
 
 @Component({
   selector: 'app-observation-edit',
@@ -24,6 +26,8 @@ import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-ma
 export class ObservationEditComponent implements OnInit {
   @ViewChild(ViewEditSingleMarkerMapComponent)
   private timerComponent: ViewEditSingleMarkerMapComponent;
+  @ViewChild(EditNotesComponent)
+  private editNotesComponent: EditNotesComponent;
   requesting: boolean;
   observation: ObservationViewModel;
   editObservationForm: FormGroup;
@@ -95,12 +99,18 @@ export class ObservationEditComponent implements OnInit {
       formattedAddress: this.timerComponent.geolocation
     }
 
+    const notes: ObservationNote[] = this.editNotesComponent.notes.map(note => ({
+      id: note.id,
+      noteType: ObservationNoteType[note.noteType],
+      note: note.note
+    }));
+
     const observation = <ObservationViewModel>{
       quantity: value.quantity,
       observationDateTime: value.observationDateTime,
       bird: value.bird,
       birdId: value.bird.birdId,
-      notes: null,
+      notes: notes,
       observationId: this.observation.observationId,
       user: this.observation.user,
       creationDate: this.observation.creationDate,

@@ -5,12 +5,12 @@ import { AddNoteDialogComponent } from '../add-note-dialog/add-note-dialog.compo
 import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.component';
 
 @Component({
-  selector: 'app-edit-test',
-  templateUrl: './edit-test.component.html',
-  styleUrls: ['./edit-test.component.scss']
+  selector: 'app-edit-notes',
+  templateUrl: './edit-notes.component.html',
+  styleUrls: ['./edit-notes.component.scss']
 })
-export class EditTestComponent implements OnInit {
-  @Input() notes: NoteModel[] = [];
+export class EditNotesComponent implements OnInit {
+  @Input() notes: NoteModel[];
 
   constructor(public dialog: MatDialog) { }
 
@@ -57,3 +57,4 @@ export class EditTestComponent implements OnInit {
     this.notes.splice(i, 1);
   }
 }
+

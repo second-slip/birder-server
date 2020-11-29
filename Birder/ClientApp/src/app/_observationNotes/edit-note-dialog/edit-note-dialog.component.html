@@ -7,15 +7,12 @@
             <div class="form-group" hidden>
                 <label for="id">id</label>
                 <input type="text" class="form-control" id="id" disabled
-                    [(ngModel)]="model.id" name="id" #note="ngModel">
-                <!-- <div [hidden]="note.valid || note.pristine || note.untouched" class="alert alert-danger">
-                    Note is required
-                </div> -->
+                    [(ngModel)]="data.id" name="id" #note="ngModel">
             </div>
 
             <div class="form-group">
                 <label for="noteType">Type</label>
-                <select class="form-control" id="noteType" required [(ngModel)]="model.noteType" name="noteType"
+                <select class="form-control" id="noteType" required [(ngModel)]="data.noteType" name="noteType"
                     #noteType="ngModel">
                     <option *ngFor="let pow of keys1()" [value]="pow">{{pow}}</option>
                 </select>
@@ -25,9 +22,9 @@
             </div>
 
             <div class="form-group">
-                <label for="note">Note {{ model.note ? model.note.length: '0' }}</label>
+                <label for="note">Note {{ data.note ? data.note.length: '0' }}</label>
                 <textarea placeholder="Type your note here... " type="text" class="form-control" id="note" required
-                    [(ngModel)]="model.note" name="note" #note="ngModel"></textarea>
+                    [(ngModel)]="data.note" name="note" #note="ngModel"></textarea>
                 <div [hidden]="note.valid || note.pristine || note.untouched" class="alert alert-danger">
                     Note is required
                 </div>
@@ -38,7 +35,7 @@
 
     <div mat-dialog-actions>
         <button mat-button (click)="onNoClick()">Exit</button>
-        <button mat-button [disabled]="!editNoteForm.form.valid" [mat-dialog-close]="model" cdkFocusInitial>Edit
+        <button mat-button [disabled]="!editNoteForm.form.valid" [mat-dialog-close]="data" cdkFocusInitial>Edit
             note</button>
     </div>
 
