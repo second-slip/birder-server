@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NoteModel } from '@app/_models/NoteModel';
 import { AddNoteDialogComponent } from '../add-note-dialog/add-note-dialog.component';
+import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.component';
 
 @Component({
   selector: 'app-edit-test',
@@ -9,11 +10,24 @@ import { AddNoteDialogComponent } from '../add-note-dialog/add-note-dialog.compo
   styleUrls: ['./edit-test.component.scss']
 })
 export class EditTestComponent implements OnInit {
-  notes: NoteModel[] = [];
+  @Input() notes: NoteModel[] = [];
 
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void { }
+
+  openEditNoteDialog(note: NoteModel): void {
+    const dialogRef = this.dialog.open(EditNoteDialogComponent, {
+      width: '325px',
+      data: note
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.editNote(result);
+      }
+    });
+  }
 
   openAddNoteDialog(): void {
     const dialogRef = this.dialog.open(AddNoteDialogComponent, {
@@ -30,6 +44,12 @@ export class EditTestComponent implements OnInit {
 
   addNote(note: NoteModel): void {
     this.notes.push(note);
+  }
+
+  editNote(note: NoteModel): void {
+    // var foundIndex = items.findIndex(x => x.id == item.id);
+    const i = this.notes.indexOf(note);
+    this.notes[i] = note;
   }
 
   removeNote(note: NoteModel): void {
