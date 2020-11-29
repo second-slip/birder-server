@@ -25,18 +25,6 @@ export class AddNotesComponent {
 
 
   onSubmit() { 
-    // this.submitted = true; 
-    // console.log(this.model);
-
-    // const note = <ObservationNote> {
-    //   id: 0,
-    //   noteType: ObservationNoteType[this.model.noteType],
-    //   note: this.model.note,
-    //   obervationId: 0
-    // }
-
-    // console.log(note);
-
     this.addNote(this.model);
 
     this.model = new NoteModel('General', '');
