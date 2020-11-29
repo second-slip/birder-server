@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { NoteModel } from '@app/_models/NoteModel';
-import { ObservationNoteType } from '@app/_models/ObservationNote';
+import { AddNoteDialogComponent } from '../add-note-dialog/add-note-dialog.component';
 
 @Component({
   selector: 'app-add-notes',
@@ -9,11 +10,23 @@ import { ObservationNoteType } from '@app/_models/ObservationNote';
 })
 export class AddNotesComponent {
   notes: NoteModel[] = [];
-  // keys = Object.keys;
-  keys1(): Array<string> { var keys = Object.keys(this.powers); return keys.slice(keys.length / 2); }
-  powers = ObservationNoteType;
 
-  model: NoteModel = new NoteModel(0, 'General', '');
+  constructor(public dialog: MatDialog) { }
+
+  ngOnInit(): void { }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(AddNoteDialogComponent, {
+      width: '325px',
+      data: new NoteModel(0, 'General', '')
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addNote(result);
+      }
+    });
+  }
 
   addNote(note: NoteModel): void {
     this.notes.push(note);
@@ -25,9 +38,26 @@ export class AddNotesComponent {
   }
 
 
-  onSubmit() {
-    this.addNote(this.model);
 
-    this.model = new NoteModel(0, 'General', '');
-  }
+  // keys = Object.keys;
+  // keys1(): Array<string> { var keys = Object.keys(this.powers); return keys.slice(keys.length / 2); }
+  // powers = ObservationNoteType;
+
+  // model: NoteModel = new NoteModel(0, 'General', '');
+
+  // addNote(note: NoteModel): void {
+  //   this.notes.push(note);
+  // }
+
+  // removeNote(note: NoteModel): void {
+  //   const i = this.notes.indexOf(note);
+  //   this.notes.splice(i, 1);
+  // }
+
+
+  // onSubmit() {
+  //   this.addNote(this.model);
+
+  //   this.model = new NoteModel(0, 'General', '');
+  // }
 }

@@ -15,7 +15,7 @@ export class AddNoteDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<EditTestComponent>,
-    @Inject(MAT_DIALOG_DATA) public model: NoteModel) { } //data
+    @Inject(MAT_DIALOG_DATA) public model: NoteModel) { }
 
   ngOnInit(): void {
   }
@@ -23,5 +23,4 @@ export class AddNoteDialogComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
 }

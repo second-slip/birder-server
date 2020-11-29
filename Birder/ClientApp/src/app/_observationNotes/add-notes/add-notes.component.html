@@ -1,66 +1,47 @@
-<div class="container">
-    <div>
-        <p>....Add notes....</p>
-        <form (ngSubmit)="onSubmit(); heroForm.reset({ noteType: 'General' })" #heroForm="ngForm">
 
-            <div class="form-group">
-                <label for="noteType">Type</label>
-                <select class="form-control" id="noteType" required [(ngModel)]="model.noteType" name="noteType"
-                    #noteType="ngModel">
-                    <option *ngFor="let pow of keys1()" [value]="pow">{{pow}}</option>
-                </select>
-                <div [hidden]="noteType.valid || noteType.pristine" class="alert alert-danger">
-                    Power is required
-                </div>
-            </div>
+<button mat-raised-button color="basic" (click)="openDialog()" matTooltip="Add new note">
+    <mat-icon>note_add</mat-icon>
+    Add note
+</button>
 
-            <div class="form-group">
-                <label for="note">Note {{ model.note ? model.note.length: '0' }}</label>
-                <textarea placeholder="Type your note here... " type="text" class="form-control" id="note" required
-                    [(ngModel)]="model.note" name="note" #note="ngModel"></textarea>
-                <div [hidden]="note.valid || note.pristine || note.untouched" class="alert alert-danger">
-                    Note is required
-                </div>
-            </div>
+<hr>
+<!-- just want some space here -->
 
-            <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
-        </form>
-    </div>
+<div *ngIf="notes">
+    <ng-container *ngIf="notes.length; else noItems">
+        <p>Table...</p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Note</th>
+                    <th></th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let note of notes; index as i">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ note.noteType }}</td>
+                    <td>{{ note.note }}</td>
+                    <td style="float:right;"><button mat-icon-button color="primary" (click)="removeNote(note)" matTooltip="Edit this note">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" (click)="removeNote(note)" matTooltip="Delete this note">
+                            <mat-icon>delete</mat-icon>
+                        </button></td>
+                </tr>
+            </tbody>
+        </table>
 
-    <hr>
+        <hr>
 
-    <div *ngIf="notes">
-        <ng-container *ngIf="notes.length; else noItems">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Note</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let note of notes; index as i">
-                        <th scope="row">{{ i + 1 }}</th>
-                        <td>{{ note.noteType }}</td>
-                        <td>{{ note.note }}</td>
-                        <td style="float:right;"><button mat-icon-button color="primary" (click)="removeNote(note)">
-                                <mat-icon>delete_forever</mat-icon>
-                            </button></td>
-                    </tr>
-                </tbody>
-            </table>
+    </ng-container>
 
-            <hr>
-
-        </ng-container>
-
-        <ng-template #noItems>
-            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-                No Notes.
-            </ngb-alert>
-        </ng-template>
-    </div>
-
+    <ng-template #noItems>
+        <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+            No Notes.
+        </ngb-alert>
+    </ng-template>
 </div>

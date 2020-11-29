@@ -1,5 +1,3 @@
-import { ObservationViewModel } from './ObservationViewModel';
-
 export enum ObservationNoteType {
     General = 0,
     Habitat = 1,
@@ -11,8 +9,6 @@ export enum ObservationNoteType {
 
 export interface ObservationNote {
     id: number;
-    noteType: ObservationNoteType; ///????
+    noteType: ObservationNoteType;
     note: string;
-    obervationId: number;
-    // observation: ObservationViewModel; ????
 }

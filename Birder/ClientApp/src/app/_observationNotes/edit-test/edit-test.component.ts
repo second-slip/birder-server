@@ -17,12 +17,11 @@ export class EditTestComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AddNoteDialogComponent, {
-      width: '300px',
+      width: '325px',
       data: new NoteModel(0, 'General', '')
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // console.log('The dialog was closed');
       if (result) {
         this.addNote(result);
       }

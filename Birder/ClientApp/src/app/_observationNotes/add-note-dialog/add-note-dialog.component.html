@@ -1,8 +1,6 @@
-<p>add-note-dialog works!</p>
-
 <div class="container">
+    <h1 mat-dialog-title>Add a note</h1>
     <div>
-        <!-- (ngSubmit)="onSubmit(); heroForm.reset({ noteType: 'General' })" -->
         <form #addNoteForm="ngForm">
 
             <div class="form-group">
@@ -25,7 +23,6 @@
                 </div>
             </div>
 
-            <!-- <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button> -->
         </form>
     </div>
 
@@ -33,7 +30,6 @@
         <button mat-button (click)="onNoClick()">Exit</button>
         <button mat-button [disabled]="!addNoteForm.form.valid" [mat-dialog-close]="model" cdkFocusInitial>Add
             note</button>
-        <!-- [mat-dialog-close]="data.animal" -->
     </div>
 
 </div>
