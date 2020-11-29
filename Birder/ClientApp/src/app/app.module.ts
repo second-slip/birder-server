@@ -95,6 +95,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { EditTestComponent } from './_observationNotes/edit-test/edit-test.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddNoteDialogComponent } from './_observationNotes/add-note-dialog/add-note-dialog.component';
+import { EditNoteDialogComponent } from './_observationNotes/edit-note-dialog/edit-note-dialog.component';
 
 
 // import { UsernameValidator } from 'validators';
@@ -199,6 +200,7 @@ export function tokenGetter() {
     ViewAddEditNotesComponent,
     EditTestComponent,
     AddNoteDialogComponent,
+    EditNoteDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
