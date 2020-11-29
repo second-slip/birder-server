@@ -15,7 +15,7 @@ export class EditTestComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  openDialog(): void {
+  openAddNoteDialog(): void {
     const dialogRef = this.dialog.open(AddNoteDialogComponent, {
       width: '325px',
       data: new NoteModel(0, 'General', '')
