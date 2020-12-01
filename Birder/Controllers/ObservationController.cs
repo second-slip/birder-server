@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Birder.Controllers
 {
@@ -205,7 +207,7 @@ namespace Birder.Controllers
                     return BadRequest("An error occurred (id)");
                 }
 
-                var observation = await _observationRepository.GetObservationAsync(id, true);
+                var observation = await _observationRepository.GetObservationAsync(id, false);
                 if (observation == null)
                 {
                     string message = $"Observation with id '{model.ObservationId}' was not found.";
@@ -225,13 +227,66 @@ namespace Birder.Controllers
                 var bird = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
                 observation.Bird = bird;
 
-                var position = await _observationPositionRepository.GetAsync(observation.Position.ObservationPositionId);
+                var position = await _observationPositionRepository.GetAsync(id);
                 position.Latitude = model.Position.Latitude;
                 position.Longitude = model.Position.Longitude;
                 position.FormattedAddress = model.Position.FormattedAddress;
 
+                //
+                var notes = await _observationNoteRepository.FindAsync(x => x.Observation.ObservationId == id);
+
+                foreach (var item in notes)
+                {
+                   item.Note = model.Notes.First().Note;
+                   item.NoteType = ObservationNoteType.Appearance;
+                }
+
+                foreach (var item in model.Notes)
+                {
+                    if(item.Id == 0)
+                    {
+                        _observationNoteRepository.Add(new ObservationNote()
+                        {
+                            Id = 0,
+                            NoteType = ObservationNoteType.Appearance,
+                            Note = item.Note,
+                            Observation = observation
+                        });
+                    }
+                }
+
+                // var deleted = from c in notes
+                //             where !(from o in observation.Notes
+                //                     select o.Id)
+                //                    .Contains(c.Id)
+                //             select c;
+
+
+                // notes = _mapper.Map<List<ObservationNoteDto>, ICollection<ObservationNote>>(model.Notes);
+
+                // _observationNoteRepository.AddRange(notes);
+                // observation.Notes = t;
+                // var added = observation.Notes.Where(x => x.Id == 0);
+                // if(added.Count() > 0)
+                // {
+                //     _observationNoteRepository.AddRange(added);
+                // }
+
+                // var exIds = (from n in notes
+                //                     select n.Id).ToList();
+
+
+
+                // if (deleted.Count() > 0)
+                // {
+                //     _observationNoteRepository.RemoveRange(deleted);
+                // }
+
+
+
                 observation.LastUpdateDate = _systemClock.GetNow;
 
+                //
                 TryValidateModel(observation);
                 if (!ModelState.IsValid)
                 {

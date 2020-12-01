@@ -25,7 +25,7 @@ namespace Birder.ViewModels
         public int ObservationPositionId { get; set; } // check if this needed
         public ObservationPositionDto Position { get; set; }
         public UserViewModel User { get; set; }
-        public ICollection<ObservationNoteDto> Notes { get; set; }
+        public List<ObservationNoteDto> Notes { get; set; }
     }
 
     public class ObservationDto : ObservationDtoBase { }

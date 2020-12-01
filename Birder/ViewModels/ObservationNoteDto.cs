@@ -1,9 +1,12 @@
-﻿namespace Birder.ViewModels
+﻿using Birder.Data.Model;
+
+namespace Birder.ViewModels
 {
     public class ObservationNoteDto
     {
         public int Id { get; set; }
         public string NoteType { get; set; }
+
         public string Note { get; set; }
     }
 }
