@@ -43,37 +43,31 @@ namespace Birder.Data.Repository
 
         public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            //return Context.Set<TEntity>().Where(predicate);
             return await _dbContext.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
         public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            //return Context.Set<TEntity>().SingleOrDefault(predicate);
             return await _dbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
 
         public void Add(TEntity entity)
         {
-            //Context.Set<TEntity>().Add(entity);
             _dbContext.Set<TEntity>().Add(entity);
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
-            //Context.Set<TEntity>().AddRange(entities);
             _dbContext.Set<TEntity>().AddRange(entities);
         }
 
         public void Remove(TEntity entity)
         {
-            //Context.Set<TEntity>().Remove(entity);
             _dbContext.Set<TEntity>().Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
-            //Context.Set<TEntity>().RemoveRange(entities);
             _dbContext.Set<TEntity>().RemoveRange(entities);
         }
     }

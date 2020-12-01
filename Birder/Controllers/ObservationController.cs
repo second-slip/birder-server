@@ -237,6 +237,20 @@ namespace Birder.Controllers
 
                 foreach (var item in notes)
                 {
+                    item.Note = model.Notes.First().Note;
+                    item.NoteType = ObservationNoteType.Appearance;
+                }
+
+                var deleted = from c in notes
+                              where (from o in model.Notes
+                                      select o.Id)
+                              .Contains(c.Id)
+                              select c;
+
+                _observationNoteRepository.RemoveRange(deleted);
+
+                foreach (var item in notes)
+                {
                    item.Note = model.Notes.First().Note;
                    item.NoteType = ObservationNoteType.Appearance;
                 }
