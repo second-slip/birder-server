@@ -21,6 +21,6 @@ namespace Birder.Tests.HelpersTests
 
             // Assert
             Assert.True(true);
-        }
+         }
     }
 }
