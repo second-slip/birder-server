@@ -96,16 +96,14 @@
                     Edit location
                   </mat-panel-title>
                   <mat-panel-description class="mat-panel-description-text">
-                    You can change the oberserved position here
+                    Edit Location
                     <mat-icon>add_location</mat-icon>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <!-- Google map control -->
-
                 <app-view-edit-single-marker-map #map [latitude]="observation?.position?.latitude"
                   [longitude]="observation?.position?.longitude">
                 </app-view-edit-single-marker-map>
-
                 <!-- Google map control end -->
               </mat-expansion-panel>
               <!--  -->
