@@ -14,7 +14,7 @@ namespace Birder.Tests.HelpersTests
     // (1) null reference
     // (2) empty collections -- no this is part of (3)
     // (3) different scenarios
-    public class Notes
+    public class ObservationNotesHelperTests
     {
         [Theory, MemberData(nameof(NullArgumentTestData))]
         public void GetDeletedNotes_ReturnsNullReferenceException_WhenEitherOrBothArgumentaAreNull(List<ObservationNote> originalNotes, List<ObservationNoteDto> editedNotes)
@@ -49,7 +49,8 @@ namespace Birder.Tests.HelpersTests
 
 
 
-        // test scenarios which should correctly empty collection
+        // test scenarios which should return an empty collection
+        //This is unreadable; maybe change to three [Fact] unit tests
         public static IEnumerable<object[]> ZeroResultTestData
         {
             get
@@ -61,50 +62,45 @@ namespace Birder.Tests.HelpersTests
                         new List<ObservationNote>(),
                         new List<ObservationNoteDto>()
                     },
-
-                        // no old notes but news ones added == 0
-                        new object[] {
-                            new List<ObservationNote>(),
-                            new List<ObservationNoteDto>()
+                    // no old notes but news ones added == 0
+                    new object[] {
+                        new List<ObservationNote>(),
+                        new List<ObservationNoteDto>()
+                        {
+                            new ObservationNoteDto()
                             {
-                                new ObservationNoteDto()
-                                {
-                                    Id = 1,
-                                    Note = "Test",
-                                    NoteType = "General"
-                                }
+                                Id = 1,
+                                Note = "Test",
+                                NoteType = "General"
                             }
-                        },
-                            // old AND new but none deleted == 0
-                            new object[] {
-                                new List<ObservationNote>()
-                                {
-                                    new ObservationNote()
-                                    {
-                                        Id = 1,
-                                        Note = "Test",
-                                        NoteType = ObservationNoteType.General
-                                    }
+                        }
+                    },
+                    // old AND new but none deleted == 0
+                    new object[] {
+                        new List<ObservationNote>()
+                        {
+                            new ObservationNote()
+                            {
+                                Id = 1,
+                                Note = "Test",
+                                NoteType = ObservationNoteType.General
+                            }
 
-                                },
-                                new List<ObservationNoteDto>()
-                                {
-                                    new ObservationNoteDto()
-                                    {
-                                        Id = 1,
-                                        Note = "Test",
-                                        NoteType = "General"
-                                    }
-                                }
+                        },
+                        new List<ObservationNoteDto>()
+                        {
+                            new ObservationNoteDto()
+                            {
+                                Id = 1,
+                                Note = "Test",
+                                NoteType = "General"
                             }
-                    };
+                        }
+                    }
+                };
             }
         }
         
-
-
-
-
 
         // null argument test helpers...
         public static IEnumerable<object[]> NullArgumentTestData
