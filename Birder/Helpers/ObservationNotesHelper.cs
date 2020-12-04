@@ -1,4 +1,5 @@
 ﻿using Birder.Data.Model;
+using Birder.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,18 @@ namespace Birder.Helpers
 {
     public static class ObservationNotesHelper
     {
-        public static List<ObservationNote> GetDeletedNotes()
+        public static IEnumerable<ObservationNote> GetDeletedNotes(List<ObservationNote> originalNotes, List<ObservationNoteDto> editedNotes)
         {
+            if (originalNotes is null || editedNotes is null) 
+            {
+                throw new NullReferenceException("The notes collection is null");
+            }
 
-            return new List<ObservationNote>();
+            return originalNotes.Where(item => !editedNotes.Any(item2 => item2.Id == item.Id));
+
+            // An alternative approach
+            //HashSet<int> oldIds = new HashSet<int>(editedNotes.Select(s => s.Id));
+            //var results = originalNotes.Where(m => !oldIds.Contains(m.Id));
         }
-
     }
 }
