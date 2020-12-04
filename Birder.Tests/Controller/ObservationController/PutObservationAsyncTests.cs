@@ -364,6 +364,7 @@ namespace Birder.Tests.Controller
         [InlineData(1, 1)]
         [InlineData(2, 5)]
         [InlineData(45, 12)]
+        // NNED TO ADD NOTES REPO MOCK METHOD .ADD & .REMOVE....
         public async Task PutObservationAsync_ReturnsOkWithObservationViewModel_OnSuccess(int id, int birdId)
         {
             //Arrange
