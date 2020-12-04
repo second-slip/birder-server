@@ -24,19 +24,97 @@ namespace Birder.Tests.HelpersTests
             Assert.Equal("The notes collection is null", ex.Message);
         }
 
+        [Theory, MemberData(nameof(ZeroResultTestData))]
+        public void GetDeletedNotes_ReturnsZeroResult_WhenAppropriate(List<ObservationNote> originalNotes, List<ObservationNoteDto> editedNotes)
+        {
+            //Act
+            var result = ObservationNotesHelper.GetDeletedNotes(originalNotes, editedNotes);
+
+            // Assert
+            Assert.IsAssignableFrom<IEnumerable<ObservationNote>>(result);
+            Assert.Empty(result);
+        }
+
+        // use fluent approach...
+
+
+        // one [Theory]
+        // one old and it was deleted == 1
+        // multiple old And ONE was deleted == 1
+        // [Fact]
+        // multiple deleted
+        // [Fact]
+        // all deleted
 
 
 
 
-        // test helpers...
+        // test scenarios which should correctly empty collection
+        public static IEnumerable<object[]> ZeroResultTestData
+        {
+            get
+            {
+                return new[]
+                {
+                    // no old AND no new == 0
+                    new object[] {
+                        new List<ObservationNote>(),
+                        new List<ObservationNoteDto>()
+                    },
+
+                        // no old notes but news ones added == 0
+                        new object[] {
+                            new List<ObservationNote>(),
+                            new List<ObservationNoteDto>()
+                            {
+                                new ObservationNoteDto()
+                                {
+                                    Id = 1,
+                                    Note = "Test",
+                                    NoteType = "General"
+                                }
+                            }
+                        },
+                            // old AND new but none deleted == 0
+                            new object[] {
+                                new List<ObservationNote>()
+                                {
+                                    new ObservationNote()
+                                    {
+                                        Id = 1,
+                                        Note = "Test",
+                                        NoteType = ObservationNoteType.General
+                                    }
+
+                                },
+                                new List<ObservationNoteDto>()
+                                {
+                                    new ObservationNoteDto()
+                                    {
+                                        Id = 1,
+                                        Note = "Test",
+                                        NoteType = "General"
+                                    }
+                                }
+                            }
+                    };
+            }
+        }
+        
+
+
+
+
+
+        // null argument test helpers...
         public static IEnumerable<object[]> NullArgumentTestData
         {
             get
             {
                 return new[]
                 {
-                    new object[] { new List<ObservationNote>(), null },
                     new object[] { null, null },
+                    new object[] { new List<ObservationNote>(), null },
                     new object[] { null, new List<ObservationNoteDto>() }
                 };
             }
