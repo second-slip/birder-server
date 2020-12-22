@@ -112,10 +112,11 @@ namespace Birder.Data
             CreateMap<ObservationPosition, ObservationPositionDto>()
                 .ReverseMap();
 
-            CreateMap<ObservationNote, ObservationNoteDto>();
+            CreateMap<ObservationNote, ObservationNoteDto>()
+                .ReverseMap();
 
-            CreateMap<ObservationNoteDto, ObservationNote>()
-                .ForMember(a => a.Observation, b => b.Ignore());
+            //CreateMap<ObservationNoteDto, ObservationNote>()
+            //    .ForMember(a => a.Observation, b => b.Ignore());
 
 
             //CreateMap<List<ObservationNote>, List<ObservationNoteDto>>()

@@ -22,5 +22,21 @@ namespace Birder.Helpers
             //HashSet<int> oldIds = new HashSet<int>(editedNotes.Select(s => s.Id));
             //var results = originalNotes.Where(m => !oldIds.Contains(m.Id));
         }
+
+        public static IEnumerable<ObservationNoteDto> GetNewNotes(List<ObservationNoteDto> notes)
+        {
+
+
+            return notes.Where(i => i.Id == 0);
+
+
+
+
+
+
+            //CreateMap<ObservationNoteDto, ObservationNote>()
+            //    .ForMember(a => a.Observation, b => b.Ignore());
+
+        }
     }
 }

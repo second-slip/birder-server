@@ -242,39 +242,21 @@ namespace Birder.Controllers
                 //}
                
                 var deleted = ObservationNotesHelper.GetDeletedNotes(notes, model.Notes);
-                //if (deleted.Count() > 0)
-                //{
-                //    _observationNoteRepository.RemoveRange(deleted);
-                //}
-
-
-                foreach (var item in model.Notes)
+                if (deleted.Count() > 0)
                 {
-                    if(item.Id == 0)
-                    {
-                        _observationNoteRepository.Add(new ObservationNote()
-                        {
-                            Id = 0, //
-                            NoteType = ObservationNoteType.Appearance,
-                            Note = item.Note,
-                            Observation = observation
-                        });
-                    }
+                    _observationNoteRepository.RemoveRange(deleted);
                 }
 
+                var added = ObservationNotesHelper.GetNewNotes(model.Notes);
 
-                // notes = _mapper.Map<List<ObservationNoteDto>, ICollection<ObservationNote>>(model.Notes);
 
-                // _observationNoteRepository.AddRange(notes);
-                // observation.Notes = t;
-                // var added = observation.Notes.Where(x => x.Id == 0);
-                // if(added.Count() > 0)
-                // {
-                //     _observationNoteRepository.AddRange(added);
-                // }
+                if (added.Count() > 0)
+                {
+                    var x = _mapper.Map(added, new List<ObservationNote>());
+                    x.ForEach(x => x.Observation = observation);
+                    _observationNoteRepository.AddRange(x);
+                }
 
-                // var exIds = (from n in notes
-                //                     select n.Id).ToList();
 
 
 
