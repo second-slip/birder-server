@@ -235,33 +235,22 @@ namespace Birder.Controllers
                 //
                 var notes = await _observationNoteRepository.FindAsync(x => x.Observation.ObservationId == id);
 
-                //foreach (var item in notes)
-                //{
-                //    item.Note = model.Notes.First().Note;
-                //    item.NoteType = ObservationNoteType.Appearance;
-                //}
+                var y = _mapper.Map(model.Notes, notes);
                
-                var deleted = ObservationNotesHelper.GetDeletedNotes(notes, model.Notes);
-                if (deleted.Count() > 0)
+                var notesDeleted = ObservationNotesHelper.GetDeletedNotes(notes, model.Notes);
+                if (notesDeleted.Count() > 0)
                 {
-                    _observationNoteRepository.RemoveRange(deleted);
+                    _observationNoteRepository.RemoveRange(notesDeleted);
                 }
 
-                var added = ObservationNotesHelper.GetNewNotes(model.Notes);
+                var notesAdded = ObservationNotesHelper.GetNewNotes(model.Notes);
 
-
-                if (added.Count() > 0)
+                if (notesAdded.Count() > 0)
                 {
-                    var x = _mapper.Map(added, new List<ObservationNote>());
+                    var x = _mapper.Map(notesAdded, new List<ObservationNote>());
                     x.ForEach(x => x.Observation = observation);
                     _observationNoteRepository.AddRange(x);
                 }
-
-
-
-
-
-
 
 
                 observation.LastUpdateDate = _systemClock.GetNow;
