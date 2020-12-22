@@ -9,7 +9,7 @@ namespace Birder.Helpers
 {
     public static class ObservationNotesHelper
     {
-        public static IEnumerable<ObservationNote> GetDeletedNotes(List<ObservationNote> originalNotes, List<ObservationNoteDto> editedNotes)
+        public static IEnumerable<ObservationNote> GetDeletedNotes(IEnumerable<ObservationNote> originalNotes, List<ObservationNoteDto> editedNotes)
         {
             if (originalNotes is null || editedNotes is null) 
             {

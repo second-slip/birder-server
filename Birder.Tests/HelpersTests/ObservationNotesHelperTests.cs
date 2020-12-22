@@ -4,12 +4,12 @@ using Birder.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Birder.Tests.HelpersTests
 {
+
+    // use fluent approach...
 
     // (1) null reference
     // (2) empty collections -- no this is part of (3)
@@ -47,14 +47,67 @@ namespace Birder.Tests.HelpersTests
             Assert.Equal(1, result.First().Id);
         }
 
-        // use fluent approach...
-        
-        
+        [Theory, MemberData(nameof(MultipleResultsTestData))]
+        public void GetDeletedNotes_ReturnsMultipleResults_WhenAppropriate(List<ObservationNote> originalNotes, List<ObservationNoteDto> editedNotes)
+        {
+            //Act
+            var result = ObservationNotesHelper.GetDeletedNotes(originalNotes, editedNotes);
 
-        // multiple deleted 
-        // NO --> multiple deleted nut returns > 1 -- add to below test case - multiple notes which have been deleted...
-        // two in common?
-        //assert that two in common are there...
+            // Assert
+            Assert.IsAssignableFrom<IEnumerable<ObservationNote>>(result);
+            Assert.Equal(2, result.Count());
+            var deleted1 = result.Where(t => t.Id == 1).FirstOrDefault();
+            Assert.Contains(deleted1, result);
+
+            var deleted2 = result.Where(t => t.Id == 2).FirstOrDefault();
+            Assert.Contains(deleted2, result);
+        }
+
+
+        // test scenarios which should return an empty collection
+        public static IEnumerable<object[]> MultipleResultsTestData
+        {
+            get
+            {
+                return new[]
+                {
+                    // multiple old AND multiple new == 2
+                    new object[] {
+                        new List<ObservationNote>()
+                        {
+                            new ObservationNote()
+                            {
+                                Id = 1,
+                                Note = "Test",
+                                NoteType = ObservationNoteType.General
+                            },
+                            new ObservationNote()
+                            {
+                                Id = 2,
+                                Note = "Test",
+                                NoteType = ObservationNoteType.General
+                            }
+                        },
+                        new List<ObservationNoteDto>()
+                        {
+                            new ObservationNoteDto()
+                            {
+                                Id = 11,
+                                Note = "Test",
+                                NoteType = "General"
+                            },
+                            new ObservationNoteDto()
+                            {
+                                Id = 12,
+                                Note = "Test",
+                                NoteType = "General"
+                            }
+                        }
+                    }                    
+                };
+            }
+        }
+
 
 
         // test scenarios which should return an empty collection

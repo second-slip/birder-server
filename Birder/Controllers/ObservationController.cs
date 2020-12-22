@@ -240,22 +240,8 @@ namespace Birder.Controllers
                 //    item.Note = model.Notes.First().Note;
                 //    item.NoteType = ObservationNoteType.Appearance;
                 //}
-
-                //var deleted = from c in notes
-                //              where (from o in model.Notes
-                //                      select o.Id)
-                //              .Contains(c.Id)
-                //              select c;
-
-                HashSet<int> oldIds = new HashSet<int>(model.Notes.Select(s => s.Id));
-
-                var results = notes.Where(m => !oldIds.Contains(m.Id));
-
-                var c = results.Count();
-
-                var List2 = notes.Where(item => !model.Notes.Any(item2 => item2.Id == item.Id));
-
-                var c1 = List2.Count();
+               
+                var deleted = ObservationNotesHelper.GetDeletedNotes(notes, model.Notes);
                 //if (deleted.Count() > 0)
                 //{
                 //    _observationNoteRepository.RemoveRange(deleted);
