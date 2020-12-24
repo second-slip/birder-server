@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using Birder.Data.Model;
 using Birder.ViewModels;
 using System.Collections.Generic;
@@ -112,8 +113,21 @@ namespace Birder.Data
             CreateMap<ObservationPosition, ObservationPositionDto>()
                 .ReverseMap();
 
-            CreateMap<ObservationNote, ObservationNoteDto>()
-                .ReverseMap();
+            CreateMap<ObservationNoteDto, ObservationNote>()
+                .EqualityComparison((odto, o) => odto.Id == o.Id)
+                //.ForMember(n => n.Id, b => b.UseDestinationValue())
+                .ForMember(n => n.NoteType, b => b.MapFrom(i => i.NoteType))
+                .ForMember(n => n.Note, b => b.MapFrom(i => i.Note))
+                .ForMember(r => r.Observation, i => i.UseDestinationValue());
+
+            //CreateMap<List<ObservationNoteDto>, IEnumerable<ObservationNote>>()
+            //                    .ForMember(n => n.Id, b => b.UseDestinationValue())
+            //    .ForMember(n => n.NoteType, b => b.MapFrom(i => i.NoteType))
+            //    .ForMember(n => n.Note, b => b.MapFrom(i => i.Note))
+            //    .ForMember(r => r.Observation, i => i.UseDestinationValue());
+
+
+            CreateMap<ObservationNote, ObservationNoteDto>();
 
             //CreateMap<ObservationNoteDto, ObservationNote>()
             //    .ForMember(a => a.Observation, b => b.Ignore());

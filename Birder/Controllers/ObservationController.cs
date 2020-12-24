@@ -235,7 +235,18 @@ namespace Birder.Controllers
                 //
                 var notes = await _observationNoteRepository.FindAsync(x => x.Observation.ObservationId == id);
 
-                var y = _mapper.Map(model.Notes, notes);
+                if (notes.Count() > 0)
+                {
+                    _mapper.Map<List<ObservationNoteDto>, IEnumerable<ObservationNote>>(model.Notes, notes);
+                    //_mapper.Map(model.Notes, notes);
+                    //notes.ToList().ForEach(o => o.Observation = observation);
+                    //foreach (var item in notes)
+                    //{
+                    //    item.Note = "programmatically changed";
+                    //}
+
+                }
+
                
                 var notesDeleted = ObservationNotesHelper.GetDeletedNotes(notes, model.Notes);
                 if (notesDeleted.Count() > 0)

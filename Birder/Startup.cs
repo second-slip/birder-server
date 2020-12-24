@@ -71,7 +71,9 @@ namespace Birder
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
+               
                 mc.AddProfile(new BirderMappingProfile());
+                
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
