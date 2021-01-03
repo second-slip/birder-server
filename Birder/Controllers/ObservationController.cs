@@ -237,7 +237,8 @@ namespace Birder.Controllers
 
                 if (notes.Count() > 0)
                 {
-                    _mapper.Map<List<ObservationNoteDto>, IEnumerable<ObservationNote>>(model.Notes, notes);
+                    //_mapper.Map<List<ObservationNoteDto>, IEnumerable<ObservationNote>>(model.Notes, notes);
+                    notes = _mapper.Map<List<ObservationNoteDto>, IEnumerable<ObservationNote>>(model.Notes, notes);
                     //_mapper.Map(model.Notes, notes);
                     //notes.ToList().ForEach(o => o.Observation = observation);
                     //foreach (var item in notes)

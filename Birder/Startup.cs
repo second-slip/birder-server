@@ -1,4 +1,5 @@
 using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
@@ -69,15 +70,25 @@ namespace Birder
             .AddDefaultTokenProviders()
             .AddSignInManager<SignInManager<ApplicationUser>>();
 
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-               
-                mc.AddProfile(new BirderMappingProfile());
-                
-            });
+            //var mappingConfig = new MapperConfiguration(mc =>
+            //{
 
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
+            //    mc.AddProfile(new BirderMappingProfile());
+
+            //});
+
+            //IMapper mapper = mappingConfig.CreateMapper();
+
+            //services.AddAutoMapper(typeof(BirderMappingProfile));
+
+            services.AddAutoMapper((serviceProvider, automapper) =>
+            {
+                automapper.AddCollectionMappers();
+                automapper.UseEntityFrameworkCoreModel<ApplicationDbContext>(serviceProvider);
+            }, typeof(ApplicationDbContext).Assembly);
+
+
+            //services.AddSingleton(mapper);
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
