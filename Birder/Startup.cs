@@ -84,7 +84,7 @@ namespace Birder
             services.AddAutoMapper((serviceProvider, automapper) =>
             {
                 automapper.AddCollectionMappers();
-                automapper.UseEntityFrameworkCoreModel<ApplicationDbContext>(serviceProvider);
+                //automapper.UseEntityFrameworkCoreModel<ApplicationDbContext>(serviceProvider);
             }, typeof(ApplicationDbContext).Assembly);
 
 
