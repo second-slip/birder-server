@@ -70,28 +70,13 @@ namespace Birder
             .AddDefaultTokenProviders()
             .AddSignInManager<SignInManager<ApplicationUser>>();
 
-            //var mappingConfig = new MapperConfiguration(mc =>
-            //{
-
-            //    mc.AddProfile(new BirderMappingProfile());
-
-            //});
-
-            //IMapper mapper = mappingConfig.CreateMapper();
-
-            //services.AddAutoMapper(typeof(BirderMappingProfile));
-
             services.AddAutoMapper((serviceProvider, automapper) =>
             {
                 automapper.AddCollectionMappers();
                 //automapper.UseEntityFrameworkCoreModel<ApplicationDbContext>(serviceProvider);
             }, typeof(ApplicationDbContext).Assembly);
 
-
-            //services.AddSingleton(mapper);
-
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             services.AddScoped<IBirdRepository, BirdRepository>();
             services.AddScoped<IObservationRepository, ObservationRepository>();
             services.AddScoped<IObservationPositionRepository, ObservationPositionRepository>();
@@ -150,7 +135,8 @@ namespace Birder
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. 
+        // Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
