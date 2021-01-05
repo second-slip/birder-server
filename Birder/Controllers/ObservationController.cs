@@ -244,11 +244,10 @@ namespace Birder.Controllers
                 if (notesAdded.Any())
                 {
                     // ToDo: rename 'x' implicit typed variable...
-                    var x = _mapper.Map(notesAdded, new List<ObservationNote>());
-                    x.ForEach(x => x.Observation = observation);
-                    _observationNoteRepository.AddRange(x);
+                    var added = _mapper.Map(notesAdded, new List<ObservationNote>());
+                    added.ForEach(a => a.Observation = observation);
+                    _observationNoteRepository.AddRange(added);
                 }
-
 
                 // ToDo: is the condition necessary here?
                 if (notes.Any())

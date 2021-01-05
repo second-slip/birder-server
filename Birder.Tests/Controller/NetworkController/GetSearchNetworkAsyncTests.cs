@@ -237,14 +237,5 @@ namespace Birder.Tests.Controller
                 Assert.Equal("Requesting user not found", objectResult.Value);
             }
         }
-
-
-
-
-
-
-
-
-
     }
 }
