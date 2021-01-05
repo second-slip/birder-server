@@ -13,6 +13,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -392,6 +393,13 @@ namespace Birder.Tests.Controller
             mockObsPositionRepo.Setup(p => p.GetAsync(It.IsAny<int>()))
                 .ReturnsAsync(SharedFunctions.GetObservationPosition());
             var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
+            mockObsNotesRepo.Setup(on => on.FindAsync(It.IsAny<Expression<Func<ObservationNote, bool>>>()))
+                .ReturnsAsync(GetTestObservationNotes(5));
+
+            mockObsNotesRepo.Setup(n => n.RemoveRange(It.IsAny<IEnumerable<ObservationNote>>()))
+                .Verifiable();
+            mockObsNotesRepo.Setup(n => n.AddRange(It.IsAny<IEnumerable<ObservationNote>>()))
+                .Verifiable();
 
             var controller = new ObservationController(
                 _mapper
@@ -426,6 +434,22 @@ namespace Birder.Tests.Controller
 
         #endregion
 
+        private IEnumerable<ObservationNote> GetTestObservationNotes(int qty)
+        {
+            var notes = new List<ObservationNote>();
+            for (int i = 0; i < qty; i++)
+            {
+                notes.Add(
+                new ObservationNote()
+                {
+                    Id = i + 1,
+                    NoteType = ObservationNoteType.General,
+                    Note = "Test note " + i + 1,
+                });
+            }
+            return notes;
+        }
+
 
         private ObservationEditDto GetTestObservationEditViewModel(int id, int birdId)
         {
@@ -434,6 +458,7 @@ namespace Birder.Tests.Controller
                 ObservationId = id,
                 Bird = new BirdSummaryViewModel() { BirdId = birdId },
                 BirdId = birdId,
+                Notes = new List<ObservationNoteDto>(),
                 Position = new ObservationPositionDto() { }
             };
         }

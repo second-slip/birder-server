@@ -231,7 +231,8 @@ namespace Birder.Controllers
                 position.Longitude = model.Position.Longitude;
                 position.FormattedAddress = model.Position.FormattedAddress;
 
-                //
+                // ToDo: separate ObsNotesController to handle this stuff.  
+                // ...need to redesign UI first
                 var notes = await _observationNoteRepository.FindAsync(x => x.Observation.ObservationId == id);
               
                 var notesDeleted = ObservationNotesHelper.GetDeletedNotes(notes, model.Notes);
@@ -243,7 +244,6 @@ namespace Birder.Controllers
                 var notesAdded = ObservationNotesHelper.GetNewNotes(model.Notes);
                 if (notesAdded.Any())
                 {
-                    // ToDo: rename 'x' implicit typed variable...
                     var added = _mapper.Map(notesAdded, new List<ObservationNote>());
                     added.ForEach(a => a.Observation = observation);
                     _observationNoteRepository.AddRange(added);
