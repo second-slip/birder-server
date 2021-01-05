@@ -45,7 +45,7 @@ namespace Birder.Tests.Controller
             using (var context = new ApplicationDbContext(options))
             {
                 //You have to create the database
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();
 
@@ -95,7 +95,7 @@ namespace Birder.Tests.Controller
             using (var context = new ApplicationDbContext(options))
             {
                 //You have to create the database
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();
 
@@ -153,7 +153,7 @@ namespace Birder.Tests.Controller
             using (var context = new ApplicationDbContext(options))
             {
                 //You have to create the database
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();
 

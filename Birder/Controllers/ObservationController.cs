@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Birder.Controllers
@@ -234,31 +233,17 @@ namespace Birder.Controllers
 
                 //
                 var notes = await _observationNoteRepository.FindAsync(x => x.Observation.ObservationId == id);
-
-                //if (notes.Count() > 0)
-                //{
-                //    //_mapper.Map<List<ObservationNoteDto>, IEnumerable<ObservationNote>>(model.Notes, notes);
-                //    _mapper.Map<List<ObservationNoteDto>, IEnumerable<ObservationNote>>(model.Notes, notes);
-                //    //_mapper.Map(model.Notes, notes);
-                //    //notes.ToList().ForEach(o => o.Observation = observation);
-                //    //foreach (var item in notes)
-                //    //{
-                //    //    item.Note = "programmatically changed";
-                //    //}
-
-                //}
-
-               
+              
                 var notesDeleted = ObservationNotesHelper.GetDeletedNotes(notes, model.Notes);
-                if (notesDeleted.Count() > 0)
+                if (notesDeleted.Any())
                 {
                     _observationNoteRepository.RemoveRange(notesDeleted);
                 }
 
                 var notesAdded = ObservationNotesHelper.GetNewNotes(model.Notes);
-
-                if (notesAdded.Count() > 0)
+                if (notesAdded.Any())
                 {
+                    // ToDo: rename 'x' implicit typed variable...
                     var x = _mapper.Map(notesAdded, new List<ObservationNote>());
                     x.ForEach(x => x.Observation = observation);
                     _observationNoteRepository.AddRange(x);
@@ -266,7 +251,7 @@ namespace Birder.Controllers
 
 
                 // ToDo: is the condition necessary here?
-                if (notes.Count() > 0)
+                if (notes.Any())
                 {
                     _mapper.Map<List<ObservationNoteDto>, IEnumerable<ObservationNote>>(model.Notes, notes);
                 }

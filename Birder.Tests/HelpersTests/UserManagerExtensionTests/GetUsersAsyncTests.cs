@@ -32,7 +32,7 @@ namespace Birder.Tests.HelpersTests
                 string requestingUsername = "TestUser1";
                 string usernameToFollow = "TestUser2";
 
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
@@ -64,7 +64,7 @@ namespace Birder.Tests.HelpersTests
                 string requestingUsername = "TestUser1";
                 string followerUsername = "TestUser2";
 
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
@@ -119,7 +119,7 @@ namespace Birder.Tests.HelpersTests
                 string requestingUsername = "TestUser1";
                 string usernameToFollow = "TestUser2";
 
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
@@ -151,7 +151,7 @@ namespace Birder.Tests.HelpersTests
                 string requestingUsername = "TestUser1";
                 string usernameToFollow = "TestUser2";
 
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
@@ -196,7 +196,7 @@ namespace Birder.Tests.HelpersTests
                 string requestingUsername = "TestUser1";
                 string usernameToFollow = "TestUser2";
 
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
@@ -231,7 +231,7 @@ namespace Birder.Tests.HelpersTests
                 string requestingUsername = "TestUser1";
                 string usernameToFollow = "TestUser2";
 
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
@@ -263,7 +263,7 @@ namespace Birder.Tests.HelpersTests
             using (var context = new ApplicationDbContext(options))
             {
                 // Arrange
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
                 //IEnumerable<string> followersNotBeingFollowed;
 

@@ -173,7 +173,7 @@ namespace Birder.Tests.Controller
             using (var context = new ApplicationDbContext(options))
             {
                 //You have to create the database
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
 
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
@@ -228,7 +228,7 @@ namespace Birder.Tests.Controller
             using (var context = new ApplicationDbContext(options))
             {
                 //You have to create the database
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
 
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
@@ -287,7 +287,7 @@ namespace Birder.Tests.Controller
             using (var context = new ApplicationDbContext(options))
             {
                 //You have to create the database
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
 
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
@@ -337,7 +337,7 @@ namespace Birder.Tests.Controller
             using (var context = new ApplicationDbContext(options))
             {
                 //You have to create the database
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
 
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
@@ -389,7 +389,7 @@ namespace Birder.Tests.Controller
             using (var context = new ApplicationDbContext(options))
             {
                 //You have to create the database
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
 
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
@@ -444,7 +444,7 @@ namespace Birder.Tests.Controller
             using (var context = new ApplicationDbContext(options))
             {
                 //You have to create the database
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
 
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));

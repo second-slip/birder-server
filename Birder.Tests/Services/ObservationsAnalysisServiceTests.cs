@@ -157,7 +157,7 @@ namespace Birder.Tests.Services
             using (var context = new ApplicationDbContext(options))
             {
                 // Arrange
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
 
                 var service = new ObservationsAnalysisService(context);

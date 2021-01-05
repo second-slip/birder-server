@@ -26,7 +26,7 @@ namespace Birder.Tests.HelpersTests
             using (var context = new ApplicationDbContext(options))
             {
                 // Arrange
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
 
                 var userManager = SharedFunctions.InitialiseUserManager(context);
@@ -48,7 +48,7 @@ namespace Birder.Tests.HelpersTests
                 string usernameToAct = "User1";
                 string usernameToFollow = "User2";
 
-                context.CreateEmptyViaWipe();
+                context.Database.EnsureClean();
                 context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();
 
@@ -85,9 +85,9 @@ namespace Birder.Tests.HelpersTests
 
                 // Assert
                 actual.ShouldBeType<ApplicationUser>();
-                actual.Following.Count().ShouldEqual(1);
+                actual.Following.Count.ShouldEqual(1);
                 actual.Following.FirstOrDefault().ApplicationUser.UserName.ShouldEqual(usernameToFollow);
-                actual.Followers.Count().ShouldEqual(1);
+                actual.Followers.Count.ShouldEqual(1);
                 actual.Followers.FirstOrDefault().Follower.UserName.ShouldEqual(usernameToFollow);
             }
         }

@@ -30,7 +30,7 @@ namespace Birder.Data
               .ReverseMap();
 
             CreateMap<List<Observation>, ObservationAnalysisViewModel>()
-              .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count()))
+              .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count))
               .ForMember(a => a.UniqueSpeciesCount, b => b.MapFrom(a => a.Select(i => i.BirdId).Distinct().Count()));
 
             CreateMap<QueryResult<Observation>, ObservationFeedDto>()
