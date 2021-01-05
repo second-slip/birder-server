@@ -168,8 +168,8 @@ export class ObservationAddComponent implements OnInit {
         });
   }
 
-  dismissAlert(): void {
-    alert(this.hideAlert);
-    this.hideAlert = true;
-  }
+  // dismissAlert(): void {
+  //   alert(this.hideAlert);
+  //   this.hideAlert = true;
+  // }
 }

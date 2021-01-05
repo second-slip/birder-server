@@ -4,7 +4,7 @@
     </div>
     <div class="col-sm-10">
       <div class="observation-add-container" *ngIf="addObservationForm">
-        <h2 class="section-title">Add an observation</h2>
+        <h2 class="section-title">Add observation</h2>
         <div *ngIf="invalidAddObservation" class="alert alert-danger">
           <p>There is an error in your observation</p>
           <ul>
@@ -23,7 +23,7 @@
                   Details
                 </mat-panel-title>
                 <mat-panel-description class="mat-panel-description-text">
-                  What species, how many individuals, and when?
+                  Observation details
                   <mat-icon>nature_people</mat-icon>
                 </mat-panel-description>
               </mat-expansion-panel-header>
@@ -71,7 +71,7 @@
                   Location
                 </mat-panel-title>
                 <mat-panel-description class="mat-panel-description-text">
-                  Where did you observe it?
+                  Observation location
                   <mat-icon>add_location</mat-icon>
                 </mat-panel-description>
               </mat-expansion-panel-header>
@@ -91,11 +91,12 @@
                   Notes
                 </mat-panel-title>
                 <mat-panel-description class="mat-panel-description-text">
-                  Add general/specific notes on the observation
+                  Add notes
                   <mat-icon>create</mat-icon>
                 </mat-panel-description>
               </mat-expansion-panel-header>
 
+              <!-- separate component -->
               <app-add-notes></app-add-notes>
 
             </mat-expansion-panel>
@@ -105,10 +106,9 @@
 
           <div class="info-message" *ngIf="hideAlert==false">
             <p>
-              <ngb-alert [dismissible]="true" [type]="'info'" (close)="dismissAlert()">
+              <ngb-alert [dismissible]="false" [type]="'info'">
                 <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon">
-                  <em>&nbsp;&nbsp; You can upload photographs and add tags in the next page, after you have added the
-                    observation.</em></span>
+                  <em>&nbsp;&nbsp; You can upload photographs and add tags in the next page...</em></span>
               </ngb-alert>
             </p>
           </div>
