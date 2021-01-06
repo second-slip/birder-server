@@ -3,15 +3,11 @@
 
 <div class="main" *ngIf="observation">
     <article>
-        <div class="row">
-            <h4 class="title-row">
-                {{observation.bird.englishName}}
-                <span class="scientific-name">{{observation.bird.species}}</span>
-            </h4>
-        </div>
-    </article>
+        <h4 class="title">
+            {{ observation.quantity + ' ' + observation.bird.englishName}}
+            <span class="scientific-name">{{observation.bird.species}}</span>
+        </h4>
 
-    <article>
         <div class="row">
             <div class="column">
                 <div class="column-one">
@@ -34,7 +30,7 @@
                     <div class="species">
                         <mat-icon>date_range</mat-icon><span class="aligned-with-icon">
                             {{observation.observationDateTime |
-                            date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}} </span>
+                            date: 'EEEE, d MMMM yyyy\';\' h:mm'}} </span>
                         <!-- <a routerLink="/birds-detail/{{observation.bird.birdId}}">
                           {{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}
                         </a> -->
@@ -71,28 +67,11 @@
                 </div>
             </div>
         </div>
-        <!-- </div> -->
+
+        <!-- <div>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+        </div> -->
+        <hr>
     </article>
 </div>
-
-
-
-<!-- <mat-card class="example-card">
-    <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-    <mat-card-content>
-        <p>
-            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-            A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-            bred for hunting.
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-    </mat-card-actions>
-</mat-card> -->
