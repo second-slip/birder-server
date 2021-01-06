@@ -1,7 +1,82 @@
 <p>test component</p>
 
+<div class="wrapper" *ngIf="observation">
+    <article>
 
-<div class="main" *ngIf="observation">
+        <div class="title">
+            <h4>
+                {{observation.quantity + ' ' + observation.bird.englishName}}
+                <span class="scientific-name">{{observation.bird.species}}</span>
+            </h4>
+        </div>
+
+        <!--  -->
+        <div class="flex-container">
+            <div class="avatar" style="flex-grow: 1">
+                <img src="https://farm66.staticflickr.com/65535/50541491477_70e0e383ab_q.jpg"
+                    alt="{{ observation.bird.species }}" placement="bottom" ngbTooltip="{{ observation.bird.species }}">
+            </div>
+            <!--  -->
+            <div class="information" style="flex-grow: 10">
+                <p class="user">
+                    <mat-icon>person</mat-icon><span class="aligned-with-icon">
+                        <a routerLink="/user-profile/{{observation.user.userName}}">
+                            {{observation.user.userName === 'andrew' ? 'You' : observation.user.userName}}
+                        </a>
+                    </span>
+                </p>
+                <p class="species">
+                    <mat-icon>date_range</mat-icon><span class="aligned-with-icon">
+                        {{observation.observationDateTime |
+                        date: 'EEEE, d MMMM yyyy\';\' h:mm'}} </span>
+                    <!-- <a routerLink="/birds-detail/{{observation.bird.birdId}}">
+              {{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}
+            </a> -->
+                    <!-- {{ observation.quantity > 1 ? 'were' : 'was' }}
+            spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
+              {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
+            </a> -->
+                </p>
+                <p class="location">
+                    <mat-icon>location_on</mat-icon><span class="aligned-with-icon">
+                        {{ observation.position.formattedAddress }}
+                    </span>
+                </p>
+                <p class="lines">
+                    <a routerLink="/observation-detail/{{observation.observationId}}">
+                        View
+                    </a>
+                    <!-- <a *ngIf="observation.user.userName === user.userName"
+              routerLink="/observation-manage-photos/{{observation.observationId}}">
+              | Manage Photos
+            </a> -->
+                    <!--  -->
+                    <a *ngIf="observation.user.userName === 'andrew'"
+                        routerLink="/observation-edit/{{observation.observationId}}">
+                        | Edit
+                    </a>
+                    <a *ngIf="observation.user.userName === 'andrew'"
+                        routerLink="/observation-delete/{{observation.observationId}}">
+                        | Delete
+                    </a>
+                </p>
+            </div>
+        </div>
+    </article>
+</div>
+
+
+<!-- <div>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+        </div> -->
+
+
+
+
+
+
+<!-- <div class="main" *ngIf="observation">
     <article>
         <h4 class="title">
             {{ observation.quantity + ' ' + observation.bird.englishName}}
@@ -19,42 +94,32 @@
 
             <div class="column">
                 <div class="column-two">
-                    <div class="user">
+                    <p class="user">
                         <mat-icon>person</mat-icon><span class="aligned-with-icon">
                             <a routerLink="/user-profile/{{observation.user.userName}}">
                                 {{observation.user.userName === 'andrew' ? 'You' : observation.user.userName}}
                             </a>
                         </span>
-                    </div>
+                    </p>
 
-                    <div class="species">
+                    <p class="species">
                         <mat-icon>date_range</mat-icon><span class="aligned-with-icon">
                             {{observation.observationDateTime |
                             date: 'EEEE, d MMMM yyyy\';\' h:mm'}} </span>
-                        <!-- <a routerLink="/birds-detail/{{observation.bird.birdId}}">
-                          {{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}
-                        </a> -->
-                        <!-- {{ observation.quantity > 1 ? 'were' : 'was' }}
-                        spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
-                          {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
-                        </a> -->
-                    </div>
 
-                    <div class="location">
+                    </p>
+
+                    <p class="location">
                         <mat-icon>location_on</mat-icon><span class="aligned-with-icon">
                             {{ observation.position.formattedAddress }}
                         </span>
-                    </div>
+                    </p>
 
-                    <div class="lines">
+                    <p class="lines">
                         <a routerLink="/observation-detail/{{observation.observationId}}">
                             View
                         </a>
-                        <!-- <a *ngIf="observation.user.userName === user.userName"
-                          routerLink="/observation-manage-photos/{{observation.observationId}}">
-                          | Manage Photos
-                        </a> -->
-                        <!--  -->
+
                         <a *ngIf="observation.user.userName === 'andrew'"
                             routerLink="/observation-edit/{{observation.observationId}}">
                             | Edit
@@ -63,15 +128,12 @@
                             routerLink="/observation-delete/{{observation.observationId}}">
                             | Delete
                         </a>
-                    </div>
+                    </p>
                 </div>
             </div>
         </div>
 
-        <!-- <div>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
-        </div> -->
+
         <hr>
     </article>
-</div>
+</div> -->

@@ -1,99 +1,146 @@
 app-testing {
-    .main {
+
+    .wrapper {
         margin: 15px;
-       
-  
-    .row {
-        display: inline-flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+    }
+
+
+    .flex-container {
+        display: flex;
+        align-items: stretch;
+        //background-color: #f1f1f1;
         margin: 0em 0;
+        //border: 1px solid #9a37b8;
+
     }
 
-    .column {
-        // display: inline-flex;
-        flex-direction: column;
-        //flex-basis: 100%;
-        // margin-left: 5px;
-    }
-
-    .title {
-        border: 1px solid #9a37b8;
-    }
-
-    .scientific-name {
-        font-style: italic;
-        font-size: small;
-    }
-
-    .column-one {
-        border: 1px solid #9a37b8;
+    .flex-container > div {
+        //background-color: DodgerBlue;
+        //color: white;
+        margin: 5px;
+        // text-align: center;
+        //line-height: 107px;
         height: 107px;
-        width: auto; //fit-content
+        //margin: 0em 0;
+        // font-size: 30px;
     }
 
-    .column-one img {
+    .avatar {
+        text-align: center;
+    }
+
+    .avatar img {
         max-height: 100%;
         max-width: 100%;
-    }
-
-    .column-two {
-        border: 1px solid #9a37b8;
-        width: max-content;
-        height: auto;
-        margin-left: 5px;
-    }
-
-    .species {
-        font-size: small;
-    }
-
-    .user {
-        font-size: small;
-        // margin: 7px;
-    }
-
-    .location {
-        font-size: small;
-        // margin: 7px;
-    }
-
-    .lines {
-        font-size: small;
-        // margin: 7px;
-    }
-
-    // small.location { margin: 17px; }
-
-    .mat-icon {
-        vertical-align: center;
-        // font-size: 1.25em;
-    }
-
-    .aligned-with-icon {
-        position: absolute;
-
-        // margin-top: 5px;
-        margin-left: 5px;
-        /* optional */
-    }
-
-    @media screen and (min-width: 800px) {
-        .column {
-            flex: 2;
         }
-    }
-    // .example-card {
-    //     max-width: 400px;
-    //   }
 
-    //   .example-header-image {
-    //     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    //     background-size: cover;
-    //   }
+        .information {
+            // white-space: nowrap;
+            // width: 50px;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+            margin-left: 10px;
+        }
 
-    //   .fontmal {
-    //       font-style: italic;
-    //   }
-    }
+
+
+
+        // .row {
+        //     display: flex;
+        //     flex-direction: row;
+        //     flex-wrap: wrap;
+        //     margin: 0em 0;
+        // }
+
+        // .column {
+        //     // display: inline-flex;
+        //     //width: 100%;
+        //     flex-direction: column;
+        //     //flex-basis: 100%;
+        //     // margin-left: 5px;
+        // }
+
+
+        .scientific-name {
+            font-style: italic;
+            font-size: small;
+        }
+
+        // .column-one {
+        //     //border: 1px solid #9a37b8;
+        //     height: 107px;
+        //     width: auto; //fit-content
+        // }
+
+        // .column-one img {
+        //     max-height: 100%;
+        //     max-width: 100%;
+        // }
+
+        // .column-two {
+        //     border: 1px solid #9a37b8;
+        //     width: 100%;
+        //     height: auto;
+        //     margin-left: 10px;
+        //     //overflow: hidden;
+        //     // text-overflow: ellipsis;
+        //     // flex: 1 2 auto;
+        // }
+
+        p {
+            margin: 0em 0;
+        }
+
+        p.species {
+            font-size: small;
+        }
+
+        p.user {
+            font-size: small;
+            // margin: 7px;
+        }
+
+        p.location {
+            font-size: small;
+            white-space: nowrap;
+            //width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lines {
+            font-size: small;
+        }
+
+        .mat-icon {
+            vertical-align: center;
+            // font-size: 1.25em;
+        }
+
+        .aligned-with-icon {
+            position: absolute;
+
+            // margin-top: 5px;
+            margin-left: 5px;
+            /* optional */
+        }
+
+        @media screen and (min-width: 800px) {
+            .column {
+                flex: 1;
+            }
+        }
+        // .example-card {
+        //     max-width: 400px;
+        //   }
+
+        //   .example-header-image {
+        //     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+        //     background-size: cover;
+        //   }
+
+        //   .fontmal {
+        //       font-style: italic;
+        //   }
+    
 }
