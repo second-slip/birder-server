@@ -29,73 +29,13 @@
 
   <div *ngIf="itemResults$ | async as results; else loading">
     <ng-container *ngIf="results.length; else noItems">
+      <!-- <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'"> -->
       <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
 
-        <div class="timeline-item" attr.myValue="{{observation.bird.englishName}}">
+        <app-observations-feed-item [observation]="observation" [user]="user">
 
-          <!-- attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}"> -->
+        </app-observations-feed-item>
 
-          <div class="row">
-            <div class="col-sm-2 d-none d-lg-block">
-              <img src="{{ observation.bird.thumbnailUrl }}" class="card-img" alt="{{ observation.bird.species }}"
-                placement="bottom" ngbTooltip="{{ observation.bird.species }}">
-              <!-- width="75px" height="75px" -->
-            </div>
-            <div class="col-sm-10">
-              <div class="user">
-                <mat-icon>person</mat-icon><span class="aligned-with-icon">
-                  <a routerLink="/user-profile/{{observation.user.userName}}">
-                    {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
-                  </a>
-                </span>
-              </div>
-
-
-              <div class="species">
-                <mat-icon>date_range</mat-icon><span class="aligned-with-icon"> {{observation.observationDateTime |
-                  date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}} </span>
-                <!-- <a routerLink="/birds-detail/{{observation.bird.birdId}}">
-                  {{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}
-                </a> -->
-                <!-- {{ observation.quantity > 1 ? 'were' : 'was' }}
-                spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
-                  {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
-                </a> -->
-              </div>
-
-
-
-              <div class="location">
-                <mat-icon>location_on</mat-icon><span class="aligned-with-icon">
-                  {{ observation.position.formattedAddress }}
-
-                </span>
-              </div>
-
-
-
-              <div class="lines">
-                <a routerLink="/observation-detail/{{observation.observationId}}">
-                  View
-                </a>
-                <!-- <a *ngIf="observation.user.userName === user.userName"
-                  routerLink="/observation-manage-photos/{{observation.observationId}}">
-                  | Manage Photos
-                </a> -->
-                <a *ngIf="observation.user.userName === user.userName"
-                  routerLink="/observation-edit/{{observation.observationId}}">
-                  | Edit
-                </a>
-                <a *ngIf="observation.user.userName === user.userName"
-                  routerLink="/observation-delete/{{observation.observationId}}">
-                  | Delete
-                </a>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <!--  -->
       </div>
     </ng-container>
     <ng-template #noItems>No Items!</ng-template>

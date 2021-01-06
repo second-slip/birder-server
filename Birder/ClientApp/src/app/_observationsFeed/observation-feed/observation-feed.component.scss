@@ -1,12 +1,9 @@
-
 @import url("https://fonts.googleapis.com/css?family=Oswald|Roboto:400,700");
 
 app-observation-feed {
-
   .feedEndAlert {
     margin: 20px;
   }
-
 
   // body {
   // 	font-size: 14px;
@@ -31,89 +28,81 @@ app-observation-feed {
 
   // ----------------  LAYOUT
 
-  .container {
-    // max-width: 1024px;
-    // width: 90%;
-    // margin: 0 auto;
-  }
-
   // ----------------  THE FONTS
 
-  $border-color: rgba(rgb(2, 117, 216), 0.3);
+  // $border-color: rgba(rgb(2, 117, 216), 0.3);
 
-  .timeline-item {
-    /* top | horizontal | bottom */
-    // padding: 3em 2em 1em;
-    // position: relative;
-    // color: rgba(black, 0.7);
-    // border-left: 2px solid $border-color;
+  // .timeline-item {
+  /* top | horizontal | bottom */
+  // padding: 3em 2em 1em;
+  // position: relative;
+  // color: rgba(black, 0.7);
+  // border-left: 2px solid $border-color;
 
+  // .species {
+  //   font-size: small;
+  // }
 
-    .species {
-      font-size: small;
-    }
+  // .user {
+  //   font-size: small;
+  //   // margin: 7px;
+  // }
 
-    .user {
-      font-size: small;
-      // margin: 7px;
-    }
+  // .location {
+  //   font-size: small;
+  //   // margin: 7px;
+  // }
 
-    .location {
-      font-size: small;
-      // margin: 7px;
-    }
+  // .lines  {
+  //   font-size: small;
+  //   // margin: 7px;
+  // }
 
-    .lines  { 
-      font-size: small;
-      // margin: 7px; 
-    }
+  // small.location { margin: 17px; }
 
-    // small.location { margin: 17px; }
+  //   .mat-icon {
+  //     vertical-align: center;
+  //     // font-size: 1.25em;
+  //   }
 
-    .mat-icon {
-      vertical-align: center;
-      // font-size: 1.25em;
-    }
+  //   .aligned-with-icon {
+  //     position: absolute;
 
-    .aligned-with-icon {
-      position: absolute;
-      
-      // margin-top: 5px;
-      margin-left: 5px; 
-      /* optional */
-  }
+  //     // margin-top: 5px;
+  //     margin-left: 5px;
+  //     /* optional */
+  // }
 
-    // &::before {
-    //   content: attr(myValue);
-    //   position: absolute;
-    //   left: 2em;
-    //   font-weight: bold;
-    //   top: 1em;
-    //   display: block;
-    //   // font-family: 'Roboto', sans-serif;
-    //   font-weight: 1700;
-    //   font-size: 0.785rem;
-    // }
+  // &::before {
+  //   content: attr(myValue);
+  //   position: absolute;
+  //   left: 2em;
+  //   font-weight: bold;
+  //   top: 1em;
+  //   display: block;
+  //   // font-family: 'Roboto', sans-serif;
+  //   font-weight: 1700;
+  //   font-size: 0.785rem;
+  // }
 
-    // &::after {
-    //   width: 10px;
-    //   height: 10px;
-    //   display: block;
-    //   top: 1em;
-    //   position: absolute;
-    //   left: -7px;
-    //   border-radius: 10px;
-    //   content: "";
-    //   border: 2px solid $border-color;
-    //   background: white;
-    // }
+  // &::after {
+  //   width: 10px;
+  //   height: 10px;
+  //   display: block;
+  //   top: 1em;
+  //   position: absolute;
+  //   left: -7px;
+  //   border-radius: 10px;
+  //   content: "";
+  //   border: 2px solid $border-color;
+  //   background: white;
+  // }
 
-    // &:last-child {
-    // 	border-image: linear-gradient(
-    // 		to bottom,
-    // 		$border-color 60%,
-    // 		rgba($border-color, 0)) 1 100%
-    // 	;
-    // }
-  }
+  // &:last-child {
+  // 	border-image: linear-gradient(
+  // 		to bottom,
+  // 		$border-color 60%,
+  // 		rgba($border-color, 0)) 1 100%
+  // 	;
+  // }
 }
