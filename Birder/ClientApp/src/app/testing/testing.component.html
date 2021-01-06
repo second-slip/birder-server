@@ -1,17 +1,14 @@
-<p>testing works!</p>
+<p>test component</p>
 
 
-<div *ngIf="observation">
-    <!-- <div class="timeline-item"> -->
-        <div class="title">
+<div class="main" *ngIf="observation">
+        <!-- <div class="title">
             {{observation.bird.englishName}}
-
-        </div>
+        </div> -->
 
         <div class="row">
-
             <div class="column">
-                <div class="hello">
+                <div class="column-one">
                     <img src="https://farm66.staticflickr.com/65535/50541491477_70e0e383ab_q.jpg"
                         alt="{{ observation.bird.species }}" placement="bottom"
                         ngbTooltip="{{ observation.bird.species }}">
@@ -19,7 +16,7 @@
             </div>
 
             <div class="column">
-                <div class="details">
+                <div class="column-two">
                     <div class="user">
                         <mat-icon>person</mat-icon><span class="aligned-with-icon">
                             <a routerLink="/user-profile/{{observation.user.userName}}">
