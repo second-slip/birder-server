@@ -2,10 +2,16 @@
 
 
 <div class="main" *ngIf="observation">
-        <!-- <div class="title">
-            {{observation.bird.englishName}}
-        </div> -->
+    <article>
+        <div class="row">
+            <h4 class="title-row">
+                {{observation.bird.englishName}}
+                <span class="scientific-name">{{observation.bird.species}}</span>
+            </h4>
+        </div>
+    </article>
 
+    <article>
         <div class="row">
             <div class="column">
                 <div class="column-one">
@@ -65,7 +71,8 @@
                 </div>
             </div>
         </div>
-    <!-- </div> -->
+        <!-- </div> -->
+    </article>
 </div>
 
 

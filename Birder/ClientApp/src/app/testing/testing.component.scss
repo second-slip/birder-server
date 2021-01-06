@@ -1,8 +1,10 @@
 app-testing {
     .main {
-        margin: 10px;
+        margin: 15px;
+       
     }
 
+  
     .row {
         display: inline-flex;
         flex-direction: row;
@@ -13,10 +15,21 @@ app-testing {
         // display: inline-flex;
         flex-direction: column;
         flex-basis: 100%;
+        margin-left: 5px;
+    }
+
+    .title-row {
+        //border: 3px solid #9a37b8;
+        margin-bottom: 3px;
+    }
+
+    .scientific-name {
+        font-style: italic;
+        font-size: small;
     }
 
     .column-one {
-        border: 3px solid #9a37b8;
+        //border: 3px solid #9a37b8;
         height: 107px;
         width: auto; //fit-content
     }
@@ -27,9 +40,10 @@ app-testing {
     }
 
     .column-two {
-        border: 3px solid #9a37b8;
+        //border: 3px solid #9a37b8;
         width: max-content;
         height: auto;
+        margin-left: 5px;
     }
 
     .species {
