@@ -30,6 +30,7 @@
   <div *ngIf="itemResults$ | async as results; else loading">
     <ng-container *ngIf="results.length; else noItems">
       <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
+
         <div class="timeline-item" attr.myValue="{{observation.bird.englishName}}">
 
           <!-- attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}"> -->
@@ -94,6 +95,7 @@
             </div>
           </div>
         </div>
+        <!--  -->
       </div>
     </ng-container>
     <ng-template #noItems>No Items!</ng-template>

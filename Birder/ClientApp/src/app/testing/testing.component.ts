@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ObservationViewModel } from '@app/_models/ObservationViewModel';
+import { ObservationService } from '@app/_sharedServices/observation.service';
 
 @Component({
   selector: 'app-testing',
@@ -7,9 +9,26 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class TestingComponent implements OnInit {
+  observation: ObservationViewModel;
+  itemHeight = 177;
 
-  constructor() { }
+  constructor(private observationService: ObservationService) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.getObservation();
+  }
+
+
+  getObservation(): void {
+    // const id = +this.route.snapshot.paramMap.get('id');
+
+    this.observationService.getObservation(1)
+      .subscribe(
+        (observation: ObservationViewModel) => {
+          this.observation = observation;
+
+        });
+
+  }
 
 }

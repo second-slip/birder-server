@@ -1,3 +1,97 @@
 app-testing {
 
+
+
+    
+    .hello img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      
+      .column {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 100%;
+      }
+
+      .hello {
+        //background-color: blue;
+        border: 3px solid #9a37b8;
+        height: 100px;
+        //margin: auto;
+
+        width: 100%;
+      }
+      
+      .details {
+        border: 3px solid #9a37b8;
+        //background-color: green;
+
+        height: 100px;
+      }
+
+
+
+        // .thumbnail {
+        //     height: 177px;
+        // }
+
+        .species {
+            font-size: small;
+        }
+
+        .user {
+            font-size: small;
+            // margin: 7px;
+        }
+
+        .location {
+            font-size: small;
+            // margin: 7px;
+        }
+
+        .lines {
+            font-size: small;
+            // margin: 7px;
+        }
+
+        // small.location { margin: 17px; }
+
+        .mat-icon {
+            vertical-align: center;
+            // font-size: 1.25em;
+        }
+
+        .aligned-with-icon {
+            position: absolute;
+
+            // margin-top: 5px;
+            margin-left: 5px;
+            /* optional */
+        }
+    
+        @media screen and (min-width: 800px) {
+            .column {
+              flex: 2
+            }
+        }
+    // .example-card {
+    //     max-width: 400px;
+    //   }
+
+    //   .example-header-image {
+    //     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    //     background-size: cover;
+    //   }
+
+    //   .fontmal {
+    //       font-style: italic;
+    //   }
 }

@@ -95,6 +95,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AddNoteDialogComponent } from './_observationNotes/add-note-dialog/add-note-dialog.component';
 import { EditNoteDialogComponent } from './_observationNotes/edit-note-dialog/edit-note-dialog.component';
 import { EditNotesComponent } from './_observationNotes/edit-notes/edit-notes.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 // import { UsernameValidator } from 'validators';
@@ -223,6 +224,7 @@ export function tokenGetter() {
     MatBadgeModule,
     MatAutocompleteModule,
     MatDialogModule,
+    MatCardModule,
     ToastrModule.forRoot(),
     NgxDropzoneModule,
     GalleryModule,

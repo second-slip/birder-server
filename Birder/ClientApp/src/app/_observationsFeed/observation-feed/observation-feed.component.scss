@@ -32,9 +32,9 @@ app-observation-feed {
   // ----------------  LAYOUT
 
   .container {
-    max-width: 1024px;
+    // max-width: 1024px;
     // width: 90%;
-    margin: 0 auto;
+    // margin: 0 auto;
   }
 
   // ----------------  THE FONTS
@@ -43,10 +43,10 @@ app-observation-feed {
 
   .timeline-item {
     /* top | horizontal | bottom */
-    padding: 3em 2em 1em;
-    position: relative;
-    color: rgba(black, 0.7);
-    border-left: 2px solid $border-color;
+    // padding: 3em 2em 1em;
+    // position: relative;
+    // color: rgba(black, 0.7);
+    // border-left: 2px solid $border-color;
 
 
     .species {
@@ -83,30 +83,30 @@ app-observation-feed {
       /* optional */
   }
 
-    &::before {
-      content: attr(myValue);
-      position: absolute;
-      left: 2em;
-      font-weight: bold;
-      top: 1em;
-      display: block;
-      // font-family: 'Roboto', sans-serif;
-      font-weight: 1700;
-      font-size: 0.785rem;
-    }
+    // &::before {
+    //   content: attr(myValue);
+    //   position: absolute;
+    //   left: 2em;
+    //   font-weight: bold;
+    //   top: 1em;
+    //   display: block;
+    //   // font-family: 'Roboto', sans-serif;
+    //   font-weight: 1700;
+    //   font-size: 0.785rem;
+    // }
 
-    &::after {
-      width: 10px;
-      height: 10px;
-      display: block;
-      top: 1em;
-      position: absolute;
-      left: -7px;
-      border-radius: 10px;
-      content: "";
-      border: 2px solid $border-color;
-      background: white;
-    }
+    // &::after {
+    //   width: 10px;
+    //   height: 10px;
+    //   display: block;
+    //   top: 1em;
+    //   position: absolute;
+    //   left: -7px;
+    //   border-radius: 10px;
+    //   content: "";
+    //   border: 2px solid $border-color;
+    //   background: white;
+    // }
 
     // &:last-child {
     // 	border-image: linear-gradient(

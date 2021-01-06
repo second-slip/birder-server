@@ -1,3 +1,94 @@
 <p>testing works!</p>
 
 
+<div *ngIf="observation">
+    <!-- <div class="timeline-item"> -->
+        <div class="title">
+            {{observation.bird.englishName}}
+
+        </div>
+
+        <div class="row">
+
+            <div class="column">
+                <div class="hello">
+                    <img src="https://farm66.staticflickr.com/65535/50541491477_70e0e383ab_q.jpg"
+                        alt="{{ observation.bird.species }}" placement="bottom"
+                        ngbTooltip="{{ observation.bird.species }}">
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="details">
+                    <div class="user">
+                        <mat-icon>person</mat-icon><span class="aligned-with-icon">
+                            <a routerLink="/user-profile/{{observation.user.userName}}">
+                                {{observation.user.userName === 'andrew' ? 'You' : observation.user.userName}}
+                            </a>
+                        </span>
+                    </div>
+
+                    <div class="species">
+                        <mat-icon>date_range</mat-icon><span class="aligned-with-icon">
+                            {{observation.observationDateTime |
+                            date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}} </span>
+                        <!-- <a routerLink="/birds-detail/{{observation.bird.birdId}}">
+                          {{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}
+                        </a> -->
+                        <!-- {{ observation.quantity > 1 ? 'were' : 'was' }}
+                        spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
+                          {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
+                        </a> -->
+                    </div>
+
+                    <div class="location">
+                        <mat-icon>location_on</mat-icon><span class="aligned-with-icon">
+                            {{ observation.position.formattedAddress }}
+                        </span>
+                    </div>
+
+                    <div class="lines">
+                        <a routerLink="/observation-detail/{{observation.observationId}}">
+                            View
+                        </a>
+                        <!-- <a *ngIf="observation.user.userName === user.userName"
+                          routerLink="/observation-manage-photos/{{observation.observationId}}">
+                          | Manage Photos
+                        </a> -->
+                        <!--  -->
+                        <a *ngIf="observation.user.userName === 'andrew'"
+                            routerLink="/observation-edit/{{observation.observationId}}">
+                            | Edit
+                        </a>
+                        <a *ngIf="observation.user.userName === 'andrew'"
+                            routerLink="/observation-delete/{{observation.observationId}}">
+                            | Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+
+
+
+<!-- <mat-card class="example-card">
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Shiba Inu</mat-card-title>
+        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+        <p>
+            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+            A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+            bred for hunting.
+        </p>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+    </mat-card-actions>
+</mat-card> -->
