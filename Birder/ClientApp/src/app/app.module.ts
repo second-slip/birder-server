@@ -96,6 +96,7 @@ import { AddNoteDialogComponent } from './_observationNotes/add-note-dialog/add-
 import { EditNoteDialogComponent } from './_observationNotes/edit-note-dialog/edit-note-dialog.component';
 import { EditNotesComponent } from './_observationNotes/edit-notes/edit-notes.component';
 import { MatCardModule } from '@angular/material/card';
+import { ObservationsFeedItemComponent } from './_observationsFeed/observations-feed-item/observations-feed-item.component';
 
 
 // import { UsernameValidator } from 'validators';
@@ -200,6 +201,7 @@ export function tokenGetter() {
     AddNoteDialogComponent,
     EditNoteDialogComponent,
     EditNotesComponent,
+    ObservationsFeedItemComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
