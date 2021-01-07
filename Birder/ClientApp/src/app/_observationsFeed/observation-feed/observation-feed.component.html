@@ -29,32 +29,32 @@
 
   <div class="button-row">
 
-      <mat-button-toggle-group #group="matButtonToggleGroup" [(ngModel)]="currentFilter" (change)="onFilterFeed()">
-          <mat-button-toggle value="0" aria-label="Show observations in your network" #tooltip="matTooltip"
-              matTooltip="Show observations in your network"
-              aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-              <mat-icon>groups</mat-icon>
-          </mat-button-toggle>
-          <mat-button-toggle value="1" aria-label="Show your observations only" #tooltip="matTooltip"
-              matTooltip="Show your observations only"
-              aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-              <mat-icon>person</mat-icon>
-          </mat-button-toggle>
-          <mat-button-toggle value="2" aria-label="Show all public observations" #tooltip="matTooltip"
-              matTooltip="Show all public observations"
-              aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-              <mat-icon>public</mat-icon>
-          </mat-button-toggle>
-      </mat-button-toggle-group>
-      <!-- <div class="example-selected-value">Selected value: {{group.value}}</div>
+    <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentFilter" (change)="onFilterFeed(group.value)">
+      <mat-button-toggle value="0" aria-label="Show observations in your network" #tooltip="matTooltip"
+        matTooltip="Show observations in your network"
+        aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+        <mat-icon>groups</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="1" aria-label="Show your observations only" #tooltip="matTooltip"
+        matTooltip="Show your observations only"
+        aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+        <mat-icon>person</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="2" aria-label="Show all public observations" #tooltip="matTooltip"
+        matTooltip="Show all public observations"
+        aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+        <mat-icon>public</mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+    <!-- <div class="example-selected-value">Selected value: {{group.value}}</div>
     <div class="example-selected-value1">{{currentFilter}}</div> -->
 
-      <a class="add-button" [routerLink]='["/observation-add"]' mat-stroked-button aria-label="Add a new observation"
-          #tooltip="matTooltip" matTooltip="Add a new observation"
-          aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-          <mat-icon>post_add</mat-icon>
-          Add observation
-      </a>
+    <a class="add-button" [routerLink]='["/observation-add"]' mat-stroked-button aria-label="Add a new observation"
+      #tooltip="matTooltip" matTooltip="Add a new observation"
+      aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+      <mat-icon>post_add</mat-icon>
+      Add observation
+    </a>
 
   </div>
 

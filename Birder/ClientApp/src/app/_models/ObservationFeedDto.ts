@@ -5,7 +5,7 @@ export interface ObservationFeedDto {
     totalItems: number;
     // totalPages: number;
     items: ObservationViewModel[];
-    returnFilter: ObservationFeedFilter;
+    returnFilter: string;// ObservationFeedFilter;
     // displayMessage: boolean;
     // message: string;
 }
