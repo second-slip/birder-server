@@ -5,6 +5,20 @@ app-observation-feed {
     margin: 20px;
   }
 
+  .add-button {
+    margin-left: 25px;
+  }
+
+  .mat-button-toggle-label-content {
+    line-height: 32px !important; //<-- set you height here
+  }
+
+  .example-button-container {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+  }
+
   // body {
   // 	font-size: 14px;
   // 	line-height: 1.5;

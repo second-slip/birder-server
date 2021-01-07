@@ -1,5 +1,5 @@
 <div class="container">
-  <h3>Your observations feed</h3>
+  <!-- <h3>Your observations feed</h3>
 
   <hr>
 
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="text-right">
-      <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="currentFilter"
+      <div class="btn-group btn-group-toggle" ngbRadioGroup [(ngModel)]="currentFilter"
         (change)="onFilterFeed()">
         <label ngbButtonLabel class="btn-primary">
           <input ngbButton type="radio" [value]="0">Your Network
@@ -23,6 +23,39 @@
         </label>
       </div>
     </div>
+  </div> -->
+
+  <h4>{{title}}</h4>
+
+  <div class="button-row">
+
+      <mat-button-toggle-group #group="matButtonToggleGroup" [(ngModel)]="currentFilter" (change)="onFilterFeed()">
+          <mat-button-toggle value="0" aria-label="Show observations in your network" #tooltip="matTooltip"
+              matTooltip="Show observations in your network"
+              aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+              <mat-icon>groups</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="1" aria-label="Show your observations only" #tooltip="matTooltip"
+              matTooltip="Show your observations only"
+              aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+              <mat-icon>person</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="2" aria-label="Show all public observations" #tooltip="matTooltip"
+              matTooltip="Show all public observations"
+              aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+              <mat-icon>public</mat-icon>
+          </mat-button-toggle>
+      </mat-button-toggle-group>
+      <!-- <div class="example-selected-value">Selected value: {{group.value}}</div>
+    <div class="example-selected-value1">{{currentFilter}}</div> -->
+
+      <a class="add-button" [routerLink]='["/observation-add"]' mat-stroked-button aria-label="Add a new observation"
+          #tooltip="matTooltip" matTooltip="Add a new observation"
+          aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+          <mat-icon>post_add</mat-icon>
+          Add observation
+      </a>
+
   </div>
 
   <hr>

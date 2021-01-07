@@ -19,7 +19,8 @@ import { TokenService } from '@app/_services/token.service';
 })
 export class ObservationFeedComponent implements OnInit {
   user: UserViewModel;
-  currentFilter: ObservationFeedFilter = 0;
+  currentFilter: ObservationFeedFilter;
+  title: string;
   // loadingObs: boolean;
   allLoaded = false;
   private cache = [];
@@ -84,13 +85,29 @@ export class ObservationFeedComponent implements OnInit {
     );
 
 
-    constructor(private observationsFeedService: ObservationsFeedService
-      , private toast: ToastrService
-      , private tokenService: TokenService) { }
+  constructor(private observationsFeedService: ObservationsFeedService
+    , private toast: ToastrService
+    , private tokenService: TokenService) { }
 
-      ngOnInit() {
-        this.getUser();
-      }
+  ngOnInit() {
+    this.getUser();
+    this.currentFilter = 0;
+    this.setTitle();
+  }
+
+  setTitle(): void {
+
+    if (this.currentFilter == 1) {
+      this.title = 'Your observations only';
+      return;
+    } if (this.currentFilter == 2) {
+      this.title = 'All public observations';
+      return;
+    } else {
+      this.title = 'Observations in your network';
+      return;
+    }
+  }
 
   getMessage(requested: ObservationFeedFilter, returned: ObservationFeedFilter): string {
     let message = '';

@@ -13,13 +13,26 @@ export class TestingComponent implements OnInit {
   observation: ObservationViewModel;
   title: string;
 
-  constructor(private observationService: ObservationService, private ref: ChangeDetectorRef) { }
-  currentFilter: ObservationFeedFilter = 0;
+  constructor(private observationService: ObservationService) { }
+  currentFilter: string;
 
   ngOnInit() { 
     //this.getObservation();
+    this.currentFilter = '0';
     this.setTitle();
+    this.selectedVal = '0';
   }
+
+  public selectedVal: string;
+
+  
+  
+  public onValChange(val: string) {
+    this.selectedVal = val;
+  }
+
+
+
 
   onFilterFeed(): void {
     //alert(this.currentFilter);
@@ -28,39 +41,17 @@ export class TestingComponent implements OnInit {
 
   setTitle(): void {
 
-    if (this.currentFilter == 1) {
-      this.title = 'Showing only your observations';
+    if (this.currentFilter == '1') {
+      this.title = 'Your observations only';
       return;
-    } if (this.currentFilter == 2) {
-      this.title = 'Showing all public observations';
+    } if (this.currentFilter == '2') {
+      this.title = 'All public observations';
       return;
     } else {
-      this.title = 'Showing observations in your network';
+      this.title = 'Observations in your network';
       return;
     }
   }
-
-  //   let t = ObservationFeedFilter;
-  // alert();
-  //   switch(this.currentFilter) { 
-      
-  //     case ObservationFeedFilter.Own: { 
-  //       alert();
-  //        this.title = 'Your observations';
-  //        break; 
-  //     } 
-  //     case t.Public: { 
-  //       this.title = 'Public observations';
-  //        break; 
-  //     } 
-  //     default: { 
-  //       this.title = 'Observations in your network';
-  //        break; 
-  //     } 
-  // }
-   // this.ref.detectChanges();
-
- // }
 
 
   getObservation(): void {
