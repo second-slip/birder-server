@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
 import { UserViewModel } from '@app/_models/UserViewModel';
 
@@ -8,12 +8,9 @@ import { UserViewModel } from '@app/_models/UserViewModel';
   styleUrls: ['./observations-feed-item.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ObservationsFeedItemComponent implements OnInit {
+export class ObservationsFeedItemComponent {
   @Input() observation: ObservationFeedDto;
   @Input() user: UserViewModel;
 
   constructor() { }
-
-  ngOnInit(): void { }
-
 }

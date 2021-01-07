@@ -1,139 +1,49 @@
-<p>test component</p>
-
-<div class="wrapper" *ngIf="observation">
-    <article>
-
-        <div class="title">
-            <h4>
-                {{observation.quantity + ' ' + observation.bird.englishName}}
-                <span class="scientific-name">{{observation.bird.species}}</span>
-            </h4>
+<div class="container">
+    <h4>{{title}}</h4>
+    <mat-button-toggle-group #group="matButtonToggleGroup" [(ngModel)]="currentFilter" (change)="onFilterFeed()">
+        <mat-button-toggle value="0" aria-label="Show observations in your network" #tooltip="matTooltip" matTooltip="Show observations in your network"
+            aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+          <mat-icon>groups</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="1" aria-label="Show your observations only"
+        #tooltip="matTooltip" matTooltip="Show your observations only"
+            aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+          <mat-icon>person</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="2" aria-label="Show all public observations"
+        #tooltip="matTooltip" matTooltip="Show all public observations"
+            aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+          <mat-icon>public</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+      <!-- <div class="example-selected-value">Selected value: {{group.value}}</div>
+      <div class="example-selected-value1">{{currentFilter}}</div> -->
+  
+    <hr>
+  
+    <div class="row">
+      <div class="col">
+        <div>
+          <a class="btn btn-success" [routerLink]='["/observation-add"]'>Add Observation</a>
         </div>
-
-        <!--  -->
-        <div class="flex-container">
-            <div class="avatar" style="flex-grow: 1">
-                <img src="https://farm66.staticflickr.com/65535/50541491477_70e0e383ab_q.jpg"
-                    alt="{{ observation.bird.species }}" placement="bottom" ngbTooltip="{{ observation.bird.species }}">
-            </div>
-            <!--  -->
-            <div class="information" style="flex-grow: 10">
-                <p class="user">
-                    <mat-icon>person</mat-icon><span class="aligned-with-icon">
-                        <a routerLink="/user-profile/{{observation.user.userName}}">
-                            {{observation.user.userName === 'andrew' ? 'You' : observation.user.userName}}
-                        </a>
-                    </span>
-                </p>
-                <p class="species">
-                    <mat-icon>date_range</mat-icon><span class="aligned-with-icon">
-                        {{observation.observationDateTime |
-                        date: 'EEEE, d MMMM yyyy\';\' h:mm'}} </span>
-                    <!-- <a routerLink="/birds-detail/{{observation.bird.birdId}}">
-              {{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}
-            </a> -->
-                    <!-- {{ observation.quantity > 1 ? 'were' : 'was' }}
-            spotted by <a routerLink="/user-profile/{{observation.user.userName}}">
-              {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
-            </a> -->
-                </p>
-                <p class="location">
-                    <mat-icon>location_on</mat-icon><span class="aligned-with-icon">
-                        {{ observation.position.formattedAddress }}
-                    </span>
-                </p>
-                <p class="lines">
-                    <a routerLink="/observation-detail/{{observation.observationId}}">
-                        View
-                    </a>
-                    <!-- <a *ngIf="observation.user.userName === user.userName"
-              routerLink="/observation-manage-photos/{{observation.observationId}}">
-              | Manage Photos
-            </a> -->
-                    <!--  -->
-                    <a *ngIf="observation.user.userName === 'andrew'"
-                        routerLink="/observation-edit/{{observation.observationId}}">
-                        | Edit
-                    </a>
-                    <a *ngIf="observation.user.userName === 'andrew'"
-                        routerLink="/observation-delete/{{observation.observationId}}">
-                        | Delete
-                    </a>
-                </p>
-            </div>
+      </div>
+      <!-- <div class="text-right">
+        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="currentFilter"
+          (change)="onFilterFeed()">
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="0">Your Network
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="1">Your Own
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="2">Public
+          </label>
         </div>
-    </article>
-</div>
-
-
-<!-- <div>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
-        </div> -->
+      </div> -->
+    </div>
+  
+    <hr>
 
 
 
-
-
-
-<!-- <div class="main" *ngIf="observation">
-    <article>
-        <h4 class="title">
-            {{ observation.quantity + ' ' + observation.bird.englishName}}
-            <span class="scientific-name">{{observation.bird.species}}</span>
-        </h4>
-
-        <div class="row">
-            <div class="column">
-                <div class="column-one">
-                    <img src="https://farm66.staticflickr.com/65535/50541491477_70e0e383ab_q.jpg"
-                        alt="{{ observation.bird.species }}" placement="bottom"
-                        ngbTooltip="{{ observation.bird.species }}">
-                </div>
-            </div>
-
-            <div class="column">
-                <div class="column-two">
-                    <p class="user">
-                        <mat-icon>person</mat-icon><span class="aligned-with-icon">
-                            <a routerLink="/user-profile/{{observation.user.userName}}">
-                                {{observation.user.userName === 'andrew' ? 'You' : observation.user.userName}}
-                            </a>
-                        </span>
-                    </p>
-
-                    <p class="species">
-                        <mat-icon>date_range</mat-icon><span class="aligned-with-icon">
-                            {{observation.observationDateTime |
-                            date: 'EEEE, d MMMM yyyy\';\' h:mm'}} </span>
-
-                    </p>
-
-                    <p class="location">
-                        <mat-icon>location_on</mat-icon><span class="aligned-with-icon">
-                            {{ observation.position.formattedAddress }}
-                        </span>
-                    </p>
-
-                    <p class="lines">
-                        <a routerLink="/observation-detail/{{observation.observationId}}">
-                            View
-                        </a>
-
-                        <a *ngIf="observation.user.userName === 'andrew'"
-                            routerLink="/observation-edit/{{observation.observationId}}">
-                            | Edit
-                        </a>
-                        <a *ngIf="observation.user.userName === 'andrew'"
-                            routerLink="/observation-delete/{{observation.observationId}}">
-                            | Delete
-                        </a>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-
-        <hr>
-    </article>
-</div> -->

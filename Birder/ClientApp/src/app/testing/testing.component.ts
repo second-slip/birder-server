@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ObservationService } from '@app/_sharedServices/observation.service';
 
@@ -10,13 +11,56 @@ import { ObservationService } from '@app/_sharedServices/observation.service';
 })
 export class TestingComponent implements OnInit {
   observation: ObservationViewModel;
-  itemHeight = 177;
+  title: string;
 
-  constructor(private observationService: ObservationService) { }
+  constructor(private observationService: ObservationService, private ref: ChangeDetectorRef) { }
+  currentFilter: ObservationFeedFilter = 0;
 
   ngOnInit() { 
-    this.getObservation();
+    //this.getObservation();
+    this.setTitle();
   }
+
+  onFilterFeed(): void {
+    //alert(this.currentFilter);
+    this.setTitle();
+  }
+
+  setTitle(): void {
+
+    if (this.currentFilter == 1) {
+      this.title = 'Showing only your observations';
+      return;
+    } if (this.currentFilter == 2) {
+      this.title = 'Showing all public observations';
+      return;
+    } else {
+      this.title = 'Showing observations in your network';
+      return;
+    }
+  }
+
+  //   let t = ObservationFeedFilter;
+  // alert();
+  //   switch(this.currentFilter) { 
+      
+  //     case ObservationFeedFilter.Own: { 
+  //       alert();
+  //        this.title = 'Your observations';
+  //        break; 
+  //     } 
+  //     case t.Public: { 
+  //       this.title = 'Public observations';
+  //        break; 
+  //     } 
+  //     default: { 
+  //       this.title = 'Observations in your network';
+  //        break; 
+  //     } 
+  // }
+   // this.ref.detectChanges();
+
+ // }
 
 
   getObservation(): void {

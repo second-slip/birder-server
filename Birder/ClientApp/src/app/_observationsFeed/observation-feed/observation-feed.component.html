@@ -29,12 +29,9 @@
 
   <div *ngIf="itemResults$ | async as results; else loading">
     <ng-container *ngIf="results.length; else noItems">
-      <!-- <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'"> -->
       <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
 
-        <app-observations-feed-item [observation]="observation" [user]="user">
-
-        </app-observations-feed-item>
+        <app-observations-feed-item [observation]="observation" [user]="user"></app-observations-feed-item>
 
       </div>
     </ng-container>
@@ -57,4 +54,3 @@
   </div>
 
 </div>
-
