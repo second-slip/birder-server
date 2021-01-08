@@ -231,8 +231,8 @@ namespace Birder.Controllers
                 position.Longitude = model.Position.Longitude;
                 position.FormattedAddress = model.Position.FormattedAddress;
 
-                // ToDo: separate ObsNotesController to handle this stuff.  
-                // ...need to redesign UI first
+                // ToDo: separate ObservationNotesController to handle this stuff.  
+                // ...need to redesign UI first...
                 var notes = await _observationNoteRepository.FindAsync(x => x.Observation.ObservationId == id);
               
                 var notesDeleted = ObservationNotesHelper.GetDeletedNotes(notes, model.Notes);
@@ -280,6 +280,7 @@ namespace Birder.Controllers
         [HttpDelete, Route("DeleteObservation")]
         public async Task<IActionResult> DeleteObservationAsync(int id)
         {
+            // ToDo: delete related objects: notes, location?, etc...
             try
             {
                 var observation = await _observationRepository.GetObservationAsync(id, false);
