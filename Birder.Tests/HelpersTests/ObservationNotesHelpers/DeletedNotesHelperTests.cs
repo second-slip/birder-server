@@ -14,7 +14,7 @@ namespace Birder.Tests.HelpersTests
     // (1) null reference
     // (2) empty collections -- no this is part of (3)
     // (3) different scenarios
-    public class ObservationNotesHelperTests
+    public class DeletedNotesHelperTests
     {
         [Theory, MemberData(nameof(NullArgumentTestData))]
         public void GetDeletedNotes_ReturnsNullReferenceException_WhenEitherOrBothArgumentaAreNull(List<ObservationNote> originalNotes, List<ObservationNoteDto> editedNotes)
