@@ -23,7 +23,7 @@ namespace Birder.Helpers
             //var results = originalNotes.Where(m => !oldIds.Contains(m.Id));
         }
 
-        public static IEnumerable<ObservationNoteDto> GetNewNotes(List<ObservationNoteDto> notes)
+        public static IEnumerable<ObservationNoteDto> GetAddedNotes(List<ObservationNoteDto> notes)
         {
             if (notes is null)
             {
@@ -31,9 +31,6 @@ namespace Birder.Helpers
             }
 
             return notes.Where(i => i.Id == 0);
-
-            //CreateMap<ObservationNoteDto, ObservationNote>()
-            //    .ForMember(a => a.Observation, b => b.Ignore());
         }
     }
 }

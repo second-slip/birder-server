@@ -241,7 +241,7 @@ namespace Birder.Controllers
                     _observationNoteRepository.RemoveRange(notesDeleted);
                 }
 
-                var notesAdded = ObservationNotesHelper.GetNewNotes(model.Notes);
+                var notesAdded = ObservationNotesHelper.GetAddedNotes(model.Notes);
                 if (notesAdded.Any())
                 {
                     var added = _mapper.Map(notesAdded, new List<ObservationNote>());

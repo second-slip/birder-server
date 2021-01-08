@@ -236,20 +236,5 @@ namespace Birder.Tests.HelpersTests
             }
         }
 
-
-        //[Fact]
-        //public void GetFollowersUserNames_ReturnsEmptyCollection_WhenInputCollectionIsEmpty()
-        //{
-        //    // Arrange
-        //    var emptyInputCollection = new List<ObservationNote>();
-        //    var 
-
-        //    // Act
-        //    var result = ObservationNotesHelper.GetDeletedNotes();
-
-        //    // Assert
-        //    Assert.IsType<List<String>>(result);
-        //    Assert.Empty(result);
-        //}
     }
 }
