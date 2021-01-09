@@ -49,7 +49,7 @@ namespace Birder.Services
             return client.SendEmailAsync(msg);
         }
 
-        public Task SendEmailConfirmationemailAsync(ConfirmEmailDto accountDetails)
+        public Task SendEmailConfirmationEmailAsync(ConfirmEmailDto accountDetails)
         {
             var client = new SendGridClient(Options.SendGridKey);
 
@@ -67,15 +67,14 @@ namespace Birder.Services
             return client.SendEmailAsync(message);
         }
 
-        // create an instance in AccountController and pass it here
-        //private class RegisterEmailData
-        //{
-        //    [JsonProperty("username")]
-        //    public string Username { get; set; }
+        public Task SendChangedAccountEmailConfirmationEmailAsync(ConfirmEmailDto accountDetails)
+        {
+            throw new NotImplementedException();
+        }
 
-        //    [JsonProperty("url")]
-        //    public Uri Url { get; set; }
-        //}
-
+        public Task SendResetPasswordEmailAsync(ResetPasswordEmailDto accountDetails)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

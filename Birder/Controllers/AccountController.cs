@@ -67,7 +67,7 @@ namespace Birder.Controllers
                     var url = _urlService.GetConfirmEmailUrl(newUser.UserName, code);
                     // await _emailSender.SendEmailAsync(newUser.Email, string.Empty, string.Empty, newUser.UserName, url); // "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
                     var templateData = new ConfirmEmailDto { Email = newUser.Email, Username = newUser.UserName, Url = url };
-                    await _emailSender.SendEmailConfirmationemailAsync(templateData);
+                    await _emailSender.SendEmailConfirmationEmailAsync(templateData);
                     return Ok(); //ToDo: Is this adequate?  Created reponse?
                 }
 

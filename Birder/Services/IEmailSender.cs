@@ -9,7 +9,9 @@ namespace Birder.Services
         // remove 'subject' and 'message' parameters
         // add 'templateId' parameter?
         Task SendEmailAsync(string email, string subject, string message, string username, Uri url);
-
-        Task SendEmailConfirmationemailAsync(ConfirmEmailDto accountDetails);
+        //
+        Task SendEmailConfirmationEmailAsync(ConfirmEmailDto accountDetails);
+        Task SendChangedAccountEmailConfirmationEmailAsync(ConfirmEmailDto accountDetails);
+        Task SendResetPasswordEmailAsync(ResetPasswordEmailDto accountDetails);
     }
 }
