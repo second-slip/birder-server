@@ -2,6 +2,7 @@
 using Birder.Data.Model;
 using Birder.Helpers;
 using Birder.Services;
+using Birder.Templates;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -128,7 +129,8 @@ namespace Birder.Controllers
                     {
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         var url = _urlService.GetConfirmEmailUrl(model.UserName, code);
-                        await _emailSender.SendEmailAsync(model.Email, string.Empty, string.Empty, user.UserName, url);
+                        var templateData = new ConfirmEmailDto { Email = model.Email, Username = user.UserName, Url = url };
+                        await _emailSender.SendChangedAccountEmailConfirmationEmailAsync(templateData);
                     }
                 }
 

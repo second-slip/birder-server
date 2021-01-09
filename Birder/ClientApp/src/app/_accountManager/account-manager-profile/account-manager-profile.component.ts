@@ -120,15 +120,17 @@ export class AccountManagerProfileComponent implements OnInit {
     //   this.toast.error(`The username '${unavailableUsername}' is already taken.  Please choose a different username.`, 'Error');
     //   return;
     // }
-
+console.log(value);
     const model = <ManageProfileViewModel>{
-      userName: value.userName,
+      userName: value.username,
       email: value.email,
     };
 
     if (model.email !== this.user.email) {
       this.emailChanged = true;
     }
+
+    console.log(model);
 
     this.accountManager.postUpdateProfile(model)
       .pipe(first())
