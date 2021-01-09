@@ -1,6 +1,7 @@
 ﻿using Birder.Data.Model;
 using Birder.Helpers;
 using Birder.Services;
+using Birder.Templates;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -64,7 +65,9 @@ namespace Birder.Controllers
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var url = _urlService.GetConfirmEmailUrl(newUser.UserName, code);
-                    await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "", newUser.UserName, url); // "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
+                    // await _emailSender.SendEmailAsync(newUser.Email, string.Empty, string.Empty, newUser.UserName, url); // "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
+                    var templateData = new ConfirmEmailDto { Email = newUser.Email, Username = newUser.UserName, Url = url };
+                    await _emailSender.SendEmailConfirmationemailAsync(templateData);
                     return Ok(); //ToDo: Is this adequate?  Created reponse?
                 }
 
@@ -144,7 +147,7 @@ namespace Birder.Controllers
 
                 var url = _urlService.GetConfirmEmailUrl(user.UserName, code);
 
-                await _emailSender.SendEmailAsync(user.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>", "", null);
+                await _emailSender.SendEmailAsync(user.Email, string.Empty, string.Empty, user.UserName, url);
 
                 return Ok(url);
             }

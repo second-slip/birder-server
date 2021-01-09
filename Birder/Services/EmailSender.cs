@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Birder.Templates;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -35,9 +36,9 @@ namespace Birder.Services
             //    //
             //    //TemplateId = "birder-email-confirmation",
             //};
-            msg.Subject = subject;
+            // msg.Subject = subject;
             msg.SetTemplateId("d-882e4b133cae40268364c8a929e55ea9");
-            msg.SetTemplateData(new RegisterEmailData { Username = username, Url = url  });
+            //msg.SetTemplateData(new RegisterEmailData { Username = username, Url = url  });
             msg.SetFrom("andrew.cross11@gmail.com", "Birder Administrator");
             msg.AddTo(new EmailAddress(email));
 
@@ -48,15 +49,33 @@ namespace Birder.Services
             return client.SendEmailAsync(msg);
         }
 
-        // create an instance in AccountController and pass it here
-        private class RegisterEmailData
+        public Task SendEmailConfirmationemailAsync(ConfirmEmailDto accountDetails)
         {
-            [JsonProperty("username")]
-            public string Username { get; set; }
+            var client = new SendGridClient(Options.SendGridKey);
 
-            [JsonProperty("url")]
-            public Uri Url { get; set; }
+            var message = new SendGridMessage();
+
+            message.SetTemplateId("d-882e4b133cae40268364c8a929e55ea9");
+            message.SetTemplateData(new ConfirmEmailDto { Username = accountDetails.Username, Url = accountDetails.Url });
+            message.SetFrom("andrew.cross11@gmail.com", "Birder Administrator");
+            message.AddTo(new EmailAddress(accountDetails.Email));
+
+            // Disable click tracking.
+            // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
+            message.SetClickTracking(false, false);
+
+            return client.SendEmailAsync(message);
         }
+
+        // create an instance in AccountController and pass it here
+        //private class RegisterEmailData
+        //{
+        //    [JsonProperty("username")]
+        //    public string Username { get; set; }
+
+        //    [JsonProperty("url")]
+        //    public Uri Url { get; set; }
+        //}
 
     }
 }
