@@ -54,6 +54,7 @@ namespace Birder.Services
 
         public Task SendResetPasswordEmailAsync(ResetPasswordEmailDto accountDetails)
         {
+            // create new template on SendGrid...
             throw new NotImplementedException();
         }
     }

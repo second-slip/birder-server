@@ -147,6 +147,7 @@ namespace Birder.Controllers
                 var url = _urlService.GetConfirmEmailUrl(user.UserName, code);
 
                 var templateData = new ConfirmEmailDto { Email = user.Email, Username = user.UserName, Url = url };
+
                 await _emailSender.SendEmailConfirmationEmailAsync(templateData);
 
                 return Ok();
@@ -187,6 +188,8 @@ namespace Birder.Controllers
 
                 var url = _urlService.GetResetPasswordUrl(code);
 
+                var templateData = new ResetPasswordEmailDto { Email = model.Email, Url = url, Username = user.UserName };
+                await _emailSender.SendResetPasswordEmailAsync(templateData);
                 //await _emailSender.SendEmailAsync(model.Email, "Reset Your Password", "You can reset your password by clicking <a href=\"" + url + "\">here</a>", "", null);
                 return Ok(url);
 
