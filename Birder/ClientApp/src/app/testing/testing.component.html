@@ -1,46 +1,94 @@
-<div class="container">
-    <h4>{{title}}</h4>
+HTMLResult Skip Results Iframe
+EDIT ON
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB">
 
-    <div class="button-row">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Demystifying Email Design</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedVal" (change)="onValChange(group.value)">
-            <mat-button-toggle value="0">
-                Draft
-            </mat-button-toggle>
-            <mat-button-toggle value="1">
-                Publish
-            </mat-button-toggle>
-        </mat-button-toggle-group>
+    <style type="text/css">
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+        }
+    </style>
 
+</head>
 
+<body style="margin: 0; padding: 0;">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td style="padding: 20px 0 30px 0;">
 
-        <mat-button-toggle-group #group="matButtonToggleGroup" [(ngModel)]="currentFilter" (change)="onFilterFeed()">
-            <mat-button-toggle value="0" aria-label="Show observations in your network" #tooltip="matTooltip"
-                matTooltip="Show observations in your network"
-                aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-                <mat-icon>groups</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle value="1" aria-label="Show your observations only" #tooltip="matTooltip"
-                matTooltip="Show your observations only"
-                aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-                <mat-icon>person</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle value="2" aria-label="Show all public observations" #tooltip="matTooltip"
-                matTooltip="Show all public observations"
-                aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-                <mat-icon>public</mat-icon>
-            </mat-button-toggle>
-        </mat-button-toggle-group>
-        <!-- <div class="example-selected-value">Selected value: {{group.value}}</div>
-      <div class="example-selected-value1">{{currentFilter}}</div> -->
-
-        <a class="add-button" [routerLink]='["/observation-add"]' mat-stroked-button aria-label="Add a new observation"
-            #tooltip="matTooltip" matTooltip="Add a new observation"
-            aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-            <mat-icon>post_add</mat-icon>
-            Add observation
-        </a>
-
-    </div>
-
-    <hr>
+                <table align="center" border="0" cellpadding="0" cellspacing="0" width="600"
+                    style="border-collapse: collapse; border: 1px solid #cccccc;">
+                    <tr>
+                        <td align="center" bgcolor="#70bbd9" style="padding: 40px 0 30px 0;">
+                            <img src="https://assets.codepen.io/210284/h1_1.gif" alt="Creating Email Magic." width="300"
+                                height="230" style="display: block;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%"
+                                style="border-collapse: collapse;">
+                                <tr>
+                                    <td style="color: #153643; font-family: Arial, sans-serif;">
+                                        <h1 style="font-size: 24px; margin: 0;">Andrew, welcome to Birder</h1>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; padding: 20px 0 30px 0;">
+                                        <p style="margin: 0;">Thank you for registering for a Birder account. Please
+                                            confirm your e-mail address by clicking the button below:</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-radius: 2px;">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td>
+                                                    <table border="0" cellspacing="0" cellpadding="0" align="center">
+                                                        <tr>
+                                                            <td align="center" style="border-radius: 3px;"
+                                                                bgcolor="#e9703e"><a href="https://litmus.com"
+                                                                    target="_blank"
+                                                                    style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; text-decoration: none;border-radius: 3px; padding: 12px 18px; border: 1px solid #e9703e; display: inline-block;">Click
+                                                                    here to confirm your e-mail</a></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#f8ff2c" style="padding: 30px 30px;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%"
+                                style="border-collapse: collapse;">
+                                <tr>
+                                    <td align="right">
+                                        <table border="0" cellpadding="0" cellspacing="0"
+                                            style="border-collapse: collapse;">
+                                            <tr>
+                                                <td>
+                                                    <a href="http://www.twitter.com/crossers_" target="_blank">
+                                                        <img src="https://assets.codepen.io/210284/tw.gif"
+                                                            alt="Twitter." width="38" height="38"
+                                                            style="display: block;" border="0" />
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>

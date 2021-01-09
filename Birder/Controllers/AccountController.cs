@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -63,7 +64,7 @@ namespace Birder.Controllers
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var url = _urlService.GetConfirmEmailUrl(newUser.UserName, code);
-                    await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
+                    await _emailSender.SendEmailAsync(newUser.Email, "Confirm your email", "", newUser.UserName, url); // "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
                     return Ok(); //ToDo: Is this adequate?  Created reponse?
                 }
 
@@ -143,7 +144,7 @@ namespace Birder.Controllers
 
                 var url = _urlService.GetConfirmEmailUrl(user.UserName, code);
 
-                await _emailSender.SendEmailAsync(user.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
+                await _emailSender.SendEmailAsync(user.Email, "Confirm your email", "Please confirm your account by clicking <a href=\"" + url + "\">here</a>", "", null);
 
                 return Ok(url);
             }
@@ -165,7 +166,7 @@ namespace Birder.Controllers
                     _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
                     return BadRequest("An error occurred");
                 }
-                    
+
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
@@ -173,7 +174,7 @@ namespace Birder.Controllers
                     return Ok(); // user does not exist, but don't reveal that the user does not exist
                 }
 
-                if(user.EmailConfirmed == false)
+                if (user.EmailConfirmed == false)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, $"Forgot password request when email '{model.Email}' is not confirmed");
                     return Ok(); // email is not confirmed
@@ -183,7 +184,7 @@ namespace Birder.Controllers
 
                 var url = _urlService.GetResetPasswordUrl(code);
 
-                await _emailSender.SendEmailAsync(model.Email, "Reset Your Password", "You can reset your password by clicking <a href=\"" + url + "\">here</a>");
+                await _emailSender.SendEmailAsync(model.Email, "Reset Your Password", "You can reset your password by clicking <a href=\"" + url + "\">here</a>", "", null);
                 return Ok(url);
 
             }
