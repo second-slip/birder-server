@@ -65,7 +65,6 @@ namespace Birder.Controllers
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var url = _urlService.GetConfirmEmailUrl(newUser.UserName, code);
-                    // await _emailSender.SendEmailAsync(newUser.Email, string.Empty, string.Empty, newUser.UserName, url); // "Please confirm your account by clicking <a href=\"" + url + "\">here</a>");
                     var templateData = new ConfirmEmailDto { Email = newUser.Email, Username = newUser.UserName, Url = url };
                     await _emailSender.SendEmailConfirmationEmailAsync(templateData);
                     return Ok(); //ToDo: Is this adequate?  Created reponse?
@@ -147,9 +146,11 @@ namespace Birder.Controllers
 
                 var url = _urlService.GetConfirmEmailUrl(user.UserName, code);
 
-                await _emailSender.SendEmailAsync(user.Email, string.Empty, string.Empty, user.UserName, url);
+                //await _emailSender.SendEmailAsync(user.Email, string.Empty, string.Empty, user.UserName, url);
+                var templateData = new ConfirmEmailDto { Email = user.Email, Username = user.UserName, Url = url };
+                await _emailSender.SendEmailConfirmationEmailAsync(templateData);
 
-                return Ok(url);
+                return Ok();
             }
             catch (Exception ex)
             {
