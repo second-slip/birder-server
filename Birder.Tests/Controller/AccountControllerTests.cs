@@ -431,14 +431,14 @@ namespace Birder.Tests.Controller
             var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(result);
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is OkObjectResult);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            Assert.IsType<OkResult>(result);
+            //Assert.NotNull(objectResult);
+            //Assert.True(objectResult is OResult);
+            //Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
 
-            var expected = new Uri($"{config["Url:ConfirmEmailUrl"]}?username={testUser.UserName}&code={testCode}");
-            objectResult.Value.Should().BeOfType<Uri>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
+            //var expected = new Uri($"{config["Url:ConfirmEmailUrl"]}?username={testUser.UserName}&code={testCode}");
+            //objectResult.Value.Should().BeOfType<Uri>();
+            //objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
         #endregion
@@ -560,13 +560,13 @@ namespace Birder.Tests.Controller
             var result = await controller.PostForgotPasswordAsync(testModel);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(result);
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is OkObjectResult);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            var expected = new Uri($"{config["Url:ResetPasswordUrl"]}{testCode}");
-            objectResult.Value.Should().BeOfType<Uri>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
+            Assert.IsType<OkResult>(result);
+            //Assert.NotNull(objectResult);
+            //Assert.True(objectResult is OkObjectResult);
+            //Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            //var expected = new Uri($"{config["Url:ResetPasswordUrl"]}{testCode}");
+            //objectResult.Value.Should().BeOfType<Uri>();
+            //objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
         #endregion
@@ -696,14 +696,14 @@ namespace Birder.Tests.Controller
             var result = await controller.PostResetPasswordAsync(testModel);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(result);
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is OkObjectResult);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            Assert.IsType<OkResult>(result);
+            //Assert.NotNull(objectResult);
+            //Assert.True(objectResult is OkObjectResult);
+            //Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
 
-            var expected = "Password was successfully changed";
-            objectResult.Value.Should().BeOfType<string>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
+            //var expected = "Password was successfully changed";
+            //objectResult.Value.Should().BeOfType<string>();
+            //objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
         #endregion
