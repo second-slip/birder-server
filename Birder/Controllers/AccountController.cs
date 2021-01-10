@@ -190,8 +190,7 @@ namespace Birder.Controllers
 
                 var templateData = new ResetPasswordEmailDto { Email = model.Email, Url = url, Username = user.UserName };
                 await _emailSender.SendResetPasswordEmailAsync(templateData);
-                //await _emailSender.SendEmailAsync(model.Email, "Reset Your Password", "You can reset your password by clicking <a href=\"" + url + "\">here</a>", "", null);
-                return Ok(url);
+                return Ok();
 
             }
             catch (Exception ex)
@@ -220,7 +219,7 @@ namespace Birder.Controllers
                 var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
                 if (result.Succeeded)
                 {
-                    return Ok("Password was successfully changed");
+                    return Ok();
                 }
 
                 ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);

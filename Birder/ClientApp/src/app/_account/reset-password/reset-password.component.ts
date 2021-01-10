@@ -82,8 +82,9 @@ export class ResetPasswordComponent implements OnInit {
     };
 
     this.accountService.resetPassword(viewModelObject)
-    .pipe(first())
-    .subscribe(_ => {
+    .pipe()
+    .subscribe((resp: any) => {
+      console.log(resp)
         //  this.unsuccessful = false;
         //  this.changePasswordForm.reset();
         //  this.toast.success('Your changed your password', 'Success');

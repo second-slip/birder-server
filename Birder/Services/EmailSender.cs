@@ -54,8 +54,20 @@ namespace Birder.Services
 
         public Task SendResetPasswordEmailAsync(ResetPasswordEmailDto accountDetails)
         {
-            // create new template on SendGrid...
-            throw new NotImplementedException();
+            var client = new SendGridClient(Options.SendGridKey);
+
+            var message = new SendGridMessage();
+
+            message.SetTemplateId("d-37733c23b2eb4c339a011dfadbd42b91");
+            message.SetTemplateData(new ConfirmEmailDto { Username = accountDetails.Username, Url = accountDetails.Url });
+            message.SetFrom("andrew.cross11@gmail.com", "Birder Administrator");
+            message.AddTo(new EmailAddress(accountDetails.Email));
+
+            // Disable click tracking.
+            // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
+            message.SetClickTracking(false, false);
+
+            return client.SendEmailAsync(message);
         }
     }
 }
