@@ -1,0 +1,74 @@
+app-showcase-observation-feed-item {
+    .wrapper {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    .flex-container {
+        display: flex;
+        align-items: stretch;
+        margin: 0em 0;
+    }
+
+    .flex-container > div {
+        margin: 5px;
+        height: 107px;
+    }
+
+    .avatar {
+        // text-align: center;
+    }
+
+    .avatar img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+    .information {
+        //margin-left: 10px;
+    }
+
+
+    .scientific-name {
+        font-style: italic;
+        font-size: small;
+    }
+
+    p {
+        margin: 0em 0;
+    }
+
+    p.species {
+        font-size: small;
+    }
+
+    p.user {
+        font-size: small;
+    }
+
+    p.location {
+        font-size: small;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .lines {
+        font-size: small;
+    }
+
+    .mat-icon {
+        vertical-align: center;
+    }
+
+    .aligned-with-icon {
+        position: absolute;
+        margin-left: 5px;
+    }
+
+    @media screen and (min-width: 800px) {
+        .column {
+            flex: 1;
+        }
+    }
+}
