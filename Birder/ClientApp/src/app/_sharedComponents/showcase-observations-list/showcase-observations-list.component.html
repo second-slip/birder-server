@@ -2,7 +2,10 @@
     <div *ngIf="observations as results; else loading">
         <ng-container *ngIf="results.length; else noItems">
             <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
-                <div class="timeline-item"
+                <!--  -->
+                <app-showcase-observation-feed-item [observation]="observation"></app-showcase-observation-feed-item>
+                
+                <!-- <div class="timeline-item"
                     attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
 
                     <div class="row">
@@ -10,7 +13,7 @@
                             <img src="{{ observation.bird.thumbnailUrl }}" class="card-img"
                                 alt="{{ observation.bird.species }}" placement="bottom"
                                 ngbTooltip="{{ observation.bird.species }}">
-                            <!-- width="75px" height="75px" -->
+
                         </div>
                         <div class="col-sm-10">
                             <h4 class="lines"><b>{{observation.quantity}}</b>
@@ -39,8 +42,10 @@
 
                         </div>
                     </div>
-                </div>
+                </div> -->
+                <!--  -->
             </div>
+
 
             <div class="feedEndAlert">
                 <p>
