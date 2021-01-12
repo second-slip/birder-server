@@ -1,7 +1,6 @@
 using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -37,11 +36,6 @@ namespace Birder
             webBuilder.UseStartup<Startup>();
             webBuilder.ConfigureLogging(ConfigLogging);
         });
-
-        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-        //    WebHost.CreateDefaultBuilder(args)
-        //        .ConfigureLogging(ConfigLogging)
-        //        .UseStartup<Startup>();
 
         static void ConfigLogging(ILoggingBuilder bldr)
         {
