@@ -88,12 +88,12 @@ namespace Birder.Controllers
                     };
 
 
-                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));
                     var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                     var tokenOptions = new JwtSecurityToken(
-                        issuer: _config["Tokens:Issuer"],
-                        audience: _config["Tokens:Audience"],
+                        issuer: _config["TokenIssuer"],
+                        audience: _config["TokenAudience"],
                         claims: claims,
                         expires: _systemClock.GetNow.AddDays(2),
                         signingCredentials: signinCredentials);

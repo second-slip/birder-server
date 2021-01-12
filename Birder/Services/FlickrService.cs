@@ -21,7 +21,8 @@ namespace Birder.Services
 
         public string GetThumbnailUrl(string queryString)
         {
-            Flickr flickr = new Flickr(_config["Flickr:FlickrApiKey"], _config["Flickr:FlickrSecret"]);
+            //Flickr flickr = new Flickr(_config["Flickr:FlickrApiKey"], _config["Flickr:FlickrSecret"]);
+            Flickr flickr = new Flickr(_config["FlickrApiKey"], _config["FlickrSecret"]);
             {
                 var options = new PhotoSearchOptions
                 {
