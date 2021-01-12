@@ -29,7 +29,7 @@ import { BirdsIndexComponent } from './_birds/birds-index/birds-index.component'
 import { BirdsDetailComponent } from './_birds/birds-detail/birds-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { httpInterceptorProviders } from './_httpInterceptors';
-import { ObservationFeedComponent } from './_observationsFeed/observation-feed/observation-feed.component';
+import { ObservationFeedComponent } from './_observationFeed/observation-feed/observation-feed.component';
 import { ObservationDetailComponent } from './_observations/observation-detail/observation-detail.component';
 import { ObservationAddComponent } from './_observations/observation-add/observation-add.component';
 import { RegisterComponent } from './_account/register/register.component';
@@ -94,10 +94,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AddNoteDialogComponent } from './_observationNotes/add-note-dialog/add-note-dialog.component';
 import { EditNoteDialogComponent } from './_observationNotes/edit-note-dialog/edit-note-dialog.component';
 import { EditNotesComponent } from './_observationNotes/edit-notes/edit-notes.component';
-import { ObservationsFeedItemComponent } from './_observationsFeed/observations-feed-item/observations-feed-item.component';
+import { ObservationFeedItemComponent } from './_observationFeed/observation-feed-item/observation-feed-item.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { ShowcaseObservationFeedItemComponent } from './_observationsFeedShowcase/showcase-observation-feed-item/showcase-observation-feed-item.component';
-import { ShowcaseObservationFeedComponent } from './_observationsFeedShowcase/showcase-observation-feed/showcase-observation-feed.component';
+import { ShowcaseObservationFeedItemComponent } from './_observationFeedShowcase/showcase-observation-feed-item/showcase-observation-feed-item.component';
+import { ShowcaseObservationFeedComponent } from './_observationFeedShowcase/showcase-observation-feed/showcase-observation-feed.component';
 
 
 // import { UsernameValidator } from 'validators';
@@ -202,7 +202,7 @@ export function tokenGetter() {
     AddNoteDialogComponent,
     EditNoteDialogComponent,
     EditNotesComponent,
-    ObservationsFeedItemComponent,
+    ObservationFeedItemComponent,
     ShowcaseObservationFeedItemComponent
   ],
   imports: [

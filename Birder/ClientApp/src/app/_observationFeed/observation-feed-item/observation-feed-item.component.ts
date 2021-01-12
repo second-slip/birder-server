@@ -3,12 +3,12 @@ import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
 
 @Component({
-  selector: 'app-observations-feed-item',
-  templateUrl: './observations-feed-item.component.html',
-  styleUrls: ['./observations-feed-item.component.scss'],
+  selector: 'app-observation-feed-item',
+  templateUrl: './observation-feed-item.component.html',
+  styleUrls: ['./observation-feed-item.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ObservationsFeedItemComponent {
+export class ObservationFeedItemComponent {
   @Input() observation: ObservationViewModel;
   @Input() user: UserViewModel;
 
