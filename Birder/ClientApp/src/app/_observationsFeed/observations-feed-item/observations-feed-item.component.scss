@@ -37,8 +37,11 @@ app-observations-feed-item {
         margin: 0em 0;
     }
 
-    p.species {
+    p.date {
         font-size: small;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     p.user {
@@ -52,8 +55,12 @@ app-observations-feed-item {
         text-overflow: ellipsis;
     }
 
-    .lines {
+    p.links {
         font-size: small;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: absolute;
     }
 
     .mat-icon {

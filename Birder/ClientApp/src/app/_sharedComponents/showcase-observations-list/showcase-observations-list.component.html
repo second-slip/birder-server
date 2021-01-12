@@ -2,58 +2,10 @@
     <div *ngIf="observations as results; else loading">
         <ng-container *ngIf="results.length; else noItems">
             <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
-                <!--  -->
                 <app-showcase-observation-feed-item [observation]="observation"></app-showcase-observation-feed-item>
-                
-                <!-- <div class="timeline-item"
-                    attr.myValue="{{observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' h:mm a'}}">
-
-                    <div class="row">
-                        <div class="col-sm-2 d-none d-lg-block">
-                            <img src="{{ observation.bird.thumbnailUrl }}" class="card-img"
-                                alt="{{ observation.bird.species }}" placement="bottom"
-                                ngbTooltip="{{ observation.bird.species }}">
-
-                        </div>
-                        <div class="col-sm-10">
-                            <h4 class="lines"><b>{{observation.quantity}}</b>
-                                {{ observation.bird.englishName }}
-                                {{ observation.quantity > 1 ? 'were' : 'was' }}
-                                spotted by {{ observation.user.userName }}
-                            </h4>
-
-                            <p class="location">
-                                <mat-icon>location_on</mat-icon><span class="aligned-with-icon"> --insert location--
-                                    lat: {{ observation.locationLatitude }} lng: {{ observation.locationLongitude }}
-                                </span>
-                            </p>
-
-                            <p class="lines">
-                                <i>
-                                    <a routerLink="/observation-detail/{{observation.observationId}}">
-                                        Login
-                                    </a>
-                                    or
-                                    <a [routerLink]='["/register"]'>
-                                        Register
-                                    </a>
-                                    to view the full details of this observation...</i>
-                            </p>
-
-                        </div>
-                    </div>
-                </div> -->
-                <!--  -->
             </div>
 
-
-            <div class="feedEndAlert">
-                <p>
-                    <ngb-alert [dismissible]="false">
-                        <strong><i>Information </i></strong> There are no more items to load...
-                    </ngb-alert>
-                </p>
-            </div>
+            <br>
         </ng-container>
         <ng-template #noItems>No Items!</ng-template>
     </div>
