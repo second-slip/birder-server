@@ -5,12 +5,12 @@ import { ObservationsFeedService } from '@app/_services/observations-feed.servic
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 @Component({
-  selector: 'app-showcase-observations-list',
-  templateUrl: './showcase-observations-list.component.html',
-  styleUrls: ['./showcase-observations-list.component.scss'],
+  selector: 'app-showcase-observation-feed',
+  templateUrl: './showcase-observation-feed.component.html',
+  styleUrls: ['./showcase-observation-feed.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ShowcaseObservationsListComponent implements OnInit {
+export class ShowcaseObservationFeedComponent implements OnInit {
   observations: ObservationViewModel[];
   itemHeight = 177
 

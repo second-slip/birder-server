@@ -85,7 +85,6 @@ import { NetworkSuggestionsComponent } from './_network/network-suggestions/netw
 import { NetworkComponent } from './_network/network/network.component';
 import { BirdsIndexGridViewComponent } from './_birds/birds-index-grid-view/birds-index-grid-view.component';
 import { InfoTweetComponent } from './_info/info-tweet/info-tweet.component';
-import { ShowcaseObservationsListComponent } from './_sharedComponents/showcase-observations-list/showcase-observations-list.component';
 import { ViewOnlySingleMarkerMapComponent } from './_maps/view-only-single-marker-map/view-only-single-marker-map.component';
 import { ViewEditSingleMarkerMapComponent } from './_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
 import { ViewOnlyNotesComponent } from './_observationNotes/view-notes/view-only-notes.component';
@@ -97,7 +96,8 @@ import { EditNoteDialogComponent } from './_observationNotes/edit-note-dialog/ed
 import { EditNotesComponent } from './_observationNotes/edit-notes/edit-notes.component';
 import { ObservationsFeedItemComponent } from './_observationsFeed/observations-feed-item/observations-feed-item.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { ShowcaseObservationFeedItemComponent } from './_observationsFeed/showcase-observation-feed-item/showcase-observation-feed-item.component';
+import { ShowcaseObservationFeedItemComponent } from './_observationsFeedShowcase/showcase-observation-feed-item/showcase-observation-feed-item.component';
+import { ShowcaseObservationFeedComponent } from './_observationsFeedShowcase/showcase-observation-feed/showcase-observation-feed.component';
 
 
 // import { UsernameValidator } from 'validators';
@@ -194,7 +194,7 @@ export function tokenGetter() {
     NetworkComponent,
     BirdsIndexGridViewComponent,
     InfoTweetComponent,
-    ShowcaseObservationsListComponent,
+    ShowcaseObservationFeedComponent,
     ViewOnlySingleMarkerMapComponent,
     ViewEditSingleMarkerMapComponent,
     ViewOnlyNotesComponent,

@@ -1,20 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ShowcaseObservationFeedComponent } from './showcase-observations-list.component';
 
-import { ShowcaseObservationsListComponent } from './showcase-observations-list.component';
+
 
 describe('ShowcaseObservationsListComponent', () => {
-  let component: ShowcaseObservationsListComponent;
-  let fixture: ComponentFixture<ShowcaseObservationsListComponent>;
+  let component: ShowcaseObservationFeedComponent;
+  let fixture: ComponentFixture<ShowcaseObservationFeedComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShowcaseObservationsListComponent ]
+      declarations: [ ShowcaseObservationFeedComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShowcaseObservationsListComponent);
+    fixture = TestBed.createComponent(ShowcaseObservationFeedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
