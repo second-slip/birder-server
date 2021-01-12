@@ -74,6 +74,7 @@ namespace Birder.Controllers
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginViewModel.Password, false);
 
+                //ToDo: move to separate Service
                 if (result.Succeeded)
                 {
                     var claims = new List<Claim>
@@ -86,13 +87,13 @@ namespace Birder.Controllers
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
-                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+
+                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
                     var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-                    //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
 
                     var tokenOptions = new JwtSecurityToken(
                         issuer: _config["Tokens:Issuer"],
-                        audience: "http://localhost:55722",
+                        audience: _config["Tokens:Audience"],
                         claims: claims,
                         expires: _systemClock.GetNow.AddDays(2),
                         signingCredentials: signinCredentials);
