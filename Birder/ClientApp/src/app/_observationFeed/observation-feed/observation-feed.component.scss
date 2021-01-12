@@ -19,6 +19,13 @@ app-observation-feed {
     width: 120px;
   }
 
+  @media screen and (max-width: 394px) {
+    .add-button {
+      margin-left: 0px;
+    }
+  }
+}
+
   // body {
   // 	font-size: 14px;
   // 	line-height: 1.5;
@@ -119,4 +126,4 @@ app-observation-feed {
   // 		rgba($border-color, 0)) 1 100%
   // 	;
   // }
-}
+  // }
