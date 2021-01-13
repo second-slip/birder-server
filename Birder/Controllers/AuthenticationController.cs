@@ -92,8 +92,8 @@ namespace Birder.Controllers
                     var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                     var tokenOptions = new JwtSecurityToken(
-                        issuer: _config["TokenIssuer"],
-                        audience: _config["TokenAudience"],
+                        issuer: _config["BaseUrl"], //_config["TokenIssuer"],
+                        audience: _config["BaseUrl"], //_config["TokenAudience"],
                         claims: claims,
                         expires: _systemClock.GetNow.AddDays(2),
                         signingCredentials: signinCredentials);

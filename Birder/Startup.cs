@@ -118,8 +118,8 @@ namespace Birder
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["TokenIssuer"],
-                    ValidAudience = Configuration["TokenAudience"],
+                    ValidIssuer = Configuration["BaseUrl"],
+                    ValidAudience = Configuration["BaseUrl"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]))
                 };
             });
