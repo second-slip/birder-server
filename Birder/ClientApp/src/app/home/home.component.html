@@ -6,32 +6,16 @@
                     <div>
                         <img src="./assets/Birder-Logo-With-Text.png" alt="Birder">
                     </div>
-                    <!--  -->
-                    <div><p>Log your bird observations with <i>Birder</i>, and share them with your network of fellow <i>Birders</i></p></div>
-                    
+                    <div>
+                        <p>Log your bird observations with <i>Birder</i>, and share them with your network of fellow
+                            <i>Birders</i>
+                        </p>
+                    </div>
                     <div class="example-button-row">
                         <a mat-stroked-button [routerLink]='["/login"]'>Login</a>
-                        or &nbsp;  
+                        or &nbsp;
                         <a mat-stroked-button [routerLink]='["/register"]'>Register</a>
-                        <!-- <button mat-button color="primary">Primary</button>
-                        <button mat-button color="accent">Accent</button>
-                        <button mat-button color="warn">Warn</button>
-                        <button mat-button disabled>Disabled</button>
-                        <a mat-button href="https://www.google.com/" target="_blank">Link</a> -->
-                      </div>
-                      <!--  -->
-                    <!-- <div class='green-column'>
-                        <div>
-                            <button type="submit" class="btn btn-outline-info" [routerLink]='["/register"]'>
-                                New to Birder? Start here
-                            </button>
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-outline-info" [routerLink]='["/login"]'>
-                                Already have an account? Login here
-                            </button>
-                        </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,9 +23,13 @@
         <hr>
 
         <div class="section">
-            <p>Features</p>
+            <h3>Features -- KEEP IT SIMPLE</h3>
 
-            <P>KEEP IT SIMPLE</P>
+            <p></p>
+
+            <p>Keep an electronic record of your bird sightings with <i>Birder</i>.    and share them with your network and other <i>Birder</i> users.</p>
+
+
 
             <p>Birder enables you to log, share obs</p>
 
@@ -50,6 +38,10 @@
                 <div class='column'>
                     <div class='green-column'>
                         <h4>Some interesting recent observations</h4>
+
+                        <P>Your observations are shown in your 'observations feed', along with those logged by your network, and all
+                            public sightings.<br>
+                            Below is a small sample of ununusal sightings:</P>
 
                         <div class="showcase-observations">
                             <app-showcase-observation-feed></app-showcase-observation-feed>

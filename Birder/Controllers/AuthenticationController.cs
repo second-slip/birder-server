@@ -74,7 +74,7 @@ namespace Birder.Controllers
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginViewModel.Password, false);
 
-                //ToDo: move to separate Service
+                //ToDo: move to separate Service?
                 if (result.Succeeded)
                 {
                     var claims = new List<Claim>
@@ -112,8 +112,7 @@ namespace Birder.Controllers
                     var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.LockedOut };
                     return BadRequest(viewModel);
                 }
-                //if (result.RequiresTwoFactor)
-                //{ }
+                //if (result.RequiresTwoFactor) { }
                 else
                 {
                     _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
