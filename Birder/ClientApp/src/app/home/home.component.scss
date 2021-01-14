@@ -11,7 +11,7 @@ app-home {
     // display: table-cell;
     // width: 490px;
   }
-  
+
   .example-button-row .mat-button-base {
     margin: 8px 8px 8px 0;
   }
@@ -45,6 +45,14 @@ app-home {
     border: 3px solid #73ad21;
   }
 
+  .row-feed {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 60%;
+    margin: auto;
+  }
+
   // .blue-column {
   //   background-color: blue;
   //   // height: 100px;
@@ -62,5 +70,15 @@ app-home {
 
   .section {
     border: 3px solid #ad2128;
+  }
+
+  @media screen and (max-width: 800px) {
+    .row-feed {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+      margin: auto;
+    }
   }
 }

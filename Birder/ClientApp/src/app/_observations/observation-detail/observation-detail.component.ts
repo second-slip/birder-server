@@ -45,7 +45,7 @@ export class ObservationDetailComponent implements OnInit {
       .subscribe(
         (observation: ObservationViewModel) => {
           this.observation = observation;
-          this.getPhotos(observation.observationId);
+          //this.getPhotos(observation.observationId);
         },
         () => {
           this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
