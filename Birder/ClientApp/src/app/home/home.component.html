@@ -8,9 +8,8 @@
                             alt="Birder">
                     </div>
                     <div>
-                        <p>Log your bird observations with <i>Birder</i>, and share them with your network of fellow
-                            <i>Birders</i>
-                        </p>
+                        <p>Keep an electronic record of your bird sightings with <i>Birder</i>, and share them with your network and
+                            fellow <i>Birder</i> users.</p>
                     </div>
                     <div class="example-button-row">
                         <a mat-stroked-button [routerLink]='["/login"]'>Login</a>
@@ -29,49 +28,33 @@
             <h5>Log & share the birds you see</h5>
 
             <p>Keep an electronic record of your bird sightings with <i>Birder</i>. and share them with your network and
-                other <i>Birder</i> users.</p>
+                fellow <i>Birder</i> users.</p>
 
 
             <div class='row-feed'>
 
                 <div class='column'>
-                    <div class='green-column'>
-                        <p>Your observations are shown in your 'observations feed', along with those logged by your
-                            network, and all
-                            public sightings.</p>
+                    <div class='showcase-observations-column'>
 
-                        <p>Here is a preview of the 'observations feed':</p>
+                        <p class="showcase-observations-caption">The observations feed:</p>
 
                         <div class="showcase-observations">
+                            <p class="showcase-observations-detail">Your observations are shown in the 'observations
+                                feed', along with those logged by your
+                                network, or all
+                                public sightings.</p>
+
                             <app-showcase-observation-feed></app-showcase-observation-feed>
                         </div>
 
                     </div>
                 </div>
-                <!--  -->
-
-                <!-- <div class='column'>
-                    <div class='green-column'>
-                        <h4>Birder</h4>
-                        <div>
-                            <button type="submit" class="btn btn-primary">
-                                New to Birder? Start here
-                            </button>
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">
-                                Already have an account? Login here
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
 
         <hr>
-
+        <!--  -->
         <div class="section">
-
 
             <div class='row-p'>
                 <div class='column'>
@@ -81,7 +64,6 @@
                         <p>With <i>Birder</i> you can analyse your observations in various ways. Your 'life list' is a
                             record of the unique species your have spotted.<br>You can filter the Life List by year to
                             create an annual list too.</p>
-
 
                         <div class="life-list-image">
                             <p class="life-list-image-caption">The 'life list' page:</p>

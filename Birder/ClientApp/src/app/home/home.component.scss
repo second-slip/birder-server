@@ -7,9 +7,6 @@ app-home {
     margin-bottom: 10px;
   }
 
-  // .example-button-row {
-  // }
-
   .example-button-row .mat-button-base {
     margin: 8px 8px 8px 0;
   }
@@ -24,7 +21,6 @@ app-home {
   .btn {
     margin-top: 10px;
     margin-bottom: 10px;
-
     border-radius: 12px;
   }
 
@@ -40,7 +36,7 @@ app-home {
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-    border: 3px solid #73ad21;
+    // border: 3px solid #73ad21;
   }
 
   .row-feed {
@@ -51,33 +47,42 @@ app-home {
     margin: auto;
   }
 
+  .showcase-observations-column {
+    display: flex;
+    flex-direction: column;
+  }
 
+  .green-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  p.showcase-observations-caption {
+    margin: 0;
+    font-weight: bold;
+  }
+
+  p.showcase-observations-detail {
+    text-align: center;
+    margin: 5px;
+  }
+
+  .showcase-observations {
+    border: 1px solid #000000;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  // Analysis
   p.life-list-image-caption {
     margin: 0;
     font-weight: bold;
   }
 
-
   .life-list-image img {
     border: 1px solid #000000;
     max-height: 100%;
     max-width: 100%;
-    margin-bottom: 10px;
-  }
-
-  // .blue-column {
-  //   background-color: blue;
-  //   // height: 100px;
-  // }
-
-  .green-column {
-    display: flex;
-    flex-direction: column;
-    // background-color: DodgerBlue;
-  }
-
-  .showcase-observations {
-    text-align: left;
     margin-bottom: 10px;
   }
 
