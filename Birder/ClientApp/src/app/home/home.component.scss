@@ -51,10 +51,19 @@ app-home {
     margin: auto;
   }
 
-  .avatar img {
+
+  p.life-list-image-caption {
+    margin: 0;
+    font-weight: bold;
+  }
+
+
+  .life-list-image img {
+    border: 1px solid #000000;
     max-height: 100%;
     max-width: 100%;
-}
+    margin-bottom: 10px;
+  }
 
   // .blue-column {
   //   background-color: blue;

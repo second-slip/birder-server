@@ -22,16 +22,15 @@ export class ShowcaseObservationFeedComponent implements OnInit {
 
   getObservations(quantity: number): void {
     this.observationsFeedService.getShowcaseObservationsFeed(quantity)
-    .subscribe(
-      (data: ObservationFeedDto) => {
-        // this.totalItems = data.totalItems;
-        this.observations = data.items;
-      },
-      (error: ErrorReportViewModel) => {
-        console.log('bad request');
-        // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
-      });
-      // () => {
-      // });
+      .subscribe(
+        (data: ObservationFeedDto) => {
+          this.observations = data.items;
+        },
+        (error: ErrorReportViewModel) => {
+          console.log('bad request');
+          // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+        });
+    // () => {
+    // });
   }
 }
