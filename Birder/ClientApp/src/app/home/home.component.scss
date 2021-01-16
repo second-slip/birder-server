@@ -3,6 +3,10 @@ app-home {
     margin-top: 15px;
   }
 
+  .section {
+    border: 3px solid #ad2128;
+  }
+
   .section-title {
     margin-bottom: 10px;
   }
@@ -73,6 +77,17 @@ app-home {
     margin-bottom: 10px;
   }
 
+  p.logging {
+    text-align: center;
+  }
+
+  .logging-list {
+    width: 70%;
+    border: 1px solid #000000;
+    text-align: left;
+    margin: auto;
+  }
+
   // Analysis
   p.life-list-image-caption {
     margin: 0;
@@ -102,7 +117,7 @@ app-home {
 
   .tweet-day {
     //border: 1px solid #000000;
-    background: #f8ff2c; // #fff12c; // #dce513;
+    background: #f8ff2c;
 
     //padding: 10px;
     margin-bottom: 30px;
@@ -120,10 +135,6 @@ app-home {
     max-height: 100%;
     max-width: 100%;
     margin-bottom: 10px;
-  }
-
-  .section {
-    border: 3px solid #ad2128;
   }
 
   @media screen and (max-width: 800px) {
