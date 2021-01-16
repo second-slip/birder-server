@@ -98,6 +98,7 @@ import { ObservationFeedItemComponent } from './_observationFeed/observation-fee
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ShowcaseObservationFeedItemComponent } from './_observationFeedShowcase/showcase-observation-feed-item/showcase-observation-feed-item.component';
 import { ShowcaseObservationFeedComponent } from './_observationFeedShowcase/showcase-observation-feed/showcase-observation-feed.component';
+import { WhatsNewComponent } from './whats-new/whats-new.component';
 
 
 // import { UsernameValidator } from 'validators';
@@ -203,7 +204,8 @@ export function tokenGetter() {
     EditNoteDialogComponent,
     EditNotesComponent,
     ObservationFeedItemComponent,
-    ShowcaseObservationFeedItemComponent
+    ShowcaseObservationFeedItemComponent,
+    WhatsNewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
