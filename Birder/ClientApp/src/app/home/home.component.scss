@@ -3,9 +3,9 @@ app-home {
     margin-top: 15px;
   }
 
-  .section {
-    border: 3px solid #ad2128;
-  }
+  // .section {
+  //   border: 3px solid #ad2128;
+  // }
 
   .section-title {
     margin-bottom: 10px;
@@ -19,7 +19,7 @@ app-home {
     margin: auto;
     padding: 10px;
     text-align: center;
-    border: 3px solid #9a37b8;
+    //border: 3px solid #9a37b8;
   }
 
   .btn {
@@ -97,6 +97,19 @@ app-home {
 
   .life-list-image img {
     border: 1px solid #000000;
+    max-height: 100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+
+  //distribution-map
+  p.distribution-map-image-caption {
+    margin: 0;
+    font-weight: bold;
+  }
+
+  .distribution-map-image img {
+    // border: 1px solid #000000;
     max-height: 100%;
     max-width: 100%;
     margin-bottom: 10px;
