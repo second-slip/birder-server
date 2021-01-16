@@ -31,6 +31,7 @@ import { AboutComponent } from './_about/about/about.component';
 import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
 import { NetworkComponent } from './_network/network/network.component';
+import { WhatsNewComponent } from './whats-new/whats-new.component';
 
 
 const routes: Routes = [
@@ -50,6 +51,7 @@ const routes: Routes = [
       { path: 'forgot-password-confirmation', component: ForgotPasswordConfirmationComponent },
       { path: 'reset-password/:code', component: ResetPasswordComponent },
       { path: 'reset-password-confirmation', component: ResetPasswordConfirmationComponent },
+      { path: 'whats-new', component: WhatsNewComponent }
     ]
   },
   {
