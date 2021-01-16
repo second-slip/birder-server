@@ -18,9 +18,10 @@
 
                 <p class="user">
                     <mat-icon>person</mat-icon><span class="aligned-with-icon">
-                        <a routerLink="/user-profile/{{observation.user.userName}}">
+                        {{observation.user.userName}}
+                        <!-- <a routerLink="/user-profile/{{observation.user.userName}}">
                             {{observation.user.userName === 'user.userName' ? 'You' : observation.user.userName}}
-                        </a>
+                        </a> -->
                     </span>
                 </p>
 
@@ -37,7 +38,7 @@
                 </p>
 
                 <p class="links">
-                    <a routerLink="/observation-detail/{{observation.observationId}}">
+                    <a [routerLink]='["/login"]'>
                         Login
                     </a>
                     or

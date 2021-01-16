@@ -86,12 +86,55 @@ app-home {
     margin-bottom: 10px;
   }
 
+  // tweet
+  .row-tweet {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 40%;
+    margin: auto;
+  }
+
+  .tweet-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tweet-day {
+    //border: 1px solid #000000;
+    background: #f8ff2c; // #fff12c; // #dce513;
+
+    //padding: 10px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+  }
+
+  // bird details
+  p.bird-detail-image-caption {
+    margin: 0;
+    font-weight: bold;
+  }
+
+  .bird-detail-image img {
+    border: 1px solid #000000;
+    max-height: 100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+
   .section {
     border: 3px solid #ad2128;
   }
 
   @media screen and (max-width: 800px) {
     .row-feed {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+      margin: auto;
+    }
+    .row-tweet {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;

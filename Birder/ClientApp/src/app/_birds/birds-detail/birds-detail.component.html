@@ -12,44 +12,7 @@
 
   <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs"
     (navChange)="tabstatus[$event.nextId]=true">
-    <li [ngbNavItem]="1" [destroyOnHide]="false">
-      <a ngbNavLink>Summary</a>
-      <ng-template ngbNavContent>
-        <!-- <ngb-alert [dismissible]="false" class="d-block mt-3" type="danger">
-          This tab content DOM will de destroyed when not active
-        </ngb-alert> -->
-
-        <div class="container">
-          <div class="row">
-            <div class="col">
-
-            </div>
-            <div class="col-8">
-
-              <ngb-carousel *ngIf="images">
-                <ng-template ngbSlide *ngFor="let image of images">
-                  <div class="picsum-img-wrapper">
-                    <img [src]="image.url" alt="error" style="width: 100%; height: 50vh">
-                  </div>
-                  <div class="carousel-caption">
-                    <!-- <h3>No mouse navigation</h3>
-                    <p>This carousel hides navigation arrows and indicators.</p> -->
-                  </div>
-                </ng-template>
-              </ngb-carousel>
-
-              <div class="photos-info">These are photos from Flickr</div>
-
-            </div>
-            <div class="col">
-
-            </div>
-          </div>
-        </div>
-
-      </ng-template>
-    </li>
-    <li [ngbNavItem]="2">
+    <li [ngbNavItem]="1">
       <a ngbNavLink>Information</a>
       <ng-template ngbNavContent>
 
@@ -94,6 +57,43 @@
                   <!-- <a href="#!" class="btn btn-primary">Go somewhere</a> -->
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2" [destroyOnHide]="false">
+      <a ngbNavLink>Photos</a>
+      <ng-template ngbNavContent>
+        <!-- <ngb-alert [dismissible]="false" class="d-block mt-3" type="danger">
+          This tab content DOM will de destroyed when not active
+        </ngb-alert> -->
+
+        <div class="container">
+          <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col-8">
+
+              <ngb-carousel *ngIf="images">
+                <ng-template ngbSlide *ngFor="let image of images">
+                  <div class="picsum-img-wrapper">
+                    <img [src]="image.url" alt="error" style="width: 100%; height: 50vh">
+                  </div>
+                  <div class="carousel-caption">
+                    <!-- <h3>No mouse navigation</h3>
+                    <p>This carousel hides navigation arrows and indicators.</p> -->
+                  </div>
+                </ng-template>
+              </ngb-carousel>
+
+              <div class="photos-info">These are photos from Flickr</div>
+
+            </div>
+            <div class="col">
+
             </div>
           </div>
         </div>
