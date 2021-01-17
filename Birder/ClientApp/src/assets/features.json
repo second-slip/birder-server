@@ -1,0 +1,14 @@
+[
+    {
+        "id": "1",
+        "feature": "test 1;",
+        "description": "string",
+        "status": "string"
+    },
+    {
+        "id": "2",
+        "feature": "Distribution maps",
+        "description": "To show the location of every observation on a map. Option to filter by species.",
+        "status": "in progress"
+    }
+]
