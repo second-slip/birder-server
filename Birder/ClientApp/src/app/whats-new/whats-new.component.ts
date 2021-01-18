@@ -31,4 +31,5 @@ export interface IFeatures {
   feature: string;
   description: string;
   progress: string;
+  priority: string;
 }
