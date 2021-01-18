@@ -30,5 +30,5 @@ export interface IFeatures {
   id: number;
   feature: string;
   description: string;
-  status: string;
+  progress: string;
 }

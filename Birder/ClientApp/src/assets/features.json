@@ -1,14 +1,20 @@
 [
     {
         "id": "1",
-        "feature": "test 1;",
-        "description": "string",
-        "status": "string"
+        "feature": "UI redesign",
+        "description": "To apply a consistent style across the website and to make sure each page is adjusted to fit smaller screens (‘mobile-first’).",
+        "progress": "Ongoing, with regular updates"
     },
     {
         "id": "2",
         "feature": "Distribution maps",
-        "description": "To show the location of every observation on a map. Option to filter by species.",
-        "status": "in progress"
+        "description": "To show the location of every observation by a user on a map. Option to filter by species.",
+        "progress": "In progress"
+    },
+    {
+        "id": "3",
+        "feature": "Distribution maps",
+        "description": "To show the location of every observation by a user on a map. Option to filter by species.",
+        "progress": "In progress"
     }
 ]

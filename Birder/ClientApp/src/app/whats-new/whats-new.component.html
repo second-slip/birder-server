@@ -4,24 +4,30 @@
 
         <h2>What's new and what's under development?</h2>
 
-        <p><i>Birder</i> is a hobby project.  I am one developer working on it in my spare time.  I have lots of ideas for new features.
-            <br>This page outlines some of the ideas and it also provides an update on the progress.</p>
+        <p><i>Birder</i> is a hobby project. I am one developer working on it in my spare time. I have lots of ideas for
+            new features.
+            <br>This page outlines some of the ideas and it also provides an update on the progress.
+        </p>
 
-            <p>I welcome your suggestions for new features and/or your thoughts on how to improveme the existing features.
-                <br>Please do not hesitate to <a href="mailto: andrewstuartcross@gmx.com" title="Send an email to the Birder team">e-mail</a> your suggestions or feedback.</p>
-
-
+        <p>I welcome your suggestions for new features and/or your thoughts on how to improveme the existing features.
+            <br>Please do not hesitate to <a href="mailto: andrewstuartcross@gmx.com"
+                title="Send an email to the Birder team">e-mail</a> your suggestions or feedback.
+        </p>
 
     </div>
 
+
     <div class="features" *ngIf="features">
+
+        <h4>Features and ideas...</h4>
+
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Feature</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Progress</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,7 +35,7 @@
                     <td>{{ feature.id }}</td>
                     <td>{{ feature.feature }}</td>
                     <td>{{ feature.description }}</td>
-                    <td>{{ feature.status }}</td>
+                    <td>{{ feature.progress }}</td>
                 </tr>
             </tbody>
         </table>
