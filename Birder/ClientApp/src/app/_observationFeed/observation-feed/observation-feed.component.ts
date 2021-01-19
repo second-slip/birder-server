@@ -100,15 +100,15 @@ export class ObservationFeedComponent implements OnInit {
 
     if (this.currentFilter == '1') {
       this.title = 'Your observations only';
-      console.log(1);
+      //console.log(1);
       return;
     } if (this.currentFilter == '2') {
       this.title = 'All public observations';
-      console.log(2);
+      //console.log(2);
       return;
     } else {
       this.title = 'Observations in your network';
-      console.log('default');
+      //console.log('default');
       return;
     }
   }
