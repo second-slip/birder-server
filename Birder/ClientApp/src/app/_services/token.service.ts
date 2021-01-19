@@ -12,6 +12,17 @@ export class TokenService {
   constructor(private jwtHelper: JwtHelperService
     , private authenticationService: AuthenticationService) { }
 
+  getFlikrKey(): string {
+    const token = localStorage.getItem('jwt');
+
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const tokenDecoded = this.jwtHelper.decodeToken(token);
+      return tokenDecoded.FlickrKey;
+    } else {
+      return null;
+    }
+  }
+
   checkIsRecordOwner(username: string): boolean {
     const token = localStorage.getItem('jwt');
 
