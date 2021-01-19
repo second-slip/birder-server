@@ -1,25 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'environments/environment';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeocodingService {
   private readonly apiUrl = 'https://maps.google.com/maps/api/geocode/json?';
+  private readonly apiKey = this.token.getMapKey();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private token: TokenService) { }
 
   geocode(searchTerm: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}address=${encodeURIComponent(searchTerm)}&key=${environment.mapKey}`)
+    return this.http.get<any>(`${this.apiUrl}address=${encodeURIComponent(searchTerm)}&key=${this.apiKey}`)
       .pipe(
       )
   }
 
   reverseGeocode(latitude: number, longitude: number): Observable<any> {
     const latLng = latitude + ',' + longitude;
-    return this.http.get<any>(`${this.apiUrl}latlng=${encodeURIComponent(latLng)}&key=${environment.mapKey}`)
+    return this.http.get<any>(`${this.apiUrl}latlng=${encodeURIComponent(latLng)}&key=${this.apiKey}`)
       .pipe(
       )
   }
