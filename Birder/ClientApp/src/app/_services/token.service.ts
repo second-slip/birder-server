@@ -23,6 +23,17 @@ export class TokenService {
     }
   }
 
+  getMapKey(): string {
+    const token = localStorage.getItem('jwt');
+
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const tokenDecoded = this.jwtHelper.decodeToken(token);
+      return tokenDecoded.MapKey;
+    } else {
+      return null;
+    }
+  }
+
   checkIsRecordOwner(username: string): boolean {
     const token = localStorage.getItem('jwt');
 
