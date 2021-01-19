@@ -19,7 +19,6 @@ The (necessary) environment.ts file should look like this:
 ```
 export const environment = {
     production: false,
-    flickrApiKey: '<<<add Flickr Api Key>>>',
     cookieDomain: 'localhost',
     mapKey: '<<<add Google Maps Api Key>>>' 
   };
