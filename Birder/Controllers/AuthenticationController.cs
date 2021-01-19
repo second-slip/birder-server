@@ -84,6 +84,8 @@ namespace Birder.Controllers
                         new Claim("ImageUrl", user.Avatar),
                         new Claim("DefaultLatitude", user.DefaultLocationLatitude.ToString()),
                         new Claim("DefaultLongitude", user.DefaultLocationLongitude.ToString()),
+                        new Claim("FlickrKey", _config["FlickrApiKey"]),
+                        new Claim("MapKey", _config["MapApiKey"]),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
