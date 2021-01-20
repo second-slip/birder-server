@@ -25,17 +25,17 @@ namespace Birder.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ISystemClockService _systemClock;
-        private readonly IConfiguration _config;
+        private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
 
         public AuthenticationController(UserManager<ApplicationUser> userManager
                                         , SignInManager<ApplicationUser> signInManager
                                         , ILogger<AuthenticationController> logger
                                         , ISystemClockService systemClock
-                                        , IConfiguration config)
+                                        , IConfiguration configuration)
         {
             _logger = logger;
-            _config = config;
+            _configuration = configuration;
             _systemClock = systemClock;
             _userManager = userManager;
             _signInManager = signInManager;
@@ -84,17 +84,19 @@ namespace Birder.Controllers
                         new Claim("ImageUrl", user.Avatar),
                         new Claim("DefaultLatitude", user.DefaultLocationLatitude.ToString()),
                         new Claim("DefaultLongitude", user.DefaultLocationLongitude.ToString()),
-                        new Claim("FlickrKey", _config["FlickrApiKey"]),
-                        new Claim("MapKey", _config["MapApiKey"]),
+                        new Claim("FlickrKey", _configuration["FlickrApiKey"]),
+                        new Claim("MapKey", _configuration["MapApiKey"]),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
-                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));
+                    var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenKey"]));
                     var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
+                    var baseUrl = string.Concat(_configuration["Scheme"], _configuration["Domain"]);
+
                     var tokenOptions = new JwtSecurityToken(
-                        issuer: _config["BaseUrl"], //_config["TokenIssuer"],
-                        audience: _config["BaseUrl"], //_config["TokenAudience"],
+                        issuer: baseUrl,
+                        audience: baseUrl,
                         claims: claims,
                         expires: _systemClock.GetNow.AddDays(2),
                         signingCredentials: signinCredentials);

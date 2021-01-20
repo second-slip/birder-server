@@ -29,12 +29,16 @@ namespace Birder.Services
                     {"code", code }
                 };
 
-            return new Uri(QueryHelpers.AddQueryString(_configuration["ConfirmEmailUrl"], queryParams));
+            var url = string.Concat(_configuration["Scheme"], _configuration["Domain"], "/api/Account/ConfirmEmail");
+
+            return new Uri(QueryHelpers.AddQueryString(url, queryParams));
         }
 
         public Uri GetResetPasswordUrl(string code)
         {
-            return new Uri(String.Concat(_configuration["ResetPasswordUrl"], HttpUtility.UrlEncode(code)));
+            var url = string.Concat(_configuration["Scheme"], _configuration["Domain"], "/reset-password/", HttpUtility.UrlEncode(code));
+
+            return new Uri(url);
         }
     }
 }

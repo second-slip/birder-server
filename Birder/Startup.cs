@@ -36,7 +36,7 @@ namespace Birder
             services.AddMemoryCache();
 
             services.AddControllers()
-            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+            //.SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -107,6 +107,8 @@ namespace Birder
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
+            var baseUrl = string.Concat(Configuration["Scheme"], Configuration["Domain"]);
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -121,8 +123,8 @@ namespace Birder
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["BaseUrl"],
-                    ValidAudience = Configuration["BaseUrl"],
+                    ValidIssuer = baseUrl,
+                    ValidAudience = baseUrl,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]))
                 };
             });
@@ -132,7 +134,7 @@ namespace Birder
                options.AddPolicy(MyAllowSpecificOrigins,
                builder =>
                {
-                   builder.WithOrigins(Configuration["BaseUrl"]);
+                   builder.WithOrigins(baseUrl);
                });
             });
         }
