@@ -106,7 +106,7 @@ import { WhatsNewComponent } from './whats-new/whats-new.component';
 
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
-    'domain': environment.cookieDomain // 'localhost'
+    'domain': environment.cookieDomain
   },
   'position': 'bottom',
   'theme': 'classic',

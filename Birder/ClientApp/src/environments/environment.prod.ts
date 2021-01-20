@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    cookieDomain: 'localhost'
+    cookieDomain: 'birder20210119224819.azurewebsites.net'
   };
