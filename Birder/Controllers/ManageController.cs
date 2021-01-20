@@ -26,21 +26,21 @@ namespace Birder.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IFileClient _fileClient;
+        //private readonly IFileClient _fileClient;
 
         public ManageController(IMapper mapper
                               , IEmailSender emailSender
                               , IUrlService urlService
                               , ILogger<ManageController> logger
-                              , UserManager<ApplicationUser> userManager
-                              , IFileClient fileClient)
+                              , UserManager<ApplicationUser> userManager)
+                              //, IFileClient fileClient)
         {
             _mapper = mapper;
             _logger = logger;
             _urlService = urlService;
             _emailSender = emailSender;
             _userManager = userManager;
-            _fileClient = fileClient;
+            //_fileClient = fileClient;
         }
 
         [HttpGet, Route("GetUserProfile")]
@@ -98,22 +98,22 @@ namespace Birder.Controllers
                     }
 
                     // Save Avatar with new username
-                    var file = await _fileClient.GetFile(StorageContainers.Avatar, userName);
-                    if (file != null)
-                    {
-                        await _fileClient.SaveFile(StorageContainers.Avatar, model.UserName, file);
-                        await file.DisposeAsync();
-                        await _fileClient.DeleteFile(StorageContainers.Avatar, userName);
-                    }
+                    //var file = await _fileClient.GetFile(StorageContainers.Avatar, userName);
+                    //if (file != null)
+                    //{
+                    //    await _fileClient.SaveFile(StorageContainers.Avatar, model.UserName, file);
+                    //    await file.DisposeAsync();
+                    //    await _fileClient.DeleteFile(StorageContainers.Avatar, userName);
+                    //}
                     
-                    var avatarUrl = await _fileClient.GetFileUrl(StorageContainers.Avatar, model.UserName);
+                    //var avatarUrl = await _fileClient.GetFileUrl(StorageContainers.Avatar, model.UserName);
 
-                    if (string.IsNullOrEmpty(avatarUrl))
-                    {
-                        avatarUrl = "https://img.icons8.com/color/96/000000/user.png";
-                    }
+                    //if (string.IsNullOrEmpty(avatarUrl))
+                    //{
+                    //    avatarUrl = "https://img.icons8.com/color/96/000000/user.png";
+                    //}
 
-                    user.Avatar = avatarUrl;
+                    //user.Avatar = avatarUrl;
                 }
 
                 var email = user.Email;
@@ -148,63 +148,63 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpPost, Route("UploadAvatar")]
-        public async Task<IActionResult> PostAvatarAsync([FromForm(Name = "file")] IFormFile file)
-        {
-            try
-            {
-                if (file == null)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, "IFormFile argument is null at PostAvatar()");
-                    return BadRequest("An error occurred");
-                }
+        //[HttpPost, Route("UploadAvatar")]
+        //public async Task<IActionResult> PostAvatarAsync([FromForm(Name = "file")] IFormFile file)
+        //{
+        //    try
+        //    {
+        //        if (file == null)
+        //        {
+        //            _logger.LogError(LoggingEvents.UpdateItem, "IFormFile argument is null at PostAvatar()");
+        //            return BadRequest("An error occurred");
+        //        }
 
-                string[] supportedTypes = new[] { "jpg", "jpeg", "png", "bmp" };
-                var fileExt = Path.GetExtension(file.FileName).Substring(1);
-                if (!supportedTypes.Contains(fileExt))
-                {
-                    string message = $"IFormFile is not a supported image type. Type: {fileExt}";
-                    _logger.LogError(LoggingEvents.UpdateItem, message);
-                    return BadRequest(message);
-                }
+        //        string[] supportedTypes = new[] { "jpg", "jpeg", "png", "bmp" };
+        //        var fileExt = Path.GetExtension(file.FileName).Substring(1);
+        //        if (!supportedTypes.Contains(fileExt))
+        //        {
+        //            string message = $"IFormFile is not a supported image type. Type: {fileExt}";
+        //            _logger.LogError(LoggingEvents.UpdateItem, message);
+        //            return BadRequest(message);
+        //        }
 
-                var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                if (user == null)
-                {
-                    _logger.LogError(LoggingEvents.GetItemNotFound, $"User with id '{User.Identity.Name}' not found");
-                    return NotFound("User not found");
-                }
+        //        var user = await _userManager.FindByNameAsync(User.Identity.Name);
+        //        if (user == null)
+        //        {
+        //            _logger.LogError(LoggingEvents.GetItemNotFound, $"User with id '{User.Identity.Name}' not found");
+        //            return NotFound("User not found");
+        //        }
 
-                await _fileClient.DeleteFile(StorageContainers.Avatar, user.UserName);
+        //        await _fileClient.DeleteFile(StorageContainers.Avatar, user.UserName);
 
-                using (var fileStream = file.OpenReadStream())
-                {
-                    await _fileClient.SaveFile(StorageContainers.Avatar, user.UserName, fileStream);
-                }
+        //        using (var fileStream = file.OpenReadStream())
+        //        {
+        //            await _fileClient.SaveFile(StorageContainers.Avatar, user.UserName, fileStream);
+        //        }
 
-                var avatarUrl = await _fileClient.GetFileUrl(StorageContainers.Avatar, user.UserName);
+        //        var avatarUrl = await _fileClient.GetFileUrl(StorageContainers.Avatar, user.UserName);
 
-                if (string.IsNullOrEmpty(avatarUrl))
-                {
-                    avatarUrl = "https://img.icons8.com/color/96/000000/user.png";
-                }
+        //        if (string.IsNullOrEmpty(avatarUrl))
+        //        {
+        //            avatarUrl = "https://img.icons8.com/color/96/000000/user.png";
+        //        }
 
-                if (user.Avatar != avatarUrl)
-                {
-                    user.Avatar = avatarUrl;
-                    var setAvatar = await _userManager.UpdateAsync(user);
-                    if (!setAvatar.Succeeded)
-                        throw new ApplicationException($"Unexpected error occurred setting the avatar for user with ID '{user.Id}'.");
-                }
+        //        if (user.Avatar != avatarUrl)
+        //        {
+        //            user.Avatar = avatarUrl;
+        //            var setAvatar = await _userManager.UpdateAsync(user);
+        //            if (!setAvatar.Succeeded)
+        //                throw new ApplicationException($"Unexpected error occurred setting the avatar for user with ID '{user.Id}'.");
+        //        }
 
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "PostAvatar()");
-                return BadRequest("An unexpected error occurred");
-            }
-        }
+        //        return Ok();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "PostAvatar()");
+        //        return BadRequest("An unexpected error occurred");
+        //    }
+        //}
 
         [HttpPost, Route("SetLocation")]
         public async Task<IActionResult> SetLocationAsync(SetLocationViewModel model)
