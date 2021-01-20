@@ -8,7 +8,7 @@ RUN apt-get update -yq \
 WORKDIR /app
 EXPOSE 80
 
-ENV ConnectionStrings:DefaultConnection="Server=tcp:birder-server.database.windows.net,1433;Initial Catalog=birder;Persist Security Info=False;User ID=birderadmin;Password=Xasc85he;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+# ENV ConnectionStrings:DefaultConnection="Server=tcp:birder-server.database.windows.net,1433;Initial Catalog=birder;Persist Security Info=False;User ID=birderadmin;Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 RUN apt-get update -yq \
