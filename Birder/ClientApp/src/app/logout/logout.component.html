@@ -2,13 +2,15 @@
   <div class="login-container">
     <div class="section-title">
       <h2><i>Are you sure you want to <b>logout?</b></i></h2>
-      <div>
-        <button type="button" class="btn btn-primary" (click)="onCancel()">
-          Cancel
-        </button>
-        <button type="button" class="btn btn-primary" (click)="onLogout()">
-          Logout
-        </button>
+
+     
+      <div class="button-row">
+        <a mat-stroked-button color="primary" (click)="onNo()">
+          No - go back to last page
+        </a>
+        <a mat-stroked-button color="warn" (click)="onLogout()">
+          Yes - log me out
+        </a>
       </div>
     </div>
   </div>

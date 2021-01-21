@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <!--<TargetFramework>netcoreapp3.1</TargetFramework>-->
     <TargetFramework>net5.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
@@ -14,6 +13,8 @@
     <UserSecretsId>ead41ccc-1a3c-4e9b-b173-a50392209612</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
+	
+	
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />

@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AuthenticationService } from '../_services/authentication.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-logout',
@@ -11,15 +12,14 @@ import { Router } from '@angular/router';
 export class LogoutComponent {
 
   constructor(private authenticationService: AuthenticationService
-            , private router: Router) { }
+    , private router: Router, private location: Location) { }
 
   onLogout(): void {
     this.authenticationService.logout();
     this.router.navigate(['home']);
   }
 
-  onCancel(): void {
-    // TODO: go back to last view
-    // alert('cancel');
+  onNo(): void {
+    this.location.back();
   }
 }
