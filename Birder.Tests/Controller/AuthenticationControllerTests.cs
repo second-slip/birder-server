@@ -25,7 +25,11 @@ namespace Birder.Tests.Controller
             _logger = new Mock<ILogger<AuthenticationController>>();
             _systemClock = new SystemClockService();
             _config = new Mock<IConfiguration>();
-            _config.SetupGet(x => x[It.Is<string>(s => s == "Tokens:Issuer")]).Returns("http://localhost:55722");
+            _config.SetupGet(x => x[It.Is<string>(s => s == "Scheme")]).Returns("http://");
+            _config.SetupGet(x => x[It.Is<string>(s => s == "Domain")]).Returns("localhost:55722");
+            _config.SetupGet(x => x[It.Is<string>(s => s == "FlickrApiKey")]).Returns("ggjh");
+            _config.SetupGet(x => x[It.Is<string>(s => s == "MapApiKey")]).Returns("fjfgjn");
+            _config.SetupGet(x => x[It.Is<string>(s => s == "TokenKey")]).Returns("fjfgdfdfeTTjn3wq");
         }
 
         [Fact]

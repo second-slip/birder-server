@@ -390,7 +390,7 @@ namespace Birder.Tests.Controller
                                               It.IsAny<string>(),
                                               It.IsAny<Object>()));
             var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
-            mockObsPositionRepo.Setup(p => p.GetAsync(It.IsAny<int>()))
+            mockObsPositionRepo.Setup(p => p.SingleOrDefaultAsync(It.IsAny<Expression<Func<ObservationPosition, bool>>>()))
                 .ReturnsAsync(SharedFunctions.GetObservationPosition());
             var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
             mockObsNotesRepo.Setup(on => on.FindAsync(It.IsAny<Expression<Func<ObservationNote, bool>>>()))

@@ -418,7 +418,7 @@ namespace Birder.Tests.Controller
                             .ReturnsAsync(testCode);
 
             var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.Development.json")
                     .Build();
 
             var urlService = new UrlService(config);
@@ -547,7 +547,7 @@ namespace Birder.Tests.Controller
                             .ReturnsAsync(testCode);
 
             var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.Development.json")
                     .Build();
 
             var urlService = new UrlService(config);
