@@ -26,21 +26,18 @@ namespace Birder.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
-        //private readonly IFileClient _fileClient;
 
         public ManageController(IMapper mapper
                               , IEmailSender emailSender
                               , IUrlService urlService
                               , ILogger<ManageController> logger
                               , UserManager<ApplicationUser> userManager)
-                              //, IFileClient fileClient)
         {
             _mapper = mapper;
             _logger = logger;
             _urlService = urlService;
             _emailSender = emailSender;
             _userManager = userManager;
-            //_fileClient = fileClient;
         }
 
         [HttpGet, Route("GetUserProfile")]
@@ -97,7 +94,8 @@ namespace Birder.Controllers
                         return BadRequest(ModelState);
                     }
 
-                    // Save Avatar with new username
+                    // Save Avatar with new username ========> use user id instead 
+                    // 
                     //var file = await _fileClient.GetFile(StorageContainers.Avatar, userName);
                     //if (file != null)
                     //{
@@ -147,6 +145,8 @@ namespace Birder.Controllers
                 return BadRequest("There was an error updating the user");
             }
         }
+
+        // ToDo: MOVE TO SEPARATE CONTROLLER (or handle in client side?)
 
         //[HttpPost, Route("UploadAvatar")]
         //public async Task<IActionResult> PostAvatarAsync([FromForm(Name = "file")] IFormFile file)
