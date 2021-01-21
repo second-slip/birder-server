@@ -66,12 +66,17 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
     this.geocoding.geocode(searchValue)
       .subscribe(
         (response: any) => {
+          this.changeZoomLevel(15);
           this.addMarker(response.results[0].geometry.location.lat, response.results[0].geometry.location.lng, false); // false to stop second hit on API to get address...
           this.geolocation = response.results[0].formatted_address;
           this.searchAddress = '';
           this.ref.detectChanges();
         }
       );
+  }
+
+  changeZoomLevel(level: number): void {
+    this.zoom = level;
   }
 
   closeAlert(): void {
@@ -82,6 +87,7 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
     if (window.navigator.geolocation) {
       window.navigator.geolocation.getCurrentPosition(
         (position) => {
+          this.changeZoomLevel(15);
           this.addMarker(position.coords.latitude, position.coords.longitude, true);
         }, (error) => {
           switch (error.code) {
