@@ -207,7 +207,7 @@ namespace Birder.Controllers
                 }
 
                 var observation = await _observationRepository.GetObservationAsync(id, false);
-                if (observation == null)
+                if (observation is null)
                 {
                     string message = $"Observation with id '{model.ObservationId}' was not found.";
                     _logger.LogError(LoggingEvents.UpdateItem, message);
@@ -224,9 +224,24 @@ namespace Birder.Controllers
                 _mapper.Map<ObservationEditDto, Observation>(model, observation);
 
                 var bird = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
+                if (bird is null)
+                {
+                    string message = $"The observed bird could not be found for observation with id '{model.ObservationId}'.";
+                    _logger.LogError(LoggingEvents.UpdateItem, message);
+                    return NotFound(message);
+                }
+
                 observation.Bird = bird;
 
-                var position = await _observationPositionRepository.GetAsync(id);
+                //var position = await _observationPositionRepository.GetAsync(observation.Position.ObservationPositionId);
+                var position = await _observationPositionRepository.SingleOrDefaultAsync(o => o.ObservationId == observation.ObservationId);
+                if (position is null)
+                {
+                    string message = $"The position could not be found for observation with id '{model.ObservationId}'.";
+                    _logger.LogError(LoggingEvents.UpdateItem, message);
+                    return NotFound(message);
+                }
+
                 position.Latitude = model.Position.Latitude;
                 position.Longitude = model.Position.Longitude;
                 position.FormattedAddress = model.Position.FormattedAddress;

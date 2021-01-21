@@ -99,6 +99,7 @@ export class ObservationEditComponent implements OnInit {
       formattedAddress: this.timerComponent.geolocation
     }
 
+
     const notes: ObservationNote[] = this.editNotesComponent.notes.map(note => ({
       id: note.id,
       noteType: ObservationNoteType[note.noteType],
