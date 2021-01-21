@@ -36,7 +36,7 @@
         </div>
       </div>
 
-      <div class="content-right">
+      <div class="navigation-menu">
         <hr>
         <a [routerLink]="" (click)="goBack()">Go Back</a>
         <a routerLink="/observation-edit/{{observation.observationId}}">
@@ -44,6 +44,9 @@
         </a>
         <a routerLink="/observation-detail/{{observation.observationId}}">
           | View
+        </a>
+        <a routerLink="/observation-add">
+          | Add new
         </a>
       </div>
     </div>

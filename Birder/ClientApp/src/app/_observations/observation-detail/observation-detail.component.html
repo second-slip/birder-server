@@ -104,7 +104,7 @@
           </div>
         </div>
 
-        <div class="content-right">
+        <div class="navigation-menu">
           <hr>
           <a [routerLink]="" (click)="goBack()">Go Back</a>
           <a *ngIf="observation.user.userName === user.userName"
@@ -118,6 +118,9 @@
           <a *ngIf="observation.user.userName === user.userName"
             routerLink="/observation-delete/{{observation.observationId}}">
             | Delete
+          </a>
+          <a routerLink="/observation-add">
+            | Add new
           </a>
         </div>
       </div>
