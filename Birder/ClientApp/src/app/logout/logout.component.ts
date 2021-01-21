@@ -20,6 +20,6 @@ export class LogoutComponent {
 
   onCancel(): void {
     // TODO: go back to last view
-    alert('cancel');
+    // alert('cancel');
   }
 }
