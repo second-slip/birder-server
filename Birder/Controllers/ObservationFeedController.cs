@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -145,7 +146,10 @@ namespace Birder.Controllers
 
                 var showcaseObservations = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations);
 
-                _cache.Set(CacheEntries.ShowcaseObservations, showcaseObservations, _systemClock.GetEndOfToday);
+                if (showcaseObservations.Items.Any())
+                {
+                    _cache.Set(CacheEntries.ShowcaseObservations, showcaseObservations, _systemClock.GetEndOfToday);
+                }
 
                 return Ok(showcaseObservations);
             }
