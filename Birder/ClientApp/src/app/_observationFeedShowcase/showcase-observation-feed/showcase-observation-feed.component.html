@@ -4,7 +4,6 @@
             <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
                 <app-showcase-observation-feed-item [observation]="observation"></app-showcase-observation-feed-item>
             </div>
-
             <br>
         </ng-container>
         <ng-template #noItems>No Items!</ng-template>

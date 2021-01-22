@@ -40,8 +40,9 @@
       <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
 
         <app-observation-feed-item [observation]="observation" [user]="user"></app-observation-feed-item>
-
+        
       </div>
+      
     </ng-container>
     <ng-template #noItems>No Items!</ng-template>
   </div>
