@@ -73,6 +73,8 @@ export class ObservationFeedComponent implements OnInit {
               (error: ErrorReportViewModel) => {
                 // this.router.navigate(['/page-not-found']);
               }),
+
+              // add a 'finally' statement to set loading = false?
             map((resp: any) => resp.items), // resp.results),
             tap(resp => {
               this.cache[page - 1] = resp;
@@ -147,6 +149,7 @@ export class ObservationFeedComponent implements OnInit {
                 (error: ErrorReportViewModel) => {
                   // this.router.navigate(['/page-not-found']);
                 }),
+                // add a 'finally' statement to set loading = false?
               map((resp: any) => resp.items),
               tap(resp => {
                 this.cache[page - 1] = resp;
