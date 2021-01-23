@@ -1,7 +1,7 @@
 <div *ngIf="!requesting; else loading">
     <ng-container *ngIf="analysis && analysis.totalObservationsCount > 0; else zeroCount">
         <div class="container">
-            <h3><small>You have spotted </small> {{analysis.uniqueSpeciesCount}} <small> bird species <br>in</small>
+            <h3><small>You have spotted </small> {{analysis.uniqueSpeciesCount}} <small> species <br>in</small>
                 {{analysis.totalObservationsCount}} <small>
                     {{ analysis.totalObservationsCount > 1 ? 'observations' : 'observation' }} </small></h3>
         </div>
