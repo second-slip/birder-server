@@ -1,74 +1,76 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
-  <!-- <a class="navbar-brand" [routerLink]='["/"]'>Birder</a> -->
-  <a class="navbar-brand" [routerLink]='["/"]'><img
-      src="https://birder.blob.core.windows.net/shared-images/Birder-Logo.png" class="img-responsive" alt="" /><span
-      class="brand-text">Birder</span></a>
+<div class="container">
+  <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+    <!-- <a class="navbar-brand" [routerLink]='["/"]'>Birder</a> -->
+    <a class="navbar-brand" [routerLink]='["/"]'><img
+        src="https://birder.blob.core.windows.net/shared-images/Birder-Logo.png" class="img-responsive" alt="" /><span
+        class="brand-text">Birder</span></a>
 
-  <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed"
-    data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
-    <ul class="navbar-nav mr-auto">
-      <!-- <li class="nav-item" *ngIf="isLoggedIn">
+    <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed"
+      data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
+      <ul class="navbar-nav mr-auto">
+        <!-- <li class="nav-item" *ngIf="isLoggedIn">
         <a class="nav-link" [routerLink]='["/observation-feed"]'>Observations</a>
       </li> -->
-      <!--  -->
-      <li class="nav-item dropdown" ngbDropdown>
-        <a class="nav-link dropdown-toggle" style='cursor:pointer' id="navbarDropdown" role="button"
-          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle ngbDropdownToggle>
-          Observations
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown" ngbDropdownMenu>
-          <a class="dropdown-item" [routerLink]='["/observation-feed"]'>Observations feed</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" [routerLink]='["/observation-add"]'>Add single observation</a>
-          <a class="dropdown-item disabled">Add multiple observations</a>
-        </div>
-      </li>
-      <!--  -->
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" [routerLink]='["/birds-index"]'>Birds</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" [routerLink]='["/life-list"]'>Life List</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" [routerLink]='["/network"]'>Network</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn">
-        <a class="nav-link" [routerLink]='["/testing"]'>Test</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]='["/whats-new"]'>Coming soon</a>
-      </li>
-    </ul>
-
-    <div *ngIf="isLoggedIn">
-      <ul class="nav navbar-nav navbar-right">
+        <!--  -->
         <li class="nav-item dropdown" ngbDropdown>
-          <a style='cursor:pointer' class="nav-link dropdown-toggle" id="id02" ngbDropdownToggle>
-            <img src={{authenticatedUser.avatar}} class="profile-img img-circle"
-              onerror="this.src='https://img.icons8.com/color/96/000000/user.png';"
-              style="resize:both">{{authenticatedUser.userName}}<b class="caret"></b>
-            <ul class="dropdown-menu" ngbDropdownMenu>
-              <a class="dropdown-item" routerLink="/user-profile/{{authenticatedUser.userName}}">My Profile</a>
-              <a class="dropdown-item" [routerLink]='["/account-manager-profile"]'>Manage Account</a>
-              <a class="dropdown-item" [routerLink]='["/logout"]'>Logout</a>
-            </ul>
+          <a class="nav-link dropdown-toggle" style='cursor:pointer' id="navbarDropdown" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle ngbDropdownToggle>
+            Observations
           </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown" ngbDropdownMenu>
+            <a class="dropdown-item" [routerLink]='["/observation-feed"]'>Observations feed</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" [routerLink]='["/observation-add"]'>Add single observation</a>
+            <a class="dropdown-item disabled">Add multiple observations</a>
+          </div>
         </li>
+        <!--  -->
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link" [routerLink]='["/birds-index"]'>Birds</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link" [routerLink]='["/life-list"]'>Life List</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link" [routerLink]='["/network"]'>Network</a>
+        </li>
+        <!-- <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link" [routerLink]='["/testing"]'>Test</a>
+        </li> -->
       </ul>
+
+      <div class="hello" *ngIf="isLoggedIn">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]='["/whats-new"]'>Coming soon</a>
+          </li>
+          <li class="nav-item dropdown" ngbDropdown>
+            <a style='cursor:pointer' class="nav-link dropdown-toggle" id="id02" ngbDropdownToggle>
+              <img src={{authenticatedUser.avatar}} class="profile-img img-circle"
+                onerror="this.src='https://img.icons8.com/color/96/000000/user.png';"
+                style="resize:both">{{authenticatedUser.userName}}<b class="caret"></b>
+              <ul class="dropdown-menu" ngbDropdownMenu>
+                <a class="dropdown-item" routerLink="/user-profile/{{authenticatedUser.userName}}">My Profile</a>
+                <a class="dropdown-item" [routerLink]='["/account-manager-profile"]'>Manage Account</a>
+                <a class="dropdown-item" [routerLink]='["/logout"]'>Logout</a>
+              </ul>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="!isLoggedIn">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]='["/login"]'>Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]='["/register"]'>Register</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div *ngIf="!isLoggedIn">
-      <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]='["/login"]'>Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]='["/register"]'>Register</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+  </nav>
+</div>

@@ -1,4 +1,7 @@
 app-nav-menu {
+
+
+
 .profile-img {
     margin-top: -5px;
     margin-right: 5px;
@@ -20,16 +23,22 @@ app-nav-menu {
     margin-right: 10px;
   }
   
-  .flex-column {
-    width: 100%;
-  }
+  // .flex-column {
+  //   width: 100%;
+  // }
   
   .navbar {
+    //margin-left: 20px;
     padding: 0;
   }
   
   .navbar-brand {
+    margin-left: 20px; //
     padding: 15px;
+  }
+
+  .hello {
+    margin-right: 70px;
   }
   
   .brand-text {
