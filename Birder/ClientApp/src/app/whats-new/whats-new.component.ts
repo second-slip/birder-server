@@ -16,12 +16,11 @@ export class WhatsNewComponent implements OnInit {
   ngOnInit(): void {
     this.getJSON().subscribe(data => {
       this.features = data;
-      console.log(data);
     });
   }
 
   getJSON(): Observable<IFeatures> {
-    return this.http.get<IFeatures>("./assets/features.json");
+    return this.http.get<IFeatures>("./assets/new-features.json");
   }
 }
 
