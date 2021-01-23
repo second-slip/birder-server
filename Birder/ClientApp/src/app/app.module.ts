@@ -99,6 +99,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ShowcaseObservationFeedItemComponent } from './_observationFeedShowcase/showcase-observation-feed-item/showcase-observation-feed-item.component';
 import { ShowcaseObservationFeedComponent } from './_observationFeedShowcase/showcase-observation-feed/showcase-observation-feed.component';
 import { WhatsNewComponent } from './whats-new/whats-new.component';
+import { TweetArchiveComponent } from './tweet-archive/tweet-archive.component';
 
 
 // import { UsernameValidator } from 'validators';
@@ -205,7 +206,8 @@ export function tokenGetter() {
     EditNotesComponent,
     ObservationFeedItemComponent,
     ShowcaseObservationFeedItemComponent,
-    WhatsNewComponent
+    WhatsNewComponent,
+    TweetArchiveComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
