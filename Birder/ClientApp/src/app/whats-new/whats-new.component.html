@@ -9,7 +9,7 @@
             new features, some of which are outlined in the table below.
         </p>
 
-        <p>I welcome your suggestions for new features and/or your thoughts on how to improveme the existing features.
+        <p>I welcome your suggestions for new features and/or your thoughts on how to improve the existing features.
             <br>Please do not hesitate to <a href="mailto: andrewstuartcross@gmx.com"
                 title="Send an email to the Birder team">e-mail</a> your suggestions or feedback.
         </p>
@@ -37,7 +37,7 @@
                     <td>{{ feature.feature }}</td>
                     <td>{{ feature.description }}</td>
                     <td>{{ feature.progress }}</td>
-                    <td>{{ feature.priority }}</td>
+                    <td [style.color]="feature.colourCode">{{ feature.priority }} {{ feature.colourcode }}</td>
                 </tr>
             </tbody>
         </table>

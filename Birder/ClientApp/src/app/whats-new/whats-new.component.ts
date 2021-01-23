@@ -16,7 +16,7 @@ export class WhatsNewComponent implements OnInit {
   ngOnInit(): void {
     this.getJSON().subscribe(data => {
       this.features = data;
-      // console.log(data);
+      console.log(data);
     });
   }
 
@@ -32,4 +32,5 @@ export interface IFeatures {
   description: string;
   progress: string;
   priority: string;
+  colourCode: string;
 }
