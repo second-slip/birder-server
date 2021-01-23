@@ -13,7 +13,7 @@
         <th scope="col">#</th>
         <th scope="col">Count</th>
         <th scope="col">Species</th>
-        <th scope="col">Status / Population</th>
+        <th class="hide-small" scope="col">Status / Population</th>
         <th scope="col">Risk Flag</th>
       </tr>
     </thead>
@@ -23,7 +23,7 @@
         <td>{{ record.count | number }}</td>
         <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
           <br><small><em>{{ record.species }}</em></small></td>
-        <td><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
+        <td class="hide-small"><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
         <td [style.color]="record.conservationListColourCode"><small>{{ record.conservationStatus }}</small></td>
       </tr>
     </tbody>
