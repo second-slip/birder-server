@@ -4,90 +4,103 @@
         "feature": "UI redesign",
         "description": "To apply a consistent style across the website and to make sure each page is adjusted to fit smaller screens (‘mobile-first’).",
         "progress": "Ongoing, with regular updates",
-        "priority": "High"
+        "priority": "High",
+        "colourCode": "Red"
     },
     {
         "id": "2",
         "feature": "Distribution maps",
         "description": "To show the location of every observation by a user on a map. Option to filter by species.",
         "progress": "Work started",
-        "priority": "High"
+        "priority": "High",
+        "colourCode": "Red"
     },
     {
         "id": "3",
         "feature": "Upload photos",
         "description": "To reinstate the upload photographs feature.  Perhaps as a premium feature to cover the cost of storing the images.",
         "progress": "In progress",
-        "priority": "High"
+        "priority": "High",
+        "colourCode": "Red"
     },
     {
         "id": "4",
         "feature": "Mobile app",
         "description": "To develop dedicated mobile apps for iOS and Android devices.  Unlikely until the main website is stable.",
         "progress": "Not started",
-        "priority": "Aspiration"
+        "priority": "Aspiration",
+        "colourCode": "Red"
     },
     {
         "id": "5",
         "feature": "Awards/Achievements",
         "description": "To introduce awards for collecting x amount of species/observations, and for collecting sets of birds (e.g. 'birds of prey set', 'garden bird spotter', etc.).",
         "progress": "Not started",
-        "priority": "High"
+        "priority": "High",
+        "colourCode": "Red"
     },
     {
         "id": "6",
         "feature": "Tags",
         "description": "Group related observations with custom 'tags'.  For example, create tags like 'Trip to Scotland 2020', 'in the garden', etc.",
         "progress": "Not started",
-        "priority": "Low"
+        "priority": "Low",
+        "colourCode": "Red"
     },
     {
         "id": "7",
         "feature": "Tweet/day archive",
         "description": "A page with a list of the previous x days of the 'Tweet of the Day' feature",
         "progress": "Not started",
-        "priority": "Low"
+        "priority": "Low",
+        "colourCode": "Red"
     },
     {
         "id": "8",
         "feature": "Birder blog",
         "description": "Set up a blog to announce news, development progress, and interesting recent observations.",
         "progress": "Not started",
-        "priority": "Medium"
+        "priority": "Medium",
+        "colourCode": "Red"
     },
     {
         "id": "9",
         "feature": "Year list",
         "description": "Add option to filter the Life List by year to create a year list.  Year list should be able for each of the years since the user registered.",
         "progress": "Not started",
-        "priority": "Medium"
+        "priority": "Medium",
+        "colourCode": "Red"
     },
     {
         "id": "10",
         "feature": "Birds index",
         "description": "Option to view the birds index page in a 'tiles' format with a thumbnail image.  As an alternative to the current table setup.",
         "progress": "Not started",
-        "priority": "Medium"
+        "priority": "Medium",
+        "colourCode": "Red"
     },
     {
         "id": "11",
         "feature": "Graphs",
         "description": "To add further analysis of observations.  Frequency charts for each bird species to demonstrate migration patterns, user observations line graphs, etc...",
         "progress": "Not started",
-        "priority": "Medium"
+        "priority": "Medium",
+        "colourCode": "Red"
     },
     {
         "id": "12",
         "feature": "Species id helper",
         "description": "Design a data-led model to aid with bird identification.",
         "progress": "Not started",
-        "priority": "Aspiration"
+        "priority": "Aspiration",
+        "colourCode": "Red"
     },
     {
         "id": "13",
         "feature": "Photo wall",
         "description": "Feature users' photographs in a 'wall' or 'tiles' view.",
         "progress": "Not started",
-        "priority": "Low"
+        "priority": "Low",
+        "colourCode": "Red"
     }
 ]
