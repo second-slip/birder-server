@@ -18,6 +18,7 @@ import { AddNotesComponent } from '@app/_observationNotes/add-notes/add-notes.co
 import { EditNotesComponent } from '@app/_observationNotes/edit-notes/edit-notes.component';
 import { EditNoteDialogComponent } from '@app/_observationNotes/edit-note-dialog/edit-note-dialog.component';
 import * as moment from 'moment';
+import { DateValid } from 'validators/dateTime.validator';
 
 @Component({
   selector: 'app-observation-add',
@@ -41,7 +42,6 @@ export class ObservationAddComponent implements OnInit {
   hideAlert = false;
 
   @ViewChild('picker') picker: any;
-
   //
   //public date: moment.Moment;
   public disabled = false;
@@ -49,8 +49,8 @@ export class ObservationAddComponent implements OnInit {
   public showSeconds = false;
   public touchUi = false;
   public enableMeridian = false;
-  public minDate = new Date().toISOString(); // moment.Moment;
-  public maxDate = new Date().toISOString(); // moment.Moment;
+  public minDate = moment().subtract(20, "years");// new Date().toISOString(); // moment.Moment;
+  public maxDate = moment().format('YYYY-MM-DD 23:59:59'); // new Date().toISOString(); // moment.Moment;
   public stepHour = 1;
   public stepMinute = 1;
   public stepSecond = 1;
@@ -63,6 +63,10 @@ export class ObservationAddComponent implements OnInit {
     ],
     'bird': [
       { type: 'required', message: 'The observed species is required' }
+    ],
+    'observationDateTime': [
+      { type: 'required', message: 'The date and time are required' },
+      { type: 'invalidDate', message: 'Invalid date/time format. Use the control to choose a valid date/time.' }
     ]
   };
 
@@ -76,6 +80,14 @@ export class ObservationAddComponent implements OnInit {
     this.getUser();
     this.getBirds();
   }
+
+  // setDatePickerRange(): void {
+  //   let date = new Date();
+  //   date.setHours
+  //   this.maxDate = 
+
+
+  // }
 
   getBirdAutocompleteOptions() {
     this.filteredOptions = this.addObservationForm.controls['bird'].valueChanges.pipe(
@@ -101,8 +113,12 @@ export class ObservationAddComponent implements OnInit {
       bird: new FormControl('', Validators.compose([
         Validators.required
       ])),
+
       observationDateTime: new FormControl((new Date()).toISOString(), Validators.compose([
         Validators.required
+        //DateValid(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/) 
+        // not really necessary as input is now readonly,
+        // and it should be an async validator, regex is crap here
       ])),
     });
   }
@@ -136,8 +152,6 @@ export class ObservationAddComponent implements OnInit {
       hasPhotos: false,
       lastUpdateDate: new Date().toISOString()
     }
-
-    //console.log(observation);
 
     this.observationService.addObservation(observation)
       .subscribe(
