@@ -53,13 +53,27 @@
                 </mat-error>
               </mat-form-field>
 
-              <mat-form-field class="full-width">
+              <!-- <mat-form-field class="full-width">
                 <input matInput [matDatepicker]="picker" placeholder="Choose a date"
                   formControlName="observationDateTime">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
+              </mat-form-field> -->
               <!-- Details end -->
+
+              <!--  -->
+              <!-- {{addObservationForm.get('observationDateTime')}} -->
+              <mat-form-field>
+                <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" formControlName="observationDateTime"
+                [max]="maxDate" [disabled]="disabled">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                   [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+                   [touchUi]="touchUi" [color]="color" [enableMeridian]="enableMeridian" 
+                   [disableMinute]="disableMinute" [hideTime]="hideTime">
+                </ngx-mat-datetime-picker>
+             </mat-form-field>
+              <!--  -->
 
             </mat-expansion-panel>
             <!--  -->

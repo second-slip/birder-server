@@ -17,6 +17,7 @@ import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNo
 import { AddNotesComponent } from '@app/_observationNotes/add-notes/add-notes.component';
 import { EditNotesComponent } from '@app/_observationNotes/edit-notes/edit-notes.component';
 import { EditNoteDialogComponent } from '@app/_observationNotes/edit-note-dialog/edit-note-dialog.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-observation-add',
@@ -38,6 +39,23 @@ export class ObservationAddComponent implements OnInit {
   filteredOptions: Observable<BirdSummaryViewModel[]>;
   user: UserViewModel;
   hideAlert = false;
+
+  @ViewChild('picker') picker: any;
+
+  //
+  //public date: moment.Moment;
+  public disabled = false;
+  public showSpinners = true;
+  public showSeconds = false;
+  public touchUi = false;
+  public enableMeridian = false;
+  public minDate = new Date().toISOString(); // moment.Moment;
+  public maxDate = new Date().toISOString(); // moment.Moment;
+  public stepHour = 1;
+  public stepMinute = 1;
+  public stepSecond = 1;
+  //public color: ThemePalette = 'primary';
+  //
 
   addObservation_validation_messages = {
     'quantity': [
@@ -107,7 +125,7 @@ export class ObservationAddComponent implements OnInit {
 
     const observation = <ObservationViewModel>{
       quantity: formValue.quantity,
-      observationDateTime: formValue.observationDateTime,
+      observationDateTime: new Date(formValue.observationDateTime).toISOString(), // formValue.observationDateTime,
       bird: formValue.bird,
       birdId: formValue.bird.birdId,
       position: position,
@@ -118,6 +136,8 @@ export class ObservationAddComponent implements OnInit {
       hasPhotos: false,
       lastUpdateDate: new Date().toISOString()
     }
+
+    //console.log(observation);
 
     this.observationService.addObservation(observation)
       .subscribe(
