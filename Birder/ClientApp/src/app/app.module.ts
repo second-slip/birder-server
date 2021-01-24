@@ -100,7 +100,8 @@ import { ShowcaseObservationFeedItemComponent } from './_observationFeedShowcase
 import { ShowcaseObservationFeedComponent } from './_observationFeedShowcase/showcase-observation-feed/showcase-observation-feed.component';
 import { WhatsNewComponent } from './whats-new/whats-new.component';
 import { TweetArchiveComponent } from './tweet-archive/tweet-archive.component';
-
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 
 // import { UsernameValidator } from 'validators';
 
@@ -222,6 +223,10 @@ export function tokenGetter() {
     MatTooltipModule,
     MatButtonModule,
     MatDatepickerModule,
+    //
+    NgxMatDatetimePickerModule,
+    NgxMatMomentModule,
+    //
     MatNativeDateModule,
     MatCheckboxModule,
     MatSelectModule,
