@@ -102,6 +102,7 @@ import { WhatsNewComponent } from './whats-new/whats-new.component';
 import { TweetArchiveComponent } from './tweet-archive/tweet-archive.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+import { MatStepperModule }  from '@angular/material/stepper';
 
 // import { UsernameValidator } from 'validators';
 
@@ -226,6 +227,7 @@ export function tokenGetter() {
     //
     NgxMatDatetimePickerModule,
     NgxMatMomentModule,
+    MatStepperModule,
     //
     MatNativeDateModule,
     MatCheckboxModule,
