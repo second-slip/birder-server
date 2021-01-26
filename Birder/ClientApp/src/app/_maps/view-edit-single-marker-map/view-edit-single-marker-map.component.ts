@@ -46,7 +46,7 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
     // if (getAddress) {
     this.getFormattedAddress(latitude, longitude);
     // }
-    this.infoWindow.open(this.locationMarker.position);
+    // this.infoWindow.open(this.locationMarker.position);
   }
 
   markerChanged(event: google.maps.MapMouseEvent): void {

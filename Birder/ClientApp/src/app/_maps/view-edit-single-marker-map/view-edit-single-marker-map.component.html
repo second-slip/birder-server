@@ -10,24 +10,24 @@
   <div *ngIf="locationMarker">
 
     <div class="container">
-      
+
       <form class="form-inline map-controls" (ngSubmit)="findAddress(searchAddress)">
         <!-- <mat-form-field> -->
-        <input class="form-control" type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
-          [ngModelOptions]="{standalone: true}" required>
+        <input class="form-control" type="text" name="searchAddress" placeholder="Type location here"
+          [(ngModel)]="searchAddress" [ngModelOptions]="{standalone: true}" required>
         <!-- </mat-form-field> -->
 
         <button mat-stroked-button type="submit" triggers="mouseenter:mouseleave"
           ngbPopover='- Type a place name (e.g. Canterbury, UK); or a specific address (e.g. 1 High St, Canterbury CT1 2JH)'
-          popoverTitle="Search help" aria-label="Search for a location"
-          #tooltip="matTooltip" matTooltip="Search for a location">
+          popoverTitle="Search help" aria-label="Search for a location" #tooltip="matTooltip"
+          matTooltip="Search for a location">
           <mat-icon>search</mat-icon>
         </button>
-        
-          <button mat-stroked-button type="button" (click)="getCurrentPosition()" aria-label="Get your current location"
+
+        <button mat-stroked-button type="button" (click)="getCurrentPosition()" aria-label="Get your current location"
           #tooltip="matTooltip" matTooltip="Get your current location">
-            <mat-icon>my_location</mat-icon>
-          </button>
+          <mat-icon>my_location</mat-icon>
+        </button>
 
         <!-- <a class="add-button" [routerLink]='["/observation-add"]' mat-stroked-button aria-label="Add a new observation"
         #tooltip="matTooltip" matTooltip="Add a new observation"
@@ -36,7 +36,7 @@
         Add observation
       </a> -->
       </form>
-    
+
 
       <p *ngIf="geoError">
         <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
@@ -49,16 +49,17 @@
     <!-- <p>in the child: {{ locationMarker.position.lat }} , {{locationMarker.position.lng }}</p> -->
     <p class="container location">
       <mat-icon>location_on</mat-icon>
-      <span>{{ geolocation }}</span> 
+      <span>{{ geolocation }}</span>
     </p>
 
-
-    <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
-      <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker.options"
-        (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
-        <map-info-window>{{ geolocation }}</map-info-window>
-      </map-marker>
-    </google-map>
+    <div>
+      <google-map height="300px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
+        <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker.options"
+          (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
+          <map-info-window>{{ geolocation }}</map-info-window>
+        </map-marker>
+      </google-map>
+    </div>
 
   </div>
 </div>
