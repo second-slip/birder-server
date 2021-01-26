@@ -9,6 +9,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es2015",
+    "types": [
+      "googlemaps"
+    ],
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -20,7 +23,9 @@
     // "baseUrl": "./"
     "baseUrl": "src",
     "paths": {
-      "@app/*": ["app/*"]
+      "@app/*": [
+        "app/*"
+      ]
     }
   }
 }
