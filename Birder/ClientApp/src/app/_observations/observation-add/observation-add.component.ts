@@ -15,10 +15,8 @@ import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-ma
 import { ObservationPosition } from '@app/_models/ObservationPosition';
 import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNote';
 import { AddNotesComponent } from '@app/_observationNotes/add-notes/add-notes.component';
-import { EditNotesComponent } from '@app/_observationNotes/edit-notes/edit-notes.component';
-import { EditNoteDialogComponent } from '@app/_observationNotes/edit-note-dialog/edit-note-dialog.component';
 import * as moment from 'moment';
-import { DateValid } from 'validators/dateTime.validator';
+
 
 @Component({
   selector: 'app-observation-add',
@@ -80,14 +78,6 @@ export class ObservationAddComponent implements OnInit {
     this.getUser();
     this.getBirds();
   }
-
-  // setDatePickerRange(): void {
-  //   let date = new Date();
-  //   date.setHours
-  //   this.maxDate = 
-
-
-  // }
 
   getBirdAutocompleteOptions() {
     this.filteredOptions = this.addObservationForm.controls['bird'].valueChanges.pipe(
@@ -201,9 +191,4 @@ export class ObservationAddComponent implements OnInit {
           this.createForms();
         });
   }
-
-  // dismissAlert(): void {
-  //   alert(this.hideAlert);
-  //   this.hideAlert = true;
-  // }
 }

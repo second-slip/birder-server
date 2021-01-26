@@ -28,7 +28,7 @@
                   <mat-icon>nature_people</mat-icon>
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <!--  -->
+              <!-- Date start -->
               <div>
                 <mat-form-field>
                   <input readonly="readonly" matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" formControlName="observationDateTime"
@@ -39,7 +39,6 @@
                      [touchUi]="touchUi" [color]="color" [enableMeridian]="enableMeridian" 
                      [disableMinute]="disableMinute" [hideTime]="hideTime">
                   </ngx-mat-datetime-picker>
-                  <!--  -->
                   <mat-error *ngFor="let validation of addObservation_validation_messages.observationDateTime">
                     <mat-error class="error-message"
                       *ngIf="addObservationForm.get('observationDateTime').hasError(validation.type)">
@@ -47,9 +46,9 @@
                   </mat-error>
                </mat-form-field>
               </div>
-             <!--  -->
+             <!-- Date end -->
 
-              <!-- Details start -->
+             <!-- Quantity start -->
               <mat-form-field class="half-width">
                 <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
                 <mat-error *ngFor="let validation of addObservation_validation_messages.quantity">
@@ -58,7 +57,9 @@
                     {{validation.message}}</mat-error>
                 </mat-error>
               </mat-form-field>
+              <!-- Quantity end -->
 
+              <!-- Species start -->
               <mat-form-field class="full-width">
                 <input type="bird" placeholder="Select species" aria-label="Number" matInput formControlName="bird"
                   [matAutocomplete]="auto" required>
@@ -73,6 +74,7 @@
                     {{validation.message}}</mat-error>
                 </mat-error>
               </mat-form-field>
+              <!-- Species end -->
               
 
               <!-- <mat-form-field class="full-width">
