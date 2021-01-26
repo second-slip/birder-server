@@ -103,6 +103,7 @@ import { TweetArchiveComponent } from './tweet-archive/tweet-archive.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import { MatStepperModule }  from '@angular/material/stepper';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 // import { UsernameValidator } from 'validators';
 
@@ -262,7 +263,11 @@ export function tokenGetter() {
     [AuthGuard],
     // [UsernameValidator],
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-    { provide: LOCALE_ID, useValue: 'en-GB' }
+    { provide: LOCALE_ID, useValue: 'en-GB' },
+      {
+        provide: STEPPER_GLOBAL_OPTIONS,
+        useValue: { showError: true }
+      }
   ],
   bootstrap: [AppComponent]
 })

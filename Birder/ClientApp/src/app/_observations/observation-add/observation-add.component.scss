@@ -1,57 +1,18 @@
 app-observation-add {
-  .container {
-    //margin-top: 10px;
-    margin-right: 30px;
-  }
-
-
-  .example-headers-align .mat-expansion-panel-header-title,
-  .example-headers-align .mat-expansion-panel-header-description {
-    flex-basis: 0;
-  }
-
-  .mat-panel-description-text {
-    font-size: small;
-    align-content: left;
-  }
-
-  .example-headers-align .mat-expansion-panel-header-description {
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .info-message {
-    margin-top: 20px;
-    text-align: left;
-  }
-
-  .aligned-with-icon {
-    position: absolute;
-    text-align: left;
-    // margin-top: 5px;
-    // margin-left: 5px; /* optional */
-  }
-
-  // Workaround for https://github.com/angular/material2/issues/4580.
-  // mat-form-field .mat-form-field {
-  //   &-underline {
-  //     position: relative;
-  //     bottom: auto;
-  //   }
-  //   &-subscript-wrapper {
-  //     position: static;
-  //   }
-  // }
-
   .section-title {
-    margin-bottom: 20px;
+    text-align: center;
   }
 
-  .observation-add-container {
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
+  .map {
+    margin-bottom: 10px;
+  }
+
+  .mat-stepper-vertical {
+    margin-top: 8px;
+  }
+
+  .mat-form-field {
+    margin-top: 16px;
   }
 
   .full-width {
@@ -61,6 +22,12 @@ app-observation-add {
 
   .half-width {
     width: 50%;
+    margin-bottom: 10px;
+  }
+
+  
+  .three-quarter-width {
+    width: 75%;
     margin-bottom: 10px;
   }
 
@@ -76,9 +43,5 @@ app-observation-add {
         flex: 0 0 100%;
       }
     }
-  }
-
-  .submit-btn {
-    margin-top: 10px;
   }
 }

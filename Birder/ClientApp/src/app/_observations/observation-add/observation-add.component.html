@@ -1,158 +1,137 @@
 <div class="container">
-  <div class="row">
-    <div class='col-sm-1'>
-    </div>
-    <div class="col-sm-10">
-      <div class="observation-add-container" *ngIf="addObservationForm">
-        <h2 class="section-title">Add observation</h2>
-        <div *ngIf="invalidAddObservation" class="alert alert-danger">
+  <div class="observation-add-container" *ngIf="addObservationForm">
+      <h2 class="section-title">Add observation</h2>
+
+      <div *ngIf="invalidAddObservation" class="alert alert-danger">
           <p>There is an error in your observation</p>
           <ul>
-            <li *ngFor="let error of errorReport.modelStateErrors">
-              {{ error }}
-            </li>
+              <li *ngFor="let error of errorReport.modelStateErrors">
+                  {{ error }}
+              </li>
           </ul>
-        </div>
-
-        <form [formGroup]="addObservationForm" novalidate (ngSubmit)="onSubmit(addObservationForm.value)">
-          <!-- <mat-accordion> -->
-
-          <div class="example-headers-align">
-            <mat-expansion-panel [expanded]="true">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Details
-                </mat-panel-title>
-                <mat-panel-description class="mat-panel-description-text">
-                  Observation details
-                  <mat-icon>nature_people</mat-icon>
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <!-- Date start -->
-              <div>
-                <mat-form-field>
-                  <input readonly="readonly" matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" formControlName="observationDateTime"
-                  [min]="minDate" [max]="maxDate">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
-                     [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
-                     [touchUi]="touchUi" [color]="color" [enableMeridian]="enableMeridian" 
-                     [disableMinute]="disableMinute" [hideTime]="hideTime">
-                  </ngx-mat-datetime-picker>
-                  <mat-error *ngFor="let validation of addObservation_validation_messages.observationDateTime">
-                    <mat-error class="error-message"
-                      *ngIf="addObservationForm.get('observationDateTime').hasError(validation.type)">
-                      {{validation.message}}</mat-error>
-                  </mat-error>
-               </mat-form-field>
-              </div>
-             <!-- Date end -->
-
-             <!-- Quantity start -->
-              <mat-form-field class="half-width">
-                <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
-                <mat-error *ngFor="let validation of addObservation_validation_messages.quantity">
-                  <mat-error class="error-message"
-                    *ngIf="addObservationForm.get('quantity').hasError(validation.type) && (addObservationForm.get('quantity').dirty || addObservationForm.get('quantity').touched)">
-                    {{validation.message}}</mat-error>
-                </mat-error>
-              </mat-form-field>
-              <!-- Quantity end -->
-
-              <!-- Species start -->
-              <mat-form-field class="full-width">
-                <input type="bird" placeholder="Select species" aria-label="Number" matInput formControlName="bird"
-                  [matAutocomplete]="auto" required>
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
-                  <mat-option *ngFor="let bird of filteredOptions | async" [value]="bird">
-                    <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
-                  </mat-option>
-                </mat-autocomplete>
-                <mat-error *ngFor="let validation of addObservation_validation_messages.bird">
-                  <mat-error class="error-message"
-                    *ngIf="addObservationForm.get('bird').hasError(validation.type) && (addObservationForm.get('bird').dirty || addObservationForm.get('bird').touched)">
-                    {{validation.message}}</mat-error>
-                </mat-error>
-              </mat-form-field>
-              <!-- Species end -->
-              
-
-              <!-- <mat-form-field class="full-width">
-                <input matInput [matDatepicker]="picker" placeholder="Choose a date"
-                  formControlName="observationDateTime">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field> -->
-              <!-- Details end -->
-
-              <!--  -->
-              <!-- {{addObservationForm.get('observationDateTime')}} -->
-
-              <!--  -->
-
-            </mat-expansion-panel>
-            <!--  -->
-
-
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Location
-                </mat-panel-title>
-                <mat-panel-description class="mat-panel-description-text">
-                  Observation location
-                  <mat-icon>add_location</mat-icon>
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <!-- Map start -->
-              <div class="container">
-                <app-view-edit-single-marker-map #map [latitude]="user.defaultLocationLatitude"
-                  [longitude]="user.defaultLocationLongitude">
-                </app-view-edit-single-marker-map>
-              </div>
-              <!-- Map end -->
-            </mat-expansion-panel>
-            <!--  -->
-          <!-- </form> -->
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Notes
-                </mat-panel-title>
-                <mat-panel-description class="mat-panel-description-text">
-                  Add notes
-                  <mat-icon>create</mat-icon>
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-
-              <!-- separate component -->
-              <app-add-notes></app-add-notes>
-
-            </mat-expansion-panel>
-            <!--  -->
-            <!-- </mat-accordion> -->
-          </div>
-
-          <div class="info-message" *ngIf="hideAlert==false">
-            <p>
-              <ngb-alert [dismissible]="false" [type]="'info'">
-                <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon">
-                  <em>&nbsp;&nbsp; You can upload photographs and add tags in the next page...</em></span>
-              </ngb-alert>
-            </p>
-          </div>
-
-          <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!addObservationForm.valid">
-            Create observation
-          </button>
-          <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
-            Creating observation...
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          </button>
-        </form>
       </div>
-    </div>
-    <div class='col-sm-1'>
-    </div>
+
+
+      <form [formGroup]="addObservationForm" novalidate (ngSubmit)="onSubmit(addObservationForm.value)">
+          <mat-vertical-stepper [linear]="isLinear" #stepper (selectionChange)="onStepperSelectionChange()">
+              <mat-step [stepControl]="addObservationForm" errorMessage="Section not complete.">
+                  <!-- <form [formGroup]="firstFormGroup"> -->
+                  <ng-template matStepLabel><span class="stepperTop0">Details: what and when?</span></ng-template>
+                  <!-- Date start -->
+                  <div>
+                      <mat-form-field>
+                          <input readonly="readonly" matInput [ngxMatDatetimePicker]="picker"
+                              placeholder="Choose a date" formControlName="observationDateTime" [min]="minDate"
+                              [max]="maxDate">
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                              [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+                              [touchUi]="touchUi">
+                          </ngx-mat-datetime-picker>
+                          <mat-error
+                              *ngFor="let validation of addObservation_validation_messages.observationDateTime">
+                              <mat-error class="error-message"
+                                  *ngIf="addObservationForm.get('observationDateTime').hasError(validation.type)">
+                                  {{validation.message}}</mat-error>
+                          </mat-error>
+                      </mat-form-field>
+                  </div>
+                  <!-- Date end [stepControl]="addObservationForm"-->
+
+                  <!-- Species start -->
+                  <div>
+                      <mat-form-field class="three-quarter-width">
+                          <input type="bird" placeholder="Select species" aria-label="Number" matInput
+                              formControlName="bird" [matAutocomplete]="auto" required>
+                          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                              <mat-option *ngFor="let bird of filteredOptions | async" [value]="bird">
+                                  <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
+                              </mat-option>
+                          </mat-autocomplete>
+                          <mat-error *ngFor="let validation of addObservation_validation_messages.bird">
+                              <mat-error class="error-message"
+                                  *ngIf="addObservationForm.get('bird').hasError(validation.type) && (addObservationForm.get('bird').dirty || addObservationForm.get('bird').touched)">
+                                  {{validation.message}}</mat-error>
+                          </mat-error>
+                      </mat-form-field>
+                  </div>
+                  <!-- Species end -->
+
+                  <!-- Quantity start -->
+                  <div>
+                      <mat-form-field>
+                          <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
+                          <mat-error *ngFor="let validation of addObservation_validation_messages.quantity">
+                              <mat-error class="error-message"
+                                  *ngIf="addObservationForm.get('quantity').hasError(validation.type) && (addObservationForm.get('quantity').dirty || addObservationForm.get('quantity').touched)">
+                                  {{validation.message}}</mat-error>
+                          </mat-error>
+                      </mat-form-field>
+                  </div>
+                  <!-- Quantity end -->
+
+                  <div>
+                      <button mat-stroked-button matStepperNext type="button">Next</button>
+                  </div>
+                  <!-- </form> -->
+              </mat-step>
+
+              <mat-step>
+                  <!-- <form [formGroup]="secondFormGroup"> -->
+                  <ng-template matStepLabel><span class="stepperTop1">Location</span></ng-template>
+                  <div class="map">
+                      <app-view-edit-single-marker-map #map [latitude]="user.defaultLocationLatitude"
+                          [longitude]="user.defaultLocationLongitude">
+                      </app-view-edit-single-marker-map>
+                  </div>
+
+                  <div>
+                      <button mat-stroked-button matStepperPrevious type="button">Back</button>
+                      <button mat-stroked-button matStepperNext type="button">Next</button>
+                  </div>
+                  <!-- </form> -->
+              </mat-step>
+              <!--  -->
+              <mat-step [optional]="true">
+                  <!-- <form [formGroup]="secondFormGroup"> -->
+                  <ng-template matStepLabel><span class="stepperTop2">Notes</span></ng-template>
+
+                  <app-add-notes></app-add-notes>
+
+                  <div>
+                      <button mat-stroked-button matStepperPrevious type="button">Back</button>
+                      <button mat-stroked-button matStepperNext type="button">Next</button>
+                  </div>
+                  <!-- </form> -->
+              </mat-step>
+              <!--  -->
+
+              <mat-step>
+                  <ng-template matStepLabel><span class="stepperTop0">Done</span></ng-template>
+                  <div>
+                      <p *ngIf="!addObservationForm.valid">
+                          Part 1 is not complete. You must complete all manadatory fields.
+                      </p>
+                      <p *ngIf="addObservationForm.valid">
+                          You are now done. Choose 'Save' to add your observation.
+                      </p>
+                  </div>
+
+
+                  <div>
+                      <button mat-stroked-button matStepperPrevious type="button">Back</button>
+                      <button mat-stroked-button (click)="stepper.reset()" type="button">Reset</button>
+                      <button mat-stroked-button *ngIf="!requesting" type="submit"
+                          [disabled]="!addObservationForm.valid">
+                          Save
+                      </button>
+                      <button mat-stroked-button *ngIf="requesting" type="submit" disabled>
+                          Save observation...
+                          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      </button>
+                  </div>
+              </mat-step>
+          </mat-vertical-stepper>
+      </form>
   </div>
 </div>

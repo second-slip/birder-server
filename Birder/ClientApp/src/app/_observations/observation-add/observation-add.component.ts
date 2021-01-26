@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
-import { ParentErrorStateMatcher } from 'validators';
+import { BirdsListValidator, ParentErrorStateMatcher } from 'validators';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
 import { Router } from '@angular/router';
@@ -16,7 +16,8 @@ import { ObservationPosition } from '@app/_models/ObservationPosition';
 import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNote';
 import { AddNotesComponent } from '@app/_observationNotes/add-notes/add-notes.component';
 import * as moment from 'moment';
-
+import { ThemePalette } from '@angular/material/core';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-observation-add',
@@ -25,10 +26,12 @@ import * as moment from 'moment';
   encapsulation: ViewEncapsulation.None
 })
 export class ObservationAddComponent implements OnInit {
+  isLinear = false;
   @ViewChild(ViewEditSingleMarkerMapComponent)
   private mapComponent: ViewEditSingleMarkerMapComponent;
   @ViewChild(AddNotesComponent)
   private notesComponent: AddNotesComponent;
+
   requesting: boolean;
   addObservationForm: FormGroup;
   birdsSpecies: BirdSummaryViewModel[]
@@ -40,9 +43,11 @@ export class ObservationAddComponent implements OnInit {
   hideAlert = false;
 
   @ViewChild('picker') picker: any;
-  //
-  //public date: moment.Moment;
-  public disabled = false;
+
+  // @ViewChild(MatStepper)
+  // private stepper: MatStepper;
+
+  // public disabled = false;
   public showSpinners = true;
   public showSeconds = false;
   public touchUi = false;
@@ -52,7 +57,7 @@ export class ObservationAddComponent implements OnInit {
   public stepHour = 1;
   public stepMinute = 1;
   public stepSecond = 1;
-  //public color: ThemePalette = 'primary';
+  public color: ThemePalette = 'primary';
   //
 
   addObservation_validation_messages = {
@@ -60,13 +65,16 @@ export class ObservationAddComponent implements OnInit {
       { type: 'required', message: 'Quantity is required' }
     ],
     'bird': [
-      { type: 'required', message: 'The observed species is required' }
+      { type: 'required', message: 'The observed species is required' },
+      { type: 'notBirdListObject', message: 'You must select a bird species from the list.' }
+
     ],
     'observationDateTime': [
       { type: 'required', message: 'The date and time are required' },
       { type: 'invalidDate', message: 'Invalid date/time format. Use the control to choose a valid date/time.' }
     ]
   };
+
 
   constructor(private router: Router
     , private birdsService: BirdsService
@@ -92,7 +100,7 @@ export class ObservationAddComponent implements OnInit {
 
   private _filter(value: string): BirdSummaryViewModel[] {
     const filterValue = value.toLowerCase();
-    return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) === 0);
+    return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) >= 0); // or !== 11
   }
 
   createForms(): void {
@@ -101,7 +109,8 @@ export class ObservationAddComponent implements OnInit {
         Validators.required
       ])),
       bird: new FormControl('', Validators.compose([
-        Validators.required
+        Validators.required,
+        BirdsListValidator()
       ])),
 
       observationDateTime: new FormControl((new Date()).toISOString(), Validators.compose([
@@ -116,7 +125,6 @@ export class ObservationAddComponent implements OnInit {
   onSubmit(formValue: ObservationViewModel): void {
     this.requesting = true;
 
-    // const testNotes: ObservationNote[] = [];
     const notes: ObservationNote[] = this.notesComponent.notes.map(note => ({
       id: 0,
       noteType: ObservationNoteType[note.noteType],
@@ -190,5 +198,24 @@ export class ObservationAddComponent implements OnInit {
           this.user = userTemp;
           this.createForms();
         });
+  }
+
+  public onStepperSelectionChange(evant: any) {
+    this.scrollToSectionHook();
+    //this.stepper.selectionChange.subscribe((event) => { this.scrollToSectionHook(event.selectedIndex); });
+  }
+
+  private scrollToSectionHook() {
+    const element = document.querySelector('.stepperTop0');
+    console.log(element);
+    if (element) {
+      setTimeout(() => {
+        element.scrollIntoView({
+          behavior: 'smooth', block: 'start', inline:
+            'nearest'
+        });
+        console.log('scrollIntoView');
+      }, 250);
+    }
   }
 }
