@@ -1,15 +1,19 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { GeocodingService } from '@app/_services/geocoding.service';
+
 
 @Component({
   selector: 'app-view-edit-single-marker-map',
   templateUrl: './view-edit-single-marker-map.component.html',
-  styleUrls: ['./view-edit-single-marker-map.component.scss']
+  styleUrls: ['./view-edit-single-marker-map.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ViewEditSingleMarkerMapComponent implements OnInit {
   @Input() latitude: number;
   @Input() longitude: number;
+
+  @ViewChild(GoogleMap, { static: false }) map: GoogleMap
 
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
   geolocation: string;
@@ -25,10 +29,12 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
     , private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.addMarker(this.latitude, this.longitude, true);
+    this.addMarker(this.latitude, this.longitude);
   }
 
-  addMarker(latitude: number, longitude: number, getAddress: boolean): void {
+
+  addMarker(latitude: number, longitude: number): void {
+    //alert("hello");
     this.locationMarker = ({
       position: {
         lat: latitude,
@@ -37,13 +43,14 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
       options: { draggable: true },
     })
 
-    if (getAddress) {
-      this.getFormattedAddress(latitude, longitude);
-    }
+    // if (getAddress) {
+    this.getFormattedAddress(latitude, longitude);
+    // }
+    this.infoWindow.open(this.locationMarker.position);
   }
 
-  markerChanged(event: google.maps.MouseEvent): void {
-    this.addMarker(event.latLng.lat(), event.latLng.lng(), true);
+  markerChanged(event: google.maps.MapMouseEvent): void {
+    this.addMarker(event.latLng.lat(), event.latLng.lng());
   }
 
   openInfoWindow(marker: MapMarker): void {
@@ -67,8 +74,7 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
       .subscribe(
         (response: any) => {
           this.changeZoomLevel(15);
-          this.addMarker(response.results[0].geometry.location.lat, response.results[0].geometry.location.lng, false); // false to stop second hit on API to get address...
-          this.geolocation = response.results[0].formatted_address;
+          this.addMarker(response.results[0].geometry.location.lat, response.results[0].geometry.location.lng); // false to stop second hit on API to get address...
           this.searchAddress = '';
           this.ref.detectChanges();
         }
@@ -87,8 +93,9 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
     if (window.navigator.geolocation) {
       window.navigator.geolocation.getCurrentPosition(
         (position) => {
+          this.addMarker(position.coords.latitude, position.coords.longitude);
           this.changeZoomLevel(15);
-          this.addMarker(position.coords.latitude, position.coords.longitude, true);
+          this.ref.detectChanges();
         }, (error) => {
           switch (error.code) {
             case 3: // ...deal with timeout

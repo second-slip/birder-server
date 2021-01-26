@@ -1,42 +1,64 @@
-<div *ngIf="!locationMarker" class="loading">
+<div class="container">
+  <div *ngIf="!locationMarker" class="loading">
 
-  <p><em>Loading...</em></p>
+    <p><em>Loading...</em></p>
 
-  <mat-spinner></mat-spinner>
-
-</div>
-
-<div *ngIf="locationMarker">
-
-  <div class="container">
-    <form (ngSubmit)="findAddress(searchAddress)">
-      <input type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
-        [ngModelOptions]="{standalone: true}" required>
-
-      <button type="submit" triggers="mouseenter:mouseleave"
-        ngbPopover='- Type a place name (e.g. Canterbury, UK); or a specific address (e.g. 1 High St, Canterbury CT1 2JH)'
-        popoverTitle="Search help">Show Location</button>
-      <button type="button" (click)="getCurrentPosition()">Use My Current Location</button>
-
-    </form>
-
-    <p *ngIf="geoError">
-      <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
-        <strong>Warning!</strong> Better check yourself, you're not looking too good.
-      </ngb-alert>
-    </p>
+    <mat-spinner></mat-spinner>
 
   </div>
 
-  <!-- <p>in the child: {{ locationMarker.position.lat }} , {{locationMarker.position.lng }}</p> -->
+  <div *ngIf="locationMarker">
 
-  <p>{{ geolocation }}</p>
+    <div class="container">
+      
+      <form class="form-inline map-controls" (ngSubmit)="findAddress(searchAddress)">
+        <!-- <mat-form-field> -->
+        <input class="form-control" type="text" name="searchAddress" placeholder="Type location here" [(ngModel)]="searchAddress"
+          [ngModelOptions]="{standalone: true}" required>
+        <!-- </mat-form-field> -->
 
-  <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
-    <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker.options"
-      (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
-      <map-info-window>{{ geolocation }}</map-info-window>
-    </map-marker>
-  </google-map>
+        <button mat-stroked-button type="submit" triggers="mouseenter:mouseleave"
+          ngbPopover='- Type a place name (e.g. Canterbury, UK); or a specific address (e.g. 1 High St, Canterbury CT1 2JH)'
+          popoverTitle="Search help" aria-label="Search for a location"
+          #tooltip="matTooltip" matTooltip="Search for a location">
+          <mat-icon>search</mat-icon>
+        </button>
+        
+          <button mat-stroked-button type="button" (click)="getCurrentPosition()" aria-label="Get your current location"
+          #tooltip="matTooltip" matTooltip="Get your current location">
+            <mat-icon>my_location</mat-icon>
+          </button>
 
+        <!-- <a class="add-button" [routerLink]='["/observation-add"]' mat-stroked-button aria-label="Add a new observation"
+        #tooltip="matTooltip" matTooltip="Add a new observation"
+        aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+        <mat-icon>post_add</mat-icon>
+        Add observation
+      </a> -->
+      </form>
+    
+
+      <p *ngIf="geoError">
+        <ngb-alert [dismissible]="true" [type]="'danger'" (close)="closeAlert()">
+          <strong>Warning!</strong> Better check yourself, you're not looking too good.
+        </ngb-alert>
+      </p>
+
+    </div>
+
+    <!-- <p>in the child: {{ locationMarker.position.lat }} , {{locationMarker.position.lng }}</p> -->
+    <p class="container location">
+      <mat-icon>location_on</mat-icon>
+      <span>{{ geolocation }}</span> 
+    </p>
+
+
+    <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
+      <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker.options"
+        (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
+        <map-info-window>{{ geolocation }}</map-info-window>
+      </map-marker>
+    </google-map>
+
+  </div>
 </div>
