@@ -3,212 +3,158 @@
   <mat-spinner></mat-spinner>
 </div>
 
-<div class="container" *ngIf="observation">
-  <div class="row">
-    <div class='col-sm-1'></div>
-    <div class="col-sm-10">
-      <div class="observation-edit-container">
-        <h2 class="section-title">Edit Observation Report</h2>
-        <p class="report-summary"><a routerLink="/user-profile/{{observation.user.userName}}">
-            <!-- {{observation.user.userName === user.userName ? 'You' : observation.user.userName}} -->
-            You
-          </a> observed <b>{{observation.quantity}}</b> <a routerLink="/birds-detail/{{observation.bird.birdId}}">
-            {{observation.bird.englishName}}
-          </a> <small><em> {{ observation.bird.species }} </em></small>
-          <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy' }}
-        </p>
-        <div *ngIf="errorReport" class="alert alert-danger">
-          <p>There is an error in your observation</p>
-          <ul>
-            <li *ngFor="let error of errorReport.modelStateErrors">
-              {{ error }}
-            </li>
-          </ul>
-        </div>
-        <div *ngIf="observation">
-          <form [formGroup]="editObservationForm" novalidate (ngSubmit)="onSubmit(editObservationForm.value)">
-            <!-- <mat-accordion> -->
-            <div class="example-headers-align">
-              <mat-expansion-panel [expanded]="true">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Details
-                  </mat-panel-title>
-                  <mat-panel-description class="mat-panel-description-text">
-                    Edit Details
-                    <mat-icon>nature_people</mat-icon>
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <!-- details start -->
-                <mat-form-field class="full-width" hidden>
-                  <input matInput type="number" placeholder="observationId" formControlName="observationId">
-                </mat-form-field>
+<div class="container">
+  <div class="observation-add-container" *ngIf="editObservationForm">
+    <h2 class="section-title">Edit observation</h2>
 
-                <mat-form-field class="half-width">
-                  <input matInput type="number" placeholder="Quantity" formControlName="quantity" required>
-                  <mat-error *ngFor="let validation of editObservation_validation_messages.quantity">
-                    <mat-error class="error-message"
-                      *ngIf="editObservationForm.get('quantity').hasError(validation.type) && (editObservationForm.get('quantity').dirty || editObservationForm.get('quantity').touched)">
-                      {{validation.message}}</mat-error>
-                  </mat-error>
-                </mat-form-field>
+    <div *ngIf="invalidAddObservation" class="alert alert-danger">
+      <p>There is an error in your observation</p>
+      <ul>
+        <li *ngFor="let error of errorReport.modelStateErrors">
+          {{ error }}
+        </li>
+      </ul>
+    </div>
 
-                <mat-form-field class="full-width">
-                  <input type="bird" placeholder="Select species" aria-label="Number" matInput formControlName="bird"
-                    [matAutocomplete]="auto" required>
-                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
-                    <mat-option *ngFor="let bird of filteredOptions | async" [value]="bird">
-                      <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
-                    </mat-option>
-                  </mat-autocomplete>
-                  <mat-error *ngFor="let validation of editObservation_validation_messages.bird">
-                    <mat-error class="error-message"
-                      *ngIf="editObservationForm.get('bird').hasError(validation.type) && (editObservationForm.get('bird').dirty || editObservationForm.get('bird').touched)">
-                      {{validation.message}}</mat-error>
-                  </mat-error>
-                </mat-form-field>
-
-                <!-- <mat-form-field class="full-width">
-                  <mat-select placeholder="Select species" formControlName="birdId" type="number" required>
-                    <mat-option *ngFor="let bird of birdsSpecies" [value]="bird.birdId">
-                      <p>{{bird.englishName}}, <em> {{ bird.species }}</em> | bird.birderStatus</p>
-                    </mat-option>
-                  </mat-select>
-                  <mat-error *ngFor="let validation of editObservation_validation_messages.birdId">
-                    <mat-error class="error-message"
-                      *ngIf="editObservationForm.get('birdId').hasError(validation.type) && (editObservationForm.get('birdId').dirty || editObservationForm.get('birdId').touched)">
-                      {{validation.message}}</mat-error>
-                  </mat-error>
-                </mat-form-field> -->
-
-                <mat-form-field class="full-width">
-                  <input matInput [matDatepicker]="picker" placeholder="Choose a date"
-                    formControlName="observationDateTime">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-                <!-- details start -->
-              </mat-expansion-panel>
-              <!--  -->
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Edit location
-                  </mat-panel-title>
-                  <mat-panel-description class="mat-panel-description-text">
-                    Edit Location
-                    <mat-icon>add_location</mat-icon>
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <!-- Google map control -->
-                <app-view-edit-single-marker-map #map [latitude]="observation?.position?.latitude"
-                  [longitude]="observation?.position?.longitude">
-                </app-view-edit-single-marker-map>
-                <!-- Google map control end -->
-              </mat-expansion-panel>
-              <!--  -->
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Notes
-                  </mat-panel-title>
-                  <mat-panel-description class="mat-panel-description-text">
-                    Edit Notes
-                    <mat-icon>create</mat-icon>
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <!-- notes start -->
-                <app-edit-notes [notes]="observation?.notes"></app-edit-notes>
-                <!-- notes end -->
-              </mat-expansion-panel>
-              <!--  -->
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Photographs
-                  </mat-panel-title>
-                  <mat-panel-description class="mat-panel-description-text">
-                    Edit photographs
-                    <mat-icon>add_photo_alternate</mat-icon>
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <div>
-                  <a class="btn btn-success btn-sm"
-                    routerLink="/observation-manage-photos/{{observation.observationId}}">Add or Remove Photos</a>
-                </div>
-              </mat-expansion-panel>
-              <!--  -->
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Tags
-                  </mat-panel-title>
-                  <mat-panel-description class="mat-panel-description-text">
-                    Edit Tags
-                    <mat-icon>local_offer</mat-icon>
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <!-- DO NOT USE MAT CHIPS-->
-                <!-- <mat-form-field class="example-chip-list">
-            <mat-chip-list #chipList>
-              <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
-                (removed)="remove(fruit)">
-                {{fruit}}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-              </mat-chip>
-              <input placeholder="New fruit..." #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto"
-                [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
-            </mat-chip-list>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-              <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-                {{fruit}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field> -->
-              </mat-expansion-panel>
-              <!--  -->
-              <!-- </mat-accordion> -->
-            </div>
+    <p class="report-summary"><a routerLink="/user-profile/{{observation.user.userName}}">
+        You
+      </a> observed <b>{{observation.quantity}}</b> <a routerLink="/birds-detail/{{observation.bird.birdId}}">
+        {{observation.bird.englishName}}
+      </a> <small><em> {{ observation.bird.species }} </em></small>
+      <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' HH:mm' }}
+    </p>
 
 
-            <div>
-              <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated
-                  at
-                  {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
-            </div>
-            <!-- </div> -->
-            <!-- <button class="btn btn-success" [disabled]="!editObservationForm.valid">
-              Save Changes
-            </button> -->
+    <form [formGroup]="editObservationForm" novalidate (ngSubmit)="onSubmit(editObservationForm.value)">
+      <mat-vertical-stepper [linear]="isLinear" #stepper (selectionChange)="onStepperSelectionChange()">
+        <mat-step [stepControl]="editObservationForm" errorMessage="Section not complete.">
 
-            <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!editObservationForm.valid">
-              Update observation
+          <ng-template matStepLabel><span class="stepperTop0">Details: what and when?</span></ng-template>
+          <!-- Date start -->
+          <div>
+            <mat-form-field>
+              <input readonly="readonly" matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date"
+                formControlName="observationDateTime" [min]="minDate" [max]="maxDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi">
+              </ngx-mat-datetime-picker>
+              <mat-error *ngFor="let validation of editObservation_validation_messages.observationDateTime">
+                <mat-error class="error-message"
+                  *ngIf="editObservationForm.get('observationDateTime').hasError(validation.type)">
+                  {{validation.message}}</mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- Date end [stepControl]="editObservationForm"-->
+
+          <!-- Species start -->
+          <div>
+            <mat-form-field class="three-quarter-width">
+              <input type="bird" placeholder="Select species" aria-label="Number" matInput formControlName="bird"
+                [matAutocomplete]="auto" required>
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let bird of filteredOptions | async" [value]="bird">
+                  <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngFor="let validation of editObservation_validation_messages.bird">
+                <mat-error class="error-message"
+                  *ngIf="editObservationForm.get('bird').hasError(validation.type) && (editObservationForm.get('bird').dirty || editObservationForm.get('bird').touched)">
+                  {{validation.message}}</mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- Species end -->
+
+          <!-- Quantity start -->
+          <div>
+            <mat-form-field>
+              <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
+              <mat-error *ngFor="let validation of editObservation_validation_messages.quantity">
+                <mat-error class="error-message"
+                  *ngIf="editObservationForm.get('quantity').hasError(validation.type) && (editObservationForm.get('quantity').dirty || editObservationForm.get('quantity').touched)">
+                  {{validation.message}}</mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- Quantity end -->
+
+          <div>
+            <button mat-stroked-button matStepperNext type="button">Next</button>
+          </div>
+          <!-- </form> -->
+        </mat-step>
+
+        <mat-step>
+          <!-- <form [formGroup]="secondFormGroup"> -->
+          <ng-template matStepLabel><span class="stepperTop1">Location</span></ng-template>
+          <div class="map">
+            <app-view-edit-single-marker-map #map [latitude]="observation?.position?.latitude"
+              [longitude]="observation?.position?.longitude">
+            </app-view-edit-single-marker-map>
+          </div>
+
+          <div>
+            <button mat-stroked-button matStepperPrevious type="button">Back</button>
+            <button mat-stroked-button matStepperNext type="button">Next</button>
+          </div>
+          <!-- </form> -->
+        </mat-step>
+        <!--  -->
+        <mat-step [optional]="true">
+          <!-- <form [formGroup]="secondFormGroup"> -->
+          <ng-template matStepLabel><span class="stepperTop2">Notes</span></ng-template>
+
+          <app-edit-notes [notes]="observation?.notes"></app-edit-notes>
+
+          <div>
+            <button mat-stroked-button matStepperPrevious type="button">Back</button>
+            <button mat-stroked-button matStepperNext type="button">Next</button>
+          </div>
+          <!-- </form> -->
+        </mat-step>
+        <!--  -->
+
+        <mat-step>
+          <ng-template matStepLabel><span class="stepperTop0">Done</span></ng-template>
+          <div>
+            <p *ngIf="!editObservationForm.valid">
+              Part 1 is not complete. You must complete all manadatory fields.
+            </p>
+            <p *ngIf="editObservationForm.valid">
+              You are now done. Choose 'Update' to save your observation.
+            </p>
+          </div>
+
+
+          <div>
+            <button mat-stroked-button matStepperPrevious type="button">Back</button>
+            <!-- <button mat-stroked-button (click)="stepper.reset()" type="button">Reset</button> -->
+            <button mat-stroked-button *ngIf="!requesting" type="submit" [disabled]="!editObservationForm.valid">
+              Update
             </button>
-            <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
-              Saving observation...
+            <button mat-stroked-button *ngIf="requesting" type="submit" disabled>
+              Updating observation...
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
+          </div>
+        </mat-step>
+      </mat-vertical-stepper>
+    </form>
 
-
-
-            <div class="navigation-menu">
-              <hr>
-              <a [routerLink]="" (click)="goBack()">Go Back</a>
-              <a routerLink="/observation-detail/{{observation.observationId}}">
-                | Details
-              </a>
-              <a routerLink="/observation-delete/{{observation.observationId}}">
-                | Delete
-              </a>
-              <a routerLink="/observation-add">
-                | Add new
-              </a>
-            </div>
-          </form>
-        </div>
-      </div>
+    <div class="navigation-menu">
+      <hr>
+      <a [routerLink]="" (click)="goBack()">Go Back</a>
+      <a routerLink="/observation-detail/{{observation.observationId}}">
+        | Details
+      </a>
+      <a routerLink="/observation-delete/{{observation.observationId}}">
+        | Delete
+      </a>
+      <a routerLink="/observation-add">
+        | Add new
+      </a>
     </div>
-    <div class='col-sm-1'></div>
   </div>
 </div>

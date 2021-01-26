@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
-import { ParentErrorStateMatcher } from 'validators';
+import { BirdsListValidator, ParentErrorStateMatcher } from 'validators';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_sharedServices/observation.service';
@@ -42,7 +42,8 @@ export class ObservationEditComponent implements OnInit {
       { type: 'required', message: 'Quantity is required' }
     ],
     'bird': [
-      { type: 'required', message: 'The observed species is required' }
+      { type: 'required', message: 'The observed species is required' },
+      { type: 'notBirdListObject', message: 'You must select a bird species from the list.' }
     ]
   };
 
@@ -82,7 +83,8 @@ export class ObservationEditComponent implements OnInit {
         Validators.required
       ])),
       bird: new FormControl(this.observation.bird, Validators.compose([
-        Validators.required
+        Validators.required,
+        BirdsListValidator()
       ])),
       observationDateTime: new FormControl(this.observation.observationDateTime, Validators.compose([
         Validators.required
