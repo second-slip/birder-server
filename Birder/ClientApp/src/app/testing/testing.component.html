@@ -1,1 +1,112 @@
-<p>testing</p>
+<div class="container">
+    <p>testing</p>
+
+
+    <form [formGroup]="addObservationForm" novalidate (ngSubmit)="onSubmit(addObservationForm.value)">
+        <mat-vertical-stepper [linear]="isLinear" #stepper>
+            <mat-step [stepControl]="addObservationForm" errorMessage="Name is required.">
+                <!-- <form [formGroup]="firstFormGroup"> -->
+                <ng-template matStepLabel>Details: what and when?</ng-template>
+                <!-- Date start -->
+                <div>
+                    <mat-form-field>
+                        <input readonly="readonly" matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date"
+                            formControlName="observationDateTime" [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                            [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+                            [touchUi]="touchUi">
+                        </ngx-mat-datetime-picker>
+                        <mat-error *ngFor="let validation of addObservation_validation_messages.observationDateTime">
+                            <mat-error class="error-message"
+                                *ngIf="addObservationForm.get('observationDateTime').hasError(validation.type)">
+                                {{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- Date end [stepControl]="addObservationForm"-->
+
+                <!-- Quantity start -->
+                <div>
+                    <mat-form-field>
+                        <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
+                        <mat-error *ngFor="let validation of addObservation_validation_messages.quantity">
+                            <mat-error class="error-message"
+                                *ngIf="addObservationForm.get('quantity').hasError(validation.type) && (addObservationForm.get('quantity').dirty || addObservationForm.get('quantity').touched)">
+                                {{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- Quantity end -->
+
+                <!-- Species start -->
+                <mat-form-field class="three-quarter-width">
+                    <input type="bird" placeholder="Select species" aria-label="Number" matInput formControlName="bird"
+                        [matAutocomplete]="auto" required>
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let bird of filteredOptions | async" [value]="bird">
+                            <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngFor="let validation of addObservation_validation_messages.bird">
+                        <mat-error class="error-message"
+                            *ngIf="addObservationForm.get('bird').hasError(validation.type) && (addObservationForm.get('bird').dirty || addObservationForm.get('bird').touched)">
+                            {{validation.message}}</mat-error>
+                    </mat-error>
+                </mat-form-field>
+                <!-- Species end -->
+
+                <div>
+                    <button mat-stroked-button matStepperNext type="button">Next</button>
+                </div>
+                <!-- </form> -->
+            </mat-step>
+            <mat-step>
+                <!-- <form [formGroup]="secondFormGroup"> -->
+                <ng-template matStepLabel>Location</ng-template>
+                <div class="container">
+                    <app-view-edit-single-marker-map #map [latitude]="user.defaultLocationLatitude"
+                        [longitude]="user.defaultLocationLongitude">
+                    </app-view-edit-single-marker-map>
+                </div>
+
+                <div>
+                    <button mat-stroked-button matStepperPrevious type="button">Back</button>
+                    <button mat-stroked-button matStepperNext type="button">Next</button>
+                </div>
+                <!-- </form> -->
+            </mat-step>
+            <!--  -->
+            <mat-step [optional]="true">
+                <!-- <form [formGroup]="secondFormGroup"> -->
+                <ng-template matStepLabel>Notes</ng-template>
+
+                <app-add-notes></app-add-notes>
+
+                <div>
+                    <button mat-stroked-button matStepperPrevious type="button">Back</button>
+                    <button mat-stroked-button matStepperNext type="button">Next</button>
+                </div>
+                <!-- </form> -->
+            </mat-step>
+            <!--  -->
+
+            <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
+                <p>You are now done.</p>
+                <div>
+                    <button mat-stroked-button matStepperPrevious type="button">Back</button>
+                    <button mat-stroked-button (click)="stepper.reset()" type="button">Reset</button>
+                    <button mat-stroked-button *ngIf="!requesting" type="submit" [disabled]="!addObservationForm.valid">
+                        Create observation
+                    </button>
+                    <button mat-stroked-button *ngIf="requesting" type="submit" disabled>
+                        Creating observation...
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+    </form>
+
+</div>

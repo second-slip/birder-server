@@ -1,6 +1,43 @@
 app-testing {
+  .wrapper {
+    margin: 15px;
+  }
 
-    .wrapper {
-        margin: 15px;
+  .mat-stepper-vertical {
+    margin-top: 8px;
+  }
+
+  .mat-form-field {
+    margin-top: 16px;
+  }
+
+  .full-width {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .half-width {
+    width: 50%;
+    margin-bottom: 10px;
+  }
+
+  
+  .three-quarter-width {
+    width: 75%;
+    margin-bottom: 10px;
+  }
+
+  .error-message {
+    font-size: 12px;
+  }
+
+  .double-line-hint {
+    .mat-input-hint-wrapper {
+      flex-wrap: wrap;
+
+      .hint-line {
+        flex: 0 0 100%;
+      }
     }
+  }
 }
