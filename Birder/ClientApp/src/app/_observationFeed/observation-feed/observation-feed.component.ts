@@ -74,7 +74,7 @@ export class ObservationFeedComponent implements OnInit {
                 // this.router.navigate(['/page-not-found']);
               }),
 
-              // add a 'finally' statement to set loading = false?
+            // add a 'finally' statement to set loading = false?
             map((resp: any) => resp.items), // resp.results),
             tap(resp => {
               this.cache[page - 1] = resp;
@@ -99,18 +99,14 @@ export class ObservationFeedComponent implements OnInit {
   }
 
   setTitle(): void {
-
     if (this.currentFilter == '1') {
-      this.title = 'Your observations only';
-      //console.log(1);
+      this.title = 'Your observations';
       return;
     } if (this.currentFilter == '2') {
       this.title = 'All public observations';
-      //console.log(2);
       return;
     } else {
       this.title = 'Observations in your network';
-      //console.log('default');
       return;
     }
   }
@@ -141,7 +137,7 @@ export class ObservationFeedComponent implements OnInit {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
                 if (this.currentFilter != resp.returnFilter) {
                   this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
-                this.currentFilter = resp.returnFilter.toString();
+                  this.currentFilter = resp.returnFilter.toString();
                 }
                 //this.currentFilter = resp.returnFilter.toString();
                 this.setTitle();
@@ -149,7 +145,7 @@ export class ObservationFeedComponent implements OnInit {
                 (error: ErrorReportViewModel) => {
                   // this.router.navigate(['/page-not-found']);
                 }),
-                // add a 'finally' statement to set loading = false?
+              // add a 'finally' statement to set loading = false?
               map((resp: any) => resp.items),
               tap(resp => {
                 this.cache[page - 1] = resp;
