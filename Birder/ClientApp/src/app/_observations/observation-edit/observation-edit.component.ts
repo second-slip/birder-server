@@ -173,4 +173,23 @@ export class ObservationEditComponent implements OnInit {
           console.log('could not get the birds ddl');
         });
   }
+
+  public onStepperSelectionChange(evant: any) {
+    this.scrollToSectionHook();
+    //this.stepper.selectionChange.subscribe((event) => { this.scrollToSectionHook(event.selectedIndex); });
+  }
+
+  private scrollToSectionHook() {
+    const element = document.querySelector('.stepperTop0');
+    console.log(element);
+    if (element) {
+      setTimeout(() => {
+        element.scrollIntoView({
+          behavior: 'smooth', block: 'start', inline:
+            'nearest'
+        });
+        console.log('scrollIntoView');
+      }, 250);
+    }
+  }
 }
