@@ -4,126 +4,126 @@
 </div>
 
 <div class="container" *ngIf="observation">
-  <div class="row">
-    <div class='col-sm-1'></div>
-    <div class="col-sm-10">
-      <div class="observation-add-container">
-        <h3 class="section-title">Observation Report</h3>
+  <div class="observation-add-container">
+    <h3 class="section-title">Observation Report</h3>
 
-        <p class="report-summary"><a routerLink="/user-profile/{{observation.user.userName}}">
-            {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
-          </a> observed <b>{{observation.quantity}}</b> <a routerLink="/birds-detail/{{observation.bird.birdId}}">
-            {{observation.bird.englishName}}
-          </a> <small><em> {{ observation.bird.species }} </em></small>
-          <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' HH:mm' }}
-        </p>
+    <p class="report-summary"><a routerLink="/user-profile/{{observation.user.userName}}">
+        {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
+      </a> observed <b>{{observation.quantity}}</b> <a routerLink="/birds-detail/{{observation.bird.birdId}}">
+        {{observation.bird.englishName}}
+      </a> <small><em> {{ observation.bird.species }} </em></small>
+      <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' HH:mm' }}
+    </p>
 
-        <div class="example-headers-align">
-          <mat-expansion-panel [expanded]="_album.length>0">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Photographs
-              </mat-panel-title>
-              <mat-panel-description class="mat-panel-description-text">
-                {{ _album.length > 1 ? _album.length + ' photos' : 'No photos'}}
-                <mat-icon>add_photo_alternate</mat-icon>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <!--  -->
-            <ng-container *ngIf="_album.length>0; else noItems">
-              <div class="photo-gallery">
-                <div *ngFor="let image of _album; let i=index">
-                  <img [src]="image.thumb" (click)="open(i)" />
-                </div>
-              </div>
-              <div class="content-right">
-                <a class="btn btn-success btn-sm" *ngIf="observation.user.userName === user.userName"
-                  routerLink="/observation-manage-photos/{{observation.observationId}}">Add or Remove Photos</a>
-              </div>
-            </ng-container>
-            <ng-template #noItems>
-              <p><em>There are no photographs attached to this observation...</em></p>
-              <div>
-                <a class="btn btn-success btn-sm" *ngIf="observation.user.userName === user.userName"
-                  routerLink="/observation-manage-photos/{{observation.observationId}}">Add or Remove Photos</a>
-              </div>
-            </ng-template>
-            <!--  -->
+    <div class="example-headers-align">
+      <!--  -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Location
+          </mat-panel-title>
+          <mat-panel-description class="mat-panel-description-text">
+            Map
+            <!-- {{ map.geolocation }} -->
+            <mat-icon>add_location</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <!-- Map start -->
+        <div>
 
-          </mat-expansion-panel>
-          <!--  -->
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Location
-              </mat-panel-title>
-              <mat-panel-description class="mat-panel-description-text">
-                {{ map.geolocation }}
-                <mat-icon>add_location</mat-icon>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <!-- Map start -->
-            <div>
+          <app-view-only-single-marker-map #map [latitude]="observation?.position?.latitude"
+            [longitude]="observation?.position?.longitude">
+          </app-view-only-single-marker-map>
 
-              <app-view-only-single-marker-map #map [latitude]="observation?.position?.latitude"
-                [longitude]="observation?.position?.longitude">
-              </app-view-only-single-marker-map>
-
-              <div *ngIf="observation.user.userName === user.userName">
-
-                <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon"><small><em>You can change the
-                      location in
-                      the <a routerLink="/observation-edit/{{observation.observationId}}">edit observation</a>
-                      page</em></small></span>
-              </div>
-
-            </div>
-            <!-- Map end -->
-          </mat-expansion-panel>
-          <!--  -->
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Notes
-              </mat-panel-title>
-              <mat-panel-description class="mat-panel-description-text">
-                Notes count: {{ observation.notes.length }}
-                <mat-icon>create</mat-icon>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <!-- Notes start -->
-            <app-view-only-notes [notes]="observation.notes">
-            </app-view-only-notes>
-            <!-- Notes end -->
-          </mat-expansion-panel>
-          <!--  -->
-          <!-- </mat-accordion> -->
-          <div>
-            <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at
-                {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
+          <div *ngIf="observation.user.userName === user.userName">
+            <small class="container map-info">
+              <mat-icon color="primary">info</mat-icon>
+              <span>You can change the
+                location in
+                the <a routerLink="/observation-edit/{{observation.observationId}}">edit observation</a>
+                page</span>
+            </small>
           </div>
-        </div>
 
-        <div class="navigation-menu">
-          <hr>
-          <a [routerLink]="" (click)="goBack()">Go Back</a>
-          <a *ngIf="observation.user.userName === user.userName"
-            routerLink="/observation-manage-photos/{{observation.observationId}}">
-            | Manage Photos
-          </a>
-          <a *ngIf="observation.user.userName === user.userName"
-            routerLink="/observation-edit/{{observation.observationId}}">
-            | Edit
-          </a>
-          <a *ngIf="observation.user.userName === user.userName"
-            routerLink="/observation-delete/{{observation.observationId}}">
-            | Delete
-          </a>
-          <a routerLink="/observation-add">
-            | Add new
-          </a>
         </div>
+        <!-- Map end -->
+      </mat-expansion-panel>
+      <!--  -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Notes
+          </mat-panel-title>
+          <mat-panel-description class="mat-panel-description-text">
+            Notes count: {{ observation.notes.length }}
+            <mat-icon>create</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <!-- Notes start -->
+        <app-view-only-notes [notes]="observation.notes">
+        </app-view-only-notes>
+        <!-- Notes end -->
+      </mat-expansion-panel>
+      <!--  -->
+      <mat-expansion-panel [expanded]="_album.length>0">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Photographs
+          </mat-panel-title>
+          <mat-panel-description class="mat-panel-description-text">
+            {{ _album.length > 1 ? _album.length + ' photos' : 'No photos'}}
+            <mat-icon>add_photo_alternate</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <!--  -->
+        <ng-container *ngIf="_album.length>0; else noItems">
+          <div class="photo-gallery">
+            <div *ngFor="let image of _album; let i=index">
+              <img [src]="image.thumb" (click)="open(i)" />
+            </div>
+          </div>
+
+          <!-- <div class="content-right">
+            <a class="btn btn-success btn-sm" *ngIf="observation.user.userName === user.userName"
+              routerLink="/observation-manage-photos/{{observation.observationId}}">Add or Remove Photos</a>
+          </div> -->
+        </ng-container>
+        <ng-template #noItems>
+          <p><em>This feature is currently unavailable. We are working on a new implementation...</em></p>
+          <!-- <div>
+            <a class="btn btn-success btn-sm" *ngIf="observation.user.userName === user.userName"
+              routerLink="/observation-manage-photos/{{observation.observationId}}">Add or Remove Photos</a>
+          </div> -->
+        </ng-template>
+        <!--  -->
+
+      </mat-expansion-panel>
+      <div>
+        <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at
+            {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
       </div>
-      <div class='col-sm-1'></div>
+    </div>
+
+    <div class="navigation-menu">
+      <hr>
+      <a routerLink="/observation-feed">
+        Observation Feed
+      </a>
+      <!-- <a *ngIf="observation.user.userName === user.userName"
+        routerLink="/observation-manage-photos/{{observation.observationId}}">
+        | Manage Photos
+      </a> -->
+      <a *ngIf="observation.user.userName === user.userName"
+        routerLink="/observation-edit/{{observation.observationId}}">
+        | Edit
+      </a>
+      <a *ngIf="observation.user.userName === user.userName"
+        routerLink="/observation-delete/{{observation.observationId}}">
+        | Delete
+      </a>
+      <a routerLink="/observation-add">
+        | Add new
+      </a>
     </div>
   </div>
+</div>

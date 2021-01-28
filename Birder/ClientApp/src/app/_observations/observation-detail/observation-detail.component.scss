@@ -19,16 +19,13 @@ app-observation-detail {
     // align-content: left;
   }
 
-  .info-message {
-    margin-top: 20px;
-    text-align: left;
+  .mat-icon {
+    vertical-align: middle;
   }
 
-  .aligned-with-icon {
-    position: absolute;
-    text-align: left;
-    // margin-top: 5px;
-    // margin-left: 5px; /* optional */
+  .map-info {
+    margin-top: 10px;
+    text-align: center;
   }
 
   .section-title {
@@ -74,10 +71,6 @@ app-observation-detail {
     margin-top: 10px;
   }
 
-  .content-right {
-    text-align: right;
-  }
-
   //
   .photo-gallery {
     display: flex;
@@ -104,11 +97,5 @@ app-observation-detail {
 
   img {
     width: 150px;
-  }
-
-  .aligned-with-icon {
-    position: absolute;
-    // margin-top: 5px;
-    // margin-left: 5px; /* optional */
   }
 }

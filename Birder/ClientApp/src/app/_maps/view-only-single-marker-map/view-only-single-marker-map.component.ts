@@ -1,11 +1,12 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { GeocodingService } from '@app/_services/geocoding.service';
 
 @Component({
   selector: 'app-view-only-single-marker-map',
   templateUrl: './view-only-single-marker-map.component.html',
-  styleUrls: ['./view-only-single-marker-map.component.scss']
+  styleUrls: ['./view-only-single-marker-map.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ViewOnlySingleMarkerMapComponent implements OnInit {
   @Input() latitude: number;
