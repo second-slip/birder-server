@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AccountManagerService } from '@app/_services/account-manager.service';
 import { first } from 'rxjs/operators';
-import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
+import { RestrictedNameValidator } from 'validators/restrictedName.validator';
 import { UsernameValidationService } from '@app/_services/username-validation-service.service';
 
 

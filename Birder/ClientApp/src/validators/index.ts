@@ -4,3 +4,4 @@ export { PasswordValidator, ParentErrorStateMatcher } from './password.validator
 export { UsernameValidator1 } from './username.validator';
 export { UsernameValidator } from './username.validator';
 export { BirdsListValidator } from './birdsList.validator';
+export { RestrictedNameValidator } from './restrictedName.validator';
