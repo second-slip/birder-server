@@ -3,7 +3,6 @@ import { ObservationViewModel } from '../../_models/ObservationViewModel';
 import { ObservationService } from '../../_sharedServices/observation.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from '@app/_services/token.service';
 
@@ -21,7 +20,6 @@ export class ObservationDeleteComponent implements OnInit {
     , private toast: ToastrService
     , private tokenService: TokenService
     , private route: ActivatedRoute
-    , private location: Location
     , private router: Router) { }
 
   ngOnInit(): void {
@@ -56,9 +54,5 @@ export class ObservationDeleteComponent implements OnInit {
           this.toast.error(`An error occurred deleing the observation report`, `Unsuccessful`);
           this.errorReport = error;
         });
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 }

@@ -6,7 +6,6 @@
 <div class="container" *ngIf="observation">
   <div class="observation-add-container">
     <h3 class="section-title">Observation Report</h3>
-
     <p class="report-summary"><a routerLink="/user-profile/{{observation.user.userName}}">
         {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
       </a> observed <b>{{observation.quantity}}</b> <a routerLink="/birds-detail/{{observation.bird.birdId}}">

@@ -4,12 +4,9 @@
 </div>
 
 <div class="container" *ngIf="observation">
-  <div class="row">
-    <div class='col-sm-1'></div>
-    <div class="col-sm-10">
-      <div class="observation-add-container">
-        <h3 class="section-title">Delete Observation Report</h3>
-        <!-- <div *ngIf="invalidAddObservation" class="alert alert-danger">
+  <div class="observation-add-container">
+    <h3 class="section-title">Delete Observation Report</h3>
+    <!-- <div *ngIf="invalidAddObservation" class="alert alert-danger">
                 <p>There is an error in your observation</p>
                 <ul>
                   <li *ngFor="let error of errorReport.modelStateErrors">
@@ -18,38 +15,37 @@
                 </ul>
               </div> -->
 
-        <p class="report-summary">You observed <b>{{observation.quantity}}</b> <a
-            routerLink="/birds-detail/{{observation.bird.birdId}}">
-            {{observation.bird.englishName}}
-          </a> <small><em> {{ observation.bird.species }} </em></small>
-          <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy' }}
-        </p>
+    <p class="report-summary">You observed <b>{{observation.quantity}}</b> <a
+        routerLink="/birds-detail/{{observation.bird.birdId}}">
+        {{observation.bird.englishName}}
+      </a> <small><em> {{ observation.bird.species }} </em></small>
+      <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy' }}
+    </p>
 
-        <div>
-          <button class="btn btn-danger" (click)="deleteObservation()">
-            Delete
-          </button>
-        </div>
-        <div>
-          <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at
-              {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
-        </div>
-      </div>
-
-      <div class="navigation-menu">
-        <hr>
-        <a [routerLink]="" (click)="goBack()">Go Back</a>
-        <a routerLink="/observation-edit/{{observation.observationId}}">
-          | Edit
-        </a>
-        <a routerLink="/observation-detail/{{observation.observationId}}">
-          | View
-        </a>
-        <a routerLink="/observation-add">
-          | Add new
-        </a>
-      </div>
+    <div>
+      <button class="btn btn-danger" (click)="deleteObservation()">
+        Delete
+      </button>
     </div>
-    <div class='col-sm-1'></div>
+    <div>
+      <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at
+          {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
+    </div>
+  </div>
+
+  <div class="navigation-menu">
+    <hr>
+    <a routerLink="/observation-feed">
+      Observation Feed
+    </a>
+    <a routerLink="/observation-edit/{{observation.observationId}}">
+      | Edit
+    </a>
+    <a routerLink="/observation-detail/{{observation.observationId}}">
+      | View
+    </a>
+    <a routerLink="/observation-add">
+      | Add new
+    </a>
   </div>
 </div>
