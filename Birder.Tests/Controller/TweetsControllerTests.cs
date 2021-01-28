@@ -11,6 +11,8 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -36,24 +38,70 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task GetTweetDay_ReturnsOkObjectResult_WithATweetObject()
+        public async Task GetTweetArchive_ReturnsNotFoundResult_WhenRepoReturnsNull()
         {
             // Arrange
             var mockRepo = new Mock<ITweetDayRepository>();
-            //mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(DateTime.Today))
-            //     .ReturnsAsync(GetTestTweet()); //--> needs a real SystemClockService
-            mockRepo.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
-                .ReturnsAsync(GetTestTweetDay());
+            mockRepo.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(Task.FromResult<QueryResult<TweetDay>>(null));
 
             var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
                                                      _systemClock.Object, _mapper);
 
             // Act
-            var result = await controller.GetTweetDay();
+            var result = await controller.GetTweetArchiveAsync(1, 1);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.IsType<NotFoundResult>(result);
         }
+
+        [Fact]
+        public async Task GetTweetArchive_ReturnsBadRequestResult_WhenExceptionIsRaised()
+        {
+            // Arrange
+            var mockRepo = new Mock<ITweetDayRepository>();
+            mockRepo.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>()))
+                .ThrowsAsync(new InvalidOperationException());
+
+            var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
+                                                     _systemClock.Object, _mapper);
+
+            // Act
+            var result = await controller.GetTweetArchiveAsync(1, 1);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal("An error occurred", objectResult.Value);
+        }
+
+        [Fact]
+        public async Task GetTweetArchiveAsync_ReturnsOkObjectResult_WithObject()
+        {
+            // Arrange
+            var mockRepo = new Mock<ITweetDayRepository>();
+
+            mockRepo.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>()))
+                       .ReturnsAsync(GetQueryResult(30));
+
+            var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
+                                                     _systemClock.Object, _mapper);
+
+            // Act
+            var result = await controller.GetTweetArchiveAsync(1, 25);
+
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var actual = Assert.IsType<TweetArchiveDto>(objectResult.Value);
+        }
+
+
+
+        #region GetTweetDay
+
 
         [Fact]
         public async Task Get_ReturnsOkObjectResult_WithViewModel()
@@ -68,7 +116,7 @@ namespace Birder.Tests.Controller
                                                      _systemClock.Object, _mapper);
 
             // Act
-            var result = await controller.GetTweetDay();
+            var result = await controller.GetTweetDayAsync();
             
             // Assert
             var objectResult = result as ObjectResult;
@@ -90,7 +138,7 @@ namespace Birder.Tests.Controller
                                                      _systemClock.Object, _mapper);
 
             // Act
-            var result = await controller.GetTweetDay();
+            var result = await controller.GetTweetDayAsync();
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -108,12 +156,25 @@ namespace Birder.Tests.Controller
                                                      _systemClock.Object, _mapper);
 
             // Act
-            var result = await controller.GetTweetDay();
+            var result = await controller.GetTweetDayAsync();
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
             var objectResult = result as ObjectResult;
             Assert.Equal("An error occurred", objectResult.Value);
+        }
+
+        #endregion
+
+        private QueryResult<TweetDay> GetQueryResult(int length)
+        {
+            var result = new QueryResult<TweetDay>();
+            //var bird = new Bird() { BirdId = 1 };
+
+            result.TotalItems = length;
+            result.Items = GetTweetDayCollection(length);
+
+            return result;
         }
 
         private TweetDay GetTestTweetDay()
@@ -129,6 +190,27 @@ namespace Birder.Tests.Controller
             };
 
             return tweet;
+        }
+
+        private IEnumerable<TweetDay> GetTweetDayCollection(int length)
+        {
+            var tweets = new List<TweetDay>();
+
+            for (int i = 0; i < length; i++)
+            {
+                var tweet = new TweetDay()
+                {
+                    Bird = new Bird(),
+                    BirdId = 0,
+                    CreationDate = DateTime.Now.AddDays(-4),
+                    DisplayDay = DateTime.Today.AddDays(-2),
+                    LastUpdateDate = DateTime.Now.AddDays(-3),
+                    TweetDayId = 0
+                };
+                tweets.Add(tweet);
+            };
+
+            return tweets;
         }
     }
 }

@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ObservationViewModel } from '../../_models/ObservationViewModel';
-import { ObservationService } from '../../_sharedServices/observation.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from '@app/_services/token.service';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { ObservationViewModel } from '@app/_models/ObservationViewModel';
+import { ObservationService } from '@app/_sharedServices/observation.service';
 
 @Component({
   selector: 'app-observation-delete',

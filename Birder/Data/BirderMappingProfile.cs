@@ -110,6 +110,9 @@ namespace Birder.Data
               .ForMember(d => d.Bird, m => m.MapFrom(d => d.Bird))
               .ReverseMap();
 
+            CreateMap<QueryResult<TweetDay>, TweetArchiveDto>()
+                .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
+
             CreateMap<ObservationPosition, ObservationPositionDto>()
                 .ReverseMap();
 

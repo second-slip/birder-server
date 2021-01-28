@@ -51,9 +51,9 @@
         "id": "7",
         "feature": "Tweets archive",
         "description": "A page with a list of the previous x days of the 'Tweet of the Day' feature",
-        "progress": "Not started",
-        "priority": "Low",
-        "colourCode": "Black"
+        "progress": "Done",
+        "priority": "N/a",
+        "colourCode": "Green"
     },
     {
         "id": "8",

@@ -32,6 +32,7 @@ import { ObservationManagePhotosComponent } from './_observations/observation-ma
 import { TestingComponent } from './testing/testing.component';
 import { NetworkComponent } from './_network/network/network.component';
 import { WhatsNewComponent } from './whats-new/whats-new.component';
+import { TweetArchiveComponent } from './tweet-archive/tweet-archive.component';
 
 
 const routes: Routes = [
@@ -51,7 +52,8 @@ const routes: Routes = [
       { path: 'forgot-password-confirmation', component: ForgotPasswordConfirmationComponent },
       { path: 'reset-password/:code', component: ResetPasswordComponent },
       { path: 'reset-password-confirmation', component: ResetPasswordConfirmationComponent },
-      { path: 'whats-new', component: WhatsNewComponent }
+      { path: 'whats-new', component: WhatsNewComponent },
+      { path: 'tweets-archive', component: TweetArchiveComponent }
     ]
   },
   {

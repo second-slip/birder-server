@@ -8,3 +8,8 @@ export interface TweetDay {
     lastUpdateDate: Date | string;
     bird: BirdSummaryViewModel;
 }
+
+export interface TweetArchiveDto {
+    totalItems: number;
+    items: TweetDay[];
+}
