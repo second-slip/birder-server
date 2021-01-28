@@ -8,7 +8,10 @@
 
 <div *ngIf="locationMarker">
     
-    <p>{{ geolocation }}</p>
+    <p class="container location">
+        <mat-icon>location_on</mat-icon>
+        <span>{{ geolocation }}</span>
+      </p>
 
     <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
         <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker?.options"

@@ -1,11 +1,26 @@
-app-tweet-achive {
-    /* Extra small devices (phones, 600px and down) */
-    @media only screen and (max-width: 600px) {
+app-tweet-archive {
+    @media only screen and (max-width: 768px) {
+        th.hide-small,
+        td.hide-small {
+            display: none;
+        }
+
+        table th,
+        td {
+            font-size: 75%;
+        }
+
+        .player {
+            width: 90%;
+        }
     }
 
     /* Small devices (portrait tablets and large phones, 600px and up) */
-    @media only screen and (min-width: 600px) {
-    }
+    // @media only screen and (min-width: 600px) {
+    //     // th.stat, td.stat {
+    //     //     display: none;
+    //     // }
+    // }
 
     /* Medium devices (landscape tablets, 768px and up) */
     @media only screen and (min-width: 768px) {

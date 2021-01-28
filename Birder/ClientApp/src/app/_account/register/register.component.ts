@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { PasswordValidator, ParentErrorStateMatcher } from '../../../validators';
+import { PasswordValidator, ParentErrorStateMatcher, RestrictedNameValidator } from '../../../validators';
 import { AccountService } from '../../_services/account.service';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { RegisterViewModel } from '../../_models/RegisterViewModel';
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { RestrictedNameValidator } from 'validators/RestrictedNameValidator';
 import { UsernameValidationService } from '@app/_services/username-validation-service.service';
 
 @Component({

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { PhotographAlbum } from '@app/_models/PhotographAlbum';
 import { ObservationService } from '@app/_sharedServices/observation.service';
@@ -30,7 +29,6 @@ export class ObservationDetailComponent implements OnInit {
     , private photosService: PhotosService
     , private tokenService: TokenService
     , private route: ActivatedRoute
-    , private location: Location
     , private router: Router) { }
 
   ngOnInit(): void {
@@ -50,10 +48,6 @@ export class ObservationDetailComponent implements OnInit {
         () => {
           this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 
   getUser(): void {

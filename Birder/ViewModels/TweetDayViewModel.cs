@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Birder.ViewModels
 {
@@ -15,5 +16,11 @@ namespace Birder.ViewModels
         public DateTime LastUpdateDate { get; set; }
 
         public BirdSummaryViewModel Bird { get; set; }
+    }
+
+    public class TweetArchiveDto
+    {
+        public int TotalItems { get; set; }
+        public IEnumerable<TweetDayViewModel> Items { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Birder.Data.Model;
+using Birder.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -10,6 +11,26 @@ namespace Birder.Data.Repository
     {
         public TweetDayRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public async Task<QueryResult<TweetDay>> GetTweetArchiveAsync(int pageIndex, int pageSize)
+        {
+            var result = new QueryResult<TweetDay>();
+
+            var query = _dbContext.TweetDays
+                .Include(u => u.Bird)
+                .AsNoTracking()
+                .AsQueryable();
+
+            query = query.OrderByDescending(s => s.DisplayDay);
+
+            result.TotalItems = await query.CountAsync();
+
+            query = query.ApplyPaging(pageIndex, pageSize);
+
+            result.Items = await query.ToListAsync();
+
+            return result;
         }
 
         public async Task<TweetDay> GetTweetOfTheDayAsync(DateTime date)
@@ -28,10 +49,5 @@ namespace Birder.Data.Repository
 
             return tweet;
         }
-
-        //public ApplicationDbContext ApplicationDbContext
-        //{
-        //    get { return _dbContext as ApplicationDbContext; }
-        //}
     }
 }

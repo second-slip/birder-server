@@ -39,7 +39,7 @@ namespace Birder.Controllers
 
         [HttpGet, Route("GetTweetDay")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetTweetDay()
+        public async Task<IActionResult> GetTweetDayAsync()
         {
             try
             {
@@ -50,7 +50,7 @@ namespace Birder.Controllers
 
                 var tweet = await _tweetDayRepository.GetTweetOfTheDayAsync(_systemClock.GetToday);
 
-                if (tweet == null)
+                if (tweet is null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting tweet with date: {Date}", _systemClock.GetToday);
                     return NotFound();
@@ -65,6 +65,31 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, "An error occurred getting tweet with date: {Date}", _systemClock.GetToday);
+                return BadRequest("An error occurred");
+            }
+        }
+
+        [HttpGet, Route("GetTweetArchive")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetTweetArchiveAsync(int pageIndex, int pageSize)
+        {
+            try
+            {
+                var tweets = await _tweetDayRepository.GetTweetArchiveAsync(pageIndex, pageSize);
+
+                if (tweets is null)
+                {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting the tweets archive");
+                    return NotFound();
+                }
+
+                var viewModel = _mapper.Map<QueryResult<TweetDay>, TweetArchiveDto>(tweets);
+
+                return Ok(viewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the tweets archive");
                 return BadRequest("An error occurred");
             }
         }

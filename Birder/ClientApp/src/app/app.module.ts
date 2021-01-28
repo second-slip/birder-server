@@ -74,7 +74,7 @@ import { LightboxModule } from 'ngx-lightbox';
 import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
 import { AboutContributeComponent } from './_about/about-contribute/about-contribute.component';
-import { NgcCookieConsentModule, NgcCookieConsentConfig} from 'ngx-cookieconsent';
+import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
 import { AuthenticationService } from './_services/authentication.service';
 import { TokenService } from './_services/token.service';
 import { UserObservationsListComponent } from './_sharedComponents/user-observations-list/user-observations-list.component';
@@ -102,11 +102,8 @@ import { WhatsNewComponent } from './whats-new/whats-new.component';
 import { TweetArchiveComponent } from './tweet-archive/tweet-archive.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
-import { MatStepperModule }  from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-
-// import { UsernameValidator } from 'validators';
-
 
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
@@ -225,11 +222,9 @@ export function tokenGetter() {
     MatTooltipModule,
     MatButtonModule,
     MatDatepickerModule,
-    //
     NgxMatDatetimePickerModule,
     NgxMatMomentModule,
     MatStepperModule,
-    //
     MatNativeDateModule,
     MatCheckboxModule,
     MatSelectModule,
@@ -240,7 +235,6 @@ export function tokenGetter() {
     MatBadgeModule,
     MatAutocompleteModule,
     MatDialogModule,
-    // MatCardModule,
     MatButtonToggleModule,
     ToastrModule.forRoot(),
     NgxDropzoneModule,
@@ -251,8 +245,8 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:55722'],
-        blacklistedRoutes: ['http://localhost:55722/Authentication/Login']
+        allowedDomains: ['localhost:55722', 'birder20210119224819.azurewebsites.net', 'birderweb.com'],
+        disallowedRoutes: ['//localhost:55722/Authentication/Login', '//birder20210119224819.azurewebsites.net/Authentication/Login', '//birderweb.com/Authentication/Login'],
       }
     }),
   ],
@@ -261,13 +255,12 @@ export function tokenGetter() {
     { provide: RequestCache, useClass: RequestCacheWithMap },
     httpInterceptorProviders,
     [AuthGuard],
-    // [UsernameValidator],
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: LOCALE_ID, useValue: 'en-GB' },
-      {
-        provide: STEPPER_GLOBAL_OPTIONS,
-        useValue: { showError: true }
-      }
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true }
+    }
   ],
   bootstrap: [AppComponent]
 })
