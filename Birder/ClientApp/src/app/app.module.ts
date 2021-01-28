@@ -251,8 +251,10 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:55722'],
-        blacklistedRoutes: ['http://localhost:55722/Authentication/Login']
+        // whitelistedDomains: ['localhost:55722'],
+        // blacklistedRoutes: ['http://localhost:55722/Authentication/Login']
+        allowedDomains: ['localhost:55722', 'birder20210119224819.azurewebsites.net', 'birderweb.com'],
+        disallowedRoutes: ['//localhost:55722/Authentication/Login', '//birder20210119224819.azurewebsites.net/Authentication/Login', '//birderweb.com/Authentication/Login'],
       }
     }),
   ],
