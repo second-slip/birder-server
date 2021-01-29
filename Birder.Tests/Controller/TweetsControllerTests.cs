@@ -42,7 +42,7 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<ITweetDayRepository>();
-            mockRepo.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>()))
+            mockRepo.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult<QueryResult<TweetDay>>(null));
 
             var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
@@ -60,7 +60,7 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<ITweetDayRepository>();
-            mockRepo.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>()))
+            mockRepo.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<DateTime>()))
                 .ThrowsAsync(new InvalidOperationException());
 
             var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,
@@ -81,7 +81,7 @@ namespace Birder.Tests.Controller
             // Arrange
             var mockRepo = new Mock<ITweetDayRepository>();
 
-            mockRepo.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>()))
+            mockRepo.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<DateTime>()))
                        .ReturnsAsync(GetQueryResult(30));
 
             var controller = new TweetsController(mockRepo.Object, _cache, _logger.Object,

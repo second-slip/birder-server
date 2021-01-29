@@ -75,7 +75,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var tweets = await _tweetDayRepository.GetTweetArchiveAsync(pageIndex, pageSize);
+                var tweets = await _tweetDayRepository.GetTweetArchiveAsync(pageIndex, pageSize, _systemClock.GetToday);
 
                 if (tweets is null)
                 {

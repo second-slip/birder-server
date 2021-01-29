@@ -13,12 +13,14 @@ namespace Birder.Data.Repository
         {
         }
 
-        public async Task<QueryResult<TweetDay>> GetTweetArchiveAsync(int pageIndex, int pageSize)
+        public async Task<QueryResult<TweetDay>> GetTweetArchiveAsync(int pageIndex, int pageSize, DateTime date)
         {
             var result = new QueryResult<TweetDay>();
 
             var query = _dbContext.TweetDays
+
                 .Include(u => u.Bird)
+                .Where(d => d.DisplayDay <= date)
                 .AsNoTracking()
                 .AsQueryable();
 

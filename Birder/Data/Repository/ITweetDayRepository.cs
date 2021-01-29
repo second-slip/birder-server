@@ -8,6 +8,6 @@ namespace Birder.Data.Repository
     {
         Task<TweetDay> GetTweetOfTheDayAsync(DateTime date);
 
-        Task<QueryResult<TweetDay>> GetTweetArchiveAsync(int pageIndex, int pageSize);
+        Task<QueryResult<TweetDay>> GetTweetArchiveAsync(int pageIndex, int pageSize, DateTime date);
     }
 }
