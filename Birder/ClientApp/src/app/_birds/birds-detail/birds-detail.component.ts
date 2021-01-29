@@ -62,8 +62,4 @@ export class BirdsDetailComponent implements OnInit {
   gotoBirdsList() {
     this.router.navigate(['/birds-index'], {relativeTo: this.route});
   }
-
-  goBack(): void {
-    this.location.back();
-  }
 }
