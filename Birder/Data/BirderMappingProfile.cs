@@ -36,24 +36,6 @@ namespace Birder.Data
             CreateMap<QueryResult<Observation>, ObservationFeedDto>()
                 .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
 
-
-            //CreateMap<List<Observation>, TopObservationsAnalysisViewModel>()
-            //  .ForMember(a => a.TopObservations, opt => opt.MapFrom(a =>  //a.Where(t => t.ObservationDateTime >= opt.Items["Date"])
-            //     a.GroupBy(n => n.Bird)
-            //        .Select(n => new TopObservationsViewModel
-            //        {
-            //            BirdId = n.Key.BirdId,
-            //            Name = n.Key.EnglishName,
-            //            Count = n.Count()
-            //        }).OrderByDescending(n => n.Count).Take(5)))
-            //  .ForMember(a => a.TopMonthlyObservations, b => b.MapFrom(a => a.GroupBy(n => n.Bird)
-            //        .Select(n => new TopObservationsViewModel
-            //        {
-            //            BirdId = n.Key.BirdId,
-            //            Name = n.Key.EnglishName,
-            //            Count = n.Count()
-            //        }).OrderByDescending(n => n.Count).Take(5)));
-
             CreateMap<List<Observation>, List<LifeListViewModel>>();
 
             CreateMap<ApplicationUser, UserViewModel>()
@@ -118,26 +100,11 @@ namespace Birder.Data
 
             CreateMap<ObservationNoteDto, ObservationNote>()
                 .EqualityComparison((odto, o) => odto.Id == o.Id)
-                //.ForMember(n => n.Id, b => b.UseDestinationValue())
                 .ForMember(n => n.NoteType, b => b.MapFrom(i => i.NoteType))
                 .ForMember(n => n.Note, b => b.MapFrom(i => i.Note))
                 .ForMember(r => r.Observation, i => i.UseDestinationValue());
 
-            //CreateMap<List<ObservationNoteDto>, IEnumerable<ObservationNote>>()
-            //                    .ForMember(n => n.Id, b => b.UseDestinationValue())
-            //    .ForMember(n => n.NoteType, b => b.MapFrom(i => i.NoteType))
-            //    .ForMember(n => n.Note, b => b.MapFrom(i => i.Note))
-            //    .ForMember(r => r.Observation, i => i.UseDestinationValue());
-
-
             CreateMap<ObservationNote, ObservationNoteDto>();
-
-            //CreateMap<ObservationNoteDto, ObservationNote>()
-            //    .ForMember(a => a.Observation, b => b.Ignore());
-
-
-            //CreateMap<List<ObservationNote>, List<ObservationNoteDto>>()
-            //    .ReverseMap();
         }
     }
 }
