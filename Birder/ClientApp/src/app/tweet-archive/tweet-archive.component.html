@@ -35,6 +35,10 @@
                 </tr>
             </tbody>
         </table>
+
+        <hr>
+        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItems" [(page)]="page"
+            [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
     </div>
 
 </div>
