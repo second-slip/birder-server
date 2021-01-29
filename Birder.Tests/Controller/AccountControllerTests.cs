@@ -817,7 +817,7 @@ namespace Birder.Tests.Controller
         #endregion
 
 
-        private ApplicationUser GetValidTestUser(bool emailConfirmed)
+        private static ApplicationUser GetValidTestUser(bool emailConfirmed)
         {
             var user = new ApplicationUser()
             {
