@@ -10,11 +10,11 @@ namespace Birder.Tests.Services
 {
     public class LocalFileClientTests
     {
-        private readonly IFileClient _fileClient;
+        //private readonly IFileClient _fileClient;
 
-        public LocalFileClientTests()
-        {
-            _fileClient = new LocalFileClient(@"C:\Users\Andre\OneDrive");
-        }
+        //public LocalFileClientTests()
+        //{
+        //    _fileClient = new LocalFileClient(@"C:\Users\Andre\OneDrive");
+        //}
     }
 }

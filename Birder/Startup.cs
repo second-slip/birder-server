@@ -98,11 +98,11 @@ namespace Birder
             // CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
             // CloudConfigurationManager.GetSetting("StorageConnectionString"));
 
-            services.AddScoped<IFileClient, AzureBlobFileClient>(client =>
-            {
-                var cloudConnStr = Configuration["StorageConnectionString"];
-                return new AzureBlobFileClient(cloudConnStr);
-            });
+            //services.AddScoped<IFileClient, AzureBlobFileClient>(client =>
+            //{
+            //    var cloudConnStr = Configuration["StorageConnectionString"];
+            //    return new AzureBlobFileClient(cloudConnStr);
+            //});
 
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
