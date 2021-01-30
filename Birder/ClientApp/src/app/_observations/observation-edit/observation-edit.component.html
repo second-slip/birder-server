@@ -103,16 +103,16 @@
         </mat-step>
         <!--  -->
         <mat-step [optional]="true">
-          <!-- <form [formGroup]="secondFormGroup"> -->
+
           <ng-template matStepLabel><span class="stepperTop2">Notes</span></ng-template>
 
-          <app-edit-notes [notes]="observation?.notes"></app-edit-notes>
+          <div class="container">
+            <app-edit-notes [notes]="observation?.notes"></app-edit-notes>
 
-          <div>
             <button mat-stroked-button matStepperPrevious type="button">Back</button>
             <button mat-stroked-button matStepperNext type="button">Next</button>
           </div>
-          <!-- </form> -->
+
         </mat-step>
         <!--  -->
 

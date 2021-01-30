@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NoteModel } from '@app/_models/NoteModel';
 import { AddNoteDialogComponent } from '../add-note-dialog/add-note-dialog.component';
@@ -7,7 +7,8 @@ import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.co
 @Component({
   selector: 'app-edit-notes',
   templateUrl: './edit-notes.component.html',
-  styleUrls: ['./edit-notes.component.scss']
+  styleUrls: ['./edit-notes.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class EditNotesComponent implements OnInit {
   @Input() notes: NoteModel[] = [];
