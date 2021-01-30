@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NoteModel } from '@app/_models/NoteModel';
 import { AddNoteDialogComponent } from '../add-note-dialog/add-note-dialog.component';
@@ -7,7 +7,8 @@ import { EditNoteDialogComponent } from '../edit-note-dialog/edit-note-dialog.co
 @Component({
   selector: 'app-add-notes',
   templateUrl: './add-notes.component.html',
-  styleUrls: ['./add-notes.component.scss']
+  styleUrls: ['./add-notes.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddNotesComponent {
   notes: NoteModel[] = [];

@@ -1,5 +1,5 @@
 
-<button mat-raised-button color="basic" type="button" (click)="openAddNoteDialog()" matTooltip="Add new note">
+<button class="add-button" mat-raised-button color="basic" type="button" (click)="openAddNoteDialog()" matTooltip="Add new note">
     <mat-icon>note_add</mat-icon>
     Add note
 </button>
@@ -7,9 +7,8 @@
 <hr>
 <!-- just want some space here -->
 
-<div *ngIf="notes">
+<div class="container" *ngIf="notes">
     <ng-container *ngIf="notes.length; else noItems">
-        <p>Table...</p>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -25,7 +24,7 @@
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ note.noteType }}</td>
                     <td>{{ note.note }}</td>
-                    <td style="float:right;"><button mat-icon-button color="primary" type="button" (click)="removeNote(note)" matTooltip="Edit this note">
+                    <td style="float:right;"><button mat-icon-button color="primary" type="button" (click)="openEditNoteDialog(note)" matTooltip="Edit this note">
                         <mat-icon>edit</mat-icon>
                     </button>
                     <button mat-icon-button color="primary" (click)="removeNote(note)" type="button" matTooltip="Delete this note">
