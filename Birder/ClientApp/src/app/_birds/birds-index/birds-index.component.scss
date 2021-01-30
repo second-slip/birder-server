@@ -7,4 +7,14 @@ app-birds-index {
   th {
     width: auto;
   }
+
+  .mat-button-toggle-label-content {
+    line-height: 32px !important; //<-- set the height here
+  }
+
+  .example-button-container {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+  }
 }

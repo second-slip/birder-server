@@ -35,11 +35,11 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBirdsAsync(int pageIndex, int pageSize)
+        public async Task<IActionResult> GetBirdsAsync(int pageIndex, int pageSize, BirderStatus speciesFilter)
         {
             try
             {
-                var birds = await _birdRepository.GetBirdsAsync(pageIndex, pageSize);
+                var birds = await _birdRepository.GetBirdsAsync(pageIndex, pageSize, speciesFilter);
 
                 if (birds == null)
                 {

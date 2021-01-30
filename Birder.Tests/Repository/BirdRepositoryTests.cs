@@ -61,7 +61,7 @@ namespace Birder.Tests.Repository
                 var birdRepository = new BirdRepository(context);
 
                 // Act
-                var birds = await birdRepository.GetBirdsAsync(1, pageSize);
+                var birds = await birdRepository.GetBirdsAsync(1, pageSize, BirderStatus.Common);
 
                 // Assert
                 Assert.Equal(pageSize, birds.Items.Count());
@@ -118,7 +118,7 @@ namespace Birder.Tests.Repository
                 var birdRepository = new BirdRepository(context);
 
                 // Act
-                var birds = await birdRepository.GetBirdsAsync(0, pageSize);
+                var birds = await birdRepository.GetBirdsAsync(0, pageSize, BirderStatus.Common);
 
                 // Assert
                 Assert.Equal(pageSize, birds.Items.Count());
@@ -172,7 +172,7 @@ namespace Birder.Tests.Repository
                 var birdRepository = new BirdRepository(context);
 
                 // Act
-                var birds = await birdRepository.GetBirdsAsync(1, 0);
+                var birds = await birdRepository.GetBirdsAsync(1, 0, BirderStatus.Common);
 
                 // Assert
                 Assert.Equal(10, birds.Items.Count());

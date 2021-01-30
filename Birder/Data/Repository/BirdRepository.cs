@@ -39,15 +39,19 @@ namespace Birder.Data.Repository
                     .ToListAsync();
         }
 
-        public async Task<QueryResult<Bird>> GetBirdsAsync(int pageIndex, int pageSize)
+        public async Task<QueryResult<Bird>> GetBirdsAsync(int pageIndex, int pageSize, BirderStatus speciesFilter)
         {
             var result = new QueryResult<Bird>();
 
             var query = _dbContext.Birds
                 .Include(u => u.BirdConservationStatus)
-                .Where(s => s.BirderStatus == BirderStatus.Common)
                 .AsNoTracking()
                 .AsQueryable();
+
+            if (speciesFilter == BirderStatus.Common)
+            {
+                query = query.Where(bs => bs.BirderStatus == BirderStatus.Common);
+            }
 
             query = query.OrderBy(s => s.BirderStatus)
                          .ThenBy(n => n.EnglishName);

@@ -40,13 +40,13 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
-            mockRepo.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>()))
+            mockRepo.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>()))
                  .ReturnsAsync(GetQueryResult(30));
 
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
-            var result = await controller.GetBirdsAsync(1, 25);
+            var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -57,14 +57,14 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
-            mockRepo.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>()))
+            mockRepo.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>()))
                  //.ReturnsAsync(GetTestBirds());
             .ReturnsAsync(GetQueryResult(30));
 
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
-            var result = await controller.GetBirdsAsync(1, 25);
+            var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
 
             // Assert
             var objectResult = result as ObjectResult;
@@ -85,7 +85,7 @@ namespace Birder.Tests.Controller
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
-            var result = await controller.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>());
+            var result = await controller.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>());
 
             // Assert
             Assert.IsType<NotFoundResult>(result);
@@ -96,13 +96,13 @@ namespace Birder.Tests.Controller
         {
             // Arrange
             var mockRepo = new Mock<IBirdRepository>();
-            mockRepo.Setup(repo => repo.GetBirdsAsync(1, 25))
+            mockRepo.Setup(repo => repo.GetBirdsAsync(1, 25, BirderStatus.Common))
                 .ThrowsAsync(new InvalidOperationException());
 
             var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
 
             // Act
-            var result = await controller.GetBirdsAsync(1, 25);
+            var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
