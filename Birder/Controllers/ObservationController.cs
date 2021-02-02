@@ -314,6 +314,10 @@ namespace Birder.Controllers
                     return Unauthorized("Requesting user is not allowed to delete this observation");
                 }
 
+                var notes = await _observationNoteRepository.FindAsync(x => x.Observation.ObservationId == id);
+
+                _observationNoteRepository.RemoveRange(notes);
+
                 _observationRepository.Remove(observation);
                 
                 await _unitOfWork.CompleteAsync();
