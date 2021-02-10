@@ -34,11 +34,11 @@ namespace Birder.Controllers
             {
                 var recordings = await _xenoCantoService.GetSpeciesRecordings(species);
 
-                if (recordings is null)
-                {
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                    return StatusCode(500);
-                }
+                //if (recordings is null)
+                //{
+                //    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
+                //    return StatusCode(500);
+                //}
 
                 return Ok(recordings);
             }
