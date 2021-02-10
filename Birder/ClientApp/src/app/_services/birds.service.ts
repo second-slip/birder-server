@@ -7,6 +7,7 @@ import { HttpParams, HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { BirdDetailViewModel } from '@app/_models/BirdDetailViewModel';
 import { BirderStatus } from '@app/_models/BirdIndexOptions';
+import { RecordingViewModel } from '@app/_models/RecordingViewModel';
 
 @Injectable({
   providedIn: 'root'

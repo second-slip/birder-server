@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Birder.Helpers;
+using Birder.Infrastructure.CustomExceptions;
+using Birder.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -13,11 +15,45 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class RecordingController : Controller
     {
+        private readonly IXenoCantoService _xenoCantoService;
         private readonly ILogger _logger;
-        public RecordingController() { }
-        public IActionResult Index()
+
+        public RecordingController(ILogger<RecordingController> logger, IXenoCantoService xenoCantoService) 
         {
-            return View();
+            _logger = logger;
+            _xenoCantoService = xenoCantoService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRecordingsAsync(string species)
+        {
+            if (string.IsNullOrEmpty(species))
+                return BadRequest("location parameter is missing"); // refactor
+
+            try
+            {
+                var recordings = await _xenoCantoService.GetSpeciesRecordings(species);
+
+                if (recordings is null)
+                {
+                    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
+                    return StatusCode(500);
+                }
+
+                return Ok(recordings);
+            }
+            catch (XenoCantoException e)
+            {
+                if (e.StatusCode == HttpStatusCode.NotFound)
+                    return BadRequest($"Xeno Canto Api not found.");
+                else
+                    return StatusCode(500, e.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred");
+                return StatusCode(500);
+            }
         }
     }
 }

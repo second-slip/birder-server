@@ -5,11 +5,11 @@
     </div>
 
     <div *ngIf="recordings">
-        <ng-container *ngIf="recordings.recordings.length; else noItems">
+        <ng-container *ngIf="recordings.length; else noItems">
             <h5>Bird song recordings</h5>
 
             <div
-                *ngFor="let item of recordings.recordings | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                *ngFor="let item of recordings | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                 <div>
                     <audio controls>
                         <source src="{{item.url}}" type="audio/mpeg">
@@ -19,10 +19,10 @@
             </div>
 
             <div class="small-italic">
-                Total recordings: {{ recordings.recordings.length }}
+                Total recordings: {{ recordings.length }}
             </div>
 
-            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="recordings.recordings.length"
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="recordings.length"
                 class="d-flex justify-content-center" size="sm" [maxSize]="9" [rotate]="true" [boundaryLinks]="true">
             </ngb-pagination>
 

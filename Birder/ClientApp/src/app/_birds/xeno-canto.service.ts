@@ -4,6 +4,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
+// currently not used as the xeno-canto API blocks CORS
+// Public demo server (cors-anywhere.herokuapp.com) will be very limited by January 2021, 31st
+// so I have moved to accessing the API on the server side
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,7 +29,8 @@ export class XenoCantoService {
           numPages: o.numPages,
           recordings: o.recordings.map((element: IRecording, index) => ({
             id: index,
-            url: `${element['sono']['full'].substr(0, this.getSubStringStartPosition(element['sono']['full'], '\/', 6))}${element['file-name']}`
+            url: element.url
+            //url: `${element['sono']['full'].substr(0, this.getSubStringStartPosition(element['sono']['full'], '\/', 6))}${element['file-name']}`
           }))
         }))
       );

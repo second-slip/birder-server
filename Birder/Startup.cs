@@ -95,6 +95,9 @@ namespace Birder
             services.AddSingleton<ISystemClockService, SystemClockService>();
             services.AddSingleton<IUrlService, UrlService>();
 
+            services.AddHttpClient();
+            services.AddScoped<IXenoCantoService, XenoCantoService>();
+
             // CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
             // CloudConfigurationManager.GetSetting("StorageConnectionString"));
 

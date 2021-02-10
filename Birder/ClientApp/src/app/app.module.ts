@@ -79,7 +79,6 @@ import { AuthenticationService } from './_services/authentication.service';
 import { TokenService } from './_services/token.service';
 import { UserObservationsListComponent } from './_sharedComponents/user-observations-list/user-observations-list.component';
 import { BirdObservationsListComponent } from './_sharedComponents/bird-observations-list/bird-observations-list.component';
-import { BirdsVoiceComponent } from './_birds/birds-voice/birds-voice.component';
 import { NetworkSearchComponent } from './_network/network-search/network-search.component';
 import { NetworkSuggestionsComponent } from './_network/network-suggestions/network-suggestions.component';
 import { NetworkComponent } from './_network/network/network.component';
@@ -104,6 +103,7 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-mat
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import { MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { SongRecordingsComponent } from './_birds/song-recordings/song-recordings.component';
 
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
@@ -190,7 +190,6 @@ export function tokenGetter() {
     AboutContributeComponent,
     UserObservationsListComponent,
     BirdObservationsListComponent,
-    BirdsVoiceComponent,
     NetworkSearchComponent,
     NetworkSuggestionsComponent,
     NetworkComponent,
@@ -207,7 +206,8 @@ export function tokenGetter() {
     ObservationFeedItemComponent,
     ShowcaseObservationFeedItemComponent,
     WhatsNewComponent,
-    TweetArchiveComponent
+    TweetArchiveComponent,
+    SongRecordingsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

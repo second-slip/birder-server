@@ -38,4 +38,13 @@ namespace Birder.ViewModels
         [JsonPropertyName("full")]
         public string Full { get; set; }
     }
+
+    public class XenoCantoErrorResponse
+    {
+        [JsonPropertyName("code")]
+        public string Code { get; }
+
+        [JsonPropertyName("message")]
+        public string Message { get; }
+    }
 }
