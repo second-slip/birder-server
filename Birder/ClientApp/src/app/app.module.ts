@@ -104,7 +104,7 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
 import { MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { SongRecordingsComponent } from './_birds/song-recordings/song-recordings.component';
-import { YearListComponent } from './_lists/year-list/year-list.component';
+// import { YearListComponent } from './_lists/year-list/year-list.component';
 
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
@@ -209,7 +209,7 @@ export function tokenGetter() {
     WhatsNewComponent,
     TweetArchiveComponent,
     SongRecordingsComponent,
-    YearListComponent
+    // YearListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

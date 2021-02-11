@@ -156,31 +156,31 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpGet, Route("GetYearList")]
-        public async Task<IActionResult> GetYearListAsync(string year)
-        {
-            try
-            {
-                var username = User.Identity.Name;
+        //[HttpGet, Route("GetYearList")]
+        //public async Task<IActionResult> GetYearListAsync(string year) // or DateTime year)
+        //{
+        //    try
+        //    {
+        //        var username = User.Identity.Name;
 
-                if (username == null)
-                {
-                    return Unauthorized();
-                }
+        //        if (username == null)
+        //        {
+        //            return Unauthorized();
+        //        }
 
-                var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
+        //        var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
 
-                // _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
+        //        // _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
 
-                var viewModel = ObservationsAnalysisHelper.MapLifeList(observations);
+        //        var viewModel = ObservationsAnalysisHelper.MapLifeList(observations);
 
-                return Ok(viewModel);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the Life List");
-                return BadRequest("An error occurred");
-            }
-        }
+        //        return Ok(viewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the Life List");
+        //        return BadRequest("An error occurred");
+        //    }
+        //}
     }
 }
