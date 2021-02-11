@@ -106,7 +106,7 @@ namespace Birder.Tests.Services
             {
                 Recordings = new List<Recording>
                 {
-                    new Recording{ Url = "testUrl", FileName = "testFileName.mp3", Sono = new Sono { Small = "//a/b/c/d/e/f/g/", Med = "testMedSono", Large = "testLargeSono", Full = "testFullsono" } }
+                    new Recording{ FileName = "testFileName.mp3", Sono = new Sono { Small = "//a/b/c/d/e/f/g/", Med = "testMedSono", Large = "testLargeSono", Full = "testFullsono" } }
                 }
             };
             var json = JsonSerializer.Serialize(response);

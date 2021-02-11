@@ -1,4 +1,5 @@
-﻿using Birder.Infrastructure.CustomExceptions;
+﻿using Birder.Helpers;
+using Birder.Infrastructure.CustomExceptions;
 using Birder.ViewModels;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -23,7 +24,8 @@ namespace Birder.Services
 
         public async Task<List<RecordingViewModel>> GetSpeciesRecordings(string species)
         {
-            string url = BuildXenoCantoApiUrl(species);
+            string formattedSearchTerm = XenoCantoServiceHelpers.FormatSearchTerm(species);
+            string url = XenoCantoServiceHelpers.BuildXenoCantoApiUrl(formattedSearchTerm);
             var forecasts = new List<RecordingViewModel>();
 
             var client = _httpFactory.CreateClient("XenoCantoClient");
@@ -41,7 +43,7 @@ namespace Birder.Services
                     forecasts.Add(new RecordingViewModel
                     {
                         Id = index,
-                        Url = BuildRecordingUrl(forecast.Sono.Small, forecast.FileName),
+                        Url = XenoCantoServiceHelpers.BuildRecordingUrl(forecast.Sono.Small, forecast.FileName),
                     });
 
                     index++;
@@ -54,40 +56,6 @@ namespace Birder.Services
                 // can deserialise the error respose object XenoCantoErrorResponse, but I haven't...
                 throw new XenoCantoException(response.StatusCode, "Error response from XenoCantoApi: " + response.ReasonPhrase);
             }
-        }
-
-        private string BuildRecordingUrl(string baseUrl, string fileName)
-        {
-            var substring = baseUrl.Substring(0, IndexOfNth(baseUrl, '/', 6) + 1);
-            return string.Concat(substring, fileName);
-        }
-
-        private int IndexOfNth(string str, char c, int n)
-        {
-            int remaining = n;
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (str[i] == c)
-                {
-                    remaining--;
-                    if (remaining == 0)
-                    {
-                        return i;
-                    }
-                }
-            }
-            return -1;
-        }
-
-
-
-        private string BuildXenoCantoApiUrl(string species)
-        {
-            string searchSpeciesFormatted = species.Replace(" ", "+");
-
-            return $"https://www.xeno-canto.org/api/2/recordings?query=" +
-                   $"{searchSpeciesFormatted}" +
-                   $"+len_gt:40";
         }
     }
 }

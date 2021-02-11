@@ -14,8 +14,8 @@ namespace Birder.ViewModels
 
     public class Recording
     {
-        [JsonPropertyName("url")]
-        public string Url { get; set; }
+        //[JsonPropertyName("url")]
+        //public string Url { get; set; }
 
         [JsonPropertyName("file-name")]
         public string FileName { get; set; }
