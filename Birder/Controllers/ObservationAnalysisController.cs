@@ -155,5 +155,32 @@ namespace Birder.Controllers
                 return BadRequest("An error occurred");
             }
         }
+
+        [HttpGet, Route("GetYearList")]
+        public async Task<IActionResult> GetYearListAsync(string year)
+        {
+            try
+            {
+                var username = User.Identity.Name;
+
+                if (username == null)
+                {
+                    return Unauthorized();
+                }
+
+                var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
+
+                // _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
+
+                var viewModel = ObservationsAnalysisHelper.MapLifeList(observations);
+
+                return Ok(viewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the Life List");
+                return BadRequest("An error occurred");
+            }
+        }
     }
 }

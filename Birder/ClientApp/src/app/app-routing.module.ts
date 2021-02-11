@@ -13,7 +13,7 @@ import { RegisterComponent } from './_account/register/register.component';
 import { ConfirmEmailComponent } from './_account/confirm-email/confirm-email.component';
 import { ObservationEditComponent } from './_observations/observation-edit/observation-edit.component';
 import { ObservationDeleteComponent } from './_observations/observation-delete/observation-delete.component';
-import { LifeListComponent } from './life-list/life-list.component';
+import { LifeListComponent } from './_lists/life-list/life-list.component';
 import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 import { UserProfileComponent } from './_users/user-profile/user-profile.component';

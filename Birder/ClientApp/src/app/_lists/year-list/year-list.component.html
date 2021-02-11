@@ -1,0 +1,39 @@
+<div class="container">
+    <h3>Your life list</h3>
+    <p *ngIf="analysis">You have spotted {{ analysis.uniqueSpeciesCount }} species in {{ analysis.totalObservationsCount }} observations:</p>
+  
+    <div *ngIf="!lifeList" class="loading">
+      <p><em>Loading...</em></p>
+      <mat-spinner></mat-spinner>
+    </div>
+  
+    <table class="table table-striped" *ngIf="lifeList">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Count</th>
+          <th scope="col">Species</th>
+          <th class="hide-small" scope="col">Status / Population</th>
+          <th scope="col">Risk Flag</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of lifeList; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ record.count | number }}</td>
+          <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
+            <br><small><em>{{ record.species }}</em></small></td>
+          <td class="hide-small"><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
+          <td [style.color]="record.conservationListColourCode"><small>{{ record.conservationStatus }}</small></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- <hr>
+    <p>With boundary links:</p>
+  <ngb-pagination [collectionSize]="70" [(page)]="page" [boundaryLinks]="true"></ngb-pagination>
+  
+  <hr>
+  
+  <pre>Current page: {{page}}</pre> -->
+  </div>

@@ -1,8 +1,4 @@
 export interface LifeListViewModel {
-//     lifeList: SpeciesSummaryViewModel[];
-// }
-
-// export interface SpeciesSummaryViewModel {
     birdId: number;
     englishName: string;
     species: string;
@@ -11,4 +7,5 @@ export interface LifeListViewModel {
     conservationStatus: string;
     conservationListColourCode: string;
     count: number;
+    // year, string?
 }

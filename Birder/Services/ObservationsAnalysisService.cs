@@ -15,6 +15,8 @@ namespace Birder.Services
     {
         Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate);
 
+        Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate, DateTime year);
+
         //Task<TopObservationsAnalysisViewModel> GetTop5(Expression<Func<Observation, bool>> predicate, DateTime startDate);
     }
 
@@ -86,6 +88,30 @@ namespace Birder.Services
                 .AsQueryable();
 
             query = query.Where(predicate);
+
+            model.TotalObservationsCount = await query.CountAsync();
+
+            model.UniqueSpeciesCount = await query.Select(i => i.BirdId).Distinct().CountAsync();
+
+            return model;
+        }
+
+        public async Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate, DateTime year)
+        {
+            if (predicate is null)
+                throw new ArgumentException("The argument is null or empty", nameof(predicate));
+
+            var model = new ObservationAnalysisViewModel();
+
+            var query = _dbContext.Observations
+                .Include(y => y.Bird)
+                .Include(au => au.ApplicationUser)
+                .AsNoTracking()
+                .AsQueryable();
+
+            query = query.Where(predicate);
+
+            query = query.Where(d => d.ObservationDateTime >= year);
 
             model.TotalObservationsCount = await query.CountAsync();
 

@@ -40,7 +40,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { InfoObservationCountComponent } from './_info/info-observation-count/info-observation-count.component';
 import { InfoTopObservationsComponent } from './_info/info-top-observations/info-top-observations.component';
 import { InfoNetworkComponent } from './_info/info-network/info-network.component';
-import { LifeListComponent } from './life-list/life-list.component';
+import { LifeListComponent } from './_lists/life-list/life-list.component';
 import { InfoAwardsComponent } from './_info/info-awards/info-awards.component';
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
 import { LayoutNoSidebarComponent } from './_layout/layout-no-sidebar/layout-no-sidebar.component';
@@ -104,6 +104,7 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
 import { MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { SongRecordingsComponent } from './_birds/song-recordings/song-recordings.component';
+import { YearListComponent } from './_lists/year-list/year-list.component';
 
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
@@ -207,7 +208,8 @@ export function tokenGetter() {
     ShowcaseObservationFeedItemComponent,
     WhatsNewComponent,
     TweetArchiveComponent,
-    SongRecordingsComponent
+    SongRecordingsComponent,
+    YearListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
