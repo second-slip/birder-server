@@ -52,7 +52,7 @@ namespace Birder.Services
             else
             {
                 // can deserialise the error respose object XenoCantoErrorResponse, but I haven't...
-                throw new XenoCantoException(response.StatusCode, "Error response from XentoCantoApi: " + response.ReasonPhrase);
+                throw new XenoCantoException(response.StatusCode, "Error response from XenoCantoApi: " + response.ReasonPhrase);
             }
         }
 
@@ -78,6 +78,8 @@ namespace Birder.Services
             }
             return -1;
         }
+
+
 
         private string BuildXenoCantoApiUrl(string species)
         {
