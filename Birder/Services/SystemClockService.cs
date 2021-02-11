@@ -2,6 +2,13 @@
 
 namespace Birder.Services
 {
+    public interface ISystemClockService
+    {
+        DateTime GetNow { get; }
+        DateTime GetToday { get; }
+        DateTime GetEndOfToday { get; }
+    }
+
     public class SystemClockService : ISystemClockService
     {
         public DateTime GetNow { get { return DateTime.Now; } }

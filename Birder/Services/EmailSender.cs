@@ -2,11 +2,17 @@
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System;
 using System.Threading.Tasks;
 
 namespace Birder.Services
 {
+    public interface IEmailSender
+    {
+        Task SendEmailConfirmationEmailAsync(ConfirmEmailDto accountDetails);
+        Task SendChangedAccountEmailConfirmationEmailAsync(ConfirmEmailDto accountDetails);
+        Task SendResetPasswordEmailAsync(ResetPasswordEmailDto accountDetails);
+    }
+
     public class EmailSender : IEmailSender
     {
         public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
