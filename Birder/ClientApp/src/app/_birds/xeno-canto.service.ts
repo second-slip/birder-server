@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 // currently not used as the xeno-canto API blocks CORS
 // Public demo server (cors-anywhere.herokuapp.com) will be very limited by January 2021, 31st
+// see: https://github.com/Rob--W/cors-anywhere/issues/301
 // so I have moved to accessing the API on the server side
 
 

@@ -91,7 +91,7 @@
           <ng-template matStepLabel><span class="stepperTop1">Location</span></ng-template>
           <div class="map">
             <app-view-edit-single-marker-map #map [latitude]="observation?.position?.latitude"
-              [longitude]="observation?.position?.longitude">
+              [longitude]="observation?.position?.longitude" [address]="observation?.position?.formattedAddress">
             </app-view-edit-single-marker-map>
           </div>
 
