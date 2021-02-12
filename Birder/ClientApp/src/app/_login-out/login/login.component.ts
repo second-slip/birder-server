@@ -1,12 +1,12 @@
-import { AuthenticationService } from '../_services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ParentErrorStateMatcher } from '../../validators';
-import { AuthenticationErrorViewModel } from '../_models/ErrorReportViewModel';
-import { AuthenticationFailureReason } from '../_models/AuthenticationResultDto';
 import { ToastrService } from 'ngx-toastr';
+import { ParentErrorStateMatcher } from 'validators';
+import { AuthenticationService } from '@app/_services/authentication.service';
+import { AuthenticationFailureReason } from '@app/_models/AuthenticationResultDto';
+import { AuthenticationErrorViewModel } from '@app/_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-login',

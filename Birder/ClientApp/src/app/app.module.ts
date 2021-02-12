@@ -22,9 +22,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './_services/auth-guard.service';
-import { LogoutComponent } from './logout/logout.component';
 import { BirdsIndexComponent } from './_birds/birds-index/birds-index.component';
 import { BirdsDetailComponent } from './_birds/birds-detail/birds-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -104,6 +102,8 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
 import { MatStepperModule } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { SongRecordingsComponent } from './_birds/song-recordings/song-recordings.component';
+import { LoginComponent } from './_login-out/login/login.component';
+import { LogoutComponent } from './_login-out/logout/logout.component';
 // import { YearListComponent } from './_lists/year-list/year-list.component';
 
 const cookieConfig: NgcCookieConsentConfig = {

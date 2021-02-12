@@ -2,9 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { BirdsIndexComponent } from './_birds/birds-index/birds-index.component';
-import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './_services/auth-guard.service';
-import { LogoutComponent } from './logout/logout.component';
 import { BirdsDetailComponent } from './_birds/birds-detail/birds-detail.component';
 import { ObservationFeedComponent } from './_observationFeed/observation-feed/observation-feed.component';
 import { ObservationDetailComponent } from './_observations/observation-detail/observation-detail.component';
@@ -33,6 +31,8 @@ import { TestingComponent } from './testing/testing.component';
 import { NetworkComponent } from './_network/network/network.component';
 import { WhatsNewComponent } from './whats-new/whats-new.component';
 import { TweetArchiveComponent } from './tweet-archive/tweet-archive.component';
+import { LoginComponent } from './_login-out/login/login.component';
+import { LogoutComponent } from './_login-out/logout/logout.component';
 
 
 const routes: Routes = [

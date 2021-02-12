@@ -1,9 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LogoutComponent } from './logout.component';
+
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService } from '@app/_services/authentication.service';
 import { of } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { LogoutComponent } from './logout.component';
 
 describe('LogoutComponent', () => {
   let component: LogoutComponent;

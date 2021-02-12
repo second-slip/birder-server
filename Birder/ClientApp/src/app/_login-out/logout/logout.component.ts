@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { AuthenticationService } from '../_services/authentication.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { AuthenticationService } from '@app/_services/authentication.service';
 
 @Component({
   selector: 'app-logout',
