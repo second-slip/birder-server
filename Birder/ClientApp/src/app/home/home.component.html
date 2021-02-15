@@ -1,198 +1,159 @@
 <div class="container">
-    <div class="home-container">
-        <div class="section">
-            <div class='row-p'>
-                <div class='column'>
-                    <div>
-                        <img src="https://birder.blob.core.windows.net/shared-images/Birder-Logo-With-Text.png"
-                            alt="Birder">
-                    </div>
-                    <div>
-                        <p>Keep an electronic record of your bird sightings with <i>Birder</i>, and share them with your
-                            network and
-                            fellow <i>Birder</i> users.</p>
-                    </div>
-                    <div class="example-button-row">
-                        <a mat-stroked-button [routerLink]='["/login"]'>Login</a>
-                        or &nbsp;
-                        <a mat-stroked-button [routerLink]='["/register"]'>Register</a>
-                    </div>
-                </div>
+
+    <div class="section-main">
+        <div>
+            <img src="https://birder.blob.core.windows.net/shared-images/Birder-Logo-With-Text.png" alt="Birder">
+        </div>
+        <div class="contain">
+            <p><i>Birder</i> is a social network-style platform for logging, sharing, and analysing bird observations.
+            </p>
+        </div>
+        <div class="example-button-row">
+            <a mat-stroked-button [routerLink]='["/login"]'>Login</a>
+            or &nbsp;
+            <a mat-stroked-button [routerLink]='["/register"]'>Register</a>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="features">
+        <h3 class="section-text">Features</h3>
+
+        <br>
+
+        <div class="section section-logging">
+            <h5>I.<br>Log your observations</h5>
+
+            <p>Keep an electronic record of your bird sightings.<br class="hide-big"> With <i>Birder</i> you can log the
+                following details:</p>
+
+            <div>
+                <ul>
+                    <li>choose the species you spotted from the <a
+                            href="https://www.bto.org/about-birds/birdfacts/british-list" target="_blank">BTO</a>’s
+                        <i>British List</i> of 616 of birds occurring in
+                        Britain;
+                    </li>
+                    <li>pinpoint where you saw it with the map control;</li>
+                    <li>upload photographs of your observation; and</li>
+                    <li>add notes about the observation.</li>
+                </ul>
             </div>
         </div>
 
         <hr>
 
-        <div class="section">
-            <h3>Features</h3>
+        <div class="section section-feed">
+            <h5 class="section-text">II.<br>Share your observations</h5>
 
-            <h5>The Observations Feed</h5>
+            <p class="section-text">Share your bird sightings with your network of followers or with the public.
+                Observations logged with <i>Birder</i> appear in the 'observations feed':</p>
 
-            <p>Observations you log are displayed in the observations feed.
-                <br>You can filter the feed to show observations logged by your network, or to show all public
-                observations.
+            <div class="showcase-observations-column">
+
+                <p class="showcase-observations-caption">Snapshot of the observations feed:</p>
+
+                <div class="showcase-observations row-feed">
+                    <app-showcase-observation-feed></app-showcase-observation-feed>
+                </div>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="section section-analysis">
+
+            <h5 class="section-text">III.<br>Analyse your observations</h5>
+
+            <p class="section-text">With <i>Birder</i> you can analyse your observations in various ways.</p>
+
+            <h6 class="section-text">Life List</h6>
+
+            <p class="section-text">Your 'life list' is a record of the unique species your have spotted.</p>
+
+            <div class="life-list-image">
+                <p class="life-list-image-caption">Example 'life list' page:</p>
+                <img src="https://birder.blob.core.windows.net/shared-images/life-list-screenshot.png"
+                    alt="Life List Caption">
+            </div>
+
+            <!--  -->
+            <br>
+
+            <h6 class="section-text">Distribution maps</h6>
+
+            <p class="section-text">View a map with a marker for each of your observations. The map can be filtered to
+                show
+                individual species.</p>
+
+            <div class="distribution-map-image">
+                <p class="distribution-map-image-caption">A observations distribution map:</p>
+                <img src="https://birder.blob.core.windows.net/shared-images/distribution-maps-screenshot.png"
+                    alt="Distribution Map Screenshot">
+            </div>
+
+        </div>
+
+        <hr>
+
+        <!--  -->
+        <div class="section section-birds">
+            <h5 class="section-text">IV.<br>Learn more about birds</h5>
+
+            <p class="section-text">With <i>Birder</i> you can learn about British bird species.</p>
+
+            <h6 class="section-text">The Tweet of the Day</h6>
+
+            <p class="section-text">We feature the call of a different bird species every day.  Below is today's 'tweet':</p>
+
+            <div class="tweet-day">
+                <app-info-tweet></app-info-tweet>
+            </div>
+
+
+            <h6 class="section-text">Detailed bird species information</h6>
+
+            <p class="section-text">Each bird in the <a href="https://www.bto.org/about-birds/birdfacts/british-list"
+                    target="_blank">BTO</a>’s
+                <i>British List</i> of 616 of species has its own page, which contains the following
+                information:
             </p>
 
-            <div class='row-feed'>
-                <div class='column'>
-                    <div class='showcase-observations-column'>
+            <ul>
+                <li>a feed of photographs from Flickr;</li>
+                <li>song recordings from XCanto;</li>
+                <li>a map of sightings in the network; and</li>
+                <li>classification information.</li>
+            </ul>
 
-                        <p class="showcase-observations-caption">Snapshot of the observations feed:</p>
-
-                        <div class="showcase-observations">
-                            <!-- <p class="showcase-observations-detail">Your observations are shown in the 'observations
-                                feed', along with those logged by your
-                                network, or all
-                                public sightings.</p> -->
-
-                            <app-showcase-observation-feed></app-showcase-observation-feed>
-                        </div>
-
-                    </div>
-                </div>
+            <div class="bird-detail-image">
+                <p class="bird-detail-image-caption">A snapshot of the bird deatils page:</p>
+                <img src="https://birder.blob.core.windows.net/shared-images/bird-detail-screenshot.png"
+                    alt="Bird Details Image">
             </div>
 
-            <div class='row-p'>
-                <div class='column'>
-
-                    <h5>Adding observations</h5>
-
-                    <p>When you add an observations, you can record the following information:</p>
-
-                    <div class="logging-list">
-                        <!-- <p class="logging">You can log the following details of your observation:</p> -->
-                        <ul>
-                            <li>the bird you spotted from the <a
-                                    href="https://www.bto.org/about-birds/birdfacts/british-list"
-                                    target="_blank">BTO</a>’s
-                                <i>British List</i> of 616 of species occurring in
-                                Britain;
-                            </li>
-                            <li>record how many you individuals you spotted, and when;</li>
-                            <li>pinpoint where you saw it with the map control;</li>
-                            <li>upload photographs of your observation;</li>
-                            <li>add notes about the observation; and</li>
-                            <li>much more...</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <hr>
         <!--  -->
-        <div class="section">
+        <div class="section section-main">
 
-            <div class='row-p'>
-                <div class='column'>
-                    <div class='green-column'>
-                        <h5>Analyse your observations</h5>
+            <h5>Find out more - or login or register</h5>
 
-                        <h5>The Life List</h5>
+            <p>You can read more about Birder in the <a [routerLink]='["/about"]'>About</a> page.</p>
 
-                        <p>With <i>Birder</i> you can analyse your observations in various ways. Your 'life list' is a
-                            record of the unique species your have spotted.<br>You can filter the Life List by year to
-                            create an annual list too.</p>
+            <p>More information on the features under development are in the <a [routerLink]='["/whats-new"]'>What's
+                    New?</a> page.</p>
 
-                        <div class="life-list-image">
-                            <p class="life-list-image-caption">The 'life list' page:</p>
-                            <img src="https://birder.blob.core.windows.net/shared-images/life-list-screenshot.png"
-                                alt="Life List Capion">
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <!--  -->
-            <div class='row-p'>
-                <div class='column'>
-                    <div class='green-column'>
-
-                        <h5>Observation distribution maps</h5>
-
-                        <p>View a map with a marker for each of your observations. The map can be filtered to show
-                            individual species.</p>
-
-                        <div class="distribution-map-image">
-                            <p class="distribution-map-image-caption">A observations distribution map:</p>
-                            <img src="https://birder.blob.core.windows.net/shared-images/distribution-maps-screenshot.png"
-                                alt="Distribution Map Screenshot">
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <hr>
-        <!--  -->
-        <div class="section">
-
-            <div class='row-tweet'>
-                <div class='column'>
-                    <div class='tweet-column'>
-
-                        <h6>Tweet of the Day</h6>
-
-                        <p>We feature the call of a different bird species every day...</p>
-
-                        <div class="tweet-day">
-                            <app-info-tweet></app-info-tweet>
-                        </div>
-                    </div>
-                </div>
+            <div class="example-button-row">
+                <a mat-stroked-button [routerLink]='["/login"]'>Login</a>
+                or &nbsp;
+                <a mat-stroked-button [routerLink]='["/register"]'>Register</a>
             </div>
 
-            <div class='row-p'>
-                <div class='column'>
-                    <div class='tweet-column'>
-
-                        <h6>Learn about bird species</h6>
-
-                        <p>Each bird in the <a href="https://www.bto.org/about-birds/birdfacts/british-list"
-                                target="_blank">BTO</a>’s
-                            <i>British List</i> of 616 of species has its own page, which contains the following
-                            information:
-                        </p>
-
-                        <ul>
-                            <li>a feed of photographs from Flickr;</li>
-                            <li>song recordings from XCanto;</li>
-                            <li>a map of sightings in the network; and</li>
-                            <li>classification information.</li>
-                        </ul>
-
-                        <div class="bird-detail-image">
-                            <p class="bird-detail-image-caption">A snapshot of the bird deatils page:</p>
-                            <img src="https://birder.blob.core.windows.net/shared-images/bird-detail-screenshot.png"
-                                alt="Bird Details Image">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <hr>
-        <div class="section">
-
-            <div class='row-p'>
-                <div class='column'>
-                    <div class='tweet-column'>
-                        <h5>Find out more - or login or register</h5>
-
-                        <p>You can read more about Birder in the <a [routerLink]='["/about"]'>About</a> page.</p>
-
-                        <p>More information on the features under development are in the <a
-                                [routerLink]='["/whats-new"]'>What's New?</a> page.</p>
-
-                        <div class="example-button-row">
-                            <a mat-stroked-button [routerLink]='["/login"]'>Login</a>
-                            or &nbsp;
-                            <a mat-stroked-button [routerLink]='["/register"]'>Register</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

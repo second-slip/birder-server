@@ -1,46 +1,65 @@
 app-home {
   .container {
     margin-top: 15px;
+    margin: auto;
+    padding: 10px;
+    //text-align: center;
   }
 
   // .section {
   //   border: 3px solid #ad2128;
   // }
 
-  .section-title {
+  h3.section-text, h4.section-text, h5.section-text, h6.section-text, p.section-text {
+    text-align: center;
+  }
+
+  .section-main {
+    text-align: center;
+  }
+
+  .section-main img {
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  // logging
+  .section-logging {
+    text-align: center;
+  }
+
+  //showcase feed
+
+
+  p.showcase-observations-caption {
+    margin: 0;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .showcase-observations {
+    border: 1px solid #000000;
+    text-align: left;
     margin-bottom: 10px;
+  }
+
+  ul {
+    text-align: center;
+    list-style-position: inside;
+    //border:1px solid red;
+    padding: 0;
   }
 
   .example-button-row .mat-button-base {
     margin: 8px 8px 8px 0;
-  }
-
-  .home-container {
-    margin: auto;
-    padding: 10px;
-    text-align: center;
-    //border: 3px solid #9a37b8;
+    width: 100px !important;
+    min-width: unset !important;
   }
 
   .btn {
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 12px;
-  }
-
-  .row-p {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
-  .column {
-    display: flex;
-    flex-direction: column;
-    flex-basis: 100%;
-    flex: 1;
-    // border: 3px solid #73ad21;
   }
 
   .row-feed {
@@ -56,43 +75,16 @@ app-home {
     flex-direction: column;
   }
 
-  .green-column {
-    display: flex;
-    flex-direction: column;
-  }
-
-  p.showcase-observations-caption {
-    margin: 0;
-    font-weight: bold;
-  }
-
-  p.showcase-observations-detail {
-    text-align: center;
-    margin: 5px;
-  }
-
-  .showcase-observations {
-    border: 1px solid #000000;
-    text-align: left;
-    margin-bottom: 10px;
-  }
-
-  p.logging {
-    text-align: center;
-  }
-
-  .logging-list {
-    // background: #f8ff2c;
-    width: 70%;
-    // border: 1px solid #000000;
-    // text-align: left;
-    margin: auto;
-  }
 
   // Analysis
+  .section-analysis {
+    text-align: center;
+  }
+
   p.life-list-image-caption {
     margin: 0;
     font-weight: bold;
+    text-align: center;
   }
 
   .life-list-image img {
@@ -115,28 +107,20 @@ app-home {
     margin-bottom: 10px;
   }
 
-  // tweet
-  .row-tweet {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 40%;
-    margin: auto;
-  }
 
-  .tweet-column {
-    display: flex;
-    flex-direction: column;
+//
+  .section-birds {
+    text-align: center;
   }
 
   .tweet-day {
-    //border: 1px solid #000000;
+    width: 40%;
+    margin: auto;
     background: #f8ff2c;
-
-    //padding: 10px;
     margin-bottom: 30px;
     border-radius: 10px;
   }
+
 
   // bird details
   p.bird-detail-image-caption {
@@ -151,7 +135,31 @@ app-home {
     margin-bottom: 10px;
   }
 
+
+
+  
+  @media screen and (min-width: 801px) {
+    .hide-big {
+      display: none;
+    }
+  }
+
   @media screen and (max-width: 800px) {
+    // .hide-big {
+    //   display: ;
+    // }
+
+    h3.section-text, h4.section-text, h5.section-text, h6.section-text, p.section-text {
+      text-align: center;
+      font-size: 80%;
+    }
+
+    .container {
+      //font-size: 80%;
+    }
+
+
+
     .row-feed {
       display: flex;
       flex-direction: row;
@@ -159,6 +167,7 @@ app-home {
       width: 100%;
       margin: auto;
     }
+
     .row-tweet {
       display: flex;
       flex-direction: row;

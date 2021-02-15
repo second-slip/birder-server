@@ -1,11 +1,18 @@
 <div class="wrapper" *ngIf="observation">
     <article>
 
-        <div class="title">
+        <div class="title-big">
             <h4>
                 {{ observation.quantity > 1 ? observation.quantity : '' }} {{ observation.bird.englishName }}
-                <span class="scientific-name">{{observation.bird.species}}</span>
+                <span class="scientific-name"> {{observation.bird.species}}</span>
             </h4>
+        </div>
+
+        <div class="title-small">
+            <p class="species">
+                {{ observation.quantity > 1 ? observation.quantity : '' }} {{ observation.bird.englishName }}
+                <span class="scientific-name"> {{observation.bird.species}}</span>
+            </p>
         </div>
 
         <div class="flex-container">
@@ -25,10 +32,16 @@
                     </span>
                 </p>
 
-                <p class="date">
+                <p class="date-big">
                     <mat-icon>date_range</mat-icon><span class="aligned-with-icon">
                         {{observation.observationDateTime |
-                        date: 'EEEE, d MMMM yyyy\';\' HH:mm'}} </span>
+                        date: 'EEEE, d MMMM yyyy \'at\' HH:mm'}} </span>
+                </p>
+
+                <p class="date-small">
+                    <mat-icon>date_range</mat-icon><span class="aligned-with-icon">
+                        {{observation.observationDateTime |
+                        date: 'dd/MM/yyyy \'at\' HH:mm'}} </span>
                 </p>
 
                 <p class="location">
