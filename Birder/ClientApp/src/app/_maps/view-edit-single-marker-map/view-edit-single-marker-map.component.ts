@@ -1,6 +1,8 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { ObservationPosition } from '@app/_models/ObservationPosition';
 import { GeocodingService } from '@app/_services/geocoding.service';
+
 
 @Component({
   selector: 'app-view-edit-single-marker-map',
@@ -9,14 +11,11 @@ import { GeocodingService } from '@app/_services/geocoding.service';
   encapsulation: ViewEncapsulation.None
 })
 export class ViewEditSingleMarkerMapComponent implements OnInit {
-  @Input() latitude: number;
-  @Input() longitude: number;
-  @Input() address: string;
+  @Input() position: ObservationPosition;
 
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
-
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
-  geolocation: string;
+
   locationMarker;
   zoom = 8;
   options: google.maps.MapOptions = {
@@ -29,11 +28,10 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
     , private ref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    if (this.address) {
-      this.geolocation = this.address;
-      this.addMarker(this.latitude, this.longitude, false);
+    if (this.position.formattedAddress) {
+      this.addMarker(this.position.latitude, this.position.longitude, false);
     } else {
-      this.addMarker(this.latitude, this.longitude, true);
+      this.addMarker(this.position.latitude, this.position.longitude, true);
     }
   }
 
@@ -64,7 +62,8 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
     this.geocoding.reverseGeocode(latitude, longitude)
       .subscribe(
         (response: any) => {
-          this.geolocation = response.results[0].formatted_address;
+          this.position.formattedAddress = response.results[0].formatted_address;
+          this.position.shortAddress = this.geocoding.googleApiResponseHelper(response.results[0].address_components, "postal_town") + ', ' + this.geocoding.googleApiResponseHelper(response.results[0].address_components, "country");
           this.ref.detectChanges();
         },
         (error: any) => {
@@ -72,13 +71,15 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
       );
   }
 
+
   findAddress(searchValue: string): void {
     this.geocoding.geocode(searchValue)
       .subscribe(
         (response: any) => {
           this.changeZoomLevel(15);
           this.addMarker(response.results[0].geometry.location.lat, response.results[0].geometry.location.lng, false); // false to stop second hit on API to get address...
-          this.geolocation = response.results[0].formatted_address;
+          this.position.formattedAddress = response.results[0].formatted_address;
+          this.position.shortAddress = this.geocoding.googleApiResponseHelper(response.results[0].address_components, "postal_town") + ', ' + this.geocoding.googleApiResponseHelper(response.results[0].address_components, "country");
           this.searchAddress = '';
           this.ref.detectChanges();
         }

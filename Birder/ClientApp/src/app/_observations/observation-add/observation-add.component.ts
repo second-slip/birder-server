@@ -17,7 +17,7 @@ import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNo
 import { AddNotesComponent } from '@app/_observationNotes/add-notes/add-notes.component';
 import * as moment from 'moment';
 import { ThemePalette } from '@angular/material/core';
-import { MatStepper } from '@angular/material/stepper';
+
 
 @Component({
   selector: 'app-observation-add',
@@ -39,7 +39,9 @@ export class ObservationAddComponent implements OnInit {
   errorReport: ErrorReportViewModel;
   invalidAddObservation: boolean;
   filteredOptions: Observable<BirdSummaryViewModel[]>;
-  user: UserViewModel;
+  //user: UserViewModel;
+  defaultPosition: ObservationPosition;
+
   hideAlert = false;
 
   @ViewChild('picker') picker: any;
@@ -134,7 +136,8 @@ export class ObservationAddComponent implements OnInit {
     const position = <ObservationPosition>{
       latitude: this.mapComponent.locationMarker.position.lat,
       longitude: this.mapComponent.locationMarker.position.lng,
-      formattedAddress: this.mapComponent.geolocation
+      formattedAddress: this.mapComponent.position.formattedAddress,
+      shortAddress: this.mapComponent.position.shortAddress
     };
 
     const observation = <ObservationViewModel>{
@@ -184,18 +187,22 @@ export class ObservationAddComponent implements OnInit {
     this.tokenService.getAuthenticatedUserDetails()
       .subscribe(
         (data: UserViewModel) => {
-          this.user = data;
+          //this.user = data;
+          this.defaultPosition = <ObservationPosition>{
+            latitude: data.defaultLocationLatitude,
+            longitude: data.defaultLocationLongitude,
+            formattedAddress: '',
+            shortAddress: ''
+          };
           this.createForms();
         },
         (error: any) => {
-          console.log('could not get the user, using default coordinates');
-          const userTemp = <UserViewModel>{
-            userName: '',
-            avatar: '',
-            defaultLocationLatitude: 54.972237,
-            defaultLocationLongitude: -2.4608560000000352,
+          this.defaultPosition = <ObservationPosition>{
+            latitude:  54.972237,
+            longitude: -2.4608560000000352,
+            formattedAddress: '',
+            shortAddress: ''
           };
-          this.user = userTemp;
           this.createForms();
         });
   }

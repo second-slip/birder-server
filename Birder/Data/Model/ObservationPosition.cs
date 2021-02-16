@@ -9,6 +9,7 @@ namespace Birder.Data.Model
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string FormattedAddress { get; set; }
+        public string ShortAddress { get; set; }
         public int ObservationId { get; set; }
         public Observation Observation { get; set; }
     }

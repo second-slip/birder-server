@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { ObservationPosition } from '@app/_models/ObservationPosition';
 
 @Component({
   selector: 'app-view-only-single-marker-map',
@@ -8,9 +9,7 @@ import { MapInfoWindow, MapMarker } from '@angular/google-maps';
   encapsulation: ViewEncapsulation.None
 })
 export class ViewOnlySingleMarkerMapComponent implements OnInit {
-  @Input() latitude: number;
-  @Input() longitude: number;
-  @Input() address: string;
+  @Input() position: ObservationPosition;
 
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
   locationMarker;
@@ -22,7 +21,7 @@ export class ViewOnlySingleMarkerMapComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.addMarker(this.latitude, this.longitude, false);
+    this.addMarker(this.position.latitude, this.position.longitude, false);
   }
 
   addMarker(latitude: number, longitude: number, getAddress: boolean) {

@@ -24,6 +24,17 @@ export class GeocodingService {
       .pipe(
       )
   }
+
+    /**
+   * Get the value for a given key in address_components
+   * 
+   * @param {Array} components address_components returned from Google maps autocomplete
+   * @param type key for desired address component
+   * @returns {String} value, if found, for given type (key)
+   */
+  googleApiResponseHelper(components, type) {
+    return components.filter((component) => component.types.indexOf(type) === 0).map((item) => item.long_name).pop() || '';
+  }
 }
 
   // Alternative which returns a Promise

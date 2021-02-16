@@ -29,12 +29,6 @@
           <mat-icon>my_location</mat-icon>
         </button>
 
-        <!-- <a class="add-button" [routerLink]='["/observation-add"]' mat-stroked-button aria-label="Add a new observation"
-        #tooltip="matTooltip" matTooltip="Add a new observation"
-        aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-        <mat-icon>post_add</mat-icon>
-        Add observation
-      </a> -->
       </form>
 
 
@@ -49,7 +43,12 @@
     <!-- <p>in the child: {{ locationMarker.position.lat }} , {{locationMarker.position.lng }}</p> -->
     <p class="container location">
       <mat-icon>location_on</mat-icon>
-      <span>{{ geolocation }}</span>
+      <span>{{ position?.formattedAddress }}</span>
+    </p>
+
+    <p class="container location">
+      <mat-icon>location_on</mat-icon>
+      <span>{{ position?.shortAddress }}</span>
     </p>
 
     <div>

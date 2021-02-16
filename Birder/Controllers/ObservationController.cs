@@ -245,6 +245,7 @@ namespace Birder.Controllers
                 position.Latitude = model.Position.Latitude;
                 position.Longitude = model.Position.Longitude;
                 position.FormattedAddress = model.Position.FormattedAddress;
+                position.ShortAddress = model.Position.ShortAddress;
 
                 // ToDo: separate ObservationNotesController to handle this stuff.  
                 // ...need to redesign UI first...

@@ -10,7 +10,7 @@
     
     <p class="container location">
         <mat-icon>location_on</mat-icon>
-        <span>{{ address }}</span>
+        <span>{{ position?.formattedAddress }}</span>
       </p>
 
     <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">

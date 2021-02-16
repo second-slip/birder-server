@@ -3,4 +3,6 @@ export interface ObservationPosition {
     latitude: number;
     longitude: number;
     formattedAddress: string;
+    shortAddress: string;
 }
+

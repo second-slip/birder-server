@@ -25,7 +25,7 @@ import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNo
 })
 export class ObservationEditComponent implements OnInit {
   @ViewChild(ViewEditSingleMarkerMapComponent)
-  private timerComponent: ViewEditSingleMarkerMapComponent;
+  private mapComponent: ViewEditSingleMarkerMapComponent;
   @ViewChild(EditNotesComponent)
   private editNotesComponent: EditNotesComponent;
   requesting: boolean;
@@ -96,9 +96,10 @@ export class ObservationEditComponent implements OnInit {
     this.requesting = true;
 
     const position = <ObservationPosition>{
-      latitude: this.timerComponent.locationMarker.position.lat,
-      longitude: this.timerComponent.locationMarker.position.lng,
-      formattedAddress: this.timerComponent.geolocation
+      latitude: this.mapComponent.locationMarker.position.lat,
+      longitude: this.mapComponent.locationMarker.position.lng,
+      formattedAddress: this.mapComponent.position.formattedAddress,
+      shortAddress: this.mapComponent.position.shortAddress
     }
 
 
