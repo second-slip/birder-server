@@ -1,164 +1,208 @@
 app-home {
-  .container {
-    margin-top: 15px;
-    margin: auto;
-    padding: 10px;
-    //text-align: center;
-  }
-
-  // .section {
-  //   border: 3px solid #ad2128;
-  // }
-
-  h3.section-text, h4.section-text, h5.section-text, h6.section-text, p.section-text {
-    text-align: center;
-  }
-
-  .section-main {
-    text-align: center;
-  }
-
-  .section-main img {
-    max-height: 100%;
-    max-width: 100%;
-  }
-
-  // logging
-  .section-logging {
-    text-align: center;
-  }
-
-  //showcase feed
-
-
-  p.showcase-observations-caption {
-    margin: 0;
-    font-weight: bold;
-    text-align: center;
-  }
-
-  .showcase-observations {
-    border: 1px solid #000000;
-    text-align: left;
-    margin-bottom: 10px;
-  }
-
-  ul {
-    text-align: center;
-    list-style-position: inside;
-    //border:1px solid red;
-    padding: 0;
-  }
-
-  .example-button-row .mat-button-base {
-    margin: 8px 8px 8px 0;
-    width: 100px !important;
-    min-width: unset !important;
-  }
-
-  .btn {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 12px;
-  }
-
-  .row-feed {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 60%;
-    margin: auto;
-  }
-
-  .showcase-observations-column {
-    display: flex;
-    flex-direction: column;
-  }
-
-
-  // Analysis
-  .section-analysis {
-    text-align: center;
-  }
-
-  p.life-list-image-caption {
-    margin: 0;
-    font-weight: bold;
-    text-align: center;
-  }
-
-  .life-list-image img {
-    border: 1px solid #000000;
-    max-height: 100%;
-    max-width: 100%;
-    margin-bottom: 10px;
-  }
-
-  //distribution-map
-  p.distribution-map-image-caption {
-    margin: 0;
-    font-weight: bold;
-  }
-
-  .distribution-map-image img {
-    // border: 1px solid #000000;
-    max-height: 100%;
-    max-width: 100%;
-    margin-bottom: 10px;
-  }
-
-
-//
-  .section-birds {
-    text-align: center;
-  }
-
-  .tweet-day {
-    width: 40%;
-    margin: auto;
-    background: #f8ff2c;
-    margin-bottom: 30px;
-    border-radius: 10px;
-  }
-
-
-  // bird details
-  p.bird-detail-image-caption {
-    margin: 0;
-    font-weight: bold;
-  }
-
-  .bird-detail-image img {
-    border: 1px solid #000000;
-    max-height: 100%;
-    max-width: 100%;
-    margin-bottom: 10px;
-  }
-
-
-
-  
   @media screen and (min-width: 801px) {
     .hide-big {
       display: none;
     }
+
+    .container {
+      margin-top: 15px;
+      margin: auto;
+      padding: 10px;
+      //text-align: center;
+    }
+
+    h3.section-text,
+    h4.section-text,
+    h5.section-text,
+    h6.section-text,
+    p.section-text {
+      text-align: center;
+    }
+
+    .section-main {
+      text-align: center;
+    }
+
+    .section-main img {
+      max-height: 100%;
+      max-width: 100%;
+    }
+
+    // logging
+    .section-logging {
+      text-align: center;
+    }
+
+    //showcase feed
+
+    p.showcase-observations-caption {
+      margin: 0;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .showcase-observations {
+      border: 1px solid #000000;
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      text-align: center;
+      list-style-position: inside;
+      //border:1px solid red;
+      padding: 0;
+    }
+
+    .example-button-row .mat-button-base {
+      margin: 8px 8px 8px 0;
+      width: 100px !important;
+      min-width: unset !important;
+    }
+
+    .btn {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+    }
+
+    .row-feed {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 60%;
+      margin: auto;
+    }
+
+    .showcase-observations-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    // Analysis
+    .section-analysis {
+      text-align: center;
+    }
+
+    p.life-list-image-caption {
+      margin: 0;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .life-list-image img {
+      border: 1px solid #000000;
+      max-height: 100%;
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+
+    //distribution-map
+    p.distribution-map-image-caption {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .distribution-map-image img {
+      // border: 1px solid #000000;
+      max-height: 100%;
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+
+    //
+    .section-birds {
+      text-align: center;
+    }
+
+    .tweet-day {
+      width: 40%;
+      margin: auto;
+      background: #f8ff2c;
+      margin-bottom: 30px;
+      border-radius: 10px;
+    }
+
+    // bird details
+    p.bird-detail-image-caption {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .bird-detail-image img {
+      border: 1px solid #000000;
+      max-height: 100%;
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
   }
 
   @media screen and (max-width: 800px) {
-    // .hide-big {
-    //   display: ;
-    // }
-
-    h3.section-text, h4.section-text, h5.section-text, h6.section-text, p.section-text {
-      text-align: center;
-      font-size: 80%;
-    }
-
     .container {
-      //font-size: 80%;
+      margin-top: 15px;
+      margin: auto;
+      padding: 10px;
+      //text-align: center;
     }
 
+    h3.section-text,
+    h4.section-text,
+    h5.section-text,
+    h6.section-text,
+    p.section-text {
+      text-align: center;
+      font-size: 0.8em;
+    }
 
+    .section-main {
+      text-align: center;
+    }
+
+    .section-main img {
+      max-height: 100%;
+      max-width: 100%;
+    }
+
+    // logging
+    .section-logging {
+      text-align: center;
+    }
+
+    //showcase feed
+
+    p.showcase-observations-caption {
+      margin: 0;
+      font-weight: bold;
+      text-align: center;
+      font-size: 0.8em;
+    }
+
+    .showcase-observations {
+      border: 1px solid #000000;
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      text-align: center;
+      list-style-position: inside;
+      //border:1px solid red;
+      padding: 0;
+
+      font-size: 0.8em;
+    }
+
+    .example-button-row .mat-button-base {
+      margin: 8px 8px 8px 0;
+      width: 100px !important;
+      min-width: unset !important;
+    }
+
+    .btn {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+    }
 
     .row-feed {
       display: flex;
@@ -168,12 +212,69 @@ app-home {
       margin: auto;
     }
 
-    .row-tweet {
+    .showcase-observations-column {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+      flex-direction: column;
+    }
+
+    // Analysis
+    .section-analysis {
+      text-align: center;
+    }
+
+    p.life-list-image-caption {
+      margin: 0;
+      font-weight: bold;
+      text-align: center;
+      font-size: 0.8em;
+    }
+
+    .life-list-image img {
+      border: 1px solid #000000;
+      max-height: 100%;
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+
+    //distribution-map
+    p.distribution-map-image-caption {
+      margin: 0;
+      font-weight: bold;
+      font-size: 0.8em;
+    }
+
+    .distribution-map-image img {
+      // border: 1px solid #000000;
+      max-height: 100%;
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+
+    //
+    .section-birds {
+      text-align: center;
+    }
+
+    .tweet-day {
       width: 100%;
       margin: auto;
+      background: #f8ff2c;
+      margin-bottom: 30px;
+      border-radius: 10px;
+    }
+
+    // bird details
+    p.bird-detail-image-caption {
+      margin: 0;
+      font-weight: bold;
+      font-size: 0.8em;
+    }
+
+    .bird-detail-image img {
+      border: 1px solid #000000;
+      max-height: 100%;
+      max-width: 100%;
+      margin-bottom: 10px;
     }
   }
 }
