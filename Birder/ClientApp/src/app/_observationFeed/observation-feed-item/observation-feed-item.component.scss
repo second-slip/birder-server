@@ -59,11 +59,15 @@ app-observation-feed-item {
             font-size: small;
         }
 
-        p.location {
+        p.location-small {
             font-size: small;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        p.location-big {
+            display: none;
         }
 
         p.links {
@@ -152,7 +156,11 @@ app-observation-feed-item {
             font-size: small;
         }
 
-        p.location {
+        p.location-small {
+            display: none;
+        }
+
+        p.location-big {
             font-size: small;
             white-space: nowrap;
             overflow: hidden;
@@ -238,7 +246,11 @@ app-observation-feed-item {
             font-size: small;
         }
 
-        p.location {
+        p.location-small {
+            display: none;
+        }
+
+        p.location-big {
             font-size: small;
             white-space: nowrap;
             overflow: hidden;
@@ -324,7 +336,11 @@ app-observation-feed-item {
             font-size: small;
         }
 
-        p.location {
+        p.location-small {
+            display: none;
+        }
+
+        p.location-big {
             font-size: small;
             white-space: nowrap;
             overflow: hidden;
