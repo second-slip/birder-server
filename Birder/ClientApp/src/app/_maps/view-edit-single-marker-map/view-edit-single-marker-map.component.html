@@ -55,7 +55,7 @@
       <google-map height="300px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
         <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker.options"
           (mapDragend)="markerChanged($event)" (mapClick)="openInfoWindow(markerElement)">
-          <map-info-window>{{ geolocation }}</map-info-window>
+          <map-info-window>{{ position?.formattedAddress }}</map-info-window>
         </map-marker>
       </google-map>
     </div>
