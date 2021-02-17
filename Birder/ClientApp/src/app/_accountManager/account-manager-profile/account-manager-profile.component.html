@@ -1,61 +1,54 @@
 <div class="container">
-  <div class="row">
-    <div class='col-sm-3'>
+  <div class="manage-profile-container">
+    <h2 class="section-title">Manage Your Profile</h2>
+    <div *ngIf="invalidChange" class="alert alert-danger">
+      <p>Your changes could not be saved</p>
+      <ul>
+        <li *ngFor="let error of errorReport.modelStateErrors">
+          {{ error }}
+        </li>
+      </ul>
     </div>
-    <div class="col-sm-6">
-      <div class="manage-profile-container">
-        <h2 class="section-title">Manage Your Profile</h2>
-        <div *ngIf="invalidChange" class="alert alert-danger">
-          <p>Your changes could not be saved</p>
-          <ul>
-            <li *ngFor="let error of errorReport.modelStateErrors">
-              {{ error }}
-            </li>
-          </ul>
-        </div>
-        <div *ngIf="user">
-          <form [formGroup]="manageProfileForm" novalidate (ngSubmit)="onSubmit(manageProfileForm.value)">
-            <mat-form-field class="full-width">
-              <input matInput type="text" maxlength="25" placeholder="username" formControlName="username" required>
-                <!-- (input)="checkUsernameIsAvailable()">  
-                This was old way of checking if the username is available -->
-              <!-- <mat-spinner *ngIf="(manageProfileForm.get('username').pending)" matSuffix
-                color="primary" matTooltip="This username is available">check</mat-spinner> -->
-              <!-- <mat-icon *ngIf="(manageProfileForm.get('username').invalid) && (manageProfileForm.get('username').dirty || manageProfileForm.get('username').touched)" matSuffix
-                color="warn" matTooltip="This username is taken">cancel</mat-icon> -->
-                <p matSuffix style="display: inline;"></p>
-                <mat-spinner *ngIf="(manageProfileForm.get('username').pending)" matSuffix [diameter]="18" style="float: right; margin-left: 8px"></mat-spinner>
-              <mat-error *ngFor="let validation of manageProfile_validation_messages.username">
-                <mat-error class="error-message"
-                  *ngIf="manageProfileForm.get('username').hasError(validation.type) && (manageProfileForm.get('username').dirty || manageProfileForm.get('username').touched)">
-                  {{validation.message}}
-                </mat-error>
-              </mat-error>
-            </mat-form-field>
+    <div *ngIf="user">
+      <form [formGroup]="manageProfileForm" novalidate (ngSubmit)="onSubmit(manageProfileForm.value)">
+        <mat-form-field class="full-width">
+          <input matInput type="text" maxlength="25" placeholder="username" formControlName="username" required>
+          <!-- (input)="checkUsernameIsAvailable()">  
+            This was old way of checking if the username is available -->
+          <!-- <mat-spinner *ngIf="(manageProfileForm.get('username').pending)" matSuffix
+            color="primary" matTooltip="This username is available">check</mat-spinner> -->
+          <!-- <mat-icon *ngIf="(manageProfileForm.get('username').invalid) && (manageProfileForm.get('username').dirty || manageProfileForm.get('username').touched)" matSuffix
+            color="warn" matTooltip="This username is taken">cancel</mat-icon> -->
+          <p matSuffix style="display: inline;"></p>
+          <mat-spinner *ngIf="(manageProfileForm.get('username').pending)" matSuffix [diameter]="18"
+            style="float: right; margin-left: 8px"></mat-spinner>
+          <mat-error *ngFor="let validation of manageProfile_validation_messages.username">
+            <mat-error class="error-message"
+              *ngIf="manageProfileForm.get('username').hasError(validation.type) && (manageProfileForm.get('username').dirty || manageProfileForm.get('username').touched)">
+              {{validation.message}}
+            </mat-error>
+          </mat-error>
+        </mat-form-field>
 
-            <mat-form-field class="full-width">
-              <input matInput type="email" placeholder="Email" formControlName="email" required>
-              <mat-error *ngFor="let validation of manageProfile_validation_messages.email">
-                <mat-error class="error-message"
-                  *ngIf="manageProfileForm.get('email').hasError(validation.type) && (manageProfileForm.get('email').dirty || manageProfileForm.get('email').touched)">
-                  {{validation.message}}</mat-error>
-              </mat-error>
-            </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput type="email" placeholder="Email" formControlName="email" required>
+          <mat-error *ngFor="let validation of manageProfile_validation_messages.email">
+            <mat-error class="error-message"
+              *ngIf="manageProfileForm.get('email').hasError(validation.type) && (manageProfileForm.get('email').dirty || manageProfileForm.get('email').touched)">
+              {{validation.message}}</mat-error>
+          </mat-error>
+        </mat-form-field>
 
-            <button type="submit" class="btn btn-primary"
-              [disabled]="!manageProfileForm.valid">
-              Submit
-            </button>
+        <button type="submit" class="btn btn-primary" [disabled]="!manageProfileForm.valid">
+          Submit
+        </button>
 
-            <p>
-              <ngb-alert [dismissible]="false">
-                <strong>Please note:</strong> if you change your profile you will need to login again.
-              </ngb-alert>
-            </p>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class='col-sm-3'>
+        <p>
+          <ngb-alert [dismissible]="false">
+            <strong>Please note:</strong> if you change your profile you will need to login again.
+          </ngb-alert>
+        </p>
+      </form>
     </div>
   </div>
+</div>
