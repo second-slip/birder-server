@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { BirdsListValidator, ParentErrorStateMatcher } from 'validators';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { UserViewModel } from '@app/_models/UserViewModel';
 import { Router } from '@angular/router';
 import { BirdsService } from '@app/_services/birds.service';
 import { ObservationService } from '@app/_sharedServices/observation.service';
@@ -17,7 +16,6 @@ import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNo
 import { AddNotesComponent } from '@app/_observationNotes/add-notes/add-notes.component';
 import * as moment from 'moment';
 import { ThemePalette } from '@angular/material/core';
-
 
 @Component({
   selector: 'app-observation-add',
@@ -85,7 +83,7 @@ export class ObservationAddComponent implements OnInit {
     , private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.getUser();
+    this.getLocation();
     this.getBirds();
   }
 
@@ -183,28 +181,21 @@ export class ObservationAddComponent implements OnInit {
         });
   }
 
-  getUser(): void {
-    this.tokenService.getAuthenticatedUserDetails()
-      .subscribe(
-        (data: UserViewModel) => {
-          //this.user = data;
-          this.defaultPosition = <ObservationPosition>{
-            latitude: data.defaultLocationLatitude,
-            longitude: data.defaultLocationLongitude,
-            formattedAddress: '',
-            shortAddress: ''
-          };
-          this.createForms();
-        },
-        (error: any) => {
-          this.defaultPosition = <ObservationPosition>{
-            latitude:  54.972237,
-            longitude: -2.4608560000000352,
-            formattedAddress: '',
-            shortAddress: ''
-          };
-          this.createForms();
-        });
+  getLocation(): void {
+    const defaultLocation = this.tokenService.getDefaultLocation();
+
+    this.defaultPosition = <ObservationPosition>{
+      latitude: defaultLocation.defaultLocationLatitude,
+      longitude: defaultLocation.defaultLocationLongitude,
+      formattedAddress: '',
+      shortAddress: ''
+    };
+
+    if (!defaultLocation.defaultLocationLatitude || !defaultLocation.defaultLocationLongitude) {
+      this.defaultPosition.latitude = 54.972237;
+      this.defaultPosition.longitude = -2.4608560000000352;
+    }
+    this.createForms();
   }
 
   public onStepperSelectionChange(evant: any) {

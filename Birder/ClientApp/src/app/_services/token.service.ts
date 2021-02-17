@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { UserViewModel } from '../_models/UserViewModel';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthenticationService } from './authentication.service';
+import { SetLocationViewModel } from '@app/_models/SetLocationViewModel';
 
 @Injectable({
   providedIn: 'root'
@@ -63,8 +64,8 @@ export class TokenService {
         user.next({
           userName: tokenDecoded.unique_name,
           avatar: tokenDecoded.ImageUrl,
-          defaultLocationLatitude: parseFloat(tokenDecoded.DefaultLatitude),
-          defaultLocationLongitude: parseFloat(tokenDecoded.DefaultLongitude)
+          defaultLocationLatitude: Number(tokenDecoded.DefaultLatitude),
+          defaultLocationLongitude: Number(tokenDecoded.DefaultLongitude)
         });
       } else {
         this.authenticationService.logout();
@@ -72,4 +73,31 @@ export class TokenService {
       user.complete();
     });
   }
+
+  getDefaultLocation(): SetLocationViewModel { //SetLocationViewModel
+
+    // var retrievedObject = localStorage.getItem('testObject');
+    
+    const token = localStorage.getItem('jwt');
+
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const tokenDecoded = this.jwtHelper.decodeToken(token);
+
+      const model = <SetLocationViewModel> {
+        defaultLocationLatitude: Number(tokenDecoded.DefaultLatitude),
+        defaultLocationLongitude: Number(tokenDecoded.DefaultLongitude)
+      };
+      return model;
+
+    } else {
+      this.authenticationService.logout();
+      return null;
+    }
+ 
+    //  var defaultLocation = JSON.parse(localStorage.getItem('defLoc'));
+ 
+    //  console.log(defaultLocation);
+ 
+     //console.log('retrievedObject: ', JSON.parse(retrievedObject));
+   }
 }

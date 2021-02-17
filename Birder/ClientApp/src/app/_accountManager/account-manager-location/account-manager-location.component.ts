@@ -1,8 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SetLocationViewModel } from '@app/_models/SetLocationViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { UserViewModel } from '@app/_models/UserViewModel';
 import { TokenService } from '@app/_services/token.service';
 import { AccountManagerService } from '@app/_services/account-manager.service';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
@@ -22,32 +21,26 @@ export class AccountManagerLocationComponent implements OnInit {
 
   constructor(private router: Router
     , private tokenService: TokenService
-    , private accountManager: AccountManagerService
-    , private ref: ChangeDetectorRef) { }
+    , private accountManager: AccountManagerService) { }
 
   ngOnInit() {
-    this.getUser();
+    this.getLocation();
   }
 
-  getUser(): void {
-    this.tokenService.getAuthenticatedUserDetails()
-      .subscribe(
-        (data: UserViewModel) => {
-          this.defaultPosition = <ObservationPosition>{
-            latitude: data.defaultLocationLatitude,
-            longitude: data.defaultLocationLongitude,
-            formattedAddress: '',
-            shortAddress: ''
-          };
-        },
-        (error: any) => {
-          this.defaultPosition = <ObservationPosition>{
-            latitude: 54.972237,
-            longitude: -2.4608560000000352,
-            formattedAddress: '',
-            shortAddress: ''
-          };
-        });
+  getLocation(): void {
+    const defaultLocation = this.tokenService.getDefaultLocation();
+
+    this.defaultPosition = <ObservationPosition>{
+      latitude: defaultLocation.defaultLocationLatitude,
+      longitude: defaultLocation.defaultLocationLongitude,
+      formattedAddress: '',
+      shortAddress: ''
+    };
+
+    if (!defaultLocation.defaultLocationLatitude || !defaultLocation.defaultLocationLongitude) {
+      this.defaultPosition.latitude = 54.972237;
+      this.defaultPosition.longitude = -2.4608560000000352;
+    }
   }
 
   onSubmit(): void {
@@ -64,9 +57,6 @@ export class AccountManagerLocationComponent implements OnInit {
           this.router.navigate(['login']);
         },
         (error: ErrorReportViewModel) => {
-          // if (error.status === 400) { }
-          // this.errorReport = error;
-          // this.unsuccessful = true;
           this.requesting = false;
           console.log(error.friendlyMessage);
           console.log('unsuccessful registration');

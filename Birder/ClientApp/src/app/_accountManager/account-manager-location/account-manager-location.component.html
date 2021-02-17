@@ -7,10 +7,10 @@
       </div>
 
       <button *ngIf="!requesting" type="submit" class="btn btn-primary" (click)="onSubmit()">
-        Set default location
+        Update default location
       </button>
       <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
-        Setting default location...
+        Updating default location...
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
       </button>
   </div>
