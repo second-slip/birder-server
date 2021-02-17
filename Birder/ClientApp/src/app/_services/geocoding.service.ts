@@ -35,6 +35,10 @@ export class GeocodingService {
   googleApiResponseHelper(components, type) {
     return components.filter((component) => component.types.indexOf(type) === 0).map((item) => item.long_name).pop() || '';
   }
+
+  // googleApiResponseHelperShort(components, type) {
+  //   return components.filter((component) => component.types.indexOf(type) === 0).map((item) => item.short_name).pop() || '';
+  // }
 }
 
   // Alternative which returns a Promise

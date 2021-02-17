@@ -44,9 +44,15 @@
                         date: 'dd/MM/yyyy \'at\' HH:mm'}} </span>
                 </p>
 
-                <p class="location">
+                <p class="location-big">
                     <mat-icon>location_on</mat-icon><span class="aligned-with-icon">
                         {{ observation.position.formattedAddress }}
+                    </span>
+                </p>
+
+                <p class="location-small">
+                    <mat-icon>location_on</mat-icon><span class="aligned-with-icon">
+                        {{ observation.position.shortAddress }}
                     </span>
                 </p>
 
