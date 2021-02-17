@@ -74,16 +74,14 @@ export class TokenService {
     });
   }
 
-  getDefaultLocation(): SetLocationViewModel { //SetLocationViewModel
+  getDefaultLocation(): SetLocationViewModel {
 
-    // var retrievedObject = localStorage.getItem('testObject');
-    
     const token = localStorage.getItem('jwt');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       const tokenDecoded = this.jwtHelper.decodeToken(token);
 
-      const model = <SetLocationViewModel> {
+      const model = <SetLocationViewModel>{
         defaultLocationLatitude: Number(tokenDecoded.DefaultLatitude),
         defaultLocationLongitude: Number(tokenDecoded.DefaultLongitude)
       };
@@ -93,11 +91,5 @@ export class TokenService {
       this.authenticationService.logout();
       return null;
     }
- 
-    //  var defaultLocation = JSON.parse(localStorage.getItem('defLoc'));
- 
-    //  console.log(defaultLocation);
- 
-     //console.log('retrievedObject: ', JSON.parse(retrievedObject));
-   }
+  }
 }
