@@ -6,6 +6,7 @@ import { ParentErrorStateMatcher, PasswordValidator } from '../../../validators'
 import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 import { first } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-manager-password',
@@ -19,6 +20,7 @@ export class AccountManagerPasswordComponent implements OnInit {
   changePasswordForm: FormGroup;
   matching_passwords_group: FormGroup;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
+  requesting: boolean;
 
   changePassword_validation_messages = {
     'oldPassword': [
@@ -35,9 +37,10 @@ export class AccountManagerPasswordComponent implements OnInit {
     ]
   };
 
-  constructor(private accountManager: AccountManagerService
-            , private formBuilder: FormBuilder
-            , private toast: ToastrService) { }
+  constructor(private router: Router
+    , private accountManager: AccountManagerService
+    , private formBuilder: FormBuilder
+    , private toast: ToastrService) { }
 
   ngOnInit() {
     this.createForms();
@@ -64,6 +67,8 @@ export class AccountManagerPasswordComponent implements OnInit {
   }
 
   onSubmit(value): void {
+    this.requesting = true;
+
     const viewModelObject = <ChangePasswordViewModel>{
       oldPassword: value.oldPassword,
       newPassword: value.matching_passwords.newPassword,
@@ -71,19 +76,22 @@ export class AccountManagerPasswordComponent implements OnInit {
     };
 
     this.accountManager.postChangePassword(viewModelObject)
-    .pipe(first())
-    .subscribe(
-       (data: ChangePasswordViewModel) => {
-         this.unsuccessful = false;
-         this.changePasswordForm.reset();
-         this.toast.success('Your changed your password', 'Success');
-         // this.router.navigate(['/confirm-email']);
-       },
-      (error: ErrorReportViewModel) => {
-        // if (error.status === 400) { }
-        this.errorReport = error;
-        this.unsuccessful = true;
-        this.toast.error('Your password could not be changed', 'Error');
-      });
+      .pipe(first())
+      .subscribe(
+        (data: ChangePasswordViewModel) => {
+          this.unsuccessful = false;
+          this.changePasswordForm.reset();
+          this.toast.success('Your changed your password', 'Success');
+          this.router.navigate(['login']);
+          // this.router.navigate(['/confirm-email']);
+        },
+        (error: ErrorReportViewModel) => {
+          // if (error.status === 400) { }
+          this.errorReport = error;
+          this.unsuccessful = true;
+          this.toast.error('Your password could not be changed', 'Error');
+        },
+        () => { this.requesting = false; }
+      );
   }
 }
