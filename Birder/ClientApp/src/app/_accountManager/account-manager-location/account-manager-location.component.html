@@ -1,7 +1,10 @@
 <div class="container">
-  <div class="set-location-container">
-    <h3 class="section-title">Set Default Location</h3>
-      <div class="map" *ngIf="defaultPosition">
+  <h3 class="section-title">Set Default Location</h3>
+
+  <div *ngIf="!isLoading; else loading">
+    <ng-container *ngIf="defaultPosition; else error">
+
+      <div class="map">
         <app-view-edit-single-marker-map #map [position]="defaultPosition">
         </app-view-edit-single-marker-map>
       </div>
@@ -13,5 +16,27 @@
         Updating default location...
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
       </button>
+
+    </ng-container>
+
+    <ng-template #error>
+      <div class="container">
+        <p>
+          <ngb-alert [dismissible]="false">
+            <strong>We're sorry!</strong> There is a problem...
+          </ngb-alert>
+          <!-- ToDo: reload button here? -->
+        </p>
+      </div>
+    </ng-template>
+
   </div>
+
+  <ng-template #loading>
+    <div class="container loading">
+      <p><em>Loading...</em></p>
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+
 </div>

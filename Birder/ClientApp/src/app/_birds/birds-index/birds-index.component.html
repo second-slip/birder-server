@@ -28,7 +28,8 @@
 
 
         </mat-button-toggle-group>
-        showing {{ speciesFilter === '0' ? 'the' : 'all'}} {{totalItems}} {{ speciesFilter === '0' ? 'common species' : 'British species'}}
+        showing {{ speciesFilter === '0' ? 'the' : 'all'}} {{totalItems}} {{ speciesFilter === '0' ? 'common species' :
+        'British species'}}
       </p>
 
       <div *ngIf="birds">
@@ -57,7 +58,8 @@
 
         <hr>
         <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItems" [(page)]="page"
-          [pageSize]="pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
+          [pageSize]="pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="changePage()">
+        </ngb-pagination>
         <!-- <pre>Current page: {{page}}</pre> -->
         <hr>
 

@@ -17,6 +17,7 @@ export class AccountManagerLocationComponent implements OnInit {
   @ViewChild(ViewEditSingleMarkerMapComponent)
   private mapComponent: ViewEditSingleMarkerMapComponent;
   requesting: boolean;
+  isLoading: boolean;
   defaultPosition: ObservationPosition;
 
   constructor(private router: Router
@@ -28,6 +29,7 @@ export class AccountManagerLocationComponent implements OnInit {
   }
 
   getLocation(): void {
+    this.isLoading = true;
     const defaultLocation = this.tokenService.getDefaultLocation();
 
     this.defaultPosition = <ObservationPosition>{
@@ -41,6 +43,7 @@ export class AccountManagerLocationComponent implements OnInit {
       this.defaultPosition.latitude = 54.972237;
       this.defaultPosition.longitude = -2.4608560000000352;
     }
+    this.isLoading = false;
   }
 
   onSubmit(): void {
