@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ObservationsAnalysisService } from '../../_services/observations-analysis.service';
-import { LifeListViewModel } from '../../_models/LifeListViewModels';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { ObservationAnalysisViewModel } from '../../_models/ObservationAnalysisViewModel';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { LifeListViewModel } from '@app/_models/LifeListViewModels';
+import { ObservationAnalysisViewModel } from '@app/_models/ObservationAnalysisViewModel';
+import { ObservationsAnalysisService } from '@app/_services/observations-analysis.service';
+
 
 @Component({
   selector: 'app-life-list',
@@ -13,6 +14,9 @@ import { ObservationAnalysisViewModel } from '../../_models/ObservationAnalysisV
 export class LifeListComponent implements OnInit {
   lifeList: LifeListViewModel[];
   analysis: ObservationAnalysisViewModel;
+  requesting: boolean;
+  page: number;
+  pageSize = 10;
 
   constructor(private observationsAnalysisService: ObservationsAnalysisService) { }
 
@@ -22,14 +26,19 @@ export class LifeListComponent implements OnInit {
   }
 
   getLifeList(): void {
+    this.requesting = true;
     this.observationsAnalysisService.getLifeList()
       .subscribe(
         (data: LifeListViewModel[]) => {
           this.lifeList = data;
+          this.page = 1;
         },
         (error: ErrorReportViewModel) => {
           console.log(error);
           // ToDo: Something with the error (perhaps show a message)
+        },
+        () => {
+          this.requesting = false;
         }
       );
   }
@@ -45,5 +54,9 @@ export class LifeListComponent implements OnInit {
           // ToDo: Something with the error (perhaps show a message)
         }
       );
+  }
+
+  changePage(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

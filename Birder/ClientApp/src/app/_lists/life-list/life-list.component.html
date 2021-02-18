@@ -1,39 +1,61 @@
 <div class="container">
   <h3>Your life list</h3>
-  <p *ngIf="analysis">You have spotted {{ analysis.uniqueSpeciesCount }} species in {{ analysis.totalObservationsCount }} observations:</p>
 
-  <div *ngIf="!lifeList" class="loading">
-    <p><em>Loading...</em></p>
-    <mat-spinner></mat-spinner>
+  <div *ngIf="!requesting; else loading">
+    <ng-container *ngIf="lifeList; else error">
+
+      <p *ngIf="analysis">You have spotted {{ analysis.uniqueSpeciesCount }} species:</p>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Count</th>
+            <th scope="col">Species</th>
+            <th class="hide-small" scope="col">Status / Population</th>
+            <th scope="col">Risk Flag</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of lifeList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ record.count | number }}</td>
+            <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
+              <br><small><em>{{ record.species }}</em></small>
+            </td>
+            <td class="hide-small"><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
+            <td [style.color]="record.conservationListColourCode"><small>{{ record.conservationStatus }}</small></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr>
+
+      <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="lifeList.length"
+        class="d-flex justify-content-center" size="sm" [maxSize]="9" [rotate]="true" [boundaryLinks]="true"
+        (pageChange)="changePage()">
+      </ngb-pagination>
+
+    </ng-container>
+
+    <ng-template #error>
+      <div class="container">
+        <p>
+          <ngb-alert [dismissible]="false">
+            <strong>We're sorry!</strong> There is a problem getting the birds list.
+          </ngb-alert>
+          <!-- ToDo: reload button here? -->
+        </p>
+      </div>
+    </ng-template>
+
   </div>
 
-  <table class="table table-striped" *ngIf="lifeList">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Count</th>
-        <th scope="col">Species</th>
-        <th class="hide-small" scope="col">Status / Population</th>
-        <th scope="col">Risk Flag</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let record of lifeList; index as i">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{ record.count | number }}</td>
-        <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
-          <br><small><em>{{ record.species }}</em></small></td>
-        <td class="hide-small"><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
-        <td [style.color]="record.conservationListColourCode"><small>{{ record.conservationStatus }}</small></td>
-      </tr>
-    </tbody>
-  </table>
+  <ng-template #loading>
+    <div class="loading">
+      <p><em>Loading your Life List...</em></p>
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
 
-  <!-- <hr>
-  <p>With boundary links:</p>
-<ngb-pagination [collectionSize]="70" [(page)]="page" [boundaryLinks]="true"></ngb-pagination>
-
-<hr>
-
-<pre>Current page: {{page}}</pre> -->
 </div>
