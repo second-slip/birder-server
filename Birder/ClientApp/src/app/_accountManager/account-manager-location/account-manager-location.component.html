@@ -9,10 +9,20 @@
         </app-view-edit-single-marker-map>
       </div>
 
-      <button *ngIf="!requesting" type="submit" class="btn btn-primary" (click)="onSubmit()">
+      <div class="full-width alert">
+        <p>
+          <ngb-alert [dismissible]="false">
+            <strong>Please note:</strong> if you make changes you will need to login again.
+          </ngb-alert>
+        </p>
+      </div>
+
+      <button mat-stroked-button *ngIf="!requesting" type="button" (click)="onSubmit()"
+      #tooltip="matTooltip" matTooltip="Update your default location"
+          aria-label="Button that displays a tooltip that hides when scrolled out of the container">
         Update default location
       </button>
-      <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
+      <button mat-stroked-button *ngIf="requesting" type="button" disabled>
         Updating default location...
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
       </button>

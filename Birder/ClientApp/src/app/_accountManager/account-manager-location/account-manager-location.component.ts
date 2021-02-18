@@ -55,14 +55,14 @@ export class AccountManagerLocationComponent implements OnInit {
     };
 
     this.accountManager.postSetLocation(model)
-      .subscribe(
-        (data: SetLocationViewModel) => {
-          this.router.navigate(['login']);
-        },
+      .subscribe(_ => {
+        this.router.navigate(['login']);
+      },
         (error: ErrorReportViewModel) => {
-          this.requesting = false;
           console.log(error.friendlyMessage);
           console.log('unsuccessful registration');
-        });
+        },
+        () => { this.requesting = false; }
+      );
   }
 }

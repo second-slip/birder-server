@@ -12,7 +12,8 @@
           </li>
         </ul>
       </div>
-      <div *ngIf="user">
+
+      <div>
         <form [formGroup]="manageProfileForm" novalidate (ngSubmit)="onSubmit(manageProfileForm.value)">
           <mat-form-field class="full-width">
             <input matInput type="text" maxlength="25" placeholder="username" formControlName="username" required>
@@ -82,7 +83,7 @@
 
   <ng-template #loading>
     <div class="loading">
-      <p><em>Loading your life list...</em></p>
+      <p><em>Loading your profile...</em></p>
       <mat-spinner></mat-spinner>
     </div>
   </ng-template>
