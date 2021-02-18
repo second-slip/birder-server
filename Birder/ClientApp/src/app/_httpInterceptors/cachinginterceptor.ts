@@ -53,6 +53,7 @@ function isCachable(request: HttpRequest<any>) {
     && request.url.indexOf('api/ObservationAnalysis') !== 0  // do not cache requests containing 'api/ObservationAnalysis'
     && request.url.indexOf('api/UserProfile') !== 0
     && request.url.indexOf('api/Network') !== 0
+    && request.url.indexOf('api/Manage') !== 0
     && request.url.indexOf('api/Account/IsUsernameAvailable') !== 0;
   }
 

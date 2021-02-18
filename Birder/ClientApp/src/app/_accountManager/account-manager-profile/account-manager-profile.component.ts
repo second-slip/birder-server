@@ -23,8 +23,9 @@ export class AccountManagerProfileComponent implements OnInit {
   manageProfileForm: FormGroup;
   errorReport: ErrorReportViewModel;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
-  // isUsernameAvailable = true;
+  requesting: boolean;
   emailChanged = false;
+  updating: boolean;
 
 
   manageProfile_validation_messages = {
@@ -78,6 +79,7 @@ export class AccountManagerProfileComponent implements OnInit {
         }
       ]
     });
+
   }
 
 
@@ -101,26 +103,24 @@ export class AccountManagerProfileComponent implements OnInit {
 
 
   getUserProfile() {
+    this.requesting = true;
     this.accountManager.getUserProfile()
       .subscribe(
         (data: ManageProfileViewModel) => {
           this.user = data;
-          this.manageProfileForm = this.createForm();  // this.createForm();
+          this.manageProfileForm = this.createForm();
         },
         (error: ErrorReportViewModel) => {
           this.toast.error(error.friendlyMessage, 'An error occurred');
           this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-profile' } });
-        });
+        },
+        () => { this.requesting = false; }
+      );
   }
 
   onSubmit(value): void {
+    this.updating = true;
 
-    // if (this.isUsernameAvailable === false) {
-    //   const unavailableUsername = this.manageProfileForm.get('userName').value;
-    //   this.toast.error(`The username '${unavailableUsername}' is already taken.  Please choose a different username.`, 'Error');
-    //   return;
-    // }
-//console.log(value);
     const model = <ManageProfileViewModel>{
       userName: value.username,
       email: value.email,
@@ -129,8 +129,6 @@ export class AccountManagerProfileComponent implements OnInit {
     if (model.email !== this.user.email) {
       this.emailChanged = true;
     }
-
-    console.log(model);
 
     this.accountManager.postUpdateProfile(model)
       .pipe(first())
@@ -149,6 +147,8 @@ export class AccountManagerProfileComponent implements OnInit {
           this.errorReport = error;
           // this.invalidRegistration = true;
           this.toast.error(error.friendlyMessage, 'Error');
-        });
+        },
+        () => { this.updating = false; }
+      );
   }
 }
