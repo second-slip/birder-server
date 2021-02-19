@@ -31,6 +31,8 @@
       <a ngbNavLink>Following <span class="badge badge-pill badge-primary">{{ userProfile.following.length }}</span></a>
       <ng-template ngbNavContent>
 
+        <!-- ToDo: factor into separate component -->
+
         <ng-container *ngIf="userProfile.following.length; else noItems">
 
         <div *ngFor="let following of userProfile.following">
