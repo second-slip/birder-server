@@ -106,6 +106,7 @@ import { LoginComponent } from './_login-out/login/login.component';
 import { LogoutComponent } from './_login-out/logout/logout.component';
 import { FollowingComponent } from './_sharedComponents/following/following.component';
 import { FollowersComponent } from './_sharedComponents/followers/followers.component';
+
 // import { YearListComponent } from './_lists/year-list/year-list.component';
 
 const cookieConfig: NgcCookieConsentConfig = {
