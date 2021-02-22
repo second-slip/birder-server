@@ -26,7 +26,7 @@ export class BirdsIndexComponent implements OnInit {
     this.getBirds();
   }
 
-  changePage() { // event) { // page: number) {
+  changePage() {
     this.getBirds();
   }
 
@@ -49,6 +49,7 @@ export class BirdsIndexComponent implements OnInit {
         },
         () => {
           this.requesting = false;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         });
   }
 }
