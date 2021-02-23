@@ -30,7 +30,7 @@ export class NetworkService {
 
   getFollowers(username: string): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
     const options = username ?
-    { params: new HttpParams().set('username', username) } : {};
+    { params: new HttpParams().set('requestedUsername', username) } : {};
 
     return this.http.get<NetworkUserViewModel[]>('api/Network/GetFollowers', options)
     .pipe(
@@ -39,7 +39,7 @@ export class NetworkService {
 
   getFollowing(username: string): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
     const options = username ?
-    { params: new HttpParams().set('username', username) } : {};
+    { params: new HttpParams().set('requestedUsername', username) } : {};
 
     return this.http.get<NetworkUserViewModel[]>('api/Network/GetFollowing', options)
     .pipe(

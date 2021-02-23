@@ -46,7 +46,7 @@ export class FollowingComponent {
         .subscribe(
           (data: NetworkUserViewModel) => {
             // this.getUser(); // obsolete due to event subsciption
-            // element.innerText = 'Unfollow';
+            element.innerText = 'Unfollow';
           },
           (error: ErrorReportViewModel) => {
             console.log(error);
@@ -57,7 +57,7 @@ export class FollowingComponent {
         .subscribe(
           (data: NetworkUserViewModel) => {
             // this.getUser(); // obsolete due to event subsciption
-            // element.innerText = 'Follow';
+            element.innerText = 'Follow';
           },
           (error: ErrorReportViewModel) => {
             console.log(error);

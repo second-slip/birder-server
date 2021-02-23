@@ -69,9 +69,9 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetFollowers")]
-        public async Task<IActionResult> GetFollowers(string username)
+        public async Task<IActionResult> GetFollowers(string requestedUsername)
         {
-            if (string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(requestedUsername))
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, "The search criterion is null or empty");
                 return BadRequest("No search criterion");
@@ -79,14 +79,36 @@ namespace Birder.Controllers
 
             try
             {
-                var requestingUser = await _userManager.GetUserWithNetworkAsync(username);
+                var requestedUser = await _userManager.GetUserWithNetworkAsync(requestedUsername);
 
-                var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowerViewModel>>(requestingUser.Followers);
+                var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowerViewModel>>(requestedUser.Followers);
 
-                UserNetworkHelpers.SetupFollowersCollection(requestingUser, model);
+                var requesterUsername = User.Identity.Name;
 
-                return Ok(model);
+                if (requesterUsername.Equals(requestedUsername))
+                {
+                    // Own profile requested...
 
+                    UserNetworkHelpers.SetupFollowersCollection(requestedUser, model);
+
+                    return Ok(model);
+                }
+                else
+                {
+                    // Other user's profile requested...
+
+                    var requestingUser = await _userManager.GetUserWithNetworkAsync(requesterUsername);
+
+                    if (requestingUser is null)
+                    {
+                        _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
+                        return NotFound("Requesting user not found");
+                    }
+
+                    UserNetworkHelpers.SetupFollowersCollection(requestingUser, model);
+
+                    return Ok(model);
+                }
             }
             catch (Exception ex)
             {
@@ -96,9 +118,9 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetFollowing")]
-        public async Task<IActionResult> GetFollowing(string username)
+        public async Task<IActionResult> GetFollowing(string requestedUsername)
         {
-            if (string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(requestedUsername))
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, "The search criterion is null or empty");
                 return BadRequest("No search criterion");
@@ -106,19 +128,40 @@ namespace Birder.Controllers
 
             try
             {
-                var requestingUser = await _userManager.GetUserWithNetworkAsync(username);
+                var requestedUser = await _userManager.GetUserWithNetworkAsync(requestedUsername);
 
-                var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowingViewModel>>(requestingUser.Following);
+                var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowingViewModel>>(requestedUser.Following);
 
-                UserNetworkHelpers.SetupFollowingCollection(requestingUser, model);
+                var requesterUsername = User.Identity.Name;
 
-                return Ok(model);
+                if (requesterUsername.Equals(requestedUsername))
+                {
+                    // Own profile requested...
 
+                    UserNetworkHelpers.SetupFollowingCollection(requestedUser, model);
+
+                    return Ok(model);
+                }
+                else
+                {
+                    // Other user's profile requested...
+
+                    var requestingUser = await _userManager.GetUserWithNetworkAsync(requesterUsername);
+
+                    if (requestingUser is null)
+                    {
+                        _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
+                        return NotFound("Requesting user not found");
+                    }
+
+                    UserNetworkHelpers.SetupFollowingCollection(requestingUser, model);
+
+                    return Ok(model);
+                }
             }
             catch (Exception ex)
             {
                 return BadRequest();
-
             }
         }
 
