@@ -58,6 +58,7 @@ namespace Birder.Controllers
                 {
                     // Own profile requested...
 
+                    // new method in Network repository?
                     requestedUserProfileViewModel.IsOwnProfile = true;
 
                     UserNetworkHelpers.SetupFollowingCollection(requestedUser, requestedUserProfileViewModel.Following);

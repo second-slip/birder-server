@@ -69,7 +69,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetFollowers")]
-        public async Task<IActionResult> GetFollowers(string requestedUsername)
+        public async Task<IActionResult> GetFollowersAsync(string requestedUsername)
         {
             if (string.IsNullOrEmpty(requestedUsername))
             {
@@ -81,9 +81,21 @@ namespace Birder.Controllers
             {
                 var requestedUser = await _userManager.GetUserWithNetworkAsync(requestedUsername);
 
+                if (requestedUser is null)
+                {
+                    _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
+                    return NotFound("Requested user not found");
+                }
+
                 var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowerViewModel>>(requestedUser.Followers);
 
                 var requesterUsername = User.Identity.Name;
+
+                if (requestedUser is null)
+                {
+                    _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
+                    return NotFound("Requested user not found");
+                }
 
                 if (requesterUsername.Equals(requestedUsername))
                 {
@@ -118,7 +130,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetFollowing")]
-        public async Task<IActionResult> GetFollowing(string requestedUsername)
+        public async Task<IActionResult> GetFollowingAsync(string requestedUsername)
         {
             if (string.IsNullOrEmpty(requestedUsername))
             {
