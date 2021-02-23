@@ -79,7 +79,7 @@ namespace Birder.Controllers
 
             try
             {
-                var requestingUser = await _userManager.GetUserWithFollowersAsync(User.Identity.Name);
+                var requestingUser = await _userManager.GetUserWithNetworkAsync(username);
 
                 var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowerViewModel>>(requestingUser.Followers);
 
@@ -88,9 +88,39 @@ namespace Birder.Controllers
                 return Ok(model);
 
             }
-            catch { return BadRequest(); }
+            catch (Exception ex)
+            {
+                return BadRequest();
 
             }
+        }
+
+        [HttpGet, Route("GetFollowing")]
+        public async Task<IActionResult> GetFollowing(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, "The search criterion is null or empty");
+                return BadRequest("No search criterion");
+            }
+
+            try
+            {
+                var requestingUser = await _userManager.GetUserWithNetworkAsync(username);
+
+                var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowingViewModel>>(requestingUser.Following);
+
+                UserNetworkHelpers.SetupFollowingCollection(requestingUser, model);
+
+                return Ok(model);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+
+            }
+        }
 
         [HttpGet, Route("NetworkSuggestions")]
         public async Task<IActionResult> GetNetworkSuggestionsAsync()

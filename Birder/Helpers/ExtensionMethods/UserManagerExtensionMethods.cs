@@ -37,19 +37,19 @@ namespace Birder.Helpers
         /// <param name="userManager"></param>
         /// <param name="username"></param>
         /// <returns></returns>
-        public static async Task<ApplicationUser> GetUserWithFollowersAsync(this UserManager<ApplicationUser> userManager, string username)
-        {
-            if (string.IsNullOrEmpty(username))
-                throw new ArgumentException("The argument is null or empty", nameof(username));
+        //public static async Task<ApplicationUser> GetUserWithFollowersAsync(this UserManager<ApplicationUser> userManager, string username)
+        //{
+        //    if (string.IsNullOrEmpty(username))
+        //        throw new ArgumentException("The argument is null or empty", nameof(username));
 
-            return await userManager.Users
-                         .Include(x => x.Followers)
-                             .ThenInclude(x => x.Follower)
-                         //.Include(y => y.Following)
-                         //    .ThenInclude(r => r.ApplicationUser)
-                         .Where(x => x.UserName == username)
-                         .FirstOrDefaultAsync();
-        }
+        //    return await userManager.Users
+        //                 .Include(x => x.Followers)
+        //                     .ThenInclude(x => x.Follower)
+        //                 //.Include(y => y.Following)
+        //                 //    .ThenInclude(r => r.ApplicationUser)
+        //                 .Where(x => x.UserName == username)
+        //                 .FirstOrDefaultAsync();
+        //}
 
         /// <summary>
         /// Returns a User with their collections of following
@@ -57,19 +57,19 @@ namespace Birder.Helpers
         /// <param name="userManager"></param>
         /// <param name="username"></param>
         /// <returns></returns>
-        public static async Task<ApplicationUser> GetUserWithFollowingAsync(this UserManager<ApplicationUser> userManager, string username)
-        {
-            if (string.IsNullOrEmpty(username))
-                throw new ArgumentException("The argument is null or empty", nameof(username));
+        //public static async Task<ApplicationUser> GetUserWithFollowingAsync(this UserManager<ApplicationUser> userManager, string username)
+        //{
+        //    if (string.IsNullOrEmpty(username))
+        //        throw new ArgumentException("The argument is null or empty", nameof(username));
 
-            return await userManager.Users
-                         //.Include(x => x.Followers)
-                         //    .ThenInclude(x => x.Follower)
-                         .Include(y => y.Following)
-                             .ThenInclude(r => r.ApplicationUser)
-                         .Where(x => x.UserName == username)
-                         .FirstOrDefaultAsync();
-        }
+        //    return await userManager.Users
+        //                 //.Include(x => x.Followers)
+        //                 //    .ThenInclude(x => x.Follower)
+        //                 .Include(y => y.Following)
+        //                     .ThenInclude(r => r.ApplicationUser)
+        //                 .Where(x => x.UserName == username)
+        //                 .FirstOrDefaultAsync();
+        //}
 
         /// <summary>
         /// Returns a list of Users which match the supplied predicate

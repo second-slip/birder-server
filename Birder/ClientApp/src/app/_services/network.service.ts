@@ -28,6 +28,24 @@ export class NetworkService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
+  getFollowers(username: string): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
+    const options = username ?
+    { params: new HttpParams().set('username', username) } : {};
+
+    return this.http.get<NetworkUserViewModel[]>('api/Network/GetFollowers', options)
+    .pipe(
+      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
+  getFollowing(username: string): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
+    const options = username ?
+    { params: new HttpParams().set('username', username) } : {};
+
+    return this.http.get<NetworkUserViewModel[]>('api/Network/GetFollowing', options)
+    .pipe(
+      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
   getNetworkSuggestions(): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
     return this.http.get<NetworkUserViewModel[]>('api/Network/NetworkSuggestions')
       .pipe(
