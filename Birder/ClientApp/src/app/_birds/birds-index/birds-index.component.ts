@@ -26,7 +26,7 @@ export class BirdsIndexComponent implements OnInit {
     this.getBirds();
   }
 
-  changePage() {
+  changePage(): void {
     this.getBirds();
   }
 

@@ -32,7 +32,7 @@ namespace Birder.Helpers
         }
 
         /// <summary>
-        /// Returns a User with their collections of followers and following
+        /// Returns a User with their collections of followers
         /// </summary>
         /// <param name="userManager"></param>
         /// <param name="username"></param>
@@ -52,7 +52,7 @@ namespace Birder.Helpers
         }
 
         /// <summary>
-        /// Returns a User with their collections of followers and following
+        /// Returns a User with their collections of following
         /// </summary>
         /// <param name="userManager"></param>
         /// <param name="username"></param>

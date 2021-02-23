@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { ObservationAnalysisViewModel } from '@app/_models/ObservationAnalysisViewModel';
+import { ObservationsAnalysisService } from '@app/_services/observations-analysis.service';
+import { ObservationService } from '@app/_sharedServices/observation.service';
 import { Subscription } from 'rxjs';
-import { ObservationService } from '../../_sharedServices/observation.service';
-import { ObservationsAnalysisService } from '../../_services/observations-analysis.service';
-import { ObservationAnalysisViewModel } from '../../_models/ObservationAnalysisViewModel';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-info-observation-count',

@@ -33,6 +33,8 @@ import { WhatsNewComponent } from './whats-new/whats-new.component';
 import { TweetArchiveComponent } from './tweet-archive/tweet-archive.component';
 import { LoginComponent } from './_login-out/login/login.component';
 import { LogoutComponent } from './_login-out/logout/logout.component';
+import { FollowersComponent } from './_sharedComponents/followers/followers.component';
+import { FollowingComponent } from './_sharedComponents/following/following.component';
 
 
 const routes: Routes = [
@@ -76,7 +78,8 @@ const routes: Routes = [
           { path: 'birds-detail/:id', component: BirdsDetailComponent },
           { path: 'life-list', component: LifeListComponent },
           { path: 'user-profile/:username', component: UserProfileComponent },
-          // { path: 'account-manage', component: AccountManageComponent},
+          { path: 'followers', component: FollowersComponent },
+          { path: 'following', component: FollowingComponent },
           { path: 'network', component: NetworkComponent },
           { path: 'testing', component: TestingComponent },
           { path: 'logout', component: LogoutComponent },
