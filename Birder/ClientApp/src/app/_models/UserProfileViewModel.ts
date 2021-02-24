@@ -3,9 +3,11 @@ export interface UserProfileViewModel {
     avatar: string;
     registrationDate: Date | string;
     isOwnProfile: boolean;
+    followersCount: number;
+    followingCount: number;
     isFollowing: boolean;
-    followers: NetworkUserViewModel[];
-    following: NetworkUserViewModel[];
+    // followers: NetworkUserViewModel[];
+    // following: NetworkUserViewModel[];
 }
 
 export interface NetworkUserViewModel {

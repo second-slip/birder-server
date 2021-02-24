@@ -14,27 +14,27 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 })
 export class UserProfileComponent {
   userProfile: UserProfileViewModel;
-  tabstatus = {};
-  active;
+  requesting: boolean;
+  // tabstatus = {};
+  // active;
 
   constructor(private networkService: NetworkService
-            , private userProfileService: UserProfileService
-            , private route: ActivatedRoute
-            , private toast: ToastrService
-            , private router: Router) {
-                route.params.subscribe(_ => {
-                  this.route.paramMap.subscribe(pmap => this.getUser(pmap.get('username')));
-                  // this.getUser();
-                  // the next two statements reset the tabs.  This is required when the page is reloaded
-                  // with different data.  Otherwise the 'sightings' child component keeps its original data.
-                  this.active = 1;
-                  this.tabstatus = {};
-                });
+    , private userProfileService: UserProfileService
+    , private route: ActivatedRoute
+    , private toast: ToastrService
+    , private router: Router) {
+    route.params.subscribe(_ => {
+      this.route.paramMap.subscribe(pmap => this.getUser(pmap.get('username')));
+      // this.getUser();
+      // the next two statements reset the tabs.  This is required when the page is reloaded
+      // with different data.  Otherwise the 'sightings' child component keeps its original data.
+      // this.active = 1;
+      // this.tabstatus = {};
+    });
   }
 
   getUser(username: string): void {
-    // const username = this.route.snapshot.paramMap.get('username');
-
+    this.requesting = true;
     this.userProfileService.getUserProfile(username)
       .subscribe(
         (data: UserProfileViewModel) => {
@@ -43,49 +43,11 @@ export class UserProfileComponent {
         (error: ErrorReportViewModel) => {
           this.toast.error(error.serverCustomMessage, 'An error occurred');
           this.router.navigate(['/']);
-        });
-  }
-
-  followOrUnfollow(element, user: NetworkUserViewModel): void {
-    const action = element.innerText;
-
-    if (action === 'Follow') {
-      this.networkService.postFollowUser(user)
-        .subscribe(
-          (data: NetworkUserViewModel) => {
-            this.toast.info('You are now following ' + data.userName, 'Success');
-            this.getUser(this.userProfile.userName);
-            element.innerText = 'Unfollow';
-          },
-          (error: ErrorReportViewModel) => {
-            this.toast.error(error.serverCustomMessage, 'An error occurred');
-          });
-      return;
-    } else {
-      this.networkService.postUnfollowUser(user)
-        .subscribe(
-          (data: NetworkUserViewModel) => {
-            this.toast.info('You have unfollowed ' + data.userName, 'Success');
-            this.getUser(this.userProfile.userName);
-            element.innerText = 'Follow';
-          },
-          (error: ErrorReportViewModel) => {
-            this.toast.error(error.serverCustomMessage, 'An error occurred');
-          });
-      return;
-    }
+        },
+        () => this.requesting = false
+      );
   }
 }
 
-            // const index = this.user.following.findIndex(i => i.userName === data.userName);
-            // if (index >= 0) {
-            //   // this.user.following.splice(index, 1);
-            //   this.user.following[index].isFollowing = false;
-            // }
-            // const index1 = this.user.followers.findIndex(i => i.userName === data.userName);
-            // if (index >= 0) {
-            //   // this.user.following.splice(index, 1);
-            //   // alert(this.user.followers[index1].userName + '; ' + this.user.followers[index1].isFollowing);
-            //   this.user.followers[index1].isFollowing = false;
-            //   // alert(this.user.followers[index1].userName + '; ' + this.user.followers[index1].isFollowing);
-            // }
+
+

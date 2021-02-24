@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -52,39 +53,50 @@ namespace Birder.Controllers
 
                 var requestedUserProfileViewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(requestedUser);
 
-                var requesterUsername = User.Identity.Name;
+                requestedUserProfileViewModel.FollowersCount = requestedUser.Followers.Count();
 
-                if (requesterUsername.Equals(requestedUsername))
+                requestedUserProfileViewModel.FollowingCount = requestedUser.Following.Count();
+
+                //var requesterUsername = User.Identity.Name;
+
+                if (requestedUsername.Equals(User.Identity.Name))
                 {
                     // Own profile requested...
-
-                    // new method in Network repository?
                     requestedUserProfileViewModel.IsOwnProfile = true;
-
-                    UserNetworkHelpers.SetupFollowingCollection(requestedUser, requestedUserProfileViewModel.Following);
-
-                    UserNetworkHelpers.SetupFollowersCollection(requestedUser, requestedUserProfileViewModel.Followers);
-
-                    return Ok(requestedUserProfileViewModel);
                 }
+                else
+                {
+                    // Other user's profile requested...
+                    requestedUserProfileViewModel.IsFollowing = UserNetworkHelpers.UpdateIsFollowingProperty(User.Identity.Name, requestedUser.Followers);
+                }
+
+                return Ok(requestedUserProfileViewModel);
+
+
+                //UserNetworkHelpers.SetupFollowingCollection(requestedUser, requestedUserProfileViewModel.Following);
+
+                //UserNetworkHelpers.SetupFollowersCollection(requestedUser, requestedUserProfileViewModel.Followers);
+
+                //return Ok(requestedUserProfileViewModel);
+                //}
 
                 // Other user's profile requested...
 
-                var requestingUser = await _userManager.GetUserWithNetworkAsync(requesterUsername);
+                //var requestingUser = await _userManager.GetUserWithNetworkAsync(requesterUsername);
 
-                if (requestingUser is null)
-                {
-                    _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
-                    return NotFound("Requesting user not found");
-                }
+                //if (requestingUser is null)
+                //{
+                //    _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
+                //    return NotFound("Requesting user not found");
+                //}
 
-                requestedUserProfileViewModel.IsFollowing = UserNetworkHelpers.UpdateIsFollowingProperty(requestingUser.UserName, requestedUser.Followers);
+                //requestedUserProfileViewModel.IsFollowing = UserNetworkHelpers.UpdateIsFollowingProperty(requestingUser.UserName, requestedUser.Followers);
 
-                UserNetworkHelpers.SetupFollowingCollection(requestingUser, requestedUserProfileViewModel.Following);
+                //UserNetworkHelpers.SetupFollowingCollection(requestingUser, requestedUserProfileViewModel.Following);
 
-                UserNetworkHelpers.SetupFollowersCollection(requestingUser, requestedUserProfileViewModel.Followers);
+                //UserNetworkHelpers.SetupFollowersCollection(requestingUser, requestedUserProfileViewModel.Followers);
 
-                return Ok(requestedUserProfileViewModel);
+                //return Ok(requestedUserProfileViewModel);
             }
             catch (Exception ex)
             {
