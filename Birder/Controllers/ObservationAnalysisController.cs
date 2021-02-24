@@ -48,13 +48,6 @@ namespace Birder.Controllers
 
             try
             {
-                //var username = User.Identity.Name;
-
-                //if (string.IsNullOrEmpty(username))
-                //{
-                //    return Unauthorized();
-                //}
-
                 //if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
                 //{
                 //    return Ok(_mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observationsCache));
@@ -132,7 +125,7 @@ namespace Birder.Controllers
             {
                 var username = User.Identity.Name;
 
-                if (username == null)
+                if (username is null)
                 {
                     return Unauthorized();
                 }

@@ -14,5 +14,7 @@
         public const int GetItemNotFound = 4000;
         public const int GetListNotFound = 4001;
         public const int UpdateItemNotFound = 4002;
+
+        public const int Exception = 9000;
     }
 }

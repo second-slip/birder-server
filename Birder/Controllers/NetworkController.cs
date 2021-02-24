@@ -39,6 +39,8 @@ namespace Birder.Controllers
             _networkRepository = networkRepository;
         }
 
+        //To be replaced
+        //Leave until Network sidebar component is replaced...
         [HttpGet]
         public async Task<IActionResult> GetNetworkAsync()
         {
@@ -63,7 +65,7 @@ namespace Birder.Controllers
             }
             catch(Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetItem, ex, "GetMyNetworkAsync");
+                _logger.LogError(LoggingEvents.Exception, ex, "GetMyNetworkAsync");
                 return BadRequest("An unexpected error occurred");
             }
         }
@@ -124,8 +126,8 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(LoggingEvents.Exception, ex, "An unexpected error occurred");
                 return BadRequest();
-
             }
         }
 
@@ -141,6 +143,12 @@ namespace Birder.Controllers
             try
             {
                 var requestedUser = await _userManager.GetUserWithNetworkAsync(requestedUsername);
+
+                if (requestedUser is null)
+                {
+                    _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
+                    return NotFound("Requested user not found");
+                }
 
                 var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowingViewModel>>(requestedUser.Following);
 
@@ -173,6 +181,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(LoggingEvents.Exception, ex, "An unexpected error occurred");
                 return BadRequest();
             }
         }
@@ -208,7 +217,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "Network");
+                _logger.LogError(LoggingEvents.Exception, ex, "Network");
                 return BadRequest("An unexpected error occurred");
             }
         }
@@ -241,7 +250,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "Network");
+                _logger.LogError(LoggingEvents.Exception, ex, "Network");
                 return BadRequest("An unexpected error occurred");
             }
         }
@@ -290,7 +299,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Follow action error");
+                _logger.LogError(LoggingEvents.Exception, ex, "Follow action error");
                 return BadRequest(String.Format("An error occurred trying to follow user: {0}", userToFollowDetails.UserName));
             }
         }
@@ -339,7 +348,7 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Unfollow action error");
+                _logger.LogError(LoggingEvents.Exception, ex, "Unfollow action error");
                 return BadRequest($"An error occurred trying to unfollow user: {userToUnfollowDetails.UserName}");
             }
         }

@@ -35,14 +35,14 @@ namespace Birder.Controllers
         {
             // add properties for no. of species / observations
             // build new query object
+            if (string.IsNullOrEmpty(requestedUsername))
+            {
+                _logger.LogError(LoggingEvents.GetItem, "requestedUsername argument is null or empty at GetUserProfileAsync action");
+                return BadRequest("An error occurred");
+            }
+
             try
             {
-                if (string.IsNullOrEmpty(requestedUsername))
-                {
-                    _logger.LogError(LoggingEvents.GetItem, "requestedUsername argument is null or empty at GetUserProfileAsync action");
-                    return BadRequest("An error occurred");
-                }
-
                 var requestedUser = await _userManager.GetUserWithNetworkAsync(requestedUsername);
 
                 if (requestedUser is null)
@@ -57,8 +57,6 @@ namespace Birder.Controllers
 
                 requestedUserProfileViewModel.FollowingCount = requestedUser.Following.Count();
 
-                //var requesterUsername = User.Identity.Name;
-
                 if (requestedUsername.Equals(User.Identity.Name))
                 {
                     // Own profile requested...
@@ -71,36 +69,10 @@ namespace Birder.Controllers
                 }
 
                 return Ok(requestedUserProfileViewModel);
-
-
-                //UserNetworkHelpers.SetupFollowingCollection(requestedUser, requestedUserProfileViewModel.Following);
-
-                //UserNetworkHelpers.SetupFollowersCollection(requestedUser, requestedUserProfileViewModel.Followers);
-
-                //return Ok(requestedUserProfileViewModel);
-                //}
-
-                // Other user's profile requested...
-
-                //var requestingUser = await _userManager.GetUserWithNetworkAsync(requesterUsername);
-
-                //if (requestingUser is null)
-                //{
-                //    _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
-                //    return NotFound("Requesting user not found");
-                //}
-
-                //requestedUserProfileViewModel.IsFollowing = UserNetworkHelpers.UpdateIsFollowingProperty(requestingUser.UserName, requestedUser.Followers);
-
-                //UserNetworkHelpers.SetupFollowingCollection(requestingUser, requestedUserProfileViewModel.Following);
-
-                //UserNetworkHelpers.SetupFollowersCollection(requestingUser, requestedUserProfileViewModel.Followers);
-
-                //return Ok(requestedUserProfileViewModel);
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, ex, "Error at GetUserProfileAsync");
+                _logger.LogError(LoggingEvents.Exception, ex, "Error at GetUserProfileAsync");
                 return BadRequest("There was an error getting the user profile");
             }
         }
