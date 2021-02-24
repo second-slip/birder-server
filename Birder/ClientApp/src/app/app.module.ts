@@ -104,9 +104,9 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { SongRecordingsComponent } from './_birds/song-recordings/song-recordings.component';
 import { LoginComponent } from './_login-out/login/login.component';
 import { LogoutComponent } from './_login-out/logout/logout.component';
-import { FollowingComponent } from './_sharedComponents/following/following.component';
-import { FollowersComponent } from './_sharedComponents/followers/followers.component';
-import { NetworkUserComponent } from './network-user/network-user.component';
+import { FollowingComponent } from './_network/following/following.component';
+import { FollowersComponent } from './_network/followers/followers.component';
+import { NetworkUserComponent } from './_sharedComponents/network-user/network-user.component';
 
 // import { YearListComponent } from './_lists/year-list/year-list.component';
 

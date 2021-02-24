@@ -33,8 +33,8 @@ import { WhatsNewComponent } from './whats-new/whats-new.component';
 import { TweetArchiveComponent } from './tweet-archive/tweet-archive.component';
 import { LoginComponent } from './_login-out/login/login.component';
 import { LogoutComponent } from './_login-out/logout/logout.component';
-import { FollowersComponent } from './_sharedComponents/followers/followers.component';
-import { FollowingComponent } from './_sharedComponents/following/following.component';
+import { FollowersComponent } from './_network/followers/followers.component';
+import { FollowingComponent } from './_network/following/following.component';
 
 
 const routes: Routes = [
