@@ -19,12 +19,12 @@ export class HttpErrorHandlerService {
       errorReport.type = 'client-side or network error occurred';
       errorReport.errorNumber = error.status;
       errorReport.message = error.message;
-      errorReport.friendlyMessage = 'An error occurred retrieving data.';
+      errorReport.friendlyMessage = 'Please try again later.';
     } else {
       errorReport.type = 'unsuccessful response code';
       errorReport.errorNumber = error.status;
       errorReport.message = error.statusText;
-      errorReport.friendlyMessage = 'An error occurred retrieving data.';
+      errorReport.friendlyMessage = 'Please try again later.';
       errorReport.failureReason = error.error.failureReason;
     }
 
@@ -61,7 +61,7 @@ export class HttpErrorHandlerService {
       errorReport.type = 'unsuccessful response code';
       errorReport.errorNumber = error.status;
       errorReport.message = error.statusText;
-      errorReport.friendlyMessage = 'An error occurred retrieving data.';
+      errorReport.friendlyMessage = 'Please try again later.';
       // console.log(errorReport);
     }
 

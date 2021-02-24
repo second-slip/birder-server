@@ -1,12 +1,12 @@
 <div class="container">
 
   <div *ngIf="!requesting; else loading">
+
     <ng-container *ngIf="userProfile; else error">
 
-      <!-- <div *ngIf="userProfile"> -->
       <div class="flex-container">
         <div>
-          <img class="avatar-main" src="{{userProfile.avatar}}"
+          <img class="avatar" src="{{userProfile.avatar}}"
             onerror="this.src='https://img.icons8.com/color/96/000000/user.png';" alt="Smiley face" height="126"
             width="126">
         </div>
@@ -14,14 +14,11 @@
           <div class="flex-container">
             <h3>{{ userProfile.userName }}</h3>
             <div *ngIf="userProfile.isOwnProfile === false" class="hello"><button class="btn btn-link btn-sm"
-                (click)="followOrUnfollow($event.target, user)">
-                {{ userProfile.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
+                (click)="followOrUnfollow($event.target, userProfile)">
+                {{ userProfile.isFollowing === true ? 'Unfollow' : 'Follow' }}</button></div>
           </div>
-          <div class="profile-text">
-            <p>Joined on {{ userProfile.registrationDate | date: 'EEEE, d MMMM yyyy'}}</p>
-          </div>
-          <div class="profile-text">
-            <p>x species / y observations</p>
+          <div *ngIf="analysis" class="profile-text">
+            <p>{{ analysis.uniqueSpeciesCount }} species in {{ analysis.totalObservationsCount }} observations</p>
           </div>
           <div class="profile-text">
             <p><a routerLink="/followers/{{userProfile.userName}}">{{ userProfile.followersCount }} {{
@@ -29,6 +26,9 @@
               /
               <a routerLink="/following/{{userProfile.userName}}">{{ userProfile.followingCount }} following</a>
             </p>
+          </div>
+          <div class="profile-text">
+            <p>Joined on {{ userProfile.registrationDate | date: 'EEEE, d MMMM yyyy'}}</p>
           </div>
         </div>
       </div>

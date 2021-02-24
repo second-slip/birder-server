@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { NetworkService } from '@app/_services/network.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-followers',
@@ -15,7 +16,9 @@ export class FollowersComponent {
   requesting: boolean;
   followers: NetworkUserViewModel[];
 
-  constructor(private route: ActivatedRoute, private networkService: NetworkService) {
+  constructor(private route: ActivatedRoute
+    , private networkService: NetworkService
+    , private toast: ToastrService) {
     route.params.subscribe(_ => {
       this.route.paramMap.subscribe(pmap => {
         this.username = pmap.get('username');
@@ -45,22 +48,22 @@ export class FollowersComponent {
       this.networkService.postFollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
-            // this.getUser(); // obsolete due to event subsciption
             element.innerText = 'Unfollow';
+            this.toast.info('You have followed ' + data.userName, 'Success');
           },
           (error: ErrorReportViewModel) => {
-            console.log(error);
+            this.toast.error(error.friendlyMessage, 'An error occurred');
           });
       return;
     } else {
       this.networkService.postUnfollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
-            // this.getUser(); // obsolete due to event subsciption
             element.innerText = 'Follow';
+            this.toast.info('You have unfollowed ' + data.userName, 'Success');
           },
           (error: ErrorReportViewModel) => {
-            console.log(error);
+            this.toast.error(error.friendlyMessage, 'An error occurred');
           });
       return;
     }
