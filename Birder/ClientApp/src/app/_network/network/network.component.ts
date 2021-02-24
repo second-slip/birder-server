@@ -18,8 +18,7 @@ export class NetworkComponent implements OnInit, OnDestroy {
   tabstatus = {};
   active;
   
-  constructor(private networkService: NetworkService
-    , private toast: ToastrService) { }
+  constructor(private networkService: NetworkService) { }
 
     ngOnInit() {
       this.active = 1;
@@ -49,33 +48,6 @@ export class NetworkComponent implements OnInit, OnDestroy {
           (error: ErrorReportViewModel) => {
             console.log(error);
           });
-    }
-
-    // This is repeated in several places.  Factor into its own component...
-    followOrUnfollow(element, user: NetworkUserViewModel): void {
-      const action = element.innerText;
-  
-      if (action === 'Follow') {
-        this.networkService.postFollowUser(user)
-          .subscribe(
-            (data: NetworkUserViewModel) => {
-              this.toast.info('You are now following ' + data.userName, 'Success');
-            },
-            (error: ErrorReportViewModel) => {
-              this.toast.error(error.serverCustomMessage, 'An error occurred');
-            });
-        return;
-      } else {
-        this.networkService.postUnfollowUser(user)
-          .subscribe(
-            (data: NetworkUserViewModel) => {
-              this.toast.info('You have unfollowed ' + data.userName, 'Success');
-            },
-            (error: ErrorReportViewModel) => {
-              this.toast.error(error.serverCustomMessage, 'An error occurred');
-            });
-        return;
-      }
     }
 
 }

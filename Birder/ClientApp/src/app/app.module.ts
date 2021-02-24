@@ -106,6 +106,7 @@ import { LoginComponent } from './_login-out/login/login.component';
 import { LogoutComponent } from './_login-out/logout/logout.component';
 import { FollowingComponent } from './_sharedComponents/following/following.component';
 import { FollowersComponent } from './_sharedComponents/followers/followers.component';
+import { NetworkUserComponent } from './network-user/network-user.component';
 
 // import { YearListComponent } from './_lists/year-list/year-list.component';
 
@@ -214,6 +215,7 @@ export function tokenGetter() {
     SongRecordingsComponent,
     FollowingComponent,
     FollowersComponent,
+    NetworkUserComponent,
     // YearListComponent
   ],
   imports: [

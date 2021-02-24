@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { NetworkService } from '@app/_services/network.service';
@@ -7,7 +7,8 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 @Component({
   selector: 'app-network-search',
   templateUrl: './network-search.component.html',
-  styleUrls: ['./network-search.component.scss']
+  styleUrls: ['./network-search.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class NetworkSearchComponent {
   users: NetworkUserViewModel[];
@@ -16,8 +17,6 @@ export class NetworkSearchComponent {
 
   constructor(private networkService: NetworkService
     , private toast: ToastrService) { }
-
-  // ngOnInit(): void { }
 
   searchNetwork(value: any): void {
     // this.customSearch = true;
@@ -42,34 +41,5 @@ export class NetworkSearchComponent {
           }
           this.searching = false;
         });
-  }
-
-  // This is repeated in several places.  Factor into its own component...
-  followOrUnfollow(element, user: NetworkUserViewModel): void {
-    const action = element.innerText;
-
-    if (action === 'Follow') {
-      this.networkService.postFollowUser(user)
-        .subscribe(
-          (data: NetworkUserViewModel) => {
-            this.toast.info('You are now following ' + data.userName, 'Success');
-            element.innerText = 'Unfollow';
-          },
-          (error: ErrorReportViewModel) => {
-            this.toast.error(error.serverCustomMessage, 'An error occurred');
-          });
-      return;
-    } else {
-      this.networkService.postUnfollowUser(user)
-        .subscribe(
-          (data: NetworkUserViewModel) => {
-            this.toast.info('You have unfollowed ' + data.userName, 'Success');
-            element.innerText = 'Follow';
-          },
-          (error: ErrorReportViewModel) => {
-            this.toast.error(error.serverCustomMessage, 'An error occurred');
-          });
-      return;
-    }
   }
 }

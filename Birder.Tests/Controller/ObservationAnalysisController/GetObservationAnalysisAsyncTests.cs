@@ -83,7 +83,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationAnalysisAsync();
+            var result = await controller.GetObservationAnalysisAsync("");
 
             // Assert
             Assert.IsType<UnauthorizedResult>(result);
@@ -108,7 +108,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationAnalysisAsync();
+            var result = await controller.GetObservationAnalysisAsync("");
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
