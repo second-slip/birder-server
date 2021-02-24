@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { ObservationService } from '../../_sharedServices/observation.service';
-import { ObservationsAnalysisService } from '../../_services/observations-analysis.service';
-import { Subscription } from 'rxjs';
-import { TopObservationsAnalysisViewModel } from '../../_models/ObservationAnalysisViewModel';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from "@angular/core";
+import { ErrorReportViewModel } from "@app/_models/ErrorReportViewModel";
+import { TopObservationsAnalysisViewModel } from "@app/_models/ObservationAnalysisViewModel";
+import { ObservationsAnalysisService } from "@app/_services/observations-analysis.service";
+import { ObservationService } from "@app/_sharedServices/observation.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-info-top-observations',
@@ -37,6 +37,7 @@ export class InfoTopObservationsComponent implements OnInit, OnDestroy {
   }
 
   getTopObservationsAnalysis(): void {
+    this.requesting = true;
     this.observationsAnalysisService.getTopObservationsAnalysis()
       .subscribe(
         (data: TopObservationsAnalysisViewModel) => {
@@ -48,7 +49,8 @@ export class InfoTopObservationsComponent implements OnInit, OnDestroy {
         (error: ErrorReportViewModel) => {
           console.log(error);
           // ToDo: Something with the error (perhaps show a message)
-        }
+        },
+        () => this.requesting = false
       );
   }
 }

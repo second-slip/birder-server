@@ -28,9 +28,10 @@ export class UserProfileComponent {
     , private toast: ToastrService
     , private router: Router) {
     route.params.subscribe(_ => {
-      this.getObservationAnalysis();
-      this.route.paramMap.subscribe(pmap => this.getUser(pmap.get('username')));
-      // this.getUser();
+      this.route.paramMap.subscribe(pmap => {
+        this.getObservationAnalysis(pmap.get('username'));
+        this.getUser(pmap.get('username'));
+      })
       // the next two statements reset the tabs.  This is required when the page is reloaded
       // with different data.  Otherwise the 'sightings' child component keeps its original data.
       // this.active = 1;
@@ -53,8 +54,8 @@ export class UserProfileComponent {
       );
   }
 
-  getObservationAnalysis(): void {
-    this.observationsAnalysisService.getObservationAnalysis()
+  getObservationAnalysis(username: string): void {
+    this.observationsAnalysisService.getObservationAnalysis(username)
       .subscribe(
         (data: ObservationAnalysisViewModel) => {
           this.analysis = data;

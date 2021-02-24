@@ -39,16 +39,21 @@ namespace Birder.Controllers
         }
 
         [HttpGet, Route("GetObservationAnalysis")]
-        public async Task<IActionResult> GetObservationAnalysisAsync()
+        public async Task<IActionResult> GetObservationAnalysisAsync(string requestedUsername)
         {
+            if (string.IsNullOrEmpty(requestedUsername))
+            {
+                return BadRequest();
+            }
+
             try
             {
-                var username = User.Identity.Name;
+                //var username = User.Identity.Name;
 
-                if (string.IsNullOrEmpty(username))
-                {
-                    return Unauthorized();
-                }
+                //if (string.IsNullOrEmpty(username))
+                //{
+                //    return Unauthorized();
+                //}
 
                 //if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
                 //{
@@ -69,7 +74,7 @@ namespace Birder.Controllers
 
                 // var viewModel = _mapper.Map<IEnumerable<Observation>, ObservationAnalysisViewModel>(observations);
 
-                var viewModel = await _observationsAnalysisService.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == username);
+                var viewModel = await _observationsAnalysisService.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == requestedUsername);
 
                 // _cache.Set(CacheEntries.ObservationsSummary, viewModel, _systemClock.GetEndOfToday);
 

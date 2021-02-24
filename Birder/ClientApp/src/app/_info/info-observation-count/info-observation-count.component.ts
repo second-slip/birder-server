@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationAnalysisViewModel } from '@app/_models/ObservationAnalysisViewModel';
 import { ObservationsAnalysisService } from '@app/_services/observations-analysis.service';
+import { TokenService } from '@app/_services/token.service';
 import { ObservationService } from '@app/_sharedServices/observation.service';
 import { Subscription } from 'rxjs';
 
@@ -17,6 +18,7 @@ export class InfoObservationCountComponent implements OnInit, OnDestroy {
   requesting: boolean;
 
   constructor(private observationService: ObservationService
+            , private tokenService: TokenService
             , private observationsAnalysisService: ObservationsAnalysisService) { }
 
   ngOnInit() {
@@ -38,7 +40,8 @@ export class InfoObservationCountComponent implements OnInit, OnDestroy {
 
   getObservationAnalysis(): void {
     this.requesting = true;
-    this.observationsAnalysisService.getObservationAnalysis()
+    const username = this.tokenService.getUsername();
+    this.observationsAnalysisService.getObservationAnalysis(username)
       .subscribe(
         (data: ObservationAnalysisViewModel) => {
           this.analysis = data;

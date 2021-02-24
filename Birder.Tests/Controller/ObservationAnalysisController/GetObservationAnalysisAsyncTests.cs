@@ -55,7 +55,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationAnalysisAsync();
+            var result = await controller.GetObservationAnalysisAsync("");
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);

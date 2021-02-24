@@ -1,16 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { LifeListViewModel } from '@app/_models/LifeListViewModels';
 import { ObservationAnalysisViewModel, TopObservationsAnalysisViewModel } from '@app/_models/ObservationAnalysisViewModel';
 import { HttpErrorHandlerService } from './http-error-handler.service';
-
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +16,11 @@ export class ObservationsAnalysisService {
             , private httpErrorHandlerService: HttpErrorHandlerService) {
   }
 
-  getObservationAnalysis(): Observable<ObservationAnalysisViewModel | ErrorReportViewModel> {
-    return this.http.get<ObservationAnalysisViewModel>('api/ObservationAnalysis/GetObservationAnalysis')
+  getObservationAnalysis(username: string): Observable<ObservationAnalysisViewModel | ErrorReportViewModel> {
+    const options = username ?
+    { params: new HttpParams().set('requestedUsername', username) } : {};
+
+    return this.http.get<ObservationAnalysisViewModel>('api/ObservationAnalysis/GetObservationAnalysis', options)
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

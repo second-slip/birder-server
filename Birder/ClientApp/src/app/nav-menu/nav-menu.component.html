@@ -32,14 +32,14 @@
           <a class="nav-link" [routerLink]='["/birds-index"]'>Birds</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn">
-          <a class="nav-link" [routerLink]='["/life-list"]'>Life List</a>
+          <a class="nav-link" routerLink="/life-list/{{authenticatedUser.userName}}">Life List</a>
         </li>
         <li class="nav-item" *ngIf="isLoggedIn">
           <a class="nav-link" [routerLink]='["/network"]'>Network</a>
         </li>
-        <li class="nav-item" *ngIf="isLoggedIn">
+        <!-- <li class="nav-item" *ngIf="isLoggedIn">
           <a class="nav-link" routerLink="/followers/{{authenticatedUser.userName}}">Followers</a>
-        </li>
+        </li> -->
       </ul>
 
       <div class="auth-user-menu-right" *ngIf="isLoggedIn">

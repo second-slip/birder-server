@@ -76,7 +76,7 @@ const routes: Routes = [
           { path: 'observation-manage-photos/:id', component: ObservationManagePhotosComponent },
           { path: 'birds-index', component: BirdsIndexComponent },
           { path: 'birds-detail/:id', component: BirdsDetailComponent },
-          { path: 'life-list', component: LifeListComponent },
+          { path: 'life-list/:username', component: LifeListComponent },
           { path: 'user-profile/:username', component: UserProfileComponent },
           { path: 'followers/:username', component: FollowersComponent },
           { path: 'following/:username', component: FollowingComponent },

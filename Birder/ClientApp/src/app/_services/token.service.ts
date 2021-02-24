@@ -74,8 +74,19 @@ export class TokenService {
     });
   }
 
-  getDefaultLocation(): SetLocationViewModel {
+  getUsername(): string {
+    const token = localStorage.getItem('jwt');
 
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const tokenDecoded = this.jwtHelper.decodeToken(token);
+      return tokenDecoded.unique_name;
+    } else {
+      this.authenticationService.logout();
+      return null;
+    }
+  }
+
+  getDefaultLocation(): SetLocationViewModel {
     const token = localStorage.getItem('jwt');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {
