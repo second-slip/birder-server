@@ -10,15 +10,8 @@
           <ng-template ngbNavContent>
             <ng-container *ngIf="network.following.length; else noItems">
 
-              <div *ngFor="let following of network.following">
-                <div class="flex-container network-list">
-                  <img class="avatar" src="{{following.avatar}}">
-                  <a class="avatar-title" routerLink="/user-profile/{{following.userName}}">{{following.userName}}</a>
-                  <div *ngIf="following.isOwnProfile == false"><button class="btn btn-link btn-sm"
-                      (click)="followOrUnfollow($event.target, following)">
-                      {{ following.isFollowing == true ? 'Unfollow' : 'Follow' }}</button>
-                  </div>
-                </div>
+              <div *ngFor="let user of network.following">
+                <app-network-user [user]="user"></app-network-user>
               </div>
 
             </ng-container>
@@ -37,15 +30,8 @@
           <ng-template ngbNavContent>
             <ng-container *ngIf="network.followers.length; else noItems">
 
-              <div *ngFor="let follower of network.followers">
-                <div class="flex-container network-list">
-                  <img class="avatar" src="{{follower.avatar}}">
-                  <a class="avatar-title" routerLink="/user-profile/{{follower.userName}}">{{follower.userName}}</a>
-                  <div *ngIf="follower.isOwnProfile == false"><button class="btn btn-link btn-sm"
-                      (click)="followOrUnfollow($event.target, follower)">
-                      {{ follower.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
-
-                </div>
+              <div *ngFor="let user of network.followers">
+                <app-network-user [user]="user"></app-network-user>
               </div>
 
             </ng-container>
@@ -67,16 +53,13 @@
   </ng-container>
 
   <ng-template #noItem>
-    <!-- <ng-container *ngIf="error; else loading"> -->
     <div class="container">
-      <h4>Tweet of the Day</h4>
       <p class="hello">
         <ngb-alert [dismissible]="false">
-          <strong>We're sorry!</strong> The tweet is not available...
+          <strong>We're sorry!</strong> The data are not available
         </ngb-alert>
       </p>
     </div>
-    <!-- </ng-container> -->
   </ng-template>
 
 
