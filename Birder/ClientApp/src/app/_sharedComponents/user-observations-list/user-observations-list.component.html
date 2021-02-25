@@ -1,9 +1,5 @@
 <div class="container">
 
-    <!-- <div *ngIf="!observations" class="loading">
-        <p><em>Loading...</em></p>
-        <mat-spinner></mat-spinner>
-    </div> -->
     <div *ngIf="!requesting; else loading">
 
         <ng-container *ngIf="observations.length; else noItems">

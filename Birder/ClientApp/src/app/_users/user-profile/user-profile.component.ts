@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserProfileViewModel, NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
@@ -14,9 +14,10 @@ import { ObservationsAnalysisService } from '@app/_services/observations-analysi
   styleUrls: ['./user-profile.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit {
   analysis: ObservationAnalysisViewModel;
   userProfile: UserProfileViewModel;
+  username: string;
   requesting: boolean;
   // tabstatus = {};
   // active;
@@ -26,18 +27,42 @@ export class UserProfileComponent {
     , private userProfileService: UserProfileService
     , private route: ActivatedRoute
     , private toast: ToastrService
-    , private router: Router) {
-    route.params.subscribe(_ => {
-      this.route.paramMap.subscribe(pmap => {
-        this.getObservationAnalysis(pmap.get('username'));
-        this.getUser(pmap.get('username'));
-      })
-      // the next two statements reset the tabs.  This is required when the page is reloaded
-      // with different data.  Otherwise the 'sightings' child component keeps its original data.
-      // this.active = 1;
-      // this.tabstatus = {};
+    , private router: Router) { 
+      this.route.paramMap.subscribe(params => {
+        this.username = params.get('username');
+        this.ngOnInit();
+        //this.hj(params.get('username'));
     });
+  // route.params.subscribe(_ => {
+  //   this.route.paramMap.subscribe(params => {
+  //     this.username = params.get('username');
+  //     this.getObservationAnalysis(params.get('username'));
+  //     this.getUser(params.get('username'));
+  //   })
+
+  // });
   }
+
+  ngOnInit() {
+    this.getObservationAnalysis(this.username);
+    this.getUser(this.username);
+  }
+
+  // hj(un: string) {
+  //   // this.route.params.subscribe(params => {
+  //   //   this.username = params['username'];
+  //   // });
+  //   //const un = this.route.paramMap.subscribe(p => p.get('username'));
+  //   // this.hero$ = this.service.getHero(heroId);
+  //   console.log(un);
+  //   this.getObservationAnalysis(un);
+  //   this.getUser(un);
+  // }
+
+  // ngOnInit() {
+  //   this.getObservationAnalysis();
+  //   this.getUser();
+  // }
 
   getUser(username: string): void {
     this.requesting = true;

@@ -27,7 +27,7 @@ export class ObservationService {
     const options = id ?
       { params: new HttpParams().append('id', id.toString()) } : {};
 
-    return this.http.get<ObservationViewModel>('api/Observation/GetObservation', options)
+    return this.http.get<ObservationViewModel>('api/Observation/GetObservationDetail', options)
       .pipe(
         // tap(observation => this.log(`fetched observation with id: ${observation.observationId}`)),
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));

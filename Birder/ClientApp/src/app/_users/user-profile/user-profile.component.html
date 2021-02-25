@@ -41,21 +41,22 @@
 
       <hr>
 
-      <div class="cont">
+      <div>
         <mat-tab-group>
           <mat-tab label="Observations">
+
             <ng-template matTabContent>
               <app-user-observations-list [username]="this.userProfile.userName"></app-user-observations-list>
             </ng-template>
           </mat-tab>
           <mat-tab label="Distribution Map">
             <ng-template matTabContent>
-              Distribution Map
+              <app-distribution-map-user></app-distribution-map-user>
             </ng-template>
           </mat-tab>
           <mat-tab label="Achievements">
             <ng-template matTabContent>
-              Er...?
+              <app-user-achievements></app-user-achievements>
             </ng-template>
           </mat-tab>
         </mat-tab-group>

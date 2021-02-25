@@ -58,7 +58,7 @@ namespace Birder.Controllers
             //_profilePhotosService = profilePhotosService;
         }
 
-        [HttpGet, Route("GetObservation")]
+        [HttpGet, Route("GetObservationDetail")]
         public async Task<IActionResult> GetObservationAsync(int id)
         {
             try

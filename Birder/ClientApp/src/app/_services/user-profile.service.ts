@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, share } from 'rxjs/operators';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { UserProfileViewModel } from '@app/_models/UserProfileViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
