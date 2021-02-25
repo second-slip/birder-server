@@ -201,7 +201,7 @@ namespace Birder.Controllers
 
                 var followersNotBeingFollowed = UserNetworkHelpers.GetFollowersNotBeingFollowedUserNames(requestingUser);
 
-                if (followersNotBeingFollowed.Count() == 0)
+                if (followersNotBeingFollowed.Any())
                 {
                     var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
                     //var users = await _userManager.GetSuggestedBirdersToFollowAsync(requestingUser.UserName, followingUsernamesList);

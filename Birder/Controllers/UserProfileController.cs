@@ -53,9 +53,9 @@ namespace Birder.Controllers
 
                 var requestedUserProfileViewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(requestedUser);
 
-                requestedUserProfileViewModel.FollowersCount = requestedUser.Followers.Count();
+                requestedUserProfileViewModel.FollowersCount = requestedUser.Followers.Count;
 
-                requestedUserProfileViewModel.FollowingCount = requestedUser.Following.Count();
+                requestedUserProfileViewModel.FollowingCount = requestedUser.Following.Count;
 
                 if (requestedUsername.Equals(User.Identity.Name))
                 {

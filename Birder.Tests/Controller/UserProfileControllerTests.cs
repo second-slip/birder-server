@@ -150,47 +150,48 @@ namespace Birder.Tests.Controller
             }
         }
 
-        [Fact]
-        public async Task GetUserProfileAsync_ReturnsNotFound_WhenRequesterUserIsNull()
-        {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+        // Don't bother getting requesterUser object.  Just use username from claim instead
+        //[Fact]
+        //public async Task GetUserProfileAsync_ReturnsNotFound_WhenRequesterUserIsNull()
+        //{
+        //    var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            using (var context = new ApplicationDbContext(options))
-            {
-                //You have to create the database
-                context.Database.EnsureClean();
-                context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
+        //    using (var context = new ApplicationDbContext(options))
+        //    {
+        //        //You have to create the database
+        //        context.Database.EnsureClean();
+        //        context.Database.EnsureCreated();
+        //        //context.SeedDatabaseFourBooks();
 
-                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+        //        context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+        //        context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-                context.SaveChanges();
+        //        context.SaveChanges();
 
-                context.Users.Count().ShouldEqual(2);
+        //        context.Users.Count().ShouldEqual(2);
 
-                // Arrange
-                var userManager = SharedFunctions.InitialiseUserManager(context);
-                var controller = new UserProfileController(_mapper, _logger.Object, userManager);
+        //        // Arrange
+        //        var userManager = SharedFunctions.InitialiseUserManager(context);
+        //        var controller = new UserProfileController(_mapper, _logger.Object, userManager);
 
-                string requestedUsername = "testUser2";
+        //        string requestedUsername = "testUser2";
 
-                string requesterUsername = "This requested user does not exist";
+        //        string requesterUsername = "This requested user does not exist";
 
-                controller.ControllerContext = new ControllerContext()
-                {
-                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
-                };
+        //        controller.ControllerContext = new ControllerContext()
+        //        {
+        //            HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+        //        };
 
-                // Act
-                var result = await controller.GetUserProfileAsync(requestedUsername);
+        //        // Act
+        //        var result = await controller.GetUserProfileAsync(requestedUsername);
 
-                // Assert
-                var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-                Assert.IsType<string>(objectResult.Value);
-                Assert.Equal("Requesting user not found", objectResult.Value);
-            }
-        }
+        //        // Assert
+        //        var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+        //        Assert.IsType<string>(objectResult.Value);
+        //        Assert.Equal("Requesting user not found", objectResult.Value);
+        //    }
+        //}
 
         [Fact]
         public async Task GetUserProfileAsync_ReturnsOkObjectResultWithUserProfileViewModel_WhenRequestedUserIsNotRequestingUser()

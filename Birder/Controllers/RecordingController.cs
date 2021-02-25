@@ -42,12 +42,12 @@ namespace Birder.Controllers
 
                 return Ok(recordings);
             }
-            catch (XenoCantoException e)
+            catch (XenoCantoException ex)
             {
-                if (e.StatusCode == HttpStatusCode.NotFound)
+                if (ex.StatusCode == HttpStatusCode.NotFound)
                     return BadRequest($"Xeno Canto Api not found.");
                 else
-                    return StatusCode(500, e.Message);
+                    return StatusCode(500, ex.Message);
             }
             catch (Exception ex)
             {
