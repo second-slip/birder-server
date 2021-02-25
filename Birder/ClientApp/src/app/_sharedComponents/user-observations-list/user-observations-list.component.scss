@@ -1,10 +1,17 @@
 app-user-observations-list {
-
-    p.italic {
+    small.species {
         font-style: italic;
     }
 
-    small.italic {
-        font-style: italic;
+    @media only screen and (max-width: 768px) {
+        th.hide-small,
+        td.hide-small {
+            display: none;
+        }
+
+        table th,
+        td {
+            font-size: 75%;
+        }
     }
 }

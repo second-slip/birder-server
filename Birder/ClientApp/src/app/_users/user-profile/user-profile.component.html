@@ -13,25 +13,56 @@
         <div>
           <div class="flex-container">
             <h3>{{ userProfile.userName }}</h3>
-            <div *ngIf="userProfile.isOwnProfile === false" class="hello"><button class="btn btn-link btn-sm"
+            <div *ngIf="userProfile.isOwnProfile === false" class="follow-button"><button class="btn btn-link btn-sm"
                 (click)="followOrUnfollow($event.target, userProfile)">
                 {{ userProfile.isFollowing === true ? 'Unfollow' : 'Follow' }}</button></div>
           </div>
-          <div *ngIf="analysis" class="profile-text">
+          <div *ngIf="analysis" class="summary analysis-large">
             <p>{{ analysis.uniqueSpeciesCount }} species in {{ analysis.totalObservationsCount }} observations</p>
           </div>
-          <div class="profile-text">
+          <div *ngIf="analysis" class="summary analysis-small">
+            <p>{{ analysis.uniqueSpeciesCount }} species</p>
+          </div>
+          <div class="summary network">
             <p><a routerLink="/followers/{{userProfile.userName}}">{{ userProfile.followersCount }} {{
                 userProfile.followersCount > 1 ? 'followers' : 'follower' }}</a>
               /
               <a routerLink="/following/{{userProfile.userName}}">{{ userProfile.followingCount }} following</a>
             </p>
           </div>
-          <div class="profile-text">
+          <div class="summary register-large">
             <p>Joined on {{ userProfile.registrationDate | date: 'EEEE, d MMMM yyyy'}}</p>
+          </div>
+          <div class="summary register-small">
+            <p>Joined on {{ userProfile.registrationDate | date: 'dd/MM/yy'}}</p>
           </div>
         </div>
       </div>
+
+      <hr>
+
+      <div class="cont">
+        <mat-tab-group>
+          <mat-tab label="Observations">
+            <ng-template matTabContent>
+              <app-user-observations-list [username]="this.userProfile.userName"></app-user-observations-list>
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Distribution Map">
+            <ng-template matTabContent>
+              Distribution Map
+            </ng-template>
+          </mat-tab>
+          <mat-tab label="Achievements">
+            <ng-template matTabContent>
+              Er...?
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+
+
+
 
     </ng-container>
 
@@ -56,98 +87,3 @@
   </ng-template>
 
 </div>
-
-
-
-
-
-
-
-<!-- Workaround to lazy load tab 3 -->
-<!-- https://github.com/ng-bootstrap/ng-bootstrap/issues/1584 -->
-<!-- ToDo: factor into separate component -->
-
-<!--
-
-  <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs"
-    (navChange)="tabstatus[$event.nextId]=true">
-    <li [ngbNavItem]="1" [destroyOnHide]="false">
-      <a ngbNavLink>Following <span class="badge badge-pill badge-primary">{{ userProfile.following.length }}</span></a>
-      <ng-template ngbNavContent>
-
-
-
-        <ng-container *ngIf="userProfile.following.length; else noItems">
-
-        <div *ngFor="let following of userProfile.following">
-          <div class="flex-container network-list">
-            <img class="avatar" src="{{following.avatar}}"
-              onerror="this.src='https://img.icons8.com/color/96/000000/user.png';">
-            <a class="avatar-title" routerLink="/user-profile/{{following.userName}}">{{following.userName}}</a>
-            <div *ngIf="following.isOwnProfile == false"><button class="btn btn-link btn-sm"
-                (click)="followOrUnfollow($event.target, following)">
-                {{ following.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
-
-          </div>
-        </div>
-      </ng-container>
-
-      <ng-template #noItems>
-        <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-          You don't yet follow any <i>Birders</i>
-        </ngb-alert>
-    </ng-template>
-
-      </ng-template>
-    </li>
-    <li [ngbNavItem]="2">
-      <a ngbNavLink>Followers <span class="badge badge-pill badge-primary">{{ userProfile.followers.length }}</span></a>
-      <ng-template ngbNavContent>
-
-        <ng-container *ngIf="userProfile.followers.length; else noItems">
-
-        <div *ngFor="let follower of userProfile.followers">
-          <div class="flex-container network-list">
-            <img class="avatar" src="{{follower.avatar}}"
-              onerror="this.src='https://img.icons8.com/color/96/000000/user.png';">
-            <a class="avatar-title" routerLink="/user-profile/{{follower.userName}}">{{follower.userName}}</a>
-            <div *ngIf="follower.isOwnProfile == false"><button class="btn btn-link btn-sm"
-                (click)="followOrUnfollow($event.target, follower)">
-                {{ follower.isFollowing == true ? 'Unfollow' : 'Follow' }}</button></div>
-
-          </div>
-        </div>
-
-      </ng-container>
-
-      <ng-template #noItems>
-        <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-            You have no followers
-        </ngb-alert>
-    </ng-template>
-
-
-      </ng-template>
-    </li>
-    <li [ngbNavItem]="3" [destroyOnHide]="false">
-      <a ngbNavLink>Sightings</a>
-      <ng-template ngbNavContent let-active>
-        <ng-container *ngIf="tabstatus['3'] === true">
-          <app-user-observations-list [username]="this.userProfile.userName"></app-user-observations-list>
-        </ng-container>
-      </ng-template>
-    </li>
-
-    <li [ngbNavItem]="4" [destroyOnHide]="false">
-      <a ngbNavLink>Awards</a>
-      <ng-template ngbNavContent>
-
-      </ng-template>
-    </li>
-  </ul>
-
-  <div [ngbNavOutlet]="nav" class="mt-2"></div>
-
-</div>
-
--->

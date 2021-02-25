@@ -14,6 +14,7 @@ export class UserObservationsListComponent implements OnInit {
   observations: ObservationViewModel[];
   @Input() username: string;
   totalItems: number;
+  requesting: boolean;
   page = 1;
   pageSize = 10;
 
@@ -30,6 +31,7 @@ export class UserObservationsListComponent implements OnInit {
   }
 
   getObservations(username: string, page: number, pageSize: number): void {
+    this.requesting = true;
     this.observationsService.getObservationsByUser(username, page, pageSize)
       .subscribe(
         (data: ObservationDto) => {
@@ -39,8 +41,8 @@ export class UserObservationsListComponent implements OnInit {
         (error: ErrorReportViewModel) => {
           console.log('bad request');
           // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
-        });
-        // () => {
-        // });
+        },
+        () => this.requesting = false
+      );
   }
 }
