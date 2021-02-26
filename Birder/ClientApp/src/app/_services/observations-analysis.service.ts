@@ -25,6 +25,15 @@ export class ObservationsAnalysisService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
+  getObservationAnalysis1(username: string): Observable<ObservationAnalysisViewModel> { // | ErrorReportViewModel> {
+    const options = username ?
+    { params: new HttpParams().set('requestedUsername', username) } : {};
+
+    return this.http.get<ObservationAnalysisViewModel>('api/ObservationAnalysis/GetObservationAnalysis', options)
+      .pipe();
+        //catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  }
+
   getTopObservationsAnalysis(): Observable<TopObservationsAnalysisViewModel | ErrorReportViewModel> {
     return this.http.get<TopObservationsAnalysisViewModel>('api/ObservationAnalysis/GetTopObservationAnalysis')
       .pipe(

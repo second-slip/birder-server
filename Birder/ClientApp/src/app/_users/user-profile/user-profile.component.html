@@ -1,52 +1,54 @@
 <div class="container">
 
-  <div *ngIf="!requesting; else loading">
+  <div *ngIf="userProfile$ | async as profile; else loading">
 
-    <ng-container *ngIf="userProfile; else error">
+    <ng-container *ngIf="profile; else error">
 
       <div class="flex-container">
         <div>
-          <img class="avatar" src="{{userProfile.avatar}}"
+          <img class="avatar" src="{{profile.avatar}}"
             onerror="this.src='https://img.icons8.com/color/96/000000/user.png';" alt="Smiley face" height="126"
             width="126">
         </div>
         <div>
           <div class="flex-container">
-            <h3>{{ userProfile.userName }}</h3>
-            <div *ngIf="userProfile.isOwnProfile === false" class="follow-button"><button class="btn btn-link btn-sm"
-                (click)="followOrUnfollow($event.target, userProfile)">
-                {{ userProfile.isFollowing === true ? 'Unfollow' : 'Follow' }}</button></div>
+            <h3>{{ profile.userName }}</h3>
+            <div *ngIf="profile.isOwnProfile === false" class="follow-button"><button class="btn btn-link btn-sm"
+                (click)="followOrUnfollow($event.target, profile)">
+                {{ profile.isFollowing === true ? 'Unfollow' : 'Follow' }}</button></div>
           </div>
-          <div *ngIf="analysis" class="summary analysis-large">
-            <p>{{ analysis.uniqueSpeciesCount }} species in {{ analysis.totalObservationsCount }} observations</p>
-          </div>
-          <div *ngIf="analysis" class="summary analysis-small">
-            <p>{{ analysis.uniqueSpeciesCount }} species</p>
+          <div *ngIf="analysis$ | async as analysis">
+            <div class="summary analysis-large">
+              <p>{{ analysis.uniqueSpeciesCount }} species in {{ analysis.totalObservationsCount }} observations</p>
+            </div>
+            <div *ngIf="analysis" class="summary analysis-small">
+              <p>{{ analysis.uniqueSpeciesCount }} species</p>
+            </div>
           </div>
           <div class="summary network">
-            <p><a routerLink="/followers/{{userProfile.userName}}">{{ userProfile.followersCount }} {{
-                userProfile.followersCount > 1 ? 'followers' : 'follower' }}</a>
+            <p><a routerLink="/followers/{{profile.userName}}">{{ profile.followersCount }} {{
+                profile.followersCount > 1 ? 'followers' : 'follower' }}</a>
               /
-              <a routerLink="/following/{{userProfile.userName}}">{{ userProfile.followingCount }} following</a>
+              <a routerLink="/following/{{profile.userName}}">{{ profile.followingCount }} following</a>
             </p>
           </div>
           <div class="summary register-large">
-            <p>Joined on {{ userProfile.registrationDate | date: 'EEEE, d MMMM yyyy'}}</p>
+            <p>Joined on {{ profile.registrationDate | date: 'EEEE, d MMMM yyyy'}}</p>
           </div>
           <div class="summary register-small">
-            <p>Joined on {{ userProfile.registrationDate | date: 'dd/MM/yy'}}</p>
+            <p>Joined on {{ profile.registrationDate | date: 'dd/MM/yy'}}</p>
           </div>
         </div>
       </div>
 
-      <hr>
+      <br>
 
       <div>
         <mat-tab-group>
           <mat-tab label="Observations">
 
             <ng-template matTabContent>
-              <app-user-observations-list [username]="this.userProfile.userName"></app-user-observations-list>
+              <app-user-observations-list [username]="this.profile.userName"></app-user-observations-list>
             </ng-template>
           </mat-tab>
           <mat-tab label="Distribution Map">

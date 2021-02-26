@@ -15,12 +15,12 @@ export class UserProfileService {
   constructor(private http: HttpClient
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  getUserProfile(username: string): Observable<UserProfileViewModel | ErrorReportViewModel> {
+  getUserProfile(username: string): Observable<UserProfileViewModel> {
     const options = username ?
       { params: new HttpParams().set('requestedUsername', username) } : {};
 
     return this.http.get<UserProfileViewModel>('api/UserProfile', options)
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe()
+        //catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 }
