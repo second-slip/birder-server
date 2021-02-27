@@ -1,5 +1,7 @@
-<div *ngIf="!requesting; else loading">
-    <ng-container *ngIf="analysis && analysis.totalObservationsCount > 0; else zeroCount">
+<div *ngIf="analysis$ | async as analysis; else loading">
+    
+    <!-- <ng-container *ngIf="analysis && analysis.totalObservationsCount > 0; else zeroCount"> -->
+    <ng-container *ngIf="analysis.totalObservationsCount > 1; else zeroCount">
         <div class="container">
             <h3><small>You have spotted </small> {{analysis.uniqueSpeciesCount}} <small> species <br>in</small>
                 {{analysis.totalObservationsCount}} <small>
@@ -8,7 +10,8 @@
     </ng-container>
 
     <ng-template #zeroCount>
-        <ng-container *ngIf="analysis && analysis.totalObservationsCount === 0; else error">
+        <!-- <ng-container *ngIf="analysis && analysis.totalObservationsCount === 0; else error"> -->
+            <ng-container *ngIf="analysis.totalObservationsCount === 0; else error">
             <div class="container">
                 <p>You have not yet logged an observation! <br>
                     <a routerLink="/observation-add">Click here</a> to add your first one</p>

@@ -46,16 +46,17 @@
       <div>
         <mat-tab-group>
           <mat-tab label="Observations">
-
             <ng-template matTabContent>
               <app-user-observations-list [username]="this.profile.userName"></app-user-observations-list>
             </ng-template>
           </mat-tab>
+
           <mat-tab label="Distribution Map">
             <ng-template matTabContent>
               <app-distribution-map-user></app-distribution-map-user>
             </ng-template>
           </mat-tab>
+          
           <mat-tab label="Achievements">
             <ng-template matTabContent>
               <app-user-achievements></app-user-achievements>

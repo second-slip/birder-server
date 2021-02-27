@@ -42,7 +42,7 @@ export class UserProfileComponent implements OnInit {
         return throwError(err);
       });
 
-    this.analysis$ = this.observationsAnalysisService.getObservationAnalysis1(this.username)
+    this.analysis$ = this.observationsAnalysisService.getObservationAnalysis(this.username)
       .pipe(share()),
       catchError(err => {
         //this.errorObject = err;

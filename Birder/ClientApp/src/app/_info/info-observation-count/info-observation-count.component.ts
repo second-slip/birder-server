@@ -4,7 +4,8 @@ import { ObservationAnalysisViewModel } from '@app/_models/ObservationAnalysisVi
 import { ObservationsAnalysisService } from '@app/_services/observations-analysis.service';
 import { TokenService } from '@app/_services/token.service';
 import { ObservationService } from '@app/_sharedServices/observation.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, throwError } from 'rxjs';
+import { catchError, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-info-observation-count',
@@ -12,23 +13,39 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./info-observation-count.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class InfoObservationCountComponent implements OnInit, OnDestroy {
+export class InfoObservationCountComponent implements OnDestroy {
   observationsChangeSubscription: Subscription;
-  analysis: ObservationAnalysisViewModel;
-  requesting: boolean;
+  //analysis: ObservationAnalysisViewModel;
+  analysis$: Observable<ObservationAnalysisViewModel>;
+  //requesting: boolean;
 
   constructor(private observationService: ObservationService
-            , private tokenService: TokenService
-            , private observationsAnalysisService: ObservationsAnalysisService) { }
+    , private tokenService: TokenService
+    , private observationsAnalysisService: ObservationsAnalysisService) { 
 
-  ngOnInit() {
-    this.getObservationAnalysis();
-    this.observationsChangeSubscription = this.observationService.observationsChanged$
-      .subscribe(_ => {
-        this.onObservationsChanged();
-      });
-    // this.getObservationAnalysis();
-  }
+      // const username = this.tokenService.getUsername();
+      // this.analysis$ = this.observationsAnalysisService.getObservationAnalysis1(username)
+      //   .pipe(share()),
+      //   catchError(err => {
+      //     //this.errorObject = err;
+      //     return throwError(err);
+      //   });
+
+      this.getObservationAnalysis();
+
+        this.observationsChangeSubscription = this.observationService.observationsChanged$
+        .subscribe(_ => {
+          this.onObservationsChanged();
+        });
+    }
+
+  // ngOnInit() {
+  //   this.getObservationAnalysis();
+  //   this.observationsChangeSubscription = this.observationService.observationsChanged$
+  //     .subscribe(_ => {
+  //       this.onObservationsChanged();
+  //     });
+  // }
 
   ngOnDestroy() {
     this.observationsChangeSubscription.unsubscribe();
@@ -39,19 +56,30 @@ export class InfoObservationCountComponent implements OnInit, OnDestroy {
   }
 
   getObservationAnalysis(): void {
-    this.requesting = true;
     const username = this.tokenService.getUsername();
-    this.observationsAnalysisService.getObservationAnalysis(username)
-      .subscribe(
-        (data: ObservationAnalysisViewModel) => {
-          this.analysis = data;
-          this.requesting = false;
-        },
-        (error: ErrorReportViewModel) => {
-          // console.log(error);
-          this.requesting = false;
-          // ToDo: Something with the error (perhaps show a message)
-        }
-      );
+    
+    this.analysis$ = this.observationsAnalysisService.getObservationAnalysis(username)
+      .pipe(share()),
+      catchError(err => {
+        //this.errorObject = err;
+        return throwError(err);
+      });
   }
+
+  // getObservationAnalysis(): void {
+  //   this.requesting = true;
+  //   const username = this.tokenService.getUsername();
+  //   this.observationsAnalysisService.getObservationAnalysis(username)
+  //     .subscribe(
+  //       (data: ObservationAnalysisViewModel) => {
+  //         this.analysis = data;
+  //         this.requesting = false;
+  //       },
+  //       (error: ErrorReportViewModel) => {
+  //         // console.log(error);
+  //         this.requesting = false;
+  //         // ToDo: Something with the error (perhaps show a message)
+  //       }
+  //     );
+  // }
 }

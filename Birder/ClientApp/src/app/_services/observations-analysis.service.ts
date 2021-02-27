@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { LifeListViewModel } from '@app/_models/LifeListViewModels';
 import { ObservationAnalysisViewModel, TopObservationsAnalysisViewModel } from '@app/_models/ObservationAnalysisViewModel';
@@ -16,16 +16,7 @@ export class ObservationsAnalysisService {
             , private httpErrorHandlerService: HttpErrorHandlerService) {
   }
 
-  getObservationAnalysis(username: string): Observable<ObservationAnalysisViewModel | ErrorReportViewModel> {
-    const options = username ?
-    { params: new HttpParams().set('requestedUsername', username) } : {};
-
-    return this.http.get<ObservationAnalysisViewModel>('api/ObservationAnalysis/GetObservationAnalysis', options)
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
-  }
-
-  getObservationAnalysis1(username: string): Observable<ObservationAnalysisViewModel> { // | ErrorReportViewModel> {
+  getObservationAnalysis(username: string): Observable<ObservationAnalysisViewModel> { // | ErrorReportViewModel> {
     const options = username ?
     { params: new HttpParams().set('requestedUsername', username) } : {};
 
@@ -40,9 +31,9 @@ export class ObservationsAnalysisService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getLifeList(): Observable<LifeListViewModel[] | ErrorReportViewModel> {
+  getLifeList(): Observable<LifeListViewModel[]> { // | ErrorReportViewModel> {
     return this.http.get<LifeListViewModel[]>('api/ObservationAnalysis/GetLifeList')
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe();
+        //catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 }
