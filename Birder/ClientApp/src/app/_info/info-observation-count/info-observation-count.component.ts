@@ -22,30 +22,12 @@ export class InfoObservationCountComponent implements OnDestroy {
   constructor(private observationService: ObservationService
     , private tokenService: TokenService
     , private observationsAnalysisService: ObservationsAnalysisService) { 
-
-      // const username = this.tokenService.getUsername();
-      // this.analysis$ = this.observationsAnalysisService.getObservationAnalysis1(username)
-      //   .pipe(share()),
-      //   catchError(err => {
-      //     //this.errorObject = err;
-      //     return throwError(err);
-      //   });
-
       this.getObservationAnalysis();
-
         this.observationsChangeSubscription = this.observationService.observationsChanged$
         .subscribe(_ => {
           this.onObservationsChanged();
         });
     }
-
-  // ngOnInit() {
-  //   this.getObservationAnalysis();
-  //   this.observationsChangeSubscription = this.observationService.observationsChanged$
-  //     .subscribe(_ => {
-  //       this.onObservationsChanged();
-  //     });
-  // }
 
   ngOnDestroy() {
     this.observationsChangeSubscription.unsubscribe();
@@ -59,27 +41,10 @@ export class InfoObservationCountComponent implements OnDestroy {
     const username = this.tokenService.getUsername();
     
     this.analysis$ = this.observationsAnalysisService.getObservationAnalysis(username)
-      .pipe(share()),
+      .pipe(share(),
       catchError(err => {
         //this.errorObject = err;
         return throwError(err);
-      });
+      }));
   }
-
-  // getObservationAnalysis(): void {
-  //   this.requesting = true;
-  //   const username = this.tokenService.getUsername();
-  //   this.observationsAnalysisService.getObservationAnalysis(username)
-  //     .subscribe(
-  //       (data: ObservationAnalysisViewModel) => {
-  //         this.analysis = data;
-  //         this.requesting = false;
-  //       },
-  //       (error: ErrorReportViewModel) => {
-  //         // console.log(error);
-  //         this.requesting = false;
-  //         // ToDo: Something with the error (perhaps show a message)
-  //       }
-  //     );
-  // }
 }

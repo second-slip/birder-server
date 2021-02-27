@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserProfileViewModel, NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
@@ -16,7 +16,7 @@ import { Observable, throwError } from 'rxjs';
   styleUrls: ['./user-profile.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent {
   analysis$: Observable<ObservationAnalysisViewModel>;
   userProfile$: Observable<UserProfileViewModel>;
   username: string;
@@ -28,63 +28,30 @@ export class UserProfileComponent implements OnInit {
     , private toast: ToastrService) {
     this.route.paramMap.subscribe(params => {
       this.username = params.get('username');
-      this.ngOnInit();
+      this.getData();
     });
-
   }
 
-  ngOnInit() {
-
+  getData() {
     this.userProfile$ = this.userProfileService.getUserProfile(this.username)
-      .pipe(share()),
-      catchError(err => {
-        //this.errorObject = err;
-        return throwError(err);
-      });
+      .pipe(share(),
+        catchError(err => {
+          //this.errorObject = err;
+          console.log('error caught');
+          console.log(err);
+          return throwError(err); // error thrown by interceptor...
+          // redirect to error page?  or show retry button if server error?
+        }));
 
     this.analysis$ = this.observationsAnalysisService.getObservationAnalysis(this.username)
-      .pipe(share()),
-      catchError(err => {
-        //this.errorObject = err;
-        return throwError(err);
-      });
-
+      .pipe(share(),
+        catchError(err => {
+          //this.errorObject = err;
+          console.log('error caught');
+          console.log(err);
+          return throwError(err); // error thrown by interceptor...
+        }));
   }
-
-
-
-  //getUser(username: string) {
-  //this.requesting = true;
-  // this.userProfile$ = this.userProfileService.getUserProfile(username)
-  // .pipe(share())
-
-  // catchError(err => {
-  //   //this.errorObject = err;
-  //   return throwError(err);
-  // })
-  // .subscribe(
-  //   (data: UserProfileViewModel) => {
-  //     this.userProfile = data;
-  //   },
-  // (error: any) => {
-  //   //this.toast.error(error.friendlyMessage, 'An error occurred');
-  //   this.router.navigate(['/']);
-  // },
-  // () => console.log('finally'))
-
-  //}
-
-  // getObservationAnalysis(username: string): void {
-  //   this.observationsAnalysisService.getObservationAnalysis(username)
-  //     .subscribe(
-  //       (data: ObservationAnalysisViewModel) => {
-  //         this.analysis = data;
-  //       },
-  //       (error: ErrorReportViewModel) => {
-  //         console.log(error);
-  //       }
-  //     );
-  // }
 
   followOrUnfollow(element, user: NetworkUserViewModel): void {
     const action = element.innerText;
@@ -114,6 +81,3 @@ export class UserProfileComponent implements OnInit {
     }
   }
 }
-
-
-
