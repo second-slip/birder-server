@@ -1,8 +1,5 @@
 <div class="container">
 
-  <!-- <div *ngIf="userProfile$ | async as profile; else loading"> -->
-
-  <!-- <ng-container *ngIf="profile; else error"> -->
   <ng-container *ngIf="userProfile$ | async as profile; else loadingOrError">
 
     <div class="flex-container">
@@ -70,26 +67,16 @@
 
   <ng-template #loadingOrError>
     <ng-container *ngIf="errorObject; else loading">
-      <div class="container">
-        <p>
-          <ngb-alert [dismissible]="false">
-            <strong>We're sorry!</strong> There is a problem getting the birds list.
-            <div>
-              {{ errorObject }}
-            </div>
-          </ngb-alert>
-          <!-- ToDo: reload button here? -->
-        </p>
-      </div>
+
+      <app-error-display [error]="errorObject"></app-error-display>
+
     </ng-container>
   </ng-template>
 
-  <!-- </div> -->
   
-
   <ng-template #loading>
     <div class="container loading">
-      <p><em>Loading bird species...</em></p>
+      <p><em>Loading user profile...</em></p>
       <mat-spinner></mat-spinner>
     </div>
   </ng-template>

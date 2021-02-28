@@ -109,6 +109,7 @@ import { FollowersComponent } from './_network/followers/followers.component';
 import { NetworkUserComponent } from './_sharedComponents/network-user/network-user.component';
 import { UserAchievementsComponent } from './_sharedComponents/user-achievements/user-achievements.component';
 import { DistributionMapUserComponent } from './_maps/distribution-map-user/distribution-map-user.component';
+import { ErrorDisplayComponent } from './error-display/error-display.component';
 
 // import { YearListComponent } from './_lists/year-list/year-list.component';
 
@@ -220,6 +221,7 @@ export function tokenGetter() {
     NetworkUserComponent,
     UserAchievementsComponent,
     DistributionMapUserComponent,
+    ErrorDisplayComponent,
     // YearListComponent
   ],
   imports: [
