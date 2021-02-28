@@ -17,15 +17,14 @@ export class BirdsService {
   constructor(private http: HttpClient
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  getBirds(pageIndex: number, pageSize: number, speciesFilter: string): Observable<BirdsDto | ErrorReportViewModel> {
+  getBirds(pageIndex: number, pageSize: number, speciesFilter: string): Observable<BirdsDto> {
     const params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString())
       .set('speciesFilter', speciesFilter.toString());
 
     return this.http.get<BirdsDto>('api/Birds', { params })
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe();
   }
 
   getBirdsDdl(): Observable<BirdSummaryViewModel[] | ErrorReportViewModel> {
