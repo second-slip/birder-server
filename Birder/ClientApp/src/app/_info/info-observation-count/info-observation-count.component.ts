@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { Component, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ObservationAnalysisViewModel } from '@app/_models/ObservationAnalysisViewModel';
 import { ObservationsAnalysisService } from '@app/_services/observations-analysis.service';
 import { TokenService } from '@app/_services/token.service';
@@ -15,19 +14,18 @@ import { catchError, share } from 'rxjs/operators';
 })
 export class InfoObservationCountComponent implements OnDestroy {
   observationsChangeSubscription: Subscription;
-  //analysis: ObservationAnalysisViewModel;
   analysis$: Observable<ObservationAnalysisViewModel>;
-  //requesting: boolean;
+  public errorObject = null;
 
   constructor(private observationService: ObservationService
     , private tokenService: TokenService
-    , private observationsAnalysisService: ObservationsAnalysisService) { 
-      this.getObservationAnalysis();
-        this.observationsChangeSubscription = this.observationService.observationsChanged$
-        .subscribe(_ => {
-          this.onObservationsChanged();
-        });
-    }
+    , private observationsAnalysisService: ObservationsAnalysisService) {
+    this.getObservationAnalysis();
+    this.observationsChangeSubscription = this.observationService.observationsChanged$
+      .subscribe(_ => {
+        this.onObservationsChanged();
+      });
+  }
 
   ngOnDestroy() {
     this.observationsChangeSubscription.unsubscribe();
@@ -39,12 +37,12 @@ export class InfoObservationCountComponent implements OnDestroy {
 
   getObservationAnalysis(): void {
     const username = this.tokenService.getUsername();
-    
+
     this.analysis$ = this.observationsAnalysisService.getObservationAnalysis(username)
       .pipe(share(),
-      catchError(err => {
-        //this.errorObject = err;
-        return throwError(err);
-      }));
+        catchError(err => {
+          this.errorObject = err;
+          return throwError(err);
+        }));
   }
 }
