@@ -30,16 +30,17 @@ export class NavMenuComponent implements OnInit {
 
   updateAuthenticatedUser(): void {
     if (this.isLoggedIn === true) {
-      this.tokenService.getAuthenticatedUserDetails()
-        .subscribe(
-          (data: UserViewModel) => {
-            this.authenticatedUser = data;
-          },
-          (error: any) => {
-            this.authenticatedUser = null;
-            // ToDo: redirect to login?
-          }
-        );
+      this.authenticatedUser = this.tokenService.getAuthenticatedUserDetails();
+      // this.tokenService.getAuthenticatedUserDetails()
+      //   .subscribe(
+      //     (data: UserViewModel) => {
+      //       this.authenticatedUser = data;
+      //     },
+      //     (error: any) => {
+      //       this.authenticatedUser = null;
+      //       // ToDo: redirect to login?
+      //     }
+      //   );
     } else {
       this.authenticatedUser = null;
     }

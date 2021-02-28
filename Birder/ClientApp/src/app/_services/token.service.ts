@@ -56,22 +56,41 @@ export class TokenService {
     }
   }
 
-  getAuthenticatedUserDetails(): Observable<UserViewModel> {
-    return new Observable<UserViewModel>(user => {
-      const token = localStorage.getItem('jwt');
-      if (token && !this.jwtHelper.isTokenExpired(token)) {
-        const tokenDecoded = this.jwtHelper.decodeToken(token);
-        user.next({
-          userName: tokenDecoded.unique_name,
-          avatar: tokenDecoded.ImageUrl,
-          defaultLocationLatitude: Number(tokenDecoded.DefaultLatitude),
-          defaultLocationLongitude: Number(tokenDecoded.DefaultLongitude)
-        });
-      } else {
-        this.authenticationService.logout();
-      }
-      user.complete();
-    });
+  // getAuthenticatedUserDetails(): Observable<UserViewModel> {
+  //   return new Observable<UserViewModel>(user => {
+  //     const token = localStorage.getItem('jwt');
+  //     if (token && !this.jwtHelper.isTokenExpired(token)) {
+  //       const tokenDecoded = this.jwtHelper.decodeToken(token);
+  //       user.next({
+  //         userName: tokenDecoded.unique_name,
+  //         avatar: tokenDecoded.ImageUrl,
+  //         defaultLocationLatitude: Number(tokenDecoded.DefaultLatitude),
+  //         defaultLocationLongitude: Number(tokenDecoded.DefaultLongitude)
+  //       });
+  //     } else {
+  //       this.authenticationService.logout();
+  //     }
+  //     user.complete();
+  //   });
+  // }
+
+  getAuthenticatedUserDetails(): UserViewModel {
+
+    const token = localStorage.getItem('jwt');
+
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const tokenDecoded = this.jwtHelper.decodeToken(token);
+
+      return <UserViewModel>{
+        userName: tokenDecoded.unique_name,
+        avatar: tokenDecoded.ImageUrl,
+        defaultLocationLatitude: Number(tokenDecoded.DefaultLatitude),
+        defaultLocationLongitude: Number(tokenDecoded.DefaultLongitude)
+      };
+
+    } else {
+      this.authenticationService.logout();
+    }
   }
 
   getUsername(): string {

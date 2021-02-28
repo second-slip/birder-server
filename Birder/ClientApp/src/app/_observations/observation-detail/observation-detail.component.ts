@@ -32,7 +32,8 @@ export class ObservationDetailComponent implements OnInit {
     , private router: Router) { }
 
   ngOnInit(): void {
-    this.getUser();
+    this.user = this.tokenService.getAuthenticatedUserDetails();
+    //this.getUser();
     this.getObservation();
   }
 
@@ -50,14 +51,14 @@ export class ObservationDetailComponent implements OnInit {
         });
   }
 
-  getUser(): void {
-    this.tokenService.getAuthenticatedUserDetails()
-      .subscribe(
-        (data: UserViewModel) => {
-          this.user = data;
-        },
-        () => { });
-  }
+  // getUser(): void {
+  //   this.tokenService.getAuthenticatedUserDetails()
+  //     .subscribe(
+  //       (data: UserViewModel) => {
+  //         this.user = data;
+  //       },
+  //       () => { });
+  // }
 
   open(index: number): void { // open lightbox
     this._lightbox.open(this._album, index);

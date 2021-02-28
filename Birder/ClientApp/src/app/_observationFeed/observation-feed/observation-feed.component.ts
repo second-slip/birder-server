@@ -93,7 +93,7 @@ export class ObservationFeedComponent implements OnInit {
     , private tokenService: TokenService) { }
 
   ngOnInit() {
-    this.getUser();
+    this.user = this.tokenService.getAuthenticatedUserDetails();
     this.currentFilter = '0';
     this.setTitle();
   }
@@ -159,23 +159,23 @@ export class ObservationFeedComponent implements OnInit {
       );
   }
 
-  getUser(): void {
-    this.tokenService.getAuthenticatedUserDetails()
-      .subscribe(
-        (data: UserViewModel) => {
-          this.user = data;
-        },
-        (error: any) => {
-          console.log('could not get the user, using default coordinates');
-          const userTemp = <UserViewModel>{
-            userName: '',
-            avatar: '',
-            defaultLocationLatitude: 54.972237,
-            defaultLocationLongitude: -2.4608560000000352,
-          };
-          this.user = userTemp;
-        });
-  }
+//   getUser(): void {
+//     this.user = this.tokenService.getAuthenticatedUserDetails();
+//   //     .subscribe(
+//   //       (data: UserViewModel) => {
+//   //         this.user = data;
+//   //       },
+//   //       (error: any) => {
+//   //         console.log('could not get the user, using default coordinates');
+//   //         const userTemp = <UserViewModel>{
+//   //           userName: '',
+//   //           avatar: '',
+//   //           defaultLocationLatitude: 54.972237,
+//   //           defaultLocationLongitude: -2.4608560000000352,
+//   //         };
+//   //         this.user = userTemp;
+//   //       });
+//   // }
 }
 
 
