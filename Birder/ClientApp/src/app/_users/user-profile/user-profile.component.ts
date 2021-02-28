@@ -19,7 +19,8 @@ import { Observable, throwError } from 'rxjs';
 export class UserProfileComponent {
   analysis$: Observable<ObservationAnalysisViewModel>;
   userProfile$: Observable<UserProfileViewModel>;
-  username: string;
+  public errorObject = null;
+  //username: string;
 
   constructor(private networkService: NetworkService
     , private observationsAnalysisService: ObservationsAnalysisService
@@ -27,26 +28,24 @@ export class UserProfileComponent {
     , private route: ActivatedRoute
     , private toast: ToastrService) {
     this.route.paramMap.subscribe(params => {
-      this.username = params.get('username');
-      this.getData();
+      this.getData(params.get('username'));
     });
   }
 
-  getData() {
-    this.userProfile$ = this.userProfileService.getUserProfile(this.username)
+  getData(username: string) {
+    this.userProfile$ = this.userProfileService.getUserProfile(username)
       .pipe(share(),
         catchError(err => {
-          //this.errorObject = err;
+          this.errorObject = err;
           console.log('error caught');
           console.log(err);
           return throwError(err); // error thrown by interceptor...
-          // redirect to error page?  or show retry button if server error?
         }));
 
-    this.analysis$ = this.observationsAnalysisService.getObservationAnalysis(this.username)
+    this.analysis$ = this.observationsAnalysisService.getObservationAnalysis(username)
       .pipe(share(),
         catchError(err => {
-          //this.errorObject = err;
+          this.errorObject = err;
           console.log('error caught');
           console.log(err);
           return throwError(err); // error thrown by interceptor...

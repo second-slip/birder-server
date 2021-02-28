@@ -1,10 +1,11 @@
 <div class="container">
   <h3>Your life list</h3>
 
-  <div *ngIf="lifeList$ | async as lifeList; else loading">
-    <ng-container *ngIf="lifeList; else error">
+  <div *ngIf="lifeList$ | async as list; else loading">
 
-      <p>You have spotted {{ lifeList.length }} species:</p>
+    <ng-container *ngIf="list; else error">
+
+      <p>You have spotted {{ list.length }} species:</p>
 
       <table class="table table-striped">
         <thead>
@@ -17,8 +18,7 @@
           </tr>
         </thead>
         <tbody>
-          <!-- <tr *ngFor="let record of lifeList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i"> -->
-          <tr *ngFor="let record of lifeList; index as i">
+          <tr *ngFor="let record of list | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ record.count | number }}</td>
             <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
@@ -32,10 +32,10 @@
 
       <hr>
 
-      <!-- <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="lifeList$.length"
+      <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="list.length"
         class="d-flex justify-content-center" size="sm" [maxSize]="9" [rotate]="true" [boundaryLinks]="true"
         (pageChange)="changePage()">
-      </ngb-pagination> -->
+      </ngb-pagination>
 
     </ng-container>
 

@@ -14,6 +14,7 @@ import { catchError, share } from 'rxjs/operators';
 })
 export class LifeListComponent {
   //username: string;
+  // lifeList: LifeListViewModel[];
   lifeList$: Observable<LifeListViewModel[]>;
   requesting: boolean;
   page: number;
