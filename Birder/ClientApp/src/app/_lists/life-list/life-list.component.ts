@@ -1,6 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { LifeListViewModel } from '@app/_models/LifeListViewModels';
 import { ObservationsAnalysisService } from '@app/_services/observations-analysis.service';
 import { Observable, throwError } from 'rxjs';
@@ -13,10 +12,8 @@ import { catchError, share } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class LifeListComponent {
-  //username: string;
-  // lifeList: LifeListViewModel[];
   lifeList$: Observable<LifeListViewModel[]>;
-  requesting: boolean;
+  public errorObject = null;
   page: number;
   pageSize = 10;
 
@@ -25,7 +22,6 @@ export class LifeListComponent {
     route.params.subscribe(_ => {
       this.route.paramMap.subscribe(params => {
         this.getData(params.get('username'))
-        //this.username = pmap.get('username');
       })
     });
   }
@@ -35,7 +31,7 @@ export class LifeListComponent {
     this.lifeList$ = this.observationsAnalysisService.getLifeList()
       .pipe(share(),
         catchError(err => {
-          //this.errorObject = err;
+          this.errorObject = err;
           return throwError(err);
         }));
   }
