@@ -20,7 +20,6 @@ export class UserProfileComponent {
   analysis$: Observable<ObservationAnalysisViewModel>;
   userProfile$: Observable<UserProfileViewModel>;
   public errorObject = null;
-  //username: string;
 
   constructor(private networkService: NetworkService
     , private observationsAnalysisService: ObservationsAnalysisService
@@ -37,8 +36,6 @@ export class UserProfileComponent {
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;
-          console.log('error caught');
-          console.log(err);
           return throwError(err); // error thrown by interceptor...
         }));
 
@@ -46,8 +43,6 @@ export class UserProfileComponent {
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;
-          console.log('error caught');
-          console.log(err);
           return throwError(err); // error thrown by interceptor...
         }));
   }
