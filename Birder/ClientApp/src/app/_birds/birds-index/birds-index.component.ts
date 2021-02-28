@@ -17,9 +17,9 @@ export class BirdsIndexComponent {
   pageSize = 30;
   speciesFilter: string = '0';
 
-  constructor(private birdsService: BirdsService) { 
-      this.getBirds();
-    }
+  constructor(private birdsService: BirdsService) {
+    this.getBirds();
+  }
 
   changePage(): void {
     this.getBirds();
@@ -33,11 +33,11 @@ export class BirdsIndexComponent {
 
   getBirds(): void {
     this.birds$ = this.birdsService.getBirds(this.page, this.pageSize, this.speciesFilter)
-    .pipe(share(),
-    finalize(() => window.scrollTo({ top: 0, behavior: 'smooth' })),
-    catchError(err => {
-      this.errorObject = err;
-      return throwError(err);
-    }));
+      .pipe(share(),
+        finalize(() => window.scrollTo({ top: 0, behavior: 'smooth' })),
+        catchError(err => {
+          this.errorObject = err;
+          return throwError(err);
+        }));
   }
 }
