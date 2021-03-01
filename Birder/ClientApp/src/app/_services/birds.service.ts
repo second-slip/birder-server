@@ -33,12 +33,12 @@ export class BirdsService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getBird(id: number): Observable<BirdDetailViewModel | ErrorReportViewModel> {
+  getBird(id: string): Observable<BirdDetailViewModel> { // | ErrorReportViewModel> {
     const options = id ?
       { params: new HttpParams().set('id', id.toString()) } : {};
 
     return this.http.get<BirdDetailViewModel>('api/Birds/GetBird', options)
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe();
+        //catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 }

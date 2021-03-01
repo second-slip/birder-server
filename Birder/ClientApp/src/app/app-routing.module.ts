@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { BirdsIndexComponent } from './_birds/birds-index/birds-index.component';
 import { AuthGuard } from './_services/auth-guard.service';
-import { BirdsDetailComponent } from './_birds/birds-detail/birds-detail.component';
 import { ObservationFeedComponent } from './_observationFeed/observation-feed/observation-feed.component';
 import { ObservationDetailComponent } from './_observations/observation-detail/observation-detail.component';
 import { ObservationAddComponent } from './_observations/observation-add/observation-add.component';
@@ -35,6 +34,7 @@ import { LoginComponent } from './_login-out/login/login.component';
 import { LogoutComponent } from './_login-out/logout/logout.component';
 import { FollowersComponent } from './_network/followers/followers.component';
 import { FollowingComponent } from './_network/following/following.component';
+import { BirdDetailComponent } from './_birds/bird-detail/bird-detail.component';
 
 
 const routes: Routes = [
@@ -75,7 +75,7 @@ const routes: Routes = [
           { path: 'observation-edit/:id', component: ObservationEditComponent },
           { path: 'observation-manage-photos/:id', component: ObservationManagePhotosComponent },
           { path: 'birds-index', component: BirdsIndexComponent },
-          { path: 'birds-detail/:id', component: BirdsDetailComponent },
+          { path: 'bird-detail/:id', component: BirdDetailComponent },
           { path: 'life-list/:username', component: LifeListComponent },
           { path: 'user-profile/:username', component: UserProfileComponent },
           { path: 'followers/:username', component: FollowersComponent },

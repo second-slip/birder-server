@@ -16,7 +16,7 @@
               </div> -->
 
     <p class="report-summary">You observed <b>{{observation.quantity}}</b> <a
-        routerLink="/birds-detail/{{observation.bird.birdId}}">
+        routerLink="/bird-detail/{{observation.bird.birdId}}">
         {{observation.bird.englishName}}
       </a> <small><em> {{ observation.bird.species }} </em></small>
       <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy' }}

@@ -1,0 +1,75 @@
+<div class="container">
+    <ng-container *ngIf="bird$ | async as bird; else loadingOrError">
+
+        <div>
+            <h3>{{ bird.englishName }}<small><i> {{ bird.species }}</i></small></h3>
+        </div>
+        
+
+
+        <div>
+            <mat-tab-group>
+              <mat-tab label="Information">
+                <ng-template matTabContent>
+                  <app-bird-detail-info [bird]="bird"></app-bird-detail-info>
+                </ng-template>
+              </mat-tab>
+      
+              <mat-tab label="Flickr photos">
+                <ng-template matTabContent>
+                    <app-bird-images [species]="bird.species"></app-bird-images>
+                </ng-template>
+              </mat-tab>
+
+              <mat-tab label="Song Recordings">
+                <ng-template matTabContent>
+                    <app-song-recordings [species]="bird.species"></app-song-recordings>
+                </ng-template>
+              </mat-tab>
+
+              <mat-tab label="Observations">
+                <ng-template matTabContent>
+                    <app-bird-observations-list [birdId]="bird.birdId"></app-bird-observations-list>
+                </ng-template>
+              </mat-tab>
+
+              <mat-tab label="Distribution Map">
+                <ng-template matTabContent>
+                  <!-- <app-user-achievements></app-user-achievements> -->
+                </ng-template>
+              </mat-tab>
+
+            </mat-tab-group>
+          </div>
+
+
+
+
+
+        <div class="navigation-menu">
+            <hr>
+            <a routerLink="/birds-index">
+                Birds List
+            </a>
+        </div>
+
+    </ng-container>
+
+
+    <ng-template #loadingOrError>
+        <ng-container *ngIf="errorObject; else loading">
+
+            <app-error-display [error]="errorObject"></app-error-display>
+
+        </ng-container>
+    </ng-template>
+
+
+    <ng-template #loading>
+        <div class="loading">
+            <p><em>Loading...</em></p>
+            <mat-spinner></mat-spinner>
+        </div>
+    </ng-template>
+
+</div>

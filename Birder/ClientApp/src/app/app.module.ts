@@ -24,7 +24,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthGuard } from './_services/auth-guard.service';
 import { BirdsIndexComponent } from './_birds/birds-index/birds-index.component';
-import { BirdsDetailComponent } from './_birds/birds-detail/birds-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { httpInterceptorProviders } from './_httpInterceptors';
 import { ObservationFeedComponent } from './_observationFeed/observation-feed/observation-feed.component';
@@ -110,6 +109,9 @@ import { NetworkUserComponent } from './_sharedComponents/network-user/network-u
 import { UserAchievementsComponent } from './_sharedComponents/user-achievements/user-achievements.component';
 import { DistributionMapUserComponent } from './_maps/distribution-map-user/distribution-map-user.component';
 import { ErrorDisplayComponent } from './_error/error-display/error-display.component';
+import { BirdImagesComponent } from './_birds/bird-images/bird-images.component';
+import { BirdDetailComponent } from './_birds/bird-detail/bird-detail.component';
+import { BirdDetailInfoComponent } from './_birds/bird-detail-info/bird-detail-info.component';
 
 // import { YearListComponent } from './_lists/year-list/year-list.component';
 
@@ -156,7 +158,6 @@ export function tokenGetter() {
     LoginComponent,
     LogoutComponent,
     BirdsIndexComponent,
-    BirdsDetailComponent,
     PageNotFoundComponent,
     ObservationFeedComponent,
     ObservationDetailComponent,
@@ -222,6 +223,9 @@ export function tokenGetter() {
     UserAchievementsComponent,
     DistributionMapUserComponent,
     ErrorDisplayComponent,
+    BirdImagesComponent,
+    BirdDetailComponent,
+    BirdDetailInfoComponent,
     // YearListComponent
   ],
   imports: [

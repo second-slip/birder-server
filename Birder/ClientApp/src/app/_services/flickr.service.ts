@@ -17,11 +17,11 @@ export class FlickrService {
 
   constructor(private http: HttpClient, private token: TokenService) { }
 
-  getSearchResults(page: number, term = null): Observable<{}> {
+  getSearchResults(page: number, term = null): Observable<FlickrUrlsViewModel[]> {
     return this.getFlickrPhotoSearch(term, page, '');
   }
 
-  getFlickrPhotoSearch(term, page, tagMode) {
+  getFlickrPhotoSearch(term, page, tagMode): Observable<any> {
     return this.http.get(`${this.flickrPhotoSearch}${encodeURIComponent(term)}&page=${page}${tagMode}`);
   }
 

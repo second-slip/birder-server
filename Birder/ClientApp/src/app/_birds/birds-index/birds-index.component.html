@@ -38,7 +38,7 @@
           <tr *ngFor="let record of birds.items; index as i">
             <!-- <th scope="row">{{ i + 1 }}</th> -->
             <!-- <td>{{ record.birdId }}</td> -->
-            <td><a routerLink="/birds-detail/{{record.birdId}}">{{ record.englishName }}</a>
+            <td><a routerLink="/bird-detail/{{record.birdId}}">{{ record.englishName }}</a>
               <br><small><em>{{ record.species }}</em></small>
             </td>
             <td><small>{{ record.btoStatusInBritain }} <br> {{ record.populationSize }}</small></td>
