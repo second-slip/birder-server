@@ -14,7 +14,7 @@ import { catchError, share } from 'rxjs/operators';
 export class LifeListComponent {
   lifeList$: Observable<LifeListViewModel[]>;
   public errorObject = null;
-  page: number;
+  page: number = 1;
   pageSize = 10;
 
   constructor(private observationsAnalysisService: ObservationsAnalysisService
