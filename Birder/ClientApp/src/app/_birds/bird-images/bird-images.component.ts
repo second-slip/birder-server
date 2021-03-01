@@ -12,33 +12,21 @@ import { catchError, share } from 'rxjs/operators';
 })
 export class BirdImagesComponent implements OnInit {
   @Input() species: string;
-
-
   images$: Observable<FlickrUrlsViewModel[]>;
   public errorObject = null;
 
-  constructor(private flickr: FlickrService) {
-    
-    //alert(this.species);
-  }
-  
+  constructor(private flickr: FlickrService) { }
+
   ngOnInit(): void {
     this.getImages();
   }
 
-
   getImages() {
-    alert(this.species);
-    this.images$ = this.flickr.getSearchResults(1, this.species)
+    this.images$ = this.flickr.getSearchResults(1, this.species, '')
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;
-          return throwError(err); // error thrown by interceptor...
+          return throwError(err);
         }));
-
-    // .subscribe((results: any) => {
-    //   this.images = this.flickr.getPhotoThumnail(results.photos.photo);
-    // });
-    // error...?
   }
 }

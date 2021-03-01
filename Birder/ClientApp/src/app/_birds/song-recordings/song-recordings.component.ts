@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { RecordingViewModel } from '@app/_models/RecordingViewModel';
+import { Observable, throwError } from 'rxjs';
+import { catchError, share } from 'rxjs/operators';
 import { RecordingsService } from '../recordings.service';
 
 @Component({
@@ -10,29 +12,34 @@ import { RecordingsService } from '../recordings.service';
 })
 export class SongRecordingsComponent implements OnInit {
   @Input() species: string;
-  recordings: RecordingViewModel[];
+  recordings$: Observable<RecordingViewModel[]>;
+  public errorObject = null;
   page: number;
   pageSize = 10;
-  error = false;
 
-  constructor(private recordingsService: RecordingsService) { }
+  constructor(private recordingsService: RecordingsService) {
+    // this.loadRecordings();
+  }
 
   ngOnInit(): void {
-    if (!this.recordings) {
-      this.loadRecordings();
-    }
+    this.loadRecordings();
+    this.page = 1;
   }
 
   loadRecordings(): void {
-    this.recordingsService.getRecordings(this.species)
-    .subscribe(
-      ((results: RecordingViewModel[]) => {
-        this.recordings = results;
-        this.page = 1;
-      }),
-      (_ => {
-        this.error = true;
-      }));
+    this.recordings$ = this.recordingsService.getRecordings(this.species)
+      .pipe(share(),
+        catchError(err => {
+          this.errorObject = err;
+          return throwError(err); // error thrown by interceptor...
+        }));
+    // .subscribe(
+    //   ((results: RecordingViewModel[]) => {
+    //     this.recordings = results;
+    //     this.page = 1;
+    //   }),
+    //   (_ => {
+    //     this.error = true;
+    //   }));
   }
-
 }

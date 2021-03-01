@@ -1,10 +1,9 @@
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
 import { FlickrUrlsViewModel } from '../_models/FlickrUrlsViewModel';
 import { TokenService } from './token.service';
-import { tokenGetter } from '@app/app.module';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,25 +16,15 @@ export class FlickrService {
 
   constructor(private http: HttpClient, private token: TokenService) { }
 
-  getSearchResults(page: number, term = null): Observable<FlickrUrlsViewModel[]> {
-    return this.getFlickrPhotoSearch(term, page, '');
-  }
-
-  getFlickrPhotoSearch(term, page, tagMode): Observable<any> {
-    return this.http.get(`${this.flickrPhotoSearch}${encodeURIComponent(term)}&page=${page}${tagMode}`);
-  }
-
-    // ToDo: rename...
-  getPhotoThumnail(data): FlickrUrlsViewModel[] {
-    const urls: FlickrUrlsViewModel[] = [];
-
-    data.forEach((element, index) => {
-      urls.push({
-        id: index + 1,
-        url: `https://farm${element.farm}.staticflickr.com/${element.server}/${element.id}_${element.secret}_n.jpg`
-      });
-    });
-
-    return urls;
+  getSearchResults(page: number, term = null, tagMode): Observable<FlickrUrlsViewModel[]> {
+    return this.http.get(`${this.flickrPhotoSearch}${encodeURIComponent(term)}&page=${page}${tagMode}`)
+      .pipe(
+        map((resp: any) => {
+          return resp.photos.photo.map(photo =>
+            <FlickrUrlsViewModel>{
+              url: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_n.jpg`
+            })
+        })
+      );
   }
 }

@@ -1,15 +1,15 @@
 <div class="container">
-    <div *ngIf="!recordings && !error" class="loading">
+    <!-- <div *ngIf="!recordings && !error" class="loading">
         <p><em>Loading...</em></p>
         <mat-spinner></mat-spinner>
-    </div>
+    </div> -->
+    <ng-container *ngIf="recordings$ | async as recordings; else loadingOrError">
 
-    <div *ngIf="recordings">
-        <ng-container *ngIf="recordings.length; else noItems">
+    <!-- <div *ngIf="recordings"> -->
+        <div *ngIf="recordings.length">
             <h5>Bird song recordings</h5>
 
-            <div
-                *ngFor="let item of recordings | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+            <div *ngFor="let item of recordings | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
                 <div>
                     <audio controls>
                         <source src="{{item.url}}" type="audio/mpeg">
@@ -30,19 +30,45 @@
             <div class="info"><small>The recordings are from <em><a href='https://www.xeno-canto.org/'
                             target='_blank'>xeno-canto.org</a></em></small></div>
 
+            </div>
+
+            <div *ngIf="!recordings.length">
+                <!-- change to other style -->
+                <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+                    There are no recordings available for this species
+                </ngb-alert>
+            </div>
+
         </ng-container>
 
-        <ng-template #noItems>
+
+        <ng-template #loadingOrError>
+            <ng-container *ngIf="errorObject; else loading">
+    
+                <app-error-display [error]="errorObject"></app-error-display>
+    
+            </ng-container>
+        </ng-template>
+    
+    
+        <ng-template #loading>
+            <div class="loading">
+                <p><em>Loading...</em></p>
+                <mat-spinner></mat-spinner>
+            </div>
+        </ng-template>
+
+        <!-- <ng-template #noItems>
             <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
                 There are no recordings available for this species
             </ngb-alert>
-        </ng-template>
-    </div>
+        </ng-template> -->
+    <!-- </div> -->
 
-    <ng-container *ngIf="error">
+    <!-- <ng-container *ngIf="error">
         <ngb-alert [dismissible]="false" class="d-block mt-3" type="danger">
             There was an error getting the recordings.  Please try again later.
         </ngb-alert>
-    </ng-container>
+    </ng-container> -->
 
 </div>
