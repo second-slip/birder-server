@@ -1,4 +1,12 @@
 app-bird-images {
+    .container {
+        margin-top: 10px;
+    }
+
+    .img-fluid {
+        min-width: 100%;
+    }
+
     .photos-info {
         text-align: center;
         font-size: small;

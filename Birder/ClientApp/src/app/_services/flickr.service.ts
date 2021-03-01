@@ -22,7 +22,7 @@ export class FlickrService {
         map((resp: any) => {
           return resp.photos.photo.map(photo =>
             <FlickrUrlsViewModel>{
-              url: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_n.jpg`
+              url: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_z.jpg`
             })
         })
       );

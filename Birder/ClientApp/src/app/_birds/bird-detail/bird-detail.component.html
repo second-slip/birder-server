@@ -5,8 +5,6 @@
             <h3>{{ bird.englishName }}<small><i> {{ bird.species }}</i></small></h3>
         </div>
         
-
-
         <div>
             <mat-tab-group>
               <mat-tab label="Information">
@@ -17,19 +15,19 @@
       
               <mat-tab label="Flickr photos">
                 <ng-template matTabContent>
-                    <app-bird-images [species]="bird.species"></app-bird-images>
+                    <app-bird-images [species]="bird?.species"></app-bird-images>
                 </ng-template>
               </mat-tab>
 
               <mat-tab label="Song Recordings">
                 <ng-template matTabContent>
-                    <app-song-recordings [species]="bird.species"></app-song-recordings>
+                    <app-song-recordings [species]="bird?.species"></app-song-recordings>
                 </ng-template>
               </mat-tab>
 
               <mat-tab label="Observations">
                 <ng-template matTabContent>
-                    <app-bird-observations-list [birdId]="bird.birdId"></app-bird-observations-list>
+                    <app-bird-observations-list [birdId]="bird?.birdId"></app-bird-observations-list>
                 </ng-template>
               </mat-tab>
 
@@ -41,10 +39,6 @@
 
             </mat-tab-group>
           </div>
-
-
-
-
 
         <div class="navigation-menu">
             <hr>
@@ -58,9 +52,7 @@
 
     <ng-template #loadingOrError>
         <ng-container *ngIf="errorObject; else loading">
-
             <app-error-display [error]="errorObject"></app-error-display>
-
         </ng-container>
     </ng-template>
 
