@@ -38,11 +38,15 @@
                 [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
 
         </ng-container>
-        <ng-template #noItems>
-            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-                No sightings of this species has been recorded.
-            </ngb-alert>
-        </ng-template>
 
+        <ng-template #noItems>
+            <div class="no-items">
+                <p>
+                    <ngb-alert type="info" [dismissible]="false">
+                        <strong>We're sorry!</strong> No sightings of this species has been recorded.
+                    </ngb-alert>
+                </p>
+            </div>
+        </ng-template>
     </div>
 </div>
