@@ -29,7 +29,7 @@ import { ObservationManagePhotosComponent } from './_observations/observation-ma
 import { TestingComponent } from './testing/testing.component';
 import { NetworkComponent } from './_network/network/network.component';
 import { WhatsNewComponent } from './whats-new/whats-new.component';
-import { TweetArchiveComponent } from './tweet-archive/tweet-archive.component';
+import { TweetArchiveComponent } from './_tweet/tweet-archive/tweet-archive.component';
 import { LoginComponent } from './_login-out/login/login.component';
 import { LogoutComponent } from './_login-out/logout/logout.component';
 import { FollowersComponent } from './_network/followers/followers.component';

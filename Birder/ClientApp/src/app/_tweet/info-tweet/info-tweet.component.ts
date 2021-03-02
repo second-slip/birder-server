@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { TweetDay } from '@app/_models/TweetDay';
-import { TweetsService } from '@app/_services/tweets.service';
+import { TweetsService } from '@app/_tweet/tweets.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
 

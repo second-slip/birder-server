@@ -80,7 +80,7 @@ import { NetworkSearchComponent } from './_network/network-search/network-search
 import { NetworkSuggestionsComponent } from './_network/network-suggestions/network-suggestions.component';
 import { NetworkComponent } from './_network/network/network.component';
 import { BirdsIndexGridViewComponent } from './_birds/birds-index-grid-view/birds-index-grid-view.component';
-import { InfoTweetComponent } from './_info/info-tweet/info-tweet.component';
+import { InfoTweetComponent } from './_tweet/info-tweet/info-tweet.component';
 import { ViewOnlySingleMarkerMapComponent } from './_maps/view-only-single-marker-map/view-only-single-marker-map.component';
 import { ViewEditSingleMarkerMapComponent } from './_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
 import { ViewOnlyNotesComponent } from './_observationNotes/view-notes/view-only-notes.component';
@@ -95,7 +95,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ShowcaseObservationFeedItemComponent } from './_observationFeedShowcase/showcase-observation-feed-item/showcase-observation-feed-item.component';
 import { ShowcaseObservationFeedComponent } from './_observationFeedShowcase/showcase-observation-feed/showcase-observation-feed.component';
 import { WhatsNewComponent } from './whats-new/whats-new.component';
-import { TweetArchiveComponent } from './tweet-archive/tweet-archive.component';
+import { TweetArchiveComponent } from './_tweet/tweet-archive/tweet-archive.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import { MatStepperModule } from '@angular/material/stepper';
