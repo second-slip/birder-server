@@ -13,10 +13,9 @@ export class TweetsService {
 
   constructor(private http: HttpClient, private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  getTweetDay(): Observable<TweetDay | ErrorReportViewModel> {
+  getTweetDay(): Observable<TweetDay> {
     return this.http.get<TweetDay>('api/Tweets/GetTweetDay')
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe();
   }
 
   getTweetArchive(pageIndex: number, pageSize: number): Observable<TweetArchiveDto | ErrorReportViewModel> {

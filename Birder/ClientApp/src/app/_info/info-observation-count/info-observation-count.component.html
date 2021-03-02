@@ -18,9 +18,7 @@
 
     <ng-template #loadingOrError>
         <ng-container *ngIf="errorObject; else loading">
-
             <app-error-display [error]="errorObject"></app-error-display>
-
         </ng-container>
     </ng-template>
 

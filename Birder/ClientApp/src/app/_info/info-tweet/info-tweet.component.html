@@ -1,5 +1,6 @@
-<div *ngIf="!requesting; else loading">
-  <ng-container *ngIf="tweet; else error">
+<div>
+
+  <ng-container *ngIf="tweet$ | async as tweet; else loadingOrError">
     <div class="container">
       <h4>Tweet of the Day</h4>
       <span class="bird">
@@ -21,24 +22,21 @@
       <small>
         <a routerLink="/tweets-archive">View previous days' tweets</a></small>
     </div>
+
   </ng-container>
 
+  <ng-template #loadingOrError>
+    <ng-container *ngIf="errorObject; else loading">
+      <app-error-display [error]="errorObject"></app-error-display>
+    </ng-container>
+  </ng-template>
 
-  <ng-template #error>
+
+  <ng-template #loading>
     <div class="container">
-      <p>
-        <ngb-alert [dismissible]="false">
-          <strong>We're sorry!</strong> The tweet is not available...
-        </ngb-alert>
-      </p>
+      <p><em>Loading...</em></p>
+      <mat-spinner style="margin:0 auto;"></mat-spinner>
     </div>
   </ng-template>
 
 </div>
-
-<ng-template #loading>
-  <div class="container">
-    <p><em>Loading...</em></p>
-    <mat-spinner style="margin:0 auto;"></mat-spinner>
-  </div>
-</ng-template>
