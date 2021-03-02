@@ -14,16 +14,13 @@ export class SongRecordingsComponent implements OnInit {
   @Input() species: string;
   recordings$: Observable<RecordingViewModel[]>;
   public errorObject = null;
-  page: number;
+  page: number = 1;
   pageSize = 10;
 
-  constructor(private recordingsService: RecordingsService) {
-    // this.loadRecordings();
-  }
+  constructor(private recordingsService: RecordingsService) { }
 
   ngOnInit(): void {
     this.loadRecordings();
-    this.page = 1;
   }
 
   loadRecordings(): void {
@@ -31,15 +28,7 @@ export class SongRecordingsComponent implements OnInit {
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;
-          return throwError(err); // error thrown by interceptor...
+          return throwError(err);
         }));
-    // .subscribe(
-    //   ((results: RecordingViewModel[]) => {
-    //     this.recordings = results;
-    //     this.page = 1;
-    //   }),
-    //   (_ => {
-    //     this.error = true;
-    //   }));
   }
 }

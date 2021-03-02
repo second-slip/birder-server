@@ -10,12 +10,11 @@ export class RecordingsService {
 
   constructor(private http: HttpClient) { }
 
-  getRecordings(species: string): Observable<RecordingViewModel[]> { // | ErrorReportViewModel> {
+  getRecordings(species: string): Observable<RecordingViewModel[]> {
     const params = new HttpParams()
       .set('species', species);
 
     return this.http.get<RecordingViewModel[]>('api/Recording', {params})
     .pipe();
-      //catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 }
