@@ -1,5 +1,7 @@
-<div *ngIf="!requesting; else loading">
-  <ng-container *ngIf="analysis; else noItem">
+<div>
+
+  <ng-container *ngIf="analysis$ | async as analysis; else loadingOrError">
+    <!-- *ngIf="analysis; else noItem"> -->
     <div class="container">
       <h4 class="container">Your Top Observations</h4>
 
@@ -9,7 +11,7 @@
           <a ngbNavLink>30 days</a>
           <ng-template ngbNavContent>
             <ng-container *ngIf="analysis.topMonthlyObservations.length; else noItems">
-  
+
               <table class="table table-striped">
                 <thead>
                   <tr>
@@ -26,23 +28,26 @@
                   </tr>
                 </tbody>
               </table>
-  
+
             </ng-container>
-  
+
             <ng-template #noItems>
-              <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-                You have not made any observations in the last 30 days.
-              </ngb-alert>
+              <p>
+                <ngb-alert type="warning" [dismissible]="false">
+                  You have not yet logged any observations this month...<br>
+                  <a routerLink="/observation-add">Click here</a> to add one
+                </ngb-alert>
+              </p>
             </ng-template>
-  
+
           </ng-template>
         </li>
-  
+
         <li [ngbNavItem]="2" [destroyOnHide]="false">
           <a ngbNavLink>All time</a>
           <ng-template ngbNavContent>
             <ng-container *ngIf="analysis.topObservations.length; else noItems">
-  
+
               <table class="table table-striped">
                 <thead>
                   <tr>
@@ -59,142 +64,44 @@
                   </tr>
                 </tbody>
               </table>
-  
+
             </ng-container>
-  
+
             <ng-template #noItems>
-              <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-                No observations.
-              </ngb-alert>
+              <p>
+                <ngb-alert type="warning" [dismissible]="false">
+                  You have not yet logged any observations... <br>
+                  <a routerLink="/observation-add">Click here</a> to add your first one
+                </ngb-alert>
+              </p>
             </ng-template>
-  
+
           </ng-template>
         </li>
-  
+
       </ul>
-  
+
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
 
       <small><em> See the full list in your
-        <a routerLink="/life-list">Life List</a> page</em></small>
+          <a routerLink="/life-list">Life List</a> page</em></small>
 
     </div>
 
   </ng-container>
 
-  <ng-template #noItem>
-    <!-- <ng-container *ngIf="error; else loading"> -->
+  <ng-template #loadingOrError>
+    <ng-container *ngIf="errorObject; else loading">
+      <app-error-display [error]="errorObject"></app-error-display>
+    </ng-container>
+  </ng-template>
+
+
+  <ng-template #loading>
     <div class="container">
-      <p class="hello">
-        <ngb-alert [dismissible]="false">
-            <strong>We're sorry!</strong> The data are not available
-        </ngb-alert>
-    </p>
+      <p><em>Loading...</em></p>
+      <mat-spinner style="margin:0 auto;"></mat-spinner>
     </div>
-    <!-- </ng-container> -->
   </ng-template>
 
 </div>
-
-<ng-template #loading>
-  <div class="container">
-    <p><em>Loading...</em></p>
-    <mat-spinner style="margin:0 auto;"></mat-spinner>
-  </div>
-</ng-template>
-
-
-
-
-<!-- <div class="container">
-
-  <div *ngIf="!analysis" class="loading">
-    <p><em>Loading...</em></p>
-    <mat-spinner style="margin:0 auto;"></mat-spinner>
-  </div>
-
-  <div *ngIf="analysis">
-
-    <h4 class="title">Your Top Observations</h4>
-    <br>
-
-    <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav nav-pills nav-fill">
-
-      <li [ngbNavItem]="1" [destroyOnHide]="false">
-        <a ngbNavLink>30 days</a>
-        <ng-template ngbNavContent>
-          <ng-container *ngIf="analysis.topMonthlyObservations.length; else noItems">
-
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Species</th>
-                  <th scope="col">Count</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let record of analysis.topMonthlyObservations; index as i">
-                  <th scope="row">{{ i + 1 }}</th>
-                  <td><a routerLink="/bird-detail/{{record.birdId}}">{{ record.name }}</a></td>
-                  <td>{{ record.count | number }}</td>
-                </tr>
-              </tbody>
-            </table>
-
-          </ng-container>
-
-          <ng-template #noItems>
-            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-              You have not made any observations in the last 30 days.
-            </ngb-alert>
-          </ng-template>
-
-        </ng-template>
-      </li>
-
-      <li [ngbNavItem]="2" [destroyOnHide]="false">
-        <a ngbNavLink>All time</a>
-        <ng-template ngbNavContent>
-          <ng-container *ngIf="analysis.topObservations.length; else noItems">
-
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Species</th>
-                  <th scope="col">Count</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let record of analysis.topObservations; index as i">
-                  <th scope="row">{{ i + 1 }}</th>
-                  <td><a routerLink="/bird-detail/{{record.birdId}}">{{ record.name }}</a></td>
-                  <td>{{ record.count | number }}</td>
-                </tr>
-              </tbody>
-            </table>
-
-          </ng-container>
-
-          <ng-template #noItems>
-            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-              No observations.
-            </ngb-alert>
-          </ng-template>
-
-        </ng-template>
-      </li>
-
-    </ul> -->
-
-    <!-- <div [ngbNavOutlet]="nav" class="mt-2"></div> -->
-<!-- 
-  </div>
-
-  <div>
-    <mat-icon color="primary">info</mat-icon><span class="aligned-with-icon">
-      <small><em> See the full list in your
-          <a routerLink="/life-list">Life List</a> page</em></small></span>
-  </div>
-</div> -->
