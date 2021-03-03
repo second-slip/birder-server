@@ -67,7 +67,7 @@ import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/con
 import { FooterComponent } from './footer/footer.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { GalleryModule } from '@ngx-gallery/core';
-import { LightboxModule } from 'ngx-lightbox';
+// import { LightboxModule } from 'ngx-lightbox';
 import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
 import { AboutContributeComponent } from './_about/about-contribute/about-contribute.component';
@@ -258,7 +258,7 @@ export function tokenGetter() {
     ToastrModule.forRoot(),
     NgxDropzoneModule,
     GalleryModule,
-    LightboxModule,
+    // LightboxModule,
     GoogleMapsModule,
     NgcCookieConsentModule.forRoot(cookieConfig),
     JwtModule.forRoot({

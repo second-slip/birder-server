@@ -11,7 +11,6 @@ import { GeocodingService } from '@app/_maps/geocoding.service';
 })
 export class ViewEditSingleMarkerMapComponent implements OnInit {
   @Input() position: ObservationPosition;
-
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
 
@@ -64,7 +63,7 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
           //console.log(response);
           this.position.formattedAddress = response.results[0].formatted_address;
           this.position.shortAddress = this.geocoding.googleApiResponseHelper(response.results[0].address_components, "postal_town") + ', ' + this.geocoding.googleApiResponseHelper(response.results[0].address_components, "country");
-          this.ref.detectChanges();
+          this.ref.detectChanges(); //?
         },
         (error: any) => {
         }
@@ -85,7 +84,7 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
             this.position.shortAddress = this.geocoding.googleApiResponseHelper(response.results[0].address_components, "postal_town") + ', ' + this.geocoding.googleApiResponseHelper(response.results[0].address_components, "country");
           }
           this.searchAddress = '';
-          this.ref.detectChanges();
+          this.ref.detectChanges(); //?
         }
       );
   }

@@ -21,10 +21,10 @@ export class ViewOnlySingleMarkerMapComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.addMarker(this.position.latitude, this.position.longitude, false);
+    this.addMarker(this.position.latitude, this.position.longitude);
   }
 
-  addMarker(latitude: number, longitude: number, getAddress: boolean) {
+  addMarker(latitude: number, longitude: number) {
     this.locationMarker = ({
       position: {
         lat: latitude,

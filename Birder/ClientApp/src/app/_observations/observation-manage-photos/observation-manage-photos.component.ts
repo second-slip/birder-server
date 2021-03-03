@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_sharedServices/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ToastrService } from 'ngx-toastr';
-import { Lightbox } from 'ngx-lightbox';
+// import { Lightbox } from 'ngx-lightbox';
 import { PhotographAlbum } from '@app/_models/PhotographAlbum';
 import { TokenService } from '@app/_services/token.service';
 
@@ -26,7 +26,7 @@ export class ObservationManagePhotosComponent implements OnInit {
 
   constructor(private router: Router
     , private route: ActivatedRoute
-    , private _lightbox: Lightbox
+    // , private _lightbox: Lightbox
     , private tokenService: TokenService
     , private observationService: ObservationService
     , private photosService: PhotosService
@@ -106,15 +106,15 @@ export class ObservationManagePhotosComponent implements OnInit {
         });
   }
 
-  open(index: number): void {
-    // open lightbox
-    this._lightbox.open(this._album, index);
-  }
+  // open(index: number): void {
+  //   // open lightbox
+  //   this._lightbox.open(this._album, index);
+  // }
 
-  close(): void {
-    // close lightbox programmatically
-    this._lightbox.close();
-  }
+  // close(): void {
+  //   // close lightbox programmatically
+  //   this._lightbox.close();
+  // }
 
   getPhotos(id: number): void {
     this.photosService.getPhotos(id)

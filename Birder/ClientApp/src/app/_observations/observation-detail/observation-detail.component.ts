@@ -6,7 +6,7 @@ import { ObservationService } from '@app/_sharedServices/observation.service';
 import { UserViewModel } from '@app/_models/UserViewModel';
 import { TokenService } from '@app/_services/token.service';
 import { PhotosService } from '@app/_services/photos.service';
-import { Lightbox } from 'ngx-lightbox';
+// import { Lightbox } from 'ngx-lightbox';
 
 /*  ******** information ********
   child view is accessed via the #map local variable.  This is to access 'geolocation' property.
@@ -22,18 +22,17 @@ import { Lightbox } from 'ngx-lightbox';
 export class ObservationDetailComponent implements OnInit {
   user: UserViewModel;
   observation: ObservationViewModel;
-  private _album: Array<PhotographAlbum> = [];
+  // private _album: Array<PhotographAlbum> = [];
 
   constructor(private observationService: ObservationService
-    , private _lightbox: Lightbox
-    , private photosService: PhotosService
+    // , private _lightbox: Lightbox
+    // , private photosService: PhotosService
     , private tokenService: TokenService
     , private route: ActivatedRoute
     , private router: Router) { }
 
   ngOnInit(): void {
     this.user = this.tokenService.getAuthenticatedUserDetails();
-    //this.getUser();
     this.getObservation();
   }
 
@@ -60,28 +59,28 @@ export class ObservationDetailComponent implements OnInit {
   //       () => { });
   // }
 
-  open(index: number): void { // open lightbox
-    this._lightbox.open(this._album, index);
-  }
+  // open(index: number): void { // open lightbox
+  //   this._lightbox.open(this._album, index);
+  // }
 
-  close(): void { // close lightbox programmatically
-    this._lightbox.close();
-  }
+  // close(): void { // close lightbox programmatically
+  //   this._lightbox.close();
+  // }
 
-  getPhotos(id: number): void {
-    this.photosService.getPhotos(id)
-      .subscribe(
-        (result: any) => {
-          this._album = result.map((photo): PhotographAlbum => ({
-            src: photo.address,
-            caption: this.observation.bird.englishName,
-            thumb: photo.address,
-            filename: photo.filename
-          }));
-        },
-        () => {
-          // this.errorReport = error;
-          // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
-        });
-  }
+  // getPhotos(id: number): void {
+  //   this.photosService.getPhotos(id)
+  //     .subscribe(
+  //       (result: any) => {
+  //         this._album = result.map((photo): PhotographAlbum => ({
+  //           src: photo.address,
+  //           caption: this.observation.bird.englishName,
+  //           thumb: photo.address,
+  //           filename: photo.filename
+  //         }));
+  //       },
+  //       () => {
+  //         // this.errorReport = error;
+  //         // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
+  //       });
+  // }
 }
