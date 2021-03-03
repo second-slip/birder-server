@@ -44,7 +44,7 @@
                             <input type="bird" placeholder="Select species" aria-label="Number" matInput
                                 formControlName="bird" [matAutocomplete]="auto" required>
                             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
-                                <mat-option *ngFor="let bird of filteredOptions | async" [value]="bird">
+                                <mat-option *ngFor="let bird of filteredOptions$ | async" [value]="bird">
                                     <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
                                 </mat-option>
                             </mat-autocomplete>

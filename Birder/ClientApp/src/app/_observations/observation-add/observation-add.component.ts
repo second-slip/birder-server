@@ -36,7 +36,7 @@ export class ObservationAddComponent implements OnInit {
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
   invalidAddObservation: boolean;
-  filteredOptions: Observable<BirdSummaryViewModel[]>;
+  filteredOptions$: Observable<BirdSummaryViewModel[]>;
   //user: UserViewModel;
   defaultPosition: ObservationPosition;
 
@@ -87,11 +87,24 @@ export class ObservationAddComponent implements OnInit {
     this.getBirds();
   }
 
+  getBirds(): void {
+    this.birdsService.getBirdsDdl()
+      .subscribe(
+        (data: BirdSummaryViewModel[]) => {
+          this.birdsSpecies = data;
+          this.getBirdAutocompleteOptions();
+        },
+        (error: ErrorReportViewModel) => {
+          console.log('could not get the birds ddl');
+        });
+  }
+
   getBirdAutocompleteOptions() {
-    this.filteredOptions = this.addObservationForm.controls['bird'].valueChanges.pipe(
-      startWith(''),
-      map(value => value.length >= 1 ? this._filter(value) : this.birdsSpecies)
-    );
+    this.filteredOptions$ = this.addObservationForm.controls['bird'].valueChanges
+      .pipe(
+        startWith(''),
+        map(value => value.length >= 1 ? this._filter(value) : this.birdsSpecies)
+      );
   }
 
   displayFn(bird: BirdSummaryViewModel): string {
@@ -167,18 +180,6 @@ export class ObservationAddComponent implements OnInit {
           console.log('unsuccessful add observation');
         }
       );
-  }
-
-  getBirds(): void {
-    this.birdsService.getBirdsDdl()
-      .subscribe(
-        (data: BirdSummaryViewModel[]) => {
-          this.birdsSpecies = data;
-          this.getBirdAutocompleteOptions();
-        },
-        (error: ErrorReportViewModel) => {
-          console.log('could not get the birds ddl');
-        });
   }
 
   getLocation(): void {
