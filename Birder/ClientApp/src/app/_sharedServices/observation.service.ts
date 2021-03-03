@@ -51,14 +51,14 @@ export class ObservationService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  deleteObservation(id: number): Observable<ObservationViewModel | ErrorReportViewModel> {
+  deleteObservation(id: string): Observable<ObservationViewModel> {
     const options = id ?
       { params: new HttpParams().set('id', id.toString()) } : {};
 
     return this.http.delete<ObservationViewModel>('api/Observation/DeleteObservation', options)
       .pipe(
-        tap(_ => { this.announceObservationsChanged(); }),
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+        tap(_ => { this.announceObservationsChanged(); }));
+        //catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   getObservationsByBirdSpecies(birdId: number, pageIndex: number, pageSize: number): Observable<ObservationDto | ErrorReportViewModel> {
