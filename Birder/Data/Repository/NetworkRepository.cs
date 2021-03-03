@@ -1,5 +1,8 @@
 ﻿using Birder.Data.Model;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
@@ -20,6 +23,28 @@ namespace Birder.Data.Repository
         public void UnFollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow)
         {
             loggedinUser.Following.Remove(userToUnfollow.Followers.FirstOrDefault());
+        }
+
+        public async Task<IEnumerable<Network>> GetFollowing(ApplicationUser user)
+        {
+            var t = await _dbContext.Network
+                .Include(x => x.Follower)
+                .ThenInclude(x => x.Followers)
+                .Where(x => x.Follower == user)
+                .ToListAsync();
+
+            return t;
+        }
+
+        public async Task<IEnumerable<Network>> GetFollowers(ApplicationUser user)
+        {
+            var t = await _dbContext.Network
+                .Include(x => x.ApplicationUser)
+                .ThenInclude(x => x.Following)
+                .Where(x => x.ApplicationUser == user)
+                .ToListAsync();
+
+            return t;
         }
 
         //public async Task<ApplicationUser> GetUserAndNetworkAsync(string userName)
@@ -49,5 +74,17 @@ namespace Birder.Data.Repository
         //{
         //    return await _dbContext.Users.Where(users => users.NormalizedUserName.Contains(searchCriterion.ToUpper()) && !followingList.Contains(users.UserName)).ToListAsync();
         //}
+    }
+
+    public interface INetworkRepository
+    {
+        void Follow(ApplicationUser loggedinUser, ApplicationUser userToFollow);
+        void UnFollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow);
+
+        Task<IEnumerable<Network>> GetFollowers(ApplicationUser user);
+        Task<IEnumerable<Network>> GetFollowing(ApplicationUser user);
+        //Task<IEnumerable<ApplicationUser>> GetFollowersNotFollowedAsync(ApplicationUser user, IEnumerable<string> followersNotBeingFollowed);
+        //Task<IEnumerable<ApplicationUser>> GetSuggestedBirdersToFollowAsync(ApplicationUser user, IEnumerable<string> followingList);
+        //Task<IEnumerable<ApplicationUser>> SearchBirdersToFollowAsync(ApplicationUser user, string searchCriterion, IEnumerable<string> followingList);
     }
 }

@@ -46,11 +46,8 @@ export class TokenService {
         return false;
       }
 
-      // this.isAuthenticated.next(true);
-      // return true;
     } else {
       // TODO: Remove token (could be expired)
-      // this.isAuthenticated.next(false);
       return false;
     }
   }
@@ -68,7 +65,6 @@ export class TokenService {
         defaultLocationLatitude: Number(tokenDecoded.DefaultLatitude),
         defaultLocationLongitude: Number(tokenDecoded.DefaultLongitude)
       };
-
     } else {
       this.authenticationService.logout();
     }

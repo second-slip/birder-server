@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
@@ -6,13 +6,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./footer.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   currentYear: number;
 
-  constructor() { }
-
-  ngOnInit() {
-    // this.title = this.titleService.getTitle();
+  constructor() {
     this.currentYear = new Date().getFullYear();
   }
 }

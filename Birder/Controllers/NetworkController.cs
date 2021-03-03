@@ -58,7 +58,11 @@ namespace Birder.Controllers
 
                 UserNetworkHelpers.SetupFollowersCollection(requestingUser, model.Followers);
 
+                //var followers = await _networkRepository.GetFollowers(requestingUser);
+
                 UserNetworkHelpers.SetupFollowingCollection(requestingUser, model.Following);
+
+                //var following = await _networkRepository.GetFollowing(requestingUser);
 
                 return Ok(model);
 

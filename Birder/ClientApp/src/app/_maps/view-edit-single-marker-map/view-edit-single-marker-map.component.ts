@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
-import { GeocodingService } from '@app/_services/geocoding.service';
+import { GeocodingService } from '@app/_maps/geocoding.service';
 
 @Component({
   selector: 'app-view-edit-single-marker-map',

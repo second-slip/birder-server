@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
             }
             default: {
               this.errorMessage = 'There was an error logging in.  Make sure your email and password are correct.' +
-              'If you need to reset your password please use the link below.';
+                'If you need to reset your password please use the link below.';
               break;
             }
           }

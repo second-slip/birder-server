@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TokenService } from './token.service';
+import { TokenService } from '../_services/token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +14,13 @@ export class GeocodingService {
 
   geocode(searchTerm: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}address=${encodeURIComponent(searchTerm)}&key=${this.apiKey}`)
-      .pipe(
-      )
+      .pipe()
   }
 
   reverseGeocode(latitude: number, longitude: number): Observable<any> {
     const latLng = latitude + ',' + longitude;
     return this.http.get<any>(`${this.apiUrl}latlng=${encodeURIComponent(latLng)}&key=${this.apiKey}`)
-      .pipe(
-      )
+      .pipe()
   }
 
     /**
