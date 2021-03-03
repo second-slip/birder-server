@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { HttpErrorHandlerService } from './http-error-handler.service';
+import { HttpErrorHandlerService } from '../_services/http-error-handler.service';
 import { PhotographDto } from '@app/_models/PhotographDto';
 
 @Injectable({
