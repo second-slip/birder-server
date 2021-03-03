@@ -27,7 +27,7 @@ export class ObservationDeleteComponent implements OnInit {
   }
 
   getObservation(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
 
     this.observationService.getObservation(id)
       .subscribe(

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
-import { PhotosService } from '@app/_services/photos.service';
+import { PhotosService } from '@app/_photos/photos.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_sharedServices/observation.service';
@@ -71,7 +71,7 @@ export class ObservationManagePhotosComponent implements OnInit {
   }
 
   getObservation(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
 
     this.observationService.getObservation(id)
       .subscribe(
