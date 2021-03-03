@@ -23,14 +23,14 @@ export class ObservationService {
     , private httpErrorHandlerService: HttpErrorHandlerService) {
   }
 
-  getObservation(id: number): Observable<ObservationViewModel | ErrorReportViewModel> {
+  getObservation(id: string): Observable<ObservationViewModel> {
     const options = id ?
       { params: new HttpParams().append('id', id.toString()) } : {};
 
     return this.http.get<ObservationViewModel>('api/Observation/GetObservationDetail', options)
-      .pipe(
+      .pipe();
         // tap(observation => this.log(`fetched observation with id: ${observation.observationId}`)),
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+        //catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   addObservation(viewModel: ObservationViewModel): Observable<ObservationViewModel | ErrorReportViewModel> {

@@ -1,129 +1,114 @@
-<div *ngIf="!observation" class="loading">
-  <p><em>Loading...</em></p>
-  <mat-spinner></mat-spinner>
-</div>
+<div class="container">
 
-<div class="container" *ngIf="observation">
-  <div class="observation-add-container">
-    <h3 class="section-title">Observation Report</h3>
-    <p class="report-summary"><a routerLink="/user-profile/{{observation.user.userName}}">
-        {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
-      </a> observed <b>{{observation.quantity}}</b> <a routerLink="/bird-detail/{{observation.bird.birdId}}">
-        {{observation.bird.englishName}}
-      </a> <small><em> {{ observation.bird.species }} </em></small>
-      <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' HH:mm' }}
-    </p>
+  <ng-container *ngIf="observation$ | async as observation; else loadingOrError">
 
-    <div class="example-headers-align">
-      <!--  -->
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Location
-          </mat-panel-title>
-          <mat-panel-description class="mat-panel-description-text">
-            <!-- Map -->
-            {{ map.position?.shortAddress }}
-            <!-- {{ map.geolocation }} -->
-            <mat-icon>add_location</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <!-- Map start -->
-        <div>
+    <div class="observation-add-container">
+      <h3 class="section-title">Observation Report</h3>
+      <p class="report-summary"><a routerLink="/user-profile/{{observation.user.userName}}">
+          {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
+        </a> observed <b>{{observation.quantity}}</b> <a routerLink="/bird-detail/{{observation.bird.birdId}}">
+          {{observation.bird.englishName}}
+        </a> <small><em> {{ observation.bird.species }} </em></small>
+        <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' HH:mm' }}
+      </p>
 
-          <app-view-only-single-marker-map #map [position]="observation?.position">
-          </app-view-only-single-marker-map>
-
-          <div *ngIf="observation.user.userName === user.userName">
-            <small class="container map-info">
-              <mat-icon color="primary">info</mat-icon>
-              <span>You can change the
-                location in
-                the <a routerLink="/observation-edit/{{observation.observationId}}">edit observation</a>
-                page</span>
-            </small>
-          </div>
-
-        </div>
-        <!-- Map end -->
-      </mat-expansion-panel>
-      <!--  -->
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Notes
-          </mat-panel-title>
-          <mat-panel-description class="mat-panel-description-text">
-            Notes count: {{ observation.notes.length }}
-            <mat-icon>create</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <!-- Notes start -->
-        <app-view-only-notes [notes]="observation.notes">
-        </app-view-only-notes>
-        <!-- Notes end -->
-      </mat-expansion-panel>
-      <!--  -->
-      <!-- <mat-expansion-panel [expanded]="_album.length>0">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Photographs
-          </mat-panel-title>
-          <mat-panel-description class="mat-panel-description-text">
-            {{ _album.length > 1 ? _album.length + ' photos' : 'No photos'}}
-            <mat-icon>add_photo_alternate</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header> -->
+      <div class="example-headers-align">
         <!--  -->
-        <!-- <ng-container *ngIf="_album.length>0; else noItems">
-          <div class="photo-gallery">
-            <div *ngFor="let image of _album; let i=index">
-              <img [src]="image.thumb" (click)="open(i)" />
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Location
+            </mat-panel-title>
+            <mat-panel-description class="mat-panel-description-text">
+              <!-- Map -->
+              {{ map.position?.shortAddress }}
+              <!-- {{ map.geolocation }} -->
+              <mat-icon>add_location</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <!-- Map start -->
+          <div>
+
+            <app-view-only-single-marker-map #map [position]="observation?.position">
+            </app-view-only-single-marker-map>
+
+            <div *ngIf="observation.user.userName === user.userName">
+              <small class="container map-info">
+                <mat-icon color="primary">info</mat-icon>
+                <span>You can change the
+                  location in
+                  the <a routerLink="/observation-edit/{{observation.observationId}}">edit observation</a>
+                  page</span>
+              </small>
             </div>
-          </div> -->
 
-          <!-- <div class="content-right">
-            <a class="btn btn-success btn-sm" *ngIf="observation.user.userName === user.userName"
-              routerLink="/observation-manage-photos/{{observation.observationId}}">Add or Remove Photos</a>
-          </div> -->
-        <!-- </ng-container> -->
-        <!-- <ng-template #noItems>
-          <p><em>This feature is currently unavailable. We are working on a new implementation...</em></p> -->
-          <!-- <div>
-            <a class="btn btn-success btn-sm" *ngIf="observation.user.userName === user.userName"
-              routerLink="/observation-manage-photos/{{observation.observationId}}">Add or Remove Photos</a>
-          </div> -->
-        <!-- </ng-template> -->
+          </div>
+          <!-- Map end -->
+        </mat-expansion-panel>
+        <!--  -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Notes
+            </mat-panel-title>
+            <mat-panel-description class="mat-panel-description-text">
+              Notes count: {{ observation.notes.length }}
+              <mat-icon>create</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <!-- Notes start -->
+          <app-view-only-notes [notes]="observation.notes">
+          </app-view-only-notes>
+          <!-- Notes end -->
+        </mat-expansion-panel>
         <!--  -->
 
-      <!-- </mat-expansion-panel> -->
-      
-      <div>
-        <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at
-            {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
+        <div>
+          <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at
+              {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
+        </div>
       </div>
-    </div>
 
-    <div class="navigation-menu">
-      <hr>
-      <a routerLink="/observation-feed">
-        Observation Feed
-      </a>
-      <!-- <a *ngIf="observation.user.userName === user.userName"
+      <div class="navigation-menu">
+        <hr>
+        <a routerLink="/observation-feed">
+          Observation Feed
+        </a>
+        <!-- <a *ngIf="observation.user.userName === user.userName"
         routerLink="/observation-manage-photos/{{observation.observationId}}">
         | Manage Photos
       </a> -->
-      <a *ngIf="observation.user.userName === user.userName"
-        routerLink="/observation-edit/{{observation.observationId}}">
-        | Edit
-      </a>
-      <a *ngIf="observation.user.userName === user.userName"
-        routerLink="/observation-delete/{{observation.observationId}}">
-        | Delete
-      </a>
-      <a routerLink="/observation-add">
-        | Add new
-      </a>
+        <a *ngIf="observation.user.userName === user.userName"
+          routerLink="/observation-edit/{{observation.observationId}}">
+          | Edit
+        </a>
+        <a *ngIf="observation.user.userName === user.userName"
+          routerLink="/observation-delete/{{observation.observationId}}">
+          | Delete
+        </a>
+        <a routerLink="/observation-add">
+          | Add new
+        </a>
+      </div>
     </div>
-  </div>
+
+
+  </ng-container>
+
+  <ng-template #loadingOrError>
+    <ng-container *ngIf="errorObject; else loading">
+
+      <app-error-display [error]="errorObject"></app-error-display>
+
+    </ng-container>
+  </ng-template>
+
+
+  <ng-template #loading>
+    <div class="container loading">
+      <p><em>Loading observation...</em></p>
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+
 </div>
