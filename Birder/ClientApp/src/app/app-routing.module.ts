@@ -25,7 +25,7 @@ import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { AboutComponent } from './_about/about/about.component';
-import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
+import { ObservationManagePhotosComponent } from './_photos/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
 import { NetworkComponent } from './_network/network/network.component';
 import { WhatsNewComponent } from './whats-new/whats-new.component';

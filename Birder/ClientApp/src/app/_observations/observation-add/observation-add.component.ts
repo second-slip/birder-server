@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { startWith, map, share, catchError, tap } from 'rxjs/operators';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { BirdsListValidator, ParentErrorStateMatcher } from 'validators';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
@@ -31,23 +31,22 @@ export class ObservationAddComponent implements OnInit {
   private notesComponent: AddNotesComponent;
 
   requesting: boolean;
+  public errorObject = null;
   addObservationForm: FormGroup;
+
   birdsSpecies: BirdSummaryViewModel[]
+  filteredOptions$: Observable<BirdSummaryViewModel[]>;
+
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   errorReport: ErrorReportViewModel;
   invalidAddObservation: boolean;
-  filteredOptions$: Observable<BirdSummaryViewModel[]>;
-  //user: UserViewModel;
+
   defaultPosition: ObservationPosition;
 
   hideAlert = false;
 
   @ViewChild('picker') picker: any;
 
-  // @ViewChild(MatStepper)
-  // private stepper: MatStepper;
-
-  // public disabled = false;
   public showSpinners = true;
   public showSeconds = false;
   public touchUi = false;
@@ -87,6 +86,25 @@ export class ObservationAddComponent implements OnInit {
     this.getBirds();
   }
 
+  // getBirds(): void {
+  //   this.birdsService.getBirdsDdl()
+  //     .pipe(share(),
+  //       tap(() => this.getBirdAutocompleteOptions()),
+  //       catchError(err => {
+  //         this.errorObject = err;
+  //         return throwError(err);
+  //       })
+  //     );
+
+
+  getBirdAutocompleteOptions() {
+    this.filteredOptions$ = this.addObservationForm.controls['bird'].valueChanges
+      .pipe(
+        startWith(''),
+        map(value => value.length >= 1 ? this._filter(value) : this.birdsSpecies)
+      );
+  }
+
   getBirds(): void {
     this.birdsService.getBirdsDdl()
       .subscribe(
@@ -97,14 +115,6 @@ export class ObservationAddComponent implements OnInit {
         (error: ErrorReportViewModel) => {
           console.log('could not get the birds ddl');
         });
-  }
-
-  getBirdAutocompleteOptions() {
-    this.filteredOptions$ = this.addObservationForm.controls['bird'].valueChanges
-      .pipe(
-        startWith(''),
-        map(value => value.length >= 1 ? this._filter(value) : this.birdsSpecies)
-      );
   }
 
   displayFn(bird: BirdSummaryViewModel): string {

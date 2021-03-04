@@ -68,7 +68,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { GalleryModule } from '@ngx-gallery/core';
 // import { LightboxModule } from 'ngx-lightbox';
-import { ObservationManagePhotosComponent } from './_observations/observation-manage-photos/observation-manage-photos.component';
+import { ObservationManagePhotosComponent } from './_photos/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
 import { AboutContributeComponent } from './_about/about-contribute/about-contribute.component';
 import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
