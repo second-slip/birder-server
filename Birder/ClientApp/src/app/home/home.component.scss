@@ -35,17 +35,19 @@ app-home {
 
     //showcase feed
 
-    p.showcase-observations-caption {
+    p.observation-feed-image-caption {
       margin: 0;
       font-weight: bold;
       text-align: center;
     }
 
-    .showcase-observations {
-      border: 1px solid #000000;
-      text-align: left;
+    .observation-feed-image img {
+
+      max-height: 100%;
+      max-width: 100%;
       margin-bottom: 10px;
     }
+
 
     ul {
       text-align: center;
@@ -66,18 +68,9 @@ app-home {
       border-radius: 12px;
     }
 
-    .row-feed {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      width: 60%;
-      margin: auto;
-    }
 
-    .showcase-observations-column {
-      display: flex;
-      flex-direction: column;
-    }
+
+
 
     // Analysis
     .section-analysis {
@@ -170,18 +163,7 @@ app-home {
 
     //showcase feed
 
-    p.showcase-observations-caption {
-      margin: 0;
-      font-weight: bold;
-      text-align: center;
-      font-size: 0.8em;
-    }
 
-    .showcase-observations {
-      border: 1px solid #000000;
-      text-align: left;
-      margin-bottom: 10px;
-    }
 
     ul {
       text-align: center;
@@ -204,17 +186,17 @@ app-home {
       border-radius: 12px;
     }
 
-    .row-feed {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      width: 100%;
-      margin: auto;
+    p.observation-feed-image-caption {
+      margin: 0;
+      font-weight: bold;
+      text-align: center;
+      font-size: 0.8em;
     }
 
-    .showcase-observations-column {
-      display: flex;
-      flex-direction: column;
+    .observation-feed-image img {
+      max-height: 100%;
+      max-width: 100%;
+      margin-bottom: 10px;
     }
 
     // Analysis
