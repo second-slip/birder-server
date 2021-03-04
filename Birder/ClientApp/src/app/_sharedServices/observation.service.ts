@@ -58,15 +58,14 @@ export class ObservationService {
         tap(() => { this.announceObservationsChanged(); }));
   }
 
-  getObservationsByBirdSpecies(birdId: number, pageIndex: number, pageSize: number): Observable<ObservationDto | ErrorReportViewModel> {
+  getObservationsByBirdSpecies(birdId: number, pageIndex: number, pageSize: number): Observable<ObservationDto> {
     const params = new HttpParams()
       .set('birdId', birdId.toString())
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
 
     return this.http.get<ObservationDto>('api/Observation/GetObservationsByBirdSpecies', { params })
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe(first());
   }
 
   getObservationsByUser(username: string, pageIndex: number, pageSize: number): Observable<ObservationDto> {

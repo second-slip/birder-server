@@ -1,17 +1,8 @@
 <div class="container">
-    <div *ngIf="!observations" class="loading">
-        <p><em>Loading...</em></p>
-        <mat-spinner></mat-spinner>
-    </div>
 
-    <div *ngIf="observations">
-        <ng-container *ngIf="observations.length; else noItems">
-            <p class="italic">
-                Total sightings: {{ totalItems }}
-                <!-- The {{ observations[0].bird.englishName }} has been spotted {{ totalItems }}
-                {{ totalItems > 1 ? 'times:' : 'time:' }} -->
-            </p>
+    <ng-container *ngIf="observations$ | async as observations; else loadingOrError">
 
+        <div *ngIf="observations.items.length">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -23,7 +14,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let record of observations; index as i">
+                    <tr *ngFor="let record of observations.items; index as i">
                         <!-- <th scope="row">{{ i + 1 }}</th> -->
                         <td>{{ record.quantity }}</td>
                         <td>{{ record.observationDateTime | date: 'dd/MM/yyyy \'at\' h:mm a' }}</td>
@@ -34,19 +25,33 @@
             </table>
 
             <hr>
-            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItems" [(page)]="page"
-                [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
+            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="observations.totalItems"
+                [(page)]="page" [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="changePage()">
+            </ngb-pagination>
 
-        </ng-container>
-
-        <ng-template #noItems>
-            <div class="no-items">
+            <div *ngIf="!observations.items.length">
                 <p>
-                    <ngb-alert type="info" [dismissible]="false">
-                        <strong>We're sorry!</strong> No sightings of this species has been recorded.
+                    <ngb-alert type="warning" [dismissible]="false">
+                        there are no records for this species
                     </ngb-alert>
                 </p>
             </div>
-        </ng-template>
-    </div>
+
+        </div>
+
+    </ng-container>
+
+    <ng-template #loadingOrError>
+        <ng-container *ngIf="errorObject; else loading">
+            <app-error-display [error]="errorObject"></app-error-display>
+        </ng-container>
+    </ng-template>
+
+
+    <ng-template #loading>
+        <div class="container loading">
+            <p><em>Loading observations...</em></p>
+            <mat-spinner></mat-spinner>
+        </div>
+    </ng-template>
 </div>
