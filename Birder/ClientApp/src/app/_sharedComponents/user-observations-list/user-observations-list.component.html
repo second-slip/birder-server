@@ -1,8 +1,8 @@
 <div class="container">
 
-    <div *ngIf="!requesting; else loading">
+    <ng-container *ngIf="observations$ | async as observations; else loadingOrError">
 
-        <ng-container *ngIf="observations.length; else noItems">
+        <div *ngIf="observations.items.length">
 
             <table class="table table-striped">
                 <thead>
@@ -15,30 +15,43 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let record of observations; index as i">
+                    <tr *ngFor="let record of observations.items; index as i">
                         <!-- <th scope="row">{{ i + 1 }}</th> -->
                         <td class="hide-small">{{ record.quantity }}</td>
                         <td><a routerLink="/bird-detail/{{record.bird.birdId}}">{{ record.bird.englishName }}</a>
-                            <br><small class="species"> {{ record.bird.species }}</small></td>
+                            <br><small class="species"> {{ record.bird.species }}</small>
+                        </td>
                         <td>{{ record.observationDateTime | date: 'dd/MM/yy\';\' HH:mm' }}</td>
-                        <td><a mat-stroked-button routerLink="/observation-detail/{{ record.observationId }}">View</a></td>
+                        <td><a mat-stroked-button routerLink="/observation-detail/{{ record.observationId }}">View</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
 
             <hr>
-            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItems" [(page)]="page"
-                [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="changePage()"></ngb-pagination>
+            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="observations.totalItems"
+                [(page)]="page" [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="changePage()">
+            </ngb-pagination>
 
+        </div>
+
+        <div *ngIf="!observations.items.length">
+            <p>
+                <ngb-alert type="warning" [dismissible]="false">
+                    There are no observations to display
+                </ngb-alert>
+            </p>
+        </div>
+
+    </ng-container>
+
+
+    <ng-template #loadingOrError>
+        <ng-container *ngIf="errorObject; else loading">
+            <app-error-display [error]="errorObject"></app-error-display>
         </ng-container>
+    </ng-template>
 
-        <ng-template #noItems>
-            <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
-                No sightings.
-            </ngb-alert>
-        </ng-template>
-
-    </div>
 
     <ng-template #loading>
         <div class="container loading">

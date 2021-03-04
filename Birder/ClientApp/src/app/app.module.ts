@@ -67,7 +67,6 @@ import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/con
 import { FooterComponent } from './footer/footer.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { GalleryModule } from '@ngx-gallery/core';
-// import { LightboxModule } from 'ngx-lightbox';
 import { ObservationManagePhotosComponent } from './_photos/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
 import { AboutContributeComponent } from './_about/about-contribute/about-contribute.component';
@@ -92,8 +91,6 @@ import { EditNoteDialogComponent } from './_observationNotes/edit-note-dialog/ed
 import { EditNotesComponent } from './_observationNotes/edit-notes/edit-notes.component';
 import { ObservationFeedItemComponent } from './_observationFeed/observation-feed-item/observation-feed-item.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { ShowcaseObservationFeedItemComponent } from './_observationFeedShowcase/showcase-observation-feed-item/showcase-observation-feed-item.component';
-import { ShowcaseObservationFeedComponent } from './_observationFeedShowcase/showcase-observation-feed/showcase-observation-feed.component';
 import { WhatsNewComponent } from './whats-new/whats-new.component';
 import { TweetArchiveComponent } from './_tweet/tweet-archive/tweet-archive.component';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
@@ -205,7 +202,6 @@ export function tokenGetter() {
     NetworkComponent,
     BirdsIndexGridViewComponent,
     InfoTweetComponent,
-    ShowcaseObservationFeedComponent,
     ViewOnlySingleMarkerMapComponent,
     ViewEditSingleMarkerMapComponent,
     ViewOnlyNotesComponent,
@@ -214,7 +210,6 @@ export function tokenGetter() {
     EditNoteDialogComponent,
     EditNotesComponent,
     ObservationFeedItemComponent,
-    ShowcaseObservationFeedItemComponent,
     WhatsNewComponent,
     TweetArchiveComponent,
     SongRecordingsComponent,

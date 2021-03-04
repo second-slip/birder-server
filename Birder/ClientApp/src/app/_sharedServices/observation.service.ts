@@ -69,15 +69,14 @@ export class ObservationService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getObservationsByUser(username: string, pageIndex: number, pageSize: number): Observable<ObservationDto | ErrorReportViewModel> {
+  getObservationsByUser(username: string, pageIndex: number, pageSize: number): Observable<ObservationDto> {
     const params = new HttpParams()
       .set('username', username)
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
 
     return this.http.get<ObservationDto>(`api/Observation/GetObservationsByUser`, { params })
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe(first());
   }
 
   private announceObservationsChanged(): void {
