@@ -33,7 +33,6 @@ export class AuthenticationService {
   }
 
   setAuthenticationToken(token: AuthenticationResultDto): void {
-    // let token = (<any>user).token;
     if (token && token.authenticationToken) {
       localStorage.setItem('jwt', token.authenticationToken);
       this.isAuthenticated.next(true);
@@ -56,28 +55,14 @@ export class AuthenticationService {
     this.isAuthenticated.next(false);
   }
 
-  checkIsAuthenticatedObservable(): Observable<boolean> {
-
-    return new Observable<boolean>(isAuthenticated => {
-      const token = localStorage.getItem('jwt');
-      if (token && !this.jwtHelper.isTokenExpired(token)) {
-        return isAuthenticated.next(true);
-
-      } else {
-        return isAuthenticated.next(false);
-      }
-    });
-  }
-
   checkIsAuthenticated(): boolean {
     const token = localStorage.getItem('jwt');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {
-      // console.log(this.jwtHelper.decodeToken(token));
       this.isAuthenticated.next(true);
       return true;
     } else {
-      // TODO: Remove token (could be expired)
+      localStorage.removeItem('jwt');
       this.isAuthenticated.next(false);
       return false;
     }
