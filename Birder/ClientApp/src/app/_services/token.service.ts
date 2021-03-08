@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { UserViewModel } from '../_models/UserViewModel';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { AuthenticationService } from './authentication.service';
 import { SetLocationViewModel } from '@app/_models/SetLocationViewModel';
+import { AuthenticationService } from './authentication.service';
+import { UserViewModel } from '@app/_models/UserViewModel';
 
 @Injectable({
   providedIn: 'root'

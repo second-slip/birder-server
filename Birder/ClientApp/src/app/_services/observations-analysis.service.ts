@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { LifeListViewModel } from '@app/_models/LifeListViewModels';
 import { ObservationAnalysisViewModel, TopObservationsAnalysisViewModel } from '@app/_models/ObservationAnalysisViewModel';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +18,16 @@ export class ObservationsAnalysisService {
       { params: new HttpParams().set('requestedUsername', username) } : {};
 
     return this.http.get<ObservationAnalysisViewModel>('api/ObservationAnalysis/GetObservationAnalysis', options)
-      .pipe();
+      .pipe(first());
   }
 
   getTopObservationsAnalysis(): Observable<TopObservationsAnalysisViewModel> {
     return this.http.get<TopObservationsAnalysisViewModel>('api/ObservationAnalysis/GetTopObservationAnalysis')
-      .pipe();
+      .pipe(first());
   }
 
   getLifeList(): Observable<LifeListViewModel[]> {
     return this.http.get<LifeListViewModel[]>('api/ObservationAnalysis/GetLifeList')
-      .pipe();
+      .pipe(first());
   }
 }

@@ -1,8 +1,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { NetworkService } from '@app/_services/network.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-following',
@@ -12,8 +13,8 @@ import { NetworkService } from '@app/_services/network.service';
 })
 export class FollowingComponent {
   username: string;
-  requesting: boolean;
-  following: NetworkUserViewModel[];
+  public errorObject = null;
+  following$: Observable<NetworkUserViewModel[]>;
 
   constructor(private route: ActivatedRoute
     , private networkService: NetworkService) {
@@ -26,16 +27,12 @@ export class FollowingComponent {
   }
 
   getFollowing(): void {
-    this.requesting = true;
-    this.networkService.getFollowing(this.username)
-      .subscribe(
-        (data: NetworkUserViewModel[]) => {
-          this.following = data;
-        },
-        (error: ErrorReportViewModel) => {
-          console.log(error);
-        },
-        () => this.requesting = false
+    this.following$ = this.networkService.getFollowing(this.username)
+      .pipe(share(),
+        catchError(err => {
+          this.errorObject = err;
+          return throwError(err);
+        })
       );
   }
 }

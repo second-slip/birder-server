@@ -1,31 +1,37 @@
 <div class="container">
-    <h3>{{ username}}'s followers</h3>  
+
+    <h3>{{ username}}'s followers</h3>
 
     <nav mat-tab-nav-bar mat-stretch-tabs class="example-stretched-tabs">
         <a mat-tab-link routerLink="/following/{{username}}">Following</a>
         <a mat-tab-link [active]="true">Followers</a>
     </nav>
 
-    <div *ngIf="!requesting; else loading">
-        <ng-container *ngIf="followers.length; else noItems">
-
+    <ng-container *ngIf="followers$ | async as followers; else loadingOrError">
+        <div *ngIf="followers.length">
             <div *ngFor="let user of followers">
                 <app-network-user [user]="user"></app-network-user>
             </div>
+        </div>
 
-        </ng-container>
-
-        <ng-template #noItems>
+        <div *ngIf="!followers.length">
             <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
                 You don't yet follow any <i>Birders</i>
             </ngb-alert>
-        </ng-template>
+        </div>
 
-    </div>
+    </ng-container>
+
+    <ng-template #loadingOrError>
+        <ng-container *ngIf="errorObject; else loading">
+            <app-error-display [error]="errorObject"></app-error-display>
+        </ng-container>
+    </ng-template>
+
 
     <ng-template #loading>
         <div class="container loading">
-            <p><em>Loading followers list...</em></p>
+            <p><em>Loading observation...</em></p>
             <mat-spinner></mat-spinner>
         </div>
     </ng-template>

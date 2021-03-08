@@ -4,7 +4,6 @@ import { HttpErrorHandlerService } from './http-error-handler.service';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
-import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 @Injectable({

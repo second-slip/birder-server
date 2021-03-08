@@ -19,7 +19,6 @@ export class UsernameValidationService {
 
     return this.http.get<boolean>('api/Account/IsUsernameAvailable', options)
       .pipe(
-        // catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
         catchError(err => { return of(err); }));
   }
 

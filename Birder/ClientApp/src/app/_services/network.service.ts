@@ -3,7 +3,7 @@ import { Subject, Observable } from 'rxjs';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { UserNetworkDto } from '../_models/UserNetworkDto';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, first, tap } from 'rxjs/operators';
 import { NetworkUserViewModel } from '../_models/UserProfileViewModel';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -28,22 +28,20 @@ export class NetworkService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  getFollowers(username: string): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
+  getFollowers(username: string): Observable<NetworkUserViewModel[]> {
     const options = username ?
     { params: new HttpParams().set('requestedUsername', username) } : {};
 
     return this.http.get<NetworkUserViewModel[]>('api/Network/GetFollowers', options)
-    .pipe(
-      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+    .pipe(first());
   }
 
-  getFollowing(username: string): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
+  getFollowing(username: string): Observable<NetworkUserViewModel[]> {
     const options = username ?
     { params: new HttpParams().set('requestedUsername', username) } : {};
 
     return this.http.get<NetworkUserViewModel[]>('api/Network/GetFollowing', options)
-    .pipe(
-      catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+    .pipe(first());
   }
 
   getNetworkSuggestions(): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
