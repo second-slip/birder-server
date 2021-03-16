@@ -28,24 +28,18 @@ namespace Birder.Controllers
         public async Task<IActionResult> GetRecordingsAsync(string species)
         {
             if (string.IsNullOrEmpty(species))
-                return BadRequest("location parameter is missing"); // refactor
+                return BadRequest("species parameter is missing"); // refactor
 
             try
             {
                 var recordings = await _xenoCantoService.GetSpeciesRecordings(species);
-
-                //if (recordings is null)
-                //{
-                //    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                //    return StatusCode(500);
-                //}
 
                 return Ok(recordings);
             }
             catch (XenoCantoException ex)
             {
                 if (ex.StatusCode == HttpStatusCode.NotFound)
-                    return BadRequest($"Xeno Canto Api not found.");
+                    return BadRequest($"Xeno-canto Api not found");
                 else
                     return StatusCode(500, ex.Message);
             }
