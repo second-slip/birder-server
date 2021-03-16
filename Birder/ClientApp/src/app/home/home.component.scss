@@ -1,4 +1,9 @@
 app-home {
+  .features {
+    text-align: center;
+  }
+  
+
   @media screen and (min-width: 801px) {
     .hide-big {
       display: none;
@@ -11,13 +16,7 @@ app-home {
       //text-align: center;
     }
 
-    h3.section-text,
-    h4.section-text,
-    h5.section-text,
-    h6.section-text,
-    p.section-text {
-      text-align: center;
-    }
+
 
     .section-main {
       text-align: center;
@@ -42,12 +41,10 @@ app-home {
     }
 
     .observation-feed-image img {
-
       max-height: 100%;
       max-width: 100%;
       margin-bottom: 10px;
     }
-
 
     ul {
       text-align: center;
@@ -67,10 +64,6 @@ app-home {
       margin-bottom: 10px;
       border-radius: 12px;
     }
-
-
-
-
 
     // Analysis
     .section-analysis {
@@ -162,8 +155,6 @@ app-home {
     }
 
     //showcase feed
-
-
 
     ul {
       text-align: center;
