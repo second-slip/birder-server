@@ -31,7 +31,6 @@ namespace Birder.Controllers
         private readonly IObservationRepository _observationRepository;
         private readonly IObservationPositionRepository _observationPositionRepository;
         private readonly IObservationNoteRepository _observationNoteRepository;
-        //private readonly IProfilePhotosService _profilePhotosService;
 
         public ObservationController(IMapper mapper
                                    , IMemoryCache memoryCache
@@ -43,7 +42,6 @@ namespace Birder.Controllers
                                    , IObservationRepository observationRepository
                                    , IObservationPositionRepository observationPositionRepository
                                    , IObservationNoteRepository observationNoteRepository)
-                                   //, IProfilePhotosService profilePhotosService)
         {
             _mapper = mapper;
             _logger = logger;
@@ -55,7 +53,6 @@ namespace Birder.Controllers
             _observationRepository = observationRepository;
             _observationPositionRepository = observationPositionRepository;
             _observationNoteRepository = observationNoteRepository;
-            //_profilePhotosService = profilePhotosService;
         }
 
         [HttpGet, Route("GetObservationDetail")]

@@ -36,6 +36,18 @@ namespace Birder.Data.Repository
                     select b).FirstOrDefaultAsync();
         }
 
+        //public async Task<IEnumerable<BirdSummaryViewModel>> GetBirdsDdlAsync()
+        //{
+        //    var x = _dbContext.Birds
+        //        .AsNoTracking()
+        //        .AsQueryable()
+        //        .MapBirdToDto()
+        //        //.Include(cs => cs.BirdConservationStatus)
+        //        .OrderBy(ob => ob.Species)
+        //        .ThenBy(a => a.EnglishName);
+
+        //    return await x.ToListAsync();
+        //}
         public async Task<IEnumerable<Bird>> GetBirdsDdlAsync()
         {
             return await _dbContext.Birds

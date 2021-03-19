@@ -70,6 +70,7 @@ namespace Birder.Controllers
                 else
                 {
                     var birds = await _birdRepository.GetBirdsDdlAsync();
+                    //var viewModel = await _birdRepository.GetBirdsDdlAsync();
 
                     if (birds == null)
                     {

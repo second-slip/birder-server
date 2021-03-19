@@ -1,10 +1,37 @@
 ﻿using Birder.Data.Model;
+using Birder.ViewModels;
 using System.Linq;
 
 namespace Birder.Helpers
 {
     public static class IQueryableExtensions
     {
+        public static IQueryable<BirdSummaryViewModel> MapBirdToDto(this IQueryable<Bird> birds)
+        {
+            return birds.Select(b => new BirdSummaryViewModel
+            {
+                BirdId = b.BirdId,
+
+                Species = b.Species,
+
+                EnglishName = b.EnglishName,
+
+                PopulationSize = b.PopulationSize,
+
+                BtoStatusInBritain = b.BtoStatusInBritain,
+
+                ThumbnailUrl = b.ThumbnailUrl,
+
+                ConservationStatus = b.BirdConservationStatus.ConservationList,
+
+                ConservationListColourCode = b.BirdConservationStatus.ConservationListColourCode,
+
+                BirderStatus = b.BirderStatus.ToString()
+            });
+        }
+
+
+
         //  public static IQueryable<Vehicle> ApplyFiltering(this IQueryable<Vehicle> query, VehicleQuery queryObj)
         //{
         //    if (queryObj.MakeId.HasValue)

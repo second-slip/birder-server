@@ -9,6 +9,14 @@ using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
+    public interface IObservationRepository : IRepository<Observation>
+    {
+        Task<QueryResult<Observation>> GetObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
+        //Task<IEnumerable<Observation>> GetObservationsAsync(Expression<Func<Observation, bool>> predicate);
+        Task<QueryResult<Observation>> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
+        Task<Observation> GetObservationAsync(int id, bool includeRelated);
+    }
+
     public class ObservationRepository : Repository<Observation>, IObservationRepository
     {
         public ObservationRepository(ApplicationDbContext dbContext) : base(dbContext) { }
@@ -41,44 +49,20 @@ namespace Birder.Data.Repository
             return result;
         }
 
-        public async Task<QueryResult<Observation>> GetShowcaseObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int quantity)
-        {
-            var result = new QueryResult<Observation>();
 
-            var query = _dbContext.Observations
-                .Include(y => y.Bird)
-                    .ThenInclude(u => u.BirdConservationStatus)
-                 .Include(p => p.Position)
-                .Include(au => au.ApplicationUser)
-                .AsNoTracking() // ????????
-                .AsQueryable();
-
-            query = query.Where(predicate);
-
-            query = query.Take(quantity);
-
-            query = query.OrderByDescending(d => d.ObservationDateTime);
-
-            result.TotalItems = await query.CountAsync();
-
-            result.Items = await query.ToListAsync();
-
-            return result;
-        }
-
-        public async Task<IEnumerable<Observation>> GetObservationsAsync(Expression<Func<Observation, bool>> predicate)
-        {
-            return await _dbContext.Observations
-                .Include(y => y.Bird)
-                    .ThenInclude(u => u.BirdConservationStatus)
-                .Include(p => p.Position)
-                .Include(n => n.Notes)
-                .Include(au => au.ApplicationUser)
-                .Where(predicate)
-                .OrderByDescending(d => d.ObservationDateTime)
-                .AsNoTracking()
-                .ToListAsync();
-        }
+        //public async Task<IEnumerable<Observation>> GetObservationsAsync(Expression<Func<Observation, bool>> predicate)
+        //{
+        //    return await _dbContext.Observations
+        //        .Include(y => y.Bird)
+        //            .ThenInclude(u => u.BirdConservationStatus)
+        //        .Include(p => p.Position)
+        //        .Include(n => n.Notes)
+        //        .Include(au => au.ApplicationUser)
+        //        .Where(predicate)
+        //        .OrderByDescending(d => d.ObservationDateTime)
+        //        .AsNoTracking()
+        //        .ToListAsync();
+        //}
 
         public async Task<QueryResult<Observation>> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
         {
@@ -89,11 +73,8 @@ namespace Birder.Data.Repository
                     .ThenInclude(u => u.BirdConservationStatus)
                 .Include(p => p.Position)
                 .Include(au => au.ApplicationUser)
-                //.Where(predicate)
-                //.OrderByDescending(d => d.ObservationDateTime)
                 .AsNoTracking()
                 .AsQueryable();
-            //.ToListAsync();
 
             query = query.Where(predicate);
 

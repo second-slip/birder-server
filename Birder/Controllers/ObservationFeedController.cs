@@ -21,7 +21,6 @@ namespace Birder.Controllers
     public class ObservationFeedController : ControllerBase
     {
         private const int pageSize = 10;
-        //private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -118,45 +117,6 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the observations feed");
-                return BadRequest("An unexpected error occurred");
-            }
-        }
-
-        [AllowAnonymous]
-        [HttpGet, Route("GetShowcaseObservationsFeed")]
-        public async Task<IActionResult> GetShowcaseObservationsFeedAsync(int quantity)
-        {
-            try
-            {
-                if (_cache.TryGetValue(CacheEntries.ShowcaseObservations, out ObservationFeedDto showcaseObservationsCache))
-                {
-                    return Ok(showcaseObservationsCache);
-                }
-
-                var observations = await _observationRepository.GetShowcaseObservationsFeedAsync(obs => obs.Bird.BirderStatus == BirderStatus.Uncommon, quantity);
-
-                if (observations == null)
-                {
-                    string message = $"Showcase observations not found";
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, message);
-                    return NotFound(message);
-                }
-
-                _profilePhotosService.GetUrlForObservations(observations.Items);
-
-                var showcaseObservations = _mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations);
-
-                if (showcaseObservations.Items.Any())
-                {
-                    _cache.Set(CacheEntries.ShowcaseObservations, showcaseObservations, _systemClock.GetEndOfToday);
-                }
-
-                return Ok(showcaseObservations);
-            }
-            catch (Exception ex)
-            {
-                string message = $"An error occurred getting the showcase observations.";
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
                 return BadRequest("An unexpected error occurred");
             }
         }
