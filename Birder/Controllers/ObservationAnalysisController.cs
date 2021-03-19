@@ -8,6 +8,8 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Birder.Controllers
 {
@@ -16,8 +18,7 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ObservationAnalysisController : ControllerBase
     {
-        private IMemoryCache _cache;
-        private readonly IMapper _mapper;
+        private readonly IListService _listService;
         private readonly ILogger _logger;
         private readonly ISystemClockService _systemClock;
         private readonly IObservationRepository _observationRepository;
@@ -25,16 +26,14 @@ namespace Birder.Controllers
 
         public ObservationAnalysisController(IObservationRepository observationRepository
                                             , ILogger<ObservationAnalysisController> logger
-                                            , IMemoryCache memoryCache
                                             , ISystemClockService systemClock
-                                            , IMapper mapper
+                                            , IListService listService
                                             , IObservationsAnalysisService observationsAnalysisService)
         {
             _observationsAnalysisService = observationsAnalysisService;
-            _mapper = mapper;
             _logger = logger;
-            _cache = memoryCache;
             _systemClock = systemClock;
+            _listService = listService;
             _observationRepository = observationRepository;
         }
 
@@ -92,22 +91,12 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                // CACHE FAULT 4/7/20  **************************************
-                // CACHE WITH USER ID OR USERNAME OR SOMETHING UNIQUE
-                // GET RID -- ONLY CALLS WHEN USER NAVIGATES AWAY FROM VIEW WITH ANALYSIS SIDEBAR
-                // if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
-                // {
-                //     var viewModelCache = ObservationsAnalysisHelper.MapTopObservations(observationsCache, _systemClock.GetToday.AddDays(-30));
-                //     return Ok(viewModelCache);
-                // }
-
-                var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
+                //var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
 
                 // observations is null check?
 
-                // _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
-
-                var viewModel = ObservationsAnalysisHelper.MapTopObservations(observations, _systemClock.GetToday.AddDays(-30));
+                //var viewModel = ObservationsAnalysisHelper.MapTopObservations(observations, _systemClock.GetToday.AddDays(-30));
+                var viewModel = await _listService.GetTopObservationsAsync(username, _systemClock.GetToday.AddDays(-30));
 
                 return Ok(viewModel);
             }
@@ -130,20 +119,7 @@ namespace Birder.Controllers
                     return Unauthorized();
                 }
 
-                // CACHE FAULT 4/7/20  **************************************
-                // CACHE WITH USER ID OR USERNAME OR SOMETHING UNIQUE
-                // GET RID -- ONLY CALLS WHEN USER NAVIGATES AWAY FROM VIEW WITH ANALYSIS SIDEBAR
-                // if (_cache.TryGetValue(CacheEntries.ObservationsList, out IEnumerable<Observation> observationsCache))
-                // {
-                //     var viewModelCache = ObservationsAnalysisHelper.MapLifeList(observationsCache);
-                //     return Ok(viewModelCache);
-                // }
-
-                var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
-
-                // _cache.Set(CacheEntries.ObservationsList, observations, _systemClock.GetEndOfToday);
-
-                var viewModel = ObservationsAnalysisHelper.MapLifeList(observations);
+                var viewModel = await _listService.GetLifeListsAsync(a => a.ApplicationUser.UserName == username);
 
                 return Ok(viewModel);
             }

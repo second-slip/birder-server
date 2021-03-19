@@ -11,9 +11,7 @@ namespace Birder.Data.Repository
 {
     public class ObservationRepository : Repository<Observation>, IObservationRepository
     {
-        public ObservationRepository(ApplicationDbContext dbContext) : base(dbContext)
-        {
-        }
+        public ObservationRepository(ApplicationDbContext dbContext) : base(dbContext) { }
 
         public async Task<QueryResult<Observation>> GetObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
         {
@@ -33,14 +31,6 @@ namespace Birder.Data.Repository
             query = query.Where(predicate);
 
             query = query.OrderByDescending(d => d.ObservationDateTime);
-
-            //var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
-            //{
-            //    ["make"] = v => v.Model.Make.Name,
-            //    ["model"] = v => v.Model.Name,
-            //    ["contactName"] = v => v.ContactName
-            //};
-            //query = query.ApplyOrdering(queryObj, columnsMap);
 
             result.TotalItems = await query.CountAsync();
 

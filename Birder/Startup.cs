@@ -86,6 +86,7 @@ namespace Birder
             services.AddScoped<IObservationNoteRepository, ObservationNoteRepository>();
             services.AddScoped<INetworkRepository, NetworkRepository>();
             services.AddScoped<ITweetDayRepository, TweetDayRepository>();
+            services.AddScoped<IListService, ListService>();
 
             services.AddScoped<IObservationsAnalysisService, ObservationsAnalysisService>();
 
