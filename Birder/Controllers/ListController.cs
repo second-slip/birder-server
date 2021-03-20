@@ -17,7 +17,7 @@ namespace Birder.Controllers
         private readonly IListService _listService;
         private readonly ISystemClockService _systemClock;
 
-        public ListController(ILogger<ObservationAnalysisController> logger
+        public ListController(ILogger<ListController> logger
                             , ISystemClockService systemClock
                             , IListService listService)
         {

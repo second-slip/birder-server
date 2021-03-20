@@ -30,10 +30,6 @@ namespace Birder.Services
                 .AsNoTracking()
                 .Where(predicate)
                 .MapObservationToObservationViewDto()
-                //.Include(y => y.Bird)
-                //    .ThenInclude(u => u.BirdConservationStatus)
-                //.Include(p => p.Position)
-                //.Include(au => au.ApplicationUser)
                 .AsQueryable();
 
             query = query.OrderByDescending(d => d.ObservationDateTime);

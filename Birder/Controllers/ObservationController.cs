@@ -21,7 +21,7 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ObservationController : ControllerBase
     {
-        private IMemoryCache _cache;
+        //private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly IUnitOfWork _unitOfWork;
@@ -31,11 +31,9 @@ namespace Birder.Controllers
         private readonly IObservationRepository _observationRepository;
         private readonly IObservationPositionRepository _observationPositionRepository;
         private readonly IObservationNoteRepository _observationNoteRepository;
-        //ToDo: New controller
-        private readonly IObservationQueryService _observationQueryService;
 
         public ObservationController(IMapper mapper
-                                   , IMemoryCache memoryCache
+                                   //, IMemoryCache memoryCache
                                    , ISystemClockService systemClock
                                    , IUnitOfWork unitOfWork
                                    , IBirdRepository birdRepository
@@ -43,19 +41,17 @@ namespace Birder.Controllers
                                    , UserManager<ApplicationUser> userManager
                                    , IObservationRepository observationRepository
                                    , IObservationPositionRepository observationPositionRepository
-                                   , IObservationNoteRepository observationNoteRepository
-                                   , IObservationQueryService observationQueryService)
+                                   , IObservationNoteRepository observationNoteRepository)
         {
             _mapper = mapper;
             _logger = logger;
-            _cache = memoryCache;
+            //_cache = memoryCache;
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _systemClock = systemClock;
             _birdRepository = birdRepository;
             _observationRepository = observationRepository;
             _observationPositionRepository = observationPositionRepository;
-            _observationQueryService = observationQueryService;
             _observationNoteRepository = observationNoteRepository;
         }
 
@@ -79,59 +75,6 @@ namespace Birder.Controllers
             {
                 string message = $"An error occurred getting observation with id '{id}'.";
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, message);
-                return BadRequest("An error occurred");
-            }
-        }
-
-        [HttpGet, Route("GetObservationsByBirdSpecies")]
-        public async Task<IActionResult> GetObservationsByBirdSpeciesAsync(int birdId, int pageIndex, int pageSize)
-        {
-            try
-            {
-                //var observations = await _observationRepository.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
-                var viewModel = await _observationQueryService.GetPagedObservations(cs => cs.BirdId == birdId, pageIndex, pageSize);
-                
-                if (viewModel == null)
-                {
-                    string message = $"Observations with birdId '{birdId}' was not found.";
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, message);
-                    return NotFound(message);
-                }
-
-                //_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations)
-                return Ok(viewModel);
-            }
-            catch (Exception ex)
-            {
-                string message = $"An error occurred getting Observations with birdId '{birdId}'.";
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
-                return BadRequest("An error occurred");
-            }
-        }
-
-        [HttpGet, Route("GetObservationsByUser")]
-        public async Task<IActionResult> GetObservationsByUserAsync(string username, int pageIndex, int pageSize)
-        {
-            try
-            {
-                //var observations = await _observationRepository.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
-                var viewModel = await _observationQueryService.GetPagedObservations(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
-                
-                if (viewModel == null)
-                {
-                    string message = $"Observations with username '{username}' was not found.";
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, message);
-                    return NotFound(message);
-                }
-
-                //_profilePhotosService.GetThumbnailsUrl(observations.Items);
-                //return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations));
-                return Ok(viewModel);
-            }
-            catch (Exception ex)
-            {
-                string message = $"An error occurred getting observations with username '{username}'.";
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
                 return BadRequest("An error occurred");
             }
         }
@@ -334,10 +277,10 @@ namespace Birder.Controllers
             }
         }
 
-        private void ClearCache()
-        {
-            _cache.Remove(CacheEntries.ObservationsList);
-            _cache.Remove(CacheEntries.ObservationsSummary);
-        }
+        //private void ClearCache()
+        //{
+        //    _cache.Remove(CacheEntries.ObservationsList);
+        //    _cache.Remove(CacheEntries.ObservationsSummary);
+        //}
     }
 }

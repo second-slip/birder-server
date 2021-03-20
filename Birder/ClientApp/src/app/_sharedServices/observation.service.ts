@@ -65,7 +65,7 @@ export class ObservationService {
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.http.get<ObservationsPagedDto>('api/Observation/GetObservationsByBirdSpecies', { params })
+    return this.http.get<ObservationsPagedDto>('api/ObservationQuery/GetObservationsByBirdSpecies', { params })
       .pipe(first());
   }
 
@@ -75,7 +75,7 @@ export class ObservationService {
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.http.get<ObservationsPagedDto>(`api/Observation/GetObservationsByUser`, { params })
+    return this.http.get<ObservationsPagedDto>(`api/ObservationQuery/GetObservationsByUser`, { params })
       .pipe(first());
   }
 
