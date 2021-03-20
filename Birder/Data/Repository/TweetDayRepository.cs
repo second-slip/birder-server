@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
+    public interface ITweetDayRepository : IRepository<TweetDay>
+    {
+        Task<TweetDay> GetTweetOfTheDayAsync(DateTime date);
+        Task<QueryResult<TweetDay>> GetTweetArchiveAsync(int pageIndex, int pageSize, DateTime date);
+    }
+
     public class TweetDayRepository: Repository<TweetDay>, ITweetDayRepository
     {
         public TweetDayRepository(ApplicationDbContext dbContext) : base(dbContext)

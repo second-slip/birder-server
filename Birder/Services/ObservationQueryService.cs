@@ -51,18 +51,10 @@ namespace Birder.Services
             var query = _dbContext.Observations
                 .AsNoTracking()
                 .Where(predicate)
-                //.Include(y => y.Bird)
-                //    .ThenInclude(u => u.BirdConservationStatus)
-                //.Include(p => p.Position)
-                //.Include(n => n.Notes)
-                //.Include(au => au.ApplicationUser)
                 .MapObservationToObservationFeedDto()
-                 // ????????
                 .AsQueryable();
 
             //query = query.ApplyFiltering(queryObj);
-
-            //query = query.Where(predicate);
 
             query = query.OrderByDescending(d => d.ObservationDateTime);
 
