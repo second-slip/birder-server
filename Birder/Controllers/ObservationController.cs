@@ -31,6 +31,8 @@ namespace Birder.Controllers
         private readonly IObservationRepository _observationRepository;
         private readonly IObservationPositionRepository _observationPositionRepository;
         private readonly IObservationNoteRepository _observationNoteRepository;
+        //ToDo: New controller
+        private readonly IObservationQueryService _observationQueryService;
 
         public ObservationController(IMapper mapper
                                    , IMemoryCache memoryCache
@@ -41,7 +43,8 @@ namespace Birder.Controllers
                                    , UserManager<ApplicationUser> userManager
                                    , IObservationRepository observationRepository
                                    , IObservationPositionRepository observationPositionRepository
-                                   , IObservationNoteRepository observationNoteRepository)
+                                   , IObservationNoteRepository observationNoteRepository
+                                   , IObservationQueryService observationQueryService)
         {
             _mapper = mapper;
             _logger = logger;
@@ -52,6 +55,7 @@ namespace Birder.Controllers
             _birdRepository = birdRepository;
             _observationRepository = observationRepository;
             _observationPositionRepository = observationPositionRepository;
+            _observationQueryService = observationQueryService;
             _observationNoteRepository = observationNoteRepository;
         }
 
@@ -79,22 +83,23 @@ namespace Birder.Controllers
             }
         }
 
-
         [HttpGet, Route("GetObservationsByBirdSpecies")]
         public async Task<IActionResult> GetObservationsByBirdSpeciesAsync(int birdId, int pageIndex, int pageSize)
         {
             try
             {
-                var observations = await _observationRepository.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
-
-                if (observations == null)
+                //var observations = await _observationRepository.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
+                var viewModel = await _observationQueryService.GetPagedObservations(cs => cs.BirdId == birdId, pageIndex, pageSize);
+                
+                if (viewModel == null)
                 {
                     string message = $"Observations with birdId '{birdId}' was not found.";
                     _logger.LogWarning(LoggingEvents.GetListNotFound, message);
                     return NotFound(message);
                 }
 
-                return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations));
+                //_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations)
+                return Ok(viewModel);
             }
             catch (Exception ex)
             {
@@ -293,7 +298,6 @@ namespace Birder.Controllers
         [HttpDelete, Route("DeleteObservation")]
         public async Task<IActionResult> DeleteObservationAsync(int id)
         {
-            // ToDo: delete related objects: notes, location?, etc...
             try
             {
                 var observation = await _observationRepository.GetObservationAsync(id, false);

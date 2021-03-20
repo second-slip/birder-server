@@ -6,6 +6,7 @@ import { HttpErrorHandlerService } from '../_services/http-error-handler.service
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { ObservationViewModel } from '../_models/ObservationViewModel';
 import { ObservationDto } from '@app/_models/ObservationFeedDto';
+import { ObservationsPagedDto } from '@app/_models/ObservationViewDto';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -58,13 +59,13 @@ export class ObservationService {
         tap(() => { this.announceObservationsChanged(); }));
   }
 
-  getObservationsByBirdSpecies(birdId: number, pageIndex: number, pageSize: number): Observable<ObservationDto> {
+  getObservationsByBirdSpecies(birdId: number, pageIndex: number, pageSize: number): Observable<ObservationsPagedDto> {
     const params = new HttpParams()
       .set('birdId', birdId.toString())
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.http.get<ObservationDto>('api/Observation/GetObservationsByBirdSpecies', { params })
+    return this.http.get<ObservationsPagedDto>('api/Observation/GetObservationsByBirdSpecies', { params })
       .pipe(first());
   }
 

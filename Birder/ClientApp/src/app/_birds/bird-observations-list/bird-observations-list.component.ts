@@ -3,6 +3,7 @@ import { ObservationService } from '@app/_sharedServices/observation.service';
 import { ObservationDto } from '@app/_models/ObservationFeedDto';
 import { Observable, throwError } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
+import { ObservationsPagedDto } from '@app/_models/ObservationViewDto';
 
 @Component({
   selector: 'app-bird-observations-list',
@@ -13,7 +14,7 @@ import { catchError, share } from 'rxjs/operators';
 export class BirdObservationsListComponent implements OnInit {
   @Input() birdId: number;
 
-  observations$: Observable<ObservationDto>;
+  observations$: Observable<ObservationsPagedDto>;
   public errorObject = null;
   page = 1;
   pageSize = 10;

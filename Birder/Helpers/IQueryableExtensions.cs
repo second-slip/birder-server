@@ -6,27 +6,19 @@ namespace Birder.Helpers
 {
     public static class IQueryableExtensions
     {
-        public static IQueryable<BirdSummaryViewModel> MapBirdToDto(this IQueryable<Bird> birds)
+        public static IQueryable<ObservationViewDto> MapObservationToObservationViewDto(this IQueryable<Observation> birds)
         {
-            return birds.Select(b => new BirdSummaryViewModel
+            return birds.Select(o => new ObservationViewDto
             {
-                BirdId = b.BirdId,
-
-                Species = b.Species,
-
-                EnglishName = b.EnglishName,
-
-                PopulationSize = b.PopulationSize,
-
-                BtoStatusInBritain = b.BtoStatusInBritain,
-
-                ThumbnailUrl = b.ThumbnailUrl,
-
-                ConservationStatus = b.BirdConservationStatus.ConservationList,
-
-                ConservationListColourCode = b.BirdConservationStatus.ConservationListColourCode,
-
-                BirderStatus = b.BirderStatus.ToString()
+                ObservationId = o.ObservationId,
+                Quantity = o.Quantity,
+                ObservationDateTime = o.ObservationDateTime,
+                BirdId = o.BirdId,
+                Species = o.Bird.Species,
+                EnglishName = o.Bird.EnglishName,
+                Username = o.ApplicationUser.UserName,
+                CreationDate = o.CreationDate,
+                LastUpdateDate = o.LastUpdateDate
             });
         }
 

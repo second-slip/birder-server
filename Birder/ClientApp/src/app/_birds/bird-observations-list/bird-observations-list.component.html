@@ -18,7 +18,7 @@
                         <!-- <th scope="row">{{ i + 1 }}</th> -->
                         <td>{{ record.quantity }}</td>
                         <td>{{ record.observationDateTime | date: 'dd/MM/yyyy \'at\' h:mm a' }}</td>
-                        <td><a routerLink="/user-profile/{{ record.user.userName }}">{{ record.user.userName }}</a></td>
+                        <td><a routerLink="/user-profile/{{ record.username }}">{{ record.username }}</a></td>
                         <td><a routerLink="/observation-detail/{{ record.observationId }}">View</a></td>
                     </tr>
                 </tbody>
@@ -29,14 +29,14 @@
                 [(page)]="page" [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="changePage()">
             </ngb-pagination>
 
-            <div *ngIf="!observations.items.length">
-                <p>
-                    <ngb-alert type="warning" [dismissible]="false">
-                        there are no records for this species
-                    </ngb-alert>
-                </p>
-            </div>
+        </div>
 
+        <div *ngIf="!observations.items.length">
+            <p>
+                <ngb-alert type="warning" [dismissible]="false">
+                    there are no records for this species
+                </ngb-alert>
+            </p>
         </div>
 
     </ng-container>

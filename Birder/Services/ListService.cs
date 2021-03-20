@@ -63,9 +63,10 @@ namespace Birder.Services
             viewModel.TopObservations = await _dbContext.Observations
                      .AsNoTracking()
                      .Where(a => a.ApplicationUser.UserName == username)
-                     .GroupBy(b => new { b.Bird.EnglishName })
+                     .GroupBy(b => new { b.Bird.BirdId, b.Bird.EnglishName })
                      .Select(b => new TopObservationsViewModel
                      {
+                         BirdId = b.Key.BirdId,
                          Name = b.Key.EnglishName,
                          Count = b.Count()
                      })
@@ -75,9 +76,10 @@ namespace Birder.Services
             viewModel.TopMonthlyObservations = await _dbContext.Observations
                      .AsNoTracking()
                      .Where(a => a.ApplicationUser.UserName == username && a.ObservationDateTime >= startDate)
-                     .GroupBy(b => new { b.Bird.EnglishName })
+                     .GroupBy(b => new { b.Bird.BirdId, b.Bird.EnglishName })
                      .Select(b => new TopObservationsViewModel
                      {
+                         BirdId = b.Key.BirdId,
                          Name = b.Key.EnglishName,
                          Count = b.Count()
                      })
