@@ -40,7 +40,7 @@ namespace Birder.Services
         public IEnumerable<ObservationFeedDto> GetUrlForObservations(IEnumerable<ObservationFeedDto> observations)
         {
             if (observations == null)
-                throw new ArgumentNullException("observations", "The observations collection is null");
+                throw new ArgumentNullException("The observations collection is null");
 
             // ToDo: add an extra step to check if observation.Bird.ThumbnailUrl is null or empty
             // Why?  Implement if we add some fixed image urls to the database...

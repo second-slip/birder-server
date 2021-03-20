@@ -14,8 +14,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -23,7 +21,6 @@ namespace Birder.Tests.Controller
 {
     public class ObservationControllerTests
     {
-        private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly Mock<ILogger<ObservationController>> _logger;
         //private readonly Mock<IUnitOfWork> _unitOfWork;
@@ -35,7 +32,6 @@ namespace Birder.Tests.Controller
 
         public ObservationControllerTests()
         {
-            _cache = new MemoryCache(new MemoryCacheOptions());
             _logger = new Mock<ILogger<ObservationController>>();
             var mappingConfig = new MapperConfiguration(cfg =>
             {
@@ -67,7 +63,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -115,7 +110,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -163,7 +157,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -192,303 +185,300 @@ namespace Birder.Tests.Controller
         #endregion
 
 
-        #region GetObservationsByUserAsync
+        //#region GetObservationsByUserAsync
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("Test")]
-        [InlineData("TestAgain")]
-        public async Task GetObservationsByUserAsync_ReturnsNotFound_WhenObservationsIsNotFound(string username)
-        {
-            //Arrange
-            var requestingUser = GetUser("Any");
+        //[Theory]
+        //[InlineData("")]
+        //[InlineData("Test")]
+        //[InlineData("TestAgain")]
+        //public async Task GetObservationsByUserAsync_ReturnsNotFound_WhenObservationsIsNotFound(string username)
+        //{
+        //    //Arrange
+        //    var requestingUser = GetUser("Any");
 
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            var mockBirdRepo = new Mock<IBirdRepository>();
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
-                       .Returns(Task.FromResult<IEnumerable<Observation>>(null));
-            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
-            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
+        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+        //    var mockBirdRepo = new Mock<IBirdRepository>();
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //    var mockObsRepo = new Mock<IObservationRepository>();
+        //    mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+        //               .Returns(Task.FromResult<IEnumerable<Observation>>(null));
+        //    var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+        //    var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
-            var controller = new ObservationController(
-                _mapper
-                , _cache
-                , _systemClock
-                , mockUnitOfWork.Object
-                , mockBirdRepo.Object
-                , _logger.Object
-                , mockUserManager.Object
-                , mockObsRepo.Object
-                , mockObsPositionRepo.Object
-                , mockObsNotesRepo.Object);
+        //    var controller = new ObservationController(
+        //        _mapper
+        //        , _cache
+        //        , _systemClock
+        //        , mockUnitOfWork.Object
+        //        , mockBirdRepo.Object
+        //        , _logger.Object
+        //        , mockUserManager.Object
+        //        , mockObsRepo.Object
+        //        , mockObsPositionRepo.Object
+        //        , mockObsNotesRepo.Object);
 
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
-            };
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext()
+        //        { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+        //    };
 
-            // Act
-            var result = await controller.GetObservationsByUserAsync(username, 1, 1);
+        //    // Act
+        //    var result = await controller.GetObservationsByUserAsync(username, 1, 1);
 
-            // Assert
-            string expectedMessage = $"Observations with username '{username}' was not found.";
+        //    // Assert
+        //    string expectedMessage = $"Observations with username '{username}' was not found.";
 
-            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+        //    var objectResult = Assert.IsType<NotFoundObjectResult>(result);
 
-            var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal(expectedMessage, actual);
-        }
+        //    var actual = Assert.IsType<string>(objectResult.Value);
+        //    Assert.Equal(expectedMessage, actual);
+        //}
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("Test")]
-        [InlineData("TestAgain")]
-        public async Task GetObservationsByUserAsync_ReturnsBadRequest_OnException(string username)
-        {
-            //Arrange
-            var requestingUser = GetUser("Any");
+        //[Theory]
+        //[InlineData("")]
+        //[InlineData("Test")]
+        //[InlineData("TestAgain")]
+        //public async Task GetObservationsByUserAsync_ReturnsBadRequest_OnException(string username)
+        //{
+        //    //Arrange
+        //    var requestingUser = GetUser("Any");
 
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            var mockBirdRepo = new Mock<IBirdRepository>();
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                       .ThrowsAsync(new InvalidOperationException());
-            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
-            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
+        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+        //    var mockBirdRepo = new Mock<IBirdRepository>();
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //    var mockObsRepo = new Mock<IObservationRepository>();
+        //    mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+        //               .ThrowsAsync(new InvalidOperationException());
+        //    var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+        //    var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
-            var controller = new ObservationController(
-                _mapper
-                , _cache
-                , _systemClock
-                , mockUnitOfWork.Object
-                , mockBirdRepo.Object
-                , _logger.Object
-                , mockUserManager.Object
-                , mockObsRepo.Object
-                , mockObsPositionRepo.Object
-                , mockObsNotesRepo.Object);
+        //    var controller = new ObservationController(
+        //        _mapper
+        //        , _cache
+        //        , _systemClock
+        //        , mockUnitOfWork.Object
+        //        , mockBirdRepo.Object
+        //        , _logger.Object
+        //        , mockUserManager.Object
+        //        , mockObsRepo.Object
+        //        , mockObsPositionRepo.Object
+        //        , mockObsNotesRepo.Object);
 
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
-            };
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext()
+        //        { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+        //    };
 
-            // Act
-            var result = await controller.GetObservationsByUserAsync(username, 1, 10);
+        //    // Act
+        //    var result = await controller.GetObservationsByUserAsync(username, 1, 10);
 
-            // Assert
-            string expectedMessage = "An error occurred";
+        //    // Assert
+        //    string expectedMessage = "An error occurred";
 
-            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+        //    var objectResult = Assert.IsType<BadRequestObjectResult>(result);
 
-            var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal(expectedMessage, actual);
-        }
+        //    var actual = Assert.IsType<string>(objectResult.Value);
+        //    Assert.Equal(expectedMessage, actual);
+        //}
 
-        [Theory]
-        [InlineData("Test", 1, 4)]
-        [InlineData("TestUser", 2, 3)]
-        [InlineData("TestUsername", 3, 2)]
-        public async Task GetObservationsByUserAsync_ReturnsOkWithObservations_OnSuccessfulRequest(string username, int birdId, int length)
-        {
-            //Arrange
-            var requestingUser = GetUser("Any");
-            var bird = new Bird() { BirdId = birdId };
+        //[Theory]
+        //[InlineData("Test", 1, 4)]
+        //[InlineData("TestUser", 2, 3)]
+        //[InlineData("TestUsername", 3, 2)]
+        //public async Task GetObservationsByUserAsync_ReturnsOkWithObservations_OnSuccessfulRequest(string username, int birdId, int length)
+        //{
+        //    //Arrange
+        //    var requestingUser = GetUser("Any");
+        //    var bird = new Bird() { BirdId = birdId };
 
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            var mockBirdRepo = new Mock<IBirdRepository>();
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                       .ReturnsAsync(GetQueryResult(length, bird));
-            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
-            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
+        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+        //    var mockBirdRepo = new Mock<IBirdRepository>();
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //    var mockObsRepo = new Mock<IObservationRepository>();
+        //    mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+        //               .ReturnsAsync(GetQueryResult(length, bird));
+        //    var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+        //    var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
-            var controller = new ObservationController(
-                _mapper
-                , _cache
-                , _systemClock
-                , mockUnitOfWork.Object
-                , mockBirdRepo.Object
-                , _logger.Object
-                , mockUserManager.Object
-                , mockObsRepo.Object
-                , mockObsPositionRepo.Object
-                , mockObsNotesRepo.Object);
+        //    var controller = new ObservationController(
+        //        _mapper
+        //        , _cache
+        //        , _systemClock
+        //        , mockUnitOfWork.Object
+        //        , mockBirdRepo.Object
+        //        , _logger.Object
+        //        , mockUserManager.Object
+        //        , mockObsRepo.Object
+        //        , mockObsPositionRepo.Object
+        //        , mockObsNotesRepo.Object);
 
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
-            };
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext()
+        //        { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+        //    };
 
-            // Act
-            var result = await controller.GetObservationsByUserAsync(username, 1, 10);
+        //    // Act
+        //    var result = await controller.GetObservationsByUserAsync(username, 1, 10);
 
-            // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(result);
-            var actualObs = Assert.IsType<ObservationFeedDto>(objectResult.Value);
-            Assert.Equal(length, actualObs.TotalItems);
-            Assert.Equal(birdId, actualObs.Items.First().BirdId);
-        }
+        //    // Assert
+        //    var objectResult = Assert.IsType<OkObjectResult>(result);
+        //    var actualObs = Assert.IsType<ObservationFeedDto>(objectResult.Value);
+        //    Assert.Equal(length, actualObs.TotalItems);
+        //    Assert.Equal(birdId, actualObs.Items.First().BirdId);
+        //}
 
-        #endregion
-
-
-        #region GetObservationsByBirdSpeciesAsync
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public async Task GetObservationsBySpeciesAsync_ReturnsNotFound_WhenObservationsIsNotFound(int birdId)
-        {
-            //Arrange
-            var requestingUser = GetUser("Any");
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            var mockBirdRepo = new Mock<IBirdRepository>();
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
-                       .Returns(Task.FromResult<IEnumerable<Observation>>(null));
-            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
-            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
-
-            var controller = new ObservationController(
-                _mapper
-                , _cache
-                , _systemClock
-                , mockUnitOfWork.Object
-                , mockBirdRepo.Object
-                , _logger.Object
-                , mockUserManager.Object
-                , mockObsRepo.Object
-                , mockObsPositionRepo.Object
-                , mockObsNotesRepo.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
-            };
-
-            // Act
-            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 1);
-
-            // Assert
-            string expectedMessage = $"Observations with birdId '{birdId}' was not found.";
-
-            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-
-            var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal(expectedMessage, actual);
-        }
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public async Task GetObservationsBySpeciesAsync_ReturnsBadRequest_OnException(int birdId)
-        {
-            //Arrange
-            var requestingUser = GetUser("Any");
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            var mockBirdRepo = new Mock<IBirdRepository>();
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                       .ThrowsAsync(new InvalidOperationException());
-            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
-            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
-
-            var controller = new ObservationController(
-                _mapper
-                , _cache
-                , _systemClock
-                , mockUnitOfWork.Object
-                , mockBirdRepo.Object
-                , _logger.Object
-                , mockUserManager.Object
-                , mockObsRepo.Object
-                , mockObsPositionRepo.Object
-                , mockObsNotesRepo.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
-            };
-
-            // Act
-            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 10);
-
-            // Assert
-            string expectedMessage = "An error occurred";
-
-            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-
-            var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal(expectedMessage, actual);
-        }
-
-        [Theory]
-        [InlineData(1, 4)]
-        [InlineData(2, 3)]
-        [InlineData(3, 2)]
-        public async Task GetObservationsBySpeciesAsync_ReturnsOkWithObservations_OnSuccessfulRequest(int birdId, int length)
-        {
-            //Arrange
-            var requestingUser = GetUser("Any");
-            var bird = new Bird() { BirdId = birdId };
-
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            var mockBirdRepo = new Mock<IBirdRepository>();
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                       .ReturnsAsync(GetQueryResult(length, bird));
-            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
-            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
-
-            var controller = new ObservationController(
-                _mapper
-                , _cache
-                , _systemClock
-                , mockUnitOfWork.Object
-                , mockBirdRepo.Object
-                , _logger.Object
-                , mockUserManager.Object
-                , mockObsRepo.Object
-                , mockObsPositionRepo.Object
-                , mockObsNotesRepo.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
-            };
-
-            // Act
-            var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 10);
-
-            // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(result);
-            var actualObs = Assert.IsType<ObservationFeedDto>(objectResult.Value);
-            Assert.Equal(length, actualObs.TotalItems);
-            Assert.Equal(birdId, actualObs.Items.First().BirdId);
-        }
-
-        #endregion
+        //#endregion
 
 
+        //#region GetObservationsByBirdSpeciesAsync
 
+        //[Theory]
+        //[InlineData(1)]
+        //[InlineData(2)]
+        //[InlineData(3)]
+        //public async Task GetObservationsBySpeciesAsync_ReturnsNotFound_WhenObservationsIsNotFound(int birdId)
+        //{
+        //    //Arrange
+        //    var requestingUser = GetUser("Any");
+
+        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+        //    var mockBirdRepo = new Mock<IBirdRepository>();
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //    var mockObsRepo = new Mock<IObservationRepository>();
+        //    mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+        //               .Returns(Task.FromResult<IEnumerable<Observation>>(null));
+        //    var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+        //    var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
+
+        //    var controller = new ObservationController(
+        //        _mapper
+        //        , _cache
+        //        , _systemClock
+        //        , mockUnitOfWork.Object
+        //        , mockBirdRepo.Object
+        //        , _logger.Object
+        //        , mockUserManager.Object
+        //        , mockObsRepo.Object
+        //        , mockObsPositionRepo.Object
+        //        , mockObsNotesRepo.Object);
+
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext()
+        //        { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+        //    };
+
+        //    // Act
+        //    var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 1);
+
+        //    // Assert
+        //    string expectedMessage = $"Observations with birdId '{birdId}' was not found.";
+
+        //    var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+
+        //    var actual = Assert.IsType<string>(objectResult.Value);
+        //    Assert.Equal(expectedMessage, actual);
+        //}
+
+        //[Theory]
+        //[InlineData(1)]
+        //[InlineData(2)]
+        //[InlineData(3)]
+        //public async Task GetObservationsBySpeciesAsync_ReturnsBadRequest_OnException(int birdId)
+        //{
+        //    //Arrange
+        //    var requestingUser = GetUser("Any");
+
+        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+        //    var mockBirdRepo = new Mock<IBirdRepository>();
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //    var mockObsRepo = new Mock<IObservationRepository>();
+        //    mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+        //               .ThrowsAsync(new InvalidOperationException());
+        //    var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+        //    var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
+
+        //    var controller = new ObservationController(
+        //        _mapper
+        //        , _cache
+        //        , _systemClock
+        //        , mockUnitOfWork.Object
+        //        , mockBirdRepo.Object
+        //        , _logger.Object
+        //        , mockUserManager.Object
+        //        , mockObsRepo.Object
+        //        , mockObsPositionRepo.Object
+        //        , mockObsNotesRepo.Object);
+
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext()
+        //        { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+        //    };
+
+        //    // Act
+        //    var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 10);
+
+        //    // Assert
+        //    string expectedMessage = "An error occurred";
+
+        //    var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+
+        //    var actual = Assert.IsType<string>(objectResult.Value);
+        //    Assert.Equal(expectedMessage, actual);
+        //}
+
+        //[Theory]
+        //[InlineData(1, 4)]
+        //[InlineData(2, 3)]
+        //[InlineData(3, 2)]
+        //public async Task GetObservationsBySpeciesAsync_ReturnsOkWithObservations_OnSuccessfulRequest(int birdId, int length)
+        //{
+        //    //Arrange
+        //    var requestingUser = GetUser("Any");
+        //    var bird = new Bird() { BirdId = birdId };
+
+        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+        //    var mockBirdRepo = new Mock<IBirdRepository>();
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //    var mockObsRepo = new Mock<IObservationRepository>();
+        //    mockObsRepo.Setup(o => o.GetPagedObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+        //               .ReturnsAsync(GetQueryResult(length, bird));
+        //    var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+        //    var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
+
+        //    var controller = new ObservationController(
+        //        _mapper
+        //        , _cache
+        //        , _systemClock
+        //        , mockUnitOfWork.Object
+        //        , mockBirdRepo.Object
+        //        , _logger.Object
+        //        , mockUserManager.Object
+        //        , mockObsRepo.Object
+        //        , mockObsPositionRepo.Object
+        //        , mockObsNotesRepo.Object);
+
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext()
+        //        { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+        //    };
+
+        //    // Act
+        //    var result = await controller.GetObservationsByBirdSpeciesAsync(birdId, 1, 10);
+
+        //    // Assert
+        //    var objectResult = Assert.IsType<OkObjectResult>(result);
+        //    var actualObs = Assert.IsType<ObservationFeedDto>(objectResult.Value);
+        //    Assert.Equal(length, actualObs.TotalItems);
+        //    Assert.Equal(birdId, actualObs.Items.First().BirdId);
+        //}
+
+        //#endregion
 
 
         #region DeleteObservationAsync
@@ -514,7 +504,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -563,7 +552,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -617,7 +605,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -674,7 +661,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object

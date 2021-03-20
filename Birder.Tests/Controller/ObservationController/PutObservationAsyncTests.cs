@@ -64,7 +64,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -114,7 +113,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -167,7 +165,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -220,7 +217,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -273,7 +269,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -331,7 +326,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object
@@ -403,7 +397,6 @@ namespace Birder.Tests.Controller
 
             var controller = new ObservationController(
                 _mapper
-                , _cache
                 , _systemClock
                 , mockUnitOfWork.Object
                 , mockBirdRepo.Object

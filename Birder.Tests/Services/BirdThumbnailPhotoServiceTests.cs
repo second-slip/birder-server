@@ -1,5 +1,5 @@
-﻿using Birder.Data.Model;
-using Birder.Services;
+﻿using Birder.Services;
+using Birder.ViewModels;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -46,14 +46,14 @@ namespace Birder.Tests.Services
             var service = new BirdThumbnailPhotoService(mockCache.Object, mockLogger.Object, mockFlickrService.Object);
 
             const string expected = "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
-            var observations = new List<Observation> { new Observation() { Bird = new Bird() } };
+            var observations = new List<ObservationFeedDto> { new ObservationFeedDto() { } };
 
             // Act
             var result = service.GetUrlForObservations(observations);
 
             // Assert
-            Assert.IsAssignableFrom<IEnumerable<Observation>>(result);
-            Assert.Equal(expected, result.FirstOrDefault().Bird.ThumbnailUrl);
+            Assert.IsAssignableFrom<IEnumerable<ObservationFeedDto>>(result);
+            Assert.Equal(expected, result.FirstOrDefault().ThumbnailUrl);
         }
 
         [Fact]
@@ -69,21 +69,19 @@ namespace Birder.Tests.Services
 
             var service = new BirdThumbnailPhotoService(concreteCache, mockLogger.Object, mockFlickrService.Object);
 
-            var observations = new List<Observation> { new Observation() { Bird = new Bird() } };
+            var observations = new List<ObservationFeedDto> { new ObservationFeedDto() { } };
 
             // Act
             var result = service.GetUrlForObservations(observations);
 
             // Assert
-            Assert.IsAssignableFrom<IEnumerable<Observation>>(result);
-            Assert.Equal(expected, result.FirstOrDefault().Bird.ThumbnailUrl);
+            Assert.IsAssignableFrom<IEnumerable<ObservationFeedDto>>(result);
+            Assert.Equal(expected, result.FirstOrDefault().ThumbnailUrl);
         }
 
 
 
         #endregion
-
-
 
 
         [Fact]

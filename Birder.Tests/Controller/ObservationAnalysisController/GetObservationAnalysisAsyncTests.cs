@@ -47,7 +47,7 @@ namespace Birder.Tests.Controller
             mockAnalysisService.Setup(serve => serve.GetObservationsSummaryAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
                 .ReturnsAsync(new ObservationAnalysisViewModel { TotalObservationsCount = 2, UniqueSpeciesCount = 2 });
 
-            var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, _cache, _systemClock, _mapper, mockAnalysisService.Object);
+            var controller = new ObservationAnalysisController(_logger.Object, mockAnalysisService.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -68,26 +68,7 @@ namespace Birder.Tests.Controller
         }
 
 
-        //[Fact]
-        //public async Task GetObservationAnalysisAsync_ReturnsUnauthorizedResult_WhenClaimsPrincipalIsNull()
-        //{
-        //    // Arrange
-        //    var mockAnalysisService = new Mock<IObservationsAnalysisService>();
-        //    var mockRepo = new Mock<IObservationRepository>();
 
-        //    var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, _cache, _systemClock, _mapper, mockAnalysisService.Object);
-
-        //    controller.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext() { User = null }
-        //    };
-
-        //    // Act
-        //    var result = await controller.GetObservationAnalysisAsync("test");
-
-        //    // Assert
-        //    Assert.IsType<UnauthorizedResult>(result);
-        //}
 
         [Fact]
         public async Task GetObservationAnalysisAsync_ReturnsBadRequestResult_WhenExceptionIsRaised()
@@ -100,7 +81,7 @@ namespace Birder.Tests.Controller
             mockAnalysisService.Setup(serve => serve.GetObservationsSummaryAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
                       .ThrowsAsync(new InvalidOperationException());
 
-            var controller = new ObservationAnalysisController(mockRepo.Object, _logger.Object, _cache, _systemClock, _mapper, mockAnalysisService.Object);
+            var controller = new ObservationAnalysisController(_logger.Object, mockAnalysisService.Object);
 
             controller.ControllerContext = new ControllerContext()
             {

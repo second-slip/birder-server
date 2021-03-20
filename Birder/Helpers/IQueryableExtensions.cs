@@ -22,7 +22,7 @@ namespace Birder.Helpers
                 FormattedAddress = o.Position.FormattedAddress,
                 ShortAddress = o.Position.ShortAddress,
                 Username = o.ApplicationUser.UserName,
-                NotesCount = o.Notes.Count(),
+                NotesCount = o.Notes.Count,
                 CreationDate = o.CreationDate,
                 LastUpdateDate = o.LastUpdateDate
             });
