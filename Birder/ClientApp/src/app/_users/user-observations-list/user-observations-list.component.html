@@ -7,7 +7,6 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <!-- <th scope="col">#</th> -->
                         <th scope="col" class="hide-small">Qty</th>
                         <th scope="col">Species</th>
                         <th scope="col">Date/Time</th>
@@ -16,10 +15,9 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let record of observations.items; index as i">
-                        <!-- <th scope="row">{{ i + 1 }}</th> -->
                         <td class="hide-small">{{ record.quantity }}</td>
-                        <td><a routerLink="/bird-detail/{{record.bird.birdId}}">{{ record.bird.englishName }}</a>
-                            <br><small class="species"> {{ record.bird.species }}</small>
+                        <td><a routerLink="/bird-detail/{{record.birdId}}">{{ record.englishName }}</a>
+                            <br><small class="species"> {{ record.species }}</small>
                         </td>
                         <td>{{ record.observationDateTime | date: 'dd/MM/yy\';\' HH:mm' }}</td>
                         <td><a mat-stroked-button routerLink="/observation-detail/{{ record.observationId }}">View</a>

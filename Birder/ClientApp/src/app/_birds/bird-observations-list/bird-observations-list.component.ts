@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { ObservationService } from '@app/_sharedServices/observation.service';
-import { ObservationDto } from '@app/_models/ObservationFeedDto';
 import { Observable, throwError } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
 import { ObservationsPagedDto } from '@app/_models/ObservationViewDto';

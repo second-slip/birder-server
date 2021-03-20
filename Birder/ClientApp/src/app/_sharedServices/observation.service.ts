@@ -69,13 +69,13 @@ export class ObservationService {
       .pipe(first());
   }
 
-  getObservationsByUser(username: string, pageIndex: number, pageSize: number): Observable<ObservationDto> {
+  getObservationsByUser(username: string, pageIndex: number, pageSize: number): Observable<ObservationsPagedDto> {
     const params = new HttpParams()
       .set('username', username)
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.http.get<ObservationDto>(`api/Observation/GetObservationsByUser`, { params })
+    return this.http.get<ObservationsPagedDto>(`api/Observation/GetObservationsByUser`, { params })
       .pipe(first());
   }
 

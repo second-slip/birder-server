@@ -13,20 +13,14 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ObservationAnalysisController : ControllerBase
     {
-        //private readonly IListService _listService;
         private readonly ILogger _logger;
-        //private readonly ISystemClockService _systemClock;
         private readonly IObservationsAnalysisService _observationsAnalysisService;
 
         public ObservationAnalysisController(ILogger<ObservationAnalysisController> logger
-                                            //, ISystemClockService systemClock
-                                            //, IListService listService
                                             , IObservationsAnalysisService observationsAnalysisService)
         {
             _observationsAnalysisService = observationsAnalysisService;
             _logger = logger;
-            //_systemClock = systemClock;
-            //_listService = listService;
         }
 
         [HttpGet, Route("GetObservationAnalysis")]

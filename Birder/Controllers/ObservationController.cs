@@ -114,9 +114,10 @@ namespace Birder.Controllers
         {
             try
             {
-                var observations = await _observationRepository.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
-
-                if (observations == null)
+                //var observations = await _observationRepository.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
+                var viewModel = await _observationQueryService.GetPagedObservations(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
+                
+                if (viewModel == null)
                 {
                     string message = $"Observations with username '{username}' was not found.";
                     _logger.LogWarning(LoggingEvents.GetListNotFound, message);
@@ -124,8 +125,8 @@ namespace Birder.Controllers
                 }
 
                 //_profilePhotosService.GetThumbnailsUrl(observations.Items);
-
-                return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations));
+                //return Ok(_mapper.Map<QueryResult<Observation>, ObservationFeedDto>(observations));
+                return Ok(viewModel);
             }
             catch (Exception ex)
             {
