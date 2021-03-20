@@ -5,7 +5,6 @@ import { tap, catchError, first } from 'rxjs/operators';
 import { HttpErrorHandlerService } from '../_services/http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { ObservationViewModel } from '../_models/ObservationViewModel';
-import { ObservationDto } from '@app/_models/ObservationFeedDto';
 import { ObservationsPagedDto } from '@app/_models/ObservationViewDto';
 
 const httpOptions = {

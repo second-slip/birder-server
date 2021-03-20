@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Birder.Data.Model;
+﻿using Birder.Data.Model;
 using Birder.Helpers;
 using Birder.Services;
 using Birder.ViewModels;
@@ -23,19 +22,16 @@ namespace Birder.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationQueryService _observationQueryService;
         private readonly IBirdThumbnailPhotoService _profilePhotosService;
-        private IMemoryCache _cache;
 
-        public ObservationFeedController(IMemoryCache memoryCache
-                                       , ILogger<ObservationFeedController> logger
+        public ObservationFeedController(ILogger<ObservationFeedController> logger
                                        , UserManager<ApplicationUser> userManager
                                        , IObservationQueryService observationQueryService
                                        , IBirdThumbnailPhotoService profilePhotosService)
         {
             _logger = logger;
-            _cache = memoryCache;
             _userManager = userManager;
-            _observationQueryService = observationQueryService;
             _profilePhotosService = profilePhotosService;
+            _observationQueryService = observationQueryService;
         }
 
         [HttpGet]

@@ -21,8 +21,6 @@
         <mat-icon>public</mat-icon>
       </mat-button-toggle>
     </mat-button-toggle-group>
-    <!-- <div class="example-selected-value">Selected value: {{group.value}}</div>
-    <div class="example-selected-value1">{{currentFilter}}</div> -->
 
     <a class="add-button" [routerLink]='["/observation-add"]' mat-stroked-button aria-label="Add a new observation"
       #tooltip="matTooltip" matTooltip="Add a new observation"
@@ -35,31 +33,41 @@
 
   <hr>
 
-  <div *ngIf="itemResults$ | async as results; else loading">
-    <ng-container *ngIf="results.length; else noItems">
-      <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
+  <ng-container *ngIf="itemResults$ | async as results; else loadingOrError">
 
+    <div *ngIf="results.length; else noItems">
+
+      <div *ngFor="let observation of results" [style.height]="itemHeight + 'px'">
         <app-observation-feed-item [observation]="observation" [user]="user"></app-observation-feed-item>
-        
       </div>
-      
-    </ng-container>
+
+    </div>
+
+
+    <div class="feedEndAlert">
+      <p *ngIf="allLoaded">
+        <ngb-alert [dismissible]="false">
+          <strong><i>Information </i></strong> There are no more items to load...
+        </ngb-alert>
+      </p>
+    </div>
+
     <ng-template #noItems>No Items!</ng-template>
-  </div>
+
+  </ng-container>
+
+
+  <ng-template #loadingOrError>
+    <ng-container *ngIf="errorObject; else loading">
+      <app-error-display [error]="errorObject"></app-error-display>
+    </ng-container>
+  </ng-template>
 
   <ng-template #loading>
-    <div class="loading">
-      <p><em>Loading your observations feed...</em></p>
+    <div class="container loading">
+      <p><em>Loading observations...</em></p>
       <mat-spinner></mat-spinner>
     </div>
   </ng-template>
-
-  <div class="feedEndAlert">
-    <p *ngIf="allLoaded">
-      <ngb-alert [dismissible]="false">
-        <strong><i>Information </i></strong> There are no more items to load...
-      </ngb-alert>
-    </p>
-  </div>
 
 </div>

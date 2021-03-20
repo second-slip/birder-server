@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { HttpErrorHandlerService } from './http-error-handler.service';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { ObservationFeedDto, ObservationFeedPagedDto } from '@app/_models/ObservationFeedDto';
+import { first } from 'rxjs/operators';
+import { ObservationFeedPagedDto } from '@app/_models/ObservationFeedDto';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 @Injectable({
@@ -11,9 +10,7 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 })
 export class ObservationsFeedService {
 
-  constructor(private http: HttpClient
-    , private httpErrorHandlerService: HttpErrorHandlerService) {
-  }
+  constructor(private http: HttpClient) {  }
 
   getObservationsFeed(pageIndex: number, filter: string): Observable<ObservationFeedPagedDto | ErrorReportViewModel> {
     const params = new HttpParams()
@@ -21,7 +18,6 @@ export class ObservationsFeedService {
       .set('filter', filter.toString());
 
     return this.http.get<ObservationFeedPagedDto>(`api/ObservationFeed`, { params })
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe(first());
   }
 }

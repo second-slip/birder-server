@@ -1,10 +1,8 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { tap, map, filter, debounceTime, distinct, flatMap, switchMap } from 'rxjs/operators';
-import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
+import { tap, map, filter, debounceTime, distinct, flatMap, switchMap, catchError } from 'rxjs/operators';
+import { BehaviorSubject, fromEvent, merge, Observable, throwError } from 'rxjs';
 import { ObservationFeedDto, ObservationFeedPagedDto } from '@app/_models/ObservationFeedDto';
 import { ObservationsFeedService } from '@app/_services/observations-feed.service';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
 import * as _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
@@ -21,6 +19,7 @@ export class ObservationFeedComponent implements OnInit {
   user: UserViewModel;
   currentFilter: string;
   title: string;
+  public errorObject = null;
   // loadingObs: boolean;
   allLoaded = false;
   private cache = [];
@@ -52,12 +51,10 @@ export class ObservationFeedComponent implements OnInit {
 
   loading = false;
 
-
-  itemResults$: Observable<ObservationViewModel[]> = this.pageToLoad$
+  itemResults$: Observable<ObservationFeedDto[]> = this.pageToLoad$
 
     .pipe(
       tap(_ => this.loading = true),
-
       flatMap((page: number) => {
         return this.observationsFeedService.getObservationsFeed(page, this.currentFilter)
           .pipe(
@@ -69,12 +66,7 @@ export class ObservationFeedComponent implements OnInit {
               }
               //this.currentFilter = resp.returnFilter.toString();
               this.setTitle();
-            },
-              (error: ErrorReportViewModel) => {
-                // this.router.navigate(['/page-not-found']);
-              }),
-
-            // add a 'finally' statement to set loading = false?
+            }),
             map((resp: any) => resp.items), // resp.results),
             tap(resp => {
               this.cache[page - 1] = resp;
@@ -82,7 +74,10 @@ export class ObservationFeedComponent implements OnInit {
                 this.pageByManual$.next(page + 1);
               }
             }),
-          );
+            catchError(err => {
+              this.errorObject = err;
+              return throwError(err);
+            }))
       }),
       map(() => _.flatMap(this.cache))
     );
@@ -115,9 +110,7 @@ export class ObservationFeedComponent implements OnInit {
     let message = '';
     if (requested === '0') { message = message + `There are no observations in your ${ObservationFeedFilter[requested]}.  `; }
     if (requested === '1') { message = message + `You have not recorded any observations yet.  `; }
-
     message = message + `Your feed is showing the latest ${ObservationFeedFilter[returned]} observations instead...`;
-
     return message;
   }
 
@@ -141,11 +134,7 @@ export class ObservationFeedComponent implements OnInit {
                 }
                 //this.currentFilter = resp.returnFilter.toString();
                 this.setTitle();
-              },
-                (error: ErrorReportViewModel) => {
-                  // this.router.navigate(['/page-not-found']);
-                }),
-              // add a 'finally' statement to set loading = false?
+              }),
               map((resp: any) => resp.items),
               tap(resp => {
                 this.cache[page - 1] = resp;
@@ -153,63 +142,12 @@ export class ObservationFeedComponent implements OnInit {
                   this.pageByManual$.next(page + 1);
                 }
               }),
-            );
+              catchError(err => {
+                this.errorObject = err;
+                return throwError(err);
+              }))
         }),
         map(() => _.flatMap(this.cache))
       );
   }
-
-//   getUser(): void {
-//     this.user = this.tokenService.getAuthenticatedUserDetails();
-//   //     .subscribe(
-//   //       (data: UserViewModel) => {
-//   //         this.user = data;
-//   //       },
-//   //       (error: any) => {
-//   //         console.log('could not get the user, using default coordinates');
-//   //         const userTemp = <UserViewModel>{
-//   //           userName: '',
-//   //           avatar: '',
-//   //           defaultLocationLatitude: 54.972237,
-//   //           defaultLocationLongitude: -2.4608560000000352,
-//   //         };
-//   //         this.user = userTemp;
-//   //       });
-//   // }
 }
-
-
-
-// import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-// import { ObservationViewModel } from '../../_models/ObservationViewModel';
-// import { Router } from '@angular/router';
-// import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-// import { ObservationsFeedService } from '../observations-feed.service';
-
-// @Component({
-//   selector: 'app-observation-feed',
-//   templateUrl: './observation-feed.component.html',
-//   styleUrls: ['./observation-feed.component.scss'],
-//   encapsulation: ViewEncapsulation.None
-// })
-// export class ObservationFeedComponent implements OnInit {
-//   observations: ObservationViewModel[];
-
-//   constructor(private observationsFeedService: ObservationsFeedService
-//     , private router: Router) { }
-
-//   ngOnInit() {
-//     this.getObservations();
-//   }
-
-//   getObservations(): void {
-//     this.observationsFeedService.getObservationsFeed()
-//       .subscribe(
-//         (response: ObservationViewModel[]) => {
-//           this.observations = response;
-//         },
-//         (error: ErrorReportViewModel) => {
-//           this.router.navigate(['/page-not-found']);
-//         });
-//   }
-// }

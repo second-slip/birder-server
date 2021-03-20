@@ -1,6 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
-import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
 
 @Component({
