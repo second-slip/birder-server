@@ -1,6 +1,5 @@
 ﻿using Birder.Data;
 using Birder.Data.Model;
-using Birder.Helpers;
 using Birder.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,9 +15,6 @@ namespace Birder.Services
         Task<IEnumerable<LifeListViewModel>> GetLifeListsAsync(Expression<Func<Observation, bool>> predicate);
         Task<TopObservationsAnalysisViewModel> GetTopObservationsAsync(string username, DateTime startDate);
     }
-
-
-
 
     public class ListService : IListService
     {
@@ -52,6 +48,8 @@ namespace Birder.Services
 
             return query;
         }
+
+        // ToDo: split this into two?
 
         public async Task<TopObservationsAnalysisViewModel> GetTopObservationsAsync(string username, DateTime startDate)
         {
@@ -87,28 +85,6 @@ namespace Birder.Services
                      .ToListAsync();
 
             return viewModel;
-
-
-            //        viewModel.TopObservations = observations
-            //.GroupBy(n => n.BirdId)
-            //.Select(n => new TopObservationsViewModel
-            //{
-            //    BirdId = n.FirstOrDefault().BirdId,
-            //    Name = n.FirstOrDefault().Bird?.EnglishName,
-            //    Count = n.Count()
-            //})
-            //.OrderByDescending(n => n.Count).Take(5);
-
-            //viewModel.TopMonthlyObservations = observations
-            //    .Where(o => o.ObservationDateTime >= startDate)
-            //    .GroupBy(n => n.BirdId)
-            //    .Select(n => new TopObservationsViewModel
-            //    {
-            //        BirdId = n.FirstOrDefault().BirdId,
-            //        Name = n.FirstOrDefault().Bird?.EnglishName,
-            //        Count = n.Count()
-            //    })
-            //    .OrderByDescending(n => n.Count).Take(5);
         }
     }
 }

@@ -4,7 +4,6 @@ using Birder.Helpers;
 using Birder.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -36,8 +35,6 @@ namespace Birder.Services
                 //.Include(p => p.Position)
                 //.Include(au => au.ApplicationUser)
                 .AsQueryable();
-
-            //query = query.Where(predicate);
 
             query = query.OrderByDescending(d => d.ObservationDateTime);
 

@@ -10,8 +10,7 @@ import { first } from 'rxjs/operators';
 })
 export class ObservationsAnalysisService {
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 
   getObservationAnalysis(username: string): Observable<ObservationAnalysisViewModel> {
     const options = username ?
@@ -22,12 +21,12 @@ export class ObservationsAnalysisService {
   }
 
   getTopObservationsAnalysis(): Observable<TopObservationsAnalysisViewModel> {
-    return this.http.get<TopObservationsAnalysisViewModel>('api/ObservationAnalysis/GetTopObservationAnalysis')
+    return this.http.get<TopObservationsAnalysisViewModel>('api/List/GetTopObservationsList')
       .pipe(first());
   }
 
   getLifeList(): Observable<LifeListViewModel[]> {
-    return this.http.get<LifeListViewModel[]>('api/ObservationAnalysis/GetLifeList')
+    return this.http.get<LifeListViewModel[]>('api/List/GetLifeList')
       .pipe(first());
   }
 }
