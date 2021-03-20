@@ -7,7 +7,6 @@ using Birder.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -21,7 +20,6 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ObservationController : ControllerBase
     {
-        //private IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly IUnitOfWork _unitOfWork;
@@ -33,7 +31,6 @@ namespace Birder.Controllers
         private readonly IObservationNoteRepository _observationNoteRepository;
 
         public ObservationController(IMapper mapper
-                                   //, IMemoryCache memoryCache
                                    , ISystemClockService systemClock
                                    , IUnitOfWork unitOfWork
                                    , IBirdRepository birdRepository
@@ -45,7 +42,6 @@ namespace Birder.Controllers
         {
             _mapper = mapper;
             _logger = logger;
-            //_cache = memoryCache;
             _unitOfWork = unitOfWork;
             _userManager = userManager;
             _systemClock = systemClock;

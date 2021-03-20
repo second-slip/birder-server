@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { tap, map, filter, debounceTime, distinct, flatMap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
+import { ObservationFeedDto, ObservationFeedPagedDto } from '@app/_models/ObservationFeedDto';
 import { ObservationsFeedService } from '@app/_services/observations-feed.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
@@ -61,7 +61,7 @@ export class ObservationFeedComponent implements OnInit {
       flatMap((page: number) => {
         return this.observationsFeedService.getObservationsFeed(page, this.currentFilter)
           .pipe(
-            tap((resp: ObservationFeedDto) => {
+            tap((resp: ObservationFeedPagedDto) => {
               if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
               if (this.currentFilter != resp.returnFilter) {
                 this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
@@ -133,7 +133,7 @@ export class ObservationFeedComponent implements OnInit {
 
           return this.observationsFeedService.getObservationsFeed(page, this.currentFilter)
             .pipe(
-              tap((resp: ObservationFeedDto) => {
+              tap((resp: ObservationFeedPagedDto) => {
                 if (page === Math.ceil(<number>resp.totalItems / <number>this.numberOfItems)) { this.allLoaded = true; }
                 if (this.currentFilter != resp.returnFilter) {
                   this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);

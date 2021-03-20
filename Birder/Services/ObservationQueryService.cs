@@ -12,7 +12,8 @@ namespace Birder.Services
 {
     public interface IObservationQueryService
     {
-        Task<ObservationsPagedDto> GetPagedObservations(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
+        Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
+        Task<ObservationFeedPagedDto> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
     }
     public class ObservationQueryService : IObservationQueryService
     {
@@ -22,7 +23,7 @@ namespace Birder.Services
             _dbContext = dbContext;
         }
 
-        public async Task<ObservationsPagedDto> GetPagedObservations(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
+        public async Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
         {
             var result = new ObservationsPagedDto();
 
@@ -31,6 +32,37 @@ namespace Birder.Services
                 .Where(predicate)
                 .MapObservationToObservationViewDto()
                 .AsQueryable();
+
+            query = query.OrderByDescending(d => d.ObservationDateTime);
+
+            result.TotalItems = await query.CountAsync();
+
+            query = query.ApplyPaging(pageIndex, pageSize);
+
+            result.Items = await query.ToListAsync();
+
+            return result;
+        }
+
+        public async Task<ObservationFeedPagedDto> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
+        {
+            var result = new ObservationFeedPagedDto();
+
+            var query = _dbContext.Observations
+                .AsNoTracking()
+                .Where(predicate)
+                //.Include(y => y.Bird)
+                //    .ThenInclude(u => u.BirdConservationStatus)
+                //.Include(p => p.Position)
+                //.Include(n => n.Notes)
+                //.Include(au => au.ApplicationUser)
+                .MapObservationToObservationFeedDto()
+                 // ????????
+                .AsQueryable();
+
+            //query = query.ApplyFiltering(queryObj);
+
+            //query = query.Where(predicate);
 
             query = query.OrderByDescending(d => d.ObservationDateTime);
 

@@ -3,30 +3,30 @@
 
         <div class="title-big">
             <h4>
-                {{ observation.quantity > 1 ? observation.quantity : '' }} <a routerLink="/bird-detail/{{observation.bird.birdId}}">{{ observation.bird.englishName }}</a>
-                <span class="scientific-name"> {{observation.bird.species}}</span>
+                {{ observation.quantity > 1 ? observation.quantity : '' }} <a routerLink="/bird-detail/{{observation.birdId}}">{{ observation.englishName }}</a>
+                <span class="scientific-name"> {{observation.species}}</span>
             </h4>
         </div>
 
         <div class="title-small">
             <p class="species">
-                {{ observation.quantity > 1 ? observation.quantity : '' }} <a routerLink="/bird-detail/{{observation.bird.birdId}}">{{ observation.bird.englishName }}</a>
-                <span class="scientific-name"> {{observation.bird.species}}</span>
+                {{ observation.quantity > 1 ? observation.quantity : '' }} <a routerLink="/bird-detail/{{observation.birdId}}">{{ observation.englishName }}</a>
+                <span class="scientific-name"> {{observation.species}}</span>
             </p>
         </div>
 
         <div class="flex-container">
             <div class="avatar" style="flex-grow: 1">
-                <img src="{{observation.bird.thumbnailUrl}}" alt="{{ observation.bird.species }}" placement="bottom"
-                    ngbTooltip="{{ observation.bird.species }}">
+                <img src="{{observation.thumbnailUrl}}" alt="{{ observation.species }}" placement="bottom"
+                    ngbTooltip="{{ observation.species }}">
             </div>
 
             <div class="information" style="flex-grow: 10">
 
                 <p class="user">
                     <mat-icon>person</mat-icon><span class="aligned-with-icon">
-                        <a routerLink="/user-profile/{{observation.user.userName}}">
-                            {{observation.user.userName === user.userName ? 'You' : observation.user.userName}}
+                        <a routerLink="/user-profile/{{observation.username}}">
+                            {{observation.username === user.userName ? 'You' : observation.username}}
                         </a>
                     </span>
                 </p>
@@ -45,13 +45,13 @@
 
                 <p class="location-big">
                     <mat-icon>location_on</mat-icon><span class="aligned-with-icon">
-                        {{ observation.position.formattedAddress }}
+                        {{ observation.formattedAddress }}
                     </span>
                 </p>
 
                 <p class="location-small">
                     <mat-icon>location_on</mat-icon><span class="aligned-with-icon">
-                        {{ observation.position.shortAddress }}
+                        {{ observation.shortAddress }}
                     </span>
                 </p>
 
@@ -64,11 +64,11 @@
               | Manage Photos
             </a> -->
                     <!--  -->
-                    <a *ngIf="observation.user.userName === user.userName"
+                    <a *ngIf="observation.username === user.userName"
                         routerLink="/observation-edit/{{observation.observationId}}">
                         | Edit
                     </a>
-                    <a *ngIf="observation.user.userName === user.userName"
+                    <a *ngIf="observation.username === user.userName"
                         routerLink="/observation-delete/{{observation.observationId}}">
                         | Delete
                     </a>

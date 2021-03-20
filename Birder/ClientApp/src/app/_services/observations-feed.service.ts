@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpErrorHandlerService } from './http-error-handler.service';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
+import { ObservationFeedDto, ObservationFeedPagedDto } from '@app/_models/ObservationFeedDto';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 @Injectable({
@@ -15,21 +15,12 @@ export class ObservationsFeedService {
     , private httpErrorHandlerService: HttpErrorHandlerService) {
   }
 
-  getObservationsFeed(pageIndex: number, filter: string): Observable<ObservationFeedDto | ErrorReportViewModel> {
+  getObservationsFeed(pageIndex: number, filter: string): Observable<ObservationFeedPagedDto | ErrorReportViewModel> {
     const params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('filter', filter.toString());
 
-    return this.http.get<ObservationFeedDto>(`api/ObservationFeed`, { params })
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
-  }
-
-  getShowcaseObservationsFeed(quantity: number): Observable<ObservationFeedDto | ErrorReportViewModel> {
-    const params = new HttpParams()
-      .set('quantity', quantity.toString());
-
-    return this.http.get<ObservationFeedDto>(`api/ObservationFeed/GetShowcaseObservationsFeed`, { params })
+    return this.http.get<ObservationFeedPagedDto>(`api/ObservationFeed`, { params })
       .pipe(
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }

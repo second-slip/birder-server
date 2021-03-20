@@ -29,7 +29,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var viewModel = await _observationQueryService.GetPagedObservations(cs => cs.BirdId == birdId, pageIndex, pageSize);
+                var viewModel = await _observationQueryService.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
 
                 if (viewModel == null)
                 {
@@ -53,7 +53,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var viewModel = await _observationQueryService.GetPagedObservations(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
+                var viewModel = await _observationQueryService.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
 
                 if (viewModel == null)
                 {

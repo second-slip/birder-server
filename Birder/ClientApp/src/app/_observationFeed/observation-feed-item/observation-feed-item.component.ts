@@ -1,4 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { ObservationFeedDto } from '@app/_models/ObservationFeedDto';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { UserViewModel } from '@app/_models/UserViewModel';
 
@@ -9,7 +10,7 @@ import { UserViewModel } from '@app/_models/UserViewModel';
   encapsulation: ViewEncapsulation.None
 })
 export class ObservationFeedItemComponent {
-  @Input() observation: ObservationViewModel;
+  @Input() observation: ObservationFeedDto;
   @Input() user: UserViewModel;
 
   constructor() { }

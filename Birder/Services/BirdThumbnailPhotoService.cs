@@ -1,5 +1,5 @@
-﻿using Birder.Data.Model;
-using Birder.Helpers;
+﻿using Birder.Helpers;
+using Birder.ViewModels;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,8 +10,7 @@ namespace Birder.Services
 
     public interface IBirdThumbnailPhotoService
     {
-        IEnumerable<Observation> GetUrlForObservations(IEnumerable<Observation> observations);
-        //Observation GetUrlForObservation(Observation observation);
+        IEnumerable<ObservationFeedDto> GetUrlForObservations(IEnumerable<ObservationFeedDto> observations);
     }
 
     // potentially use a distributed cache to limited hits on the external API?
@@ -38,7 +37,7 @@ namespace Birder.Services
         /// </summary>
         /// <param name="observations"></param>
         /// <returns></returns>
-        public IEnumerable<Observation> GetUrlForObservations(IEnumerable<Observation> observations)
+        public IEnumerable<ObservationFeedDto> GetUrlForObservations(IEnumerable<ObservationFeedDto> observations)
         {
             if (observations == null)
                 throw new ArgumentNullException("observations", "The observations collection is null");
@@ -49,20 +48,20 @@ namespace Birder.Services
             {
                 try
                 {
-                    if (_cache.TryGetValue(GetCacheEntryKey(observation.Bird.BirdId), out string cacheUrl))
+                    if (_cache.TryGetValue(GetCacheEntryKey(observation.BirdId), out string cacheUrl))
                     {
-                        observation.Bird.ThumbnailUrl = cacheUrl;
+                        observation.ThumbnailUrl = cacheUrl;
                     }
                     else
                     {
-                        observation.Bird.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Bird.Species);
-                        AddResponseToCache(observation.Bird.BirdId, observation.Bird.ThumbnailUrl);
+                        observation.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Species);
+                        AddResponseToCache(observation.BirdId, observation.ThumbnailUrl);
                     }
                 }
                 catch (Exception ex)
                 {
-                    observation.Bird.ThumbnailUrl = defaultUrl;
-                    string message = $"An error occurred setting the thumbnail url for birdId '{observation.Bird.BirdId}'.";
+                    observation.ThumbnailUrl = defaultUrl;
+                    string message = $"An error occurred setting the thumbnail url for birdId '{observation.BirdId}'.";
                     _logger.LogError(LoggingEvents.GetItem, ex, message);
                 }
             }
