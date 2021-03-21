@@ -24,6 +24,7 @@ namespace Birder.Services
             _dbContext = dbContext;
         }
 
+        // ToDo: consider splitting into two methods
         public async Task<IEnumerable<LifeListViewModel>> GetLifeListsAsync(Expression<Func<Observation, bool>> predicate)
         {
             if (predicate is null)

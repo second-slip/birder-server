@@ -44,9 +44,6 @@ namespace Birder.Data.Model
         //[Url]
         public string ThumbnailUrl { get; set; }
 
-        //[Url]
-        //public string SongUrl { get; set; }
-
         public DateTime CreationDate { get; set; }
 
         public DateTime LastUpdateDate { get; set; }
