@@ -54,8 +54,9 @@ namespace Birder.Services
 
         public async Task<TopObservationsAnalysisViewModel> GetTopObservationsAsync(string username, DateTime startDate)
         {
-            //if (predicate is null)
-            //    throw new ArgumentException("The argument is null or empty", nameof(predicate));
+            if (string.IsNullOrEmpty(username))
+                throw new ArgumentException("The argument is null or empty", nameof(username));
+            
 
             var viewModel = new TopObservationsAnalysisViewModel();
 
@@ -70,6 +71,7 @@ namespace Birder.Services
                          Count = b.Count()
                      })
                      .Take(5)
+                     .OrderByDescending(c => c.Count)
                      .ToListAsync();
 
             viewModel.TopMonthlyObservations = await _dbContext.Observations
@@ -83,6 +85,7 @@ namespace Birder.Services
                          Count = b.Count()
                      })
                      .Take(5)
+                     .OrderByDescending(c => c.Count)
                      .ToListAsync();
 
             return viewModel;
