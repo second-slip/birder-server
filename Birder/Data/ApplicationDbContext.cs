@@ -34,6 +34,15 @@ namespace Birder.Data
             builder.Entity<ObservationTag>().ToTable("ObservationTag");
             builder.Entity<ObservationNote>().ToTable("ObservationNote");
             builder.Entity<TweetDay>().ToTable("TweetDay");
+
+            //Add SQL indexes to any property you sort or filter on.
+            builder.Entity<Observation>().HasIndex(i => i.ApplicationUserId);
+            builder.Entity<Observation>().HasIndex(d => d.ObservationDateTime);
+            //builder.Entity<Observation>().HasIndex(p => p.SelectedPrivacyLevel);
+            builder.Entity<Observation>().HasIndex(b => b.BirdId);
+
+
+
             //builder.Entity<Photograph>().ToTable("Photograph");
 
             //builder.Entity<ObservationTag>()
