@@ -45,6 +45,7 @@ namespace Birder.Services
                          ConservationListColourCode = b.Key.ConservationListColourCode,
                          Count = b.Count()
                      })
+                     .OrderByDescending(n => n.Count)
                      .ToListAsync();
 
             return query;
