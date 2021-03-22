@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Birder.Migrations
 {
-    public partial class obsersationentityindexesadded : Migration
+    public partial class indexes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,46 +11,41 @@ namespace Birder.Migrations
                 table: "ConservationStatus",
                 keyColumn: "ConservationStatusId",
                 keyValue: 1,
-                columns: new[] { "CreationDate", "LastUpdateDate" },
-                values: new object[] { new DateTime(2021, 3, 22, 15, 41, 31, 669, DateTimeKind.Local).AddTicks(1996), new DateTime(2021, 3, 22, 15, 41, 31, 672, DateTimeKind.Local).AddTicks(9815) });
+                column: "LastUpdateDate",
+                value: new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143));
 
             migrationBuilder.UpdateData(
                 table: "ConservationStatus",
                 keyColumn: "ConservationStatusId",
                 keyValue: 2,
                 columns: new[] { "CreationDate", "LastUpdateDate" },
-                values: new object[] { new DateTime(2021, 3, 22, 15, 41, 31, 674, DateTimeKind.Local).AddTicks(5814), new DateTime(2021, 3, 22, 15, 41, 31, 674, DateTimeKind.Local).AddTicks(5853) });
+                values: new object[] { new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143), new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143) });
 
             migrationBuilder.UpdateData(
                 table: "ConservationStatus",
                 keyColumn: "ConservationStatusId",
                 keyValue: 3,
                 columns: new[] { "CreationDate", "LastUpdateDate" },
-                values: new object[] { new DateTime(2021, 3, 22, 15, 41, 31, 674, DateTimeKind.Local).AddTicks(5996), new DateTime(2021, 3, 22, 15, 41, 31, 674, DateTimeKind.Local).AddTicks(6001) });
+                values: new object[] { new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143), new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143) });
 
             migrationBuilder.UpdateData(
                 table: "ConservationStatus",
                 keyColumn: "ConservationStatusId",
                 keyValue: 4,
                 columns: new[] { "CreationDate", "LastUpdateDate" },
-                values: new object[] { new DateTime(2021, 3, 22, 15, 41, 31, 674, DateTimeKind.Local).AddTicks(6025), new DateTime(2021, 3, 22, 15, 41, 31, 674, DateTimeKind.Local).AddTicks(6029) });
+                values: new object[] { new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143), new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143) });
 
             migrationBuilder.UpdateData(
                 table: "ConservationStatus",
                 keyColumn: "ConservationStatusId",
                 keyValue: 5,
                 columns: new[] { "CreationDate", "LastUpdateDate" },
-                values: new object[] { new DateTime(2021, 3, 22, 15, 41, 31, 674, DateTimeKind.Local).AddTicks(6054), new DateTime(2021, 3, 22, 15, 41, 31, 674, DateTimeKind.Local).AddTicks(6058) });
+                values: new object[] { new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143), new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Observation_ObservationDateTime",
                 table: "Observation",
                 column: "ObservationDateTime");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Observation_SelectedPrivacyLevel",
-                table: "Observation",
-                column: "SelectedPrivacyLevel");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -59,16 +54,12 @@ namespace Birder.Migrations
                 name: "IX_Observation_ObservationDateTime",
                 table: "Observation");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Observation_SelectedPrivacyLevel",
-                table: "Observation");
-
             migrationBuilder.UpdateData(
                 table: "ConservationStatus",
                 keyColumn: "ConservationStatusId",
                 keyValue: 1,
-                columns: new[] { "CreationDate", "LastUpdateDate" },
-                values: new object[] { new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143), new DateTime(2021, 2, 16, 21, 18, 37, 759, DateTimeKind.Local).AddTicks(8127) });
+                column: "LastUpdateDate",
+                value: new DateTime(2021, 2, 16, 21, 18, 37, 759, DateTimeKind.Local).AddTicks(8127));
 
             migrationBuilder.UpdateData(
                 table: "ConservationStatus",

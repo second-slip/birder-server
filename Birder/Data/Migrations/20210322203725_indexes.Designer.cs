@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210322155141_obsersation entity index removed")]
-    partial class obsersationentityindexremoved
+    [Migration("20210322203725_indexes")]
+    partial class indexes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -197,45 +197,45 @@ namespace Birder.Migrations
                             ConservationStatusId = 1,
                             ConservationList = "Red",
                             ConservationListColourCode = "Red",
-                            CreationDate = new DateTime(2021, 3, 22, 15, 51, 40, 455, DateTimeKind.Local).AddTicks(7738),
+                            CreationDate = new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143),
                             Description = "Red is the highest conservation priority, with these species needing urgent action.  Species are placed on the Red-list if they meet one or more of the following criteria: are globally important, have declined historically, show recent severe decline, and have failed to recover from historic decline.",
-                            LastUpdateDate = new DateTime(2021, 3, 22, 15, 51, 40, 459, DateTimeKind.Local).AddTicks(4258)
+                            LastUpdateDate = new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143)
                         },
                         new
                         {
                             ConservationStatusId = 2,
                             ConservationList = "Amber",
                             ConservationListColourCode = "Yellow",
-                            CreationDate = new DateTime(2021, 3, 22, 15, 51, 40, 460, DateTimeKind.Local).AddTicks(9086),
+                            CreationDate = new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143),
                             Description = "Amber is the second most critical group.  Species are placed on the Amber-list if they meet one or more of these criteria: are important in Europe, show recent moderate decline, show some recovery from historical decline, or occur in internationally important numbers, have a highly localised distribution or are important to the wider UK.",
-                            LastUpdateDate = new DateTime(2021, 3, 22, 15, 51, 40, 460, DateTimeKind.Local).AddTicks(9124)
+                            LastUpdateDate = new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143)
                         },
                         new
                         {
                             ConservationStatusId = 3,
                             ConservationList = "Green",
                             ConservationListColourCode = "Green",
-                            CreationDate = new DateTime(2021, 3, 22, 15, 51, 40, 460, DateTimeKind.Local).AddTicks(9273),
+                            CreationDate = new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143),
                             Description = "Species on the green list are the least critical group.  These are species that occur regularly in the UK but do not qualify under the Red or Amber criteria.",
-                            LastUpdateDate = new DateTime(2021, 3, 22, 15, 51, 40, 460, DateTimeKind.Local).AddTicks(9278)
+                            LastUpdateDate = new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143)
                         },
                         new
                         {
                             ConservationStatusId = 4,
                             ConservationList = "Former breeder",
                             ConservationListColourCode = "Black",
-                            CreationDate = new DateTime(2021, 3, 22, 15, 51, 40, 460, DateTimeKind.Local).AddTicks(9302),
+                            CreationDate = new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143),
                             Description = "This is species is a former breeder and was not was not assessed in the UK Birds of Conservation Concern 4.",
-                            LastUpdateDate = new DateTime(2021, 3, 22, 15, 51, 40, 460, DateTimeKind.Local).AddTicks(9307)
+                            LastUpdateDate = new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143)
                         },
                         new
                         {
                             ConservationStatusId = 5,
                             ConservationList = "Not assessed",
                             ConservationListColourCode = "Black",
-                            CreationDate = new DateTime(2021, 3, 22, 15, 51, 40, 460, DateTimeKind.Local).AddTicks(9328),
+                            CreationDate = new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143),
                             Description = "This species was not assessed in the UK Birds of Conservation Concern 4.",
-                            LastUpdateDate = new DateTime(2021, 3, 22, 15, 51, 40, 460, DateTimeKind.Local).AddTicks(9332)
+                            LastUpdateDate = new DateTime(2021, 2, 16, 21, 18, 37, 756, DateTimeKind.Local).AddTicks(2143)
                         });
                 });
 
