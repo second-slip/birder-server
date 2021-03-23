@@ -43,11 +43,18 @@
 
     </div>
 
+    <div class="feedEndAlert">
+      <p *ngIf="loadingItems">
+        <ngb-alert type="info" [dismissible]="false">
+          <strong>Loading</strong> <i> Loading more observations...</i> 
+        </ngb-alert>
+      </p>
+    </div>
 
     <div class="feedEndAlert">
       <p *ngIf="allLoaded">
-        <ngb-alert [dismissible]="false">
-          <strong><i>Information </i></strong> There are no more items to load...
+        <ngb-alert type="danger" [dismissible]="false">
+          <strong>Information</strong> <i> There are no more items to load...</i>
         </ngb-alert>
       </p>
     </div>

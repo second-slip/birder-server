@@ -20,7 +20,7 @@ export class ObservationFeedComponent implements OnInit {
   currentFilter: string;
   title: string;
   public errorObject = null;
-  // loadingObs: boolean;
+  loadingItems = false;
   allLoaded = false;
   private cache = [];
   private pageByManual$ = new BehaviorSubject(1);
@@ -49,12 +49,10 @@ export class ObservationFeedComponent implements OnInit {
       filter(page => this.cache[page - 1] === undefined)
     );
 
-  loading = false;
-
   itemResults$: Observable<ObservationFeedDto[]> = this.pageToLoad$
 
     .pipe(
-      tap(_ => this.loading = true),
+      tap(_ => this.loadingItems = true),
       flatMap((page: number) => {
         return this.observationsFeedService.getObservationsFeed(page, this.currentFilter)
           .pipe(
@@ -64,7 +62,6 @@ export class ObservationFeedComponent implements OnInit {
                 this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
                 this.currentFilter = resp.returnFilter.toString();
               }
-              //this.currentFilter = resp.returnFilter.toString();
               this.setTitle();
             }),
             map((resp: any) => resp.items), // resp.results),
@@ -79,7 +76,8 @@ export class ObservationFeedComponent implements OnInit {
               return throwError(err);
             }))
       }),
-      map(() => _.flatMap(this.cache))
+      map(() => _.flatMap(this.cache)),
+      tap(() => this.loadingItems = false)
     );
 
 
@@ -88,12 +86,13 @@ export class ObservationFeedComponent implements OnInit {
     , private tokenService: TokenService) { }
 
   ngOnInit() {
+    // this.loadingItems = false;
     this.user = this.tokenService.getAuthenticatedUserDetails();
     this.currentFilter = '0';
     this.setTitle();
   }
 
-  setTitle(): void {
+  private setTitle(): void {
     if (this.currentFilter == '1') {
       this.title = 'Your observations';
       return;
@@ -106,7 +105,7 @@ export class ObservationFeedComponent implements OnInit {
     }
   }
 
-  getMessage(requested: string, returned: string): string {
+  private getMessage(requested: string, returned: string): string {
     let message = '';
     if (requested === '0') { message = message + `There are no observations in your ${ObservationFeedFilter[requested]}.  `; }
     if (requested === '1') { message = message + `You have not recorded any observations yet.  `; }
@@ -121,9 +120,8 @@ export class ObservationFeedComponent implements OnInit {
 
     this.itemResults$ = this.pageToLoad$
       .pipe(
-        tap(_ => this.loading = true),
+        tap(_ => this.loadingItems = true),
         switchMap((page: number) => {
-
           return this.observationsFeedService.getObservationsFeed(page, this.currentFilter)
             .pipe(
               tap((resp: ObservationFeedPagedDto) => {
@@ -132,7 +130,6 @@ export class ObservationFeedComponent implements OnInit {
                   this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
                   this.currentFilter = resp.returnFilter.toString();
                 }
-                //this.currentFilter = resp.returnFilter.toString();
                 this.setTitle();
               }),
               map((resp: any) => resp.items),
@@ -147,7 +144,8 @@ export class ObservationFeedComponent implements OnInit {
                 return throwError(err);
               }))
         }),
-        map(() => _.flatMap(this.cache))
+        map(() => _.flatMap(this.cache)),
+        tap(() => this.loadingItems = false)
       );
   }
 }
