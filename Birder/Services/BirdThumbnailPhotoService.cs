@@ -7,13 +7,12 @@ using System.Collections.Generic;
 
 namespace Birder.Services
 {
-
     public interface IBirdThumbnailPhotoService
     {
         IEnumerable<ObservationFeedDto> GetUrlForObservations(IEnumerable<ObservationFeedDto> observations);
     }
 
-    // potentially use a distributed cache to limited hits on the external API?
+    // potentially use a distributed cache to limit hits on the external API?
 
     public class BirdThumbnailPhotoService : IBirdThumbnailPhotoService
     {
@@ -39,16 +38,14 @@ namespace Birder.Services
         /// <returns></returns>
         public IEnumerable<ObservationFeedDto> GetUrlForObservations(IEnumerable<ObservationFeedDto> observations)
         {
-            if (observations == null)
-                throw new ArgumentNullException("The observations collection is null");
+            if (observations is null)
+                throw new ArgumentNullException(nameof(observations), "The observations collection is null");
 
-            // ToDo: add an extra step to check if observation.Bird.ThumbnailUrl is null or empty
-            // Why?  Implement if we add some fixed image urls to the database...
             foreach (var observation in observations)
             {
                 try
                 {
-                    if (_cache.TryGetValue(GetCacheEntryKey(observation.BirdId), out string cacheUrl))
+                    if (_cache.TryGetValue(GenerateCacheEntryKey(observation.BirdId), out string cacheUrl))
                     {
                         observation.ThumbnailUrl = cacheUrl;
                     }
@@ -69,12 +66,12 @@ namespace Birder.Services
             return observations;
         }
 
-        public void AddResponseToCache(int birdId, string url)
+        private void AddResponseToCache(int birdId, string url)
         {
-            _cache.Set(GetCacheEntryKey(birdId), url, TimeSpan.FromDays(5));
+            _cache.Set(GenerateCacheEntryKey(birdId), url, TimeSpan.FromDays(5));
         }
 
-        public string GetCacheEntryKey(int birdId)
+        private string GenerateCacheEntryKey(int birdId)
         {
             return string.Concat(CacheEntryKeys.BirdThumbUrl, birdId);
         }
