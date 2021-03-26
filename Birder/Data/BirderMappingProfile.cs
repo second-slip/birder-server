@@ -34,7 +34,7 @@ namespace Birder.Data
               .ForMember(a => a.UniqueSpeciesCount, b => b.MapFrom(a => a.Select(i => i.BirdId).Distinct().Count()));
 
             CreateMap<QueryResult<Observation>, ObservationFeedPagedDto>()
-                .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
+              .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
 
             CreateMap<List<Observation>, List<LifeListViewModel>>();
 
