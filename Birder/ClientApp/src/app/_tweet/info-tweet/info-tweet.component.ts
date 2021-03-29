@@ -24,7 +24,8 @@ export class InfoTweetComponent {
         catchError(err => {
           this.errorObject = err;
           return throwError(err);
-        }));
+        })
+      );
   }
 }
 
