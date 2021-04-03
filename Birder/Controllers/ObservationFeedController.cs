@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -40,20 +41,19 @@ namespace Birder.Controllers
             {
                 if (filter == ObservationFeedFilter.Own)
                 {
-                    //var userObservations = await _observationRepository.GetObservationsFeedAsync(o => o.ApplicationUser.UserName == User.Identity.Name, pageIndex, pageSize);
-                    var modelO = await _observationQueryService.GetPagedObservationsFeedAsync(o => o.ApplicationUser.UserName == User.Identity.Name, pageIndex, pageSize);
-                    if (modelO == null)
+                    var userObservations = await _observationQueryService.GetPagedObservationsFeedAsync(o => o.ApplicationUser.UserName == User.Identity.Name, pageIndex, pageSize);
+                    
+                    if (userObservations is null)
                     {
                         _logger.LogWarning(LoggingEvents.GetListNotFound, "User Observations list was null at GetObservationsFeedAsync()");
                         return NotFound("Observations not found");
                     }
 
-                    if (modelO.TotalItems > 0 || pageIndex > 1)
+                    if (userObservations.TotalItems > 0 || pageIndex > 1)
                     {
-                        _profilePhotosService.GetUrlForObservations(modelO.Items);
-                        //var modelO = _mapper.Map<QueryResult<Observation>, ObservationFeedPagedDto>(userObservations);
-                        modelO.ReturnFilter = ObservationFeedFilter.Own;
-                        return Ok(modelO);
+                        _profilePhotosService.GetUrlForObservations(userObservations.Items);
+                        userObservations.ReturnFilter = ObservationFeedFilter.Own;
+                        return Ok(userObservations);
                     }
                 }
 
@@ -61,7 +61,7 @@ namespace Birder.Controllers
                 {
                     var requestingUserAndNetwork = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
                     
-                    if (requestingUserAndNetwork == null)
+                    if (requestingUserAndNetwork is null)
                     {
                         _logger.LogWarning(LoggingEvents.GetItemNotFound, "Requesting user not found");
                         return NotFound("Requesting user not found");
@@ -71,38 +71,34 @@ namespace Birder.Controllers
 
                     followingUsernamesList.Add(requestingUserAndNetwork.UserName);
 
-                    //var networkObservations = await _observationRepository.GetObservationsFeedAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex, pageSize);
-                    var modelN = await _observationQueryService.GetPagedObservationsFeedAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex, pageSize);
+                    var networkObservations = await _observationQueryService.GetPagedObservationsFeedAsync(o => followingUsernamesList.Contains(o.ApplicationUser.UserName), pageIndex, pageSize);
 
-                    if (modelN == null)
+                    if (networkObservations is null)
                     {
                         _logger.LogWarning(LoggingEvents.GetListNotFound, "Network observations list is null");
                         return NotFound("Observations not found");
                     }
 
-                    if (modelN.TotalItems > 0 || pageIndex > 1)
+                    if (networkObservations.TotalItems > 0 || pageIndex > 1)
                     {
-                        _profilePhotosService.GetUrlForObservations(modelN.Items);
-                        //var modelN = _mapper.Map<QueryResult<Observation>, ObservationFeedPagedDto>(networkObservations);
-                        modelN.ReturnFilter = ObservationFeedFilter.Network;
-                        return Ok(modelN);
+                        _profilePhotosService.GetUrlForObservations(networkObservations.Items);
+                        networkObservations.ReturnFilter = ObservationFeedFilter.Network;
+                        return Ok(networkObservations);
                     }
                 }
 
-                //var publicObservations = await _observationRepository.GetObservationsFeedAsync(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public, pageIndex, pageSize);
-                var model = await _observationQueryService.GetPagedObservationsFeedAsync(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public, pageIndex, pageSize);
+                var publicObservations = await _observationQueryService.GetPagedObservationsFeedAsync(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public, pageIndex, pageSize);
                 
-                if (model == null)
+                if (publicObservations is null)
                 {
                     _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
                     return NotFound("Observations not found");
                 }
 
-                _profilePhotosService.GetUrlForObservations(model.Items);
+                _profilePhotosService.GetUrlForObservations(publicObservations.Items);
 
-                //var model = _mapper.Map<QueryResult<Observation>, ObservationFeedPagedDto>(publicObservations);
-                model.ReturnFilter = ObservationFeedFilter.Public;
-                return Ok(model);
+                publicObservations.ReturnFilter = ObservationFeedFilter.Public;
+                return Ok(publicObservations);
             }
             catch (Exception ex)
             {
