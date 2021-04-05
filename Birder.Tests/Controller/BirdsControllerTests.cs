@@ -204,7 +204,7 @@ namespace Birder.Tests.Controller
         private QueryResult<Bird> GetQueryResult(int length)
         {
             var result = new QueryResult<Bird>();
-            var bird = new Bird() { BirdId = 1 };
+            //var bird = new Bird() { BirdId = 1 };
 
             result.TotalItems = length;
             result.Items = GetTestBirds();
