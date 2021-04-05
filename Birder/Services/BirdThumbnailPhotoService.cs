@@ -32,7 +32,7 @@ namespace Birder.Services
         }
 
         /// <summary>
-        /// Sets the bird thumbnail url from the Flickr API or the cache (collection of Observation)
+        /// Gets a bird thumbnail url from the Flickr API or the cache
         /// </summary>
         /// <param name="observations"></param>
         /// <returns></returns>

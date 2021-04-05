@@ -28,7 +28,7 @@ namespace Birder.Controllers
         {
             if (string.IsNullOrEmpty(requestedUsername))
             {
-                return BadRequest();
+                return BadRequest("requestedUsername is missing");
             }
 
             try
@@ -40,7 +40,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the Observations Analysis");
-                return BadRequest("An error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
     }
