@@ -15,6 +15,9 @@
         public const int GetListNotFound = 4001;
         public const int UpdateItemNotFound = 4002;
 
+
+        public const int InvalidOrMissingArgument = 7000;
+
         public const int Exception = 9000;
     }
 }

@@ -28,6 +28,7 @@ namespace Birder.Controllers
         {
             if (string.IsNullOrEmpty(requestedUsername))
             {
+                _logger.LogError(LoggingEvents.InvalidOrMissingArgument, $"{nameof(requestedUsername)} argument is null or empty");
                 return BadRequest("requestedUsername is missing");
             }
 
