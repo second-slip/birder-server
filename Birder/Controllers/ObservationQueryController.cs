@@ -31,11 +31,11 @@ namespace Birder.Controllers
             {
                 var viewModel = await _observationQueryService.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
 
-                if (viewModel == null)
+                if (viewModel is null)
                 {
                     string message = $"Observations with birdId '{birdId}' was not found.";
                     _logger.LogWarning(LoggingEvents.GetListNotFound, message);
-                    return NotFound(message);
+                    return StatusCode(500, message);
                 }
 
                 return Ok(viewModel);
@@ -44,7 +44,7 @@ namespace Birder.Controllers
             {
                 string message = $"An error occurred getting Observations with birdId '{birdId}'.";
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
-                return BadRequest("An error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
@@ -55,11 +55,11 @@ namespace Birder.Controllers
             {
                 var viewModel = await _observationQueryService.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
 
-                if (viewModel == null)
+                if (viewModel is null)
                 {
                     string message = $"Observations with username '{username}' was not found.";
                     _logger.LogWarning(LoggingEvents.GetListNotFound, message);
-                    return NotFound(message);
+                    return StatusCode(500, message);
                 }
 
                 return Ok(viewModel);
@@ -68,7 +68,7 @@ namespace Birder.Controllers
             {
                 string message = $"An error occurred getting observations with username '{username}'.";
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
-                return BadRequest("An error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
     }

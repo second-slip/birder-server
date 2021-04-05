@@ -52,7 +52,10 @@ namespace Birder.Tests.Controller
             var result = await controller.GetTweetArchiveAsync(1, 1);
 
             // Assert
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<ObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+            Assert.Equal($"tweets repository returned null", objectResult.Value);
         }
 
         [Fact]
@@ -70,9 +73,10 @@ namespace Birder.Tests.Controller
             var result = await controller.GetTweetArchiveAsync(1, 1);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<ObjectResult>(result);
             var objectResult = result as ObjectResult;
-            Assert.Equal("An error occurred", objectResult.Value);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+            Assert.Equal("an unexpected error occurred", objectResult.Value);
         }
 
         [Fact]
@@ -141,7 +145,10 @@ namespace Birder.Tests.Controller
             var result = await controller.GetTweetDayAsync();
 
             // Assert
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<ObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+            Assert.Equal($"tweets repository returned null", objectResult.Value);
         }
 
         [Fact]
@@ -159,9 +166,10 @@ namespace Birder.Tests.Controller
             var result = await controller.GetTweetDayAsync();
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<ObjectResult>(result);
             var objectResult = result as ObjectResult;
-            Assert.Equal("An error occurred", objectResult.Value);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+            Assert.Equal("an unexpected error occurred", objectResult.Value);
         }
 
         #endregion

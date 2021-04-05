@@ -41,10 +41,10 @@ namespace Birder.Controllers
             {
                 var birds = await _birdRepository.GetBirdsAsync(pageIndex, pageSize, speciesFilter);
 
-                if (birds == null)
+                if (birds is null)
                 {
                     _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                    return NotFound();
+                    return StatusCode(500, $"bird repository returned null");
                 }
 
                 var viewModel = _mapper.Map<QueryResult<Bird>, BirdsListDto>(birds);
@@ -54,7 +54,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the birds list");
-                return BadRequest("An error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
@@ -70,12 +70,11 @@ namespace Birder.Controllers
                 else
                 {
                     var birds = await _birdRepository.GetBirdsDdlAsync();
-                    //var viewModel = await _birdRepository.GetBirdsDdlAsync();
 
-                    if (birds == null)
+                    if (birds is null)
                     {
                         _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                        return NotFound();
+                        return StatusCode(500, $"bird repository returned null");
                     }
 
                     var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);
@@ -88,7 +87,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the birds list");
-                return BadRequest("An error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
@@ -99,10 +98,10 @@ namespace Birder.Controllers
             {
                 var bird = await _birdRepository.GetBirdAsync(id);
 
-                if (bird == null)
+                if (bird is null)
                 {
                     _logger.LogWarning(LoggingEvents.GetItemNotFound, "GetBird({ID}) NOT FOUND", id);
-                    return NotFound();
+                    return StatusCode(500, $"bird repository returned null");
                 }
 
                 return Ok(_mapper.Map<Bird, BirdDetailDto>(bird));
@@ -110,7 +109,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, "An error occurred getting bird with {ID}", id);
-                return BadRequest("An error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
     }

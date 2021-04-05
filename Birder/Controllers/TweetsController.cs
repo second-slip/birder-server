@@ -53,7 +53,7 @@ namespace Birder.Controllers
                 if (tweet is null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting tweet with date: {Date}", _systemClock.GetToday);
-                    return NotFound();
+                    return StatusCode(500, $"tweets repository returned null");
                 }
 
                 var viewModel = _mapper.Map<TweetDay, TweetDayViewModel>(tweet);
@@ -65,7 +65,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, "An error occurred getting tweet with date: {Date}", _systemClock.GetToday);
-                return BadRequest("An error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
@@ -80,7 +80,7 @@ namespace Birder.Controllers
                 if (tweets is null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting the tweets archive");
-                    return NotFound();
+                    return StatusCode(500, $"tweets repository returned null");
                 }
 
                 var viewModel = _mapper.Map<QueryResult<TweetDay>, TweetArchiveDto>(tweets);
@@ -90,7 +90,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the tweets archive");
-                return BadRequest("An error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
     }

@@ -88,7 +88,10 @@ namespace Birder.Tests.Controller
             var result = await controller.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>());
 
             // Assert
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<ObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+            Assert.Equal($"bird repository returned null", objectResult.Value);
         }
 
         [Fact]
@@ -105,9 +108,10 @@ namespace Birder.Tests.Controller
             var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<ObjectResult>(result);
             var objectResult = result as ObjectResult;
-            Assert.Equal("An error occurred", objectResult.Value);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+            Assert.Equal("an unexpected error occurred", objectResult.Value);
         }
 
         #endregion
@@ -168,7 +172,10 @@ namespace Birder.Tests.Controller
             var result = await controller.GetBirdAsync(It.IsAny<int>());
 
             // Assert
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<ObjectResult>(result);
+            var objectResult = result as ObjectResult;
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+            Assert.Equal($"bird repository returned null", objectResult.Value);
         }
 
         [Fact]
@@ -185,9 +192,10 @@ namespace Birder.Tests.Controller
             var result = await controller.GetBirdAsync(It.IsAny<int>());
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<ObjectResult>(result);
             var objectResult = result as ObjectResult;
-            Assert.Equal("An error occurred", objectResult.Value);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+            Assert.Equal("an unexpected error occurred", objectResult.Value);
         }
 
 

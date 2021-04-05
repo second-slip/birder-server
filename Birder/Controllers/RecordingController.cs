@@ -28,7 +28,7 @@ namespace Birder.Controllers
         public async Task<IActionResult> GetRecordingsAsync(string species)
         {
             if (string.IsNullOrEmpty(species))
-                return BadRequest("species parameter is missing"); // refactor
+                return BadRequest("species parameter is missing");
 
             try
             {
