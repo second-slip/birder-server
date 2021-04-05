@@ -9,7 +9,7 @@ namespace Birder.Services
 {
     public interface IBirdThumbnailPhotoService
     {
-        IEnumerable<ObservationFeedDto> GetUrlForObservations(IEnumerable<ObservationFeedDto> observations);
+        IEnumerable<ObservationFeedDto> GetThumbnailUrl(IEnumerable<ObservationFeedDto> observations);
     }
 
     // potentially use a distributed cache to limit hits on the external API?
@@ -36,7 +36,7 @@ namespace Birder.Services
         /// </summary>
         /// <param name="observations"></param>
         /// <returns></returns>
-        public IEnumerable<ObservationFeedDto> GetUrlForObservations(IEnumerable<ObservationFeedDto> observations)
+        public IEnumerable<ObservationFeedDto> GetThumbnailUrl(IEnumerable<ObservationFeedDto> observations)
         {
             if (observations is null)
                 throw new ArgumentNullException(nameof(observations), "The observations collection is null");

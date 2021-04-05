@@ -33,7 +33,6 @@ namespace Birder.Controllers
             try
             {
                 var recordings = await _xenoCantoService.GetSpeciesRecordings(species);
-
                 return Ok(recordings);
             }
             catch (XenoCantoException ex)

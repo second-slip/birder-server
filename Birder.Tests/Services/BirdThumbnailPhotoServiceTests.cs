@@ -27,7 +27,7 @@ namespace Birder.Tests.Services
 
             // Act
             var ex = Assert.Throws<ArgumentNullException>(() =>
-            service.GetUrlForObservations(null));
+            service.GetThumbnailUrl(null));
 
             // Assert
             Assert.Equal("The observations collection is null (Parameter 'observations')", ex.Message);
@@ -49,7 +49,7 @@ namespace Birder.Tests.Services
             var observations = new List<ObservationFeedDto> { new ObservationFeedDto() { } };
 
             // Act
-            var result = service.GetUrlForObservations(observations);
+            var result = service.GetThumbnailUrl(observations);
 
             // Assert
             Assert.IsAssignableFrom<IEnumerable<ObservationFeedDto>>(result);
@@ -72,7 +72,7 @@ namespace Birder.Tests.Services
             var observations = new List<ObservationFeedDto> { new ObservationFeedDto() { } };
 
             // Act
-            var result = service.GetUrlForObservations(observations);
+            var result = service.GetThumbnailUrl(observations);
 
             // Assert
             Assert.IsAssignableFrom<IEnumerable<ObservationFeedDto>>(result);

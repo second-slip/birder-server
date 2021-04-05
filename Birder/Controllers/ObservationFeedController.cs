@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -46,17 +45,22 @@ namespace Birder.Controllers
                     if (userObservations is null)
                     {
                         _logger.LogWarning(LoggingEvents.GetListNotFound, "User Observations list was null at GetObservationsFeedAsync()");
-                        return NotFound("Observations not found");
+                        return StatusCode(500, $"User observations object is null");
                     }
 
                     if (userObservations.TotalItems > 0 || pageIndex > 1)
                     {
-                        _profilePhotosService.GetUrlForObservations(userObservations.Items);
+                        _profilePhotosService.GetThumbnailUrl(userObservations.Items);
                         userObservations.ReturnFilter = ObservationFeedFilter.Own;
                         return Ok(userObservations);
                     }
                 }
 
+
+                /*
+                 * if network observations is requested, or
+                 * if user's own observations is request BUT user has no observations
+                */
                 if (filter == ObservationFeedFilter.Network || filter == ObservationFeedFilter.Own)
                 {
                     var requestingUserAndNetwork = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
@@ -64,7 +68,7 @@ namespace Birder.Controllers
                     if (requestingUserAndNetwork is null)
                     {
                         _logger.LogWarning(LoggingEvents.GetItemNotFound, "Requesting user not found");
-                        return NotFound("Requesting user not found");
+                        return StatusCode(500, $"requesting user not found");
                     }
 
                     var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUserAndNetwork.Following);
@@ -76,34 +80,38 @@ namespace Birder.Controllers
                     if (networkObservations is null)
                     {
                         _logger.LogWarning(LoggingEvents.GetListNotFound, "Network observations list is null");
-                        return NotFound("Observations not found");
+                        return StatusCode(500, $"Network observations object is null");
                     }
 
                     if (networkObservations.TotalItems > 0 || pageIndex > 1)
                     {
-                        _profilePhotosService.GetUrlForObservations(networkObservations.Items);
+                        _profilePhotosService.GetThumbnailUrl(networkObservations.Items);
                         networkObservations.ReturnFilter = ObservationFeedFilter.Network;
                         return Ok(networkObservations);
                     }
                 }
 
+
+                /*
+                 * if public observations is requested, or
+                 * if user's own or network observations is request BUT user/network has no observations
+                */
                 var publicObservations = await _observationQueryService.GetPagedObservationsFeedAsync(pl => pl.SelectedPrivacyLevel == PrivacyLevel.Public, pageIndex, pageSize);
                 
                 if (publicObservations is null)
                 {
                     _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
-                    return NotFound("Observations not found");
+                    return StatusCode(500, $"Public observations object is null");
                 }
 
-                _profilePhotosService.GetUrlForObservations(publicObservations.Items);
-
+                _profilePhotosService.GetThumbnailUrl(publicObservations.Items);
                 publicObservations.ReturnFilter = ObservationFeedFilter.Public;
                 return Ok(publicObservations);
             }
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the observations feed");
-                return BadRequest("An unexpected error occurred");
+                return StatusCode(500, "An unexpected error occurred");
             }
         }
     }
