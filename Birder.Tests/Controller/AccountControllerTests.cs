@@ -217,8 +217,8 @@ namespace Birder.Tests.Controller
             var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
             // Assert
-            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-            var expected = "User not found";
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            var expected = "An error occurred";
             objectResult.Value.Should().BeOfType<string>();
             objectResult.Value.Should().BeEquivalentTo(expected);
         }
@@ -289,7 +289,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(repo => repo.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                            .Returns(Task.FromResult(IdentityResult.Success));
 
-            string testUsername = string.Empty;
+            string testUsername = "test_string";
             string testCode = string.Empty;
 
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);

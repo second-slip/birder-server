@@ -74,12 +74,19 @@ namespace Birder.Controllers
 
                 var viewModel = await _listService.GetLifeListsAsync(a => a.ApplicationUser.UserName == username);
 
+                if (viewModel is null)
+                {
+                    string errorMessage = $"listService returned null";
+                    _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
+                    return StatusCode(500, errorMessage);
+                }
+
                 return Ok(viewModel);
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the Life List");
-                return BadRequest("An error occurred");
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "an exception was raised");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
     }
