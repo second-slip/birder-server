@@ -30,7 +30,7 @@ namespace Birder.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet] //, Route("GetUserProfile")]
+        [HttpGet]
         public async Task<IActionResult> GetUserProfileAsync(string requestedUsername)
         {
             // add properties for no. of species / observations
@@ -38,7 +38,7 @@ namespace Birder.Controllers
             if (string.IsNullOrEmpty(requestedUsername))
             {
                 _logger.LogError(LoggingEvents.GetItem, "requestedUsername argument is null or empty at GetUserProfileAsync action");
-                return BadRequest("An error occurred");
+                return BadRequest($"{nameof(requestedUsername)} argument is null or empty");
             }
 
             try
@@ -48,7 +48,7 @@ namespace Birder.Controllers
                 if (requestedUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
-                    return NotFound("Requested user not found");
+                    return StatusCode(500, "userManager returned null");
                 }
 
                 var requestedUserProfileViewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(requestedUser);
@@ -73,7 +73,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.Exception, ex, "Error at GetUserProfileAsync");
-                return BadRequest("There was an error getting the user profile");
+                return StatusCode(500, "There was an error getting the user profile");
             }
         }
     }

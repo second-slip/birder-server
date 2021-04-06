@@ -1,4 +1,3 @@
-using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using Birder.Data;
 using Birder.Data.Model;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +34,6 @@ namespace Birder
             services.AddMemoryCache();
 
             services.AddControllers()
-            //.SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -161,7 +158,6 @@ namespace Birder
 
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });

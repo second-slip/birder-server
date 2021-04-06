@@ -33,24 +33,28 @@ namespace Birder.Controllers
             {
                 var username = User.Identity.Name;
 
-                if (username is null)
+                if (string.IsNullOrEmpty(username))
                 {
-                    return Unauthorized();
+                    string errorMessage = $"requesting username is null or empty";
+                    _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
+                    return Unauthorized(errorMessage);
                 }
 
-                //var observations = await _observationRepository.GetObservationsAsync(a => a.ApplicationUser.UserName == username);
-
-                // observations is null check?
-
-                //var viewModel = ObservationsAnalysisHelper.MapTopObservations(observations, _systemClock.GetToday.AddDays(-30));
                 var viewModel = await _listService.GetTopObservationsAsync(username, _systemClock.GetToday.AddDays(-30));
+
+                if(viewModel is null)
+                {
+                    string errorMessage = $"listService returned null";
+                    _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
+                    return StatusCode(500, errorMessage);
+                }
 
                 return Ok(viewModel);
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the Top Observations Analysis");
-                return BadRequest("An error occurred");
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "an exception was raised");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
@@ -61,9 +65,11 @@ namespace Birder.Controllers
             {
                 var username = User.Identity.Name;
 
-                if (username is null)
+                if (string.IsNullOrEmpty(username))
                 {
-                    return Unauthorized();
+                    string errorMessage = $"requesting username is null or empty";
+                    _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
+                    return Unauthorized(errorMessage);
                 }
 
                 var viewModel = await _listService.GetLifeListsAsync(a => a.ApplicationUser.UserName == username);

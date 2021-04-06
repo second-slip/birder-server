@@ -57,7 +57,7 @@ namespace Birder.Tests.Controller
             // Assert
             var objectResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.IsType<String>(objectResult.Value);
-            Assert.Equal("An error occurred", objectResult.Value);
+            Assert.Equal("requestedUsername argument is null or empty", objectResult.Value);
         }
 
         [Fact]
@@ -96,9 +96,10 @@ namespace Birder.Tests.Controller
                 var result = await controller.GetUserProfileAsync(requestedUsername);
 
                 // Assert
-                var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-                Assert.IsType<String>(objectResult.Value);
-                Assert.Equal("Requested user not found", objectResult.Value);
+                Assert.IsType<ObjectResult>(result);
+                var objectResult = result as ObjectResult;
+                Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+                Assert.Equal($"userManager returned null", objectResult.Value);
             }
         }
 
