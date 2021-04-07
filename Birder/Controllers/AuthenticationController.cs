@@ -44,16 +44,18 @@ namespace Birder.Controllers
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
         {
+
+            if (!ModelState.IsValid)
+            {
+                // record and log model errors...
+                _logger.LogError(LoggingEvents.InvalidModelState, "LoginViewModel ModelState is invalid");
+                //return BadRequest(ModelState); //Not a good idea
+                var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
+                return BadRequest(viewModel);
+            }
+
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    // record and log model errors...
-                    _logger.LogError(LoggingEvents.InvalidModelState, "LoginViewModel ModelState is invalid");
-                    //return BadRequest(ModelState); //Not a good idea
-                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
-                    return BadRequest(viewModel);
-                }
 
                 var user = await _userManager.FindByEmailAsync(loginViewModel.UserName);
 
