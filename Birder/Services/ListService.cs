@@ -71,8 +71,8 @@ namespace Birder.Services
                          Name = b.Key.EnglishName,
                          Count = b.Count()
                      })
-                     .Take(5)
                      .OrderByDescending(c => c.Count)
+                     .Take(5)
                      .ToListAsync();
 
             viewModel.TopMonthlyObservations = await _dbContext.Observations
@@ -85,8 +85,8 @@ namespace Birder.Services
                          Name = b.Key.EnglishName,
                          Count = b.Count()
                      })
-                     .Take(5)
                      .OrderByDescending(c => c.Count)
+                     .Take(5)
                      .ToListAsync();
 
             return viewModel;
