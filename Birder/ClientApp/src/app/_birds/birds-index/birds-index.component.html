@@ -1,7 +1,15 @@
 <div class="container">
   <h3>British bird species</h3>
 
+  <div>
+    <app-bird-select-species></app-bird-select-species>
+  </div>
+
+  <hr>
+
   <ng-container *ngIf="birds$ | async as birds; else loadingOrError">
+
+    <h5>Birds list</h5>
 
     <!-- Switch between list view or grid view -->
     <p>
@@ -22,6 +30,8 @@
       showing {{ speciesFilter === '0' ? 'the' : 'all'}} {{totalItems}} {{ speciesFilter === '0' ? 'common species' :
       'British species'}}
     </p>
+
+
 
     <div>
       <table class="table table-striped">

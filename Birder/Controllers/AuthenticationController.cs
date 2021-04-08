@@ -56,10 +56,9 @@ namespace Birder.Controllers
 
             try
             {
-
                 var user = await _userManager.FindByEmailAsync(loginViewModel.UserName);
 
-                if (user == null)
+                if (user is null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "Login failed: User not found");
                     var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
@@ -68,7 +67,7 @@ namespace Birder.Controllers
 
                 if (user.EmailConfirmed == false)
                 {
-                    ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you have confirmed your email.");
+                    //ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you have confirmed your email.");
                     _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
                     var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.EmailConfirmationRequired };
                     return BadRequest(viewModel);
@@ -108,8 +107,8 @@ namespace Birder.Controllers
                         FailureReason = AuthenticationFailureReason.None,
                         AuthenticationToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions)
                     };
+
                     return Ok(viewModel);
-                    //return Ok(new { Token = tokenString });
                 }
                 if (result.IsLockedOut)
                 {
@@ -117,7 +116,6 @@ namespace Birder.Controllers
                     var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.LockedOut };
                     return BadRequest(viewModel);
                 }
-                //if (result.RequiresTwoFactor) { }
                 else
                 {
                     _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");

@@ -86,6 +86,8 @@ export class ObservationAddComponent implements OnInit {
     this.getBirds();
   }
 
+
+
   // getBirds(): void {
   //   this.birdsService.getBirdsDdl()
   //     .pipe(share(),

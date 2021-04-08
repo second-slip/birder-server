@@ -1,0 +1,38 @@
+
+<div class="select">
+    <form class="form" [formGroup]="selectSpeciesForm" novalidate (ngSubmit)="onSubmit(selectSpeciesForm.value)">
+
+        <mat-form-field>
+            <input type="bird" placeholder="Choose species or browse list" aria-label="Number" matInput
+                formControlName="bird" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let bird of filteredOptions$ | async" [value]="bird">
+                    <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
+                </mat-option>
+            </mat-autocomplete>
+            <!-- <mat-error *ngFor="let validation of selectSpeciesForm_validation_messages.bird">
+            <mat-error class="error-message"
+                *ngIf="selectSpeciesForm.get('bird').hasError(validation.type) && (selectSpeciesForm.get('bird').dirty || selectSpeciesForm.get('bird').touched)">
+                {{validation.message}}</mat-error>
+        </mat-error> -->
+        </mat-form-field>
+
+        <p>{{selectSpeciesForm.get('birdId')}}</p>
+
+
+        <button mat-stroked-button class="view-button" type="submit" [disabled]="!selectSpeciesForm.valid">View</button>
+
+
+
+
+
+
+
+
+        <!-- <button mat-stroked-button type="button" (click)="getCurrentPosition()"
+        aria-label="Get your current location" #tooltip="matTooltip" matTooltip="Get your current location">
+        <mat-icon>my_location</mat-icon> -->
+        <!-- </button> -->
+
+    </form>
+</div>

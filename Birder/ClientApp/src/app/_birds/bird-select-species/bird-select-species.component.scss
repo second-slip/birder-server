@@ -1,0 +1,40 @@
+app-bird-select-species {
+  .form {
+    display: flex;
+
+    mat-form-field {
+      width: 80%;
+      padding: 5px;
+    }
+
+    button {
+      width: 25px;
+      margin: auto;
+    }
+  }
+
+  // .half-width {
+  //   width: 100%;
+  //   margin-bottom: 10px;
+  // }
+
+  // .form-control { width: 100%; }
+
+  .view-button {
+    margin-left: 5px;
+  }
+
+  // .error-message {
+  //   font-size: 12px;
+  // }
+
+  .double-line-hint {
+    .mat-input-hint-wrapper {
+      flex-wrap: wrap;
+
+      .hint-line {
+        flex: 0 0 100%;
+      }
+    }
+  }
+}
