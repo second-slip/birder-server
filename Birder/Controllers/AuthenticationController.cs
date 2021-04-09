@@ -44,14 +44,12 @@ namespace Birder.Controllers
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
         {
-
             if (!ModelState.IsValid)
             {
                 // record and log model errors...
                 _logger.LogError(LoggingEvents.InvalidModelState, "LoginViewModel ModelState is invalid");
-                //return BadRequest(ModelState); //Not a good idea
-                var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
-                return BadRequest(viewModel);
+                //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
+                return BadRequest(new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
             }
 
             try
@@ -61,21 +59,25 @@ namespace Birder.Controllers
                 if (user is null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "Login failed: User not found");
-                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
-                    return NotFound(viewModel);
+                    //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
+                    return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
                 }
 
                 if (user.EmailConfirmed == false)
                 {
                     //ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you have confirmed your email.");
                     _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
-                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.EmailConfirmationRequired };
-                    return BadRequest(viewModel);
+                    //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.EmailConfirmationRequired };
+                    return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.EmailConfirmationRequired });
                 }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginViewModel.Password, false);
 
                 //ToDo: move to separate Service?
+                //if (!result.Succeeded)
+                //{
+
+                //}
                 if (result.Succeeded)
                 {
                     var claims = new List<Claim>
@@ -113,21 +115,21 @@ namespace Birder.Controllers
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
-                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.LockedOut };
-                    return BadRequest(viewModel);
+                    //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.LockedOut };
+                    return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.LockedOut });
                 }
-                else
-                {
-                    _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
-                    var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
-                    return BadRequest(viewModel);
-                }
+                //else
+                //{
+                _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
+                //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
+                return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
+                //}
             }
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GenerateItems, ex, "An error with user authenitication");
-                var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
-                return BadRequest(viewModel);
+                //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
+                return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
             }
         }
     }

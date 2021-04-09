@@ -35,6 +35,7 @@ import { LogoutComponent } from './_login-out/logout/logout.component';
 import { FollowersComponent } from './_network/followers/followers.component';
 import { FollowingComponent } from './_network/following/following.component';
 import { BirdDetailComponent } from './_birds/bird-detail/bird-detail.component';
+import { AboutDeveloperComponent } from './_about/about-developer/about-developer.component';
 
 
 const routes: Routes = [
@@ -55,7 +56,8 @@ const routes: Routes = [
       { path: 'reset-password/:code', component: ResetPasswordComponent },
       { path: 'reset-password-confirmation', component: ResetPasswordConfirmationComponent },
       { path: 'whats-new', component: WhatsNewComponent },
-      { path: 'tweets-archive', component: TweetArchiveComponent }
+      { path: 'tweets-archive', component: TweetArchiveComponent },
+      { path: 'developer', component: AboutDeveloperComponent }
     ]
   },
   {

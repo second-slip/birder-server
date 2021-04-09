@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ParentErrorStateMatcher } from 'validators';
 import { AuthenticationService } from '@app/_services/authentication.service';
 import { AuthenticationFailureReason } from '@app/_models/AuthenticationResultDto';
-import { AuthenticationErrorViewModel } from '@app/_models/ErrorReportViewModel';
 
 @Component({
   selector: 'app-login',
@@ -55,11 +54,11 @@ export class LoginComponent implements OnInit {
       .subscribe(_ => {
         this.router.navigate([this.returnUrl]);
       },
-        (error: AuthenticationErrorViewModel) => {
+        (errorReason: AuthenticationFailureReason) => {
           this.requesting = false;
           this.loginForm.enable();
-          console.log(error);
-          switch (error.failureReason) {
+          //console.log(errorReason);
+          switch (errorReason) {
             case AuthenticationFailureReason.EmailConfirmationRequired: {
               this.toast.info('You must confirm your email address before you can login.', 'Confirm your email', {
                 timeOut: 8000
@@ -76,7 +75,8 @@ export class LoginComponent implements OnInit {
               break;
             }
           }
-        });
+        }
+      );
   }
 
   createForms(): void {

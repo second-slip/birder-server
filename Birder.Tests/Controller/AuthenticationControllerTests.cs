@@ -84,11 +84,11 @@ namespace Birder.Tests.Controller
             var result = await controller.Login(model);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<ObjectResult>(result);
             var objectResult = result as ObjectResult;
             Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.True(objectResult is ObjectResult);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
             Assert.IsType<AuthenticationResultDto>(objectResult.Value);
 
             var returnModel = objectResult.Value as AuthenticationResultDto;
@@ -117,11 +117,11 @@ namespace Birder.Tests.Controller
             var result = await controller.Login(model);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<ObjectResult>(result);
             var objectResult = result as ObjectResult;
             Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.True(objectResult is ObjectResult);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
             Assert.IsType<AuthenticationResultDto>(objectResult.Value);
 
             var returnModel = objectResult.Value as AuthenticationResultDto;
@@ -148,11 +148,11 @@ namespace Birder.Tests.Controller
             var result = await controller.Login(model);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<ObjectResult>(result);
             var objectResult = result as ObjectResult;
             Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.True(objectResult is ObjectResult);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
             Assert.IsType<AuthenticationResultDto>(objectResult.Value);
 
             var returnModel = objectResult.Value as AuthenticationResultDto;
@@ -179,11 +179,11 @@ namespace Birder.Tests.Controller
             var result = await controller.Login(model);
 
             // Assert
-            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.IsType<ObjectResult>(result);
             var objectResult = result as ObjectResult;
             Assert.NotNull(objectResult);
-            Assert.True(objectResult is NotFoundObjectResult);
-            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            Assert.True(objectResult is ObjectResult);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
             Assert.IsType<AuthenticationResultDto>(objectResult.Value);
 
             var returnModel = objectResult.Value as AuthenticationResultDto;
@@ -246,11 +246,11 @@ namespace Birder.Tests.Controller
             var result = await controller.Login(model);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<ObjectResult>(result);
             var objectResult = result as ObjectResult;
             Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            Assert.True(objectResult is ObjectResult);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
             Assert.IsType<AuthenticationResultDto>(objectResult.Value);
 
             var returnModel = objectResult.Value as AuthenticationResultDto;

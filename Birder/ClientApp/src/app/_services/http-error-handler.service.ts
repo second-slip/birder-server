@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorReportViewModel, AuthenticationErrorViewModel } from '../_models/ErrorReportViewModel';
+import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -10,26 +10,32 @@ export class HttpErrorHandlerService {
 
   constructor() { }
 
-  handleAuthenticationError(error: HttpErrorResponse): Observable<AuthenticationErrorViewModel> {
-    const errorReport = new AuthenticationErrorViewModel();
-    // console.log(error);
+  // handleAuthenticationError(error: HttpErrorResponse): Observable<ErrorReportViewModel> {
+    
+  //   const errorReport = new AuthenticationErrorViewModel();
+  //   console.log(error);
+    
+  //   // console.log(error);
 
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      errorReport.type = 'client-side or network error occurred';
-      errorReport.errorNumber = error.status;
-      errorReport.message = error.message;
-      errorReport.friendlyMessage = 'Please try again later.';
-    } else {
-      errorReport.type = 'unsuccessful response code';
-      errorReport.errorNumber = error.status;
-      errorReport.message = error.statusText;
-      errorReport.friendlyMessage = 'Please try again later.';
-      errorReport.failureReason = error.error.failureReason;
-    }
+  //   if (error.error instanceof ErrorEvent) {
+  //     // A client-side or network error occurred. Handle it accordingly.
+  //     errorReport.type = 'client-side or network error occurred';
+  //     errorReport.errorNumber = error.status;
+  //     errorReport.message = error.message;
+  //     errorReport.friendlyMessage = 'Please try again later.';
+  //   } else {
+  //     console.log(error);
+  //     errorReport.type = 'unsuccessful response code';
+  //     errorReport.errorNumber = error.status;
+  //     errorReport.message = error.statusText;
+  //     errorReport.friendlyMessage = 'Please try again later.';
+  //     //errorReport.failureReason = error.error.failureReason;
+  //   }
 
-    return throwError(errorReport);
-  }
+  //   console.log(errorReport);
+
+  //   return throwError(errorReport);
+  // }
 
   handleHttpError(error: HttpErrorResponse): Observable<ErrorReportViewModel> {
     const errorReport = new ErrorReportViewModel();
