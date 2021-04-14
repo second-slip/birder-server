@@ -48,7 +48,6 @@ namespace Birder.Controllers
             {
                 // record and log model errors...
                 _logger.LogError(LoggingEvents.InvalidModelState, "LoginViewModel ModelState is invalid");
-                //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
                 return BadRequest(new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
             }
 
@@ -59,25 +58,24 @@ namespace Birder.Controllers
                 if (user is null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "Login failed: User not found");
-                    //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
                     return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
                 }
 
                 if (user.EmailConfirmed == false)
                 {
-                    //ModelState.AddModelError("EmailNotConfirmed", "You cannot login until you have confirmed your email.");
                     _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
-                    //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.EmailConfirmationRequired };
                     return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.EmailConfirmationRequired });
                 }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginViewModel.Password, false);
 
-                //ToDo: move to separate Service?
-                //if (!result.Succeeded)
-                //{
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.LockedOut });
+                }
 
-                //}
+                //ToDo: move to separate Service?
                 if (result.Succeeded)
                 {
                     var claims = new List<Claim>
@@ -112,23 +110,14 @@ namespace Birder.Controllers
 
                     return Ok(viewModel);
                 }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.LockedOut };
-                    return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.LockedOut });
-                }
-                //else
-                //{
-                _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
-                //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
+
+
+                _logger.LogWarning("Other authentication failure");
                 return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
-                //}
             }
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GenerateItems, ex, "An error with user authenitication");
-                //var viewModel = new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other };
                 return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
             }
         }
