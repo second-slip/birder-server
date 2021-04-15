@@ -112,12 +112,12 @@ namespace Birder.Controllers
                 }
 
 
-                _logger.LogWarning("Other authentication failure");
+                _logger.LogWarning(LoggingEvents.GenerateItems, "Other authentication failure");
                 return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GenerateItems, ex, "An error with user authenitication");
+                _logger.LogError(LoggingEvents.Exception, ex, "An unexpeceted error occurred");
                 return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
             }
         }

@@ -25,7 +25,7 @@ namespace Birder.Tests.Controller
             _logger = new Mock<ILogger<AuthenticationController>>();
             _systemClock = new SystemClockService();
             _config = new Mock<IConfiguration>();
-            _config.SetupGet(x => x[It.Is<string>(s => s == "Scheme")]).Returns("http://");
+            _config.SetupGet(x => x[It.Is<string>(s => s == "Scheme")]).Returns("https://");
             _config.SetupGet(x => x[It.Is<string>(s => s == "Domain")]).Returns("localhost:55722");
             _config.SetupGet(x => x[It.Is<string>(s => s == "FlickrApiKey")]).Returns("ggjh");
             _config.SetupGet(x => x[It.Is<string>(s => s == "MapApiKey")]).Returns("fjfgjn");
@@ -33,7 +33,7 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task Login_ReturnsOkObjectResult_WithLoginDto()
+        public async Task Returns_OkObjectResult_With_Dto()
         {
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
@@ -64,7 +64,7 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task Login_ReturnsBadRequestObjectResult_WhenSignInResultIsNotSuccessful()
+        public async Task Returns_500_And_Other_Status_When_Login_Is_Unsuccessful_For_Any_Other_Reason()
         {
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
@@ -97,7 +97,7 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task Login_ReturnsBadRequestObjectResult_WhenSignInResultIsLockedOut()
+        public async Task Returns_500_And_LockedOut_Status_When_User_Is_Locked_Out()
         {
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
@@ -130,7 +130,7 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task LoginWithEmailNotConfirmed_ReturnsBadRequest_WithEmailNotConfirmed()
+        public async Task Returns_500_And_EmailConfirmationRequired_Status_When_User_Email_Not_Confirmed()
         {
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
@@ -161,7 +161,7 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task Login_ReturnsBadRequest_WhenUserManagerReturnsNull()
+        public async Task Returns_500_And_Other_Status_When_User_Is_Null()
         {
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
@@ -192,7 +192,7 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task LoginWithInvalidModelState_ReturnsBadRequest_WithModelStateError()
+        public async Task Returns_500_And_Other_Status_When_ModelState_Is_Invalid()
         {
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
@@ -229,7 +229,7 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task Login_ReturnsBadRequestResult_WhenExceptionIsRaised()
+        public async Task Returns_500_And_Exception_Status_When_Exception_Is_Raised()
         {
             // Arrange
             var mockUserManager = SharedFunctions.InitialiseMockUserManager();
