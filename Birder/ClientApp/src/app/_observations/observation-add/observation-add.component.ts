@@ -138,7 +138,8 @@ export class ObservationAddComponent implements OnInit {
         BirdsListValidator()
       ])),
 
-      observationDateTime: new FormControl((new Date()).toISOString(), Validators.compose([
+      observationDateTime: new FormControl((moment()), Validators.compose([
+        //new Date()).toISOString()
         Validators.required
         //DateValid(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/) 
         // not really necessary as input is now readonly,
@@ -163,9 +164,14 @@ export class ObservationAddComponent implements OnInit {
       shortAddress: this.mapComponent.position.shortAddress
     };
 
+    // console.log(formValue.observationDateTime);
+    // console.log(formValue.observationDateTime.toString());
+    // console.log(new Date(formValue.observationDateTime).toLocaleString());
+    // console.log(new Date(formValue.observationDateTime).toISOString());
+
     const observation = <ObservationViewModel>{
       quantity: formValue.quantity,
-      observationDateTime: new Date(formValue.observationDateTime).toISOString(), // formValue.observationDateTime,
+      observationDateTime: new Date(formValue.observationDateTime).toLocaleString(), // formValue.observationDateTime,
       bird: formValue.bird,
       birdId: formValue.bird.birdId,
       position: position,
@@ -176,6 +182,8 @@ export class ObservationAddComponent implements OnInit {
       hasPhotos: false,
       lastUpdateDate: new Date().toISOString()
     }
+
+    // console.log(observation);
 
     this.observationService.addObservation(observation)
       .subscribe(
@@ -218,14 +226,12 @@ export class ObservationAddComponent implements OnInit {
 
   private scrollToSectionHook() {
     const element = document.querySelector('.stepperTop0');
-    console.log(element);
     if (element) {
       setTimeout(() => {
         element.scrollIntoView({
           behavior: 'smooth', block: 'start', inline:
             'nearest'
         });
-        console.log('scrollIntoView');
       }, 250);
     }
   }
