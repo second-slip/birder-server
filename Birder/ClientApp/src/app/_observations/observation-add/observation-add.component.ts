@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable, throwError } from 'rxjs';
-import { startWith, map, share, catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { BirdsListValidator, ParentErrorStateMatcher } from 'validators';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
@@ -86,19 +86,6 @@ export class ObservationAddComponent implements OnInit {
     this.getBirds();
   }
 
-
-
-  // getBirds(): void {
-  //   this.birdsService.getBirdsDdl()
-  //     .pipe(share(),
-  //       tap(() => this.getBirdAutocompleteOptions()),
-  //       catchError(err => {
-  //         this.errorObject = err;
-  //         return throwError(err);
-  //       })
-  //     );
-
-
   getBirdAutocompleteOptions() {
     this.filteredOptions$ = this.addObservationForm.controls['bird'].valueChanges
       .pipe(
@@ -164,11 +151,6 @@ export class ObservationAddComponent implements OnInit {
       shortAddress: this.mapComponent.position.shortAddress
     };
 
-    // console.log(formValue.observationDateTime);
-    // console.log(formValue.observationDateTime.toString());
-    // console.log(new Date(formValue.observationDateTime).toLocaleString());
-    // console.log(new Date(formValue.observationDateTime).toISOString());
-
     const observation = <ObservationAddDto>{
       quantity: formValue.quantity,
       observationDateTime: new Date(formValue.observationDateTime).toLocaleString(), // formValue.observationDateTime,
@@ -177,8 +159,6 @@ export class ObservationAddComponent implements OnInit {
       position: position,
       notes: notes,
     }
-
-    // console.log(observation);
 
     this.observationService.addObservation(observation)
       .subscribe(
