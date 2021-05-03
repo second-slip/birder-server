@@ -48,7 +48,14 @@ namespace Birder.Tests.Controller
         {
             //Arrange
             int birdId = 1;
-            var model = GetTestObservationViewModel(id, birdId);
+            //var model = GetTestObservationViewModel(id, birdId);
+            var model = new ObservationAddDto()
+            {
+                //ObservationId = id,
+                Bird = new BirdSummaryViewModel() { BirdId = birdId },
+                BirdId = birdId,
+                Position = new ObservationPositionDto() { }
+            };
             var requestingUser = GetUser("Any");
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
@@ -100,7 +107,14 @@ namespace Birder.Tests.Controller
         {
             //Arrange
             int birdId = 1;
-            var model = GetTestObservationViewModel(id, birdId);
+            //var model = GetTestObservationViewModel(id, birdId);
+            var model = new ObservationAddDto()
+            {
+                //ObservationId = id,
+                Bird = new BirdSummaryViewModel() { BirdId = birdId },
+                BirdId = birdId,
+                Position = new ObservationPositionDto() { }
+            };
             var requestingUser = GetUser("Any");
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
@@ -150,7 +164,14 @@ namespace Birder.Tests.Controller
         public async Task CreateObservationAsync_ReturnsNotFound_WhenBirdNotFound(int id, int birdId)
         {
             //Arrange
-            var model = GetTestObservationViewModel(id, birdId);
+            //var model = GetTestObservationViewModel(id, birdId);
+            var model = new ObservationAddDto()
+            {
+                //ObservationId = id,
+                Bird = new BirdSummaryViewModel() { BirdId = birdId },
+                BirdId = birdId,
+                Position = new ObservationPositionDto() { }
+            };
             var requestingUser = GetUser("Any");
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
@@ -203,7 +224,14 @@ namespace Birder.Tests.Controller
         {
             //Arrange
             int birdId = 1;
-            var model = GetTestObservationViewModel(id, birdId);
+            //var model = GetTestObservationViewModel(id, birdId);
+            var model = new ObservationAddDto()
+            {
+                //ObservationId = id,
+                Bird = new BirdSummaryViewModel() { BirdId = birdId },
+                BirdId = birdId,
+                Position = new ObservationPositionDto() { }
+            };
             var requestingUser = GetUser("Any");
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
@@ -263,7 +291,14 @@ namespace Birder.Tests.Controller
         public async Task CreateObservationAsync_ReturnsOkWithObservationViewModel_OnSuccess(int id, int birdId)
         {
             //Arrange
-            var model = GetTestObservationViewModel(id, birdId);
+            //var model = GetTestObservationViewModel(id, birdId);
+            var model = new ObservationAddDto()
+            {
+                //ObservationId = id,
+                Bird = new BirdSummaryViewModel() { BirdId = birdId },
+                BirdId = birdId,
+                Position = new ObservationPositionDto() { }
+            };
             var requestingUser = GetUser("Any");
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
