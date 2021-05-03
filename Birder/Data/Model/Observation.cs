@@ -6,7 +6,6 @@ namespace Birder.Data.Model
 {
     public class Observation
     {
-        //ToDo: male/female/juvenile? Or is it too much?
         [Key]
         public int ObservationId { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "The observation count should be at least one individual")]

@@ -15,18 +15,17 @@ namespace Birder.Data
               .ForMember(a => a.Position, b => b.MapFrom(a => a.Position))
               .ForMember(a => a.User, b => b.MapFrom(a => a.ApplicationUser));
 
-            CreateMap<Observation, ObservationAddDto>()
-              .ReverseMap();
-
             CreateMap<ObservationDto, Observation>()
               .ForMember(a => a.Position, b => b.MapFrom(a => a.Position))
               .ForMember(a => a.ApplicationUser, b => b.Ignore())
               .ForMember(a => a.CreationDate, b => b.Ignore());
 
+            CreateMap<Observation, ObservationAddDto>()
+             .ReverseMap();
+
             CreateMap<ObservationEditDto, Observation>()
               .ForMember(a => a.Position, b => b.Ignore())
               .ForMember(a => a.ApplicationUser, b => b.Ignore())
-              //.ForMember(a => a.CreationDate, b => b.Ignore())
               .ForMember(a => a.BirdId, b => b.Ignore())
               .ForMember(a => a.Bird, b => b.Ignore())
               .ForMember(a => a.Notes, b => b.Ignore())
