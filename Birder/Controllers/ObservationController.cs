@@ -58,7 +58,7 @@ namespace Birder.Controllers
             {
                 var observation = await _observationRepository.GetObservationAsync(id, true);
 
-                if (observation == null)
+                if (observation is null)
                 {
                     string message = $"Observation with id '{id}' was not found.";
                     _logger.LogWarning(LoggingEvents.GetItemNotFound, message);
@@ -71,27 +71,28 @@ namespace Birder.Controllers
             {
                 string message = $"An error occurred getting observation with id '{id}'.";
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, message);
-                return BadRequest("An error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
         [HttpPost, Route("CreateObservation")]
         public async Task<IActionResult> CreateObservationAsync(ObservationAddDto model)
         {
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError(LoggingEvents.UpdateItem, "ObservationViewModel is invalid: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                return BadRequest("An error occurred");
+            }
+
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, "ObservationViewModel is invalid: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest("An error occurred");
-                }
-
                 var requestingUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
                 if (requestingUser is null)
                 {
-                    _logger.LogError(LoggingEvents.GetItem, "Requesting user not found");
-                    return NotFound("Requesting user not found");
+                    _logger.LogError(LoggingEvents.GetItem, "requesting user not found");
+                    return StatusCode(500, "requesting user not found");
                 }
 
                 var observedBirdSpecies = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
@@ -100,7 +101,7 @@ namespace Birder.Controllers
                 {
                     string message = $"Bird species with id '{model.BirdId}' was not found.";
                     _logger.LogError(LoggingEvents.GetItem, message);
-                    return NotFound(message);
+                    return StatusCode(500, message);
                 }
 
                 model.ObservationDateTime = model.ObservationDateTime.ToLocalTime();
@@ -114,11 +115,11 @@ namespace Birder.Controllers
                 observation.CreationDate = createdDate;
                 observation.LastUpdateDate = createdDate;
 
-                TryValidateModel(observation);
-                if (!ModelState.IsValid)
+                //rerun validation on observation model
+                if (!TryValidateModel(observation, nameof(observation)))
                 {
                     _logger.LogError(LoggingEvents.UpdateItem, "Observation model state is invalid: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest("An error occurred");
+                    return StatusCode(500, "observation ModelState is invalid");
                 }
 
                 _observationPositionRepository.Add(observation.Position);
@@ -131,7 +132,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred creating an observation.");
-                return BadRequest("An unexpected error occurred.");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
@@ -155,9 +156,9 @@ namespace Birder.Controllers
                 var observation = await _observationRepository.GetObservationAsync(id, false);
                 if (observation is null)
                 {
-                    string message = $"Observation with id '{model.ObservationId}' was not found.";
+                    string message = $"observation with id '{model.ObservationId}' was not found.";
                     _logger.LogError(LoggingEvents.UpdateItem, message);
-                    return NotFound(message);
+                    return StatusCode(500, message);
                 }
 
                 var username = User.Identity.Name;
@@ -176,18 +177,17 @@ namespace Birder.Controllers
                 {
                     string message = $"The observed bird could not be found for observation with id '{model.ObservationId}'.";
                     _logger.LogError(LoggingEvents.UpdateItem, message);
-                    return NotFound(message);
+                    return StatusCode(500, message);
                 }
 
                 observation.Bird = bird;
 
-                //var position = await _observationPositionRepository.GetAsync(observation.Position.ObservationPositionId);
                 var position = await _observationPositionRepository.SingleOrDefaultAsync(o => o.ObservationId == observation.ObservationId);
                 if (position is null)
                 {
                     string message = $"The position could not be found for observation with id '{model.ObservationId}'.";
                     _logger.LogError(LoggingEvents.UpdateItem, message);
-                    return NotFound(message);
+                    return StatusCode(500, message);
                 }
 
                 position.Latitude = model.Position.Latitude;
@@ -221,12 +221,10 @@ namespace Birder.Controllers
 
                 observation.LastUpdateDate = _systemClock.GetNow;
 
-                //
-                TryValidateModel(observation);
-                if (!ModelState.IsValid)
+                if (!TryValidateModel(observation, nameof(observation)))
                 {
                     _logger.LogError(LoggingEvents.UpdateItemNotFound, "Observation has an invalid model state: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState), id);
-                    return BadRequest("An error occurred");
+                    return StatusCode(500, "observation ModelState is invalid");
                 }
 
                 await _unitOfWork.CompleteAsync();
@@ -237,7 +235,7 @@ namespace Birder.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred updating (PUT) observation with id: {ID}", id);
-                return BadRequest("An unexpected error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
@@ -248,11 +246,11 @@ namespace Birder.Controllers
             {
                 var observation = await _observationRepository.GetObservationAsync(id, false);
                 
-                if (observation == null)
+                if (observation is null)
                 {
                     string message = $"Observation with id '{id}' was not found";
                     _logger.LogError(LoggingEvents.UpdateItem, message);
-                    return NotFound(message);
+                    return StatusCode(500, message);
                 }
 
                 var requesterUsername = User.Identity.Name;
@@ -275,14 +273,8 @@ namespace Birder.Controllers
             catch(Exception ex)
             {
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"An error occurred updating observation with id: {id}");
-                return BadRequest("An unexpected error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
-
-        //private void ClearCache()
-        //{
-        //    _cache.Remove(CacheEntries.ObservationsList);
-        //    _cache.Remove(CacheEntries.ObservationsSummary);
-        //}
     }
 }

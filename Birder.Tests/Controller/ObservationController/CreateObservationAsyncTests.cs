@@ -149,12 +149,10 @@ namespace Birder.Tests.Controller
             var result = await controller.CreateObservationAsync(model);
 
             // Assert
-            string expectedMessage = "Requesting user not found";
-
-            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            var objectResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
             var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal(expectedMessage, actual);
+            Assert.Equal("requesting user not found", actual);
         }
 
         [Theory]
@@ -208,12 +206,10 @@ namespace Birder.Tests.Controller
             var result = await controller.CreateObservationAsync(model);
 
             // Assert
-            string expectedMessage = $"Bird species with id '{model.BirdId}' was not found.";
-
-            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            var objectResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
             var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal(expectedMessage, actual);
+            Assert.Equal($"Bird species with id '{model.BirdId}' was not found.", actual);
         }
 
         [Theory]
@@ -276,12 +272,10 @@ namespace Birder.Tests.Controller
             var result = await controller.CreateObservationAsync(model);
 
             // Assert
-            string expectedMessage = "An unexpected error occurred.";
-
-            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            var objectResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
             var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal(expectedMessage, actual);
+            Assert.Equal("an unexpected error occurred", actual);
         }
 
         [Theory]
