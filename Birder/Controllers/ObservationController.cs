@@ -62,7 +62,7 @@ namespace Birder.Controllers
                 {
                     string message = $"Observation with id '{id}' was not found.";
                     _logger.LogWarning(LoggingEvents.GetItemNotFound, message);
-                    return NotFound(message);
+                    return StatusCode(500, message);
                 }
 
                 return Ok(_mapper.Map<Observation, ObservationDto>(observation));
