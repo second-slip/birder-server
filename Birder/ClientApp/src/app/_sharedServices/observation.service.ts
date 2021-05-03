@@ -4,7 +4,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { tap, catchError, first } from 'rxjs/operators';
 import { HttpErrorHandlerService } from '../_services/http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
-import { ObservationAddDto, ObservationViewModel } from '../_models/ObservationViewModel';
+import { ObservationAddDto, ObservationEditDto, ObservationViewModel } from '../_models/ObservationViewModel';
 import { ObservationsPagedDto } from '@app/_models/ObservationViewDto';
 
 const httpOptions = {
@@ -38,7 +38,7 @@ export class ObservationService {
         catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
   }
 
-  updateObservation(id: number, viewModel: ObservationViewModel): Observable<ObservationViewModel | ErrorReportViewModel> {
+  updateObservation(id: number, viewModel: ObservationEditDto): Observable<ObservationViewModel | ErrorReportViewModel> {
     const options = id ?
       { params: new HttpParams().set('id', id.toString()) } :
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };

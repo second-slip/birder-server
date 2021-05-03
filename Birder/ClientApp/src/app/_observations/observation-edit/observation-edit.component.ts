@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
-import { ObservationViewModel } from '@app/_models/ObservationViewModel';
+import { ObservationEditDto, ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { BirdsListValidator, ParentErrorStateMatcher } from 'validators';
@@ -16,6 +16,7 @@ import { ObservationPosition } from '@app/_models/ObservationPosition';
 import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
 import { EditNotesComponent } from '@app/_observationNotes/edit-notes/edit-notes.component';
 import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNote';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-observation-edit',
@@ -86,7 +87,7 @@ export class ObservationEditComponent implements OnInit {
         Validators.required,
         BirdsListValidator()
       ])),
-      observationDateTime: new FormControl(this.observation.observationDateTime, Validators.compose([
+      observationDateTime: new FormControl(moment(this.observation.observationDateTime), Validators.compose([
         Validators.required
       ])),
     });
@@ -102,25 +103,21 @@ export class ObservationEditComponent implements OnInit {
       shortAddress: this.mapComponent.position.shortAddress
     }
 
-
     const notes: ObservationNote[] = this.editNotesComponent.notes.map(note => ({
       id: note.id,
       noteType: ObservationNoteType[note.noteType],
       note: note.note
     }));
 
-    const observation = <ObservationViewModel>{
+    const observation = <ObservationEditDto>{
+      observationId: this.observation.observationId,
       quantity: value.quantity,
-      observationDateTime: value.observationDateTime,
+      observationDateTime: new Date(value.observationDateTime),
       bird: value.bird,
       birdId: value.bird.birdId,
       notes: notes,
-      observationId: this.observation.observationId,
       user: this.observation.user,
-      creationDate: this.observation.creationDate,
-      hasPhotos: false, // might have a problem
-      position: position,
-      lastUpdateDate: new Date().toISOString()
+      position: position
     }
 
     this.observationService.updateObservation(this.observation.observationId, observation)
@@ -182,14 +179,14 @@ export class ObservationEditComponent implements OnInit {
 
   private scrollToSectionHook() {
     const element = document.querySelector('.stepperTop0');
-    console.log(element);
+    //console.log(element);
     if (element) {
       setTimeout(() => {
         element.scrollIntoView({
           behavior: 'smooth', block: 'start', inline:
             'nearest'
         });
-        console.log('scrollIntoView');
+        //console.log('scrollIntoView');
       }, 250);
     }
   }

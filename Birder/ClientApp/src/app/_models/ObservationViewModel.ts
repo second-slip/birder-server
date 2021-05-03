@@ -19,9 +19,20 @@ export interface ObservationViewModel {
 
 export interface ObservationAddDto {
      quantity: number;
-     observationDateTime: Date | string;
+     observationDateTime: Date; //| string; --> not when posting to the server...
      birdId: number;
      bird: BirdSummaryViewModel;
+     position: ObservationPosition;
+     notes: ObservationNote[];
+ }
+
+ export interface ObservationEditDto {
+     observationId: number;
+     quantity: number;
+     observationDateTime: Date; //| string; --> not when posting to the server...
+     birdId: number;
+     bird: BirdSummaryViewModel;
+     user: UserViewModel;
      position: ObservationPosition;
      notes: ObservationNote[];
  }

@@ -52,7 +52,7 @@ export class ObservationAddComponent implements OnInit {
   public touchUi = false;
   public enableMeridian = false;
   public minDate = moment().subtract(20, "years");// new Date().toISOString(); // moment.Moment;
-  public maxDate = moment().format('YYYY-MM-DD 23:59:59'); // new Date().toISOString(); // moment.Moment;
+  public maxDate = moment().format('yyyy-MM-dd 23:59:59'); // new Date().toISOString(); // moment.Moment;
   public stepHour = 1;
   public stepMinute = 1;
   public stepSecond = 1;
@@ -151,14 +151,24 @@ export class ObservationAddComponent implements OnInit {
       shortAddress: this.mapComponent.position.shortAddress
     };
 
+    // console.log(formValue.observationDateTime);
+    // console.log(moment(formValue.observationDateTime).utc());
+    // console.log(new Date(formValue.observationDateTime));
+    // console.log(new Date(formValue.observationDateTime).toISOString());
+    // console.log(new Date(formValue.observationDateTime).toUTCString());
+
+
     const observation = <ObservationAddDto>{
       quantity: formValue.quantity,
-      observationDateTime: new Date(formValue.observationDateTime).toLocaleString(), // formValue.observationDateTime,
+      observationDateTime: new Date(formValue.observationDateTime),
       bird: formValue.bird,
       birdId: formValue.bird.birdId,
       position: position,
       notes: notes,
     }
+
+    console.log(observation.observationDateTime);
+    console.log(observation);
 
     this.observationService.addObservation(observation)
       .subscribe(
