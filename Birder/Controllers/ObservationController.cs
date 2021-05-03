@@ -76,7 +76,7 @@ namespace Birder.Controllers
         }
 
         [HttpPost, Route("CreateObservation")]
-        public async Task<IActionResult> CreateObservationAsync(ObservationDto model)
+        public async Task<IActionResult> CreateObservationAsync(ObservationAddDto model)
         {
             try
             {
@@ -88,7 +88,7 @@ namespace Birder.Controllers
 
                 var requestingUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
-                if (requestingUser == null)
+                if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItem, "Requesting user not found");
                     return NotFound("Requesting user not found");
@@ -96,19 +96,21 @@ namespace Birder.Controllers
 
                 var observedBirdSpecies = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
 
-                if (observedBirdSpecies == null)
+                if (observedBirdSpecies is null)
                 {
                     string message = $"Bird species with id '{model.BirdId}' was not found.";
                     _logger.LogError(LoggingEvents.GetItem, message);
                     return NotFound(message);
                 }
 
-                var observation = _mapper.Map<ObservationDto, Observation>(model);
+                var observation = _mapper.Map<ObservationAddDto, Observation>(model);
+
+                DateTime createdDate = _systemClock.GetNow;
 
                 observation.ApplicationUser = requestingUser;
                 observation.Bird = observedBirdSpecies;
-                observation.CreationDate = _systemClock.GetNow;
-                observation.LastUpdateDate = observation.CreationDate;
+                observation.CreationDate = createdDate;
+                observation.LastUpdateDate = createdDate;
 
                 TryValidateModel(observation);
                 if (!ModelState.IsValid)

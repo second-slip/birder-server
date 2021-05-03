@@ -4,7 +4,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { tap, catchError, first } from 'rxjs/operators';
 import { HttpErrorHandlerService } from '../_services/http-error-handler.service';
 import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
-import { ObservationViewModel } from '../_models/ObservationViewModel';
+import { ObservationAddDto, ObservationViewModel } from '../_models/ObservationViewModel';
 import { ObservationsPagedDto } from '@app/_models/ObservationViewDto';
 
 const httpOptions = {
@@ -31,7 +31,7 @@ export class ObservationService {
       .pipe(first());
   }
 
-  addObservation(viewModel: ObservationViewModel): Observable<ObservationViewModel | ErrorReportViewModel> {
+  addObservation(viewModel: ObservationAddDto): Observable<ObservationViewModel | ErrorReportViewModel> {
     return this.http.post<ObservationViewModel>('api/Observation/CreateObservation', viewModel, httpOptions)
       .pipe(
         tap(() => { this.announceObservationsChanged(); }),

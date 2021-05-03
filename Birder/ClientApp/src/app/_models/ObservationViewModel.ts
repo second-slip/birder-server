@@ -16,3 +16,12 @@ export interface ObservationViewModel {
     position: ObservationPosition;
     notes: ObservationNote[];
 }
+
+export interface ObservationAddDto {
+     quantity: number;
+     observationDateTime: Date | string;
+     birdId: number;
+     bird: BirdSummaryViewModel;
+     position: ObservationPosition;
+     notes: ObservationNote[];
+ }

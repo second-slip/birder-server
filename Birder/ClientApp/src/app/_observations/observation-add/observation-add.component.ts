@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { BirdsService } from '@app/_services/birds.service';
 import { ObservationService } from '@app/_sharedServices/observation.service';
 import { TokenService } from '@app/_services/token.service';
-import { ObservationViewModel } from '@app/_models/ObservationViewModel';
+import { ObservationAddDto, ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
 import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNote';
@@ -169,18 +169,13 @@ export class ObservationAddComponent implements OnInit {
     // console.log(new Date(formValue.observationDateTime).toLocaleString());
     // console.log(new Date(formValue.observationDateTime).toISOString());
 
-    const observation = <ObservationViewModel>{
+    const observation = <ObservationAddDto>{
       quantity: formValue.quantity,
       observationDateTime: new Date(formValue.observationDateTime).toLocaleString(), // formValue.observationDateTime,
       bird: formValue.bird,
       birdId: formValue.bird.birdId,
       position: position,
       notes: notes,
-      observationId: 0,
-      user: null,
-      creationDate: new Date().toISOString(),
-      hasPhotos: false,
-      lastUpdateDate: new Date().toISOString()
     }
 
     // console.log(observation);
