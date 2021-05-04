@@ -113,6 +113,7 @@ import { PhotoDisplayComponent } from './_photos/photo-display/photo-display.com
 import { AboutDeveloperComponent } from './_about/about-developer/about-developer.component';
 import { BirdSelectSpeciesComponent } from './_birds/bird-select-species/bird-select-species.component';
 
+
 // import { YearListComponent } from './_lists/year-list/year-list.component';
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -259,6 +260,7 @@ export function tokenGetter() {
     ToastrModule.forRoot(),
     NgxDropzoneModule,
     GalleryModule,
+
     // LightboxModule,
     GoogleMapsModule,
     NgcCookieConsentModule.forRoot(cookieConfig),
