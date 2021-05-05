@@ -1,6 +1,6 @@
 <div class="container">
 
-  <h4>{{title}}</h4>
+  <!-- <h4>{{title}}</h4> -->
 
   <div class="button-row">
 
@@ -8,17 +8,20 @@
       <mat-button-toggle value="0" aria-label="Show observations in your network" #tooltip="matTooltip"
         matTooltip="Show observations in your network"
         aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-        <mat-icon>groups</mat-icon>
+        <!-- <mat-icon>groups</mat-icon> -->
+        Network
       </mat-button-toggle>
       <mat-button-toggle value="1" aria-label="Show your observations only" #tooltip="matTooltip"
         matTooltip="Show your observations only"
         aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-        <mat-icon>person</mat-icon>
+        <!-- <mat-icon>person</mat-icon> -->
+        Yours
       </mat-button-toggle>
       <mat-button-toggle value="2" aria-label="Show all public observations" #tooltip="matTooltip"
         matTooltip="Show all public observations"
         aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-        <mat-icon>public</mat-icon>
+        <!-- <mat-icon>public</mat-icon> -->
+        Public
       </mat-button-toggle>
     </mat-button-toggle-group>
 
@@ -46,7 +49,7 @@
     <div class="feedEndAlert">
       <p *ngIf="loadingItems">
         <ngb-alert type="info" [dismissible]="false">
-          <strong>Loading</strong> <i> Loading more observations...</i> 
+          <strong>Loading</strong> <i> Loading more observations...</i>
         </ngb-alert>
       </p>
     </div>
