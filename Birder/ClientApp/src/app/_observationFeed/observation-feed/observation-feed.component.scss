@@ -6,7 +6,8 @@ app-observation-feed {
   }
 
   .add-button {
-    margin-left: 25px;
+    float: right;
+    //margin-left: 25px;
   }
 
   .mat-button-toggle-label-content {
@@ -21,6 +22,7 @@ app-observation-feed {
 
   @media screen and (max-width: 394px) {
     .add-button {
+      float: right;
       margin-left: 0px;
     }
   }
