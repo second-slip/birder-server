@@ -4,7 +4,7 @@ import { BehaviorSubject, fromEvent, merge, Observable, throwError } from 'rxjs'
 import { ObservationFeedDto, ObservationFeedPagedDto } from '@app/_models/ObservationFeedDto';
 import { ObservationsFeedService } from '@app/_services/observations-feed.service';
 import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { ToastrService } from 'ngx-toastr';
 import { UserViewModel } from '@app/_models/UserViewModel';
 import { TokenService } from '@app/_services/token.service';
