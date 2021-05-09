@@ -41,7 +41,6 @@
     "jquery": "^3.6.0",
     "kind-of": "^6.0.3",
     "latest-version": "^5.1.0",
-    "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "lodash.mergewith": "^4.6.2",
     "minimist": "^1.2.5",
