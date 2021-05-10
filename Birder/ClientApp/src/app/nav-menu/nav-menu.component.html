@@ -43,9 +43,17 @@
 
       <div *ngIf="isLoggedIn">
         <ul class="nav navbar-nav mr-auto">
+
           <li class="nav-item">
             <a class="nav-link" [routerLink]='["/whats-new"]'>Coming soon</a>
           </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" [routerLink]='["/observation-add"]' mat-mini-fab color="primary"
+              aria-label="Add a new observation" #tooltip="matTooltip" matTooltip="Add a new observation"
+              aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+              <mat-icon>add</mat-icon>    
+            </a>
+          </li> -->
           <li class="nav-item dropdown" ngbDropdown>
             <a style='cursor:pointer' class="nav-link dropdown-toggle" id="id02" ngbDropdownToggle>
               <img src={{authenticatedUser.avatar}} class="profile-img img-circle"

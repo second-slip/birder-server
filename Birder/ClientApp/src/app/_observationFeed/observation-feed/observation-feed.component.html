@@ -3,8 +3,17 @@
   <!-- <h4>{{title}}</h4> -->
 
   <div class="button-row">
+    <!-- <p> -->
+    <a class="add-button" [routerLink]='["/observation-add"]' mat-mini-fab color="primary"
+      aria-label="Add a new observation" #tooltip="matTooltip" matTooltip="Add a new observation"
+      aria-label="Button that displays a tooltip that hides when scrolled out of the container">
+      <mat-icon>add</mat-icon>
+      <!-- Add observation -->
+    </a>
 
-    <mat-button-toggle-group #group="matButtonToggleGroup" [value]="currentFilter" (change)="onFilterFeed(group.value)">
+
+    <mat-button-toggle-group class="feed-filter-toggle-group" #group="matButtonToggleGroup" [value]="currentFilter"
+      (change)="onFilterFeed(group.value)">
       <mat-button-toggle value="0" aria-label="Show observations in your network" #tooltip="matTooltip"
         matTooltip="Show observations in your network"
         aria-label="Button that displays a tooltip that hides when scrolled out of the container">
@@ -24,14 +33,7 @@
         Public
       </mat-button-toggle>
     </mat-button-toggle-group>
-
-    <a class="add-button" [routerLink]='["/observation-add"]' mat-fab color="primary" aria-label="Add a new observation"
-      #tooltip="matTooltip" matTooltip="Add a new observation"
-      aria-label="Button that displays a tooltip that hides when scrolled out of the container">
-      <mat-icon>post_add</mat-icon>
-      <!-- Add observation -->
-    </a>
-
+    <!-- </p> -->
   </div>
 
   <hr>
