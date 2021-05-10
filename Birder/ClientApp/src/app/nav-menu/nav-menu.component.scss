@@ -1,5 +1,4 @@
 app-nav-menu {
-
   .navbar {
     position: fixed;
     top: 0;
@@ -10,7 +9,6 @@ app-nav-menu {
   }
 
   .navbar-brand {
-    //margin-left: 20px;
     padding: 15px;
   }
 
@@ -18,28 +16,39 @@ app-nav-menu {
     padding-left: 10px;
   }
 
-
-
-
-
-
-.profile-img {
-    //margin-top: -5px;
-    //margin-right: 5px;
-    //float: left;
-    /*background: url('../images/if_099374-twitter-bird3_56010.png') 50% 50% no-repeat;
-    background-size: auto 100%; /* Interchange this value depending on prefering width vs. height  */
-    width: 30px;
-    height: 30px;
+  .add-margin-toggle-buttons {
+    //this is needed due to below
+    margin-right: 15px;
   }
-  
 
-
-  
-  .nav-link {
-    //padding-left: 16px;
+  .dropdown-toggle::after {
+    position: absolute;
+    bottom: 17px;
+    margin-right: 100px;
   }
-  
+
+  .icon {
+    font-size: 29px;
+  }
+
+  .profile-img {
+    width: 29px;
+    height: 29px;
+  }
+
+  .right-hand-menu {
+    margin-right: 15px;
+  }
+
+  .small-text {
+    font-size: smaller;
+  }
+
+  .username {
+    font-weight: bold;
+    font-size: large;
+  }
+
   /* Highlighting rules for nav menu items  */
   li.link-active a,
   li.link-active a:hover,
@@ -47,5 +56,4 @@ app-nav-menu {
     background-color: #4189c7;
     color: white;
   }
-  
 }
