@@ -11,7 +11,7 @@ export class ErrorDisplayComponent {
 
   constructor() { }
 
-  refresh(): void {
-    window.location.reload();
-  }
+  // refresh(): void {
+  //   window.location.reload();
+  // }
 }
