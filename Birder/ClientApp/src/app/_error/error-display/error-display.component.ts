@@ -10,4 +10,8 @@ export class ErrorDisplayComponent {
   @Input() error: any;
 
   constructor() { }
+
+  refresh(): void {
+    window.location.reload();
+  }
 }
