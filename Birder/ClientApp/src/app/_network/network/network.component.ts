@@ -1,10 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { NetworkService } from '@app/_network/network.service';
-import { UserNetworkDto } from '@app/_models/UserNetworkDto';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { Subscription } from 'rxjs';
-import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-network',
@@ -12,42 +6,14 @@ import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
   styleUrls: ['./network.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NetworkComponent implements OnInit, OnDestroy {
-  network: UserNetworkDto;
-  networkChangeSubscription: Subscription;
+export class NetworkComponent implements OnInit {
   tabstatus = {};
   active;
-  
-  constructor(private networkService: NetworkService) { }
 
-    ngOnInit() {
-      this.active = 1;
-      this.tabstatus = {};
-      
-      this.getUserNetwork();
-      this.networkChangeSubscription = this.networkService.networkChanged$
-      .subscribe(_ => {
-        this.onNetworkChanged();
-      });
-    }
+  constructor() { }
 
-    ngOnDestroy() {
-      this.networkChangeSubscription.unsubscribe();
-    }
-  
-    onNetworkChanged() {
-      this.getUserNetwork();
-    }
-  
-    getUserNetwork(): void {
-      this.networkService.getUserNetwork()
-        .subscribe(
-          (data: UserNetworkDto) => {
-            this.network = data;
-          },
-          (error: ErrorReportViewModel) => {
-            console.log(error);
-          });
-    }
-
+  ngOnInit() {
+    this.active = 1;
+    this.tabstatus = {};
+  }
 }

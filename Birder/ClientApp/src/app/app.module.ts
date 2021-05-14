@@ -228,7 +228,6 @@ export function tokenGetter() {
     AboutDeveloperComponent,
     BirdSelectSpeciesComponent,
     NetworkSidebarComponent,
-    // YearListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

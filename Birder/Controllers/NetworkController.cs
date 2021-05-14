@@ -43,38 +43,38 @@ namespace Birder.Controllers
 
         //To be replaced
         //Leave until Network sidebar component is replaced...
-        [HttpGet]
-        public async Task<IActionResult> GetNetworkAsync()
-        {
-            try
-            {
-                var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
+        //[HttpGet]
+        //public async Task<IActionResult> GetNetworkAsync()
+        //{
+        //    try
+        //    {
+        //        var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
 
-                if (requestingUser is null)
-                {
-                    _logger.LogError(LoggingEvents.GetItem, "User not found");
-                    return NotFound("Requesting user not found");
-                }
+        //        if (requestingUser is null)
+        //        {
+        //            _logger.LogError(LoggingEvents.GetItem, "User not found");
+        //            return NotFound("Requesting user not found");
+        //        }
 
-                var model = _mapper.Map<ApplicationUser, UserNetworkDto>(requestingUser);
+        //        var model = _mapper.Map<ApplicationUser, UserNetworkDto>(requestingUser);
 
-                UserNetworkHelpers.SetupFollowersCollection(requestingUser, model.Followers);
+        //        UserNetworkHelpers.SetupFollowersCollection(requestingUser, model.Followers);
 
-                //var followers = await _networkRepository.GetFollowers(requestingUser);
+        //        //var followers = await _networkRepository.GetFollowers(requestingUser);
 
-                UserNetworkHelpers.SetupFollowingCollection(requestingUser, model.Following);
+        //        UserNetworkHelpers.SetupFollowingCollection(requestingUser, model.Following);
 
-                //var following = await _networkRepository.GetFollowing(requestingUser);
+        //        //var following = await _networkRepository.GetFollowing(requestingUser);
 
-                return Ok(model);
+        //        return Ok(model);
 
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(LoggingEvents.Exception, ex, "GetMyNetworkAsync");
-                return BadRequest("An unexpected error occurred");
-            }
-        }
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        _logger.LogError(LoggingEvents.Exception, ex, "GetMyNetworkAsync");
+        //        return BadRequest("An unexpected error occurred");
+        //    }
+        //}
 
         [HttpGet, Route("GetFollowers")]
         public async Task<IActionResult> GetFollowersAsync(string requestedUsername)

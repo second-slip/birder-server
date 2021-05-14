@@ -1,10 +1,9 @@
-<div class="container" *ngIf="network">
+<div class="container">
   <h3>Build your Birder network</h3>
 
 
   <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs"
     (navChange)="tabstatus[$event.nextId]=true">
-
 
     <li [ngbNavItem]="1" [destroyOnHide]="true">
       <a ngbNavLink>Suggestions</a>

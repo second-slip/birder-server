@@ -4,7 +4,6 @@ import { catchError, first, tap } from 'rxjs/operators';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpErrorHandlerService } from '@app/_services/http-error-handler.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { UserNetworkDto } from '@app/_models/UserNetworkDto';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { NetworkSidebarSummaryDto } from '@app/_models/NetorkSidebarSummaryDto';
 
@@ -23,11 +22,11 @@ export class NetworkService {
   constructor(private http: HttpClient
     , private httpErrorHandlerService: HttpErrorHandlerService) { }
 
-  getUserNetwork(): Observable<UserNetworkDto | ErrorReportViewModel> {
-    return this.http.get<UserNetworkDto>('api/Network')
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
-  }
+  // getUserNetwork(): Observable<UserNetworkDto | ErrorReportViewModel> {
+  //   return this.http.get<UserNetworkDto>('api/Network')
+  //     .pipe(
+  //       catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+  // }
 
   getFollowers(username: string): Observable<NetworkUserViewModel[]> {
     const options = username ?
