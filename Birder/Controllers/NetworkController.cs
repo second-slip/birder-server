@@ -179,12 +179,14 @@ namespace Birder.Controllers
 
                 if (followersNotBeingFollowed.Any())
                 {
+                    // ToDo: needs to be paged or Take(x)
                     var users = await _userManager.GetUsersAsync(user => followersNotBeingFollowed.Contains(user.UserName));
                     model.SuggestedUsersToFollow = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
                     return Ok(model);
                 }
                 else
                 {
+                    // ToDo: needs to be paged or Take(x)
                     var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
                     var users = await _userManager.GetUsersAsync(user => !followingUsernamesList.Contains(user.UserName) && user.UserName != requestingUser.UserName);
                     model.SuggestedUsersToFollow = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
@@ -217,12 +219,14 @@ namespace Birder.Controllers
 
                 if (followersNotBeingFollowed.Any())
                 {
+                    // ToDo: needs to be paged or Take(x)
                     //var users = await _userManager.GetFollowersNotFollowedAsync(followersNotBeingFollowed);
                     var users = await _userManager.GetUsersAsync(user => followersNotBeingFollowed.Contains(user.UserName));
                     return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                 }
                 else
                 {
+                    // ToDo: needs to be paged or Take(x)
                     var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
                     //var users = await _userManager.GetSuggestedBirdersToFollowAsync(requestingUser.UserName, followingUsernamesList);
                     var users = await _userManager.GetUsersAsync(user => !followingUsernamesList.Contains(user.UserName) && user.UserName != requestingUser.UserName);
