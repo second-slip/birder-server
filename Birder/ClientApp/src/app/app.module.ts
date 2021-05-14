@@ -112,6 +112,7 @@ import { BirdDetailInfoComponent } from './_birds/bird-detail-info/bird-detail-i
 import { PhotoDisplayComponent } from './_photos/photo-display/photo-display.component';
 import { AboutDeveloperComponent } from './_about/about-developer/about-developer.component';
 import { BirdSelectSpeciesComponent } from './_birds/bird-select-species/bird-select-species.component';
+import { NetworkSidebarComponent } from './_network/network-sidebar/network-sidebar.component';
 
 
 // import { YearListComponent } from './_lists/year-list/year-list.component';
@@ -228,6 +229,7 @@ export function tokenGetter() {
     PhotoDisplayComponent,
     AboutDeveloperComponent,
     BirdSelectSpeciesComponent,
+    NetworkSidebarComponent,
     // YearListComponent
   ],
   imports: [
