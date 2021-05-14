@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { NetworkService } from '@app/_services/network.service';
+import { NetworkService } from '@app/_network/network.service';
 import { UserNetworkDto } from '@app/_models/UserNetworkDto';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Subscription } from 'rxjs';

@@ -2,7 +2,8 @@ import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { UserNetworkDto } from '@app/_models/UserNetworkDto';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
-import { NetworkService } from '@app/_services/network.service';
+import { NetworkService } from '@app/_network/network.service';
+
 import { Subscription } from 'rxjs';
 
 @Component({

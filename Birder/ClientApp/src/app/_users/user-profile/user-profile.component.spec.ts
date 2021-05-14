@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserProfileComponent } from './user-profile.component';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { UserProfileService } from '@app/_services/user-profile.service';
-import { NetworkService } from '@app/_services/network.service';
+import { NetworkService } from '@app/_network/network.service';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';

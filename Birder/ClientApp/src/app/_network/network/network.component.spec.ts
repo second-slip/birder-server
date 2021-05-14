@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NetworkComponent } from './network.component';
-import { NetworkService } from '@app/_services/network.service';
+import { NetworkService } from '@app/_network/network.service';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserNetworkDto } from '@app/_models/UserNetworkDto';

@@ -1,7 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
-import { NetworkService } from '@app/_services/network.service';
+import { NetworkService } from '@app/_network/network.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

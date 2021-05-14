@@ -24,7 +24,8 @@
     "module": "es2020",
     "paths": {
       "@app/*": [
-        "app/*"
+        "app/*",
+        "src/app/*"
       ]
     }
   }

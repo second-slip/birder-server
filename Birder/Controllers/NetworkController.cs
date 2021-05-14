@@ -190,6 +190,60 @@ namespace Birder.Controllers
             }
         }
 
+        public class NetworkSidebarSummaryDto
+        {
+            public int FollowersCount { get; set; }
+            public int FollowingCount { get; set; }
+            public IEnumerable<NetworkUserViewModel> SuggestedUsersToFollow { get; set; }
+        }
+
+        //ToDo: Fix return types...
+
+        //ToDo: Rename this and model...
+        [HttpGet, Route("NetworkSidebarSummary")]
+        public async Task<IActionResult> GetNetworkSidebarSummaryAsync()
+        {
+            try
+            {
+                var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
+
+                if (requestingUser is null)
+                {
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
+                    return StatusCode(500, "requesting user not found");
+                }
+
+                var model = new NetworkSidebarSummaryDto();
+
+                model.FollowersCount = requestingUser.Followers.Count;
+
+                model.FollowingCount = requestingUser.Following.Count;
+
+                var followersNotBeingFollowed = UserNetworkHelpers.GetFollowersNotBeingFollowedUserNames(requestingUser);
+
+                if (followersNotBeingFollowed.Any())
+                {
+                    var users = await _userManager.GetUsersAsync(user => followersNotBeingFollowed.Contains(user.UserName));
+                    model.SuggestedUsersToFollow = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
+                    return Ok(model);
+                }
+                else
+                {
+                    var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
+                    var users = await _userManager.GetUsersAsync(user => !followingUsernamesList.Contains(user.UserName) && user.UserName != requestingUser.UserName);
+                    model.SuggestedUsersToFollow = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
+                    return Ok(model);
+                }
+            }
+            catch (Exception ex) 
+            {
+                _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+                return StatusCode(500, "an unexpected error occurred");
+            }
+        }
+
+
+
         [HttpGet, Route("NetworkSuggestions")]
         public async Task<IActionResult> GetNetworkSuggestionsAsync()
         {
@@ -200,29 +254,29 @@ namespace Birder.Controllers
                 if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
-                    return NotFound("Requesting user not found");
+                    return StatusCode(500, "requesting user not found");
                 }
 
                 var followersNotBeingFollowed = UserNetworkHelpers.GetFollowersNotBeingFollowedUserNames(requestingUser);
 
                 if (followersNotBeingFollowed.Any())
                 {
+                    //var users = await _userManager.GetFollowersNotFollowedAsync(followersNotBeingFollowed);
+                    var users = await _userManager.GetUsersAsync(user => followersNotBeingFollowed.Contains(user.UserName));
+                    return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
+                }
+                else
+                {
                     var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
                     //var users = await _userManager.GetSuggestedBirdersToFollowAsync(requestingUser.UserName, followingUsernamesList);
                     var users = await _userManager.GetUsersAsync(user => !followingUsernamesList.Contains(user.UserName) && user.UserName != requestingUser.UserName);
                     return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
                 }
-                else
-                {
-                    //var users = await _userManager.GetFollowersNotFollowedAsync(followersNotBeingFollowed);
-                    var users = await _userManager.GetUsersAsync(user => followersNotBeingFollowed.Contains(user.UserName));
-                    return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
-                }
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.Exception, ex, "Network");
-                return BadRequest("An unexpected error occurred");
+                _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 

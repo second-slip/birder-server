@@ -4,7 +4,7 @@ import { NetworkSearchComponent } from './network-search.component';
 import { FormsModule } from '@angular/forms';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { NetworkService } from '@app/_services/network.service';
+import { NetworkService } from '@app/_network/network.service';
 import { ToastrService } from 'ngx-toastr';
 import { of, throwError } from 'rxjs';
 

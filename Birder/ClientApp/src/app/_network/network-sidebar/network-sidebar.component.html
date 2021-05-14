@@ -1,1 +1,54 @@
-<p>network-sidebar works!</p>
+<div>
+
+    <ng-container *ngIf="network$ | async as network; else loadingOrError">
+
+        <div class="container">
+
+            <h4 class="container">Your Birder Network</h4>
+
+            <div class="summary network">
+                <p><a routerLink="/followers/{{username}}">{{ network.followersCount }} {{
+                        network.followersCount > 1 ? 'followers' : 'follower' }}</a>
+                    /
+                    <a routerLink="/following/{{username}}">{{ network.followingCount }} following</a>
+                </p>
+            </div>
+
+            <div class="container">
+                <h5>Suggested Birders to follow</h5>
+
+                <ng-container *ngIf="network.suggestedUsersToFollow.length; else noItems">
+
+                    <div *ngFor="let user of network.suggestedUsersToFollow">
+                        <app-network-user [user]="user"></app-network-user>
+                    </div>
+
+                </ng-container>
+
+                <ng-template #noItems>
+                    <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+                        There are no suggestions at this time...
+                    </ngb-alert>
+                </ng-template>
+
+            </div>
+
+        </div>
+
+    </ng-container>
+
+    <ng-template #loadingOrError>
+        <ng-container *ngIf="errorObject; else loading">
+            <app-error-display [error]="errorObject"></app-error-display>
+        </ng-container>
+    </ng-template>
+
+
+    <ng-template #loading>
+        <div class="container">
+            <p><em>Loading...</em></p>
+            <mat-spinner style="margin:0 auto;"></mat-spinner>
+        </div>
+    </ng-template>
+
+</div>

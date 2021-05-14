@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
-import { NetworkService } from '@app/_services/network.service';
+import { NetworkService } from '@app/_network/network.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
 

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { HttpErrorHandlerService } from './http-error-handler.service';
-import { UserNetworkDto } from '../_models/UserNetworkDto';
-import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { catchError, first, tap } from 'rxjs/operators';
-import { NetworkUserViewModel } from '../_models/UserProfileViewModel';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpErrorHandlerService } from '@app/_services/http-error-handler.service';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { UserNetworkDto } from '@app/_models/UserNetworkDto';
+import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
+import { NetworkSidebarSummaryDto } from './network-sidebar/network-sidebar.component';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -42,6 +43,11 @@ export class NetworkService {
 
     return this.http.get<NetworkUserViewModel[]>('api/Network/GetFollowing', options)
     .pipe(first());
+  }
+
+  getNetworkSidebarSummary(): Observable<NetworkSidebarSummaryDto> {
+    return this.http.get<NetworkSidebarSummaryDto>('api/Network/NetworkSidebarSummary')
+      .pipe();
   }
 
   getNetworkSuggestions(): Observable<NetworkUserViewModel[] | ErrorReportViewModel> {
