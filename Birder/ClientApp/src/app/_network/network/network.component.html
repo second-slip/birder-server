@@ -1,31 +1,75 @@
 <div class="container">
-  <h3>Build your Birder network</h3>
+
+  <ng-container *ngIf="network$ | async as network; else loadingOrError">
+
+    <div>
+
+      <h3>Your Birder network</h3>
+
+      <div class="summary network">
+        <p><a routerLink="/followers/{{username}}">{{ network.followersCount }} {{
+            network.followersCount > 1 ? 'followers' : 'follower' }}</a>
+          /
+          <a routerLink="/following/{{username}}">{{ network.followingCount }} following</a>
+        </p>
+      </div>
+
+      <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs"
+        (navChange)="tabstatus[$event.nextId]=true">
+
+        <li [ngbNavItem]="1" [destroyOnHide]="true">
+          <a ngbNavLink>Suggestions</a>
+          <ng-template ngbNavContent let-active>
+            <ng-container>
+
+              <!-- <app-network-suggestions></app-network-suggestions> -->
+              <h5>Suggested Birders to follow</h5>
+
+              <ng-container *ngIf="network.suggestedUsersToFollow.length; else noItems">
+                <div *ngFor="let user of network.suggestedUsersToFollow">
+                  <app-network-user [user]="user"></app-network-user>
+                </div>
+              </ng-container>
+
+              <ng-template #noItems>
+                <ngb-alert [dismissible]="false" class="d-block mt-3" type="info">
+                  There are no suggestions at this time...
+                </ngb-alert>
+              </ng-template>
+
+            </ng-container>
+          </ng-template>
+        </li>
+
+        <li [ngbNavItem]="2" [destroyOnHide]="true">
+          <a ngbNavLink>Search</a>
+          <ng-template ngbNavContent>
+
+            <app-network-search></app-network-search>
+
+          </ng-template>
+        </li>
+      </ul>
+
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+    </div>
+
+  </ng-container>
 
 
-  <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav-tabs"
-    (navChange)="tabstatus[$event.nextId]=true">
+  <ng-template #loadingOrError>
+    <ng-container *ngIf="errorObject; else loading">
+      <app-error-display [error]="errorObject"></app-error-display>
+    </ng-container>
+  </ng-template>
 
-    <li [ngbNavItem]="1" [destroyOnHide]="true">
-      <a ngbNavLink>Suggestions</a>
-      <ng-template ngbNavContent let-active>
-        <ng-container>
 
-          <app-network-suggestions></app-network-suggestions>
-
-        </ng-container>
-      </ng-template>
-    </li>
-
-    <li [ngbNavItem]="2" [destroyOnHide]="true">
-      <a ngbNavLink>Search</a>
-      <ng-template ngbNavContent>
-
-        <app-network-search></app-network-search>
-
-      </ng-template>
-    </li>
-  </ul>
-
-  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  <ng-template #loading>
+    <div class="container">
+      <p><em>Loading...</em></p>
+      <mat-spinner style="margin:0 auto;"></mat-spinner>
+    </div>
+  </ng-template>
 
 </div>

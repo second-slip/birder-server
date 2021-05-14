@@ -1,6 +1,6 @@
 import { UserNetworkDto } from "./UserNetworkDto";
 
-export interface NetworkSidebarSummaryDto {
+export interface NetworkSummaryDto {
     followersCount: number;
     followingCount: number;
     suggestedUsersToFollow: UserNetworkDto[];

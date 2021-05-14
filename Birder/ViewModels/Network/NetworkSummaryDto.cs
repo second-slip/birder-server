@@ -2,7 +2,7 @@
 
 namespace Birder.ViewModels
 {
-    public class NetworkSidebarSummaryDto
+    public class NetworkSummaryDto
     {
         public int FollowersCount { get; set; }
         public int FollowingCount { get; set; }

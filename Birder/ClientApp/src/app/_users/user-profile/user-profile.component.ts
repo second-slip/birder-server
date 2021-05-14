@@ -7,7 +7,8 @@ import { UserProfileService } from '@app/_services/user-profile.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationAnalysisViewModel } from '@app/_models/ObservationAnalysisViewModel';
 import { ObservationsAnalysisService } from '@app/_services/observations-analysis.service';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-profile',
@@ -26,8 +27,26 @@ export class UserProfileComponent {
     , private route: ActivatedRoute
     , private toast: ToastrService) {
     this.route.paramMap.subscribe(params => {
-      
+      this.getData(params.get('username'));
     });
+  }
+
+  getData(username: string) {
+    this.userProfile$ = this.userProfileService.getUserProfile(username)
+      .pipe(share(),
+        catchError(err => {
+          this.errorObject = err;
+          return throwError(err); // error thrown by interceptor...
+        })
+      );
+
+    this.analysis$ = this.observationsAnalysisService.getObservationAnalysis(username)
+      .pipe(share(),
+        catchError(err => {
+          this.errorObject = err;
+          return throwError(err); // error thrown by interceptor...
+        })
+      );
   }
 
   followOrUnfollow(element, user: NetworkUserViewModel): void {

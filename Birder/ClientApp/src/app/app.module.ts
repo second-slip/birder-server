@@ -75,7 +75,6 @@ import { TokenService } from './_services/token.service';
 import { UserObservationsListComponent } from './_users/user-observations-list/user-observations-list.component';
 import { BirdObservationsListComponent } from './_birds/bird-observations-list/bird-observations-list.component';
 import { NetworkSearchComponent } from './_network/network-search/network-search.component';
-import { NetworkSuggestionsComponent } from './_network/network-suggestions/network-suggestions.component';
 import { NetworkComponent } from './_network/network/network.component';
 import { BirdsIndexGridViewComponent } from './_birds/birds-index-grid-view/birds-index-grid-view.component';
 import { InfoTweetComponent } from './_tweet/info-tweet/info-tweet.component';
@@ -200,7 +199,6 @@ export function tokenGetter() {
     UserObservationsListComponent,
     BirdObservationsListComponent,
     NetworkSearchComponent,
-    NetworkSuggestionsComponent,
     NetworkComponent,
     BirdsIndexGridViewComponent,
     InfoTweetComponent,

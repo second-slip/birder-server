@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { NetworkSidebarSummaryDto } from '@app/_models/NetorkSidebarSummaryDto';
+import { NetworkSummaryDto } from '@app/_models/NetworkSummaryDto';
 import { NetworkService } from '@app/_network/network.service';
 import { TokenService } from '@app/_services/token.service';
 import { Observable, Subscription, throwError } from 'rxjs';
@@ -12,7 +12,7 @@ import { catchError, share } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class NetworkSidebarComponent {
-  network$: Observable<NetworkSidebarSummaryDto>;
+  network$: Observable<NetworkSummaryDto>;
   networkChangeSubscription: Subscription;
   public errorObject = null;
   username: string;
@@ -35,7 +35,7 @@ export class NetworkSidebarComponent {
   }
 
   getData() {
-    this.network$ = this.networkService.getNetworkSidebarSummary()
+    this.network$ = this.networkService.getNetworkSummary()
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;

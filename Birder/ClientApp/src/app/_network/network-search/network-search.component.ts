@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { NetworkService } from '@app/_network/network.service';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-network-search',
@@ -12,6 +13,7 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 })
 export class NetworkSearchComponent {
   users: NetworkUserViewModel[];
+  //users$: Observable<NetworkUserViewModel[]>;
   // customSearch = false;
   searching = false;
 
