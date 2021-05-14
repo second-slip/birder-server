@@ -293,9 +293,9 @@ namespace Birder.Tests.Controller
                 var result = await controller.PostFollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToFollow));
 
                 // Assert
-                Assert.IsType<BadRequestObjectResult>(result);
+                Assert.IsType<ObjectResult>(result);
                 var objectResult = result as ObjectResult;
-                Assert.Equal($"An error occurred trying to follow user: {userToFollow}", objectResult.Value);
+                Assert.Equal($"an unexpected error occurred", objectResult.Value);
             }
         }
 

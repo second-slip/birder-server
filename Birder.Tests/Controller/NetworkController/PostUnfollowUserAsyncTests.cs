@@ -293,9 +293,8 @@ namespace Birder.Tests.Controller
                 var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
                 // Assert
-                Assert.IsType<BadRequestObjectResult>(result);
-                var objectResult = result as ObjectResult;
-                Assert.Equal($"An error occurred trying to unfollow user: {userToUnfollow}", objectResult.Value);
+                var objectResult = Assert.IsType<ObjectResult>(result);
+                Assert.Equal($"an unexpected error occurred", objectResult.Value);
             }
         }
 

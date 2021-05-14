@@ -37,162 +37,162 @@ namespace Birder.Tests.Controller
         }
 
 
-        [Fact]
-        public async Task GetNetworkAsync_Exception_ReturnsBadRequest()
-        {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+        //[Fact]
+        //public async Task GetNetworkAsync_Exception_ReturnsBadRequest()
+        //{
+        //    var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            using (var context = new ApplicationDbContext(options))
-            {
-                //You have to create the database
-                context.Database.EnsureClean();
-                context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
+        //    using (var context = new ApplicationDbContext(options))
+        //    {
+        //        //You have to create the database
+        //        context.Database.EnsureClean();
+        //        context.Database.EnsureCreated();
+        //        //context.SeedDatabaseFourBooks();
 
-                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+        //        //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
-                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+        //        context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+        //        context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-                context.SaveChanges();
+        //        context.SaveChanges();
 
-                context.Users.Count().ShouldEqual(2);
+        //        context.Users.Count().ShouldEqual(2);
 
-                // Arrange
-                var userManager = SharedFunctions.InitialiseUserManager(context);
+        //        // Arrange
+        //        var userManager = SharedFunctions.InitialiseUserManager(context);
 
-                var mockRepo = new Mock<INetworkRepository>();
+        //        var mockRepo = new Mock<INetworkRepository>();
 
-                var mockUnitOfWork = new Mock<IUnitOfWork>();
+        //        var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        //        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
 
-                //string requestedUsername = "Tenko";
+        //        //string requestedUsername = "Tenko";
 
-                string requesterUsername = string.Empty;
+        //        string requesterUsername = string.Empty;
 
-                controller.ControllerContext = new ControllerContext()
-                {
-                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
-                };
+        //        controller.ControllerContext = new ControllerContext()
+        //        {
+        //            HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+        //        };
 
-                // Act
-                var result = await controller.GetNetworkAsync();
+        //        // Act
+        //        var result = await controller.GetNetworkAsync();
 
-                // Assert
-                Assert.IsType<BadRequestObjectResult>(result);
-                var objectResult = result as ObjectResult;
-                Assert.Equal($"An unexpected error occurred", objectResult.Value);
-            }
+        //        // Assert
+        //        Assert.IsType<BadRequestObjectResult>(result);
+        //        var objectResult = result as ObjectResult;
+        //        Assert.Equal($"An unexpected error occurred", objectResult.Value);
+        //    }
 
-        }
+        //}
 
-        [Fact]
-        public async Task GetNetworkAsync_ReturnsOkResultWithUserNetworkDto_WhenRequestIsSuccessful()
-        {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+        //[Fact]
+        //public async Task GetNetworkAsync_ReturnsOkResultWithUserNetworkDto_WhenRequestIsSuccessful()
+        //{
+        //    var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            using (var context = new ApplicationDbContext(options))
-            {
-                //You have to create the database
-                context.Database.EnsureClean();
-                context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
+        //    using (var context = new ApplicationDbContext(options))
+        //    {
+        //        //You have to create the database
+        //        context.Database.EnsureClean();
+        //        context.Database.EnsureCreated();
+        //        //context.SeedDatabaseFourBooks();
 
-                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+        //        //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
-                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+        //        context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+        //        context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-                context.SaveChanges();
+        //        context.SaveChanges();
 
-                context.Users.Count().ShouldEqual(2);
+        //        context.Users.Count().ShouldEqual(2);
 
-                // Arrange
+        //        // Arrange
 
-                //*******************
-                var userManager = SharedFunctions.InitialiseUserManager(context);
-                // Arrange
-                var mockRepo = new Mock<INetworkRepository>();
+        //        //*******************
+        //        var userManager = SharedFunctions.InitialiseUserManager(context);
+        //        // Arrange
+        //        var mockRepo = new Mock<INetworkRepository>();
 
-                var mockUnitOfWork = new Mock<IUnitOfWork>();
+        //        var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        //        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
 
-                //string requestedUsername = "Tenko";
+        //        //string requestedUsername = "Tenko";
 
-                string requesterUsername = "testUser1";
+        //        string requesterUsername = "testUser1";
 
-                controller.ControllerContext = new ControllerContext()
-                {
-                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
-                };
+        //        controller.ControllerContext = new ControllerContext()
+        //        {
+        //            HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+        //        };
 
-                // Act
-                var result = await controller.GetNetworkAsync();
+        //        // Act
+        //        var result = await controller.GetNetworkAsync();
 
-                // Assert
-                var objectResult = result as ObjectResult;
-                Assert.NotNull(objectResult);
-                Assert.True(objectResult is OkObjectResult);
-                Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+        //        // Assert
+        //        var objectResult = result as ObjectResult;
+        //        Assert.NotNull(objectResult);
+        //        Assert.True(objectResult is OkObjectResult);
+        //        Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
 
-                var expected = await userManager.GetUserWithNetworkAsync(requesterUsername);
-                var actual = Assert.IsType<UserNetworkDto>(objectResult.Value);
+        //        var expected = await userManager.GetUserWithNetworkAsync(requesterUsername);
+        //        var actual = Assert.IsType<UserNetworkDto>(objectResult.Value);
 
-                Assert.Equal(expected.Followers.Count, actual.Followers.Count());
-                Assert.Equal(expected.Following.Count, actual.Following.Count());
-            }
-        }
+        //        Assert.Equal(expected.Followers.Count, actual.Followers.Count());
+        //        Assert.Equal(expected.Following.Count, actual.Following.Count());
+        //    }
+        //}
 
-        [Fact]
-        public async Task GetNetworkAsync_UserIsNull_ReturnsNotFound()
-        {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+        //[Fact]
+        //public async Task GetNetworkAsync_UserIsNull_ReturnsNotFound()
+        //{
+        //    var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            using (var context = new ApplicationDbContext(options))
-            {
-                //You have to create the database
-                context.Database.EnsureClean();
-                context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
+        //    using (var context = new ApplicationDbContext(options))
+        //    {
+        //        //You have to create the database
+        //        context.Database.EnsureClean();
+        //        context.Database.EnsureCreated();
+        //        //context.SeedDatabaseFourBooks();
 
-                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+        //        //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
-                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+        //        context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+        //        context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-                context.SaveChanges();
+        //        context.SaveChanges();
 
-                context.Users.Count().ShouldEqual(2);
+        //        context.Users.Count().ShouldEqual(2);
 
-                // Arrange
+        //        // Arrange
 
-                //*******************
-                var userManager = SharedFunctions.InitialiseUserManager(context);
-                // Arrange
-                var mockRepo = new Mock<INetworkRepository>();
+        //        //*******************
+        //        var userManager = SharedFunctions.InitialiseUserManager(context);
+        //        // Arrange
+        //        var mockRepo = new Mock<INetworkRepository>();
 
-                var mockUnitOfWork = new Mock<IUnitOfWork>();
+        //        var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        //        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
 
-                //string requestedUsername = "Tenko";
-                string requesterUsername = "This requested user does not exist";
+        //        //string requestedUsername = "Tenko";
+        //        string requesterUsername = "This requested user does not exist";
 
-                controller.ControllerContext = new ControllerContext()
-                {
-                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
-                };
+        //        controller.ControllerContext = new ControllerContext()
+        //        {
+        //            HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+        //        };
 
-                // Act
-                var result = await controller.GetNetworkAsync();
+        //        // Act
+        //        var result = await controller.GetNetworkAsync();
 
-                // Assert
-                var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-                Assert.IsType<string>(objectResult.Value);
-                Assert.Equal("Requesting user not found", objectResult.Value);
-            }
-        }
+        //        // Assert
+        //        var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+        //        Assert.IsType<string>(objectResult.Value);
+        //        Assert.Equal("Requesting user not found", objectResult.Value);
+        //    }
+        //}
     }
 }

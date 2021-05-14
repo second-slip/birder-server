@@ -41,41 +41,6 @@ namespace Birder.Controllers
             _networkRepository = networkRepository;
         }
 
-        //To be replaced
-        //Leave until Network sidebar component is replaced...
-        //[HttpGet]
-        //public async Task<IActionResult> GetNetworkAsync()
-        //{
-        //    try
-        //    {
-        //        var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
-
-        //        if (requestingUser is null)
-        //        {
-        //            _logger.LogError(LoggingEvents.GetItem, "User not found");
-        //            return NotFound("Requesting user not found");
-        //        }
-
-        //        var model = _mapper.Map<ApplicationUser, UserNetworkDto>(requestingUser);
-
-        //        UserNetworkHelpers.SetupFollowersCollection(requestingUser, model.Followers);
-
-        //        //var followers = await _networkRepository.GetFollowers(requestingUser);
-
-        //        UserNetworkHelpers.SetupFollowingCollection(requestingUser, model.Following);
-
-        //        //var following = await _networkRepository.GetFollowing(requestingUser);
-
-        //        return Ok(model);
-
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        _logger.LogError(LoggingEvents.Exception, ex, "GetMyNetworkAsync");
-        //        return BadRequest("An unexpected error occurred");
-        //    }
-        //}
-
         [HttpGet, Route("GetFollowers")]
         public async Task<IActionResult> GetFollowersAsync(string requestedUsername)
         {
@@ -92,7 +57,7 @@ namespace Birder.Controllers
                 if (requestedUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
-                    return NotFound("Requested user not found");
+                    return StatusCode(500, $"requested user not found");
                 }
 
                 var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowerViewModel>>(requestedUser.Followers);
@@ -102,7 +67,7 @@ namespace Birder.Controllers
                 if (requestedUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
-                    return NotFound("Requested user not found");
+                    return StatusCode(500, $"requested user not found");
                 }
 
                 if (requesterUsername.Equals(requestedUsername))
@@ -122,7 +87,7 @@ namespace Birder.Controllers
                     if (requestingUser is null)
                     {
                         _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
-                        return NotFound("Requesting user not found");
+                        return StatusCode(500, $"requesting user not found");
                     }
 
                     UserNetworkHelpers.SetupFollowersCollection(requestingUser, model);
@@ -132,8 +97,8 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.Exception, ex, "An unexpected error occurred");
-                return BadRequest();
+                _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
@@ -163,21 +128,18 @@ namespace Birder.Controllers
                 if (requesterUsername.Equals(requestedUsername))
                 {
                     // Own profile requested...
-
                     UserNetworkHelpers.SetupFollowingCollection(requestedUser, model);
-
                     return Ok(model);
                 }
                 else
                 {
                     // Other user's profile requested...
-
                     var requestingUser = await _userManager.GetUserWithNetworkAsync(requesterUsername);
 
                     if (requestingUser is null)
                     {
                         _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
-                        return NotFound("Requesting user not found");
+                        return StatusCode(500, $"requesting user not found");
                     }
 
                     UserNetworkHelpers.SetupFollowingCollection(requestingUser, model);
@@ -187,8 +149,8 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.Exception, ex, "An unexpected error occurred");
-                return BadRequest();
+                _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
@@ -290,7 +252,7 @@ namespace Birder.Controllers
                 if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
-                    return NotFound("Requesting user not found");
+                    return StatusCode(500, $"requesting user not found");
                 }
 
                 var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
@@ -302,8 +264,8 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.Exception, ex, "Network");
-                return BadRequest("An unexpected error occurred");
+                _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
@@ -351,8 +313,8 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.Exception, ex, "Follow action error");
-                return BadRequest(String.Format("An error occurred trying to follow user: {0}", userToFollowDetails.UserName));
+                _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
 
@@ -400,9 +362,44 @@ namespace Birder.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.Exception, ex, "Unfollow action error");
-                return BadRequest($"An error occurred trying to unfollow user: {userToUnfollowDetails.UserName}");
+                _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+                return StatusCode(500, "an unexpected error occurred");
             }
         }
+
+        //To be replaced
+        //Leave until Network sidebar component is replaced...
+        //[HttpGet]
+        //public async Task<IActionResult> GetNetworkAsync()
+        //{
+        //    try
+        //    {
+        //        var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
+
+        //        if (requestingUser is null)
+        //        {
+        //            _logger.LogError(LoggingEvents.GetItem, "User not found");
+        //            return NotFound("Requesting user not found");
+        //        }
+
+        //        var model = _mapper.Map<ApplicationUser, UserNetworkDto>(requestingUser);
+
+        //        UserNetworkHelpers.SetupFollowersCollection(requestingUser, model.Followers);
+
+        //        //var followers = await _networkRepository.GetFollowers(requestingUser);
+
+        //        UserNetworkHelpers.SetupFollowingCollection(requestingUser, model.Following);
+
+        //        //var following = await _networkRepository.GetFollowing(requestingUser);
+
+        //        return Ok(model);
+
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        _logger.LogError(LoggingEvents.Exception, ex, "GetMyNetworkAsync");
+        //        return BadRequest("An unexpected error occurred");
+        //    }
+        //}
     }
 }

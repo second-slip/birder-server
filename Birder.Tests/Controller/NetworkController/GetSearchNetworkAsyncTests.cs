@@ -77,9 +77,9 @@ namespace Birder.Tests.Controller
                 var result = await controller.GetSearchNetworkAsync(searchCriterion);
 
                 // Assert
-                Assert.IsType<BadRequestObjectResult>(result);
+                Assert.IsType<ObjectResult>(result);
                 var objectResult = result as ObjectResult;
-                Assert.Equal($"An unexpected error occurred", objectResult.Value);
+                Assert.Equal($"an unexpected error occurred", objectResult.Value);
 
             }
         }
@@ -227,12 +227,10 @@ namespace Birder.Tests.Controller
                 // Assert
                 var objectResult = result as ObjectResult;
                 Assert.NotNull(objectResult);
-                Assert.IsType<NotFoundObjectResult>(result);
-                Assert.True(objectResult is NotFoundObjectResult);
-                Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+                Assert.IsType<ObjectResult>(result);
+                Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
                 Assert.IsType<string>(objectResult.Value);
-                Assert.IsType<string>(objectResult.Value);
-                Assert.Equal("Requesting user not found", objectResult.Value);
+                Assert.Equal("requesting user not found", objectResult.Value);
             }
         }
     }

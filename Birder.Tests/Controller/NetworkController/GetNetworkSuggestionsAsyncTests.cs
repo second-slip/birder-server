@@ -80,9 +80,9 @@ namespace Birder.Tests.Controller
                 var result = await controller.GetNetworkSuggestionsAsync();
 
                 // Assert
-                Assert.IsType<BadRequestObjectResult>(result);
+                Assert.IsType<ObjectResult>(result);
                 var objectResult = result as ObjectResult;
-                Assert.Equal($"An unexpected error occurred", objectResult.Value);
+                Assert.Equal($"an unexpected error occurred", objectResult.Value);
             }
 
         }
@@ -127,9 +127,9 @@ namespace Birder.Tests.Controller
                 var result = await controller.GetNetworkSuggestionsAsync();
 
                 // Assert
-                var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+                var objectResult = Assert.IsType<ObjectResult>(result);
                 Assert.IsType<string>(objectResult.Value);
-                Assert.Equal("Requesting user not found", objectResult.Value);
+                Assert.Equal("requesting user not found", objectResult.Value);
             }
         }
 
