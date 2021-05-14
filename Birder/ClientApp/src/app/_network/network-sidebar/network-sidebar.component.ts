@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { UserNetworkDto } from '@app/_models/UserNetworkDto';
+import { NetworkSidebarSummaryDto } from '@app/_models/NetorkSidebarSummaryDto';
 import { NetworkService } from '@app/_network/network.service';
 import { TokenService } from '@app/_services/token.service';
 import { Observable, Subscription, throwError } from 'rxjs';
@@ -45,8 +45,3 @@ export class NetworkSidebarComponent {
   }
 }
 
-export interface NetworkSidebarSummaryDto {
-  followersCount: number;
-  followingCount: number;
-  suggestedUsersToFollow: UserNetworkDto[];
-}

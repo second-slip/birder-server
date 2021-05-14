@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+//ToDo: Fix return types...
+
 namespace Birder.Controllers
 {
     [Route("api/[controller]")]
@@ -190,16 +192,8 @@ namespace Birder.Controllers
             }
         }
 
-        public class NetworkSidebarSummaryDto
-        {
-            public int FollowersCount { get; set; }
-            public int FollowingCount { get; set; }
-            public IEnumerable<NetworkUserViewModel> SuggestedUsersToFollow { get; set; }
-        }
-
         //ToDo: Fix return types...
 
-        //ToDo: Rename this and model...
         [HttpGet, Route("NetworkSidebarSummary")]
         public async Task<IActionResult> GetNetworkSidebarSummaryAsync()
         {

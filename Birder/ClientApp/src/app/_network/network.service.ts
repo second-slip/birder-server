@@ -6,7 +6,7 @@ import { HttpErrorHandlerService } from '@app/_services/http-error-handler.servi
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { UserNetworkDto } from '@app/_models/UserNetworkDto';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
-import { NetworkSidebarSummaryDto } from './network-sidebar/network-sidebar.component';
+import { NetworkSidebarSummaryDto } from '@app/_models/NetorkSidebarSummaryDto';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
