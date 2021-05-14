@@ -36,7 +36,6 @@ import { ObservationDeleteComponent } from './_observations/observation-delete/o
 import { JwtModule } from '@auth0/angular-jwt';
 import { InfoObservationCountComponent } from './_info/info-observation-count/info-observation-count.component';
 import { InfoTopObservationsComponent } from './_info/info-top-observations/info-top-observations.component';
-import { InfoNetworkComponent } from './_info/info-network/info-network.component';
 import { LifeListComponent } from './_lists/life-list/life-list.component';
 import { InfoAwardsComponent } from './_info/info-awards/info-awards.component';
 import { LayoutSidebarComponent } from './_layout/layout-sidebar/layout-sidebar.component';
@@ -170,7 +169,6 @@ export function tokenGetter() {
     ObservationDeleteComponent,
     InfoObservationCountComponent,
     InfoTopObservationsComponent,
-    InfoNetworkComponent,
     LifeListComponent,
     InfoAwardsComponent,
     LayoutSidebarComponent,
