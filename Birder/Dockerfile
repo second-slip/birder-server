@@ -3,7 +3,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
 RUN apt-get update -yq \
     && apt-get install curl gnupg -yq \
-    && curl -sL https://deb.nodesource.com/setup_10.x | bash \
+    && curl -sL https://deb.nodesource.com/setup_14.x | bash \
     && apt-get install nodejs -yq
 WORKDIR /app
 EXPOSE 80
@@ -13,7 +13,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 RUN apt-get update -yq \
     && apt-get install curl gnupg -yq \
-    && curl -sL https://deb.nodesource.com/setup_10.x | bash \
+    && curl -sL https://deb.nodesource.com/setup_14.x | bash \
     && apt-get install nodejs -yq
 WORKDIR /src
 COPY ["Birder/Birder.csproj", "Birder/"]
