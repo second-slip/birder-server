@@ -7,12 +7,12 @@
       <input type="text" class="form-control" id="search" name="searchTerm" placeholder="type search criterion" ngModel
         required>
     </div>
-    <button *ngIf="(!searching)" type="submit" class="btn btn-primary" [disabled]="!searchForm.valid">Search the Birder
+    <button type="submit" class="btn btn-primary" [disabled]="!searchForm.valid">Search the Birder
       network</button>
-    <button *ngIf="(searching)" class="btn btn-primary" type="submit" disabled>
+    <!-- <button *ngIf="(searching)" class="btn btn-primary" type="submit" disabled>
       Searching the Birder network
       <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    </button>
+    </button> -->
   </form>
 
   <hr>
