@@ -48,7 +48,7 @@ namespace Birder.Controllers
 
                 if (requestingUser is null)
                 {
-                    _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
+                    _logger.LogError(LoggingEvents.GetItemNotFound, "requesting user not found");
                     return StatusCode(500, "requesting user not found");
                 }
 

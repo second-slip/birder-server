@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Birder.Controllers;
 using Birder.Data;
+using Birder.Data.Model;
 using Birder.Data.Repository;
 using Birder.TestsHelpers;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -34,54 +36,31 @@ namespace Birder.Tests.Controller
             _logger = new Mock<ILogger<NetworkController>>();
         }
 
-
-
-
         [Fact]
-        public async Task GetSearchNetworkAsync_Exception_ReturnsBadRequest()
+        public async Task GetSearchNetworkAsync_Returns_500_On_Internal_Error()
         {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+            // Arrange
+            UserManager<ApplicationUser> userManager = null; //to cause internal error
+            var mockRepo = new Mock<INetworkRepository>();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
 
-            using (var context = new ApplicationDbContext(options))
+            string requesterUsername = "username";
+
+            controller.ControllerContext = new ControllerContext()
             {
-                //You have to create the database
-                context.Database.EnsureClean();
-                context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+            };
 
-                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+            string searchCriterion = "testUser2";
 
-                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+            // Act
+            var result = await controller.GetSearchNetworkAsync(searchCriterion);
 
-                context.SaveChanges();
-
-                context.Users.Count().ShouldEqual(2);
-
-                // Arrange
-                var userManager = SharedFunctions.InitialiseUserManager(context);
-                var mockRepo = new Mock<INetworkRepository>();
-                var mockUnitOfWork = new Mock<IUnitOfWork>();
-                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-                string requesterUsername = string.Empty;
-
-                controller.ControllerContext = new ControllerContext()
-                {
-                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
-                };
-
-                string searchCriterion = "testUser2";
-
-                // Act
-                var result = await controller.GetSearchNetworkAsync(searchCriterion);
-
-                // Assert
-                Assert.IsType<ObjectResult>(result);
-                var objectResult = result as ObjectResult;
-                Assert.Equal($"an unexpected error occurred", objectResult.Value);
-
-            }
+            // Assert
+            var objectResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+            Assert.Equal($"an unexpected error occurred", objectResult.Value);
         }
 
         [Fact]

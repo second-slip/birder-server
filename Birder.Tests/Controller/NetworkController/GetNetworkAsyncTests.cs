@@ -15,19 +15,19 @@ using TestSupport.EfHelpers;
 using Xunit.Extensions.AssertExtensions;
 using System;
 using Birder.TestsHelpers;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.AspNetCore.Identity;
+using Birder.Data.Model;
 
 namespace Birder.Tests.Controller
 {
     public class GetNetworkAsyncTests
     {
-
         private readonly IMapper _mapper;
         private readonly Mock<ILogger<NetworkController>> _logger;
-        //private readonly UserManager<ApplicationUser> _userManager;
 
         public GetNetworkAsyncTests()
         {
-            //_userManager = SharedFunctions.InitialiseUserManager();
             var mappingConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new BirderMappingProfile());
@@ -36,163 +36,118 @@ namespace Birder.Tests.Controller
             _logger = new Mock<ILogger<NetworkController>>();
         }
 
+        [Fact]
+        public async Task GetNetworkSummaryAsync_Returns_500_On_Internal_Error()
+        {
+            // Arrange
+            UserManager<ApplicationUser> userManager = null; //to cause internal error
 
-        //[Fact]
-        //public async Task GetNetworkAsync_Exception_ReturnsBadRequest()
-        //{
-        //    var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+            var mockRepo = new Mock<INetworkRepository>();
 
-        //    using (var context = new ApplicationDbContext(options))
-        //    {
-        //        //You have to create the database
-        //        context.Database.EnsureClean();
-        //        context.Database.EnsureCreated();
-        //        //context.SeedDatabaseFourBooks();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-        //        //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, new NullLogger<NetworkController>(), mockRepo.Object, userManager);
 
-        //        context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-        //        context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+            string requesterUsername = "testUser1";
 
-        //        context.SaveChanges();
+            controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+            };
 
-        //        context.Users.Count().ShouldEqual(2);
+            // Act
+            var result = await controller.GetNetworkSummaryAsync();
 
-        //        // Arrange
-        //        var userManager = SharedFunctions.InitialiseUserManager(context);
+            // Assert
+            var objectResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+            Assert.Equal($"an unexpected error occurred", objectResult.Value);
+        }
 
-        //        var mockRepo = new Mock<INetworkRepository>();
+        [Fact]
+        public async Task GetNetworkSummaryAsync_Returns_500_When_User_Is_Null()
+        {
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-        //        var mockUnitOfWork = new Mock<IUnitOfWork>();
+            using (var context = new ApplicationDbContext(options))
+            {
+                //You have to create the database
+                context.Database.EnsureClean();
+                context.Database.EnsureCreated();
+                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-        //        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+                context.SaveChanges();
+                context.Users.Count().ShouldEqual(2);
 
-        //        //string requestedUsername = "Tenko";
+                // Arrange
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+                var mockRepo = new Mock<INetworkRepository>();
+                var mockUnitOfWork = new Mock<IUnitOfWork>();
+                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
 
-        //        string requesterUsername = string.Empty;
+                string requesterUsername = "This requested user does not exist";
 
-        //        controller.ControllerContext = new ControllerContext()
-        //        {
-        //            HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
-        //        };
+                controller.ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+                };
 
-        //        // Act
-        //        var result = await controller.GetNetworkAsync();
+                // Act
+                var result = await controller.GetNetworkSummaryAsync();
 
-        //        // Assert
-        //        Assert.IsType<BadRequestObjectResult>(result);
-        //        var objectResult = result as ObjectResult;
-        //        Assert.Equal($"An unexpected error occurred", objectResult.Value);
-        //    }
+                // Assert
+                var objectResult = Assert.IsType<ObjectResult>(result);
+                Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+                Assert.Equal($"requesting user not found", objectResult.Value);
+            }
+        }
 
-        //}
+        [Fact]
+        public async Task GetNetworkSummaryAsync_Returns_Ok()
+        {
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-        //[Fact]
-        //public async Task GetNetworkAsync_ReturnsOkResultWithUserNetworkDto_WhenRequestIsSuccessful()
-        //{
-        //    var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+            using (var context = new ApplicationDbContext(options))
+            {
+                //You have to create the database
+                context.Database.EnsureClean();
+                context.Database.EnsureCreated();
+                //context.SeedDatabaseFourBooks();
 
-        //    using (var context = new ApplicationDbContext(options))
-        //    {
-        //        //You have to create the database
-        //        context.Database.EnsureClean();
-        //        context.Database.EnsureCreated();
-        //        //context.SeedDatabaseFourBooks();
+                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
-        //        //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-        //        context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-        //        context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+                context.SaveChanges();
 
-        //        context.SaveChanges();
+                context.Users.Count().ShouldEqual(2);
 
-        //        context.Users.Count().ShouldEqual(2);
+                // Arrange
+                var userManager = SharedFunctions.InitialiseUserManager(context);
+                var mockRepo = new Mock<INetworkRepository>();
+                var mockUnitOfWork = new Mock<IUnitOfWork>();
+                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
 
-        //        // Arrange
+                //string requestedUsername = "Tenko";
 
-        //        //*******************
-        //        var userManager = SharedFunctions.InitialiseUserManager(context);
-        //        // Arrange
-        //        var mockRepo = new Mock<INetworkRepository>();
+                string requesterUsername = "testUser1";
 
-        //        var mockUnitOfWork = new Mock<IUnitOfWork>();
+                controller.ControllerContext = new ControllerContext()
+                {
+                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+                };
 
-        //        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+                // Act
+                var result = await controller.GetNetworkSummaryAsync();
 
-        //        //string requestedUsername = "Tenko";
+                // Assert
+                var objectResult = Assert.IsType<OkObjectResult>(result); ;
+                Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+                Assert.IsType<NetworkSummaryDto>(objectResult.Value);
+            }
+        }
 
-        //        string requesterUsername = "testUser1";
-
-        //        controller.ControllerContext = new ControllerContext()
-        //        {
-        //            HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
-        //        };
-
-        //        // Act
-        //        var result = await controller.GetNetworkAsync();
-
-        //        // Assert
-        //        var objectResult = result as ObjectResult;
-        //        Assert.NotNull(objectResult);
-        //        Assert.True(objectResult is OkObjectResult);
-        //        Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-
-        //        var expected = await userManager.GetUserWithNetworkAsync(requesterUsername);
-        //        var actual = Assert.IsType<UserNetworkDto>(objectResult.Value);
-
-        //        Assert.Equal(expected.Followers.Count, actual.Followers.Count());
-        //        Assert.Equal(expected.Following.Count, actual.Following.Count());
-        //    }
-        //}
-
-        //[Fact]
-        //public async Task GetNetworkAsync_UserIsNull_ReturnsNotFound()
-        //{
-        //    var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
-
-        //    using (var context = new ApplicationDbContext(options))
-        //    {
-        //        //You have to create the database
-        //        context.Database.EnsureClean();
-        //        context.Database.EnsureCreated();
-        //        //context.SeedDatabaseFourBooks();
-
-        //        //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-
-        //        context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-        //        context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
-        //        context.SaveChanges();
-
-        //        context.Users.Count().ShouldEqual(2);
-
-        //        // Arrange
-
-        //        //*******************
-        //        var userManager = SharedFunctions.InitialiseUserManager(context);
-        //        // Arrange
-        //        var mockRepo = new Mock<INetworkRepository>();
-
-        //        var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-        //        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-        //        //string requestedUsername = "Tenko";
-        //        string requesterUsername = "This requested user does not exist";
-
-        //        controller.ControllerContext = new ControllerContext()
-        //        {
-        //            HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
-        //        };
-
-        //        // Act
-        //        var result = await controller.GetNetworkAsync();
-
-        //        // Assert
-        //        var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-        //        Assert.IsType<string>(objectResult.Value);
-        //        Assert.Equal("Requesting user not found", objectResult.Value);
-        //    }
-        //}
     }
 }

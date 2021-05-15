@@ -6,6 +6,7 @@ using Birder.Data.Repository;
 using Birder.TestsHelpers;
 using Birder.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -248,55 +249,36 @@ namespace Birder.Tests.Controller
         }
 
         [Fact]
-        public async Task PostFollowUserAsync_ReturnsBadRequestWithstringObject_WhenExceptionIsRaised()
+        public async Task PostFollowUserAsync_Returns_500_On_Internal_Error()
         {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+            // Arrange
+            UserManager<ApplicationUser> userManager = null; //to cause internal error
+            var mockRepo = new Mock<INetworkRepository>();
+            mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
+                .Verifiable();
 
-            using (var context = new ApplicationDbContext(options))
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            mockUnitOfWork.Setup(x => x.CompleteAsync())
+                .ThrowsAsync(new InvalidOperationException());
+
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+
+            string requestingUser = "testUser1";
+
+            string userToFollow = "testUser2";
+
+            controller.ControllerContext = new ControllerContext()
             {
-                //You have to create the database
-                context.Database.EnsureClean();
-                context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
+            };
 
-                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+            // Act
+            var result = await controller.PostFollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToFollow));
 
-                context.SaveChanges();
-
-                context.Users.Count().ShouldEqual(2);
-
-                // Arrange
-                //*******************
-                var userManager = SharedFunctions.InitialiseUserManager(context);
-                //**********************
-                var mockRepo = new Mock<INetworkRepository>();
-                mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
-                    .Verifiable();
-
-                var mockUnitOfWork = new Mock<IUnitOfWork>();
-                mockUnitOfWork.Setup(x => x.CompleteAsync())
-                    .ThrowsAsync(new InvalidOperationException());
-
-                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-                string requestingUser = "testUser1";
-
-                string userToFollow = "testUser2";
-
-                controller.ControllerContext = new ControllerContext()
-                {
-                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
-                };
-
-                // Act
-                var result = await controller.PostFollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToFollow));
-
-                // Assert
-                Assert.IsType<ObjectResult>(result);
-                var objectResult = result as ObjectResult;
-                Assert.Equal($"an unexpected error occurred", objectResult.Value);
-            }
+            // Assert
+            var objectResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+            Assert.Equal($"an unexpected error occurred", objectResult.Value);
         }
 
         [Fact]
