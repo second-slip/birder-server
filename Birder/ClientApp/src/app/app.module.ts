@@ -56,11 +56,7 @@ import { ResetPasswordConfirmationComponent } from './_account/reset-password-co
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { environment } from '../environments/environment';
 import { AboutComponent } from './_about/about/about.component';
-import { AboutFeaturesComponent } from './_about/about-features/about-features.component';
 import { AboutTechnologyComponent } from './_about/about-technology/about-technology.component';
-import { AboutFeaturesDevelopmentComponent } from './_about/about-features-development/about-features-development.component';
-import { AboutAiComponent } from './_about/about-ai/about-ai.component';
-import { AboutContactComponent } from './_about/about-contact/about-contact.component';
 import { LockedOutComponent } from './_account/locked-out/locked-out.component';
 import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/confirm-email-resend.component';
 import { FooterComponent } from './footer/footer.component';
@@ -68,7 +64,6 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { GalleryModule } from '@ngx-gallery/core';
 import { ObservationManagePhotosComponent } from './_photos/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
-import { AboutContributeComponent } from './_about/about-contribute/about-contribute.component';
 import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
 import { AuthenticationService } from './_services/authentication.service';
 import { TokenService } from './_services/token.service';
@@ -185,17 +180,12 @@ export function tokenGetter() {
     ResetPasswordConfirmationComponent,
     AccountManagerAvatarComponent,
     AboutComponent,
-    AboutFeaturesComponent,
     AboutTechnologyComponent,
-    AboutFeaturesDevelopmentComponent,
-    AboutAiComponent,
-    AboutContactComponent,
     LockedOutComponent,
     ConfirmEmailResendComponent,
     FooterComponent,
     ObservationManagePhotosComponent,
     TestingComponent,
-    AboutContributeComponent,
     UserObservationsListComponent,
     BirdObservationsListComponent,
     NetworkSearchComponent,
