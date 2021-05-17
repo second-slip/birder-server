@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-developer',
   templateUrl: './developer.component.html',
-  styleUrls: ['./developer.component.scss']
+  styleUrls: ['./developer.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class DeveloperComponent implements OnInit {
+export class DeveloperComponent  {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

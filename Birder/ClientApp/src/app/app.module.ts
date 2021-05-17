@@ -54,8 +54,8 @@ import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { environment } from '../environments/environment';
-import { AboutComponent } from './_about/about/about.component';
-import { AboutTechnologyComponent } from './_about/about-technology/about-technology.component';
+import { AboutComponent } from './_home/about/about.component';
+import { AboutTechnologyComponent } from './_home/about-technology/about-technology.component';
 import { LockedOutComponent } from './_account/locked-out/locked-out.component';
 import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/confirm-email-resend.component';
 import { FooterComponent } from './footer/footer.component';
@@ -102,14 +102,11 @@ import { BirdImagesComponent } from './_birds/bird-images/bird-images.component'
 import { BirdDetailComponent } from './_birds/bird-detail/bird-detail.component';
 import { BirdDetailInfoComponent } from './_birds/bird-detail-info/bird-detail-info.component';
 import { PhotoDisplayComponent } from './_photos/photo-display/photo-display.component';
-import { AboutDeveloperComponent } from './_about/about-developer/about-developer.component';
 import { BirdSelectSpeciesComponent } from './_birds/bird-select-species/bird-select-species.component';
 import { NetworkSidebarComponent } from './_network/network-sidebar/network-sidebar.component';
 import { DeveloperComponent } from './_home/developer/developer.component';
 import { HomeComponent } from './_home/home/home.component';
 
-
-// import { YearListComponent } from './_lists/year-list/year-list.component';
 
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
@@ -214,7 +211,6 @@ export function tokenGetter() {
     BirdDetailComponent,
     BirdDetailInfoComponent,
     PhotoDisplayComponent,
-    AboutDeveloperComponent,
     BirdSelectSpeciesComponent,
     NetworkSidebarComponent,
     DeveloperComponent,
@@ -249,8 +245,6 @@ export function tokenGetter() {
     ToastrModule.forRoot(),
     NgxDropzoneModule,
     GalleryModule,
-
-    // LightboxModule,
     GoogleMapsModule,
     NgcCookieConsentModule.forRoot(cookieConfig),
     JwtModule.forRoot({
