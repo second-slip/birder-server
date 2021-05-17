@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
 import { BirdsIndexComponent } from './_birds/birds-index/birds-index.component';
 import { AuthGuard } from './_services/auth-guard.service';
 import { ObservationFeedComponent } from './_observationFeed/observation-feed/observation-feed.component';
@@ -36,6 +35,7 @@ import { FollowersComponent } from './_network/followers/followers.component';
 import { FollowingComponent } from './_network/following/following.component';
 import { BirdDetailComponent } from './_birds/bird-detail/bird-detail.component';
 import { AboutDeveloperComponent } from './_about/about-developer/about-developer.component';
+import { HomeComponent } from './_home/home/home.component';
 
 
 const routes: Routes = [

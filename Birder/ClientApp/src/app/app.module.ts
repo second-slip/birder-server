@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SideMenuComponent } from './side-menu/side-menu.component';
@@ -106,6 +105,8 @@ import { PhotoDisplayComponent } from './_photos/photo-display/photo-display.com
 import { AboutDeveloperComponent } from './_about/about-developer/about-developer.component';
 import { BirdSelectSpeciesComponent } from './_birds/bird-select-species/bird-select-species.component';
 import { NetworkSidebarComponent } from './_network/network-sidebar/network-sidebar.component';
+import { DeveloperComponent } from './_home/developer/developer.component';
+import { HomeComponent } from './_home/home/home.component';
 
 
 // import { YearListComponent } from './_lists/year-list/year-list.component';
@@ -216,6 +217,7 @@ export function tokenGetter() {
     AboutDeveloperComponent,
     BirdSelectSpeciesComponent,
     NetworkSidebarComponent,
+    DeveloperComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
