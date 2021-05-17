@@ -55,7 +55,6 @@ import { ResetPasswordConfirmationComponent } from './_account/reset-password-co
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { environment } from '../environments/environment';
 import { AboutComponent } from './_home/about/about.component';
-import { AboutTechnologyComponent } from './_home/about-technology/about-technology.component';
 import { LockedOutComponent } from './_account/locked-out/locked-out.component';
 import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/confirm-email-resend.component';
 import { FooterComponent } from './footer/footer.component';
@@ -178,7 +177,6 @@ export function tokenGetter() {
     ResetPasswordConfirmationComponent,
     AccountManagerAvatarComponent,
     AboutComponent,
-    AboutTechnologyComponent,
     LockedOutComponent,
     ConfirmEmailResendComponent,
     FooterComponent,
