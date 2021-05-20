@@ -30,6 +30,7 @@
     "@ng-bootstrap/ng-bootstrap": "^9.1.0",
     "@ngx-gallery/core": "^5.0.0-beta.0",
     "@popperjs/core": "^2.9.2",
+    "@types/google.maps": "^3.44.6",
     "acorn": "^7.4.1",
     "bootstrap": "^4.6.0",
     "chokidar": "^3.5.1",
