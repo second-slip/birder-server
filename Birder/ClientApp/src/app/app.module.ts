@@ -54,7 +54,7 @@ import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { environment } from '../environments/environment';
-import { AboutComponent } from './_home/about/about.component';
+import { AboutComponent } from './_about/about/about.component';
 import { LockedOutComponent } from './_account/locked-out/locked-out.component';
 import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/confirm-email-resend.component';
 import { FooterComponent } from './footer/footer.component';
@@ -105,6 +105,8 @@ import { BirdSelectSpeciesComponent } from './_birds/bird-select-species/bird-se
 import { NetworkSidebarComponent } from './_network/network-sidebar/network-sidebar.component';
 import { DeveloperComponent } from './_home/developer/developer.component';
 import { HomeComponent } from './_home/home/home.component';
+import { ContactComponent } from './_about/contact/contact.component';
+import { TechnologyComponent } from './_about/technology/technology.component';
 
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -212,6 +214,8 @@ export function tokenGetter() {
     BirdSelectSpeciesComponent,
     NetworkSidebarComponent,
     DeveloperComponent,
+    ContactComponent,
+    TechnologyComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

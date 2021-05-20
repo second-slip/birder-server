@@ -6,6 +6,13 @@
     </a>
   </div>
 
+  <nav mat-tab-nav-bar mat-stretch-tabs class="example-stretched-tabs">
+    <a mat-tab-link [active]="true">About</a>
+    <a mat-tab-link routerLink="/contact">Contact</a>
+    <a mat-tab-link routerLink="/technology">Technology</a>
+    <a mat-tab-link routerLink="/" disabled>Whatever</a>
+  </nav>
+
   <div>
     <h5>About</h5>
     <p>Duolingo is a free science-based language education platform. It...........</p>
@@ -51,7 +58,8 @@
 
   <div>
     <br>
-    <small><br><sup>1</sup> The project was updated to .NET 5 on the 13<sup>th</sup> November 2020. It was previously built in .NET Core
+    <small><br><sup>1</sup> The project was updated to .NET 5 on the 13<sup>th</sup> November 2020. It was previously
+      built in .NET Core
       versions 2.2,
       3.0,
       and 3.1.

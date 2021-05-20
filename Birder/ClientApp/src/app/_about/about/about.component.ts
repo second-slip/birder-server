@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -7,14 +7,10 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./about.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent  {
 
-  // constructor(private titleService: Title) { }
   constructor() { }
 
-  ngOnInit() {
-    // this.setTitle();
-  }
 
   public setTitle() {
     // this.titleService.setTitle('Birder');

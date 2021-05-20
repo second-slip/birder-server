@@ -1,0 +1,29 @@
+<div class="container">
+
+    <div>
+        <a [routerLink]='["/"]'>
+            <img src="https://birderstorage.blob.core.windows.net/domain/Birder-Logo-With-Text.png" alt="Birder">
+        </a>
+    </div>
+
+    <nav mat-tab-nav-bar mat-stretch-tabs class="example-stretched-tabs">
+        <a mat-tab-link routerLink="/about">About</a>
+        <a mat-tab-link routerLink="/contact">Contact</a>
+        <a mat-tab-link [active]="true">Technology</a>
+        <a mat-tab-link routerLink="/" disabled>Whatever</a>
+    </nav>
+
+    <div class="container">
+        <h1>hello there tech</h1>
+
+        <div class="align-left">
+            <p><b>Client</b><br>Angular 12............................</p>
+        </div>
+
+        <div class="align-left">
+            <p><b>Server</b><br>.NET 5.............................</p>
+        </div>
+    </div>
+
+
+</div>

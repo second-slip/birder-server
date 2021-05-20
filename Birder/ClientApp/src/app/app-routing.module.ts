@@ -23,7 +23,7 @@ import { ForgotPasswordComponent } from './_account/forgot-password/forgot-passw
 import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-confirmation/forgot-password-confirmation.component';
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
-import { AboutComponent } from './_home/about/about.component';
+import { AboutComponent } from './_about/about/about.component';
 import { ObservationManagePhotosComponent } from './_photos/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
 import { NetworkComponent } from './_network/network/network.component';
@@ -36,6 +36,8 @@ import { FollowingComponent } from './_network/following/following.component';
 import { BirdDetailComponent } from './_birds/bird-detail/bird-detail.component';
 import { HomeComponent } from './_home/home/home.component';
 import { DeveloperComponent } from './_home/developer/developer.component';
+import { ContactComponent } from './_about/contact/contact.component';
+import { TechnologyComponent } from './_about/technology/technology.component';
 
 
 const routes: Routes = [
@@ -47,6 +49,8 @@ const routes: Routes = [
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'home', component: HomeComponent, pathMatch: 'full' },
       { path: 'about', component: AboutComponent },
+      { path: 'contact', component: ContactComponent },
+      { path: 'technology', component: TechnologyComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'confirm-email', component: ConfirmEmailComponent },
