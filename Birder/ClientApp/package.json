@@ -20,7 +20,7 @@
     "@angular/compiler": "^12.0.0",
     "@angular/core": "^12.0.0",
     "@angular/forms": "^12.0.0",
-    "@angular/google-maps": "^11.2.12",
+    "@angular/google-maps": "^11.2.13",
     "@angular/localize": "^12.0.0",
     "@angular/material": "^12.0.1",
     "@angular/platform-browser": "^12.0.0",
