@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-reset-password-confirmation',
@@ -6,11 +6,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./reset-password-confirmation.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ResetPasswordConfirmationComponent implements OnInit {
+export class ResetPasswordConfirmationComponent {
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

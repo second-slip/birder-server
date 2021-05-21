@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { AccountService } from '../../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
-import { ParentErrorStateMatcher, PasswordValidator } from '../../../validators';
-import { ResetPasswordViewModel } from '../../_models/ResetPasswordViewModel';
-import { ErrorReportViewModel } from '../../_models/ErrorReportViewModel';
-import { first } from 'rxjs/operators';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { ResetPasswordViewModel } from '@app/_models/ResetPasswordViewModel';
+import { AccountService } from '@app/_services/account.service';
+import { ParentErrorStateMatcher, PasswordValidator } from '@app/_validators';
+
 
 @Component({
   selector: 'app-reset-password',

@@ -1,7 +1,7 @@
 import { FormControl, AbstractControl } from '@angular/forms';
-import { AccountService } from '../app/_services/account.service';
+import { AccountService } from '../_services/account.service';
 import { first } from 'rxjs/operators';
-import { ErrorReportViewModel } from '../app/_models/ErrorReportViewModel';
+import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
 import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
 
 import { Injectable } from '@angular/core';

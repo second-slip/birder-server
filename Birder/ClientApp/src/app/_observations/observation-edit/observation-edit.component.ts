@@ -2,7 +2,6 @@ import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
 import { ObservationEditDto, ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
-import { BirdsListValidator, ParentErrorStateMatcher } from 'validators';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_sharedServices/observation.service';
@@ -17,6 +16,7 @@ import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-ma
 import { EditNotesComponent } from '@app/_observationNotes/edit-notes/edit-notes.component';
 import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNote';
 import * as moment from 'moment';
+import { ParentErrorStateMatcher, BirdsListValidator } from '@app/_validators';
 
 @Component({
   selector: 'app-observation-edit',

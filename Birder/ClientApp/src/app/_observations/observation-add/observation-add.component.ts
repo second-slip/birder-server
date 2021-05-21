@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
-import { BirdsListValidator, ParentErrorStateMatcher } from 'validators';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router } from '@angular/router';
 import { BirdsService } from '@app/_services/birds.service';
@@ -16,6 +15,7 @@ import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNo
 import { AddNotesComponent } from '@app/_observationNotes/add-notes/add-notes.component';
 import * as moment from 'moment';
 import { ThemePalette } from '@angular/material/core';
+import { ParentErrorStateMatcher, BirdsListValidator } from '@app/_validators';
 
 @Component({
   selector: 'app-observation-add',

@@ -2,14 +2,12 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { ManageProfileViewModel } from '@app/_models/ManageProfileViewModel';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { ParentErrorStateMatcher } from 'validators';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AccountManagerService } from '@app/_services/account-manager.service';
 import { first } from 'rxjs/operators';
-import { RestrictedNameValidator } from 'validators/restrictedName.validator';
 import { UsernameValidationService } from '@app/_services/username-validation-service.service';
-
+import { ParentErrorStateMatcher, RestrictedNameValidator } from '@app/_validators';
 
 @Component({
   selector: 'app-account-manager-profile',

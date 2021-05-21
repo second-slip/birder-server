@@ -6,7 +6,7 @@ import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router } from '@angular/router';
 import { BirdsService } from '@app/_services/birds.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BirdsListValidator } from 'validators';
+import { BirdsListValidator } from '@app/_validators';
 
 @Component({
   selector: 'app-bird-select-species',
