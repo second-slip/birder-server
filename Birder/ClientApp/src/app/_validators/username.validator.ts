@@ -1,49 +1,33 @@
-import { FormControl, AbstractControl } from '@angular/forms';
-import { AccountService } from '../_services/account.service';
-import { first } from 'rxjs/operators';
-import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
-import { hasLifecycleHook } from '@angular/compiler/src/lifecycle_reflector';
-
+import { FormControl } from '@angular/forms';
 import { Injectable } from '@angular/core';
-
-// import { AuthProvider } from '../providers/auth/auth';
+import { AccountService } from '@app/_services/account.service';
 
 @Injectable()
 export class UsernameValidator {
-
   debouncer: any;
 
-  constructor(public accountService: AccountService){
-
-  }
+  constructor(public accountService: AccountService) { }
 
   checkUsername(control: FormControl): any {
 
     clearTimeout(this.debouncer);
 
     return new Promise(resolve => {
-
       this.debouncer = setTimeout(() => {
-
-        // this.authProvider.validateUsername(control.value).subscribe((res) => {
-          this.accountService.checkValidUsername(control.value).subscribe((res) => {
-            if(res){
-              resolve(null);
-            }
-          }, (err) => {
-            resolve({'usernameInUse': true});
-          });
-
-      }, 1000);      
-
+        this.accountService.checkValidUsername(control.value).subscribe((res) => {
+          if (res) {
+            resolve(null);
+          }
+        }, (err) => {
+          resolve({ 'usernameInUse': true });
+        });
+      }, 1000);
     });
   }
-
 }
 
 export class UsernameValidator1 {
-
-  constructor(private accountService: AccountService) { }
+  constructor() { }
 
   static validUsername(fc: FormControl) {
     if (fc.value.toLowerCase() === 'abc123' || fc.value.toLowerCase() === '123abc') {
@@ -69,7 +53,7 @@ export class UsernameValidator1 {
   //         validUsername: true
   //       };
   //      },
-  //     (error: ErrorReportViewModel) => {
+  //     (error: any) => {
   //       // if (error.status === 400) { }
   //       console.log(error.modelStateErrors);
   //       return null;

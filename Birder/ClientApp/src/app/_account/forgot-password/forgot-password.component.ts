@@ -13,11 +13,8 @@ import { ParentErrorStateMatcher } from '@app/_validators';
   encapsulation: ViewEncapsulation.None
 })
 export class ForgotPasswordComponent implements OnInit {
-  // invalidLogin: boolean;
   forgotEmailForm: FormGroup;
-  // errorReport: ErrorReportViewModel;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
-  // returnUrl: string;
 
   forgot_password_validation_messages = {
     'email': [

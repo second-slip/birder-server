@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { tap, catchError, first } from 'rxjs/operators';
-import { HttpErrorHandlerService } from '../_services/http-error-handler.service';
-import { ErrorReportViewModel } from '../_models/ErrorReportViewModel';
-import { ObservationAddDto, ObservationEditDto, ObservationViewModel } from '../_models/ObservationViewModel';
 import { ObservationsPagedDto } from '@app/_models/ObservationViewDto';
+import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+import { ObservationViewModel, ObservationAddDto, ObservationEditDto } from '@app/_models/ObservationViewModel';
+import { HttpErrorHandlerService } from '@app/_services/http-error-handler.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

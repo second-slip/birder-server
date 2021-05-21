@@ -31,7 +31,7 @@ export class YearListComponent implements OnInit {
         (data: LifeListViewModel[]) => {
           this.lifeList = data;
         },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           console.log(error);
           // ToDo: Something with the error (perhaps show a message)
         }
@@ -44,7 +44,7 @@ export class YearListComponent implements OnInit {
         (data: ObservationAnalysisViewModel) => {
           this.analysis = data;
         },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           console.log(error);
           // ToDo: Something with the error (perhaps show a message)
         }

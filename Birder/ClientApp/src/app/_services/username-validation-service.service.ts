@@ -3,7 +3,6 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, } from 'rxjs/operators';
 import { AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpParams, HttpClient } from '@angular/common/http';
-import { HttpErrorHandlerService } from './http-error-handler.service';
 import { TokenService } from './token.service';
 
 @Injectable({
@@ -63,7 +62,7 @@ export class UsernameValidationService {
   //       (data: boolean) => {
   //         this.isUsernameAvailable = data;
   //       },
-  //       (error: ErrorReportViewModel) => {
+  //       (error: any) => {
   //         this.isUsernameAvailable = false;
   //       }
   //     );

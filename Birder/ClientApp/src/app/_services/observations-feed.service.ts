@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { ObservationFeedPagedDto } from '@app/_models/ObservationFeedDto';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ export class ObservationsFeedService {
 
   constructor(private http: HttpClient) {  }
 
-  getObservationsFeed(pageIndex: number, filter: string): Observable<ObservationFeedPagedDto | ErrorReportViewModel> {
+  getObservationsFeed(pageIndex: number, filter: string): Observable<ObservationFeedPagedDto> {
     const params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('filter', filter.toString());
