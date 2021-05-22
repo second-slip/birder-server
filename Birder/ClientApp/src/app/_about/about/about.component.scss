@@ -1,3 +1,18 @@
 app-about {
-  text-align: center;
+  .logo {
+    text-align: center;
+  }
+
+  .about-content {
+    border: black;
+    border-style: solid;
+
+    margin: 3% 15%; //top, bottom; right, left margins
+
+    text-align: justify;
+
+    .title {
+      text-align: center;
+    }
+  }
 }
