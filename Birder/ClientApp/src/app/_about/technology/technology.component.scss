@@ -1,5 +1,37 @@
 app-technology {
-    .logo {
-        text-align: center;
-      }
+
+  .logo {
+    text-align: center;
+  }
+
+  .technology-content {
+    border: black;
+    border-style: solid;
+
+    margin: 3% 15%; //(top, bottom) / (right, left)
+
+    .header-section {
+      text-align: center;
+    }
+
+    // .title {
+    //   text-align: center;
+    //   margin: auto;
+    // }
+
+    // .text {
+    //   text-align: justify;
+    // }
+  }
+
+  //medium screen size and below
+  // @media only screen and (max-width: 768px) {
+  //   .first {
+  //     order: 1;
+  //   }
+  //   .second {
+  //     order: 2;
+  //   }
+  // }
 }
+

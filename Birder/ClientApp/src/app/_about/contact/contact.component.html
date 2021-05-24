@@ -1,21 +1,30 @@
 <div class="container">
 
-    <div class="logo">
-        <a [routerLink]='["/"]'>
-          <img src="https://birderstorage.blob.core.windows.net/domain/Birder-Logo-With-Text.png" alt="Birder">
-        </a>
-      </div>
+  <div class="logo">
+    <a [routerLink]='["/"]'>
+      <img src="https://birderstorage.blob.core.windows.net/domain/Birder-Logo-With-Text.png" alt="Birder">
+    </a>
+  </div>
 
-    <nav mat-tab-nav-bar mat-stretch-tabs class="example-stretched-tabs">
-        <a mat-tab-link routerLink="/about">About</a>
-        <a mat-tab-link [active]="true">Contact</a>
-        <a mat-tab-link routerLink="/technology">Technology</a>
-        <a mat-tab-link routerLink="/" disabled>Whatever</a>
-    </nav>
+  <nav mat-tab-nav-bar mat-stretch-tabs class="example-stretched-tabs">
+    <a mat-tab-link routerLink="/about">About</a>
+    <a mat-tab-link [active]="true">Contact</a>
+    <a mat-tab-link routerLink="/technology">Technology</a>
+    <a mat-tab-link routerLink="/" disabled>Whatever</a>
+  </nav>
 
-    <div class="container">
-        <h1>hello there</h1>
+  <div class="contact-content">
+
+    <div class="header-section">
+
+      <h4>Contact</h4>
+
+      <p>Some remarks about contacting the team......................</p>
+
     </div>
 
+    <hr>
 
+
+  </div>
 </div>
