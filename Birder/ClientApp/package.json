@@ -29,7 +29,7 @@
     "@auth0/angular-jwt": "^5.0.2",
     "@ng-bootstrap/ng-bootstrap": "^9.1.0",
     "@ngx-gallery/core": "^5.0.0-beta.0",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^4.5.0",
     "cookieconsent": "^3.1.1",
     "jquery": "^3.6.0",
     "lodash-es": "^4.17.21",
