@@ -41,6 +41,7 @@ namespace Birder
             services.AddControllers()
             .AddNewtonsoftJson(options =>
             {
+                options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 

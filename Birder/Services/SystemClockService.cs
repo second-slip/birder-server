@@ -12,7 +12,7 @@ namespace Birder.Services
     public class SystemClockService : ISystemClockService
     {
         public DateTime GetNow { get { return DateTime.UtcNow; } }
-        public DateTime GetToday { get { return DateTime.UtcNow; } }
+        public DateTime GetToday { get { return DateTime.Today; } }
         public DateTime GetEndOfToday { get { return DateTime.Today.Date.AddDays(1).AddTicks(-1); } }
     }
 }

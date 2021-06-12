@@ -3,14 +3,16 @@
 
         <div class="title-big">
             <h4>
-                {{ observation.quantity > 1 ? observation.quantity : '' }} <a routerLink="/bird-detail/{{observation.birdId}}">{{ observation.englishName }}</a>
+                {{ observation.quantity > 1 ? observation.quantity : '' }} <a
+                    routerLink="/bird-detail/{{observation.birdId}}">{{ observation.englishName }}</a>
                 <span class="scientific-name"> {{observation.species}}</span>
             </h4>
         </div>
 
         <div class="title-small">
             <p class="species">
-                {{ observation.quantity > 1 ? observation.quantity : '' }} <a routerLink="/bird-detail/{{observation.birdId}}">{{ observation.englishName }}</a>
+                {{ observation.quantity > 1 ? observation.quantity : '' }} <a
+                    routerLink="/bird-detail/{{observation.birdId}}">{{ observation.englishName }}</a>
                 <span class="scientific-name"> {{observation.species}}</span>
             </p>
         </div>
