@@ -105,6 +105,7 @@ namespace Birder.Controllers
                 }
 
                 //model.ObservationDateTime = model.ObservationDateTime.ToLocalTime();
+                model.ObservationDateTime = model.ObservationDateTime.ToUniversalTime();
 
                 var observation = _mapper.Map<ObservationAddDto, Observation>(model);
 
@@ -168,7 +169,7 @@ namespace Birder.Controllers
                     return Unauthorized("Requesting user is not allowed to edit this observation");
                 }
 
-                //model.ObservationDateTime = model.ObservationDateTime.ToLocalTime();
+                model.ObservationDateTime = model.ObservationDateTime.ToUniversalTime();
 
                 _mapper.Map<ObservationEditDto, Observation>(model, observation);
 
