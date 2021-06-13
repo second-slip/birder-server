@@ -13,12 +13,13 @@ namespace Birder.Tests.Services
             _systemClockService = new SystemClockService();
         }
 
+        // Just testing out-of-the-box functionality here!
         [Fact]
         public void GetNowTest()
         {
             //Arrange
             //var service = new SystemClockService();
-            var expected = DateTime.Now;
+            var expected = DateTime.UtcNow;
 
             //Act
             var actual = _systemClockService.GetNow;
@@ -27,6 +28,7 @@ namespace Birder.Tests.Services
             Assert.Equal(expected, actual, TimeSpan.FromSeconds(1));
         }
 
+        // Just testing out-of-the-box functionality here!
         [Fact]
         public void GetTodayTest()
         {
