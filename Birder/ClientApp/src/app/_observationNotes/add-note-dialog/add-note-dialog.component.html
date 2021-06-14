@@ -10,7 +10,7 @@
                     <option *ngFor="let pow of keys1()" [value]="pow">{{pow}}</option>
                 </select>
                 <div [hidden]="noteType.valid || noteType.pristine" class="alert alert-danger">
-                    Power is required
+                    Note Type is required
                 </div>
             </div>
 

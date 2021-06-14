@@ -1,4 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { throwError } from 'rxjs';
+import { ContactFormService } from '../contact-form.service';
+import { ContactFormModel } from '../ContactFormModel';
 
 @Component({
   selector: 'app-contact',
@@ -8,6 +11,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class ContactComponent {
 
-  constructor() { }
+  constructor() {}
 
 }

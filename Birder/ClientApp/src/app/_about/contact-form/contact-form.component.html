@@ -1,0 +1,58 @@
+<div class="contact-form">
+    <hr>
+    <h4>Contact Form</h4>
+    <p>Fill out this form to send a message to the developer:</p>
+
+    <div [hidden]="!errorObject">
+        <ngb-alert type="danger" [dismissible]="false">
+            <strong>Error!</strong> An error occurred. Please try to send the form again.
+        </ngb-alert>
+    </div>
+
+    <div [hidden]="submitted">
+        <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" required [(ngModel)]="model.name" name="name"
+                    #name="ngModel" placeholder="Type your name">
+                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                    Your name is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" required [(ngModel)]="model.email" name="email"
+                    #email="ngModel" placeholder="Type your email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+                    Your email is required, and must be a valid email
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea placeholder="Type your message" type="text" class="form-control" id="message" required
+                    [(ngModel)]="model.message" name="message" #message="ngModel"></textarea>
+                <div [hidden]="message.valid || message.pristine || message.untouched" class="alert alert-danger">
+                    Your message is required
+                </div>
+            </div>
+
+            <button *ngIf="!requesting" type="submit" class="btn btn-success"
+                [disabled]="!contactForm.form.valid">Submit</button>
+            <button *ngIf="requesting" class="btn btn-success" type="button" disabled>
+                Sending message...
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-default" (click)="onReset(); contactForm.reset()">Reset Form</button>
+
+        </form>
+    </div>
+
+    <div [hidden]="!submitted">
+        <ngb-alert type="success" [dismissible]="false">
+            <strong>Success!</strong> Your message has been sent to the developer. Thank you.
+        </ngb-alert>
+    </div>
+</div>

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { tap, take } from 'rxjs/operators';
-import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AuthenticationResultDto } from '@app/_models/AuthenticationResultDto';
 import { LoginViewModel } from '@app/_models/LoginViewModel';
 
@@ -26,7 +26,7 @@ export class AuthenticationService {
       .pipe(
         take(1),
         tap(response => this.setAuthenticationToken(response)));
-        //catchError(error => this.handleError(error))); // this.httpErrorHandlerService.handleHttpError(error)));
+    //catchError(error => this.handleError(error))); // this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   setAuthenticationToken(token: AuthenticationResultDto): void {

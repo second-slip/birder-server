@@ -1,5 +1,4 @@
 app-contact {
-
   .logo {
     text-align: center;
   }
@@ -10,13 +9,10 @@ app-contact {
 
     margin: 3% 15%; // (top, bottom) / (right, left)
 
-    .header-section {
-      text-align: center;
+    .main-section {
+      margin: 3% 15%;
     }
 
-    .section {
-      margin: 2%;
-    }
 
     .title {
       text-align: center;
@@ -25,6 +21,10 @@ app-contact {
 
     .text {
       text-align: justify;
+    }
+
+    .form-section {
+      //margin-top: 5%;
     }
   }
 
