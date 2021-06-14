@@ -127,8 +127,8 @@ namespace Birder.Controllers
                     {
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         var url = _urlService.GetConfirmEmailUrl(model.UserName, code);
-                        var templateData = new ConfirmEmailDto { Email = model.Email, Username = user.UserName, Url = url };
-                        await _emailSender.SendChangedAccountEmailConfirmationEmailAsync(templateData);
+                        var templateData = new { username = user.UserName, url = url };
+                        await _emailSender.SendTemplateEmail("d-fc1571171e23463bb311870984664506", model.Email, templateData);
                     }
                 }
 

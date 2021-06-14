@@ -65,8 +65,8 @@ namespace Birder.Controllers
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var url = _urlService.GetConfirmEmailUrl(newUser.UserName, code);
-                    var templateData = new ConfirmEmailDto { Email = newUser.Email, Username = newUser.UserName, Url = url };
-                    await _emailSender.SendEmailConfirmationEmailAsync(templateData);
+                    var templateData = new { username = newUser.UserName, url = url };
+                    await _emailSender.SendTemplateEmail("d-882e4b133cae40268364c8a929e55ea9", newUser.Email, templateData);
                     return Ok(); //ToDo: Is this adequate?  Created reponse?
                 }
 
@@ -146,9 +146,10 @@ namespace Birder.Controllers
 
                 var url = _urlService.GetConfirmEmailUrl(user.UserName, code);
 
-                var templateData = new ConfirmEmailDto { Email = user.Email, Username = user.UserName, Url = url };
+                var templateData = new { username = user.UserName, url = url };
 
-                await _emailSender.SendEmailConfirmationEmailAsync(templateData);
+               // await _emailSender.SendEmailConfirmationEmailAsync(templateData);
+                await _emailSender.SendTemplateEmail("d-882e4b133cae40268364c8a929e55ea9", user.Email, templateData);
 
                 return Ok();
             }
@@ -188,10 +189,14 @@ namespace Birder.Controllers
 
                 var url = _urlService.GetResetPasswordUrl(code);
 
-                var templateData = new ResetPasswordEmailDto { Email = model.Email, Url = url, Username = user.UserName };
-                await _emailSender.SendResetPasswordEmailAsync(templateData);
-                return Ok();
+                //    message.SetTemplateId("d-37733c23b2eb4c339a011dfadbd42b91");
+                //    message.SetTemplateData(new ConfirmEmailDto { Username = accountDetails.Username, Url = accountDetails.Url });
 
+                //var templateData = new ResetPasswordEmailDto { Email = model.Email, Url = url, Username = user.UserName };
+                var templateData = new { username = user.UserName, url = url };
+                //await _emailSender.SendResetPasswordEmailAsync(templateData);
+                await _emailSender.SendTemplateEmail("d-37733c23b2eb4c339a011dfadbd42b91", model.Email, templateData);
+                return Ok();
             }
             catch (Exception ex)
             {
