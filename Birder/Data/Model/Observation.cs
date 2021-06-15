@@ -13,7 +13,6 @@ namespace Birder.Data.Model
         public bool HasPhotos { get; set; }
         public PrivacyLevel SelectedPrivacyLevel { get; set; }
         //[Required]
-        [DataType(DataType.DateTime)]
         public DateTime ObservationDateTime { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastUpdateDate { get; set; }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using System;
 using System.Threading.Tasks;
 
 namespace Birder.Services
@@ -21,6 +22,16 @@ namespace Birder.Services
 
         public Task SendTemplateEmail(string templateId, string recipient, object model)
         {
+            if (string.IsNullOrEmpty(templateId)) 
+                throw new ArgumentException($"The argument is null or empty", nameof(templateId));
+
+            if (string.IsNullOrEmpty(recipient))
+                throw new ArgumentException($"The argument is null or empty", nameof(recipient));
+
+            if (model is null)
+                throw new ArgumentException($"The argument is null", nameof(model));
+
+
             //var client = new SendGridClient(Options.SendGridKey);
             //This initialisation means an exception is thrown (otherwise it is a silent failure).
             //see https://github.com/sendgrid/sendgrid-csharp/blob/main/TROUBLESHOOTING.md#error
