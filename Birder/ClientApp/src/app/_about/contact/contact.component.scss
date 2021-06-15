@@ -7,8 +7,6 @@ app-contact {
     border: black;
     border-style: solid;
 
-    margin: 3% 15%; // (top, bottom) / (right, left)
-
     .title {
       text-align: center;
       margin: auto;
@@ -19,13 +17,24 @@ app-contact {
     }
   }
 
-  //medium screen size and below
-  @media only screen and (max-width: 768px) {
-    .first {
-      order: 1;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    .contact-content {
+      margin: 3% 10%; // (top, bottom) / (right, left)
     }
-    .second {
-      order: 2;
+  }
+
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+  @media only screen and (min-width: 600px) {
+    .contact-content {
+      margin: 3% 10%; // (top, bottom) / (right, left)
+    }
+  }
+
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    .contact-content {
+      margin: 3% 15%; // (top, bottom) / (right, left)
     }
   }
 }
