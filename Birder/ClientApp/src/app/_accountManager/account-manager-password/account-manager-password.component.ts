@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+
 import { ParentErrorStateMatcher, PasswordValidator } from '@app/_validators';
-import { AccountManagerService } from '@app/_services/account-manager.service';
+
 import { ChangePasswordViewModel } from '@app/_models/ChangePasswordViewModel';
+import { AccountManagerService } from '../account-manager.service';
+
 
 @Component({
   selector: 'app-account-manager-password',
@@ -16,7 +18,7 @@ import { ChangePasswordViewModel } from '@app/_models/ChangePasswordViewModel';
 })
 export class AccountManagerPasswordComponent implements OnInit {
   unsuccessful: boolean;
-  errorReport: ErrorReportViewModel;
+  errorReport: any;
   changePasswordForm: FormGroup;
   matching_passwords_group: FormGroup;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -76,7 +78,6 @@ export class AccountManagerPasswordComponent implements OnInit {
     };
 
     this.accountManager.postChangePassword(viewModelObject)
-      .pipe(first())
       .subscribe(
         (data: ChangePasswordViewModel) => {
           this.unsuccessful = false;
@@ -85,12 +86,12 @@ export class AccountManagerPasswordComponent implements OnInit {
           this.router.navigate(['login']);
           // this.router.navigate(['/confirm-email']);
         },
-        (error: ErrorReportViewModel) => {
+        (error => {
           // if (error.status === 400) { }
           this.errorReport = error;
           this.unsuccessful = true;
           this.toast.error('Your password could not be changed', 'Error');
-        },
+        }),
         () => { this.requesting = false; }
       );
   }

@@ -1,13 +1,11 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { ManageProfileViewModel } from '@app/_models/ManageProfileViewModel';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { AccountManagerService } from '@app/_services/account-manager.service';
-import { first } from 'rxjs/operators';
 import { UsernameValidationService } from '@app/_services/username-validation-service.service';
 import { ParentErrorStateMatcher, RestrictedNameValidator } from '@app/_validators';
+import { AccountManagerService } from '../account-manager.service';
 
 @Component({
   selector: 'app-account-manager-profile',
@@ -19,7 +17,7 @@ export class AccountManagerProfileComponent implements OnInit {
   user: ManageProfileViewModel;
   invalidChange: boolean; //
   manageProfileForm: FormGroup;
-  errorReport: ErrorReportViewModel;
+  errorReport: any;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   requesting: boolean;
   emailChanged = false;
@@ -108,10 +106,10 @@ export class AccountManagerProfileComponent implements OnInit {
           this.user = data;
           this.manageProfileForm = this.createForm();
         },
-        (error: ErrorReportViewModel) => {
+        (error => {
           this.toast.error(error.friendlyMessage, 'An error occurred');
           this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-profile' } });
-        },
+        }),
         () => { this.requesting = false; }
       );
   }
@@ -129,7 +127,6 @@ export class AccountManagerProfileComponent implements OnInit {
     }
 
     this.accountManager.postUpdateProfile(model)
-      .pipe(first())
       .subscribe(
         (data: ManageProfileViewModel) => {
           this.user = data;  // why?
@@ -140,12 +137,12 @@ export class AccountManagerProfileComponent implements OnInit {
             this.router.navigate(['/login'], { queryParams: { returnUrl: '/user-profile' } });
           }
         },
-        (error: ErrorReportViewModel) => {
+        (error => {
           // if (error.status === 400) { }
           this.errorReport = error;
           // this.invalidRegistration = true;
           this.toast.error(error.friendlyMessage, 'Error');
-        },
+        }),
         () => { this.updating = false; }
       );
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-account-side-menu',
@@ -6,11 +6,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./account-side-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AccountSideMenuComponent implements OnInit {
+export class AccountSideMenuComponent  {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
 
 }

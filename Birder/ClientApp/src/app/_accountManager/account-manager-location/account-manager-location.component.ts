@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SetLocationViewModel } from '@app/_models/SetLocationViewModel';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { TokenService } from '@app/_services/token.service';
-import { AccountManagerService } from '@app/_services/account-manager.service';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
 import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
+import { AccountManagerService } from '../account-manager.service';
 
 @Component({
   selector: 'app-account-manager-location',
@@ -58,10 +57,10 @@ export class AccountManagerLocationComponent implements OnInit {
       .subscribe(_ => {
         this.router.navigate(['login']);
       },
-        (error: ErrorReportViewModel) => {
+        (error => {
           console.log(error.friendlyMessage);
           console.log('unsuccessful registration');
-        },
+        }),
         () => { this.requesting = false; }
       );
   }

@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
-import { AccountManagerService } from '@app/_services/account-manager.service';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { AccountManagerService } from '../account-manager.service';
 
 @Component({
   selector: 'app-account-manager-avatar',
@@ -63,9 +62,9 @@ export class AccountManagerAvatarComponent implements OnInit {
           this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-avatar' } });
         }
       },
-        (error: ErrorReportViewModel) => {
+        (error => {
           this.toast.success(error.friendlyMessage, 'An error occurred');
-        }
+        })
       );
   }
 }
