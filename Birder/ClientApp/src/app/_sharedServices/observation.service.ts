@@ -15,13 +15,10 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ObservationService {
-
   private observationsChanged = new Subject<any>();
   observationsChanged$ = this.observationsChanged.asObservable();
 
-  constructor(private http: HttpClient
-    , private httpErrorHandlerService: HttpErrorHandlerService) {
-  }
+  constructor(private http: HttpClient) { }
 
   getObservation(id: string): Observable<ObservationViewModel> {
     const options = id ?
@@ -33,9 +30,8 @@ export class ObservationService {
 
   addObservation(viewModel: ObservationAddDto): Observable<ObservationViewModel | ErrorReportViewModel> {
     return this.http.post<ObservationViewModel>('api/Observation/CreateObservation', viewModel, httpOptions)
-      .pipe(
-        tap(() => { this.announceObservationsChanged(); }),
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe(first(),
+        tap(() => { this.announceObservationsChanged(); }));
   }
 
   updateObservation(id: number, viewModel: ObservationEditDto): Observable<ObservationViewModel | ErrorReportViewModel> {
@@ -44,9 +40,8 @@ export class ObservationService {
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
     return this.http.put<ObservationViewModel>('api/Observation/UpdateObservation', viewModel, options)
-      .pipe(
-        tap(() => { this.announceObservationsChanged(); }),
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe(first(),
+        tap(() => { this.announceObservationsChanged(); }));
   }
 
   deleteObservation(id: string): Observable<ObservationViewModel> {

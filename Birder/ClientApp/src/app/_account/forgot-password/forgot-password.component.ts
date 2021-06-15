@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '@app/_services/account.service';
@@ -43,7 +42,6 @@ export class ForgotPasswordComponent implements OnInit {
 
   onSubmit(value): void {
     this.accountService.forgotPassword(value)
-      .pipe(first())
       .subscribe(_ => {
           this.router.navigate(['/forgot-password-confirmation']);
         },

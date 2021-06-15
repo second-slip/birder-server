@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { UsernameValidationService } from '@app/_services/username-validation-service.service';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { RegisterViewModel } from '@app/_models/RegisterViewModel';
 import { AccountService } from '@app/_services/account.service';
 import { ParentErrorStateMatcher, PasswordValidator, RestrictedNameValidator } from '@app/_validators';
@@ -17,8 +15,7 @@ import { ParentErrorStateMatcher, PasswordValidator, RestrictedNameValidator } f
 export class RegisterComponent implements OnInit {
   requesting: boolean;
   invalidRegistration: boolean;
-  // isUsernameAvailable: boolean;
-  errorReport: ErrorReportViewModel;
+  errorReport: any;
   userRegisterForm: FormGroup;
   matching_passwords_group: FormGroup;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -144,15 +141,13 @@ export class RegisterComponent implements OnInit {
     };
 
     this.accountService.register(viewModelObject)
-      .pipe(first())
       .subscribe(_ => {
         this.router.navigate(['/confirm-email']);
       },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           this.requesting = false;
           this.errorReport = error;
           this.invalidRegistration = true;
-          console.log(error.friendlyMessage);
         });
   }
 }

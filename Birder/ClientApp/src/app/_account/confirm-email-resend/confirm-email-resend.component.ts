@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AccountService } from '@app/_services/account.service';
 import { ToastrService } from 'ngx-toastr';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-confirm-email-resend',
@@ -43,7 +42,6 @@ export class ConfirmEmailResendComponent implements OnInit {
     this.requesting = true;
 
     this.accountService.resendEmailConfirmation(value)
-      .pipe(first())
       .subscribe(_ => {
         this.toast.info('A new confirmation email has been sent.', 'Email resent');
         this.requesting = false;

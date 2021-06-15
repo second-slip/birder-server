@@ -1,5 +1,4 @@
 import { Router, ActivatedRoute } from '@angular/router';
-import { first } from 'rxjs/operators';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -50,7 +49,6 @@ export class LoginComponent implements OnInit {
     this.errorMessage = null;
     this.loginForm.disable();
     this.authenticationService.login(value)
-      .pipe(first())
       .subscribe(_ => {
         this.router.navigate([this.returnUrl]);
       },

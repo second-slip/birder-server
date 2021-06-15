@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-confirmed-email',
@@ -6,11 +6,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./confirmed-email.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ConfirmedEmailComponent implements OnInit {
+export class ConfirmedEmailComponent {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
 
 }

@@ -101,9 +101,9 @@ export class ObservationAddComponent implements OnInit {
           this.birdsSpecies = data;
           this.getBirdAutocompleteOptions();
         },
-        (error: ErrorReportViewModel) => {
+        (_ => {
           console.log('could not get the birds ddl');
-        });
+        }));
   }
 
   displayFn(bird: BirdSummaryViewModel): string {
@@ -176,13 +176,13 @@ export class ObservationAddComponent implements OnInit {
           // this.addObservationForm.reset();
           this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
         },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           this.requesting = false;
           this.errorReport = error;
           this.invalidAddObservation = true;
-          console.log(error);
-          console.log(error.friendlyMessage);
-          console.log('unsuccessful add observation');
+          // console.log(error);
+          // console.log(error.friendlyMessage);
+          // console.log('unsuccessful add observation');
         }
       );
   }

@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ResetPasswordViewModel } from '@app/_models/ResetPasswordViewModel';
 import { AccountService } from '@app/_services/account.service';
 import { ParentErrorStateMatcher, PasswordValidator } from '@app/_validators';
@@ -17,7 +16,7 @@ import { ParentErrorStateMatcher, PasswordValidator } from '@app/_validators';
 export class ResetPasswordComponent implements OnInit {
   matching_passwords_group: FormGroup;
   resetPasswordForm: FormGroup;
-  errorReport: ErrorReportViewModel;
+  errorReport: any;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
   // returnUrl: string;
 
@@ -82,7 +81,6 @@ export class ResetPasswordComponent implements OnInit {
     };
 
     this.accountService.resetPassword(viewModelObject)
-    .pipe()
     .subscribe((resp: any) => {
       console.log(resp)
         //  this.unsuccessful = false;
@@ -90,7 +88,7 @@ export class ResetPasswordComponent implements OnInit {
         //  this.toast.success('Your changed your password', 'Success');
          this.router.navigate(['/reset-password-confirmation']);
        },
-      (error: ErrorReportViewModel) => {
+      (error: any) => {
         // if (error.status === 400) { }
         this.errorReport = error;
         // this.unsuccessful = true;

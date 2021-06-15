@@ -125,11 +125,11 @@ export class ObservationEditComponent implements OnInit {
         (data: ObservationViewModel) => {
           this.router.navigate(['/observation-detail/' + data.observationId.toString()]);
         },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           this.requesting = false;
           this.errorReport = error;
-          console.log(error.friendlyMessage);
-          console.log('unsuccessful add observation');
+          // console.log(error.friendlyMessage);
+          // console.log('unsuccessful add observation');
         }
       );
   }
@@ -167,9 +167,9 @@ export class ObservationEditComponent implements OnInit {
           this.birdsSpecies = data;
           this.getBirdAutocompleteOptions();
         },
-        (error: ErrorReportViewModel) => {
+        (_ => {
           console.log('could not get the birds ddl');
-        });
+        }));
   }
 
   public onStepperSelectionChange(evant: any) {

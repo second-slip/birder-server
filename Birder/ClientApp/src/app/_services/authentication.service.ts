@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { tap, take } from 'rxjs/operators';
+import { tap, first } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { AuthenticationResultDto } from '@app/_models/AuthenticationResultDto';
 import { LoginViewModel } from '@app/_models/LoginViewModel';
@@ -23,10 +23,8 @@ export class AuthenticationService {
 
   login(viewModel: LoginViewModel): Observable<AuthenticationResultDto> {
     return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
-      .pipe(
-        take(1),
+      .pipe(first(),
         tap(response => this.setAuthenticationToken(response)));
-    //catchError(error => this.handleError(error))); // this.httpErrorHandlerService.handleHttpError(error)));
   }
 
   setAuthenticationToken(token: AuthenticationResultDto): void {

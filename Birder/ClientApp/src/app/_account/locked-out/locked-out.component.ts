@@ -5,11 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './locked-out.component.html',
   styleUrls: ['./locked-out.component.scss']
 })
-export class LockedOutComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+export class LockedOutComponent  {
 
 }
