@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Router } from '@angular/router';
 import { UsernameValidationService } from '@app/_services/username-validation-service.service';
 import { RegisterViewModel } from '@app/_models/RegisterViewModel';
-import { AccountService } from '@app/_services/account.service';
+import { AccountService } from '@app/_account/account.service';
 import { ParentErrorStateMatcher, PasswordValidator, RestrictedNameValidator } from '@app/_validators';
 
 @Component({

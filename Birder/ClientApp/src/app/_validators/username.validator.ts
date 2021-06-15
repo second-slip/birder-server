@@ -1,6 +1,6 @@
 import { FormControl } from '@angular/forms';
 import { Injectable } from '@angular/core';
-import { AccountService } from '@app/_services/account.service';
+import { AccountService } from '@app/_account/account.service';
 
 @Injectable()
 export class UsernameValidator {

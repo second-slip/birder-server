@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ResetPasswordComponent } from './reset-password.component';
 import { FormBuilder } from '@angular/forms';
-import { AccountService } from '@app/_services/account.service';
+import { AccountService } from '@app/_account/account.service';
 import { ToastrService, ToastrModule } from 'ngx-toastr';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';

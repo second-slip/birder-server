@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ResetPasswordViewModel } from '@app/_models/ResetPasswordViewModel';
-import { AccountService } from '@app/_services/account.service';
+import { AccountService } from '@app/_account/account.service';
 import { ParentErrorStateMatcher, PasswordValidator } from '@app/_validators';
 
 
