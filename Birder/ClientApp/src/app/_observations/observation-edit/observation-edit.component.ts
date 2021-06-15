@@ -3,7 +3,7 @@ import { ObservationEditDto, ObservationViewModel } from '@app/_models/Observati
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ObservationService } from '@app/_sharedServices/observation.service';
+import { ObservationService } from '@app/_observations/observation.service';
 import { BirdsService } from '@app/_services/birds.service';
 import { TokenService } from '@app/_services/token.service';
 import { ToastrService } from 'ngx-toastr';

@@ -5,7 +5,7 @@ import { startWith, map } from 'rxjs/operators';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 import { Router } from '@angular/router';
 import { BirdsService } from '@app/_services/birds.service';
-import { ObservationService } from '@app/_sharedServices/observation.service';
+import { ObservationService } from '@app/_observations/observation.service';
 import { TokenService } from '@app/_services/token.service';
 import { ObservationAddDto, ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';

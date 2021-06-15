@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
-import { ObservationService } from '@app/_sharedServices/observation.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
 import { ObservationsPagedDto } from '@app/_models/ObservationViewDto';
+import { ObservationsFetchService } from '@app/_services/observations-fetch.service';
 
 @Component({
   selector: 'app-bird-observations-list',
@@ -18,7 +18,7 @@ export class BirdObservationsListComponent implements OnInit {
   page = 1;
   pageSize = 10;
 
-  constructor(private observationsService: ObservationService) { }
+  constructor(private service: ObservationsFetchService) { }
 
   ngOnInit(): void {
     this.getObservations();
@@ -29,7 +29,7 @@ export class BirdObservationsListComponent implements OnInit {
   }
 
   getObservations(): void {
-    this.observations$ = this.observationsService.getObservationsByBirdSpecies(this.birdId, this.page, this.pageSize)
+    this.observations$ = this.service.getObservationsByBirdSpecies(this.birdId, this.page, this.pageSize)
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;

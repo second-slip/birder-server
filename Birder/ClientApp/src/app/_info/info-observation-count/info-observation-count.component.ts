@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ObservationAnalysisViewModel } from '@app/_models/ObservationAnalysisViewModel';
 import { ObservationsAnalysisService } from '@app/_services/observations-analysis.service';
 import { TokenService } from '@app/_services/token.service';
-import { ObservationService } from '@app/_sharedServices/observation.service';
+import { ObservationService } from '@app/_observations/observation.service';
 import { Observable, Subscription, throwError } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
 

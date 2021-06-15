@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
-import { ObservationService } from '@app/_sharedServices/observation.service';
+import { ObservationService } from '@app/_observations/observation.service';
 import { UserViewModel } from '@app/_models/UserViewModel';
 import { TokenService } from '@app/_services/token.service';
 import { Observable, throwError } from 'rxjs';

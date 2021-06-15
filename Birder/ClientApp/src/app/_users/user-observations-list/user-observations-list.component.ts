@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
-import { ObservationService } from '@app/_sharedServices/observation.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
 import { ObservationsPagedDto } from '@app/_models/ObservationViewDto';
+import { ObservationsFetchService } from '@app/_services/observations-fetch.service';
 
 @Component({
   selector: 'app-user-observations-list',
@@ -17,7 +17,7 @@ export class UserObservationsListComponent implements OnInit {
   page = 1;
   pageSize = 10;
 
-  constructor(private observationsService: ObservationService) { }
+  constructor(private service: ObservationsFetchService) { }
 
   ngOnInit(): void {
     this.getObservations();
@@ -28,7 +28,7 @@ export class UserObservationsListComponent implements OnInit {
   }
 
   getObservations(): void {
-    this.observations$ = this.observationsService.getObservationsByUser(this.username, this.page, this.pageSize)
+    this.observations$ = this.service.getObservationsByUser(this.username, this.page, this.pageSize)
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;

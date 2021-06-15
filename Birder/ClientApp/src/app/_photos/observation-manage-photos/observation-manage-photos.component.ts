@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 import { PhotosService } from '@app/_photos/photos.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ObservationService } from '@app/_sharedServices/observation.service';
+import { ObservationService } from '@app/_observations/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ToastrService } from 'ngx-toastr';
 // import { Lightbox } from 'ngx-lightbox';
