@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { UserProfileViewModel, NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { NetworkService } from '@app/_network/network.service';
 import { UserProfileService } from '@app/_services/user-profile.service';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { ObservationAnalysisViewModel } from '@app/_models/ObservationAnalysisViewModel';
 import { ObservationsAnalysisService } from '@app/_services/observations-analysis.service';
 import { Observable, throwError } from 'rxjs';
@@ -59,7 +58,7 @@ export class UserProfileComponent {
             element.innerText = 'Unfollow';
             this.toast.info('You have followed ' + data.userName, 'Success');
           },
-          (error: ErrorReportViewModel) => {
+          (error: any) => {
             this.toast.error(error.friendlyMessage, 'An error occurred');
           });
       return;
@@ -70,7 +69,7 @@ export class UserProfileComponent {
             element.innerText = 'Follow';
             this.toast.info('You have unfollowed ' + data.userName, 'Success');
           },
-          (error: ErrorReportViewModel) => {
+          (error: any) => {
             this.toast.error(error.friendlyMessage, 'An error occurred');
           });
       return;

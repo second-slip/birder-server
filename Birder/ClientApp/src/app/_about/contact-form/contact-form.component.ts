@@ -10,8 +10,6 @@ import { ContactFormModel } from '../ContactFormModel';
   encapsulation: ViewEncapsulation.None
 })
 export class ContactFormComponent {
-
-
   model: ContactFormModel;
   requesting = false;
   submitted = false;

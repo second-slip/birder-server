@@ -2,7 +2,6 @@ import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
 import { ObservationEditDto, ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_sharedServices/observation.service';
 import { BirdsService } from '@app/_services/birds.service';
@@ -34,7 +33,7 @@ export class ObservationEditComponent implements OnInit {
   editObservationForm: FormGroup;
   birdsSpecies: BirdSummaryViewModel[];
   parentErrorStateMatcher = new ParentErrorStateMatcher();
-  errorReport: ErrorReportViewModel;
+  errorReport: any;
 
   filteredOptions: Observable<BirdSummaryViewModel[]>;
 
@@ -154,7 +153,7 @@ export class ObservationEditComponent implements OnInit {
           // this.addMarker(observation.position.latitude, observation.position.longitude);
           this.getBirds();
         },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           this.errorReport = error;
           // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });

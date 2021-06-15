@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
 import { PhotosService } from '@app/_photos/photos.service';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_sharedServices/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
@@ -20,7 +19,7 @@ export class ObservationManagePhotosComponent implements OnInit {
   files: File[] = [];
   fileUploadProgress: string = null;
   observation: ObservationViewModel;
-  errorReport: ErrorReportViewModel;
+  errorReport: any;
   private _album: Array<PhotographAlbum> = [];
   // images = [1, 2, 3, 4, 5, 6, 7].map(() => `https://picsum.photos/900/500?random&t=${Math.random()}`);
 
@@ -64,7 +63,7 @@ export class ObservationManagePhotosComponent implements OnInit {
           this.getPhotos(this.observation.observationId);
         }
       },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           this.toast.error(error.friendlyMessage, 'An error occurred');
         }
       );
@@ -84,7 +83,7 @@ export class ObservationManagePhotosComponent implements OnInit {
           }
           this.getPhotos(observation.observationId);
         },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           this.errorReport = error;
           this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });
@@ -101,7 +100,7 @@ export class ObservationManagePhotosComponent implements OnInit {
         this._album = [];
         this.getPhotos(this.observation.observationId);
       },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           this.errorReport = error;
         });
   }
@@ -127,7 +126,7 @@ export class ObservationManagePhotosComponent implements OnInit {
             filename: photo.filename
           }));
         },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           this.errorReport = error;
           // this.router.navigate(['/page-not-found']);  // TODO: this is right for typing bad param, but what about server error?
         });

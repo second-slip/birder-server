@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
-import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { HttpErrorHandlerService } from '../_services/http-error-handler.service';
 import { PhotographDto } from '@app/_models/PhotographDto';
 
 @Injectable({
@@ -11,30 +8,26 @@ import { PhotographDto } from '@app/_models/PhotographDto';
 })
 export class PhotosService {
 
-  constructor(private http: HttpClient
-    , private httpErrorHandlerService: HttpErrorHandlerService) { }
+  constructor(private http: HttpClient) { }
 
-  getPhotos(observationId: number): Observable<PhotographDto[] | ErrorReportViewModel> {
+  getPhotos(observationId: number): Observable<PhotographDto[]> {
     const options = observationId ? { params: new HttpParams().append('observationId', observationId.toString()) } : {};
 
     return this.http.get<any>('api/Photograph/GetPhotographs', options)
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe();
   }
 
-  postDeletePhoto(model: FormData): Observable<any | ErrorReportViewModel> {
+  postDeletePhoto(model: FormData): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Disposition': 'multipart/form-data' });
 
     return this.http.post('api/Photograph/DeletePhotograph', model, { headers: headers })
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe();
   }
 
-  postPhotos(model: FormData): Observable<any | ErrorReportViewModel> {
+  postPhotos(model: FormData): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Disposition': 'multipart/form-data' });
 
     return this.http.post('api/Photograph', model, { headers: headers, observe: 'events', reportProgress: true })
-      .pipe(
-        catchError(error => this.httpErrorHandlerService.handleHttpError(error)));
+      .pipe();
   }
 }

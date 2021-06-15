@@ -15,7 +15,7 @@ describe('NetworkComponent', () => {
   let mockNetworkService;
   let mockToastr;
   let suggestedUsers: UserNetworkDto;
-  let mockError: ErrorReportViewModel;
+  let mockError: any;
   let mockSub: Subscription;
 
   beforeEach(async(() => {

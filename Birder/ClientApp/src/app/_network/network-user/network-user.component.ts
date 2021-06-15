@@ -1,5 +1,4 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { NetworkService } from '@app/_network/network.service';
 import { ToastrService } from 'ngx-toastr';
@@ -25,9 +24,9 @@ export class NetworkUserComponent {
             element.innerText = 'Unfollow';
             this.toast.info('You have followed ' + data.userName, 'Success');
           },
-          (error: ErrorReportViewModel) => {
+          (error => {
             this.toast.error(error.friendlyMessage, 'An error occurred');
-          });
+          }));
       return;
     } else {
       this.networkService.postUnfollowUser(user)
@@ -36,9 +35,9 @@ export class NetworkUserComponent {
             element.innerText = 'Follow';
             this.toast.info('You have unfollowed ' + data.userName, 'Success');
           },
-          (error: ErrorReportViewModel) => {
+          (error => {
             this.toast.error(error.friendlyMessage, 'An error occurred');
-          });
+          }));
       return;
     }
   }

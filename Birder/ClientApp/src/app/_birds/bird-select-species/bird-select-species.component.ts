@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+
 import { Router } from '@angular/router';
 import { BirdsService } from '@app/_services/birds.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -53,7 +53,7 @@ export class BirdSelectSpeciesComponent implements OnInit {
           this.birdsSpecies = data;
           this.getBirdAutocompleteOptions();
         },
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           console.log('could not get the birds ddl');
         }
       );

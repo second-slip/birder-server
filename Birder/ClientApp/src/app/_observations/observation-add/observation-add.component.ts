@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
 import { Router } from '@angular/router';
 import { BirdsService } from '@app/_services/birds.service';
 import { ObservationService } from '@app/_sharedServices/observation.service';
@@ -38,7 +37,7 @@ export class ObservationAddComponent implements OnInit {
   filteredOptions$: Observable<BirdSummaryViewModel[]>;
 
   parentErrorStateMatcher = new ParentErrorStateMatcher();
-  errorReport: ErrorReportViewModel;
+  errorReport: any;
   invalidAddObservation: boolean;
 
   defaultPosition: ObservationPosition;

@@ -68,7 +68,7 @@ describe('TweetsService', () => {
     it('should return ErrorReportViewModel if throws 404 error', () => {
       tweetsService.getTweetDay().subscribe(
         data => fail('Should have failed with 404 error'),
-        (error: ErrorReportViewModel) => {
+        (error: any) => {
           expect(error.errorNumber).toEqual(404);
           expect(error.message).toContain('Not Found');
           expect(error.type).toContain('unsuccessful response code');

@@ -15,7 +15,7 @@ describe('NetworkSearchComponent', () => {
   let mockNetworkService;
   let mockToastr;
   let suggestedUsers: NetworkUserViewModel[];
-  let mockError: ErrorReportViewModel;
+  let mockError: any;
 
   beforeEach(async(() => {
     mockNetworkService = jasmine.createSpyObj(['getSearchNetwork', 'postFollowUser', 'postUnfollowUser']);
