@@ -272,12 +272,6 @@ namespace Birder.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest("Invalid modelstate");
-                }
-
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
 
                 if (requestingUser is null)
@@ -321,12 +315,6 @@ namespace Birder.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest("Invalid modelstate");
-                }
-
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(User.Identity.Name);
 
                 if (requestingUser is null)

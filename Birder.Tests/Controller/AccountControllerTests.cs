@@ -33,35 +33,35 @@ namespace Birder.Tests.Controller
 
         #region PostRegisterAsync unit tests
 
-        [Fact]
-        public async Task PostRegisterAsync_ReturnsBadRequestWithModelStateError_WhenModelStateIsInvalid()
-        {
-            // Arrange
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //[Fact]
+        //public async Task PostRegisterAsync_ReturnsBadRequestWithModelStateError_WhenModelStateIsInvalid()
+        //{
+        //    // Arrange
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
-            var testModel = new RegisterViewModel() { };
+        //    var testModel = new RegisterViewModel() { };
 
-            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+        //    var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
-            // Act
-            var result = await controller.PostRegisterAsync(testModel);
+        //    // Act
+        //    var result = await controller.PostRegisterAsync(testModel);
 
-            // Assert
-            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    // Assert
+        //    var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.NotNull(objectResult);
+        //    Assert.True(objectResult is BadRequestObjectResult);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
 
-            var expected = new SerializableError
-                {
-                    { "Test", new[] {"This is a test model error"}},
-                };
+        //    var expected = new SerializableError
+        //        {
+        //            { "Test", new[] {"This is a test model error"}},
+        //        };
 
-            objectResult.Value.Should().BeOfType<SerializableError>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
-        }
+        //    objectResult.Value.Should().BeOfType<SerializableError>();
+        //    objectResult.Value.Should().BeEquivalentTo(expected);
+        //}
 
         [Fact]
         public async Task PostRegisterAsync_ReturnsBadRequest_WhenExceptionRaised()
@@ -311,35 +311,35 @@ namespace Birder.Tests.Controller
 
         #region ResendConfirmEmailMessageAsync unit tests
 
-        [Fact]
-        public async Task ResendConfirmEmailMessageAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
-        {
-            // Arrange
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //[Fact]
+        //public async Task ResendConfirmEmailMessageAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
+        //{
+        //    // Arrange
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
-            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+        //    var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-            var testModel = new UserEmailDto() { };
+        //    var testModel = new UserEmailDto() { };
 
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
-            // Act
-            var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
+        //    // Act
+        //    var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
 
-            // Assert
-            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    // Assert
+        //    var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.NotNull(objectResult);
+        //    Assert.True(objectResult is BadRequestObjectResult);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
 
-            var expected = new SerializableError
-            {
-                { "Test", new[] {"This is a test model error"}},
-            };
+        //    var expected = new SerializableError
+        //    {
+        //        { "Test", new[] {"This is a test model error"}},
+        //    };
 
-            objectResult.Value.Should().BeOfType<SerializableError>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
-        }
+        //    objectResult.Value.Should().BeOfType<SerializableError>();
+        //    objectResult.Value.Should().BeEquivalentTo(expected);
+        //}
 
         [Fact]
         public async Task ResendConfirmEmailMessageAsync_NotFound_WhenRepositoryReturnsNull()
@@ -445,32 +445,32 @@ namespace Birder.Tests.Controller
 
         #region ForgotPasswordAsync unit tests
 
-        [Fact]
-        public async Task PostForgotPasswordAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
-        {
-            // Arrange
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //[Fact]
+        //public async Task PostForgotPasswordAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
+        //{
+        //    // Arrange
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
-            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+        //    var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-            var testModel = new UserEmailDto() { };
+        //    var testModel = new UserEmailDto() { };
 
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
-            // Act
-            var result = await controller.PostForgotPasswordAsync(testModel);
+        //    // Act
+        //    var result = await controller.PostForgotPasswordAsync(testModel);
 
-            // Assert
-            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    // Assert
+        //    var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.NotNull(objectResult);
+        //    Assert.True(objectResult is BadRequestObjectResult);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
 
-            var expected = "An error occurred";
+        //    var expected = "An error occurred";
 
-            objectResult.Value.Should().BeOfType<string>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
-        }
+        //    objectResult.Value.Should().BeOfType<string>();
+        //    objectResult.Value.Should().BeEquivalentTo(expected);
+        //}
 
         [Fact]
         public async Task PostForgotPasswordAsync_ReturnsBadRequest_WhenExceptionIsRaised()
@@ -574,35 +574,35 @@ namespace Birder.Tests.Controller
 
         #region PostResetPasswordAsync unit tests
 
-        [Fact]
-        public async Task PostResetPasswordAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
-        {
-            // Arrange
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //[Fact]
+        //public async Task PostResetPasswordAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
+        //{
+        //    // Arrange
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
-            var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
+        //    var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-            var testModel = new ResetPasswordViewModel() { };
+        //    var testModel = new ResetPasswordViewModel() { };
 
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
-            // Act
-            var result = await controller.PostResetPasswordAsync(testModel);
+        //    // Act
+        //    var result = await controller.PostResetPasswordAsync(testModel);
 
-            // Assert
-            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    // Assert
+        //    var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.NotNull(objectResult);
+        //    Assert.True(objectResult is BadRequestObjectResult);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
 
-            var expected = new SerializableError
-            {
-                { "Test", new[] {"This is a test model error"}},
-            };
+        //    var expected = new SerializableError
+        //    {
+        //        { "Test", new[] {"This is a test model error"}},
+        //    };
 
-            objectResult.Value.Should().BeOfType<SerializableError>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
-        }
+        //    objectResult.Value.Should().BeOfType<SerializableError>();
+        //    objectResult.Value.Should().BeEquivalentTo(expected);
+        //}
 
         [Fact]
         public async Task PostResetPasswordAsync_ReturnsBadRequest_WhenExceptionIsRaised()

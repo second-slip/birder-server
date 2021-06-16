@@ -43,11 +43,11 @@ namespace Birder.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest(ModelState);
-                }
+                //if (!ModelState.IsValid)
+                //{
+                //    _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                //    return BadRequest(ModelState);
+                //}
 
                 var newUser = new ApplicationUser
                 {
@@ -123,12 +123,6 @@ namespace Birder.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest(ModelState);
-                }
-
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
@@ -166,12 +160,6 @@ namespace Birder.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest("An error occurred");
-                }
-
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
@@ -211,11 +199,6 @@ namespace Birder.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest(ModelState);
-                }
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {

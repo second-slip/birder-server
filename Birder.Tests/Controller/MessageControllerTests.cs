@@ -76,36 +76,36 @@ namespace Birder.Tests.Controller
             Assert.Equal($"an unexpected error occurred", actual);
         }
 
-        [Fact]
-        public async Task Returns_400_Response_When_ModelState_Is_Invalid()
-        {
-            // Arrange
-            var controller = new MessageController(_emailSender.Object, _logger.Object);
+        //[Fact]
+        //public async Task Returns_400_Response_When_ModelState_Is_Invalid()
+        //{
+        //    // Arrange
+        //    var controller = new MessageController(_emailSender.Object, _logger.Object);
 
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal("test_username") }
-            };
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext()
+        //        { User = SharedFunctions.GetTestClaimsPrincipal("test_username") }
+        //    };
 
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
-            // Act
-            var result = await controller.PostContactMessageAsync(new ContactFormDto());
+        //    // Act
+        //    var result = await controller.PostContactMessageAsync(new ContactFormDto());
 
-            // Assert
-            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    // Assert
+        //    var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.NotNull(objectResult);
+        //    Assert.True(objectResult is BadRequestObjectResult);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
 
-            var expected = new SerializableError
-                {
-                    { "Test", new[] {"This is a test model error"}},
-                };
+        //    var expected = new SerializableError
+        //        {
+        //            { "Test", new[] {"This is a test model error"}},
+        //        };
 
-            objectResult.Value.Should().BeOfType<SerializableError>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
-        }
+        //    objectResult.Value.Should().BeOfType<SerializableError>();
+        //    objectResult.Value.Should().BeEquivalentTo(expected);
+        //}
     }
 }

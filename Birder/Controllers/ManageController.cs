@@ -66,12 +66,6 @@ namespace Birder.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest(ModelState);
-                }
-
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 if (user == null)
                 {
@@ -211,12 +205,6 @@ namespace Birder.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest(ModelState);
-                }
-
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 if (user == null)
                 {
@@ -250,12 +238,6 @@ namespace Birder.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest(ModelState);
-                }
-
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 if (user == null)
                 {

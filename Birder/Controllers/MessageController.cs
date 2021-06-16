@@ -1,12 +1,9 @@
 ﻿using Birder.Helpers;
 using Birder.Services;
 using Birder.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers
@@ -24,17 +21,9 @@ namespace Birder.Controllers
             _emailSender = emailSender;
         }
 
-
         [HttpPost, Route("SendContactMessage")]
         public async Task<IActionResult> PostContactMessageAsync(ContactFormDto model)
         {
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                //ToDo: Don't return ModelState!
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 var templateModel = new { name = model.Name, email = model.Email, message = model.Message };
@@ -47,6 +36,5 @@ namespace Birder.Controllers
                 return StatusCode(500, "an unexpected error occurred");
             }
         }
-        //test error with empty templateId string
     }
 }

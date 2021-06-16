@@ -40,64 +40,64 @@ namespace Birder.Tests.Controller
 
         #region CreateObservationAsync
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public async Task CreateObservationAsync_ReturnsBadRequest_OnInvalidModelState(int id)
-        {
-            //Arrange
-            int birdId = 1;
-            //var model = GetTestObservationViewModel(id, birdId);
-            var model = new ObservationAddDto()
-            {
-                //ObservationId = id,
-                Bird = new BirdSummaryViewModel() { BirdId = birdId },
-                BirdId = birdId,
-                Position = new ObservationPositionDto() { }
-            };
-            var requestingUser = GetUser("Any");
+        //[Theory]
+        //[InlineData(1)]
+        //[InlineData(2)]
+        //[InlineData(3)]
+        //public async Task CreateObservationAsync_ReturnsBadRequest_OnInvalidModelState(int id)
+        //{
+        //    //Arrange
+        //    int birdId = 1;
+        //    //var model = GetTestObservationViewModel(id, birdId);
+        //    var model = new ObservationAddDto()
+        //    {
+        //        //ObservationId = id,
+        //        Bird = new BirdSummaryViewModel() { BirdId = birdId },
+        //        BirdId = birdId,
+        //        Position = new ObservationPositionDto() { }
+        //    };
+        //    var requestingUser = GetUser("Any");
 
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
-            var mockBirdRepo = new Mock<IBirdRepository>();
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-            var mockObsRepo = new Mock<IObservationRepository>();
-            //mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
-            //           .ThrowsAsync(new InvalidOperationException());
-            var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+        //    var mockBirdRepo = new Mock<IBirdRepository>();
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //    var mockObsRepo = new Mock<IObservationRepository>();
+        //    //mockObsRepo.Setup(o => o.GetObservationsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+        //    //           .ThrowsAsync(new InvalidOperationException());
+        //    var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
 
-            var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
+        //    var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
 
-            var controller = new ObservationController(
-                _mapper
-                , _systemClock
-                , mockUnitOfWork.Object
-                , mockBirdRepo.Object
-                , _logger.Object
-                , mockUserManager.Object
-                , mockObsRepo.Object
-                , mockObsPositionRepo.Object
-                , mockObsNotesRepo.Object);
+        //    var controller = new ObservationController(
+        //        _mapper
+        //        , _systemClock
+        //        , mockUnitOfWork.Object
+        //        , mockBirdRepo.Object
+        //        , _logger.Object
+        //        , mockUserManager.Object
+        //        , mockObsRepo.Object
+        //        , mockObsPositionRepo.Object
+        //        , mockObsNotesRepo.Object);
 
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
-            };
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext()
+        //        { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+        //    };
 
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
-            // Act
-            var result = await controller.CreateObservationAsync(model);
+        //    // Act
+        //    var result = await controller.CreateObservationAsync(model);
 
-            // Assert
-            string expectedMessage = "An error occurred";
+        //    // Assert
+        //    string expectedMessage = "An error occurred";
 
-            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-            var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal(expectedMessage, actual);
-        }
+        //    var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    var actual = Assert.IsType<string>(objectResult.Value);
+        //    Assert.Equal(expectedMessage, actual);
+        //}
 
         [Theory]
         [InlineData(1)]

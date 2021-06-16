@@ -111,7 +111,6 @@ namespace Birder.Controllers
                     return Ok(viewModel);
                 }
 
-
                 _logger.LogWarning(LoggingEvents.GenerateItems, "Other authentication failure");
                 return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
             }

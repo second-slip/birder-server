@@ -78,13 +78,6 @@ namespace Birder.Controllers
         [HttpPost, Route("CreateObservation")]
         public async Task<IActionResult> CreateObservationAsync(ObservationAddDto model)
         {
-
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError(LoggingEvents.UpdateItem, "ObservationViewModel is invalid: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                return BadRequest("An error occurred");
-            }
-
             try
             {
                 var requestingUser = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -145,12 +138,6 @@ namespace Birder.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    _logger.LogError(LoggingEvents.UpdateItem, "ObservationViewModel is invalid: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                    return BadRequest("An error occurred");
-                }
-
                 if (id != model.ObservationId)
                 {
                     _logger.LogError(LoggingEvents.UpdateItem, $"Id '{id}' not equal to model id '{model.ObservationId}'");

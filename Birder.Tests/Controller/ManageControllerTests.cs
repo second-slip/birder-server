@@ -335,60 +335,60 @@ namespace Birder.Tests.Controller
 
         #region UpdateProfileAsync unit tests
 
-        [Fact]
-        public async Task UpdateProfileAsync_ReturnsBadRequest_WithModelStateError()
-        {
-            // Arrange
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-            //mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
-            //               .ReturnsAsync(GetValidTestUser());
+        //[Fact]
+        //public async Task UpdateProfileAsync_ReturnsBadRequest_WithModelStateError()
+        //{
+        //    // Arrange
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //    //mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+        //    //               .ReturnsAsync(GetValidTestUser());
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+        //    var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
 
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
-            };
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+        //    };
 
-            //Add model error
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+        //    //Add model error
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
-            var model = new ManageProfileViewModel() { UserName = "", IsEmailConfirmed = true };
+        //    var model = new ManageProfileViewModel() { UserName = "", IsEmailConfirmed = true };
 
-            // Act
-            var result = await controller.UpdateProfileAsync(model);
+        //    // Act
+        //    var result = await controller.UpdateProfileAsync(model);
 
-            // Assert
-            var modelState = controller.ModelState;
-            Assert.Equal(1, modelState.ErrorCount);
-            Assert.True(modelState.ContainsKey("Test"));
-            Assert.True(modelState["Test"].Errors.Count == 1);
-            Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
+        //    // Assert
+        //    var modelState = controller.ModelState;
+        //    Assert.Equal(1, modelState.ErrorCount);
+        //    Assert.True(modelState.ContainsKey("Test"));
+        //    Assert.True(modelState["Test"].Errors.Count == 1);
+        //    Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
 
-            Assert.IsType<BadRequestObjectResult>(result);
-            var objectResult = result as ObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-            //Assert.IsType<String>(objectResult.Value);
+        //    Assert.IsType<BadRequestObjectResult>(result);
+        //    var objectResult = result as ObjectResult;
+        //    Assert.NotNull(objectResult);
+        //    Assert.True(objectResult is BadRequestObjectResult);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    //Assert.IsType<String>(objectResult.Value);
 
-            // Assert
-            var returnError = Assert.IsType<SerializableError>(objectResult.Value);
-            Assert.Single(returnError); //Assert.Equal(2, returnError.Count);
-            Assert.True(returnError.ContainsKey("Test"));
+        //    // Assert
+        //    var returnError = Assert.IsType<SerializableError>(objectResult.Value);
+        //    Assert.Single(returnError); //Assert.Equal(2, returnError.Count);
+        //    Assert.True(returnError.ContainsKey("Test"));
 
-            var values = returnError["Test"] as String[];
-            Assert.True(values[0] == "This is a test model error");
+        //    var values = returnError["Test"] as String[];
+        //    Assert.True(values[0] == "This is a test model error");
 
 
-            var expected = new SerializableError
-                {
-                    { "Test", new[] {"This is a test model error"}},
-                };
+        //    var expected = new SerializableError
+        //        {
+        //            { "Test", new[] {"This is a test model error"}},
+        //        };
 
-            objectResult.Value.Should().BeOfType<SerializableError>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
-        }
+        //    objectResult.Value.Should().BeOfType<SerializableError>();
+        //    objectResult.Value.Should().BeEquivalentTo(expected);
+        //}
 
         [Fact]
         public async Task UpdateProfileAsync_ReturnsNotFound_WithUserManagerReturnsNull()
@@ -640,51 +640,51 @@ namespace Birder.Tests.Controller
 
         #region SetLocationAsync unit tests
 
-        [Fact]
-        public async Task SetLocationAsync_ReturnsBadRequest_WithModelStateError()
-        {
-            // Arrange
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-            //mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
-            //               .ReturnsAsync(GetValidTestUser());
+        //[Fact]
+        //public async Task SetLocationAsync_ReturnsBadRequest_WithModelStateError()
+        //{
+        //    // Arrange
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //    //mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
+        //    //               .ReturnsAsync(GetValidTestUser());
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+        //    var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
 
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
-            };
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+        //    };
 
-            //Add model error
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+        //    //Add model error
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
-            var model = new SetLocationViewModel() { DefaultLocationLatitude = 2F, DefaultLocationLongitude = 2F };
+        //    var model = new SetLocationViewModel() { DefaultLocationLatitude = 2F, DefaultLocationLongitude = 2F };
 
-            // Act
-            var result = await controller.SetLocationAsync(model);
+        //    // Act
+        //    var result = await controller.SetLocationAsync(model);
 
-            // Assert
-            var modelState = controller.ModelState;
-            Assert.Equal(1, modelState.ErrorCount);
-            Assert.True(modelState.ContainsKey("Test"));
-            Assert.True(modelState["Test"].Errors.Count == 1);
-            Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
+        //    // Assert
+        //    var modelState = controller.ModelState;
+        //    Assert.Equal(1, modelState.ErrorCount);
+        //    Assert.True(modelState.ContainsKey("Test"));
+        //    Assert.True(modelState["Test"].Errors.Count == 1);
+        //    Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
 
-            Assert.IsType<BadRequestObjectResult>(result);
-            var objectResult = result as ObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-            //Assert.IsType<String>(objectResult.Value);
+        //    Assert.IsType<BadRequestObjectResult>(result);
+        //    var objectResult = result as ObjectResult;
+        //    Assert.NotNull(objectResult);
+        //    Assert.True(objectResult is BadRequestObjectResult);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    //Assert.IsType<String>(objectResult.Value);
             
-            var expected = new SerializableError
-                {
-                    { "Test", new[] {"This is a test model error"}},
-                };
+        //    var expected = new SerializableError
+        //        {
+        //            { "Test", new[] {"This is a test model error"}},
+        //        };
 
-            objectResult.Value.Should().BeOfType<SerializableError>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
-        }
+        //    objectResult.Value.Should().BeOfType<SerializableError>();
+        //    objectResult.Value.Should().BeEquivalentTo(expected);
+        //}
 
         [Fact]
         public async Task SetLocationAsync_ReturnsNotFound_WithUserManagerReturnsNull()
@@ -805,42 +805,42 @@ namespace Birder.Tests.Controller
 
         #region ChangePasswordAsync unit tests
 
-        [Fact]
-        public async Task ChangePasswordAsync_ReturnsBadRequest_WithModelStateError()
-        {
-            // Arrange
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //[Fact]
+        //public async Task ChangePasswordAsync_ReturnsBadRequest_WithModelStateError()
+        //{
+        //    // Arrange
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
-            var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
+        //    var controller = new ManageController(_mapper, _emailSender.Object, _urlService.Object, _logger.Object, mockUserManager.Object);
 
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
-            };
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+        //    };
 
-            //Add model error
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+        //    //Add model error
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
-            var model = new ChangePasswordViewModel() { };
+        //    var model = new ChangePasswordViewModel() { };
 
-            // Act
-            var result = await controller.ChangePasswordAsync(model);
+        //    // Act
+        //    var result = await controller.ChangePasswordAsync(model);
 
-            // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
-            var objectResult = result as ObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    // Assert
+        //    Assert.IsType<BadRequestObjectResult>(result);
+        //    var objectResult = result as ObjectResult;
+        //    Assert.NotNull(objectResult);
+        //    Assert.True(objectResult is BadRequestObjectResult);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
 
-            var expected = new SerializableError
-                {
-                    { "Test", new[] {"This is a test model error"}},
-                };
+        //    var expected = new SerializableError
+        //        {
+        //            { "Test", new[] {"This is a test model error"}},
+        //        };
 
-            objectResult.Value.Should().BeOfType<SerializableError>();
-            objectResult.Value.Should().BeEquivalentTo(expected);
-        }
+        //    objectResult.Value.Should().BeOfType<SerializableError>();
+        //    objectResult.Value.Should().BeEquivalentTo(expected);
+        //}
 
         [Fact]
         public async Task ChangePasswordAsync_ReturnsNotFound_WithUserManagerReturnsNull()

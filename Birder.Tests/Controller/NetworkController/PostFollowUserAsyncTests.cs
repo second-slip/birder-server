@@ -97,48 +97,48 @@ namespace Birder.Tests.Controller
 
         #region Follow action tests
 
-        [Fact]
-        public async Task PostFollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
-        {
+        //[Fact]
+        //public async Task PostFollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
+        //{
 
-            // Arrange
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-            var mockRepo = new Mock<INetworkRepository>();
+        //    // Arrange
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //    var mockRepo = new Mock<INetworkRepository>();
 
-            var mockUnitOfWork = new Mock<IUnitOfWork>();
+        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
+        //    var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
 
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
-            };
+        //    controller.ControllerContext = new ControllerContext()
+        //    {
+        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+        //    };
 
-            //Add model error
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+        //    //Add model error
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
 
-            // Act
-            var result = await controller.PostFollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel("Test User"));
+        //    // Act
+        //    var result = await controller.PostFollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel("Test User"));
 
-            var modelState = controller.ModelState;
-            Assert.Equal(1, modelState.ErrorCount);
-            Assert.True(modelState.ContainsKey("Test"));
-            Assert.True(modelState["Test"].Errors.Count == 1);
-            Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
+        //    var modelState = controller.ModelState;
+        //    Assert.Equal(1, modelState.ErrorCount);
+        //    Assert.True(modelState.ContainsKey("Test"));
+        //    Assert.True(modelState["Test"].Errors.Count == 1);
+        //    Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
 
-            // test response
-            var objectResult = result as ObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.IsType<BadRequestObjectResult>(result);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-            //
-            var actual = Assert.IsType<string>(objectResult.Value);
+        //    // test response
+        //    var objectResult = result as ObjectResult;
+        //    Assert.NotNull(objectResult);
+        //    Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.True(objectResult is BadRequestObjectResult);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    //
+        //    var actual = Assert.IsType<string>(objectResult.Value);
 
-            //Assert.Contains("This is a test model error", "This is a test model error");
-            Assert.Equal("Invalid modelstate", actual);
-        }
+        //    //Assert.Contains("This is a test model error", "This is a test model error");
+        //    Assert.Equal("Invalid modelstate", actual);
+        //}
 
 
 
