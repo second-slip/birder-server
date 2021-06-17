@@ -44,13 +44,6 @@ namespace Birder.Controllers
         [HttpPost, Route("login")]
         public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                // record and log model errors...
-                _logger.LogError(LoggingEvents.InvalidModelState, "LoginViewModel ModelState is invalid");
-                return BadRequest(new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
-            }
-
             try
             {
                 var user = await _userManager.FindByEmailAsync(loginViewModel.UserName);

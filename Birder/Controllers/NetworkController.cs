@@ -52,11 +52,12 @@ namespace Birder.Controllers
                     return StatusCode(500, "requesting user not found");
                 }
 
-                var model = new NetworkSummaryDto();
+                var model = new NetworkSummaryDto
+                {
+                    FollowersCount = requestingUser.Followers.Count,
 
-                model.FollowersCount = requestingUser.Followers.Count;
-
-                model.FollowingCount = requestingUser.Following.Count;
+                    FollowingCount = requestingUser.Following.Count
+                };
 
                 var followersNotBeingFollowed = UserNetworkHelpers.GetFollowersNotBeingFollowedUserNames(requestingUser);
 
