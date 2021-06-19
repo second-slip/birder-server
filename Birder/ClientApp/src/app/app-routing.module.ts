@@ -38,6 +38,7 @@ import { HomeComponent } from './_home/home/home.component';
 import { DeveloperComponent } from './_home/developer/developer.component';
 import { ContactComponent } from './_about/contact/contact.component';
 import { TechnologyComponent } from './_about/technology/technology.component';
+import { FutureComponent } from './_about/future/future.component';
 
 
 const routes: Routes = [
@@ -61,7 +62,8 @@ const routes: Routes = [
       { path: 'reset-password-confirmation', component: ResetPasswordConfirmationComponent },
       { path: 'whats-new', component: WhatsNewComponent },
       { path: 'tweets-archive', component: TweetArchiveComponent },
-      { path: 'developer', component: DeveloperComponent }
+      { path: 'developer', component: DeveloperComponent },
+      { path: 'future', component: FutureComponent }
     ]
   },
   {
