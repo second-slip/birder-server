@@ -6,8 +6,4 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./developer.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DeveloperComponent  {
-
-  constructor() { }
-
-}
+export class DeveloperComponent { }
