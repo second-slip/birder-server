@@ -103,7 +103,7 @@ import { BirdDetailInfoComponent } from './_birds/bird-detail-info/bird-detail-i
 import { PhotoDisplayComponent } from './_photos/photo-display/photo-display.component';
 import { BirdSelectSpeciesComponent } from './_birds/bird-select-species/bird-select-species.component';
 import { NetworkSidebarComponent } from './_network/network-sidebar/network-sidebar.component';
-import { DeveloperComponent } from './_home/developer/developer.component';
+import { DeveloperComponent } from './_about/developer/developer.component';
 import { HomeComponent } from './_home/home/home.component';
 import { ContactComponent } from './_about/contact/contact.component';
 import { TechnologyComponent } from './_about/technology/technology.component';

@@ -35,7 +35,7 @@ import { FollowersComponent } from './_network/followers/followers.component';
 import { FollowingComponent } from './_network/following/following.component';
 import { BirdDetailComponent } from './_birds/bird-detail/bird-detail.component';
 import { HomeComponent } from './_home/home/home.component';
-import { DeveloperComponent } from './_home/developer/developer.component';
+import { DeveloperComponent } from './_about/developer/developer.component';
 import { ContactComponent } from './_about/contact/contact.component';
 import { TechnologyComponent } from './_about/technology/technology.component';
 import { FutureComponent } from './_about/future/future.component';

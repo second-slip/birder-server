@@ -40,12 +40,12 @@
         "colourCode": "Red"
     },
     {
-        "id": "7",
-        "feature": "Tweets archive",
-        "description": "A page with a list of the previous x days of the 'Tweet of the Day' feature",
-        "progress": "Done",
-        "priority": "N/a",
-        "colourCode": "Green"
+        "id": "6",
+        "feature": "Tags",
+        "description": "Group related observations with custom 'tags'.  For example, create tags like 'Trip to Scotland 2020', 'in the garden', etc.",
+        "progress": "Not started",
+        "priority": "Low",
+        "colourCode": "Black"
     },
     {
         "id": "8",
