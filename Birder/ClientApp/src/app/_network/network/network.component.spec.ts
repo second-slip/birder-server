@@ -5,7 +5,7 @@ import { NetworkService } from '@app/_network/network.service';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { UserNetworkDto } from '@app/_models/UserNetworkDto';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+
 import { Subscription } from 'rxjs';
 
 describe('NetworkComponent', () => {

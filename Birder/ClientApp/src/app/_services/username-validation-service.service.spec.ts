@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpErrorHandlerService } from './http-error-handler.service';
+
 import { UsernameValidationService } from './username-validation-service.service';
 import { TokenService } from './token.service';
 import { HttpResponse } from '@angular/common/http';
@@ -21,7 +21,7 @@ describe('UsernameValidationService', () => {
       // Provide the service-under-test and its dependencies
       providers: [
         UsernameValidationService,
-        HttpErrorHandlerService,
+
         { provide: TokenService, useValue: mockTokenService },
       ]
     });

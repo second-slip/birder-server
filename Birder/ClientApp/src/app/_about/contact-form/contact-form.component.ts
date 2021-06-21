@@ -37,5 +37,4 @@ export class ContactFormComponent {
           return throwError(error);
         });
   }
-
 }

@@ -12,9 +12,9 @@ describe('TokenService', () => {
       config: {
         tokenGetter: tokenGetter,
         // Exclude this URL from JWT (doesn't add the authentication header)
-        blacklistedRoutes: [
-          '/api/login',
-        ]
+        // blacklistedRoutes: [
+        //   '/api/login',
+        // ]
       }
     }), ],
     providers: [

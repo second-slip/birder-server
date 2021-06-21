@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
 import { UserProfileService } from './user-profile.service';
-import { HttpErrorHandlerService } from './http-error-handler.service';
+
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserProfileViewModel } from '@app/_models/UserProfileViewModel';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+
 
 describe('UserProfileService', () => {
   let httpTestingController: HttpTestingController;
@@ -17,7 +17,7 @@ describe('UserProfileService', () => {
       // Provide the service-under-test and its dependencies
       providers: [
         UserProfileService,
-        HttpErrorHandlerService,
+
       ]
     });
 
@@ -46,7 +46,7 @@ describe('UserProfileService', () => {
       userProfileService = TestBed.inject(UserProfileService);
       expectedProfile = {
         avatar: '', isFollowing: false, isOwnProfile: false, registrationDate: '',
-        userName: '', followers: [], following: []
+        userName: '', followersCount: 0, followingCount: 0
       };
     });
 

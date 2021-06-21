@@ -2,11 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { TweetsService } from './tweets.service';
-import { HttpErrorHandlerService } from '../_services/http-error-handler.service';
-import { HttpClient } from '@angular/common/http';
+
+
 import { TweetDay } from '@app/_models/TweetDay';
 import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
-import { ErrorReportViewModel } from '@app/_models/ErrorReportViewModel';
+
 
 describe('TweetsService', () => {
   // let httpClient: HttpClient;
@@ -20,7 +20,6 @@ describe('TweetsService', () => {
       // Provide the service-under-test and its dependencies
       providers: [
         TweetsService,
-        HttpErrorHandlerService,
         // MessageService
       ]
     });

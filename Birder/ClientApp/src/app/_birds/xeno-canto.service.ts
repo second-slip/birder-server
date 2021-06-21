@@ -37,11 +37,11 @@ export class XenoCantoService {
       );
   }
 
-  getSubStringStartPosition(inputString, subString, index): number {
+  private getSubStringStartPosition(inputString, subString, index): number {
     return (inputString.split(subString, index).join(subString).length) + 1;
   }
 
-  formatSearchTerm(searchTerm: string): string {
+  private formatSearchTerm(searchTerm: string): string {
     return searchTerm.split(' ').join('+');
   }
 }
