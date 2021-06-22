@@ -64,23 +64,6 @@ describe('TweetsService', () => {
       req.flush(expectedTweet);
     });
 
-    it('should return ErrorReportViewModel if throws 404 error', () => {
-      tweetsService.getTweetDay().subscribe(
-        data => fail('Should have failed with 404 error'),
-        (error: any) => {
-          expect(error.errorNumber).toEqual(404);
-          expect(error.message).toContain('Not Found');
-          expect(error.type).toContain('unsuccessful response code');
-          expect(error.friendlyMessage).toContain('An error occurred retrieving data.');
-        }
-      );
-
-      const req = httpTestingController.expectOne('api/Tweets/GetTweetDay');
-
-      // respond with a 404 and the error message in the body
-      const msg = 'deliberate 404 error';
-      req.flush(msg, {status: 404, statusText: 'Not Found'});
-    });
   });
 
 });

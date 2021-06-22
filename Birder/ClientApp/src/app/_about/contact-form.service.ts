@@ -15,7 +15,7 @@ export class ContactFormService {
 
   constructor(private http: HttpClient) { }
 
-  register(model: ContactFormModel): Observable<ContactFormModel> {
+  postMessage(model: ContactFormModel): Observable<ContactFormModel> {
     return this.http.post<ContactFormModel>('api/Message/SendContactMessage', model, httpOptions)
     .pipe(first());
   }

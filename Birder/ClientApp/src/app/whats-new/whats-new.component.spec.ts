@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WhatsNewComponent } from './whats-new.component';
@@ -8,6 +9,7 @@ describe('WhatsNewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
       declarations: [ WhatsNewComponent ]
     })
     .compileComponents();

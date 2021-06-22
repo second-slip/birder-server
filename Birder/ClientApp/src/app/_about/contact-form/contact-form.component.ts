@@ -26,7 +26,7 @@ export class ContactFormComponent {
   onSubmit(): void {
     this.requesting = true;
 
-    this.service.register(this.model)
+    this.service.postMessage(this.model)
       .subscribe(_ => {
         this.submitted = true;
         this.requesting = false;

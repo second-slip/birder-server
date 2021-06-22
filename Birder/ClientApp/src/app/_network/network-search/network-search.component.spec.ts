@@ -8,6 +8,7 @@ import { NetworkService } from '@app/_network/network.service';
 import { ToastrService } from 'ngx-toastr';
 import { of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { error } from 'protractor';
 
 describe('NetworkSearchComponent', () => {
   let component: NetworkSearchComponent;
@@ -20,15 +21,15 @@ describe('NetworkSearchComponent', () => {
   let mockError1: HttpErrorResponse;
 
   beforeEach(async(() => {
-    mockNetworkService = jasmine.createSpyObj(['getSearchNetwork', 'postFollowUser', 'postUnfollowUser']);
-    mockToastr = jasmine.createSpyObj(['info', 'warning', 'error']);
+    mockNetworkService = jasmine.createSpyObj(['getSearchNetwork']);
+    //mockToastr = jasmine.createSpyObj(['info', 'warning', 'error']);
 
     TestBed.configureTestingModule({
       imports: [FormsModule],
       declarations: [NetworkSearchComponent],
       providers: [
-        { provide: NetworkService, useValue: mockNetworkService },
-        { provide: ToastrService, useValue: mockToastr }
+        { provide: NetworkService, useValue: mockNetworkService }
+        //{ provide: ToastrService, useValue: mockToastr }
       ]
     })
       .compileComponents();
@@ -87,9 +88,16 @@ describe('NetworkSearchComponent', () => {
       let mockFormValue = {
         searchTerm: ''
       }
+
+      const errorResponse = new HttpErrorResponse({
+        error: { code: `some code`, message: `some message.` },
+        status: 400,
+        statusText: 'Bad Request',
+     });
       
       //mockNetworkService.getSearchNetwork.and.returnValue(throwError(mockError));
-      mockNetworkService.getSearchNetwork.and.returnValue(throwError(mockErrorMessage));
+      mockNetworkService.getSearchNetwork.and.returnValue(throwError(errorResponse));
+      //spyOn(mockNetworkService, 'getSearchNetwork').and.returnValue(throwError(errorResponse));
 
       // Act or change
       component.searchNetwork(mockFormValue);
@@ -97,6 +105,7 @@ describe('NetworkSearchComponent', () => {
       // Assert
       expect(component).toBeTruthy();
       expect(mockNetworkService.getSearchNetwork).toHaveBeenCalled();
+      expect(mockNetworkService.getSearchNetwork).toEqual('Bad Request');
       //expect(mockToastr.error).toHaveBeenCalledWith(mockError.serverCustomMessage, 'Search unsuccessful');
       //expect(mockToastr.error).toHaveBeenCalledWith(mockError.serverCustomMessage, 'Search unsuccessful');
     });

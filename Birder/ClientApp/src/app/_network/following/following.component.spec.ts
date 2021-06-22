@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NetworkService } from '../network.service';
 
 import { FollowingComponent } from './following.component';
 
@@ -6,11 +8,18 @@ describe('FollowingComponent', () => {
   let component: FollowingComponent;
   let fixture: ComponentFixture<FollowingComponent>;
 
+  let mockNetworkService: any;
+
   beforeEach(async () => {
+    mockNetworkService = jasmine.createSpyObj(['getFollowing']);
+
     await TestBed.configureTestingModule({
-      declarations: [ FollowingComponent ]
+
+      imports: [RouterTestingModule.withRoutes([])],
+      declarations: [FollowingComponent],
+      providers: [{ provide: NetworkService, useValue: mockNetworkService }]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
