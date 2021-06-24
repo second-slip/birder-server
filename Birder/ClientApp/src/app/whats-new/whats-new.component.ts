@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
+import { FeaturesService } from './features.service';
 
 @Component({
   selector: 'app-whats-new',
@@ -10,20 +11,20 @@ import { catchError, share } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class WhatsNewComponent {
-  features$: Observable<IFeatures>;
+  features$: Observable<IFeatures[]>;
   public errorObject = null;
 
-  constructor(private http: HttpClient) {
+  constructor(private service: FeaturesService) {
     this.features$ = this.getFeatures();
   }
 
-  getFeatures(): Observable<IFeatures> {
-    return this.http.get<IFeatures>("./assets/new-features.json")
-    .pipe(share(),
-    catchError(err => {
-      this.errorObject = err;
-      return throwError(err);
-    }));
+  private getFeatures(): Observable<IFeatures[]> {
+    return this.service.getFeatures()
+      .pipe(share(),
+        catchError(err => {
+          this.errorObject = err;
+          return throwError(err);
+        }));
   }
 }
 

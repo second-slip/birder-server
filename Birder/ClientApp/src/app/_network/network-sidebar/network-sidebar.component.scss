@@ -5,8 +5,11 @@ app-network-sidebar {
         padding-bottom: 10px;
     }
 
-    .loading {
+    .loading-placeholder {
         text-align: center;
+        .mat-spinner {
+            margin: 0 auto;
+        }
     }
 
     .summary {

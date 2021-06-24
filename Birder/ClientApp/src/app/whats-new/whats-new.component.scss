@@ -1,4 +1,15 @@
 app-whats-new {
+    .loading-placeholder {
+        text-align: center;
+        .mat-spinner {
+            margin: 0 auto;
+        }
+    }
+
+    .error-message {
+        font-size: 100%;
+    }
+
     @media only screen and (max-width: 600px) {
         .introduction {
             text-align: center;

@@ -66,25 +66,27 @@ describe('UserProfileService', () => {
       req.flush(expectedProfile);
     });
 
-    it('should return ErrorReportViewModel if throws 404 error', () => {
-      const username = 'test';
+    // error is now caught by the error interceptor, not in the service...
+    
+  //   it('should return ErrorReportViewModel if throws 404 error', () => {
+  //     const username = 'test';
 
-      userProfileService.getUserProfile(username).subscribe(
-        data => fail('Should have failed with 404 error'),
-        (error: any) => {
-          expect(error.errorNumber).toEqual(404);
-          expect(error.message).toContain('Not Found');
-          expect(error.type).toContain('unsuccessful response code');
-          expect(error.friendlyMessage).toContain('An error occurred retrieving data.');
-        }
-      );
+  //     userProfileService.getUserProfile(username).subscribe(
+  //       data => fail('Should have failed with 404 error'),
+  //       (error: any) => {
+  //         expect(error.errorNumber).toEqual(404);
+  //         expect(error.message).toContain('Not Found');
+  //         expect(error.type).toContain('unsuccessful response code');
+  //         expect(error.friendlyMessage).toContain('An error occurred retrieving data.');
+  //       }
+  //     );
 
-      const req = httpTestingController.expectOne(`api/UserProfile?requestedUsername=${username}`);
+  //     const req = httpTestingController.expectOne(`api/UserProfile?requestedUsername=${username}`);
 
-      // respond with a 404 and the error message in the body
-      const msg = 'deliberate 404 error';
-      req.flush(msg, {status: 404, statusText: 'Not Found'});
-    });
+  //     // respond with a 404 and the error message in the body
+  //     const msg = 'deliberate 404 error';
+  //     req.flush(msg, {status: 404, statusText: 'Not Found'});
+  //   });
   });
 
 });

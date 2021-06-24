@@ -67,25 +67,25 @@ describe('UsernameValidationService', () => {
       // req.flush(expectedProfile);
     });
 
-  //   it('should return ErrorReportViewModel if throws 404 error', () => {
-  //     const username = 'test';
+    it('should return ErrorReportViewModel if throws 404 error', () => {
+      const username = 'test';
 
-  //     usernameValidationService.checkIfUsernameExists(username).subscribe(
-  //       data => fail('Should have failed with 404 error'),
-  //       (error: ErrorEvent) => {
-  //         expect(error['status']).toEqual('ok');
-  //         // expect(error.message).toContain('Not Found');
-  //         // expect(error.type).toContain('unsuccessful response code');
-  //         // expect(error.friendlyMessage).toContain('An error occurred retrieving data.');
-  //       }
-  //     );
+      usernameValidationService.checkIfUsernameExists(username).subscribe(
+        data => fail('Should have failed with 404 error'),
+        (error: ErrorEvent) => {
+          expect(error['status']).toEqual('ok');
+          // expect(error.message).toContain('Not Found');
+          // expect(error.type).toContain('unsuccessful response code');
+          // expect(error.friendlyMessage).toContain('An error occurred retrieving data.');
+        }
+      );
 
-  //     const req = httpTestingController.expectOne(`api/Account/IsUsernameAvailable?username=${username}`);
+      const req = httpTestingController.expectOne(`api/Account/IsUsernameAvailable?username=${username}`);
 
-  //     // respond with a 404 and the error message in the body
-  //     const msg = 'deliberate 404 error';
-  //     req.flush(msg, {status: 404, statusText: 'Not Found'});
-  //   });
+      // respond with a 404 and the error message in the body
+      const msg = 'deliberate 404 error';
+      req.flush(msg, {status: 404, statusText: 'Not Found'});
+    });
    });
 
 

@@ -8,43 +8,41 @@ import { of } from 'rxjs';
 import { HarnessLoader } from '@angular/cdk/testing';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 // let loader: HarnessLoader;
 
-// describe('BirdsIndexComponent', () => {
-//   let component: BirdsIndexComponent;
-//   let fixture: ComponentFixture<BirdsIndexComponent>;
+describe('BirdsIndexComponent', () => {
+    let component: BirdsIndexComponent;
+    let fixture: ComponentFixture<BirdsIndexComponent>;
 
-//   let mockBirdsService;
+    let mockBirdsService;
 
-//   beforeEach(async(() => {
-//     mockBirdsService = jasmine.createSpyObj(['getBirds']);
+    beforeEach(async(() => {
+        mockBirdsService = jasmine.createSpyObj(['getBirds']);
 
-//     TestBed.configureTestingModule({
-//       imports: [ MatPaginatorModule, BrowserAnimationsModule,
-//         RouterTestingModule.withRoutes([
-//           // { path: 'login', component: DummyLoginLayoutComponent },
-//         ])
-//       ],
-//       declarations: [ BirdsIndexComponent ],
-//       providers: [
-//         { provide: BirdsService, useValue: mockBirdsService }
-//       ]
-//     })
-//     .compileComponents();
-//   }));
+        TestBed.configureTestingModule({
+            imports: [MatPaginatorModule, BrowserAnimationsModule
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(BirdsIndexComponent);
-//     // loader = TestbedHarnessEnvironment.loader(fixture);
-//     component = fixture.componentInstance;
-//     mockBirdsService.getBirds.and.returnValue(of([]));
-//     fixture.detectChanges();
-//     loader = TestbedHarnessEnvironment.loader(fixture);
-//   });
+            ],
+            declarations: [BirdsIndexComponent],
+            providers: [
+                { provide: BirdsService, useValue: mockBirdsService }
+            ]
+        })
+            .compileComponents();
+    }));
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(BirdsIndexComponent);
+        //loader = TestbedHarnessEnvironment.loader(fixture);
+        component = fixture.componentInstance;
+        mockBirdsService.getBirds.and.returnValue(of([]));
+        fixture.detectChanges();
+        //loader = TestbedHarnessEnvironment.loader(fixture);
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+});

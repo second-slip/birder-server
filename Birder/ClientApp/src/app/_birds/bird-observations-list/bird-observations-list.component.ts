@@ -31,9 +31,10 @@ export class BirdObservationsListComponent implements OnInit {
   getObservations(): void {
     this.observations$ = this.service.getObservationsByBirdSpecies(this.birdId, this.page, this.pageSize)
       .pipe(share(),
-        catchError(err => {
-          this.errorObject = err;
-          return throwError(err);
-        }));
+        catchError(error => {
+          this.errorObject = error;
+          return throwError(error);
+        })
+      );
   }
 }

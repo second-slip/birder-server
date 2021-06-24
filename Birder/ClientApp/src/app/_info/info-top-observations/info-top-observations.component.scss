@@ -5,6 +5,12 @@ app-info-top-observations {
         padding-bottom: 10px;
     }
 
+    .loading-placeholder {
+        text-align: center;
+        .mat-spinner {
+            margin: 0 auto;
+        }
+    }
 
     .bird {
         display: block;
@@ -14,7 +20,6 @@ app-info-top-observations {
     .loading {
         text-align: center;
     }
-
 
     .table {
         text-align: left;

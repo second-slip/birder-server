@@ -1,120 +1,185 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-// import { BirdObservationsListComponent } from './bird-observations-list.component';
+import { async, ComponentFixture, discardPeriodicTasks, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { BirdObservationsListComponent } from './bird-observations-list.component';
 // import { ObservationService } from '@app/_sharedServices/observation.service';
 // import { ObservationViewModel } from '@app/_models/ObservationViewModel';
-// import { of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 // import { ObservationDto } from '@app/_models/ObservationFeedDto';
 // import { BirdSummaryViewModel } from '@app/_models/BirdSummaryViewModel';
 // import { UserViewModel } from '@app/_models/UserViewModel';
+import { ObservationsFetchService } from '@app/_services/observations-fetch.service';
+import { ObservationsPagedDto, ObservationViewDto } from '@app/_models/ObservationViewDto';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-// describe('BirdObservationsListComponent', () => {
-//   let component: BirdObservationsListComponent;
-//   let fixture: ComponentFixture<BirdObservationsListComponent>;
+describe('BirdObservationsListComponent', () => {
+    let component: BirdObservationsListComponent;
+    let fixture: ComponentFixture<BirdObservationsListComponent>;
 
-//   let observations: ObservationViewModel[];
-//   let bird: BirdSummaryViewModel;
-//   let user: UserViewModel;
-//   let query: ObservationDto;
+    let getQuoteSpy: jasmine.Spy;
 
-//   let mockObservationService;
+    //let spyObservationsFetchService;
 
-//   beforeEach(async(() => {
-//     mockObservationService = jasmine.createSpyObj(['getObservationsByBirdSpecies']);
+    beforeEach(waitForAsync(() => {
+        const observations: ObservationViewDto[] = [{
+            observationId: 1, quantity: 1,
+            observationDateTime: '2019-05-06T11:32:03.796', creationDate: '2019-05-06T11:32:03.796',
+            lastUpdateDate: '2019-05-06T11:32:03.796', birdId: 1, englishName: '', species: '', username: ''
+        }, {
+            observationId: 1, quantity: 1,
+            observationDateTime: '2019-05-06T11:32:03.796', creationDate: '2019-05-06T11:32:03.796',
+            lastUpdateDate: '2019-05-06T11:32:03.796', birdId: 1, englishName: '', species: '', username: ''
+        }];
 
-//     TestBed.configureTestingModule({
-//       declarations: [BirdObservationsListComponent],
-//       providers: [
-//         { provide: ObservationService, useValue: mockObservationService }
-//       ]
-//     })
-//       .compileComponents();
-//   }));
+        const query: ObservationsPagedDto = { totalItems: observations.length, items: observations };
+        const x = jasmine.createSpyObj('ObservationsFetchService', ['getObservationsByBirdSpecies']);
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(BirdObservationsListComponent);
-//     component = fixture.componentInstance;
+        getQuoteSpy = x.getObservationsByBirdSpecies.and.returnValue(of(query));
 
-//     // move this to each test case to make the 'Arrange' step explicit
+        TestBed.configureTestingModule({
+            //imports: [HttpClientTestingModule],
+            declarations: [BirdObservationsListComponent],
+            providers: [
+                { provide: ObservationsFetchService, useValue: x }
+            ]
+        }).compileComponents();
+    }));
 
-//     bird = {
-//       birdId: 1, species: 'string', englishName: 'string', populationSize: 'string',
-//       btoStatusInBritain: 'string', thumbnailUrl: 'string',
-//       conservationStatus: 'string', conservationListColourCode: 'string', birderStatus: 'string',
-//     };
+    beforeEach(() => {
+        fixture = TestBed.createComponent(BirdObservationsListComponent);
+        component = fixture.componentInstance;
 
-//     user = {
-//       userName: 'string', avatar: 'string',
-//       defaultLocationLatitude: 1, defaultLocationLongitude: 1
-//     };
+        component.birdId = 1;
+    });
 
-//     observations = [{
-//       observationId: 1, locationLatitude: 1, locationLongitude: 1, quantity: 1,
-//       noteGeneral: 'string', noteHabitat: 'string', noteWeather: 'string',
-//       noteAppearance: 'string', noteBehaviour: 'string', noteVocalisation: 'string',
-//       hasPhotos: true, observationDateTime: '2019-05-06T11:32:03.796', creationDate: '2019-05-06T11:32:03.796',
-//       lastUpdateDate: '2019-05-06T11:32:03.796', birdId: 1,
-//       bird: bird, user: user
-//     }, {
-//       observationId: 2, locationLatitude: 1, locationLongitude: 1, quantity: 1,
-//       noteGeneral: 'string', noteHabitat: 'string', noteWeather: 'string',
-//       noteAppearance: 'string', noteBehaviour: 'string', noteVocalisation: 'string',
-//       hasPhotos: true, observationDateTime: '2019-05-06T11:32:03.796', creationDate: '2019-05-06T11:32:03.796',
-//       lastUpdateDate: '2019-05-06T11:32:03.796', birdId: 1,
-//       bird: bird, user: user
-//     }];
+    describe('X', () => {
 
-//     query = { totalItems: observations.length, items: observations };
+        it('should not have observations after construction', () => {
+            // Arrange -- common arrange steps factored out to beforeEach(()
 
-//     // mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
-//   });
+            // fixture.detectChanges() runs ngOnInIt()
+            // Assert
+            expect(component).toBeTruthy();
+            expect(component.observations$).toBeUndefined();
+            expect(component.observations$).toBeFalsy();
+        });
 
-//   it('should not have observations after construction', () => {
-//     // Arrange -- common arrange steps factored out to beforeEach(()
+        it('should set errorObject on error response', () => {
+            // Arrange
+            getQuoteSpy.and.returnValue(throwError('should display error'));
 
-//     // fixture.detectChanges() runs ngOnInIt()
-//     // Assert
-//     expect(component).toBeTruthy();
-//     expect(component.observations).toBeUndefined();
-//   });
+            // Act
+            fixture.detectChanges();  // onInit()
 
-//   it('should load observations on ngOnInIt', () => {
-//     // Arrange -- common arrange steps factored out to beforeEach(()
-//     mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
+            // Assert
+            expect(component.getObservations).toThrowError();
+            expect(component.errorObject).toMatch('should display error');
+            expect(component.errorObject).toBeTruthy();
+        });
 
-//     // Act or change
-//     fixture.detectChanges();
+    });
 
-//     // Assert
-//     expect(component).toBeTruthy();
-//     expect(component.totalItems).toBe(2);
-//     expect(component.observations.length).toBe(2);
-//     expect(component.observations[0].birdId === 1).toBeTrue();
-//   });
+    describe('Y', () => {
 
-//   it('should call change page', () => {
-//     // Arrange -- common arrange steps factored out to beforeEach(()
-//     mockObservationService.getObservationsByBirdSpecies.and.returnValue(of(query));
+        it('should load observations on ngOnInIt', () => {
+            // Arrange -- common arrange steps factored out to beforeEach(()
+            // const observations: ObservationViewDto[] = [{
+            //     observationId: 1, quantity: 1,
+            //     observationDateTime: '2019-05-06T11:32:03.796', creationDate: '2019-05-06T11:32:03.796',
+            //     lastUpdateDate: '2019-05-06T11:32:03.796', birdId: 1, englishName: '', species: '', username: ''
+            // }, {
+            //     observationId: 1, quantity: 1,
+            //     observationDateTime: '2019-05-06T11:32:03.796', creationDate: '2019-05-06T11:32:03.796',
+            //     lastUpdateDate: '2019-05-06T11:32:03.796', birdId: 1, englishName: '', species: '', username: ''
+            // }];
 
-//     // Act or change
-//     component.changePage();
+            //spyObservationsFetchService.getObservationsByBirdSpecies.and.returnValue(of(query))
+            // const query: ObservationsPagedDto = { totalItems: observations.length, items: observations };
 
-//     // Assert
-//     expect(mockObservationService.getObservationsByBirdSpecies).toHaveBeenCalled();
-//     expect(component.totalItems).toBe(2);
-//     expect(component.observations.length).toBe(2);
-//     expect(component.observations[0].birdId === 1).toBeTrue();
-//   });
+            //getQuoteSpy.getObservationsByBirdSpecies.and.returnValue(of(query));
 
-//   it('should log message in console on error', () => {
-//     // Arrange
-//     mockObservationService.getObservationsByBirdSpecies.and.returnValue(throwError('error'));
-//     spyOn(window.console, 'log');
+            // it is false at this point...
+            //expect(component.observations$).toBeFalsy();
 
-//     // Act (or change)
-//     component.ngOnInit();  // or component.changePage();  or fixture.detectChanges();
+            // Act or change
+            fixture.detectChanges();
+            //component.ngOnInit();
 
-//     // Assert
-//     expect(window.console.log).toHaveBeenCalledWith('bad request');
-//     expect(mockObservationService.getObservationsByBirdSpecies).toHaveBeenCalled();
-//   });
-// });
+            // Assert
+            expect(component).toBeTruthy();
+            expect(component.observations$).toBeTruthy(); //.toBe(2);
+            // expect(component.getObservations).toHaveBeenCalled();
+            // expect(component.observations.length).toBe(2);
+            // expect(component.observations[0].birdId === 1).toBeTrue();
+        });
+
+        // it('should call change page', () => {
+        //     // Arrange -- common arrange steps factored out to beforeEach(()
+        //     component.birdId = 1;
+        //     spyObservationsFetchService.getObservationsByBirdSpecies.and.returnValue(of(query));
+        //     // component.birdId = 1;
+
+        //     // Act or change
+        //     component.changePage();
+
+        //     // Assert
+        //     expect(spyObservationsFetchService.getObservationsByBirdSpecies).toHaveBeenCalled();
+        //     // expect(component.observations$.totalItems).toBe(2);
+        //     // expect(component.observations$.length).toBe(2);
+        //     expect(component.observations$[0].birdId === 1).toBeTrue();
+        // });
+
+        // it('should return ErrorReportViewModel if throws 404 error', () => {
+        //     const username = 'test';
+
+        //     spyObservationsFetchService.getObservationsByBirdSpecies (username).subscribe(
+        //         data => fail('Should have failed with 404 error'),
+        //         (error: any) => {
+        //             expect(error.errorNumber).toEqual(404);
+        //             expect(error.message).toContain('Not Found');
+        //             expect(error.type).toContain('unsuccessful response code');
+        //             expect(error.friendlyMessage).toContain('An error occurred retrieving data.');
+        //         }
+        //     );
+
+        //     const req = httpTestingController.expectOne(`api/UserProfile?requestedUsername=${username}`);
+
+        //     // respond with a 404 and the error message in the body
+        //     const msg = 'deliberate 404 error';
+        //     req.flush(msg, { status: 404, statusText: 'Not Found' });
+        // });
+
+        // it('should set errorObject on error response', () => {
+        //     // Arrange
+        //     const error = new Error('failing me');
+
+        //     //spyObservationsFetchService.getObservationsByBirdSpecies.and.returnValue(of(error));
+
+        //     const errorResponse = new Response('Not Found', {
+        //         status: 404,
+        //         statusText: 'Not Found',
+        //     });
+
+        //     //spyObservationsFetchService.getObservationsByBirdSpecies.and.returnValue(of(errorResponse));
+        //     spyObservationsFetchService.getObservationsByBirdSpecies.and.returnValue(of('errorResponse'));
+        //     //spyObservationsFetchService.getObservationsByBirdSpecies.and.returnValue(throwError(new Error("Failing HTTP call")));
+        //     //spyObservationsFetchService.getObservationsByBirdSpecies.and.returnValue(new Error(''));
+
+        //     // Act (or change)
+        //     component.ngOnInit();  // or component.changePage();  or
+        //     //fixture.detectChanges();
+
+
+        //     // Assert
+        //     expect(spyObservationsFetchService.getObservationsByBirdSpecies).toHaveBeenCalled();
+        //     expect(component.getObservations).toThrowError();
+        //     expect(component.errorObject).toBeTruthy();
+        //     //expect(spyObservationsFetchService.getObservationsByBirdSpecies).toBe('error');
+        // });
+    });
+});
+
+
+// function errorMessage(): any {
+//     throw new Error('Function not implemented.');
+// }
+
