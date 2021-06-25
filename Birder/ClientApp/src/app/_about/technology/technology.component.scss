@@ -8,26 +8,46 @@ app-technology {
     margin-bottom: 10px;
   }
 
-  .technology-content {
-    border: black;
-    border-style: solid;
+  // .technology-content {
+  //   border: black;
+  //   border-style: solid;
 
-    margin: 3% 15%; //(top, bottom) / (right, left)
+  //   margin: 3% 15%; //(top, bottom) / (right, left)
 
-    .title {
-      text-align: center;
-    }
-  }
+  //   .title {
+  //     text-align: center;
+  //   }
+  // }
 
   /* Extra small devices (phones, 600px and down) */
   @media only screen and (max-width: 600px) {
+    .technology-content {
+      border: black;
+      border-style: solid;
+  
+      margin: 3% 5%; //(top, bottom) / (right, left)
+  
+      .title {
+        text-align: center;
+      }
+    }
     .main {
-      margin: 3% 10%;
+      margin: 3% 5%;
     }
   }
 
   /* Small devices (portrait tablets and large phones, 600px and up) */
   @media only screen and (min-width: 600px) {
+    .technology-content {
+      border: black;
+      border-style: solid;
+  
+      margin: 3% 15%; //(top, bottom) / (right, left)
+  
+      .title {
+        text-align: center;
+      }
+    }
     .main {
       margin: 3% 15%;
     }

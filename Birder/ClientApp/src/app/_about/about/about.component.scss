@@ -3,55 +3,28 @@ app-about {
     text-align: center;
   }
 
-  .about-content {
-    border: black;
-    border-style: solid;
+  text-align: center;
 
-    margin: 3% 15%; //(top, bottom) / (right, left)
-
-    .header-section {
-      text-align: center;
-    }
-
-    .title {
-      text-align: center;
-      margin: auto;
-    }
-
-    .section-title {
-      margin: 5% 0% 5%;
-      text-align: center;
-    }
-
-    .text {
-      text-align: justify;
-    }
-
-    .icon-credit {
-      text-align: center;
-      margin: 0 auto;
-      font-size: 0.8em;
-    }
+  .italics {
+    font-style: italic;
   }
 
   //medium screen size and below
   @media only screen and (max-width: 992px) {
-    .first {
-      order: 1;
-    }
-    .second {
-      order: 2;
-    }
-    .third {
-      order: 3;
-    }
-    .section {
+    .header-section {
+      //.about-content {
+      border: black;
+      border-style: solid;
+
       margin: 3% 5%; //(top, bottom) / (right, left)
     }
   }
 
   @media only screen and (min-width: 992px) {
-    .section {
+    .header-section {
+      border: black;
+      border-style: solid;
+
       margin: 3% 15%; //(top, bottom) / (right, left)
     }
   }

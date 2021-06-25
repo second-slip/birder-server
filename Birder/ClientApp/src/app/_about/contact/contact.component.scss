@@ -19,14 +19,14 @@ app-contact {
   /* Extra small devices (phones, 600px and down) */
   @media only screen and (max-width: 600px) {
     .contact-content {
-      margin: 3% 10%; // (top, bottom) / (right, left)
+      margin: 3% 5%; // (top, bottom) / (right, left)
     }
   }
 
   /* Small devices (portrait tablets and large phones, 600px and up) */
   @media only screen and (min-width: 600px) {
     .contact-content {
-      margin: 3% 10%; // (top, bottom) / (right, left)
+      margin: 3% 5%; // (top, bottom) / (right, left)
     }
   }
 

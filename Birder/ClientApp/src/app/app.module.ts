@@ -104,11 +104,12 @@ import { PhotoDisplayComponent } from './_photos/photo-display/photo-display.com
 import { BirdSelectSpeciesComponent } from './_birds/bird-select-species/bird-select-species.component';
 import { NetworkSidebarComponent } from './_network/network-sidebar/network-sidebar.component';
 import { DeveloperComponent } from './_about/developer/developer.component';
-import { HomeComponent } from './_home/home/home.component';
+import { HomeComponent } from './_about/home/home.component';
 import { ContactComponent } from './_about/contact/contact.component';
 import { TechnologyComponent } from './_about/technology/technology.component';
 import { ContactFormComponent } from './_about/contact-form/contact-form.component';
 import { FutureComponent } from './_about/future/future.component';
+import { FeaturesComponent } from './_about/features/features.component';
 
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -220,6 +221,7 @@ export function tokenGetter() {
     TechnologyComponent,
     ContactFormComponent,
     FutureComponent,
+    FeaturesComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
