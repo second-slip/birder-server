@@ -54,7 +54,7 @@ import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
 import { environment } from '../environments/environment';
-import { AboutComponent } from './_about/about/about.component';
+import { AboutComponent } from './_home/about/about.component';
 import { LockedOutComponent } from './_account/locked-out/locked-out.component';
 import { ConfirmEmailResendComponent } from './_account/confirm-email-resend/confirm-email-resend.component';
 import { FooterComponent } from './footer/footer.component';
@@ -103,13 +103,13 @@ import { BirdDetailInfoComponent } from './_birds/bird-detail-info/bird-detail-i
 import { PhotoDisplayComponent } from './_photos/photo-display/photo-display.component';
 import { BirdSelectSpeciesComponent } from './_birds/bird-select-species/bird-select-species.component';
 import { NetworkSidebarComponent } from './_network/network-sidebar/network-sidebar.component';
-import { DeveloperComponent } from './_about/developer/developer.component';
-import { HomeComponent } from './_about/home/home.component';
-import { ContactComponent } from './_about/contact/contact.component';
-import { TechnologyComponent } from './_about/technology/technology.component';
-import { ContactFormComponent } from './_about/contact-form/contact-form.component';
-import { FutureComponent } from './_about/future/future.component';
-import { FeaturesComponent } from './_about/features/features.component';
+import { DeveloperComponent } from './_home/developer/developer.component';
+import { HomeComponent } from './_home/home/home.component';
+import { ContactComponent } from './_home/contact/contact.component';
+import { TechnologyComponent } from './_home/technology/technology.component';
+import { ContactFormComponent } from './_home/contact-form/contact-form.component';
+import { FutureComponent } from './_home/future/future.component';
+import { FeaturesComponent } from './_home/features/features.component';
 
 
 const cookieConfig: NgcCookieConsentConfig = {

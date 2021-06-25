@@ -23,7 +23,7 @@ import { ForgotPasswordComponent } from './_account/forgot-password/forgot-passw
 import { ForgotPasswordConfirmationComponent } from './_account/forgot-password-confirmation/forgot-password-confirmation.component';
 import { ResetPasswordConfirmationComponent } from './_account/reset-password-confirmation/reset-password-confirmation.component';
 import { AccountManagerAvatarComponent } from './_accountManager/account-manager-avatar/account-manager-avatar.component';
-import { AboutComponent } from './_about/about/about.component';
+import { AboutComponent } from './_home/about/about.component';
 import { ObservationManagePhotosComponent } from './_photos/observation-manage-photos/observation-manage-photos.component';
 import { TestingComponent } from './testing/testing.component';
 import { NetworkComponent } from './_network/network/network.component';
@@ -34,11 +34,11 @@ import { LogoutComponent } from './_login-out/logout/logout.component';
 import { FollowersComponent } from './_network/followers/followers.component';
 import { FollowingComponent } from './_network/following/following.component';
 import { BirdDetailComponent } from './_birds/bird-detail/bird-detail.component';
-import { HomeComponent } from './_about/home/home.component';
-import { DeveloperComponent } from './_about/developer/developer.component';
-import { ContactComponent } from './_about/contact/contact.component';
-import { TechnologyComponent } from './_about/technology/technology.component';
-import { FutureComponent } from './_about/future/future.component';
+import { HomeComponent } from './_home/home/home.component';
+import { DeveloperComponent } from './_home/developer/developer.component';
+import { ContactComponent } from './_home/contact/contact.component';
+import { TechnologyComponent } from './_home/technology/technology.component';
+import { FutureComponent } from './_home/future/future.component';
 
 
 const routes: Routes = [
