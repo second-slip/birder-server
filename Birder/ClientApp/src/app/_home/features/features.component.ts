@@ -1,4 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { DatabaseService } from '../database.service';
 
 @Component({
   selector: 'app-features',
@@ -6,12 +9,30 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./features.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class FeaturesComponent implements OnInit {
+export class FeaturesComponent {
+  private ngUnsubscribe = new Subject();
 
-  constructor() { }
-
-  ngOnInit(): void {
-    
+  constructor(private service: DatabaseService) {
+    this.wakeUpDatabase();
   }
 
+  private wakeUpDatabase() {
+    this.service.wakeyWakey()
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(_ => {
+        // console.log('success');
+      },
+        (error => {
+          // toast error notification
+          console.log(error);
+        }));
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    console.log('unsubscribe');
+  }
 }

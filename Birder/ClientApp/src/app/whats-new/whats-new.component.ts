@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
@@ -16,17 +15,6 @@ export class WhatsNewComponent {
 
   constructor(private service: FeaturesService) {
     this.features$ = this.getFeatures();
-    this.wakeUpDatabase();
-  }
-
-  private wakeUpDatabase() {
-    this.service.wakeyWakey()
-    .subscribe(_ => {
-      console.log('success');
-    },
-    (_ => {
-      console.log(_);
-    }));
   }
 
   private getFeatures(): Observable<IFeatures[]> {
