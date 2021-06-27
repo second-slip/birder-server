@@ -1,10 +1,5 @@
 ﻿using Birder.Data.Model;
-using Birder.Helpers;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Birder.Data.Repository

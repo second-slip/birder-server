@@ -24,9 +24,16 @@ export class HttpErrorInterceptor implements HttpInterceptor {
               return throwError(error.error.failureReason)
             }
 
+
             //console.log(error.error);
+            if (error.error.includes('an sql connection')) {
+              errorMessage = error.error;
+            } else {
+              errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+            }
+            //console.log(error.message);
             //console.log('server-side error');
-            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+           
           }
           // window.alert(errorMessage);
           return throwError(errorMessage);

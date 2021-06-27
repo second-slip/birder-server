@@ -16,6 +16,17 @@ export class WhatsNewComponent {
 
   constructor(private service: FeaturesService) {
     this.features$ = this.getFeatures();
+    this.wakeUpDatabase();
+  }
+
+  private wakeUpDatabase() {
+    this.service.wakeyWakey()
+    .subscribe(_ => {
+      console.log('success');
+    },
+    (_ => {
+      console.log(_);
+    }));
   }
 
   private getFeatures(): Observable<IFeatures[]> {

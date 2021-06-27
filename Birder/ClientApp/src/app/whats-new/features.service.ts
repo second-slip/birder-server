@@ -14,4 +14,8 @@ export class FeaturesService {
   getFeatures(): Observable<IFeatures[]> {
     return this.http.get<IFeatures[]>("./assets/new-features.json").pipe(first());
   }
+
+  wakeyWakey(): Observable<void> {
+    return this.http.get<void>("api/Home").pipe(first());
+  }
 }
