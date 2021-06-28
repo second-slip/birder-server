@@ -1,17 +1,20 @@
-<div class="container">
+<div>
 
-    <div class="logo">
+    <div class="logo-section">
         <a [routerLink]='["/"]'>
             <img src="https://birderstorage.blob.core.windows.net/domain/Birder-Logo-With-Text.png" alt="Birder">
         </a>
-    </div>
 
-    <nav mat-tab-nav-bar mat-stretch-tabs class="stretched-tabs">
-        <a mat-tab-link routerLink="/about">About</a>
-        <a mat-tab-link routerLink="/contact">Contact</a>
-        <a mat-tab-link routerLink="/technology">Technology</a>
-        <a mat-tab-link routerLink="/future" [active]="true">Future</a>
-    </nav>
+
+        <nav mat-tab-nav-bar mat-stretch-tabs class="stretched-tabs">
+            <a mat-tab-link routerLink="/about">About</a>
+            <a mat-tab-link routerLink="/contact">Contact</a>
+            <a mat-tab-link routerLink="/developer">Developer</a>
+            <a mat-tab-link routerLink="/technology">Technology</a>
+            <a mat-tab-link routerLink="/future" [active]="true">Future</a>
+        </nav>
+
+    </div>
 
     <!--  -->
 

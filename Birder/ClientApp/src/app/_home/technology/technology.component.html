@@ -1,24 +1,27 @@
-<div class="container">
+<div>
 
-  <div class="logo">
+  <div class="logo-section">
     <a [routerLink]='["/"]'>
       <img src="https://birderstorage.blob.core.windows.net/domain/Birder-Logo-With-Text.png" alt="Birder">
     </a>
+
+    <nav mat-tab-nav-bar mat-stretch-tabs class="stretched-tabs">
+      <a mat-tab-link routerLink="/about">About</a>
+      <a mat-tab-link routerLink="/contact">Contact</a>
+      <a mat-tab-link routerLink="/developer">Developer</a>
+      <a mat-tab-link [active]="true">Technology</a>
+      <a mat-tab-link routerLink="/future">Future</a>
+    </nav>
+
   </div>
 
-  <nav mat-tab-nav-bar mat-stretch-tabs class="stretched-tabs">
-    <a mat-tab-link routerLink="/about">About</a>
-    <a mat-tab-link routerLink="/contact">Contact</a>
-    <a mat-tab-link [active]="true">Technology</a>
-    <a mat-tab-link routerLink="/future">Future</a>
-  </nav>
 
   <div class="technology-content">
 
     <div class="title">
       <h4>Technology</h4>
       <p>This page summarises the technology that is used to create <i>Birder</i>.</p>
-      <p>Visit the <a routerLink="/developer">developer</a> page to read about the creator.</p>
+      <p>See the <a routerLink="/developer">developer</a> page for information about the creator.</p>
     </div>
 
     <div class="main">

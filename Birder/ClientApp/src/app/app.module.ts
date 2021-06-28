@@ -110,6 +110,7 @@ import { TechnologyComponent } from './_home/technology/technology.component';
 import { ContactFormComponent } from './_home/contact-form/contact-form.component';
 import { FutureComponent } from './_home/future/future.component';
 import { FeaturesComponent } from './_home/features/features.component';
+import { DatabaseStatusComponent } from './database-status/database-status.component';
 
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -222,6 +223,7 @@ export function tokenGetter() {
     ContactFormComponent,
     FutureComponent,
     FeaturesComponent,
+    DatabaseStatusComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

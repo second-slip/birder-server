@@ -1,0 +1,27 @@
+<p>database-status works!</p>
+<!-- <p>{{databaseStatus$}}</p> -->
+<div class="container">
+
+
+    <ng-container *ngIf="databaseStatus$ | async as status; else loadingOrError">
+
+        <p>Database is active.</p>
+
+    </ng-container>
+
+    <ng-template #loadingOrError>
+        <ng-container *ngIf="errorObject; else loading">
+            <div class="error-message">
+                <p>Database is inactive</p>
+            </div>
+        </ng-container>
+    </ng-template>
+
+
+    <ng-template #loading>
+        <div class="loading-placeholder">
+            <p><em>Loading...</em></p>
+            <!-- <mat-spinner></mat-spinner> -->
+        </div>
+    </ng-template>
+</div>

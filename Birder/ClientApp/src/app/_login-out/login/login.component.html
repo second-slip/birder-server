@@ -9,6 +9,8 @@
           <br>If you have forgotten your password, you can <a [routerLink]='["/forgot-password"]'>reset it</a>.</p>
       </div>
 
+      <app-database-status></app-database-status>
+
       <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit(loginForm.value)">
 
         <mat-form-field class="full-width">
