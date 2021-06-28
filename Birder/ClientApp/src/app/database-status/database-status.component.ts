@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
-import { DatabaseService } from '@app/_home/database.service';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
+import { DatabaseService } from './database.service';
 
 @Component({
   selector: 'app-database-status',
   templateUrl: './database-status.component.html',
-  styleUrls: ['./database-status.component.scss']
+  styleUrls: ['./database-status.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DatabaseStatusComponent {
 
@@ -19,14 +20,11 @@ export class DatabaseStatusComponent {
   }
 
   private getDatabaseStatus(): Observable<boolean> {
-    return this.service.wakeyWakey()
+    return this.service.getWakeUpDatabase()
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;
           return throwError(err);
         }));
   }
-
-  
-
 }

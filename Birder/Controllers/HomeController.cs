@@ -27,7 +27,7 @@ namespace Birder.Controllers
             try
             {
                 var brilliant = await _homeRepository.GetFirstConservationListStatusAsync();
-                return Ok();
+                return Ok(true);
             }
             catch (SqlException ex)
             {

@@ -1,14 +1,12 @@
 <div class="footer">
     <hr>
-    <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8 centre">
-
+    <div class="col-sm-12 centre">
+        <div>
             <p>
                 <a [routerLink]='["/about"]'>About</a>
-                | <a [routerLink]='["/developer"]'>The developer</a>
+                <!-- | <a [routerLink]='["/developer"]'>The developer</a> -->
                 | <a [routerLink]='["/whats-new"]'>Coming soon</a>
-                | Birder blog | Privacy | Help 
+                | Birder blog | Privacy | Help
                 | <a [routerLink]='["/contact"]'>Contact</a>
             </p>
 
@@ -21,9 +19,12 @@
                         src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' alt='Buy Me a Coffee at ko-fi.com' /></a>
             </p>
 
-            <small>&copy; {{currentYear}} Birder</small>
+            <!-- not fool proof here. user could leave page open for > 1 hour.  But good enough most of the time. -->
+            <div>
+                <app-database-status></app-database-status>
+            </div>
 
+            <small>&copy; {{currentYear}} Birder</small>
         </div>
-        <div class="col-sm-2"></div>
     </div>
 </div>

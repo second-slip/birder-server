@@ -10,7 +10,7 @@ export class DatabaseService {
 
   constructor(private http: HttpClient) { }
 
-  wakeyWakey(): Observable<boolean> {
-    return this.http.get<boolean>("api/Home").pipe(map(x => {return true}));
+  getWakeUpDatabase(): Observable<boolean> {
+    return this.http.get<boolean>("api/Home").pipe(first());
   }
 }
