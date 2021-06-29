@@ -1,5 +1,6 @@
 ﻿using Birder.Data.Repository;
 using Birder.Helpers;
+using Birder.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
@@ -12,12 +13,12 @@ namespace Birder.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly IConservationStatusRepository _homeRepository;
+        private readonly IServerlessDatabaseService _service;
         private readonly ILogger _logger;
 
-        public HomeController(ILogger<HomeController> logger, IConservationStatusRepository homeRepository)
+        public HomeController(ILogger<HomeController> logger, IServerlessDatabaseService service)
         {
-            _homeRepository = homeRepository;
+            _service = service;
             _logger = logger;
         }
 
@@ -26,7 +27,7 @@ namespace Birder.Controllers
         {
             try
             {
-                var result = await _homeRepository.GetFirstConservationListStatusAsync();
+                var result = await _service.GetFirstConservationListStatusAsync();
                 return Ok(true);
             }
             catch (SqlException ex)

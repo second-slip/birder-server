@@ -1,18 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Birder.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Birder.Data.Repository
+namespace Birder.Services
 {
-    public interface IConservationStatusRepository
+    public interface IServerlessDatabaseService
     {
         Task<string> GetFirstConservationListStatusAsync();
     }
 
-    public class ConservationStatusRepository : IConservationStatusRepository
+    public class ServerlessDatabaseService : IServerlessDatabaseService
     {
         private readonly ApplicationDbContext _dbContext;
-        public ConservationStatusRepository(ApplicationDbContext dbContext)
+        public ServerlessDatabaseService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using TestSupport.EfHelpers;
 using Xunit;
 
 namespace Birder.Tests.Repository
@@ -19,54 +20,59 @@ namespace Birder.Tests.Repository
         public async Task GetBirdsAsync_PageSizeTheory_ReturnsPageSize(int pageSize)
         {
             // Arrange
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+            //var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            //var connection = new SqliteConnection(connectionStringBuilder.ToString());
 
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlite(connection)
-                .Options;
+            //var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            //    .UseSqlite(connection)
+            //    .Options;
 
-            using (var context = new ApplicationDbContext(options))
+            var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+            using var context = new ApplicationDbContext(options);
+            context.Database.EnsureCreated();
+
+            context.ChangeTracker.Clear(); //NEW LINE ADDED
+
+            //using (var context = new ApplicationDbContext(options))
+            //{
+            context.Database.OpenConnection();
+            context.Database.EnsureCreated();
+
+            //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+            //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+            //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+
+            for (int i = 1; i < 30; i++)
             {
-                context.Database.OpenConnection();
-                context.Database.EnsureCreated();
-
-                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-
-                for (int i = 1; i < 30; i++)
+                Random r = new Random();
+                context.Birds.Add(new Bird()
                 {
-                    Random r = new Random();
-                    context.Birds.Add(new Bird()
-                    {
-                        BirdId = i,
-                        Class = $"Class {i}",
-                        Order = $"Order {i}",
-                        Family = $"Family {i}",
-                        Genus = $"Genus {i}",
-                        Species = $"Species {i}",
-                        EnglishName = $"Name {i}",
-                        ConservationStatusId = r.Next(1, 3),
-                        CreationDate = DateTime.Now,
-                        LastUpdateDate = DateTime.Now
-                    });
-                }
-
-                context.SaveChanges();
+                    BirdId = i,
+                    Class = $"Class {i}",
+                    Order = $"Order {i}",
+                    Family = $"Family {i}",
+                    Genus = $"Genus {i}",
+                    Species = $"Species {i}",
+                    EnglishName = $"Name {i}",
+                    ConservationStatusId = r.Next(1, 3),
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
+                });
             }
 
-            using (var context = new ApplicationDbContext(options))
-            {
-                var birdRepository = new BirdRepository(context);
+            context.SaveChanges();
+            //}
 
-                // Act
-                var birds = await birdRepository.GetBirdsAsync(1, pageSize, BirderStatus.Common);
+            //using (var context = new ApplicationDbContext(options))
+            //{
+            var birdRepository = new BirdRepository(context);
 
-                // Assert
-                Assert.Equal(pageSize, birds.Items.Count());
-                Assert.IsType<ConservationStatus>(birds.Items.First().BirdConservationStatus);
-            }
+            // Act
+            var birds = await birdRepository.GetBirdsAsync(1, pageSize, BirderStatus.Common);
+
+            // Assert
+            Assert.Equal(pageSize, birds.Items.Count());
+            Assert.IsType<ConservationStatus>(birds.Items.First().BirdConservationStatus);
         }
 
         [Theory]
