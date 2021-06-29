@@ -191,42 +191,42 @@ namespace Birder.Tests.Controller
             Assert.Null(returnModel.AuthenticationToken);
         }
 
-        [Fact]
-        public async Task Returns_500_And_Other_Status_When_ModelState_Is_Invalid()
-        {
-            // Arrange
-            var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        //[Fact]
+        //public async Task Returns_500_And_Other_Status_When_ModelState_Is_Invalid()
+        //{
+        //    // Arrange
+        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
 
-            var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
+        //    var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
             
-            var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, _systemClock, _config.Object);
+        //    var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, _systemClock, _config.Object);
 
-            //Add model error
-            controller.ModelState.AddModelError("Test", "This is a test model error");
+        //    //Add model error
+        //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
-            var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
+        //    var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
 
-            // Act
-            var result = await controller.Login(model);
+        //    // Act
+        //    var result = await controller.Login(model);
 
-            // Assert
-            var modelState = controller.ModelState;
-            Assert.Equal(1, modelState.ErrorCount);
-            Assert.True(modelState.ContainsKey("Test"));
-            Assert.True(modelState["Test"].Errors.Count == 1);
-            Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
+        //    // Assert
+        //    var modelState = controller.ModelState;
+        //    Assert.Equal(1, modelState.ErrorCount);
+        //    Assert.True(modelState.ContainsKey("Test"));
+        //    Assert.True(modelState["Test"].Errors.Count == 1);
+        //    Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
 
-            Assert.IsType<BadRequestObjectResult>(result);
-            var objectResult = result as ObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is BadRequestObjectResult);
-            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-            Assert.IsType<AuthenticationResultDto>(objectResult.Value);
+        //    Assert.IsType<BadRequestObjectResult>(result);
+        //    var objectResult = result as ObjectResult;
+        //    Assert.NotNull(objectResult);
+        //    Assert.True(objectResult is BadRequestObjectResult);
+        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        //    Assert.IsType<AuthenticationResultDto>(objectResult.Value);
 
-            var returnModel = objectResult.Value as AuthenticationResultDto;
-            Assert.Equal(AuthenticationFailureReason.Other, returnModel.FailureReason);
-            Assert.Null(returnModel.AuthenticationToken);
-        }
+        //    var returnModel = objectResult.Value as AuthenticationResultDto;
+        //    Assert.Equal(AuthenticationFailureReason.Other, returnModel.FailureReason);
+        //    Assert.Null(returnModel.AuthenticationToken);
+        //}
 
         [Fact]
         public async Task Returns_500_And_Exception_Status_When_Exception_Is_Raised()

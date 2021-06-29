@@ -18,6 +18,9 @@
 
         public const int InvalidOrMissingArgument = 7000;
 
+        public const int SqlServerException = 8000;
+        public const int SqlServerConnectionTimeoutException = 8001;
+
         public const int Exception = 9000;
     }
 }

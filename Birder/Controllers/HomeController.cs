@@ -12,10 +12,10 @@ namespace Birder.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly IHomeRepository _homeRepository;
+        private readonly IConservationStatusRepository _homeRepository;
         private readonly ILogger _logger;
 
-        public HomeController(ILogger<HomeController> logger, IHomeRepository homeRepository)
+        public HomeController(ILogger<HomeController> logger, IConservationStatusRepository homeRepository)
         {
             _homeRepository = homeRepository;
             _logger = logger;
@@ -26,21 +26,22 @@ namespace Birder.Controllers
         {
             try
             {
-                var brilliant = await _homeRepository.GetFirstConservationListStatusAsync();
+                var result = await _homeRepository.GetFirstConservationListStatusAsync();
                 return Ok(true);
             }
             catch (SqlException ex)
             {
-                if (ex.Number == -2)
+                if (ex.Number == -2) // connection timeout
                 {
-                    return StatusCode(500, "an sql connection timeout error occurred"); 
-                    //Console.WriteLine("Timeout occurred");
+                    _logger.LogError(LoggingEvents.SqlServerConnectionTimeoutException, ex, "an sql server connection timeout exception was raised");
+                    return StatusCode(500, "an sql server connection timeout error occurred"); 
                 }
-                return StatusCode(500, "an sql connection error occurred");
+                _logger.LogError(LoggingEvents.SqlServerException, ex, "an sql server exception was raised");
+                return StatusCode(500, "an sql server error occurred");
             }
             catch (Exception ex)
             {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "an exception was raised");
+                _logger.LogError(LoggingEvents.Exception, ex, "an exception was raised");
                 return StatusCode(500, "an unexpected error occurred");
             }
         }

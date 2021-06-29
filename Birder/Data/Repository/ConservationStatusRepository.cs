@@ -4,15 +4,15 @@ using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
-    public interface IHomeRepository
+    public interface IConservationStatusRepository
     {
         Task<string> GetFirstConservationListStatusAsync();
     }
 
-    public class HomeRepository : IHomeRepository
+    public class ConservationStatusRepository : IConservationStatusRepository
     {
         private readonly ApplicationDbContext _dbContext;
-        public HomeRepository(ApplicationDbContext dbContext)
+        public ConservationStatusRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
