@@ -37,7 +37,7 @@
     "ngx-cookieconsent": "^2.2.3",
     "ngx-dropzone": "^3.0.0",
     "ngx-toastr": "^14.0.0",
-    "npm": "^7.13.0",
+    "npm": "^7.19.0",
     "rxjs": "^6.6.7",
     "webpack": "^5.40.0",
     "zone.js": "~0.11.4"
