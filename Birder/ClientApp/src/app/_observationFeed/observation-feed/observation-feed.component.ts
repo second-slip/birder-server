@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { tap, map, filter, debounceTime, distinct, flatMap, switchMap, catchError } from 'rxjs/operators';
 import { BehaviorSubject, fromEvent, merge, Observable, throwError } from 'rxjs';
 import { ObservationFeedDto, ObservationFeedPagedDto } from '@app/_models/ObservationFeedDto';
-import { ObservationsFeedService } from '@app/_services/observations-feed.service';
+import { ObservationsFeedService } from '@app/_observationFeed/observations-feed.service';
 import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
 import * as _ from 'lodash-es';
 import { ToastrService } from 'ngx-toastr';

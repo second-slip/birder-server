@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
 import { ContactFormModel } from './ContactFormModel';
 
 const httpOptions = {
@@ -13,10 +12,9 @@ const httpOptions = {
 })
 export class ContactFormService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly _http: HttpClient) { }
 
   postMessage(model: ContactFormModel): Observable<ContactFormModel> {
-    return this.http.post<ContactFormModel>('api/Message/SendContactMessage', model, httpOptions)
-    .pipe(first());
+    return this._http.post<ContactFormModel>('api/Message/SendContactMessage', model, httpOptions);
   }
 }

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ObservationFeedComponent } from './observation-feed.component';
 import { TokenService } from '@app/_services/token.service';
 import { of } from 'rxjs';
-import { ObservationsFeedService } from '@app/_services/observations-feed.service';
+import { ObservationsFeedService } from '@app/_observationFeed/observations-feed.service';
 import { ToastrService, ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
