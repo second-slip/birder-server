@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-features',
@@ -6,4 +6,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./features.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class FeaturesComponent {}
+export class FeaturesComponent {
+  @Input()
+  public showBlurb: boolean;
+}
