@@ -14,7 +14,6 @@ export class RecordingsService {
     const params = new HttpParams()
       .set('species', species);
 
-    return this.http.get<RecordingViewModel[]>('api/Recording', {params})
-    .pipe();
+    return this.http.get<RecordingViewModel[]>('api/Recording', {params});
   }
 }

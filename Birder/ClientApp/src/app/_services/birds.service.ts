@@ -17,20 +17,17 @@ export class BirdsService {
       .set('pageSize', pageSize.toString())
       .set('speciesFilter', speciesFilter.toString());
 
-    return this.http.get<BirdsDto>('api/Birds', { params })
-      .pipe();
+    return this.http.get<BirdsDto>('api/Birds', { params });
   }
 
   getBirdsDdl(): Observable<BirdSummaryViewModel[]> {
-    return this.http.get<BirdSummaryViewModel[]>('api/Birds/BirdsList')
-      .pipe();
+    return this.http.get<BirdSummaryViewModel[]>('api/Birds/BirdsList');
   }
 
   getBird(id: string): Observable<BirdDetailViewModel> {
     const options = id ?
       { params: new HttpParams().set('id', id.toString()) } : {};
 
-    return this.http.get<BirdDetailViewModel>('api/Birds/GetBird', options)
-      .pipe();
+    return this.http.get<BirdDetailViewModel>('api/Birds/GetBird', options);
   }
 }
