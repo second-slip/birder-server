@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
-import { ToastrService } from 'ngx-toastr';
+// import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
 import { ParentErrorStateMatcher, PasswordValidator } from '@app/_validators';
@@ -41,8 +41,8 @@ export class AccountManagerPasswordComponent implements OnInit {
 
   constructor(private router: Router
     , private accountManager: AccountManagerService
-    , private formBuilder: FormBuilder
-    , private toast: ToastrService) { }
+    , private formBuilder: FormBuilder) {}
+    // , private toast: ToastrService) { }
 
   ngOnInit() {
     this.createForms();
@@ -82,7 +82,7 @@ export class AccountManagerPasswordComponent implements OnInit {
         (data: ChangePasswordViewModel) => {
           this.unsuccessful = false;
           this.changePasswordForm.reset();
-          this.toast.success('Your changed your password', 'Success');
+          // this.toast.success('Your changed your password', 'Success');
           this.router.navigate(['login']);
           // this.router.navigate(['/confirm-email']);
         },
@@ -90,7 +90,7 @@ export class AccountManagerPasswordComponent implements OnInit {
           // if (error.status === 400) { }
           this.errorReport = error;
           this.unsuccessful = true;
-          this.toast.error('Your password could not be changed', 'Error');
+          // this.toast.error('Your password could not be changed', 'Error');
         }),
         () => { this.requesting = false; }
       );

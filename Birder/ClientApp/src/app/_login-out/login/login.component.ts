@@ -1,7 +1,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+// import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from '@app/_services/authentication.service';
 import { AuthenticationFailureReason } from '@app/_models/AuthenticationResultDto';
 import { ParentErrorStateMatcher } from '@app/_validators';
@@ -35,8 +35,8 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router
     , private route: ActivatedRoute
     , private authenticationService: AuthenticationService
-    , private formBuilder: FormBuilder
-    , private toast: ToastrService) { }
+    , private formBuilder: FormBuilder) { }
+    // , private toast: ToastrService) { }
 
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -58,9 +58,9 @@ export class LoginComponent implements OnInit {
           //console.log(errorReason);
           switch (errorReason) {
             case AuthenticationFailureReason.EmailConfirmationRequired: {
-              this.toast.info('You must confirm your email address before you can login.', 'Confirm your email', {
-                timeOut: 8000
-              });
+              // this.toast.info('You must confirm your email address before you can login.', 'Confirm your email', {
+              //   timeOut: 8000
+              // });
               this.router.navigate(['/confirm-email']);
               break;
             }

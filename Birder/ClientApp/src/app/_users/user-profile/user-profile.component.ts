@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+// import { ToastrService } from 'ngx-toastr';
 import { UserProfileViewModel, NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { NetworkService } from '@app/_network/network.service';
 import { UserProfileService } from '@app/_services/user-profile.service';
@@ -23,8 +23,7 @@ export class UserProfileComponent {
   constructor(private networkService: NetworkService
     , private observationsAnalysisService: ObservationsAnalysisService
     , private userProfileService: UserProfileService
-    , private route: ActivatedRoute
-    , private toast: ToastrService) {
+    , private route: ActivatedRoute) {
     this.route.paramMap.subscribe(params => {
       this.getData(params.get('username'));
     });
@@ -56,10 +55,10 @@ export class UserProfileComponent {
         .subscribe(
           (data: NetworkUserViewModel) => {
             element.innerText = 'Unfollow';
-            this.toast.info('You have followed ' + data.userName, 'Success');
+            // this.toast.info('You have followed ' + data.userName, 'Success');
           },
           (error: any) => {
-            this.toast.error(error.friendlyMessage, 'An error occurred');
+            // this.toast.error(error.friendlyMessage, 'An error occurred');
           });
       return;
     } else {
@@ -67,10 +66,10 @@ export class UserProfileComponent {
         .subscribe(
           (data: NetworkUserViewModel) => {
             element.innerText = 'Follow';
-            this.toast.info('You have unfollowed ' + data.userName, 'Success');
+            // this.toast.info('You have unfollowed ' + data.userName, 'Success');
           },
           (error: any) => {
-            this.toast.error(error.friendlyMessage, 'An error occurred');
+            // this.toast.error(error.friendlyMessage, 'An error occurred');
           });
       return;
     }

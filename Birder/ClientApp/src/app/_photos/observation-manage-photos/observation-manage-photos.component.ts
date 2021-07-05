@@ -4,7 +4,7 @@ import { PhotosService } from '@app/_photos/photos.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_observations/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
-import { ToastrService } from 'ngx-toastr';
+// import { ToastrService } from 'ngx-toastr';
 // import { Lightbox } from 'ngx-lightbox';
 import { PhotographAlbum } from '@app/_models/PhotographAlbum';
 import { TokenService } from '@app/_services/token.service';
@@ -28,8 +28,7 @@ export class ObservationManagePhotosComponent implements OnInit {
     // , private _lightbox: Lightbox
     , private tokenService: TokenService
     , private observationService: ObservationService
-    , private photosService: PhotosService
-    , private toast: ToastrService) {
+    , private photosService: PhotosService) {
   }
 
   ngOnInit() {
@@ -56,7 +55,7 @@ export class ObservationManagePhotosComponent implements OnInit {
         if (events.type === HttpEventType.UploadProgress) {
           this.fileUploadProgress = Math.round(events.loaded / events.total * 100) + '%';
         } else if (events.type === HttpEventType.Response) {
-          this.toast.success('Success', 'New photographs were uploaded');
+          // this.toast.success('Success', 'New photographs were uploaded');
           this.fileUploadProgress = '';
           this.files = [];
           this._album = [];
@@ -64,7 +63,7 @@ export class ObservationManagePhotosComponent implements OnInit {
         }
       },
         (error: any) => {
-          this.toast.error(error.friendlyMessage, 'An error occurred');
+          // this.toast.error(error.friendlyMessage, 'An error occurred');
         }
       );
   }
@@ -77,7 +76,7 @@ export class ObservationManagePhotosComponent implements OnInit {
         (observation: ObservationViewModel) => {
           this.observation = observation;
           if (this.tokenService.checkIsRecordOwner(observation.user.userName) === false) {
-            this.toast.error(`Only the observation owner can edit their report`, `Not allowed`);
+            // this.toast.error(`Only the observation owner can edit their report`, `Not allowed`);
             this.router.navigate(['/observation-feed']);
             return;
           }
@@ -96,7 +95,7 @@ export class ObservationManagePhotosComponent implements OnInit {
 
     this.photosService.postDeletePhoto(formData)
       .subscribe(_ => {
-        this.toast.success('Success', 'Photo was deleted');
+        // this.toast.success('Success', 'Photo was deleted');
         this._album = [];
         this.getPhotos(this.observation.observationId);
       },

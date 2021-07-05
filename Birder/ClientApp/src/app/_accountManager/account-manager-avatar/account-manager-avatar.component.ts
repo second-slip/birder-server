@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
-import { ToastrService } from 'ngx-toastr';
+// import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AccountManagerService } from '../account-manager.service';
 
@@ -17,7 +17,7 @@ export class AccountManagerAvatarComponent implements OnInit {
   uploadedFilePath: string = null;
 
   constructor(private accountManager: AccountManagerService
-    , private toast: ToastrService
+    // , private toast: ToastrService
     , private router: Router) { }
 
   ngOnInit() {
@@ -58,12 +58,12 @@ export class AccountManagerAvatarComponent implements OnInit {
           // console.log(events.body);
           // alert('SUCCESS !!');
           //
-          this.toast.success('Please login again', 'Avatar successfully changed');
+          // this.toast.success('Please login again', 'Avatar successfully changed');
           this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-avatar' } });
         }
       },
         (error => {
-          this.toast.success(error.friendlyMessage, 'An error occurred');
+          // this.toast.success(error.friendlyMessage, 'An error occurred');
         })
       );
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+//import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '@app/_account/account.service';
 import { ParentErrorStateMatcher } from '@app/_validators';
 
@@ -24,7 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder
             , private accountService: AccountService
-            , private toast: ToastrService
+            //, private toast: ToastrService
             , private router: Router) { }
 
   ngOnInit() {
@@ -46,7 +46,7 @@ export class ForgotPasswordComponent implements OnInit {
           this.router.navigate(['/forgot-password-confirmation']);
         },
         (_ => {
-          this.toast.error('A network error occurred.  Please try again later', 'Error');
+         // this.toast.error('A network error occurred.  Please try again later', 'Error');
         }));
   }
 }

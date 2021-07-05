@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { ManageProfileViewModel } from '@app/_models/ManageProfileViewModel';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+// import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { UsernameValidationService } from '@app/_services/username-validation-service.service';
 import { ParentErrorStateMatcher, RestrictedNameValidator } from '@app/_validators';
@@ -41,8 +41,8 @@ export class AccountManagerProfileComponent implements OnInit {
     ]
   };
 
-  constructor(private toast: ToastrService
-    , private usernameService: UsernameValidationService
+  constructor( //private toast: ToastrService
+     private usernameService: UsernameValidationService
     , private formBuilder: FormBuilder
     , private router: Router
     , private accountManager: AccountManagerService) { }
@@ -108,7 +108,7 @@ export class AccountManagerProfileComponent implements OnInit {
           this.manageProfileForm = this.createForm();
         },
         (error => {
-          this.toast.error(error.friendlyMessage, 'An error occurred');
+          // this.toast.error(error.friendlyMessage, 'An error occurred');
           this.router.navigate(['/login'], { queryParams: { returnUrl: '/account-manager-profile' } });
         }),
         () => { this.requesting = false; }
@@ -131,7 +131,7 @@ export class AccountManagerProfileComponent implements OnInit {
       .subscribe(
         (data: ManageProfileViewModel) => {
           this.user = data;  // why?
-          this.toast.success('Please re-login', 'Your profile was changed');
+          // this.toast.success('Please re-login', 'Your profile was changed');
           if (this.emailChanged === true) {
             this.router.navigate(['/confirm-email']);
           } else {
@@ -142,7 +142,7 @@ export class AccountManagerProfileComponent implements OnInit {
           // if (error.status === 400) { }
           this.errorReport = error;
           // this.invalidRegistration = true;
-          this.toast.error(error.friendlyMessage, 'Error');
+          // this.toast.error(error.friendlyMessage, 'Error');
         }),
         () => { this.updating = false; }
       );

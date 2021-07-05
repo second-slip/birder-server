@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AccountService } from '@app/_account/account.service';
-import { ToastrService } from 'ngx-toastr';
+//import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-confirm-email-resend',
@@ -22,8 +22,8 @@ export class ConfirmEmailResendComponent implements OnInit {
   };
 
   constructor(private formBuilder: FormBuilder
-    , private accountService: AccountService
-    , private toast: ToastrService) { }
+    , private accountService: AccountService) {}
+    //, private toast: ToastrService) { }
 
   ngOnInit() {
     this.createForms();
@@ -43,12 +43,12 @@ export class ConfirmEmailResendComponent implements OnInit {
 
     this.accountService.resendEmailConfirmation(value)
       .subscribe(_ => {
-        this.toast.info('A new confirmation email has been sent.', 'Email resent');
+        //this.toast.info('A new confirmation email has been sent.', 'Email resent');
         this.requesting = false;
       },
         (_ => {
           this.requesting = false;
-          this.toast.error('A network error occurred.  Please try again later', 'Error');
+          //this.toast.error('A network error occurred.  Please try again later', 'Error');
         }));
   }
 }
