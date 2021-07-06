@@ -1,59 +1,23 @@
 app-nav-menu {
-  .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    padding: 0;
-  }
+    .dropdown-toggle::after {
+        position: absolute;
+        bottom: 17px;
+        margin-right: 100px;
+    }
 
-  .navbar-brand {
-    padding: 15px;
-  }
+    .icon {
+        font-size: 29px;
+    }
 
-  .brand-text {
-    padding-left: 10px;
-  }
+    .right-hand-menu {
+        margin-right: 15px;
+    }
 
-  .add-margin-toggle-buttons {
-    //this is needed due to below
-    margin-right: 15px;
-  }
+    .small-text {
+        font-size: smaller;
+    }
 
-  .dropdown-toggle::after {
-    position: absolute;
-    bottom: 17px;
-    margin-right: 100px;
-  }
-
-  .icon {
-    font-size: 29px;
-  }
-
-  .profile-img {
-    width: 29px;
-    height: 29px;
-  }
-
-  .right-hand-menu {
-    margin-right: 15px;
-  }
-
-  .small-text {
-    font-size: smaller;
-  }
-
-  .username {
-    font-weight: bold;
-    font-size: large;
-  }
-
-  /* Highlighting rules for nav menu items  */
-  li.link-active a,
-  li.link-active a:hover,
-  li.link-active a:focus {
-    background-color: #4189c7;
-    color: white;
-  }
+    .username {
+        font-weight: bold;
+    }
 }

@@ -112,7 +112,6 @@ import { FutureComponent } from './_home/future/future.component';
 import { FeaturesComponent } from './_home/features/features.component';
 import { DatabaseStatusComponent } from './database-status/database-status.component';
 
-
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
     'domain': environment.cookieDomain
