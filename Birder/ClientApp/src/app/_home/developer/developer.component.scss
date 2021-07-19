@@ -31,8 +31,7 @@ app-developer {
     //medium screen size and below
     @media only screen and (max-width: 992px) {
         .main {
-            border: black;
-            border-style: solid;
+            //border: black; border-style: solid;
             margin: 3% 5%; //(top, bottom) / (right, left)
         }
         .developer-content {
@@ -43,8 +42,7 @@ app-developer {
 
     @media only screen and (min-width: 992px) {
         .main {
-            border: black;
-            border-style: solid;
+            //border: black; border-style: solid;
             margin: 3% 15%; //(top, bottom) / (right, left)
         }
         .developer-content {
