@@ -18,12 +18,12 @@ export class AuthenticationService {
   private isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isAuthenticated$: Observable<boolean> = this.isAuthenticated.asObservable();
 
-  constructor(private http: HttpClient
+  constructor(private readonly _http: HttpClient
     , private jwtHelper: JwtHelperService) { }
 
   login(viewModel: LoginViewModel): Observable<AuthenticationResultDto> {
-    return this.http.post<any>('api/Authentication/login', viewModel, httpOptions)
-      .pipe(first(),
+    return this._http.post<any>('api/Authentication/login', viewModel, httpOptions)
+      .pipe(
         tap(response => this.setAuthenticationToken(response)));
   }
 

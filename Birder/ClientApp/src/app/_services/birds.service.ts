@@ -9,7 +9,7 @@ import { BirdDetailViewModel } from '@app/_models/BirdDetailViewModel';
 })
 export class BirdsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly _http: HttpClient) { }
 
   getBirds(pageIndex: number, pageSize: number, speciesFilter: string): Observable<BirdsDto> {
     const params = new HttpParams()
@@ -17,17 +17,17 @@ export class BirdsService {
       .set('pageSize', pageSize.toString())
       .set('speciesFilter', speciesFilter.toString());
 
-    return this.http.get<BirdsDto>('api/Birds', { params });
+    return this._http.get<BirdsDto>('api/Birds', { params });
   }
 
   getBirdsDdl(): Observable<BirdSummaryViewModel[]> {
-    return this.http.get<BirdSummaryViewModel[]>('api/Birds/BirdsList');
+    return this._http.get<BirdSummaryViewModel[]>('api/Birds/BirdsList');
   }
 
   getBird(id: string): Observable<BirdDetailViewModel> {
     const options = id ?
       { params: new HttpParams().set('id', id.toString()) } : {};
 
-    return this.http.get<BirdDetailViewModel>('api/Birds/GetBird', options);
+    return this._http.get<BirdDetailViewModel>('api/Birds/GetBird', options);
   }
 }

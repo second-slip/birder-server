@@ -14,10 +14,10 @@ export class FlickrService {
   private readonly baseUrl = `${this.apiUrl}?api_key=${this.apiKey}&format=json&nojsoncallback=1&method=flickr.photos.`;
   private readonly flickrPhotoSearch = `${this.baseUrl}search&per_page=20&tags=`;
 
-  constructor(private http: HttpClient, private token: TokenService) { }
+  constructor(private readonly _http: HttpClient, private token: TokenService) { }
 
   getSearchResults(page: number, term = null, tagMode): Observable<FlickrUrlsViewModel[]> {
-    return this.http.get(`${this.flickrPhotoSearch}${encodeURIComponent(term)}&page=${page}${tagMode}`)
+    return this._http.get(`${this.flickrPhotoSearch}${encodeURIComponent(term)}&page=${page}${tagMode}`)
       .pipe(
         map((resp: any) => {
           return resp.photos.photo.map(photo =>

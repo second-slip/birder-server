@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
 import { IFeatures } from './whats-new.component';
 
 @Injectable({
@@ -9,9 +8,9 @@ import { IFeatures } from './whats-new.component';
 })
 export class FeaturesService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly _http: HttpClient) { }
 
   getFeatures(): Observable<IFeatures[]> {
-    return this.http.get<IFeatures[]>("./assets/new-features.json").pipe(first());
+    return this._http.get<IFeatures[]>("./assets/new-features.json");
   }
 }
