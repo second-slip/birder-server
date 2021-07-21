@@ -1,11 +1,11 @@
-<div class="container">
+<div class="hello">
 
     <ng-container *ngIf="analysis$ | async as analysis; else loadingOrError">
 
         <div *ngIf="analysis.totalObservationsCount">
-            <h3><small>You have spotted </small> {{analysis.uniqueSpeciesCount}} <small> species <br>in</small>
+            <p><small>You have spotted </small> {{analysis.uniqueSpeciesCount}} <small> species <br>in</small>
                 {{analysis.totalObservationsCount}} <small>
-                    {{ analysis.totalObservationsCount > 1 ? 'observations' : 'observation' }} </small></h3>
+                    {{ analysis.totalObservationsCount > 1 ? 'observations' : 'observation' }} </small></p>
         </div>
 
         <div *ngIf="!analysis.totalObservationsCount">
