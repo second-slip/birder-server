@@ -1,48 +1,68 @@
 app-register {
-    .container {
-      margin-top: 50px;
-      margin-right: 50px;
-    }
-  // Workaround for https://github.com/angular/material2/issues/4580.
-    // mat-form-field .mat-form-field {
-    //   &-underline {
-    //     position: relative;
-    //     bottom: auto;
-    //   }
-    //   &-subscript-wrapper {
-    //     position: static;
-    //   }
-    // }
-  
-    .section-title {
-      margin-bottom: 20px;
-    }
-  
-    .register-container {
-      padding: 20px;
-      text-align: center;
-    }
-    
-    .full-width {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-  
-    .error-message {
-      font-size: 12px;
-    }
-  
-    .double-line-hint {
-      .mat-input-hint-wrapper {
-        flex-wrap: wrap;
-  
-        .hint-line {
-          flex: 0 0 100%;
-        }
+  .section-title {
+    margin-bottom: 20px;
+  }
+
+  text-align: center;
+
+  .full-width {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .error-message {
+    font-size: 12px;
+  }
+
+  .double-line-hint {
+    .mat-input-hint-wrapper {
+      flex-wrap: wrap;
+
+      .hint-line {
+        flex: 0 0 100%;
       }
     }
-  
-    .submit-btn {
-      margin-top: 30px;
+  }
+
+  .submit-btn {
+    margin-top: 30px;
+  }
+
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+  // @media only screen and (min-width: 600px) {
+  //     // th.stat, td.stat {
+  //     //     display: none;
+  //     // }
+  // }
+
+  @media only screen and (max-width: 768px) {
+    .register-container {
+      // background: #f8ff2c; // #fff12c; // #dce513;
+      // border-radius: 10px;
+      margin: 5% 5%; //(top, bottom) / (right, left)
     }
   }
+
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    .register-container {
+      // background: #f8ff2c; // #fff12c; // #dce513;
+      // border-radius: 10px;
+      margin: 5% 15%; //(top, bottom) / (right, left)
+    }
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    .register-container {
+      // background: #babba9; // #fff12c; // #dce513;
+      // border-radius: 10px;
+      //margin: 3% 1%; //(top, bottom) / (right, left)
+      margin: 5% 30%; //(top, bottom) / (right, left)
+    }
+  }
+
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  // @media only screen and (min-width: 1200px) {
+  // }
+}

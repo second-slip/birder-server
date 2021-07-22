@@ -1,67 +1,68 @@
-<div class="container">
+<!-- <div class="container">
   <div class="row">
       <div class='col-sm-2'>
         </div>
-    <div class="col-sm-8">
-      <div class="register-container">
-        <h2 class="section-title">Birder Registration Form</h2>
-        <div *ngIf="invalidRegistration" class="alert alert-danger">
-          <p>Invalid registration</p>
-            <ul>
-                <li *ngFor="let error of errorReport.modelStateErrors">
-                    {{ error }}
-                </li>
-            </ul>
-        </div>
+    <div class="col-sm-8"> -->
+<div class="register-container">
+  <h2 class="section-title">Birder Registration Form</h2>
+  <div *ngIf="invalidRegistration" class="alert alert-danger">
+    <p>Invalid registration</p>
+    <ul>
+      <li *ngFor="let error of errorReport.modelStateErrors">
+        {{ error }}
+      </li>
+    </ul>
+  </div>
 
-        <form [formGroup]="userRegisterForm" novalidate (ngSubmit)="onSubmit(userRegisterForm.value)">
-          <mat-form-field class="full-width">
-            <input matInput maxlength="25" placeholder="username" formControlName="username" required>
-             <!-- (input)="checkUsernameIsAvailable()"> -->
-            <!-- <mat-icon *ngIf="(isUsernameAvailable) && (userRegisterForm.get('username').valid)" matSuffix color="primary" matTooltip="This username is available">check</mat-icon>
+  <form [formGroup]="userRegisterForm" novalidate (ngSubmit)="onSubmit(userRegisterForm.value)">
+    <mat-form-field class="full-width">
+      <input matInput maxlength="25" placeholder="username" formControlName="username" required>
+      <!-- (input)="checkUsernameIsAvailable()"> -->
+      <!-- <mat-icon *ngIf="(isUsernameAvailable) && (userRegisterForm.get('username').valid)" matSuffix color="primary" matTooltip="This username is available">check</mat-icon>
             <mat-icon *ngIf="(!isUsernameAvailable) && (userRegisterForm.get('username').valid)" matSuffix color="warn" matTooltip="This username is taken">cancel</mat-icon> -->
-            <p matSuffix style="display: inline;"></p>
-            <mat-spinner *ngIf="(userRegisterForm.get('username').pending)" matSuffix [diameter]="18" style="float: right; margin-left: 8px"></mat-spinner>
-            <mat-error *ngFor="let validation of userRegister_validation_messages.username">
-              <mat-error class="error-message"
-                *ngIf="userRegisterForm.get('username').hasError(validation.type) && (userRegisterForm.get('username').dirty || userRegisterForm.get('username').touched)">
-                {{validation.message}}
-              </mat-error>
-            </mat-error>
-          </mat-form-field>
+      <p matSuffix style="display: inline;"></p>
+      <mat-spinner *ngIf="(userRegisterForm.get('username').pending)" matSuffix [diameter]="18"
+        style="float: right; margin-left: 8px"></mat-spinner>
+      <mat-error *ngFor="let validation of userRegister_validation_messages.username">
+        <mat-error class="error-message"
+          *ngIf="userRegisterForm.get('username').hasError(validation.type) && (userRegisterForm.get('username').dirty || userRegisterForm.get('username').touched)">
+          {{validation.message}}
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
 
-          <mat-form-field class="full-width">
-            <input matInput type="email" placeholder="Email" formControlName="email" required>
-            <mat-error *ngFor="let validation of userRegister_validation_messages.email">
-              <mat-error class="error-message"
-                *ngIf="userRegisterForm.get('email').hasError(validation.type) && (userRegisterForm.get('email').dirty || userRegisterForm.get('email').touched)">
-                {{validation.message}}</mat-error>
-            </mat-error>
-          </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput type="email" placeholder="Email" formControlName="email" required>
+      <mat-error *ngFor="let validation of userRegister_validation_messages.email">
+        <mat-error class="error-message"
+          *ngIf="userRegisterForm.get('email').hasError(validation.type) && (userRegisterForm.get('email').dirty || userRegisterForm.get('email').touched)">
+          {{validation.message}}</mat-error>
+      </mat-error>
+    </mat-form-field>
 
-          <div formGroupName="matching_passwords">
-            <mat-form-field class="full-width">
-              <input matInput type="password" placeholder="Password" formControlName="password" required>
-              <mat-error *ngFor="let validation of userRegister_validation_messages.password">
-                <mat-error class="error-message"
-                  *ngIf="userRegisterForm.get('matching_passwords').get('password').hasError(validation.type) && (userRegisterForm.get('matching_passwords').get('password').dirty || userRegisterForm.get('matching_passwords').get('password').touched)">
-                  {{validation.message}}</mat-error>
-              </mat-error>
-            </mat-form-field>
+    <div formGroupName="matching_passwords">
+      <mat-form-field class="full-width">
+        <input matInput type="password" placeholder="Password" formControlName="password" required>
+        <mat-error *ngFor="let validation of userRegister_validation_messages.password">
+          <mat-error class="error-message"
+            *ngIf="userRegisterForm.get('matching_passwords').get('password').hasError(validation.type) && (userRegisterForm.get('matching_passwords').get('password').dirty || userRegisterForm.get('matching_passwords').get('password').touched)">
+            {{validation.message}}</mat-error>
+        </mat-error>
+      </mat-form-field>
 
-            <mat-form-field class="full-width">
-              <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword"
-                [errorStateMatcher]="parentErrorStateMatcher" required>
-              <mat-error *ngFor="let validation of userRegister_validation_messages.confirmPassword">
-                <mat-error class="error-message"
-                  *ngIf="(userRegisterForm.get('matching_passwords').get('confirmPassword').hasError(validation.type)|| userRegisterForm.get('matching_passwords').hasError(validation.type)) && (userRegisterForm.get('matching_passwords').get('confirmPassword').dirty || userRegisterForm.get('matching_passwords').get('confirmPassword').touched)">
-                  {{validation.message}}</mat-error>
-              </mat-error>
-            </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword"
+          [errorStateMatcher]="parentErrorStateMatcher" required>
+        <mat-error *ngFor="let validation of userRegister_validation_messages.confirmPassword">
+          <mat-error class="error-message"
+            *ngIf="(userRegisterForm.get('matching_passwords').get('confirmPassword').hasError(validation.type)|| userRegisterForm.get('matching_passwords').hasError(validation.type)) && (userRegisterForm.get('matching_passwords').get('confirmPassword').dirty || userRegisterForm.get('matching_passwords').get('confirmPassword').touched)">
+            {{validation.message}}</mat-error>
+        </mat-error>
+      </mat-form-field>
 
-          </div>
+    </div>
 
-          <!-- <mat-checkbox formControlName="terms">
+    <!-- <mat-checkbox formControlName="terms">
             I accept terms and conditions
           </mat-checkbox>
           <mat-error *ngFor="let validation of userRegister_validation_messages.terms">
@@ -70,24 +71,24 @@
               {{validation.message}}</mat-error>
           </mat-error> -->
 
-          <!-- <button type="submit" class="btn btn-primary" [disabled]="!userRegisterForm.valid">
+    <!-- <button type="submit" class="btn btn-primary" [disabled]="!userRegisterForm.valid">
             Submit
           </button> -->
 
-          <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!userRegisterForm.valid">
-            Register
-          </button>
-          <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
-            Registering...
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          </button>
+    <button *ngIf="!requesting" type="submit" class="btn btn-primary" [disabled]="!userRegisterForm.valid">
+      Register
+    </button>
+    <button *ngIf="requesting" class="btn btn-primary" type="submit" disabled>
+      Registering...
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    </button>
 
 
 
-        </form>
+  </form>
 
-      </div>
-    </div>
+</div>
+<!-- </div>
     <div class='col-sm-2'>
       </div>
-  </div>
+  </div> -->
