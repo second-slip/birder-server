@@ -8,4 +8,4 @@ Birder is an Angular 12 single-page application served by an ASP.NET 5 (Core) AP
 
 #### Sample data
 
-T-SQL scripts for adding sample data to the database can be provided on request
+T-SQL scripts for adding sample data to the database are available by request.
