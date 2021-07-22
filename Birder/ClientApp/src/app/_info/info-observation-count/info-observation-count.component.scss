@@ -1,15 +1,19 @@
 app-info-observation-count {
+  text-align: center;
 
-  .hello {
-    padding: 5% 3%;
-    text-align: center;
+  .analysis-text {
+    font-size: 1.2em;
+  }
+
+  .count-text {
+    font-size: 1.5em;
   }
   //text-align: center;
 
   // margin: 5% 10%; //(top, bottom) / (right, left)
-// top margin is 25px
-// right and left margins are 50px
-// bottom margin is 75px
+  // top margin is 25px
+  // right and left margins are 50px
+  // bottom margin is 75px
   // .container {
   //   text-align: center;
   //   padding-top: 10px;
