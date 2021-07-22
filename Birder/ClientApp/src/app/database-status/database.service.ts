@@ -11,6 +11,6 @@ export class DatabaseService {
   constructor(private http: HttpClient) { }
 
   getWakeUpDatabase(): Observable<boolean> {
-    return this.http.get<boolean>("api/Home").pipe(first());
+    return this.http.get<boolean>("api/Home");
   }
 }

@@ -13,14 +13,12 @@ export class GeocodingService {
   constructor(private http: HttpClient, private token: TokenService) { }
 
   geocode(searchTerm: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}address=${encodeURIComponent(searchTerm)}&key=${this.apiKey}`)
-      .pipe();
+    return this.http.get<any>(`${this.apiUrl}address=${encodeURIComponent(searchTerm)}&key=${this.apiKey}`);
   }
 
   reverseGeocode(latitude: number, longitude: number): Observable<any> {
     const latLng = latitude + ',' + longitude;
-    return this.http.get<any>(`${this.apiUrl}latlng=${encodeURIComponent(latLng)}&key=${this.apiKey}`)
-      .pipe();
+    return this.http.get<any>(`${this.apiUrl}latlng=${encodeURIComponent(latLng)}&key=${this.apiKey}`);
   }
 
 

@@ -18,8 +18,7 @@ export class AccountManagerService {
   constructor(private http: HttpClient) { }
 
   getUserProfile(): Observable<ManageProfileViewModel> {
-    return this.http.get<ManageProfileViewModel>('api/Manage/GetUserProfile')
-      .pipe(first());
+    return this.http.get<ManageProfileViewModel>('api/Manage/GetUserProfile');
   }
 
   postUpdateProfile(viewModel: ManageProfileViewModel): Observable<ManageProfileViewModel> {

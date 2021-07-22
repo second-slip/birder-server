@@ -20,44 +20,38 @@ export class NetworkService {
   constructor(private http: HttpClient) { }
 
   getNetworkSummary(): Observable<NetworkSummaryDto> {
-    return this.http.get<NetworkSummaryDto>('api/Network')
-      .pipe();
+    return this.http.get<NetworkSummaryDto>('api/Network');
   }
 
   getFollowers(username: string): Observable<NetworkUserViewModel[]> {
     const options = username ?
       { params: new HttpParams().set('requestedUsername', username) } : {};
 
-    return this.http.get<NetworkUserViewModel[]>('api/Network/GetFollowers', options)
-      .pipe(first());
+    return this.http.get<NetworkUserViewModel[]>('api/Network/GetFollowers', options);
   }
 
   getFollowing(username: string): Observable<NetworkUserViewModel[]> {
     const options = username ?
       { params: new HttpParams().set('requestedUsername', username) } : {};
 
-    return this.http.get<NetworkUserViewModel[]>('api/Network/GetFollowing', options)
-      .pipe(first());
+    return this.http.get<NetworkUserViewModel[]>('api/Network/GetFollowing', options);
   }
 
   getSearchNetwork(searchCriterion: string): Observable<NetworkUserViewModel[]> {
     const options = searchCriterion ?
       { params: new HttpParams().set('searchCriterion', searchCriterion) } : {};
 
-    return this.http.get<NetworkUserViewModel[]>('api/Network/SearchNetwork', options)
-      .pipe(first());
+    return this.http.get<NetworkUserViewModel[]>('api/Network/SearchNetwork', options);
   }
 
   postFollowUser(viewModel: NetworkUserViewModel): Observable<NetworkUserViewModel> {
     return this.http.post<NetworkUserViewModel>('api/Network/Follow', viewModel, httpOptions)
-      .pipe(first(),
-        tap(_ => { this.announceNetworkChanged(); }));
+      .pipe(tap(_ => { this.announceNetworkChanged(); }));
   }
 
   postUnfollowUser(viewModel: NetworkUserViewModel): Observable<NetworkUserViewModel> {
     return this.http.post<NetworkUserViewModel>('api/Network/Unfollow', viewModel, httpOptions)
-      .pipe(first(),
-        tap(_ => { this.announceNetworkChanged(); }));
+      .pipe(tap(_ => { this.announceNetworkChanged(); }));
   }
 
   announceNetworkChanged(): void {
