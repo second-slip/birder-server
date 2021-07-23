@@ -10,15 +10,15 @@ export class GeocodingService {
   private readonly apiUrl = 'https://maps.google.com/maps/api/geocode/json?';
   private readonly apiKey = this.token.getMapKey();
 
-  constructor(private http: HttpClient, private token: TokenService) { }
+  constructor(private readonly _http: HttpClient, private token: TokenService) { }
 
   geocode(searchTerm: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}address=${encodeURIComponent(searchTerm)}&key=${this.apiKey}`);
+    return this._http.get<any>(`${this.apiUrl}address=${encodeURIComponent(searchTerm)}&key=${this.apiKey}`);
   }
 
   reverseGeocode(latitude: number, longitude: number): Observable<any> {
     const latLng = latitude + ',' + longitude;
-    return this.http.get<any>(`${this.apiUrl}latlng=${encodeURIComponent(latLng)}&key=${this.apiKey}`);
+    return this._http.get<any>(`${this.apiUrl}latlng=${encodeURIComponent(latLng)}&key=${this.apiKey}`);
   }
 
 

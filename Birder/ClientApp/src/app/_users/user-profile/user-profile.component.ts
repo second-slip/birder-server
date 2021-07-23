@@ -1,6 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// import { ToastrService } from 'ngx-toastr';
 import { UserProfileViewModel, NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { NetworkService } from '@app/_network/network.service';
 import { UserProfileService } from '@app/_services/user-profile.service';
@@ -20,17 +19,17 @@ export class UserProfileComponent {
   userProfile$: Observable<UserProfileViewModel>;
   public errorObject = null;
 
-  constructor(private networkService: NetworkService
-    , private observationsAnalysisService: ObservationsAnalysisService
-    , private userProfileService: UserProfileService
+  constructor(private readonly _networkService: NetworkService
+    , private readonly _observationsAnalysisService: ObservationsAnalysisService
+    , private readonly _userProfileService: UserProfileService
     , private route: ActivatedRoute) {
     this.route.paramMap.subscribe(params => {
       this.getData(params.get('username'));
     });
   }
 
-  getData(username: string) {
-    this.userProfile$ = this.userProfileService.getUserProfile(username)
+  private getData(username: string) {
+    this.userProfile$ = this._userProfileService.getUserProfile(username)
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;
@@ -38,7 +37,7 @@ export class UserProfileComponent {
         })
       );
 
-    this.analysis$ = this.observationsAnalysisService.getObservationAnalysis(username)
+    this.analysis$ = this._observationsAnalysisService.getObservationAnalysis(username)
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;
@@ -51,7 +50,7 @@ export class UserProfileComponent {
     const action = element.innerText;
 
     if (action === 'Follow') {
-      this.networkService.postFollowUser(user)
+      this._networkService.postFollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
             element.innerText = 'Unfollow';
@@ -62,7 +61,7 @@ export class UserProfileComponent {
           });
       return;
     } else {
-      this.networkService.postUnfollowUser(user)
+      this._networkService.postUnfollowUser(user)
         .subscribe(
           (data: NetworkUserViewModel) => {
             element.innerText = 'Follow';

@@ -18,10 +18,10 @@ export class XenoCantoService {
   private readonly xenoCantoApiBaseUrl = 'https://www.xeno-canto.org/api/2/recordings?query=';
   private readonly recordingLength = '+len_gt:40';
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly _http: HttpClient) { }
 
   getRecordings(searchTerm: string): Observable<IXenoCantoResponse> {
-    return this.http.get<IXenoCantoResponse>(`${this.corsAnywhereUrl}${this.xenoCantoApiBaseUrl}${this.formatSearchTerm(searchTerm)}${this.recordingLength}`)
+    return this._http.get<IXenoCantoResponse>(`${this.corsAnywhereUrl}${this.xenoCantoApiBaseUrl}${this.formatSearchTerm(searchTerm)}${this.recordingLength}`)
       .pipe(
         map(o => ({
           numRecordings: o.numRecordings,

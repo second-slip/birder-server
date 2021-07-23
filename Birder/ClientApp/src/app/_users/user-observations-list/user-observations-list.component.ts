@@ -17,7 +17,7 @@ export class UserObservationsListComponent implements OnInit {
   page = 1;
   pageSize = 10;
 
-  constructor(private service: ObservationsFetchService) { }
+  constructor(private readonly _service: ObservationsFetchService) { }
 
   ngOnInit(): void {
     this.getObservations();
@@ -27,8 +27,8 @@ export class UserObservationsListComponent implements OnInit {
     this.getObservations();
   }
 
-  getObservations(): void {
-    this.observations$ = this.service.getObservationsByUser(this.username, this.page, this.pageSize)
+  private getObservations(): void {
+    this.observations$ = this._service.getObservationsByUser(this.username, this.page, this.pageSize)
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;

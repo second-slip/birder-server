@@ -8,12 +8,12 @@ import { Observable } from 'rxjs';
 })
 export class RecordingsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly _http: HttpClient) { }
 
   getRecordings(species: string): Observable<RecordingViewModel[]> {
     const params = new HttpParams()
       .set('species', species);
 
-    return this.http.get<RecordingViewModel[]>('api/Recording', {params});
+    return this._http.get<RecordingViewModel[]>('api/Recording', {params});
   }
 }

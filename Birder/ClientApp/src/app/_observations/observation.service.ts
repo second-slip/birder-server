@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { tap, catchError, first } from 'rxjs/operators';
-import { ObservationsPagedDto } from '@app/_models/ObservationViewDto';
+import { tap } from 'rxjs/operators';
 import { ObservationViewModel, ObservationAddDto, ObservationEditDto } from '@app/_models/ObservationViewModel';
 
 const httpOptions = {
@@ -22,14 +21,12 @@ export class ObservationService {
     const options = id ?
       { params: new HttpParams().append('id', id.toString()) } : {};
 
-    return this.http.get<ObservationViewModel>('api/Observation/GetObservationDetail', options)
-      .pipe(first());
+    return this.http.get<ObservationViewModel>('api/Observation/GetObservationDetail', options);
   }
 
   addObservation(viewModel: ObservationAddDto): Observable<ObservationViewModel> {
     return this.http.post<ObservationViewModel>('api/Observation/CreateObservation', viewModel, httpOptions)
-      .pipe(first(),
-        tap(() => { this.announceObservationsChanged(); }));
+      .pipe(tap(() => { this.announceObservationsChanged(); }));
   }
 
   updateObservation(id: number, viewModel: ObservationEditDto): Observable<ObservationViewModel> {
@@ -38,8 +35,7 @@ export class ObservationService {
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
     return this.http.put<ObservationViewModel>('api/Observation/UpdateObservation', viewModel, options)
-      .pipe(first(),
-        tap(() => { this.announceObservationsChanged(); }));
+      .pipe(tap(() => { this.announceObservationsChanged(); }));
   }
 
   deleteObservation(id: string): Observable<ObservationViewModel> {
@@ -47,8 +43,7 @@ export class ObservationService {
       { params: new HttpParams().set('id', id.toString()) } : {};
 
     return this.http.delete<ObservationViewModel>('api/Observation/DeleteObservation', options)
-      .pipe(first(),
-        tap(() => { this.announceObservationsChanged(); }));
+      .pipe(tap(() => { this.announceObservationsChanged(); }));
   }
 
   private announceObservationsChanged(): void {

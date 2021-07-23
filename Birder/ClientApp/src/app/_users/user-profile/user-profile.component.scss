@@ -16,7 +16,20 @@ app-user-profile {
     line-height: 0.7rem;
   }
 
-  @media only screen and (max-width: 767px) {
+  /* Small devices (portrait tablets and large phones, 600px and up) */
+  // @media only screen and (min-width: 600px) {
+  //     // th.stat, td.stat {
+  //     //     display: none;
+  //     // }
+  // }
+
+  @media only screen and (max-width: 768px) {
+    .user-profile-container {
+      // background: #f8ff2c; // #fff12c; // #dce513;
+      // border-radius: 10px;
+      margin: 3% 3%; //(top, bottom) / (right, left)
+    }
+
     .analysis-large {
       display: none;
     }
@@ -26,6 +39,50 @@ app-user-profile {
     }
   }
 
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    .user-profile-container {
+      // background: #f8ff2c; // #fff12c; // #dce513;
+      // border-radius: 10px;
+      margin: 3% 3%; //(top, bottom) / (right, left)
+    }
+    .analysis-small {
+      display: none;
+    }
+    .register-small {
+      display: none;
+    }
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    .user-profile-container {
+      // background: #babba9; // #fff12c; // #dce513;
+      // border-radius: 10px;
+      margin: 3% 1%; //(top, bottom) / (right, left)
+    }
+    .analysis-small {
+      display: none;
+    }
+    .register-small {
+      display: none;
+    }
+  }
+
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  // @media only screen and (min-width: 1200px) {
+  // }
+
+  // @media only screen and (max-width: 767px) {
+  //   .analysis-large {
+  //     display: none;
+  //   }
+
+  //   .register-large {
+  //     display: none;
+  //   }
+  // }
+
   /* Small devices (portrait tablets and large phones, 600px and up) */
   // @media only screen and (min-width: 600px) {
   //     // th.stat, td.stat {
@@ -34,14 +91,14 @@ app-user-profile {
   // }
 
   /* Medium devices (landscape tablets, 768px and up) */
-  @media only screen and (min-width: 768px) {
-    .analysis-small {
-      display: none;
-    }
-    .register-small {
-      display: none;
-    }
-  }
+  // @media only screen and (min-width: 768px) {
+  //   .analysis-small {
+  //     display: none;
+  //   }
+  //   .register-small {
+  //     display: none;
+  //   }
+  // }
 
   /* Large devices (laptops/desktops, 992px and up) */
   // @media only screen and (min-width: 992px) { }
