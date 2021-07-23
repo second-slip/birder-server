@@ -10,13 +10,11 @@ import { DatabaseService } from './database.service';
   encapsulation: ViewEncapsulation.None
 })
 export class DatabaseStatusComponent {
-
   databaseStatus$: Observable<boolean>;
   public errorObject = null;
 
-  constructor(private service: DatabaseService) { 
+  constructor(private service: DatabaseService) {
     this.databaseStatus$ = this.getDatabaseStatus();
-
   }
 
   private getDatabaseStatus(): Observable<boolean> {

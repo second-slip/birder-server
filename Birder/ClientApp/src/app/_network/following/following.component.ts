@@ -16,18 +16,18 @@ export class FollowingComponent {
   public errorObject = null;
   following$: Observable<NetworkUserViewModel[]>;
 
-  constructor(private route: ActivatedRoute
-    , private networkService: NetworkService) {
-    route.params.subscribe(_ => {
-      this.route.paramMap.subscribe(pmap => {
+  constructor(private _route: ActivatedRoute
+    , private _networkService: NetworkService) {
+    _route.params.subscribe(_ => {
+      this._route.paramMap.subscribe(pmap => {
         this.username = pmap.get('username');
         this.getFollowing();
       })
     });
   }
 
-  getFollowing(): void {
-    this.following$ = this.networkService.getFollowing(this.username)
+  private getFollowing(): void {
+    this.following$ = this._networkService.getFollowing(this.username)
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;
