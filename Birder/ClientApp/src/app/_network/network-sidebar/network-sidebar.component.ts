@@ -15,12 +15,12 @@ export class NetworkSidebarComponent {
   network$: Observable<NetworkSummaryDto>;
   networkChangeSubscription: Subscription;
   public errorObject = null;
-  username: string;
+  public username: string;
 
-  constructor(private networkService: NetworkService, private tokenService: TokenService) {
-    this.username = this.tokenService.getUsername();
+  constructor(private readonly _networkService: NetworkService, private readonly _tokenService: TokenService) {
+    this.username = this._tokenService.getUsername();
     this.getData();
-    this.networkChangeSubscription = this.networkService.networkChanged$
+    this.networkChangeSubscription = this._networkService.networkChanged$
       .subscribe(_ => {
         this.onNetworkChanged();
       });
@@ -35,7 +35,7 @@ export class NetworkSidebarComponent {
   }
 
   getData() {
-    this.network$ = this.networkService.getNetworkSummary()
+    this.network$ = this._networkService.getNetworkSummary()
       .pipe(share(),
         catchError(err => {
           this.errorObject = err;

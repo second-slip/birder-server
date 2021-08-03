@@ -4,6 +4,7 @@ import { ObservationsAnalysisService } from "@app/_services/observations-analysi
 import { ObservationService } from "@app/_observations/observation.service";
 import { Observable, Subscription, throwError } from "rxjs";
 import { catchError, share, tap } from "rxjs/operators";
+import { TokenService } from "@app/_services/token.service";
 
 @Component({
   selector: 'app-info-top-observations',
@@ -15,16 +16,19 @@ export class InfoTopObservationsComponent implements OnDestroy {
   analysis$: Observable<TopObservationsAnalysisViewModel>;
   observationsChangeSubscription: Subscription;
   public errorObject = null;
+  public username: string;
   active;
 
-  constructor(private observationService: ObservationService
-    , private observationsAnalysisService: ObservationsAnalysisService) {
+  constructor(private readonly _observationService: ObservationService
+    , private readonly _observationsAnalysisService: ObservationsAnalysisService
+    , private readonly _tokenService: TokenService) {
 
     this.getTopObservationsAnalysis();
-    this.observationsChangeSubscription = this.observationService.observationsChanged$
+    this.observationsChangeSubscription = this._observationService.observationsChanged$
       .subscribe(_ => {
         this.onObservationsChanged();
       });
+    this.username = this._tokenService.getUsername();
   }
 
   ngOnDestroy() {
@@ -36,7 +40,7 @@ export class InfoTopObservationsComponent implements OnDestroy {
   }
 
   getTopObservationsAnalysis(): void {
-    this.analysis$ = this.observationsAnalysisService.getTopObservationsAnalysis()
+    this.analysis$ = this._observationsAnalysisService.getTopObservationsAnalysis()
       .pipe(share(),
         tap(res => this.setActiveTab(res.topMonthlyObservations.length)),
         catchError(err => {
