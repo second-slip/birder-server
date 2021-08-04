@@ -1,8 +1,4 @@
 app-observation-add {
-  .section-title {
-    text-align: center;
-  }
-
   .map {
     margin-bottom: 10px;
   }
@@ -25,7 +21,6 @@ app-observation-add {
     margin-bottom: 10px;
   }
 
-  
   .three-quarter-width {
     width: 75%;
     margin-bottom: 10px;
@@ -44,4 +39,34 @@ app-observation-add {
       }
     }
   }
+
+  @media only screen and (max-width: 768px) {
+    .observation-add-container {
+      // background: #f8ff2c; // #fff12c; // #dce513;
+      // border-radius: 10px;
+      margin: 3% 3%; //(top, bottom) / (right, left)
+    }
+  }
+
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    .observation-add-container {
+      // background: #f8ff2c; // #fff12c; // #dce513;
+      // border-radius: 10px;
+      margin: 3% 3%; //(top, bottom) / (right, left)
+    }
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    .observation-add-container {
+      // background: #babba9; // #fff12c; // #dce513;
+      // border-radius: 10px;
+      margin: 3% 1%; //(top, bottom) / (right, left)
+    }
+  }
+
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  // @media only screen and (min-width: 1200px) {
+  // }
 }

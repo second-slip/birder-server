@@ -1,4 +1,4 @@
-<div class="container">
+<div class="observation-delete-container">
 
   <ng-container *ngIf="observation$ | async as observation; else loadingOrError">
 
@@ -17,7 +17,7 @@
           routerLink="/bird-detail/{{observation.bird.birdId}}">
           {{observation.bird.englishName}}
         </a> <small><em> {{ observation.bird.species }} </em></small>
-        <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy' }}
+        on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy' }}.
       </p>
 
       <div>

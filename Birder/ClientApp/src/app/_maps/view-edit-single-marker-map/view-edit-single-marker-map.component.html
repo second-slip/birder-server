@@ -1,3 +1,6 @@
+<!-- change setup to template -->
+
+
 <div class="container">
   <div *ngIf="!locationMarker" class="loading">
 
@@ -9,7 +12,7 @@
 
   <div *ngIf="locationMarker">
 
-    <div class="container">
+    <div>
 
       <form class="form-inline map-controls" (ngSubmit)="findAddress(searchAddress)">
         <!-- <mat-form-field> -->
@@ -40,11 +43,13 @@
 
     </div>
 
+    <p>NEED TO FIX INFO WINDOW SO IT IS OPEN BY DEFAULT</p>
+
     <!-- <p>in the child: {{ locationMarker.position.lat }} , {{locationMarker.position.lng }}</p> -->
-    <p class="container location">
+    <!-- <p class="container location">
       <mat-icon>location_on</mat-icon>
       <span>{{ position?.formattedAddress }}</span>
-    </p>
+    </p> -->
 
     <!-- <p class="container location">
       <mat-icon>location_on</mat-icon>

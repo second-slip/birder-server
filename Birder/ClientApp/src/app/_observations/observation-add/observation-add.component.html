@@ -1,133 +1,132 @@
-<div class="container">
-    <div class="observation-add-container" *ngIf="addObservationForm">
-        <h2 class="section-title">Add observation</h2>
+<!-- ToDo: refactor to use ngTemplate / ngContainer -->
+<div class="observation-add-container" *ngIf="addObservationForm">
+    <h3>Add observation</h3>
 
-        <div *ngIf="invalidAddObservation" class="alert alert-danger">
-            <p>There is an error in your observation</p>
-            <ul>
-                <li *ngFor="let error of errorReport.modelStateErrors">
-                    {{ error }}
-                </li>
-            </ul>
-        </div>
-
-        <form [formGroup]="addObservationForm" novalidate (ngSubmit)="onSubmit(addObservationForm.value)">
-            <mat-vertical-stepper [linear]="isLinear" #stepper (selectionChange)="onStepperSelectionChange()">
-                <mat-step [stepControl]="addObservationForm" errorMessage="Section not complete.">
-                    <!-- <form [formGroup]="firstFormGroup"> -->
-                    <ng-template matStepLabel><span class="stepperTop0">Details: what and when?</span></ng-template>
-                    <!-- Date start -->
-                    <div>
-                        <mat-form-field>
-                            <input readonly="readonly" matInput [ngxMatDatetimePicker]="picker"
-                                placeholder="Choose a date" formControlName="observationDateTime" [min]="minDate"
-                                [max]="maxDate">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
-                                [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
-                                [touchUi]="touchUi">
-                            </ngx-mat-datetime-picker>
-                            <mat-error
-                                *ngFor="let validation of addObservation_validation_messages.observationDateTime">
-                                <mat-error class="error-message"
-                                    *ngIf="addObservationForm.get('observationDateTime').hasError(validation.type)">
-                                    {{validation.message}}</mat-error>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                    <!-- Date end [stepControl]="addObservationForm"-->
-
-                    <!-- Species start -->
-                    <div>
-                        <mat-form-field class="three-quarter-width">
-                            <input type="bird" placeholder="Select species" aria-label="Number" matInput
-                                formControlName="bird" [matAutocomplete]="auto" required>
-                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
-                                <mat-option *ngFor="let bird of filteredOptions$ | async" [value]="bird">
-                                    <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
-                                </mat-option>
-                            </mat-autocomplete>
-                            <mat-error *ngFor="let validation of addObservation_validation_messages.bird">
-                                <mat-error class="error-message"
-                                    *ngIf="addObservationForm.get('bird').hasError(validation.type) && (addObservationForm.get('bird').dirty || addObservationForm.get('bird').touched)">
-                                    {{validation.message}}</mat-error>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                    <!-- Species end -->
-
-                    <!-- Quantity start -->
-                    <div>
-                        <mat-form-field>
-                            <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
-                            <mat-error *ngFor="let validation of addObservation_validation_messages.quantity">
-                                <mat-error class="error-message"
-                                    *ngIf="addObservationForm.get('quantity').hasError(validation.type) && (addObservationForm.get('quantity').dirty || addObservationForm.get('quantity').touched)">
-                                    {{validation.message}}</mat-error>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                    <!-- Quantity end -->
-
-                    <div>
-                        <button mat-stroked-button matStepperNext type="button">Next</button>
-                    </div>
-                    <!-- </form> -->
-                </mat-step>
-
-                <mat-step>
-                    <!-- <form [formGroup]="secondFormGroup"> -->
-                    <ng-template matStepLabel><span class="stepperTop1">Location</span></ng-template>
-                    <div class="map">
-                        <app-view-edit-single-marker-map #map [position]="defaultPosition">
-                        </app-view-edit-single-marker-map>
-                    </div>
-
-                    <div>
-                        <button mat-stroked-button matStepperPrevious type="button">Back</button>
-                        <button mat-stroked-button matStepperNext type="button">Next</button>
-                    </div>
-                    <!-- </form> -->
-                </mat-step>
-                <!--  -->
-                <mat-step [optional]="true">
-                    <ng-template matStepLabel><span class="stepperTop2">Notes</span></ng-template>
-                    <div class="container">
-                        <app-add-notes></app-add-notes>
-                        <!-- </div>
-                    <div> -->
-                        <button mat-stroked-button matStepperPrevious type="button">Back</button>
-                        <button mat-stroked-button matStepperNext type="button">Next</button>
-                    </div>
-                </mat-step>
-                <!--  -->
-
-                <mat-step>
-                    <ng-template matStepLabel><span class="stepperTop0">Done</span></ng-template>
-                    <div>
-                        <p *ngIf="!addObservationForm.valid">
-                            Part 1 is not complete. You must complete all manadatory fields.
-                        </p>
-                        <p *ngIf="addObservationForm.valid">
-                            You are now done. Choose 'Save' to add your observation.
-                        </p>
-                    </div>
-
-
-                    <div>
-                        <button mat-stroked-button matStepperPrevious type="button">Back</button>
-                        <button mat-stroked-button (click)="stepper.reset()" type="button">Reset</button>
-                        <button mat-stroked-button *ngIf="!requesting" type="submit"
-                            [disabled]="!addObservationForm.valid">
-                            Save
-                        </button>
-                        <button mat-stroked-button *ngIf="requesting" type="submit" disabled>
-                            Save observation...
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        </button>
-                    </div>
-                </mat-step>
-            </mat-vertical-stepper>
-        </form>
+    <div *ngIf="invalidAddObservation" class="alert alert-danger">
+        <p>There is an error in your observation</p>
+        <ul>
+            <li *ngFor="let error of errorReport.modelStateErrors">
+                {{ error }}
+            </li>
+        </ul>
     </div>
+
+    <form [formGroup]="addObservationForm" novalidate (ngSubmit)="onSubmit(addObservationForm.value)">
+        <mat-vertical-stepper [linear]="isLinear" #stepper (selectionChange)="onStepperSelectionChange()">
+            <mat-step [stepControl]="addObservationForm" errorMessage="Section not complete.">
+                <!-- <form [formGroup]="firstFormGroup"> -->
+                <ng-template matStepLabel><span class="stepperTop0">Details: what and when?</span></ng-template>
+                <!-- Date start -->
+                <div>
+                    <mat-form-field>
+                        <input readonly="readonly" matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date"
+                            formControlName="observationDateTime" [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+                            [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond"
+                            [touchUi]="touchUi">
+                        </ngx-mat-datetime-picker>
+                        <mat-error *ngFor="let validation of addObservation_validation_messages.observationDateTime">
+                            <mat-error class="error-message"
+                                *ngIf="addObservationForm.get('observationDateTime').hasError(validation.type)">
+                                {{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- Date end [stepControl]="addObservationForm"-->
+
+                <!-- Species start -->
+                <div>
+                    <mat-form-field class="three-quarter-width">
+                        <input type="bird" placeholder="Select species" aria-label="Number" matInput
+                            formControlName="bird" [matAutocomplete]="auto" required>
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                            <mat-option *ngFor="let bird of filteredOptions$ | async" [value]="bird">
+                                <p><b>{{ bird.englishName }} </b>, <em> {{ bird.species }} </em></p>
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngFor="let validation of addObservation_validation_messages.bird">
+                            <mat-error class="error-message"
+                                *ngIf="addObservationForm.get('bird').hasError(validation.type) && (addObservationForm.get('bird').dirty || addObservationForm.get('bird').touched)">
+                                {{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- Species end -->
+
+                <!-- Quantity start -->
+                <div>
+                    <mat-form-field>
+                        <input matInput type="quantity" placeholder="Quantity" formControlName="quantity" required>
+                        <mat-error *ngFor="let validation of addObservation_validation_messages.quantity">
+                            <mat-error class="error-message"
+                                *ngIf="addObservationForm.get('quantity').hasError(validation.type) && (addObservationForm.get('quantity').dirty || addObservationForm.get('quantity').touched)">
+                                {{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- Quantity end -->
+
+                <div>
+                    <button mat-stroked-button matStepperNext type="button">Next</button>
+                </div>
+                <!-- </form> -->
+            </mat-step>
+
+            <mat-step>
+                <!-- <form [formGroup]="secondFormGroup"> -->
+                <ng-template matStepLabel><span class="stepperTop1">Location</span></ng-template>
+                <div class="map">
+                    <app-view-edit-single-marker-map #map [position]="defaultPosition">
+                    </app-view-edit-single-marker-map>
+                </div>
+
+                <div>
+                    <button mat-stroked-button matStepperPrevious type="button">Back</button>
+                    <button mat-stroked-button matStepperNext type="button">Next</button>
+                </div>
+                <!-- </form> -->
+            </mat-step>
+            <!--  -->
+            <mat-step [optional]="true">
+                <ng-template matStepLabel><span class="stepperTop2">Notes</span></ng-template>
+                <div class="container">
+                    <app-add-notes></app-add-notes>
+                    <!-- </div>
+                    <div> -->
+                    <button mat-stroked-button matStepperPrevious type="button">Back</button>
+                    <button mat-stroked-button matStepperNext type="button">Next</button>
+                </div>
+            </mat-step>
+            <!--  -->
+
+            <mat-step>
+                <ng-template matStepLabel><span class="stepperTop0">Done</span></ng-template>
+                <div>
+                    <p *ngIf="!addObservationForm.valid">
+                        Part 1 is not complete. You must complete all manadatory fields.
+                    </p>
+                    <p *ngIf="addObservationForm.valid">
+                        You are now done. Choose 'Save' to add your observation.
+                    </p>
+                </div>
+
+                <div>
+                    <button mat-stroked-button matStepperPrevious type="button">Back</button>
+                    <button mat-stroked-button (click)="stepper.reset()" type="button">Reset</button>
+                    <button mat-stroked-button *ngIf="!requesting" type="submit" [disabled]="!addObservationForm.valid">
+                        Save
+                    </button>
+                    <button mat-stroked-button *ngIf="requesting" type="submit" disabled>
+                        Save observation...
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </button>
+                </div>
+
+            </mat-step>
+
+        </mat-vertical-stepper>
+
+    </form>
+
 </div>

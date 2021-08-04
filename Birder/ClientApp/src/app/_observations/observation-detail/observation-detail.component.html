@@ -1,4 +1,4 @@
-<div class="container">
+<div class="observation-detail-container">
 
   <ng-container *ngIf="observation$ | async as observation; else loadingOrError">
 
@@ -9,7 +9,7 @@
         </a> observed <b>{{observation.quantity}}</b> <a routerLink="/bird-detail/{{observation.bird.birdId}}">
           {{observation.bird.englishName}}
         </a> <small><em> {{ observation.bird.species }} </em></small>
-        <br>on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' HH:mm' }}
+        on {{ observation.observationDateTime | date: 'EEEE, d MMMM yyyy \'at\' HH:mm' }}.
       </p>
 
       <div class="example-headers-align">
@@ -63,7 +63,7 @@
         </mat-expansion-panel>
         <!--  -->
 
-        <div>
+        <div class="created-updated-dates">
           <small><em>Observation created at {{ observation.creationDate | date: 'dd/MM/yyyy HH:mm' }}; last updated at
               {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
         </div>
