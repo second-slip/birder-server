@@ -1,16 +1,13 @@
-<div class="view-only-map-container">
+<div class="map-container">
 
     <ng-container *ngIf="locationMarker; else loadingOrError">
-        <!-- <p class="container location">
+
+        <p class="location">
             <mat-icon>location_on</mat-icon>
             <span>{{ position?.formattedAddress }}</span>
-          </p> -->
+        </p>
 
-          <button (click)="openInfoWindow(markerElement)">Hello</button>
-
-        <small>Click marker to view full address...</small>
-
-        <google-map height="500px" width="100%" [zoom]="options.zoom" [center]="locationMarker?.position"
+        <google-map height="300px" width="100%" [zoom]="options.zoom" [center]="locationMarker?.position"
             [options]="options">
             <map-marker #markerElement="mapMarker" [position]="locationMarker?.position"
                 [options]="locationMarker?.options" (mapClick)="openInfoWindow(markerElement)">
@@ -36,29 +33,3 @@
         </div>
     </ng-template>
 </div>
-
-
-
-<!-- <div *ngIf="!locationMarker" class="loading">
-
-    <p><em>Loading...</em></p>
-
-    <mat-spinner></mat-spinner>
-
-</div>
-
-<div *ngIf="locationMarker">
-    
-    <p class="container location">
-        <mat-icon>location_on</mat-icon>
-        <span>{{ position?.formattedAddress }}</span>
-      </p>
-
-    <google-map height="500px" width="100%" [zoom]="zoom" [center]="locationMarker?.position" [options]="options">
-        <map-marker #markerElement="mapMarker" [position]="locationMarker?.position" [options]="locationMarker?.options"
-            (mapClick)="openInfoWindow(markerElement)">
-            <map-info-window>{{ position?.formattedAddress }}</map-info-window>
-        </map-marker>
-    </google-map>
-
-</div> -->

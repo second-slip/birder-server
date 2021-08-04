@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
 import { GeocodingService } from '@app/_maps/geocoding.service';
@@ -14,16 +14,15 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap
   @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
 
-  locationMarker;
-  zoom = 8;
-  options: google.maps.MapOptions = {
-    mapTypeId: 'terrain'
+  public errorObject = null;
+  public locationMarker: any;
+  public options: google.maps.MapOptions = {
+    mapTypeId: 'terrain', zoom: 8,
   }
   searchAddress = '';
   geoError: string;
 
-  constructor(private geocoding: GeocodingService
-    , private ref: ChangeDetectorRef) { }
+  constructor(private readonly _geocoding: GeocodingService) { }
 
   ngOnInit(): void {
     if (this.position.formattedAddress) {
@@ -34,16 +33,20 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
   }
 
   addMarker(latitude: number, longitude: number, getAddress: boolean): void {
-    this.locationMarker = ({
-      position: {
-        lat: latitude,
-        lng: longitude
-      },
-      options: { draggable: true },
-    })
+    try {
+      this.locationMarker = ({
+        position: {
+          lat: latitude,
+          lng: longitude
+        },
+        options: { draggable: true },
+      })
 
-    if (getAddress) {
-      this.getFormattedAddress(latitude, longitude);
+      if (getAddress) {
+        this.getFormattedAddress(latitude, longitude);
+      }
+    } catch (error) {
+      this.errorObject = error;
     }
     // this.infoWindow.open(this.locationMarker.position);
   }
@@ -57,13 +60,12 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
   }
 
   getFormattedAddress(latitude: number, longitude: number): void {
-    this.geocoding.reverseGeocode(latitude, longitude)
+    this._geocoding.reverseGeocode(latitude, longitude)
       .subscribe(
         (response: any) => {
           //console.log(response);
           this.position.formattedAddress = response.results[0].formatted_address;
-          this.position.shortAddress = this.geocoding.googleApiResponseHelper(response.results[0].address_components, "postal_town") + ', ' + this.geocoding.googleApiResponseHelper(response.results[0].address_components, "country");
-          this.ref.detectChanges(); //?
+          this.position.shortAddress = this._geocoding.googleApiResponseHelper(response.results[0].address_components, "postal_town") + ', ' + this._geocoding.googleApiResponseHelper(response.results[0].address_components, "country");
         },
         (error: any) => {
         }
@@ -71,7 +73,7 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
   }
 
   findAddress(searchValue: string): void {
-    this.geocoding.geocode(searchValue)
+    this._geocoding.geocode(searchValue)
       .subscribe(
         (response: any) => {
           //console.log(response);
@@ -81,16 +83,15 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
           if ((response.results[0].formatted_address.split(",").length - 1) === 1) {
             this.position.shortAddress = response.results[0].formatted_address;
           } else {
-            this.position.shortAddress = this.geocoding.googleApiResponseHelper(response.results[0].address_components, "postal_town") + ', ' + this.geocoding.googleApiResponseHelper(response.results[0].address_components, "country");
+            this.position.shortAddress = this._geocoding.googleApiResponseHelper(response.results[0].address_components, "postal_town") + ', ' + this._geocoding.googleApiResponseHelper(response.results[0].address_components, "country");
           }
           this.searchAddress = '';
-          this.ref.detectChanges(); //?
         }
       );
   }
 
   changeZoomLevel(level: number): void {
-    this.zoom = level;
+    this.options.zoom = level;
   }
 
   closeAlert(): void {
@@ -103,7 +104,6 @@ export class ViewEditSingleMarkerMapComponent implements OnInit {
         (position) => {
           this.addMarker(position.coords.latitude, position.coords.longitude, true);
           this.changeZoomLevel(15);
-          this.ref.detectChanges();
         }, (error) => {
           switch (error.code) {
             case 3: // ...deal with timeout
