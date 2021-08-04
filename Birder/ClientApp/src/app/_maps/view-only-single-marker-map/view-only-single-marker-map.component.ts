@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
 
 @Component({
@@ -10,12 +10,14 @@ import { ObservationPosition } from '@app/_models/ObservationPosition';
 })
 export class ViewOnlySingleMarkerMapComponent implements OnInit {
   @Input() position: ObservationPosition;
+  @ViewChild(MapMarker, { static: false }) map: MapMarker
+  @ViewChild(Map, { static: false }) infoWindow: MapInfoWindow
 
-  @ViewChild(MapInfoWindow, { static: false }) infoWindow: MapInfoWindow
+  public errorObject = null;
+
   locationMarker;
-  zoom = 8;
   options: google.maps.MapOptions = {
-    mapTypeId: 'terrain'
+    mapTypeId: 'terrain', zoom: 8,
   }
 
   constructor() { }
@@ -25,14 +27,19 @@ export class ViewOnlySingleMarkerMapComponent implements OnInit {
   }
 
   addMarker(latitude: number, longitude: number) {
-    this.locationMarker = ({
-      position: {
-        lat: latitude,
-        lng: longitude
-      },
-      options: { animation: google.maps.Animation.BOUNCE },
-    })
+    try {
+      this.locationMarker = ({
+        position: {
+          lat: latitude,
+          lng: longitude
+        },
+        options: { animation: google.maps.Animation.BOUNCE },
+      })
+    } catch (error) {
+      this.errorObject = error;
+    }
   }
+
 
   openInfoWindow(marker: MapMarker) {
     this.infoWindow.open(marker);
