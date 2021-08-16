@@ -20,16 +20,16 @@ namespace Birder.Controllers
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationQueryService _observationQueryService;
-        private readonly IBirdThumbnailPhotoService _profilePhotosService;
+        // private readonly IBirdThumbnailPhotoService _profilePhotosService;
 
         public ObservationFeedController(ILogger<ObservationFeedController> logger
                                        , UserManager<ApplicationUser> userManager
-                                       , IObservationQueryService observationQueryService
-                                       , IBirdThumbnailPhotoService profilePhotosService)
+                                       , IObservationQueryService observationQueryService)
+                                    //    , IBirdThumbnailPhotoService profilePhotosService)
         {
             _logger = logger;
             _userManager = userManager;
-            _profilePhotosService = profilePhotosService;
+            // _profilePhotosService = profilePhotosService;
             _observationQueryService = observationQueryService;
         }
 
@@ -50,7 +50,7 @@ namespace Birder.Controllers
 
                     if (userObservations.TotalItems > 0 || pageIndex > 1)
                     {
-                        _profilePhotosService.GetThumbnailUrl(userObservations.Items);
+                        // _profilePhotosService.GetThumbnailUrl(userObservations.Items);
                         userObservations.ReturnFilter = ObservationFeedFilter.Own;
                         return Ok(userObservations);
                     }
@@ -85,7 +85,8 @@ namespace Birder.Controllers
 
                     if (networkObservations.TotalItems > 0 || pageIndex > 1)
                     {
-                        _profilePhotosService.GetThumbnailUrl(networkObservations.Items);
+                        // move to ObservationQueryService?
+                        //_profilePhotosService.GetThumbnailUrl(networkObservations.Items);
                         networkObservations.ReturnFilter = ObservationFeedFilter.Network;
                         return Ok(networkObservations);
                     }
@@ -104,7 +105,7 @@ namespace Birder.Controllers
                     return StatusCode(500, $"Public observations object is null");
                 }
 
-                _profilePhotosService.GetThumbnailUrl(publicObservations.Items);
+                //_profilePhotosService.GetThumbnailUrl(publicObservations.Items);
                 publicObservations.ReturnFilter = ObservationFeedFilter.Public;
                 return Ok(publicObservations);
             }

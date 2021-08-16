@@ -18,9 +18,12 @@ namespace Birder.Services
     public class ObservationQueryService : IObservationQueryService
     {
         private readonly ApplicationDbContext _dbContext;
-        public ObservationQueryService(ApplicationDbContext dbContext)
+        private readonly IBirdThumbnailPhotoService _profilePhotosService;
+
+        public ObservationQueryService(ApplicationDbContext dbContext, IBirdThumbnailPhotoService profilePhotosService)
         {
             _dbContext = dbContext;
+            _profilePhotosService = profilePhotosService;
         }
 
         public async Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
@@ -63,6 +66,8 @@ namespace Birder.Services
             query = query.ApplyPaging(pageIndex, pageSize);
 
             result.Items = await query.ToListAsync();
+
+            _profilePhotosService.GetThumbnailUrl(result.Items);
 
             return result;
         }
