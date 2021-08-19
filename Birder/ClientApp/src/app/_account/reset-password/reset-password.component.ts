@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-// import { ToastrService } from 'ngx-toastr';
+// 
 import { ResetPasswordViewModel } from '@app/_models/ResetPasswordViewModel';
 import { AccountService } from '@app/_account/account.service';
 import { ParentErrorStateMatcher, PasswordValidator } from '@app/_validators';
@@ -39,7 +39,6 @@ export class ResetPasswordComponent implements OnInit {
   constructor(private route: ActivatedRoute
             , private formBuilder: FormBuilder
             , private accountService: AccountService
-            // , private toast: ToastrService
             , private router: Router) { }
 
   ngOnInit() {

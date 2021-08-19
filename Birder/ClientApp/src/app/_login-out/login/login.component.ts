@@ -1,7 +1,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-// import { ToastrService } from 'ngx-toastr';
+// 
 import { AuthenticationService } from '@app/_services/authentication.service';
 import { AuthenticationFailureReason } from '@app/_models/AuthenticationResultDto';
 import { ParentErrorStateMatcher } from '@app/_validators';
@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
     , private route: ActivatedRoute
     , private authenticationService: AuthenticationService
     , private formBuilder: FormBuilder) { }
-    // , private toast: ToastrService) { }
 
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';

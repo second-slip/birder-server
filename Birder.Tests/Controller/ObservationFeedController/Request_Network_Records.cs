@@ -57,7 +57,7 @@ namespace Birder.Tests.Controller
                 mockObsRepo.SetupSequence(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                     .ReturnsAsync(FeedTestHelpers.GetModel(totalItems)); 
 
-                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -104,7 +104,7 @@ namespace Birder.Tests.Controller
                     .ReturnsAsync(FeedTestHelpers.GetModel(0)) // no Network records
                     .ReturnsAsync(FeedTestHelpers.GetModel(1)); // one Public record
 
-                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -147,7 +147,7 @@ namespace Birder.Tests.Controller
                 var userManager = SharedFunctions.InitialiseUserManager(context);
                 var requestingUsername = "Does not exist";
                 var mockObsRepo = new Mock<IObservationQueryService>();
-                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -191,7 +191,7 @@ namespace Birder.Tests.Controller
                 mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                     .Returns(Task.FromResult<ObservationFeedPagedDto>(null));
 
-                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {

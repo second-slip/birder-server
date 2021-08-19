@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NetworkComponent } from './network.component';
 import { NetworkService } from '@app/_network/network.service';
 import { FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+
 import { UserNetworkDto } from '@app/_models/UserNetworkDto';
 
 import { Subscription } from 'rxjs';
@@ -13,14 +13,14 @@ describe('NetworkComponent', () => {
   let fixture: ComponentFixture<NetworkComponent>;
 
   let mockNetworkService;
-  let mockToastr;
+
   let suggestedUsers: UserNetworkDto;
   let mockError: any;
   let mockSub: Subscription;
 
   beforeEach(async(() => {
     mockNetworkService = jasmine.createSpyObj(['getUserNetwork', 'postFollowUser', 'postUnfollowUser', 'networkChanged']);
-    mockToastr = jasmine.createSpyObj(['info', 'warning', 'error']);
+
 
     // const spy = spyOn(mockNetworkService..messagePublished$, 'subscribe')
 
@@ -31,7 +31,7 @@ describe('NetworkComponent', () => {
       declarations: [ NetworkComponent ],
       providers: [
         { provide: NetworkService, useValue: mockNetworkService },
-        { provide: ToastrService, useValue: mockToastr },
+        
         { provide: Subscription, userValue: mockSub }
       ]
     })

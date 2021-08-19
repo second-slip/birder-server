@@ -1,7 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { NetworkService } from '@app/_network/network.service';
-// import { ToastrService } from 'ngx-toastr';
+// 
 
 @Component({
   selector: 'app-network-user',

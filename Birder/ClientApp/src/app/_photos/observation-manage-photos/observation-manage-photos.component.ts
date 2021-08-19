@@ -4,7 +4,7 @@ import { PhotosService } from '@app/_photos/photos.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_observations/observation.service';
 import { ObservationViewModel } from '@app/_models/ObservationViewModel';
-// import { ToastrService } from 'ngx-toastr';
+// 
 // import { Lightbox } from 'ngx-lightbox';
 import { PhotographAlbum } from '@app/_models/PhotographAlbum';
 import { TokenService } from '@app/_services/token.service';

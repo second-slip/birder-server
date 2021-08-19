@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpEventType } from '@angular/common/http';
-// import { ToastrService } from 'ngx-toastr';
+// 
 import { Router } from '@angular/router';
 import { AccountManagerService } from '../account-manager.service';
 
@@ -17,7 +17,6 @@ export class AccountManagerAvatarComponent implements OnInit {
   uploadedFilePath: string = null;
 
   constructor(private accountManager: AccountManagerService
-    // , private toast: ToastrService
     , private router: Router) { }
 
   ngOnInit() {

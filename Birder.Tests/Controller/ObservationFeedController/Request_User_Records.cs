@@ -40,7 +40,7 @@ namespace Birder.Tests.Controller
             mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(Task.FromResult<ObservationFeedPagedDto>(null));
 
-            var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
+            var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -75,7 +75,7 @@ namespace Birder.Tests.Controller
             mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(FeedTestHelpers.GetModel(totalItems));
 
-            var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
+            var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -124,7 +124,7 @@ namespace Birder.Tests.Controller
                     .ReturnsAsync(FeedTestHelpers.GetModel(0)) // no User records
                     .ReturnsAsync(FeedTestHelpers.GetModel(1)); // one Network record
 
-                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {
@@ -173,7 +173,7 @@ namespace Birder.Tests.Controller
                     .ReturnsAsync(FeedTestHelpers.GetModel(0)) // no Network records
                     .ReturnsAsync(FeedTestHelpers.GetModel(1)); // one Public record
 
-                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object, _mockProfilePhotosService.Object);
+                var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
 
                 controller.ControllerContext = new ControllerContext()
                 {

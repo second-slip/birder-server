@@ -5,7 +5,7 @@ import { ObservationFeedDto, ObservationFeedPagedDto } from '@app/_models/Observ
 import { ObservationsFeedService } from '@app/_observationFeed/observations-feed.service';
 import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
 import * as _ from 'lodash-es';
-// import { ToastrService } from 'ngx-toastr';
+// 
 import { UserViewModel } from '@app/_models/UserViewModel';
 import { TokenService } from '@app/_services/token.service';
 
@@ -82,7 +82,7 @@ export class ObservationFeedComponent implements OnInit {
 
 
   constructor(private observationsFeedService: ObservationsFeedService
-    // , private toast: ToastrService
+
     , private tokenService: TokenService) { }
 
   ngOnInit() {

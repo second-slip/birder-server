@@ -6,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ObservationService } from '@app/_observations/observation.service';
 import { BirdsService } from '@app/_services/birds.service';
 import { TokenService } from '@app/_services/token.service';
-// import { ToastrService } from 'ngx-toastr';
+// 
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -48,7 +48,6 @@ export class ObservationEditComponent implements OnInit {
   };
 
   constructor(private router: Router
-    // , private toast: ToastrService
     , private route: ActivatedRoute
     , private observationService: ObservationService
     , private tokenService: TokenService

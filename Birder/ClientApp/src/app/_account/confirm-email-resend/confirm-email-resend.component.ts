@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AccountService } from '@app/_account/account.service';
-//import { ToastrService } from 'ngx-toastr';
+//
 
 @Component({
   selector: 'app-confirm-email-resend',
@@ -23,7 +23,6 @@ export class ConfirmEmailResendComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder
     , private accountService: AccountService) {}
-    //, private toast: ToastrService) { }
 
   ngOnInit() {
     this.createForms();

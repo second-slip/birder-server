@@ -5,18 +5,18 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService } from '@app/_services/authentication.service';
 import { of } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
   let mockAuthenticationService;
-  let mockToastr;
+
 
   beforeEach(async(() => {
     mockAuthenticationService = jasmine.createSpyObj(['logout']);
-    mockToastr = jasmine.createSpyObj(['info']);
+
 
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule.withRoutes([
@@ -26,7 +26,7 @@ describe('LoginComponent', () => {
       declarations: [ LoginComponent ],
       providers: [ FormBuilder,
         { provide: AuthenticationService, useValue: mockAuthenticationService },
-        { provide: ToastrService, useValue: mockToastr }
+
       ]
     })
     .compileComponents();

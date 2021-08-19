@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-//import { ToastrService } from 'ngx-toastr';
+//
 import { AccountService } from '@app/_account/account.service';
 import { ParentErrorStateMatcher } from '@app/_validators';
 
@@ -24,7 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder
             , private accountService: AccountService
-            //, private toast: ToastrService
+
             , private router: Router) { }
 
   ngOnInit() {

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
-// import { ToastrService } from 'ngx-toastr';
+// 
 import { Router } from '@angular/router';
 
 import { ParentErrorStateMatcher, PasswordValidator } from '@app/_validators';
@@ -42,7 +42,6 @@ export class AccountManagerPasswordComponent implements OnInit {
   constructor(private router: Router
     , private accountManager: AccountManagerService
     , private formBuilder: FormBuilder) {}
-    // , private toast: ToastrService) { }
 
   ngOnInit() {
     this.createForms();

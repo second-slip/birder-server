@@ -39,7 +39,7 @@ namespace Birder.Tests.Controller
             mockObsRepo.SetupSequence(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(FeedTestHelpers.GetModel(totalItems));
 
-            var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
+            var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
@@ -68,7 +68,7 @@ namespace Birder.Tests.Controller
             mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(Task.FromResult<ObservationFeedPagedDto>(null));
 
-            var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object, _mockProfilePhotosService.Object);
+            var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object);
 
             controller.ControllerContext = new ControllerContext()
             {
