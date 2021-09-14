@@ -6,6 +6,15 @@ app-network-search {
     //     // }
     // }
 
+    .form-inline {
+        //justify-content: center;
+        display: flex;
+    }
+
+    .controls {
+        margin: 1%;
+    }
+
     @media only screen and (max-width: 768px) {
         .network-search-container {
             // background: #f8ff2c; // #fff12c; // #dce513;

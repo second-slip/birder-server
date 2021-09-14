@@ -2,7 +2,7 @@
     <form class="form" [formGroup]="selectSpeciesForm" novalidate (ngSubmit)="onSubmit(selectSpeciesForm.value)">
 
         <mat-form-field>
-            <input type="bird" placeholder="Choose species or browse list" aria-label="Number" matInput
+            <input type="search" placeholder="Choose species or browse list" aria-label="Number" matInput
                 formControlName="bird" [matAutocomplete]="auto">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngFor="let bird of filteredOptions$ | async" [value]="bird">
