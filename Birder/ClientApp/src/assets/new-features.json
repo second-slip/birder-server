@@ -61,7 +61,7 @@
         "description": "Add option to filter the Life List by year to create a year list.  Year list should be able for each of the years since the user registered.",
         "progress": "Not started",
         "priority": "Low",
-        "colourCode": "Red"
+        "colourCode": "Black"
     },
     {
         "id": "10",
