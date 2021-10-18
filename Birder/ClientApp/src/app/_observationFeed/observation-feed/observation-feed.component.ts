@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { tap, map, filter, debounceTime, distinct, flatMap, switchMap, catchError } from 'rxjs/operators';
+import { tap, map, filter, debounceTime, distinct, switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { BehaviorSubject, fromEvent, merge, Observable, throwError } from 'rxjs';
 import { ObservationFeedDto, ObservationFeedPagedDto } from '@app/_models/ObservationFeedDto';
 import { ObservationsFeedService } from '@app/_observationFeed/observations-feed.service';
@@ -53,7 +53,7 @@ export class ObservationFeedComponent implements OnInit {
 
     .pipe(
       tap(_ => this.loadingItems = true),
-      flatMap((page: number) => {
+      mergeMap((page: number) => {
         return this.observationsFeedService.getObservationsFeed(page, this.currentFilter)
           .pipe(
             tap((resp: ObservationFeedPagedDto) => {
@@ -82,7 +82,6 @@ export class ObservationFeedComponent implements OnInit {
 
 
   constructor(private observationsFeedService: ObservationsFeedService
-
     , private tokenService: TokenService) { }
 
   ngOnInit() {
