@@ -16,7 +16,8 @@
 
     <!-- <hr> -->
 
-    <ng-container *ngIf="features$ | async as features; else loadingOrError">
+    <!-- <ng-container *ngIf="features$ | async as features; else loadingOrError"> -->
+    <ng-container>
         <div class="features-table">
             <!-- <h4 class="title">Features under development</h4> -->
             <table class="table table-striped hello">
@@ -30,7 +31,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let feature of features; index as i">
+                    <tr *ngFor="let feature of _service.items | async; index as i">
                         <!-- <td>{{ feature.id }}</td> -->
                         <td>{{ feature.feature }}</td>
                         <td>{{ feature.description }}</td>
@@ -42,20 +43,20 @@
         </div>
     </ng-container>
 
-    <ng-template #loadingOrError>
+    <!-- <ng-template #loadingOrError>
         <ng-container *ngIf="errorObject; else loading">
             <div class="error-message">
                 <p>An error occurred</p>
-                <!-- <app-error-display [error]="errorObject"></app-error-display> -->
+                <app-error-display [error]="errorObject"></app-error-display>
             </div>
         </ng-container>
-    </ng-template>
+    </ng-template> -->
 
 
-    <ng-template #loading>
+    <!-- <ng-template #loading>
         <div class="loading-placeholder">
             <p><em>Loading...</em></p>
             <mat-spinner></mat-spinner>
         </div>
-    </ng-template>
+    </ng-template> -->
 </div>

@@ -10,18 +10,19 @@ import { FeaturesService } from './features.service';
   encapsulation: ViewEncapsulation.None
 })
 export class WhatsNewComponent implements OnInit {
-  features$: Observable<IFeatures[]>;
-  private ngUnsubscribe = new Subject();
-  public features: Subject<Array<IFeatures>> = new Subject();
+  // features$: Observable<IFeatures[]>;
+  // private ngUnsubscribe = new Subject();
+  // public features: Subject<Array<IFeatures>> = new Subject();
   public errorObject = null;
 
-  constructor(private readonly _service: FeaturesService) {
-    this.features$ = this._getFeatures();
+  constructor(readonly _service: FeaturesService) {
+    // this.features$ = this._getFeatures();
     // this._getFeatures();
   }
 
   ngOnInit(): void {
-    this._getFeatures();
+    this._service.fetchList();
+    // this._getFeatures();
   }
 
   // private async _getFeatures(): Promise<void> {
@@ -34,10 +35,12 @@ export class WhatsNewComponent implements OnInit {
   //     ).subscribe(result => { this.features.next(result) });
   // }
 
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-}
+  // ngOnDestroy() {
+  //   this.ngUnsubscribe.next();
+  //   this.ngUnsubscribe.complete();
+  // }
+
+
 
   private _getFeatures(): Observable<IFeatures[]> {
     return this._service.getFeatures()
