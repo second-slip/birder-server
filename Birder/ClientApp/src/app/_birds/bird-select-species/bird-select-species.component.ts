@@ -30,7 +30,7 @@ export class BirdSelectSpeciesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBirds();
-    this.createForms();
+    
   }
 
   onSubmit(selectedSpecies: any) {
@@ -44,6 +44,7 @@ export class BirdSelectSpeciesComponent implements OnInit {
         BirdsListValidator()
       ])),
     });
+    //this.getBirdAutocompleteOptions();
   }
 
   getBirds(): void {
@@ -51,6 +52,7 @@ export class BirdSelectSpeciesComponent implements OnInit {
       .subscribe(
         (data: BirdSummaryViewModel[]) => {
           this.birdsSpecies = data;
+          this.createForms();
           this.getBirdAutocompleteOptions();
         },
         (error: any) => {

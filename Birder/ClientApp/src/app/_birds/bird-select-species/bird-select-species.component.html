@@ -1,4 +1,4 @@
-<div class="select">
+<div class="select" *ngIf="birdsSpecies">
     <form class="form" [formGroup]="selectSpeciesForm" novalidate (ngSubmit)="onSubmit(selectSpeciesForm.value)">
 
         <mat-form-field>
