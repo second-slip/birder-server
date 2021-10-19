@@ -6,7 +6,7 @@ import {
 
 import { Observable, of } from 'rxjs';
 import { startWith, tap } from 'rxjs/operators';
-import { RequestCache } from '../_services/request-cache.service';
+import { RequestCache } from './request-cache.service';
 
 
 /**
@@ -47,7 +47,7 @@ function isCachable(request: HttpRequest<any>) {
   return request.method === 'GET'
     && request.url.indexOf('api/Test') !== 0
     && request.url.indexOf('api/Photograph') !== 0
-    && request.url.indexOf('https://preview.ibb.co') !== 0
+    //&& request.url.indexOf('https://preview.ibb.co') !== 0
     && request.url.indexOf('api/ObservationFeed') !== 0
     && request.url.indexOf('api/Observation/GetObservationDetail') !== 0
     && request.url.indexOf('api/ObservationAnalysis') !== 0  // do not cache requests containing 'api/ObservationAnalysis'
