@@ -81,8 +81,7 @@ export class ObservationFeedComponent implements OnInit {
     );
 
 
-  constructor(private observationsFeedService: ObservationsFeedService
-    , private tokenService: TokenService) { }
+  constructor(private observationsFeedService: ObservationsFeedService, private tokenService: TokenService) { }
 
   ngOnInit() {
     // this.loadingItems = false;
