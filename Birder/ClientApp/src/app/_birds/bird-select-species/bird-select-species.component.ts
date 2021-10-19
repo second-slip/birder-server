@@ -62,6 +62,7 @@ export class BirdSelectSpeciesComponent implements OnInit {
   }
 
   getBirdAutocompleteOptions() {
+    //console.log('getBirdAutocompleteOptions');
     this.filteredOptions$ = this.selectSpeciesForm.controls['bird'].valueChanges
       .pipe(
         startWith(''),
@@ -74,6 +75,7 @@ export class BirdSelectSpeciesComponent implements OnInit {
   }
 
   private _filter(value: string): BirdSummaryViewModel[] {
+    //console.log('_filter');
     const filterValue = value.toLowerCase();
     return this.birdsSpecies.filter(option => option.englishName.toLowerCase().indexOf(filterValue) >= 0); // or !== 11
   }
