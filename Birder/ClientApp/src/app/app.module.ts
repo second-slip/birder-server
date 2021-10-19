@@ -46,7 +46,7 @@ import { AccountSideMenuComponent } from './_accountManager/account-side-menu/ac
 import { LayoutAccountManagerComponent } from './_layout/layout-account-manager/layout-account-manager.component';
 import { AccountManagerLocationComponent } from './_accountManager/account-manager-location/account-manager-location.component';
 import { AccountManagerPasswordComponent } from './_accountManager/account-manager-password/account-manager-password.component';
-import { RequestCache, RequestCacheWithMap } from './_services/request-cache.service';
+import { RequestCache, RequestCacheWithMap } from './_httpInterceptors/request-cache.service';
 import { ConfirmedEmailComponent } from './_account/confirmed-email/confirmed-email.component';
 import { ResetPasswordComponent } from './_account/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './_account/forgot-password/forgot-password.component';
