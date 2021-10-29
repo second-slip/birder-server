@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ObservationNote } from '@app/_models/ObservationNote';
+import { ObservationNote } from '@app/_models';
 
 @Component({
   selector: 'app-view-only-notes',

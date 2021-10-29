@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ObservationNoteType } from '@app/_models/observationnote';
+import { ObservationNoteType } from '@app/_models';
 import { ObservationNoteModel } from '@app/_observationNotes/ObservationNoteModel';
 
 

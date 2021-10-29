@@ -10,7 +10,7 @@ import { TokenService } from '@app/_services/token.service';
 import { ObservationAddDto, ObservationViewModel } from '@app/_models/ObservationViewModel';
 import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
-import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNote';
+import { ObservationNote, ObservationNoteType } from '@app/_models';
 import { AddNotesComponent } from '@app/_observationNotes/add-notes/add-notes.component';
 import * as moment from 'moment';
 import { ThemePalette } from '@angular/material/core';

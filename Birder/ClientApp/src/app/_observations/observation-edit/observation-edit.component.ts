@@ -13,7 +13,7 @@ import { startWith, map } from 'rxjs/operators';
 import { ObservationPosition } from '@app/_models/ObservationPosition';
 import { ViewEditSingleMarkerMapComponent } from '@app/_maps/view-edit-single-marker-map/view-edit-single-marker-map.component';
 import { EditNotesComponent } from '@app/_observationNotes/edit-notes/edit-notes.component';
-import { ObservationNote, ObservationNoteType } from '@app/_models/ObservationNote';
+import { ObservationNote, ObservationNoteType } from '@app/_models';
 import * as moment from 'moment';
 import { ParentErrorStateMatcher, BirdsListValidator } from '@app/_validators';
 
