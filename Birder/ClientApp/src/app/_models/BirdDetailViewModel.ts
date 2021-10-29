@@ -1,4 +1,4 @@
-import { ConservationStatus } from './ConserverationStatus';
+import { ConservationStatus } from "./ConservationStatus";
 
 export interface BirdDetailViewModel {
     birdId: number;

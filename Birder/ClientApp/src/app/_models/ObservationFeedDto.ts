@@ -1,9 +1,3 @@
-export interface ObservationFeedPagedDto {
-    totalItems: number;
-    items: ObservationFeedDto[];
-    returnFilter: string;// ObservationFeedFilter;
-}
-
 export interface ObservationFeedDto {
     observationId: number;
     quantity: number;
