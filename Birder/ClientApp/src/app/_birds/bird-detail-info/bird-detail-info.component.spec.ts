@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BirdDetailInfoComponent } from './bird-detail-info.component';
 
 import { BirdDetailViewModel } from '@app/_models/BirdDetailViewModel';
-import { ConservationStatus } from '@app/_models/ConserverationStatus';
+import { ConservationStatus } from '@app/_models/ConservationStatus';
 
 describe('BirdDetailInfoComponent', () => {
   let component: BirdDetailInfoComponent;

@@ -1,13 +1,13 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { tap, map, filter, debounceTime, distinct, switchMap, catchError, mergeMap } from 'rxjs/operators';
 import { BehaviorSubject, fromEvent, merge, Observable, throwError } from 'rxjs';
-import { ObservationFeedDto, ObservationFeedPagedDto } from '@app/_models/ObservationFeedDto';
 import { ObservationsFeedService } from '@app/_observationFeed/observations-feed.service';
-import { ObservationFeedFilter } from '@app/_models/ObservationFeedFilter';
+import { ObservationFeedDto, ObservationFeedFilter, ObservationFeedPagedDto } from '@app/_models';
 import * as _ from 'lodash-es';
 // 
-import { UserViewModel } from '@app/_models/UserViewModel';
+//import { UserViewModel } from '@app/_models/UserViewModel';
 import { TokenService } from '@app/_services/token.service';
+import { UserViewModel } from '@app/_models';
 
 @Component({
   selector: 'app-observation-feed',
