@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NoteModel } from '@app/_models/NoteModel';
 import { ObservationNoteType } from '@app/_models/ObservationNote';
-import { AddNotesComponent } from '../add-notes/add-notes.component';
+import { ObservationNoteModel } from '../ObservationNoteModel';
 
 @Component({
   selector: 'app-add-note-dialog',
@@ -15,7 +14,7 @@ export class AddNoteDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<any>,
-    @Inject(MAT_DIALOG_DATA) public model: NoteModel) { }
+    @Inject(MAT_DIALOG_DATA) public model: ObservationNoteModel) { }
 
   ngOnInit(): void {
   }
