@@ -80,7 +80,7 @@
                 {{ observation.lastUpdateDate | date: 'dd/MM/yyyy HH:mm' }}</em></small>
           </div> -->
 
-        <a [routerLink]="" (click)="goBack()">Go Back</a>
+        <a [routerLink]="[]" (click)="goBack()">Go Back</a>
         <a routerLink="/observation-edit/{{observation.observationId}}">
           | Edit
         </a>
