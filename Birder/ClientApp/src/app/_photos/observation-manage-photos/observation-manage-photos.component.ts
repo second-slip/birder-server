@@ -35,6 +35,8 @@ export class ObservationManagePhotosComponent implements OnInit {
     this.getObservation();
   }
 
+  // goBack()
+
   onSelect(event): void {
     console.log(event);
     this.files.push(...event.addedFiles);
