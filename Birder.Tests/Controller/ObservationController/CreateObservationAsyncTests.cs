@@ -99,11 +99,8 @@ namespace Birder.Tests.Controller
         //    Assert.Equal(expectedMessage, actual);
         //}
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public async Task CreateObservationAsync_ReturnsNotFound_WhenRequestingUserNotFound(int id)
+        [Fact]
+        public async Task CreateObservationAsync_ReturnsNotFound_WhenRequestingUserNotFound()
         {
             //Arrange
             int birdId = 1;
@@ -156,10 +153,10 @@ namespace Birder.Tests.Controller
         }
 
         [Theory]
-        [InlineData(1, 1)]
-        [InlineData(2, 1)]
-        [InlineData(3, 2)]
-        public async Task CreateObservationAsync_ReturnsNotFound_WhenBirdNotFound(int id, int birdId)
+        [InlineData(1)]
+        //[InlineData(2, 1)]
+        //[InlineData(3, 2)]
+        public async Task CreateObservationAsync_ReturnsNotFound_WhenBirdNotFound(int birdId)
         {
             //Arrange
             //var model = GetTestObservationViewModel(id, birdId);
@@ -212,11 +209,8 @@ namespace Birder.Tests.Controller
             Assert.Equal($"Bird species with id '{model.BirdId}' was not found.", actual);
         }
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public async Task CreateObservationAsync_ReturnsBadRequest_OnException(int id)
+        [Fact]
+        public async Task CreateObservationAsync_ReturnsBadRequest_OnException()
         {
             //Arrange
             int birdId = 1;
@@ -279,10 +273,10 @@ namespace Birder.Tests.Controller
         }
 
         [Theory]
-        [InlineData(1, 1)]
-        [InlineData(2, 1)]
-        [InlineData(3, 1)]
-        public async Task CreateObservationAsync_ReturnsOkWithObservationViewModel_OnSuccess(int id, int birdId)
+        [InlineData(1)]
+        //[InlineData(2, 1)]
+        //[InlineData(3, 1)]
+        public async Task CreateObservationAsync_ReturnsOkWithObservationViewModel_OnSuccess(int birdId)
         {
             //Arrange
             //var model = GetTestObservationViewModel(id, birdId);
