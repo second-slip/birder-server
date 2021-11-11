@@ -4,7 +4,7 @@ Birder is a social network-style platform for logging, sharing, and analysing bi
 
 ### Technical information
 
-Birder is an Angular 13 single-page application served by an ASP.NET 5 REST API.
+Birder is an Angular 13 single-page application served by an ASP.NET 6 REST API.
 
 #### Sample data
 
