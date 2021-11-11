@@ -11,7 +11,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Birder/bin/Debug/net5.0/Birder.dll",
+            "program": "${workspaceFolder}/Birder/bin/Debug/net6.0/Birder.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Birder",
             "stopAtEntry": false,
