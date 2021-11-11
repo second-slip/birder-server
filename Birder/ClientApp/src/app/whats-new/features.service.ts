@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { IFeatures } from './whats-new.component';
+import { IFeatures } from './ifeatures.data';
 
 @Injectable({
   providedIn: 'root'

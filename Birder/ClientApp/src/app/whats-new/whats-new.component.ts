@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, share, take, takeUntil } from 'rxjs/operators';
 import { FeaturesService } from './features.service';
 
 @Component({
@@ -21,8 +19,11 @@ export class WhatsNewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._getData();
+  }
+
+  private _getData(): void {
     this._service.fetchList();
-    // this._getFeatures();
   }
 
   // private async _getFeatures(): Promise<void> {
@@ -42,22 +43,12 @@ export class WhatsNewComponent implements OnInit {
 
 
 
-  private _getFeatures(): Observable<IFeatures[]> {
-    return this._service.getFeatures()
-      .pipe(share(),
-        catchError(err => {
-          this.errorObject = err;
-          return throwError(err);
-        }));
-  }
-}
-
-
-export interface IFeatures {
-  id: number;
-  feature: string;
-  description: string;
-  progress: string;
-  priority: string;
-  colourCode: string;
+  // private _getFeatures(): Observable<IFeatures[]> {
+  //   return this._service.getFeatures()
+  //     .pipe(share(),
+  //       catchError(err => {
+  //         this.errorObject = err;
+  //         return throwError(err);
+  //       }));
+  // }
 }
