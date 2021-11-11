@@ -28,7 +28,6 @@ namespace Birder
                                                          new DefaultAzureCredential());
                 config.AddAzureKeyVault(secretClient, new KeyVaultSecretManager());
 
-
             }
         })
         .ConfigureWebHostDefaults(webBuilder =>
