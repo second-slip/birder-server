@@ -1,12 +1,5 @@
-﻿using Birder.Helpers;
-using Birder.Infrastructure.CustomExceptions;
-using Birder.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using Birder.Infrastructure.CustomExceptions;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {

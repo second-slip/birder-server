@@ -1,11 +1,4 @@
-﻿using Birder.Data.Repository;
-using Birder.Helpers;
-using Birder.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
+﻿using Microsoft.Data.SqlClient;
 
 namespace Birder.Controllers
 {

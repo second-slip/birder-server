@@ -1,9 +1,9 @@
 ﻿using FlickrNet;
 using Microsoft.Extensions.Configuration;
-using System.Linq;
 
 namespace Birder.Services
 {
+    // ToDo: Refactor this without the FlickerNet package (see XenoCantoService for an example
     public interface IFlickrService
     {
         PhotoCollection GetFlickrPhotoCollection(string queryString);
@@ -21,7 +21,6 @@ namespace Birder.Services
 
         public string GetThumbnailUrl(string queryString)
         {
-            //Flickr flickr = new Flickr(_config["Flickr:FlickrApiKey"], _config["Flickr:FlickrSecret"]);
             Flickr flickr = new Flickr(_config["FlickrApiKey"], _config["FlickrSecret"]);
             {
                 var options = new PhotoSearchOptions

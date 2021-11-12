@@ -1,15 +1,8 @@
 ﻿using AutoMapper;
 using Birder.Data.Model;
 using Birder.Data.Repository;
-using Birder.Helpers;
-using Birder.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {

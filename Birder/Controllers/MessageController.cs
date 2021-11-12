@@ -1,9 +1,6 @@
 ﻿using Birder.Helpers;
 using Birder.Services;
 using Birder.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 
 namespace Birder.Controllers

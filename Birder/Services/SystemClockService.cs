@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Birder.Services
+﻿namespace Birder.Services
 {
     public interface ISystemClockService
     {
