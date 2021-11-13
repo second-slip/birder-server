@@ -5,7 +5,6 @@ import { ObservationsFeedService } from '@app/_observationFeed/observations-feed
 import { ObservationFeedDto, ObservationFeedFilter, ObservationFeedPagedDto } from '@app/_models';
 import * as _ from 'lodash-es';
 // 
-//import { UserViewModel } from '@app/_models/UserViewModel';
 import { TokenService } from '@app/_services/token.service';
 import { UserViewModel } from '@app/_models';
 
@@ -18,7 +17,7 @@ import { UserViewModel } from '@app/_models';
 export class ObservationFeedComponent implements OnInit {
   user: UserViewModel;
   currentFilter: string;
-  title: string;
+  // title: string;
   public errorObject = null;
   loadingItems = false;
   allLoaded = false;
@@ -50,7 +49,6 @@ export class ObservationFeedComponent implements OnInit {
     );
 
   itemResults$: Observable<ObservationFeedDto[]> = this.pageToLoad$
-
     .pipe(
       tap(_ => this.loadingItems = true),
       mergeMap((page: number) => {
@@ -62,7 +60,7 @@ export class ObservationFeedComponent implements OnInit {
                 // this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
                 this.currentFilter = resp.returnFilter.toString();
               }
-              this.setTitle();
+              // this.setTitle();
             }),
             map((resp: any) => resp.items), // resp.results),
             tap(resp => {
@@ -84,31 +82,8 @@ export class ObservationFeedComponent implements OnInit {
   constructor(private observationsFeedService: ObservationsFeedService, private tokenService: TokenService) { }
 
   ngOnInit() {
-    // this.loadingItems = false;
     this.user = this.tokenService.getAuthenticatedUserDetails();
     this.currentFilter = '0';
-    this.setTitle();
-  }
-
-  private setTitle(): void {
-    if (this.currentFilter == '1') {
-      this.title = 'Your observations';
-      return;
-    } if (this.currentFilter == '2') {
-      this.title = 'All public observations';
-      return;
-    } else {
-      this.title = 'Observations in your network';
-      return;
-    }
-  }
-
-  private getMessage(requested: string, returned: string): string {
-    let message = '';
-    if (requested === '0') { message = message + `There are no observations in your ${ObservationFeedFilter[requested]}.  `; }
-    if (requested === '1') { message = message + `You have not recorded any observations yet.  `; }
-    message = message + `Your feed is showing the latest ${ObservationFeedFilter[returned]} observations instead...`;
-    return message;
   }
 
   onFilterFeed(filter: string): void {
@@ -128,7 +103,7 @@ export class ObservationFeedComponent implements OnInit {
                   // this.toast.info(this.getMessage(this.currentFilter, resp.returnFilter), `No items available`);
                   this.currentFilter = resp.returnFilter.toString();
                 }
-                this.setTitle();
+                // this.setTitle();
               }),
               map((resp: any) => resp.items),
               tap(resp => {
@@ -147,3 +122,25 @@ export class ObservationFeedComponent implements OnInit {
       );
   }
 }
+
+
+  // private setTitle(): void {
+  //   if (this.currentFilter == '1') {
+  //     this.title = 'Your observations';
+  //     return;
+  //   } if (this.currentFilter == '2') {
+  //     this.title = 'All public observations';
+  //     return;
+  //   } else {
+  //     this.title = 'Observations in your network';
+  //     return;
+  //   }
+  // }
+
+  // private getMessage(requested: string, returned: string): string {
+  //   let message = '';
+  //   if (requested === '0') { message = message + `There are no observations in your ${ObservationFeedFilter[requested]}.  `; }
+  //   if (requested === '1') { message = message + `You have not recorded any observations yet.  `; }
+  //   message = message + `Your feed is showing the latest ${ObservationFeedFilter[returned]} observations instead...`;
+  //   return message;
+  // }
