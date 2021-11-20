@@ -23,6 +23,7 @@ namespace Birder
         {
             if (context.HostingEnvironment.IsProduction())
             {
+                // ToDo: rewrite for .NET 6: https://andrewlock.net/exploring-dotnet-6-part-1-looking-inside-configurationmanager-in-dotnet-6/
                 var builtConfig = config.Build();
                 var secretClient = new SecretClient(new Uri($"https://{builtConfig["KeyVaultName"]}.vault.azure.net/"),
                                                          new DefaultAzureCredential());
