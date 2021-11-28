@@ -55,6 +55,6 @@ export class NetworkService {
   }
 
   announceNetworkChanged(): void {
-    this.networkChanged.next();
+    this.networkChanged.next(1);
   }
 }

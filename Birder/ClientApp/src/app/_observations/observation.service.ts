@@ -47,6 +47,6 @@ export class ObservationService {
   }
 
   private announceObservationsChanged(): void {
-    this.observationsChanged.next();
+    this.observationsChanged.next(1);
   }
 }
