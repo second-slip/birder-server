@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
-    "types": ["node", "googlemaps", "jasmine"]
+    "types": ["node", "jasmine"]
   },
   "files": [
     "main.ts",

@@ -11,7 +11,6 @@
     "experimentalDecorators": true,
     "target": "es2015",
     "types": [
-      "googlemaps",
       "jasmine"
     ],
     "typeRoots": [
