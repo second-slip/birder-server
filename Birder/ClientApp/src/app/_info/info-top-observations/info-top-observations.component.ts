@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnDestroy, OnInit } from "@angular/core";
+import { Component, ViewEncapsulation, OnInit } from "@angular/core";
 import { ObservationTopService } from "../observation-top.service";
 
 @Component({
@@ -34,23 +34,3 @@ export class InfoTopObservationsComponent implements OnInit {
     }
   }
 }
-
-  // ngOnDestroy() {
-  //   this.observationsChangeSubscription.unsubscribe();
-  // }
-
-  // onObservationsChanged(): void {
-  //   this.getTopObservationsAnalysis();
-  // }
-
-  // getTopObservationsAnalysis(): void {
-  //   this.analysis$ = this._observationsAnalysisService.getTopObservationsAnalysis()
-  //     .pipe(share(),
-  //       tap(res => this._setActiveTab(res.topMonthlyObservations.length)),
-  //       catchError(err => {
-  //         //this.errorObject = err;
-  //         return throwError(err);
-  //       })
-  //     );
-  // }
-//}

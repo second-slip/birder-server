@@ -46,15 +46,15 @@ export class NetworkService {
 
   postFollowUser(viewModel: NetworkUserViewModel): Observable<NetworkUserViewModel> {
     return this._http.post<NetworkUserViewModel>('api/Network/Follow', viewModel, httpOptions)
-      .pipe(tap(_ => { this.announceNetworkChanged(); }));
+      .pipe(tap(_ => { this._onNetworkChanged(); }));
   }
 
   postUnfollowUser(viewModel: NetworkUserViewModel): Observable<NetworkUserViewModel> {
     return this._http.post<NetworkUserViewModel>('api/Network/Unfollow', viewModel, httpOptions)
-      .pipe(tap(_ => { this.announceNetworkChanged(); }));
+      .pipe(tap(_ => { this._onNetworkChanged(); }));
   }
 
-  announceNetworkChanged(): void {
+  private _onNetworkChanged(): void {
     this.networkChanged.next(1);
   }
 }
