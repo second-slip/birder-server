@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { ObservationViewModel, ObservationAddDto, ObservationEditDto } from '@app/_models/ObservationViewModel';
 import { ObservationCountService } from '@app/_services/observation-count.service';
+import { ObservationTopService } from '@app/_info/observation-top.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,10 +14,10 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class ObservationService {
-  private observationsChanged = new Subject<any>();
-  observationsChanged$ = this.observationsChanged.asObservable();
 
-  constructor(private readonly _httpClient: HttpClient, private readonly _service: ObservationCountService) { }
+  constructor(private readonly _httpClient: HttpClient
+    , private readonly _service: ObservationCountService
+    , private readonly _topService: ObservationTopService) { }
 
   getObservation(id: string): Observable<ObservationViewModel> {
     const options = id ?
@@ -48,7 +49,7 @@ export class ObservationService {
   }
 
   private _onObservationsChanged(): void {
-    this.observationsChanged.next(1);
     this._service.getData();
+    this._topService.getData();
   }
 }

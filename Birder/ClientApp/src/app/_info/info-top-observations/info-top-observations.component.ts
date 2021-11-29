@@ -1,10 +1,5 @@
-import { Component, ViewEncapsulation, OnDestroy } from "@angular/core";
-import { TopObservationsAnalysisViewModel } from "@app/_models/ObservationAnalysisViewModel";
-import { ObservationsAnalysisService } from "@app/_services/observations-analysis.service";
-import { ObservationService } from "@app/_observations/observation.service";
-import { Observable, Subscription, throwError } from "rxjs";
-import { catchError, share, tap } from "rxjs/operators";
-import { TokenService } from "@app/_services/token.service";
+import { Component, ViewEncapsulation, OnDestroy, OnInit } from "@angular/core";
+import { ObservationTopService } from "../observation-top.service";
 
 @Component({
   selector: 'app-info-top-observations',
@@ -12,43 +7,26 @@ import { TokenService } from "@app/_services/token.service";
   styleUrls: ['./info-top-observations.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class InfoTopObservationsComponent implements OnDestroy {
-  analysis$: Observable<TopObservationsAnalysisViewModel>;
-  observationsChangeSubscription: Subscription;
-  public errorObject = null;
-  active;
+export class InfoTopObservationsComponent implements OnInit {
+  active: number = 1;
 
-  constructor(private readonly _observationService: ObservationService
-    , private readonly _observationsAnalysisService: ObservationsAnalysisService
-    , private readonly _tokenService: TokenService) {
+  constructor(readonly _service: ObservationTopService) { }
 
-    this.getTopObservationsAnalysis();
-    this.observationsChangeSubscription = this._observationService.observationsChanged$
-      .subscribe(_ => {
-        this.onObservationsChanged();
-      });
+  ngOnInit(): void {
+    this._getData();
   }
 
-  ngOnDestroy() {
-    this.observationsChangeSubscription.unsubscribe();
+  private _getData(): void {
+    this._service.getData();
+    //this._setActiveTab();    -----> how to do this?
   }
 
-  onObservationsChanged(): void {
-    this.getTopObservationsAnalysis();
+  public reload(): void {
+    this._getData();
   }
 
-  getTopObservationsAnalysis(): void {
-    this.analysis$ = this._observationsAnalysisService.getTopObservationsAnalysis()
-      .pipe(share(),
-        tap(res => this.setActiveTab(res.topMonthlyObservations.length)),
-        catchError(err => {
-          this.errorObject = err;
-          return throwError(err);
-        })
-      );
-  }
-
-  setActiveTab(qtyThisMonth: number): void {
+  // ??????????
+  private _setActiveTab(qtyThisMonth: number): void {
     if (qtyThisMonth) {
       this.active = 1;
     } else {
@@ -56,3 +34,23 @@ export class InfoTopObservationsComponent implements OnDestroy {
     }
   }
 }
+
+  // ngOnDestroy() {
+  //   this.observationsChangeSubscription.unsubscribe();
+  // }
+
+  // onObservationsChanged(): void {
+  //   this.getTopObservationsAnalysis();
+  // }
+
+  // getTopObservationsAnalysis(): void {
+  //   this.analysis$ = this._observationsAnalysisService.getTopObservationsAnalysis()
+  //     .pipe(share(),
+  //       tap(res => this._setActiveTab(res.topMonthlyObservations.length)),
+  //       catchError(err => {
+  //         //this.errorObject = err;
+  //         return throwError(err);
+  //       })
+  //     );
+  // }
+//}

@@ -18,9 +18,9 @@ export class ObservationsAnalysisService {
     return this._http.get<ObservationAnalysisViewModel>('api/ObservationAnalysis/GetObservationAnalysis', options);
   }
 
-  getTopObservationsAnalysis(): Observable<TopObservationsAnalysisViewModel> {
-    return this._http.get<TopObservationsAnalysisViewModel>('api/List/GetTopObservationsList');
-  }
+  // getTopObservationsAnalysis(): Observable<TopObservationsAnalysisViewModel> {
+  //   return this._http.get<TopObservationsAnalysisViewModel>('api/List/GetTopObservationsList');
+  // }
 
   getLifeList(): Observable<LifeListViewModel[]> {
     return this._http.get<LifeListViewModel[]>('api/List/GetLifeList');
