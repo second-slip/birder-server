@@ -1,7 +1,4 @@
-﻿using Birder.Helpers;
-using Birder.Services;
-
-namespace Birder.Controllers
+﻿namespace Birder.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,6 +13,37 @@ namespace Birder.Controllers
         {
             _observationsAnalysisService = observationsAnalysisService;
             _logger = logger;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetObservationCountAsync()
+        {
+            //if (string.IsNullOrEmpty(requestedUsername))
+            //{
+            //    _logger.LogError(LoggingEvents.InvalidOrMissingArgument, $"{nameof(requestedUsername)} argument is null or empty");
+            //    return BadRequest("requestedUsername is missing");
+            //}
+
+            try
+            {
+                var requestingUsername = User.Identity.Name;
+
+                if (string.IsNullOrEmpty(requestingUsername))
+                {
+                    string errorMessage = $"requesting username is null or empty";
+                    _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
+                    return Unauthorized(errorMessage);
+                }
+
+                var viewModel = await _observationsAnalysisService.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == requestingUsername);
+
+                return Ok(viewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the Observations Analysis");
+                return StatusCode(500, "an unexpected error occurred");
+            }
         }
 
         [HttpGet, Route("GetObservationAnalysis")]

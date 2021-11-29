@@ -28,6 +28,9 @@ export class UserProfileComponent {
     });
   }
 
+
+  // Do not use the DATA SERVICE to get other user's analysis
+
   private getData(username: string) {
     this.userProfile$ = this._userProfileService.getUserProfile(username)
       .pipe(share(),

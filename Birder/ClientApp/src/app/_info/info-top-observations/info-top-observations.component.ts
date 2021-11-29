@@ -16,7 +16,6 @@ export class InfoTopObservationsComponent implements OnDestroy {
   analysis$: Observable<TopObservationsAnalysisViewModel>;
   observationsChangeSubscription: Subscription;
   public errorObject = null;
-  public username: string;
   active;
 
   constructor(private readonly _observationService: ObservationService
@@ -28,7 +27,6 @@ export class InfoTopObservationsComponent implements OnDestroy {
       .subscribe(_ => {
         this.onObservationsChanged();
       });
-    this.username = this._tokenService.getUsername();
   }
 
   ngOnDestroy() {

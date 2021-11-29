@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { ObservationViewModel, ObservationAddDto, ObservationEditDto } from '@app/_models/ObservationViewModel';
+import { ObservationCountService } from '@app/_services/observation-count.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,18 +16,18 @@ export class ObservationService {
   private observationsChanged = new Subject<any>();
   observationsChanged$ = this.observationsChanged.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly _httpClient: HttpClient, private readonly _service: ObservationCountService) { }
 
   getObservation(id: string): Observable<ObservationViewModel> {
     const options = id ?
       { params: new HttpParams().append('id', id.toString()) } : {};
 
-    return this.http.get<ObservationViewModel>('api/Observation/GetObservationDetail', options);
+    return this._httpClient.get<ObservationViewModel>('api/Observation/GetObservationDetail', options);
   }
 
   addObservation(viewModel: ObservationAddDto): Observable<ObservationViewModel> {
-    return this.http.post<ObservationViewModel>('api/Observation/CreateObservation', viewModel, httpOptions)
-      .pipe(tap(() => { this.announceObservationsChanged(); }));
+    return this._httpClient.post<ObservationViewModel>('api/Observation/CreateObservation', viewModel, httpOptions)
+      .pipe(tap(() => { this._onObservationsChanged(); }));
   }
 
   updateObservation(id: number, viewModel: ObservationEditDto): Observable<ObservationViewModel> {
@@ -34,19 +35,20 @@ export class ObservationService {
       { params: new HttpParams().set('id', id.toString()) } :
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
-    return this.http.put<ObservationViewModel>('api/Observation/UpdateObservation', viewModel, options)
-      .pipe(tap(() => { this.announceObservationsChanged(); }));
+    return this._httpClient.put<ObservationViewModel>('api/Observation/UpdateObservation', viewModel, options)
+      .pipe(tap(() => { this._onObservationsChanged(); }));
   }
 
   deleteObservation(id: string): Observable<ObservationViewModel> {
     const options = id ?
       { params: new HttpParams().set('id', id.toString()) } : {};
 
-    return this.http.delete<ObservationViewModel>('api/Observation/DeleteObservation', options)
-      .pipe(tap(() => { this.announceObservationsChanged(); }));
+    return this._httpClient.delete<ObservationViewModel>('api/Observation/DeleteObservation', options)
+      .pipe(tap(() => { this._onObservationsChanged(); }));
   }
 
-  private announceObservationsChanged(): void {
+  private _onObservationsChanged(): void {
     this.observationsChanged.next(1);
+    this._service.getData();
   }
 }

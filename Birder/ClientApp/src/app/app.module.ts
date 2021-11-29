@@ -33,7 +33,7 @@ import { ConfirmEmailComponent } from './_account/confirm-email/confirm-email.co
 import { ObservationEditComponent } from './_observations/observation-edit/observation-edit.component';
 import { ObservationDeleteComponent } from './_observations/observation-delete/observation-delete.component';
 import { JwtModule } from '@auth0/angular-jwt';
-import { InfoObservationCountComponent } from './_info/info-observation-count/info-observation-count.component';
+// import { InfoObservationCountComponent } from './_info/info-observation-count/info-observation-count.component';
 import { InfoTopObservationsComponent } from './_info/info-top-observations/info-top-observations.component';
 import { LifeListComponent } from './_lists/life-list/life-list.component';
 import { InfoAwardsComponent } from './_info/info-awards/info-awards.component';
@@ -111,6 +111,7 @@ import { ContactFormComponent } from './_home/contact-form/contact-form.componen
 import { FutureComponent } from './_home/future/future.component';
 import { FeaturesComponent } from './_home/features/features.component';
 import { DatabaseStatusComponent } from './database-status/database-status.component';
+import { ObservationCountComponent } from './_info/observation-count/observation-count.component';
 
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
@@ -163,7 +164,7 @@ export function tokenGetter() {
     ConfirmEmailComponent,
     ObservationEditComponent,
     ObservationDeleteComponent,
-    InfoObservationCountComponent,
+    // InfoObservationCountComponent,
     InfoTopObservationsComponent,
     LifeListComponent,
     InfoAwardsComponent,
@@ -223,6 +224,7 @@ export function tokenGetter() {
     FutureComponent,
     FeaturesComponent,
     DatabaseStatusComponent,
+    ObservationCountComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

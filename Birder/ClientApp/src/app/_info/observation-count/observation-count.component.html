@@ -1,0 +1,61 @@
+<div>
+
+    <ng-container *ngIf="(_service.getCount | async) as analysis; else loadingOrError">
+
+        <div *ngIf="analysis.totalObservationsCount">
+            <p class="analysis-text">You have spotted <span class="count-text">{{ analysis.uniqueSpeciesCount }}</span>
+                species <br>in
+                <span class="count-text">{{ analysis.totalObservationsCount }}</span>
+                {{ analysis.totalObservationsCount > 1 ? 'observations' : 'observation' }}
+            </p>
+        </div>
+
+        <div *ngIf="!analysis.totalObservationsCount">
+            <p>
+                <ngb-alert type="warning" [dismissible]="false">
+                    You have not yet logged any observations...<br>
+                    <a routerLink="/observation-add">Click here</a> to add your first one
+                </ngb-alert>
+            </p>
+        </div>
+
+    </ng-container>
+
+    <ng-template #loadingOrError>
+        <ng-container *ngIf="(_service.isError | async); else loading">
+            <!-- <app-error-display [error]="errorObject"></app-error-display> -->
+            <!-- ToDo: alert with button on the right? -->
+            <p>error</p>
+            <button data-testid="reload-button" (click)="reload()">Retry</button>
+        </ng-container>
+    </ng-template>
+
+
+    <ng-template #loading>
+        <div class="loading-placeholder">
+            <p><em>Loading...</em></p>
+            <mat-spinner></mat-spinner>
+        </div>
+    </ng-template>
+
+</div>
+
+<!-- <div *ngIf="(_service.isLoading | async) as loading">
+    <h1 data-testid="loading-header">is loading: {{ loading }}</h1>
+</div>
+
+
+
+<div *ngIf="(_service.getCount | async) as analysis" data-testid="main-content">
+
+    <p class="analysis-text">You have spotted <span class="count-text">{{ analysis.uniqueSpeciesCount }}</span>
+        species <br>in
+        <span class="count-text">{{ analysis.totalObservationsCount }}</span>
+        {{ analysis.totalObservationsCount > 1 ? 'observations' : 'observation' }}
+    </p>
+</div>
+
+<div *ngIf="(_service.isError | async) as error" data-testid="error-content">
+    <h1 data-testid="error-header">is error: {{ error }}</h1>
+    <button data-testid="reload-button" (click)="reload()">Retry</button>
+</div> -->

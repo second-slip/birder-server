@@ -1,0 +1,18 @@
+app-observation-count {
+    text-align: center;
+
+    .analysis-text {
+        font-size: 1.2em;
+    }
+
+    .count-text {
+        font-size: 1.5em;
+    }
+
+    .loading-placeholder {
+        text-align: center;
+        .mat-spinner {
+            margin: 0 auto;
+        }
+    }
+}
