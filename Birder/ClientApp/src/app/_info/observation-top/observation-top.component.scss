@@ -1,0 +1,27 @@
+app-observation-top {
+    .container {
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .loading-placeholder {
+        text-align: center;
+        .mat-spinner {
+            margin: 0 auto;
+        }
+    }
+
+    .bird {
+        display: block;
+        line-height: 0%;
+    }
+
+    .loading {
+        text-align: center;
+    }
+
+    .table {
+        text-align: left;
+    }
+}

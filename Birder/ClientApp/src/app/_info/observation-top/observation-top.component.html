@@ -3,7 +3,7 @@
   <ng-container *ngIf="(_service.getTop | async)  as analysis; else loadingOrError">
     <!-- *ngIf="analysis; else noItem"> -->
     <div class="container">
-      <h4 class="container">Your Specietys</h4>
+      <h4 class="container">Your Top Species</h4>
 
       <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav nav-pills nav-fill">
 

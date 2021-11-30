@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { first, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { NetworkUserViewModel } from '@app/_models/UserProfileViewModel';
 import { NetworkSummaryDto } from '@app/_models/NetworkSummaryDto';

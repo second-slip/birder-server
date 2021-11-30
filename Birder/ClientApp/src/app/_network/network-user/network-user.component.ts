@@ -19,25 +19,27 @@ export class NetworkUserComponent {
 
     if (action === 'Follow') {
       this.networkService.postFollowUser(user)
-        .subscribe(
-          (data: NetworkUserViewModel) => {
+        .subscribe({
+          next: (data: NetworkUserViewModel) => {
             element.innerText = 'Unfollow';
             // this.toast.info('You have followed ' + data.userName, 'Success');
           },
-          (error => {
+          error: (error => {
             // this.toast.error(error.friendlyMessage, 'An error occurred');
-          }));
+          })
+        });
       return;
     } else {
       this.networkService.postUnfollowUser(user)
-        .subscribe(
-          (data: NetworkUserViewModel) => {
+        .subscribe({
+          next: (data: NetworkUserViewModel) => {
             element.innerText = 'Follow';
             // this.toast.info('You have unfollowed ' + data.userName, 'Success');
           },
-          (error => {
+          error: (error => {
             // this.toast.error(error.friendlyMessage, 'An error occurred');
-          }));
+          })
+        });
       return;
     }
   }

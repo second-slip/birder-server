@@ -112,6 +112,8 @@ import { FutureComponent } from './_home/future/future.component';
 import { FeaturesComponent } from './_home/features/features.component';
 import { DatabaseStatusComponent } from './database-status/database-status.component';
 import { ObservationCountComponent } from './_info/observation-count/observation-count.component';
+import { ObservationTopComponent } from './_info/observation-top/observation-top.component';
+import { ObservationTopChildComponent } from './_info/observation-top-child/observation-top-child.component';
 
 const cookieConfig: NgcCookieConsentConfig = {
   'cookie': {
@@ -225,6 +227,8 @@ export function tokenGetter() {
     FeaturesComponent,
     DatabaseStatusComponent,
     ObservationCountComponent,
+    ObservationTopComponent,
+    ObservationTopChildComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
