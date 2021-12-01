@@ -15,8 +15,12 @@
             "args": [],
             "cwd": "${workspaceFolder}/Birder",
             "stopAtEntry": false,
-            "launchBrowser": {
-                "enabled": true
+            // "launchBrowser": {
+            //     "enabled": true
+            // },
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -28,8 +32,8 @@
         {
             "name": ".NET Core Attach",
             "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
+            "request": "attach"
+            // "processId": "${command:pickProcess}"
         }
     ]
 }
