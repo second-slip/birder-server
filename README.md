@@ -1,6 +1,10 @@
 # Birder
 Birder is a social network-style platform for logging, sharing, and analysing bird observations. Ultimately, the aim is to feed the data to an algorithm which will help with species identification. 
 
+## *** Major refactor in progress ***
+### The server and client software are being moved into separate solutions.
+The new client respository is [birder-client](https://github.com/WinthorpeCross/birder-client).
+This repsoitory will contain the server solution.
 
 ### Technical information
 
