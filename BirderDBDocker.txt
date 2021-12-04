@@ -1,1 +1,0 @@
-FROM MyLocalRegistry:5000/custdb-image

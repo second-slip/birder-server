@@ -1,21 +1,19 @@
 using AutoMapper.EquivalencyExpression;
+using Azure.Core.Extensions;
+using Azure.Storage.Blobs;
+using Azure.Storage.Queues;
 using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using Microsoft.Extensions.Azure;
-using Azure.Storage.Queues;
-using Azure.Storage.Blobs;
-using Azure.Core.Extensions;
 
 namespace Birder
 {
@@ -47,14 +45,8 @@ namespace Birder
             //    configuration.RootPath = "ClientApp/dist";
             //});
 
-            // var t = @"Server=tcp:birder.database.windows.net,1433;Initial Catalog=BirderDb;Persist Security Info=False;User ID=X;Password=Y;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False; Connection Timeout=30;";
-            //var config = new StringBuilder(Configuration["ConnectionStrings: DefaultConnection"]);
-            //string conn = config.Replace("ENVPW", Configuration["DB_PW"])
-            //                    .ToString();
             services.AddDbContext<ApplicationDbContext>(options =>
                   options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-            // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(conn));
 
             services.AddIdentityCore<ApplicationUser>(options =>
             {

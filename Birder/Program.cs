@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
 
 namespace Birder
 {
@@ -25,10 +23,8 @@ namespace Birder
             {
                 // ToDo: rewrite for .NET 6: https://andrewlock.net/exploring-dotnet-6-part-1-looking-inside-configurationmanager-in-dotnet-6/
                 var builtConfig = config.Build();
-                var secretClient = new SecretClient(new Uri($"https://{builtConfig["KeyVaultName"]}.vault.azure.net/"),
-                                                         new DefaultAzureCredential());
+                var secretClient = new SecretClient(new Uri($"https://{builtConfig["KeyVaultName"]}.vault.azure.net/"), new DefaultAzureCredential());
                 config.AddAzureKeyVault(secretClient, new KeyVaultSecretManager());
-
             }
         })
         .ConfigureWebHostDefaults(webBuilder =>
