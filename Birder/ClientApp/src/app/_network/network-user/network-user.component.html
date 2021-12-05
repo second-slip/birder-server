@@ -1,8 +1,0 @@
-<div class="flex-container network-list">
-    <img class="avatar" src="{{user.avatar}}">
-    <a class="avatar-title" routerLink="/user-profile/{{user.userName}}">{{user.userName}}</a>
-    <div *ngIf="user.isOwnProfile === false"><button class="btn btn-link btn-sm"
-            (click)="followOrUnfollow($event.target, user)">
-            {{ user.isFollowing == true ? 'Unfollow' : 'Follow' }}</button>
-    </div>
-</div>
