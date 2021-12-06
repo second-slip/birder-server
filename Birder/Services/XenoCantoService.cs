@@ -1,10 +1,8 @@
-﻿using Birder.Helpers;
-using Birder.Infrastructure.CustomExceptions;
-using Birder.ViewModels;
+﻿using Birder.Infrastructure.CustomExceptions;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Birder.Services
 {
@@ -33,7 +31,7 @@ namespace Birder.Services
 
             if (response.IsSuccessStatusCode)
             {
-                var jsonOpts = new JsonSerializerOptions { IgnoreNullValues = true, PropertyNameCaseInsensitive = true };
+                var jsonOpts = new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, PropertyNameCaseInsensitive = true };
                 var contentStream = await response.Content.ReadAsStreamAsync();
                 var openWeatherResponse = await JsonSerializer.DeserializeAsync<XenoCantoResponse>(contentStream, jsonOpts);
                 
