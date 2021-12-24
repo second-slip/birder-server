@@ -20,7 +20,6 @@ namespace Birder.Services
             _dbContext = dbContext;
         }
 
-        // ToDo: consider splitting into two methods
         public async Task<IEnumerable<LifeListViewModel>> GetLifeListsAsync(Expression<Func<Observation, bool>> predicate)
         {
             if (predicate is null)
@@ -48,13 +47,13 @@ namespace Birder.Services
         }
 
         // ToDo: split this into two?
+        // Yes
 
         public async Task<TopObservationsAnalysisViewModel> GetTopObservationsAsync(string username, DateTime startDate)
         {
             if (string.IsNullOrEmpty(username))
                 throw new ArgumentException("The argument is null or empty", nameof(username));
             
-
             var viewModel = new TopObservationsAnalysisViewModel();
 
             viewModel.TopObservations = await _dbContext.Observations
