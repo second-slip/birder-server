@@ -16,7 +16,7 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class ObservationFeedController : ControllerBase
     {
-        private const int pageSize = 10;
+        // private const int pageSize = 10;
         private readonly ILogger _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IObservationQueryService _observationQueryService;
@@ -34,7 +34,7 @@ namespace Birder.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetObservationsFeedAsync(int pageIndex, ObservationFeedFilter filter)
+        public async Task<IActionResult> GetObservationsFeedAsync(int pageIndex, int pageSize, ObservationFeedFilter filter)
         {
             try
             {
