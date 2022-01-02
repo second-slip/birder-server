@@ -49,7 +49,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationsFeedAsync(1, ObservationFeedFilter.Own);
+            var result = await controller.GetObservationsFeedAsync(1, 10, ObservationFeedFilter.Own);
 
             // Assert
             var objectResult = Assert.IsType<ObjectResult>(result);
@@ -85,7 +85,7 @@ namespace Birder.Tests.Controller
 
 
             // Act
-            var result = await controller.GetObservationsFeedAsync(pageIndex, ObservationFeedFilter.Own);
+            var result = await controller.GetObservationsFeedAsync(pageIndex, pageSize: 10, ObservationFeedFilter.Own);
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -133,7 +133,7 @@ namespace Birder.Tests.Controller
                 };
 
                 // Act
-                var result = await controller.GetObservationsFeedAsync(pageIndex, ObservationFeedFilter.Own);
+                var result = await controller.GetObservationsFeedAsync(pageIndex, pageSize: 10, ObservationFeedFilter.Own);
 
                 // Assert
                 var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -182,7 +182,7 @@ namespace Birder.Tests.Controller
                 };
 
                 // Act
-                var result = await controller.GetObservationsFeedAsync(pageIndex, ObservationFeedFilter.Own);
+                var result = await controller.GetObservationsFeedAsync(pageIndex, pageSize: 10, ObservationFeedFilter.Own);
 
                 // Assert
                 var objectResult = Assert.IsType<OkObjectResult>(result);

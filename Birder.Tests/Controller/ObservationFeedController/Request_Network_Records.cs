@@ -66,7 +66,7 @@ namespace Birder.Tests.Controller
                 };
 
                 // Act
-                var result = await controller.GetObservationsFeedAsync(pageIndex, ObservationFeedFilter.Network);
+                var result = await controller.GetObservationsFeedAsync(pageIndex, pageSize: 10, ObservationFeedFilter.Network);
 
                 // Assert
                 var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -113,7 +113,7 @@ namespace Birder.Tests.Controller
                 };
 
                 // Act
-                var result = await controller.GetObservationsFeedAsync(pageIndex, ObservationFeedFilter.Network);
+                var result = await controller.GetObservationsFeedAsync(pageIndex, pageSize: 10, ObservationFeedFilter.Network);
 
                 // Assert
                 var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -156,7 +156,7 @@ namespace Birder.Tests.Controller
                 };
 
                 // Act
-                var result = await controller.GetObservationsFeedAsync(It.IsAny<int>(), It.IsAny<ObservationFeedFilter>());
+                var result = await controller.GetObservationsFeedAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<ObservationFeedFilter>());
 
                 // Assert
                 var objectResult = Assert.IsType<ObjectResult>(result);
@@ -200,7 +200,7 @@ namespace Birder.Tests.Controller
                 };
 
                 // Act
-                var result = await controller.GetObservationsFeedAsync(It.IsAny<int>(), ObservationFeedFilter.Network);
+                var result = await controller.GetObservationsFeedAsync(It.IsAny<int>(), It.IsAny<int>(), ObservationFeedFilter.Network);
 
                 // Assert
                 var objectResult = Assert.IsType<ObjectResult>(result);

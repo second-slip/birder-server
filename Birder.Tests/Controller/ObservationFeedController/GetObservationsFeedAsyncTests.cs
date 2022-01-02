@@ -44,7 +44,7 @@ namespace Birder.Tests.Controller
             };
 
             // Act
-            var result = await controller.GetObservationsFeedAsync(It.IsAny<int>(), It.IsAny<ObservationFeedFilter>());
+            var result = await controller.GetObservationsFeedAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<ObservationFeedFilter>());
 
             // Assert
             var objectResult = Assert.IsType<ObjectResult>(result);
