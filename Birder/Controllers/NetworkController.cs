@@ -55,23 +55,24 @@ namespace Birder.Controllers
                     FollowingCount = requestingUser.Following.Count
                 };
 
-                var followersNotBeingFollowed = UserNetworkHelpers.GetFollowersNotBeingFollowedUserNames(requestingUser);
+                // var followersNotBeingFollowed = UserNetworkHelpers.GetFollowersNotBeingFollowedUserNames(requestingUser);
 
-                if (followersNotBeingFollowed.Any())
-                {
-                    // ToDo: needs to be paged or Take(x)
-                    var users = await _userManager.GetUsersAsync(user => followersNotBeingFollowed.Contains(user.UserName));
-                    model.SuggestedUsersToFollow = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
-                    return Ok(model);
-                }
-                else
-                {
-                    // ToDo: needs to be paged or Take(x)
-                    var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
-                    var users = await _userManager.GetUsersAsync(user => !followingUsernamesList.Contains(user.UserName) && user.UserName != requestingUser.UserName);
-                    model.SuggestedUsersToFollow = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
-                    return Ok(model);
-                }
+                // if (followersNotBeingFollowed.Any())
+                // {
+                //     // ToDo: needs to be paged or Take(x)
+                //     var users = await _userManager.GetUsersAsync(user => followersNotBeingFollowed.Contains(user.UserName));
+                //     model.SuggestedUsersToFollow = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
+                //     return Ok(model);
+                // }
+                // else
+                // {
+                //     // ToDo: needs to be paged or Take(x)
+                //     var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
+                //     var users = await _userManager.GetUsersAsync(user => !followingUsernamesList.Contains(user.UserName) && user.UserName != requestingUser.UserName);
+                //     model.SuggestedUsersToFollow = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
+                //     return Ok(model);
+                // }
+                return Ok(model);
             }
             catch (Exception ex)
             {
