@@ -51,7 +51,7 @@ public class ListController : ControllerBase
         }
     }
 
-    [HttpGet, Route("GetLifeList")]
+    [HttpGet, Route("LifeList")]
     public async Task<IActionResult> GetLifeListAsync()
     {
         try
