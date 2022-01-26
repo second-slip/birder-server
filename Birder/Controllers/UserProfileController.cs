@@ -11,20 +11,22 @@ public class UserProfileController : ControllerBase
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IObservationsAnalysisService _observationsAnalysisService;
 
     public UserProfileController(IMapper mapper
                         , ILogger<UserProfileController> logger
-                        , UserManager<ApplicationUser> userManager)
+                        , UserManager<ApplicationUser> userManager
+                        , IObservationsAnalysisService observationsAnalysisService)
     {
         _mapper = mapper;
         _logger = logger;
         _userManager = userManager;
+        _observationsAnalysisService = observationsAnalysisService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetUserProfileAsync(string requestedUsername)
     {
-        // add properties for no. of species / observations
         // build new query object
         if (string.IsNullOrEmpty(requestedUsername))
         {
@@ -55,8 +57,9 @@ public class UserProfileController : ControllerBase
             }
             else
             {
-                // Other user's profile requested...
+                                // Other user's profile requested...
                 requestedUserProfileViewModel.IsFollowing = UserNetworkHelpers.UpdateIsFollowingProperty(User.Identity.Name, requestedUser.Followers);
+                requestedUserProfileViewModel.ObservationCount = await _observationsAnalysisService.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == requestedUsername);
             }
 
             return Ok(requestedUserProfileViewModel);

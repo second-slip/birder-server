@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Birder.ViewModels
+﻿namespace Birder.ViewModels
 {
     public class UserProfileViewModel
     {
@@ -8,10 +6,9 @@ namespace Birder.ViewModels
         public string Avatar { get; set; }
         public DateTime RegistrationDate { get; set; }
         public bool IsOwnProfile { get; set; }
+        public ObservationAnalysisViewModel ObservationCount { get; set; }
         public int FollowersCount { get; set; }
         public int FollowingCount { get; set; }
         public bool IsFollowing { get; set; }
-        //public IEnumerable<FollowerViewModel> Followers { get; set; }
-        //public IEnumerable<FollowingViewModel> Following { get; set; }
     }
 }
