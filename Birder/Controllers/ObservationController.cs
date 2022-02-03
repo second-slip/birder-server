@@ -45,7 +45,7 @@ namespace Birder.Controllers
             _observationNoteRepository = observationNoteRepository;
         }
 
-        [HttpGet, Route("GetObservationDetail")]
+        [HttpGet]
         public async Task<IActionResult> GetObservationAsync(int id)
         {
             try
