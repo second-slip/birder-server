@@ -69,7 +69,7 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpPost, Route("CreateObservation")]
+        [HttpPost, Route("Create")]
         public async Task<IActionResult> CreateObservationAsync(ObservationAddDto model)
         {
             try
@@ -127,7 +127,7 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpPut, Route("UpdateObservation")]
+        [HttpPut, Route("Update")]
         public async Task<IActionResult> PutObservationAsync(int id, ObservationEditDto model)
         {
             try
@@ -228,7 +228,7 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpDelete, Route("DeleteObservation")]
+        [HttpDelete, Route("Delete")]
         public async Task<IActionResult> DeleteObservationAsync(int id)
         {
             try
