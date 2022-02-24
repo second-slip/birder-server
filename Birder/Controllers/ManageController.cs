@@ -40,7 +40,7 @@ namespace Birder.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet, Route("GetUserProfile")]
+        [HttpGet] //, Route("GetUserProfile")]
         public async Task<IActionResult> GetUserProfileAsync()
         {
             try
@@ -61,7 +61,7 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpPost, Route("UpdateProfile")]
+        [HttpPost, Route("Profile")]
         public async Task<IActionResult> UpdateProfileAsync(ManageProfileViewModel model)
         {
             try
@@ -200,7 +200,7 @@ namespace Birder.Controllers
         //    }
         //}
 
-        [HttpPost, Route("SetLocation")]
+        [HttpPost, Route("Location")]
         public async Task<IActionResult> SetLocationAsync(SetLocationViewModel model)
         {
             try
@@ -233,7 +233,7 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpPost, Route("ChangePassword")]
+        [HttpPost, Route("Password")]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordViewModel model)
         {
             try

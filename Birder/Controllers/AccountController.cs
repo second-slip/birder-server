@@ -154,9 +154,9 @@ namespace Birder.Controllers
             }
         }
 
-        [HttpPost, Route("ForgotPassword")]
+        [HttpPost, Route("RequestPasswordReset")]
         [AllowAnonymous]
-        public async Task<IActionResult> PostForgotPasswordAsync(UserEmailDto model)
+        public async Task<IActionResult> PostRequestPasswordResetAsync(UserEmailDto model)
         {
             try
             {
