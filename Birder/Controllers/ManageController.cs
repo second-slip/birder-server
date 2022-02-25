@@ -1,18 +1,5 @@
 ﻿using AutoMapper;
 using Birder.Data.Model;
-using Birder.Helpers;
-using Birder.Services;
-using Birder.Templates;
-using Birder.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {
@@ -54,7 +41,7 @@ namespace Birder.Controllers
 
                 return Ok(_mapper.Map<ApplicationUser, ManageProfileViewModel>(user));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, ex, "GetUserProfileAsync");
                 return BadRequest("There was an error getting the user");
@@ -97,7 +84,7 @@ namespace Birder.Controllers
                     //    await file.DisposeAsync();
                     //    await _fileClient.DeleteFile(StorageContainers.Avatar, userName);
                     //}
-                    
+
                     //var avatarUrl = await _fileClient.GetFileUrl(StorageContainers.Avatar, model.UserName);
 
                     //if (string.IsNullOrEmpty(avatarUrl))
@@ -107,6 +94,8 @@ namespace Birder.Controllers
 
                     //user.Avatar = avatarUrl;
                 }
+
+                var viewModel = new EmailConfirmationRequired();
 
                 var email = user.Email;
                 if (model.Email != email)
@@ -123,16 +112,16 @@ namespace Birder.Controllers
                         var url = _urlService.GetConfirmEmailUrl(model.UserName, code);
                         var templateData = new { username = user.UserName, url = url };
                         await _emailSender.SendTemplateEmail("d-fc1571171e23463bb311870984664506", model.Email, templateData);
-                        model.EmailConfirmationRequired = true;
+                        viewModel.IsEmailConfirmationRequired = true;
                     }
                 }
 
                 var update = await _userManager.UpdateAsync(user);
-                
-                if(!update.Succeeded)
+
+                if (!update.Succeeded)
                     throw new ApplicationException($"Unexpected error occurred setting the location for user with ID '{user.Id}'.");
 
-                return Ok(model);
+                return Ok(viewModel);
             }
             catch (Exception ex)
             {
@@ -214,7 +203,7 @@ namespace Birder.Controllers
                 }
 
                 var coordinates = string.Concat(user.DefaultLocationLatitude, ",", user.DefaultLocationLongitude);
-                
+
                 if (string.Concat(model.DefaultLocationLatitude, ",", model.DefaultLocationLongitude) != coordinates)
                 {
                     user.DefaultLocationLatitude = model.DefaultLocationLatitude;
@@ -222,7 +211,7 @@ namespace Birder.Controllers
 
                     var setCoordinates = await _userManager.UpdateAsync(user);
                     if (!setCoordinates.Succeeded)
-                        throw new ApplicationException($"Unexpected error occurred setting the location for user with ID '{user.Id}'."); 
+                        throw new ApplicationException($"Unexpected error occurred setting the location for user with ID '{user.Id}'.");
                 }
 
                 return Ok(model);
@@ -243,15 +232,15 @@ namespace Birder.Controllers
                 if (user == null)
                 {
                     _logger.LogError(LoggingEvents.GetItemNotFound, "ChangePassword");
-                    return NotFound("User not found");
+                    return BadRequest("There was an error updating the user");
                 }
 
                 var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-                
+
                 if (!changePasswordResult.Succeeded)
                     throw new ApplicationException($"Unexpected error occurred changing the password for user with ID '{user.Id}'.");
 
-                return Ok(model);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -259,5 +248,10 @@ namespace Birder.Controllers
                 return BadRequest("There was an error updating the user");
             }
         }
+    }
+
+    public class EmailConfirmationRequired
+    {
+        public bool IsEmailConfirmationRequired { get; set; }
     }
 }

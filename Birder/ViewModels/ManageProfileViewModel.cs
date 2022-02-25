@@ -9,7 +9,7 @@ namespace Birder.ViewModels
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
-        public bool EmailConfirmationRequired { get; set; }
+        // public bool EmailConfirmationRequired { get; set; }
 
         [Required]
         [EmailAddress]

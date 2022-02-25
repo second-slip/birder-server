@@ -1,15 +1,4 @@
 ﻿using Birder.Data.Model;
-using Birder.Helpers;
-using Birder.Services;
-using Birder.Templates;
-using Birder.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {
