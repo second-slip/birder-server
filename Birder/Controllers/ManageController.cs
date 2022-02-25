@@ -123,6 +123,7 @@ namespace Birder.Controllers
                         var url = _urlService.GetConfirmEmailUrl(model.UserName, code);
                         var templateData = new { username = user.UserName, url = url };
                         await _emailSender.SendTemplateEmail("d-fc1571171e23463bb311870984664506", model.Email, templateData);
+                        model.EmailConfirmationRequired = true;
                     }
                 }
 
