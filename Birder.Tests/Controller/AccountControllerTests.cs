@@ -485,7 +485,7 @@ namespace Birder.Tests.Controller
             var testModel = new UserEmailDto() { };
 
             // Act
-            var result = await controller.PostForgotPasswordAsync(testModel);
+            var result = await controller.PostRequestPasswordResetAsync(testModel);
 
             // Assert
             var objectResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -507,7 +507,7 @@ namespace Birder.Tests.Controller
             var testModel = new UserEmailDto() { };
 
             // Act
-            var result = await controller.PostForgotPasswordAsync(testModel);
+            var result = await controller.PostRequestPasswordResetAsync(testModel);
 
             // Assert
             var objectResult = Assert.IsType<OkResult>(result);
@@ -527,7 +527,7 @@ namespace Birder.Tests.Controller
             var testModel = new UserEmailDto() { };
 
             // Act
-            var result = await controller.PostForgotPasswordAsync(testModel);
+            var result = await controller.PostRequestPasswordResetAsync(testModel);
 
             // Assert
             var objectResult = Assert.IsType<OkResult>(result);
@@ -557,7 +557,7 @@ namespace Birder.Tests.Controller
             var testModel = new UserEmailDto() { };
 
             // Act
-            var result = await controller.PostForgotPasswordAsync(testModel);
+            var result = await controller.PostRequestPasswordResetAsync(testModel);
 
             // Assert
             Assert.IsType<OkResult>(result);

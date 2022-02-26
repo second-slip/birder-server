@@ -405,7 +405,7 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
-            var model = new ManageProfileViewModel() { UserName = "", IsEmailConfirmed = true };
+            var model = new ManageProfileViewModel() { UserName = "" };
 
             // Act
             var result = await controller.UpdateProfileAsync(model);
@@ -431,7 +431,7 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
-            var model = new ManageProfileViewModel() { UserName = "", IsEmailConfirmed = true };
+            var model = new ManageProfileViewModel() { UserName = "" };
 
             // Act
             var result = await controller.UpdateProfileAsync(model);
@@ -458,7 +458,7 @@ namespace Birder.Tests.Controller
             };
 
             // model username IS the same as GetValidTestUser username
-            var model = new ManageProfileViewModel() { UserName = "Test User", IsEmailConfirmed = true };
+            var model = new ManageProfileViewModel() { UserName = "Test User" };
 
             // Act
             var result = await controller.UpdateProfileAsync(model);
@@ -499,7 +499,7 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
-            var model = new ManageProfileViewModel() { UserName = "Test User", IsEmailConfirmed = true };
+            var model = new ManageProfileViewModel() { UserName = "Test User" };
 
             // Act
             var result = await controller.UpdateProfileAsync(model);
@@ -539,7 +539,7 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
-            var model = new ManageProfileViewModel() { UserName = "Test", Email = "", IsEmailConfirmed = true };
+            var model = new ManageProfileViewModel() { UserName = "Test", Email = "" };
 
             // Act
             var result = await controller.UpdateProfileAsync(model);
@@ -583,7 +583,7 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
-            var model = new ManageProfileViewModel() { UserName = "Test User", Email = "", IsEmailConfirmed = true };
+            var model = new ManageProfileViewModel() { UserName = "Test User", Email = "" };
 
             // Act
             var result = await controller.UpdateProfileAsync(model);
@@ -621,7 +621,7 @@ namespace Birder.Tests.Controller
                 HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
             };
 
-            var model = new ManageProfileViewModel() { UserName = "Test User", Email = "", IsEmailConfirmed = true };
+            var model = new ManageProfileViewModel() { UserName = "Test User", Email = "" };
 
             // Act
             var result = await controller.UpdateProfileAsync(model);
