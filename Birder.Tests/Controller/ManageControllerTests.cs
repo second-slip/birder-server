@@ -631,8 +631,8 @@ namespace Birder.Tests.Controller
             Assert.NotNull(objectResult);
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            var returnObject = Assert.IsType<ManageProfileViewModel>(objectResult.Value);
-            Assert.Equal(model, returnObject);
+            var returnObject = Assert.IsType<EmailConfirmationRequiredDto>(objectResult.Value);
+            //Assert.Equal(model, returnObject);
         }
 
         #endregion
@@ -863,9 +863,9 @@ namespace Birder.Tests.Controller
             var result = await controller.ChangePasswordAsync(model);
 
             // Assert
-            var objectResult = Assert.IsType<NotFoundObjectResult>(result);
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.IsType<String>(objectResult.Value);
-            Assert.Equal("User not found", objectResult.Value);
+            Assert.Equal("There was an error updating the user", objectResult.Value);
         }
 
         [Fact]
@@ -949,12 +949,12 @@ namespace Birder.Tests.Controller
             var result = await controller.ChangePasswordAsync(model);
 
             // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(result);
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult is OkObjectResult);
+            var objectResult = Assert.IsType<OkResult>(result);
+            //Assert.NotNull(objectResult);
+            Assert.True(objectResult is OkResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            var returnObject = Assert.IsType<ChangePasswordViewModel>(objectResult.Value);
-            Assert.Equal(model, returnObject);
+            //var returnObject = Assert.IsType<ChangePasswordViewModel>(objectResult.Value);
+            //Assert.Equal(model, returnObject);
         }
 
 

@@ -95,7 +95,7 @@ namespace Birder.Controllers
                     //user.Avatar = avatarUrl;
                 }
 
-                var viewModel = new EmailConfirmationRequired();
+                var viewModel = new EmailConfirmationRequiredDto();
 
                 var email = user.Email;
                 if (model.Email != email)
@@ -250,7 +250,7 @@ namespace Birder.Controllers
         }
     }
 
-    public class EmailConfirmationRequired
+    public class EmailConfirmationRequiredDto
     {
         public bool IsEmailConfirmationRequired { get; set; }
     }
