@@ -29,25 +29,6 @@ public class ObservationFeedController : ControllerBase
     {
         try
         {
-            if (filter == ObservationFeedFilter.Own)
-            {
-                var userObservations = await _observationQueryService.GetPagedObservationsFeedAsync(o => o.ApplicationUser.UserName == User.Identity.Name, pageIndex, pageSize);
-
-                if (userObservations is null)
-                {
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, "User Observations list was null at GetObservationsFeedAsync()");
-                    return StatusCode(500, $"User observations object is null");
-                }
-
-                if (userObservations.TotalItems > 0 || pageIndex > 1)
-                {
-                    // _profilePhotosService.GetThumbnailUrl(userObservations.Items);
-                    userObservations.ReturnFilter = ObservationFeedFilter.Own;
-                    return Ok(userObservations);
-                }
-            }
-
-
             /*
              * if network observations is requested, or
              * if user's own observations is request BUT user has no observations
@@ -104,6 +85,32 @@ public class ObservationFeedController : ControllerBase
         {
             _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the observations feed");
             return StatusCode(500, "An unexpected error occurred");
+        }
+    }
+
+    [HttpGet, Route("UserFeed")]
+    public async Task<IActionResult> GetUserFeedAsync(int pageIndex, int pageSize)
+    {
+        try
+        {
+
+            var userObservations = await _observationQueryService.GetPagedObservationsFeedAsync(o => o.ApplicationUser.UserName == User.Identity.Name, pageIndex, pageSize);
+
+            if (userObservations is null)
+            {
+                _logger.LogWarning(LoggingEvents.GetListNotFound, "User Observations list was null at GetObservationsFeedAsync()");
+                return StatusCode(500, $"User observations object is null");
+            }
+
+            // if (userObservations.TotalItems > 0 || pageIndex > 1)
+            // {
+            // userObservations.ReturnFilter = ObservationFeedFilter.Own;
+            return Ok(userObservations);
+            // }
+        }
+        catch (Exception ex)
+        {
+
         }
     }
 }
