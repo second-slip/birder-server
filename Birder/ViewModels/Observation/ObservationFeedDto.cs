@@ -7,7 +7,7 @@ namespace Birder.ViewModels
     {
         public int TotalItems { get; set; }
         public IEnumerable<ObservationFeedDto> Items { get; set; }
-        public ObservationFeedFilter ReturnFilter { get; set; }
+        //public ObservationFeedFilter ReturnFilter { get; set; }
     }
 
     public class ObservationFeedDto
