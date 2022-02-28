@@ -43,7 +43,7 @@ public class ObservationFeedController : ControllerBase
     }
 
     [HttpGet, Route("NetworkFeed")]
-    public async Task<IActionResult> GetNetworkFeedAsync(int pageIndex, int pageSize, ObservationFeedFilter filter)
+    public async Task<IActionResult> GetNetworkFeedAsync(int pageIndex, int pageSize) //, ObservationFeedFilter filter)
     {
         try
         {

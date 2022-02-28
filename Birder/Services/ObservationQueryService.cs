@@ -1,19 +1,15 @@
 ﻿using Birder.Data;
 using Birder.Data.Model;
-using Birder.Helpers;
-using Birder.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Birder.Services
 {
     public interface IObservationQueryService
     {
         Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
-        Task<ObservationFeedPagedDto> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
+        Task<IEnumerable<ObservationFeedDto>> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
     }
     public class ObservationQueryService : IObservationQueryService
     {
@@ -47,9 +43,9 @@ namespace Birder.Services
             return result;
         }
 
-        public async Task<ObservationFeedPagedDto> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
+        public async Task<IEnumerable<ObservationFeedDto>> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
         {
-            var result = new ObservationFeedPagedDto();
+            //var result = new ObservationFeedPagedDto();
 
             var query = _dbContext.Observations
                 .AsNoTracking()
@@ -61,13 +57,14 @@ namespace Birder.Services
 
             query = query.OrderByDescending(d => d.ObservationDateTime);
 
-            result.TotalItems = await query.CountAsync();
+            //result.TotalItems = await query.CountAsync();
 
             query = query.ApplyPaging(pageIndex, pageSize);
 
-            result.Items = await query.ToListAsync();
+            // result.Items = await query.ToListAsync();
+            var result = await query.ToListAsync();
 
-            _profilePhotosService.GetThumbnailUrl(result.Items);
+            _profilePhotosService.GetThumbnailUrl(result);
 
             return result;
         }
