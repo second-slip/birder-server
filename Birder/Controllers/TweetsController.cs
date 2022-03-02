@@ -29,7 +29,7 @@ namespace Birder.Controllers
             _tweetDayRepository = tweetDayRepository;
         }
 
-        [HttpGet, Route("TweetDay")]
+        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetTweetDayAsync()
         {
@@ -74,10 +74,10 @@ namespace Birder.Controllers
                     _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting the tweets archive");
                     return StatusCode(500, $"tweets repository returned null");
                 }
-
+                //ToDo: To be refactored
                 var viewModel = _mapper.Map<QueryResult<TweetDay>, TweetArchiveDto>(tweets);
 
-                return Ok(viewModel);
+                return Ok(viewModel.Items);
             }
             catch (Exception ex)
             {
