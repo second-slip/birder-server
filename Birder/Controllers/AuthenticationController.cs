@@ -63,13 +63,11 @@ public class AuthenticationController : ControllerBase
             {
                 var claims = new List<Claim>
                     {
-                        new Claim(JwtRegisteredClaimNames.Email, user.Email),
                         new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
                         new Claim("ImageUrl", user.Avatar),
-                        new Claim("DefaultLatitude", user.DefaultLocationLatitude.ToString()),
-                        new Claim("DefaultLongitude", user.DefaultLocationLongitude.ToString()),
+                        new Claim("Lat", user.DefaultLocationLatitude.ToString()),
+                        new Claim("Lng", user.DefaultLocationLongitude.ToString()),
                         new Claim("FlickrKey", _configuration["FlickrApiKey"]),
-                        new Claim("MapKey", _configuration["MapApiKey"]),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
