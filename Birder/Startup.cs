@@ -87,6 +87,8 @@ namespace Birder
             services.AddScoped<IFlickrService, FlickrService>();
             services.AddScoped<IBirdThumbnailPhotoService, BirdThumbnailPhotoService>();
 
+            services.AddScoped<IAuthenticationTokenService, AuthenticationTokenService>();
+
             services.AddSingleton<ISystemClockService, SystemClockService>();
             services.AddSingleton<IUrlService, UrlService>();
 
