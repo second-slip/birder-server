@@ -1,44 +1,42 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Web;
 
-namespace Birder.Services
+namespace Birder.Services;
+
+public interface IUrlService
 {
-    public interface IUrlService
+    Uri GetResetPasswordUrl(string code);
+    Uri GetConfirmEmailUrl(string username, string code);
+}
+
+public class UrlService : IUrlService
+{
+    private readonly IConfiguration _configuration;
+
+    public UrlService(IConfiguration configuration)
     {
-        Uri GetResetPasswordUrl(string code);
-        Uri GetConfirmEmailUrl(string username, string code);
+        _configuration = configuration;
     }
 
-    public class UrlService : IUrlService
+    public Uri GetConfirmEmailUrl(string username, string code)
     {
-        private readonly IConfiguration _configuration;
-
-        public UrlService(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        public Uri GetConfirmEmailUrl(string username, string code)
-        {
-            var queryParams = new Dictionary<string, string>()
+        var queryParams = new Dictionary<string, string>()
                 {
                     {"username", username },
                     {"code", code }
                 };
 
-            var url = string.Concat(_configuration["Scheme"], _configuration["Domain"], "/api/Account/ConfirmEmail");
+        var url = string.Concat(_configuration["Scheme"], _configuration["Domain"], "/api/Account/ConfirmEmail");
 
-            return new Uri(QueryHelpers.AddQueryString(url, queryParams));
-        }
+        return new Uri(QueryHelpers.AddQueryString(url, queryParams));
+    }
 
-        public Uri GetResetPasswordUrl(string code)
-        {
-            var url = string.Concat(_configuration["Scheme"], _configuration["Domain"], "/reset-password/", HttpUtility.UrlEncode(code));
+    public Uri GetResetPasswordUrl(string code)
+    {
+        var url = string.Concat(_configuration["Scheme"], _configuration["Domain"], "/reset-password/", HttpUtility.UrlEncode(code));
 
-            return new Uri(url);
-        }
+        return new Uri(url);
     }
 }
