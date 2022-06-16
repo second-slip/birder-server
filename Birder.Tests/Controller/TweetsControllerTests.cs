@@ -99,7 +99,7 @@ namespace Birder.Tests.Controller
             Assert.NotNull(objectResult);
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            var actual = Assert.IsType<TweetArchiveDto>(objectResult.Value);
+            Assert.IsType<List<TweetDayViewModel>>(objectResult.Value);
         }
 
 

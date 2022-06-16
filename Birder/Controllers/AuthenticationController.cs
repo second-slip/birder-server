@@ -30,6 +30,7 @@ public class AuthenticationController : ControllerBase
         _authenticationTokenService = authenticationTokenService;
         _userManager = userManager;
         _signInManager = signInManager;
+        _authenticationTokenService = authenticationTokenService;
     }
 
     [HttpPost, Route("login")]
