@@ -38,8 +38,6 @@ namespace Birder.Data
             CreateMap<QueryResult<Observation>, ObservationFeedPagedDto>()
               .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
 
-            CreateMap<List<Observation>, List<LifeListViewModel>>();
-
             CreateMap<ApplicationUser, UserViewModel>()
               .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
               .ForMember(x => x.Avatar, y => y.MapFrom(x => x.Avatar))
