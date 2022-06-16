@@ -1,5 +1,4 @@
 ﻿using Birder.Data.Model;
-using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,18 +14,18 @@ public class AuthenticationController : ControllerBase
     private readonly SignInManager<ApplicationUser> _signInManager;
     // private readonly ISystemClockService _systemClock;
     private readonly IAuthenticationTokenService _authenticationTokenService;
-    private readonly IConfiguration _configuration;
+    // private readonly IConfiguration _configuration;
     private readonly ILogger _logger;
 
     public AuthenticationController(UserManager<ApplicationUser> userManager
                                     , SignInManager<ApplicationUser> signInManager
                                     , ILogger<AuthenticationController> logger
                                     // , ISystemClockService systemClock
-                                    , IAuthenticationTokenService authenticationTokenService
-                                    , IConfiguration configuration)
+                                    , IAuthenticationTokenService authenticationTokenService)
+                                    // , IConfiguration configuration)
     {
         _logger = logger;
-        _configuration = configuration; //ToDo: remove FlickrKey
+        // _configuration = configuration; //ToDo: remove FlickrKey
         // _systemClock = systemClock;
         _authenticationTokenService = authenticationTokenService;
         _userManager = userManager;
@@ -69,7 +68,8 @@ public class AuthenticationController : ControllerBase
                         new Claim("ImageUrl", user.Avatar),
                         new Claim("Lat", user.DefaultLocationLatitude.ToString()),
                         new Claim("Lng", user.DefaultLocationLongitude.ToString()),
-                        new Claim("FlickrKey", _configuration["FlickrApiKey"]), //ToDo: remove FlickrKey
+                        // What to do with it?
+                        //new Claim("FlickrKey", _configuration["FlickrApiKey"]), //ToDo: remove FlickrKey
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
