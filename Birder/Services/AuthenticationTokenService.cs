@@ -24,7 +24,12 @@ public class AuthenticationTokenService : IAuthenticationTokenService
 
     public AuthenticationResultDto CreateToken(List<Claim> claims)
     {
-        if (!claims.Any()) {
+        if (claims is null)
+        {
+            throw new ArgumentException($"The argument is null or empty", nameof(claims));
+        }
+        if (!claims.Any())
+        {
             throw new ArgumentException($"The argument is null or empty", nameof(claims));
         }
 

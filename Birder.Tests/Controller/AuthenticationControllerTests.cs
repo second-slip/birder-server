@@ -18,7 +18,6 @@ namespace Birder.Tests.Controller;
 public class AuthenticationControllerTests
 {
     private readonly Mock<ILogger<AuthenticationController>> _logger;
-    //private readonly Mock<IConfiguration> _config;
 
     public AuthenticationControllerTests()
     {
@@ -44,9 +43,13 @@ public class AuthenticationControllerTests
                         .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Success));
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
-        var expected___________ = new AuthenticationResultDto();
+        var expected = new AuthenticationResultDto()
+        {
+            AuthenticationToken = "test token",
+            FailureReason = AuthenticationFailureReason.None
+        };
         mockAuthenticationTokenService.Setup(x => x.CreateToken(It.IsAny<List<Claim>>()))
-        .Returns(expected___________);
+        .Returns(expected);
 
         var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
 
@@ -63,7 +66,8 @@ public class AuthenticationControllerTests
         Assert.IsType<AuthenticationResultDto>(objectResult.Value);
         var returnModel = objectResult.Value as AuthenticationResultDto;
         Assert.Equal(AuthenticationFailureReason.None, returnModel.FailureReason);
-        //Assert.NotNull(returnModel.AuthenticationToken);
+        Assert.Equal(returnModel.AuthenticationToken, expected.AuthenticationToken);
+        Assert.NotNull(returnModel.AuthenticationToken);
     }
 
     [Fact]
@@ -79,9 +83,6 @@ public class AuthenticationControllerTests
                         .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Failed));
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
-        // var expected___________ = new AuthenticationResultDto();
-        // mockAuthenticationTokenService.Setup(x => x.CreateToken(It.IsAny<List<Claim>>()))
-        // .Returns(expected___________);
 
         var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
 
@@ -116,9 +117,6 @@ public class AuthenticationControllerTests
                         .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.LockedOut));
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
-        // var expected___________ = new AuthenticationResultDto();
-        // mockAuthenticationTokenService.Setup(x => x.CreateToken(It.IsAny<List<Claim>>()))
-        // .Returns(expected___________);
 
         var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
 
@@ -151,9 +149,6 @@ public class AuthenticationControllerTests
         var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
-        // var expected___________ = new AuthenticationResultDto();
-        // mockAuthenticationTokenService.Setup(x => x.CreateToken(It.IsAny<List<Claim>>()))
-        // .Returns(expected___________);
 
         var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
 
@@ -186,9 +181,6 @@ public class AuthenticationControllerTests
         var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
-        // var expected___________ = new AuthenticationResultDto();
-        // mockAuthenticationTokenService.Setup(x => x.CreateToken(It.IsAny<List<Claim>>()))
-        // .Returns(expected___________);
 
         var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
 
@@ -205,9 +197,9 @@ public class AuthenticationControllerTests
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
         Assert.IsType<AuthenticationResultDto>(objectResult.Value);
 
-        var returnModel = objectResult.Value as AuthenticationResultDto;
-        Assert.Equal(AuthenticationFailureReason.Other, returnModel.FailureReason);
-        Assert.Null(returnModel.AuthenticationToken);
+        var expectedToken = objectResult.Value as AuthenticationResultDto;
+        Assert.Equal(AuthenticationFailureReason.Other, expectedToken.FailureReason);
+        Assert.Null(expectedToken.AuthenticationToken);
     }
 
     //[Fact]
@@ -258,9 +250,6 @@ public class AuthenticationControllerTests
         var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
-        // var expected___________ = new AuthenticationResultDto();
-        // mockAuthenticationTokenService.Setup(x => x.CreateToken(It.IsAny<List<Claim>>()))
-        // .Returns(expected___________);
 
         var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
 
