@@ -51,6 +51,7 @@ namespace Birder.Services
                 .AsNoTracking()
                 .Where(predicate)
                 .MapObservationToObservationFeedDto()
+                // .AsSplitQuery()
                 .AsQueryable();
 
             //query = query.ApplyFiltering(queryObj);

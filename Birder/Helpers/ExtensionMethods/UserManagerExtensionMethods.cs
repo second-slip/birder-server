@@ -28,6 +28,7 @@ namespace Birder.Helpers
                          .Include(y => y.Following)
                              .ThenInclude(r => r.ApplicationUser)
                          .Where(x => x.UserName == username)
+                         .AsSplitQuery() // see: https://docs.microsoft.com/en-gb/ef/core/querying/single-split-queries
                          .FirstOrDefaultAsync();
         }
 
