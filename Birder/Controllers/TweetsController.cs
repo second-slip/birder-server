@@ -61,7 +61,7 @@ public class TweetsController : ControllerBase
         }
     }
 
-    [HttpGet, Route("TweetArchive")]
+    [HttpGet, Route("Archive")]
     [AllowAnonymous]
     public async Task<IActionResult> GetTweetArchiveAsync(int pageIndex, int pageSize)
     {
