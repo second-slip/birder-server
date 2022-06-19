@@ -1,75 +1,66 @@
-﻿using Birder.Helpers;
-using Birder.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
+﻿namespace Birder.Controllers;
 
-namespace Birder.Controllers
+[Route("api/[controller]")]
+[ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
+public class ObservationQueryController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
-    public class ObservationQueryController : ControllerBase
+    private readonly ILogger _logger;
+    private readonly IObservationQueryService _observationQueryService;
+
+    public ObservationQueryController(ILogger<ObservationQueryController> logger
+                        , IObservationQueryService observationQueryService)
     {
-        private readonly ILogger _logger;
-        private readonly IObservationQueryService _observationQueryService;
+        _logger = logger;
+        _observationQueryService = observationQueryService;
+    }
 
-        public ObservationQueryController(ILogger<ObservationQueryController> logger
-                            , IObservationQueryService observationQueryService)
+
+    [HttpGet, Route("Species")]
+    public async Task<IActionResult> GetObservationsByBirdSpeciesAsync(int birdId, int pageIndex, int pageSize)
+    {
+        try
         {
-            _logger = logger;
-            _observationQueryService = observationQueryService;
+            var viewModel = await _observationQueryService.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
+
+            if (viewModel is null)
+            {
+                string message = $"Observations with birdId '{birdId}' was not found.";
+                _logger.LogWarning(LoggingEvents.GetListNotFound, message);
+                return StatusCode(500, message);
+            }
+
+            return Ok(viewModel);
         }
-
-
-        [HttpGet, Route("GetObservationsByBirdSpecies")]
-        public async Task<IActionResult> GetObservationsByBirdSpeciesAsync(int birdId, int pageIndex, int pageSize)
+        catch (Exception ex)
         {
-            try
-            {
-                var viewModel = await _observationQueryService.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
-
-                if (viewModel is null)
-                {
-                    string message = $"Observations with birdId '{birdId}' was not found.";
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, message);
-                    return StatusCode(500, message);
-                }
-
-                return Ok(viewModel);
-            }
-            catch (Exception ex)
-            {
-                string message = $"An error occurred getting Observations with birdId '{birdId}'.";
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
-                return StatusCode(500, "an unexpected error occurred");
-            }
+            string message = $"An error occurred getting Observations with birdId '{birdId}'.";
+            _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
+            return StatusCode(500, "an unexpected error occurred");
         }
+    }
 
-        [HttpGet, Route("GetObservationsByUser")]
-        public async Task<IActionResult> GetObservationsByUserAsync(string username, int pageIndex, int pageSize)
+    [HttpGet, Route("User")]
+    public async Task<IActionResult> GetObservationsByUserAsync(string username, int pageIndex, int pageSize)
+    {
+        try
         {
-            try
-            {
-                var viewModel = await _observationQueryService.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
+            var viewModel = await _observationQueryService.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
 
-                if (viewModel is null)
-                {
-                    string message = $"Observations with username '{username}' was not found.";
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, message);
-                    return StatusCode(500, message);
-                }
-
-                return Ok(viewModel);
-            }
-            catch (Exception ex)
+            if (viewModel is null)
             {
-                string message = $"An error occurred getting observations with username '{username}'.";
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
-                return StatusCode(500, "an unexpected error occurred");
+                string message = $"Observations with username '{username}' was not found.";
+                _logger.LogWarning(LoggingEvents.GetListNotFound, message);
+                return StatusCode(500, message);
             }
+
+            return Ok(viewModel);
+        }
+        catch (Exception ex)
+        {
+            string message = $"An error occurred getting observations with username '{username}'.";
+            _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
+            return StatusCode(500, "an unexpected error occurred");
         }
     }
 }

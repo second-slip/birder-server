@@ -1,5 +1,4 @@
-﻿
-namespace Birder.Controllers;  // .NET6 / C#10 top-level statement
+﻿namespace Birder.Controllers;  // .NET6 / C#10 top-level statement
 
 [Route("api/[controller]")]
 [ApiController]

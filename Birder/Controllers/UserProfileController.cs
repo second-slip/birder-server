@@ -27,7 +27,7 @@ public class UserProfileController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetUserProfileAsync(string requestedUsername)
     {
-        // build new query object
+        // ToDo: make new query object
         if (string.IsNullOrEmpty(requestedUsername))
         {
             _logger.LogError(LoggingEvents.GetItem, "requestedUsername argument is null or empty at GetUserProfileAsync action");
@@ -57,7 +57,7 @@ public class UserProfileController : ControllerBase
             }
             else
             {
-                                // Other user's profile requested...
+                // Other user's profile requested...
                 requestedUserProfileViewModel.IsFollowing = UserNetworkHelpers.UpdateIsFollowingProperty(User.Identity.Name, requestedUser.Followers);
                 requestedUserProfileViewModel.ObservationCount = await _observationsAnalysisService.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == requestedUsername);
             }
@@ -71,4 +71,3 @@ public class UserProfileController : ControllerBase
         }
     }
 }
-

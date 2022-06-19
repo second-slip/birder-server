@@ -1,45 +1,44 @@
 ﻿using Birder.Infrastructure.CustomExceptions;
 using System.Net;
 
-namespace Birder.Controllers
+namespace Birder.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
+public class RecordingController : Controller
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
-    public class RecordingController : Controller
+    private readonly IXenoCantoService _xenoCantoService;
+    private readonly ILogger _logger;
+
+    public RecordingController(ILogger<RecordingController> logger, IXenoCantoService xenoCantoService)
     {
-        private readonly IXenoCantoService _xenoCantoService;
-        private readonly ILogger _logger;
+        _logger = logger;
+        _xenoCantoService = xenoCantoService;
+    }
 
-        public RecordingController(ILogger<RecordingController> logger, IXenoCantoService xenoCantoService) 
+    [HttpGet]
+    public async Task<IActionResult> GetRecordingsAsync(string species)
+    {
+        if (string.IsNullOrEmpty(species))
+            return BadRequest("species parameter is missing");
+
+        try
         {
-            _logger = logger;
-            _xenoCantoService = xenoCantoService;
+            var recordings = await _xenoCantoService.GetSpeciesRecordings(species);
+            return Ok(recordings);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetRecordingsAsync(string species)
+        catch (XenoCantoException ex)
         {
-            if (string.IsNullOrEmpty(species))
-                return BadRequest("species parameter is missing");
-
-            try
-            {
-                var recordings = await _xenoCantoService.GetSpeciesRecordings(species);
-                return Ok(recordings);
-            }
-            catch (XenoCantoException ex)
-            {
-                if (ex.StatusCode == HttpStatusCode.NotFound)
-                    return BadRequest($"Xeno-canto Api not found");
-                else
-                    return StatusCode(500, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred");
-                return StatusCode(500);
-            }
+            if (ex.StatusCode == HttpStatusCode.NotFound)
+                return BadRequest($"Xeno-canto Api not found");
+            else
+                return StatusCode(500, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred");
+            return StatusCode(500);
         }
     }
 }
