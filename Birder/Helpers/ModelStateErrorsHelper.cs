@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Birder.Helpers
 {
@@ -10,9 +8,9 @@ namespace Birder.Helpers
         public static string GetModelStateErrorMessages(ModelStateDictionary modelState)
         {
             string validationErrors = string.Join("; ",
-                    modelState.Values.Where(E => E.Errors.Count > 0)
-                        .SelectMany(E => E.Errors)
-                        .Select(E => E.ErrorMessage)
+                    modelState.Values.Where(e => e.Errors.Count > 0)
+                        .SelectMany(e => e.Errors)
+                        .Select(e => e.ErrorMessage)
                         .ToArray());
 
             return validationErrors;

@@ -1,9 +1,6 @@
-﻿using Birder.ViewModels;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Birder.Helpers
 {

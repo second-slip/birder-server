@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
 using Birder.Data.Model;
 using Birder.Data.Repository;
-using Birder.Helpers;
-using Birder.Services;
-using Birder.ViewModels;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Birder.Controllers
 {

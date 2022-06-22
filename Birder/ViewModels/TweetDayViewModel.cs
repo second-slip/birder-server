@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Birder.ViewModels
-{
-    public class TweetDayViewModel
+namespace Birder.ViewModels;
+public class TweetDayViewModel
     {
         public int TweetDayId { get; set; }
 
@@ -18,9 +16,8 @@ namespace Birder.ViewModels
         public BirdSummaryViewModel Bird { get; set; }
     }
 
-    public class TweetArchiveDto
-    {
-        public int TotalItems { get; set; }
-        public IEnumerable<TweetDayViewModel> Items { get; set; }
-    }
+public class TweetArchiveDto
+{
+    public int TotalItems { get; set; }
+    public IEnumerable<TweetDayViewModel> Items { get; set; }
 }

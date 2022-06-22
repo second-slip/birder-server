@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Birder.Helpers
-{
-    public abstract class PagedResultBase
+namespace Birder.Helpers;
+public abstract class PagedResultBase
     {
         public int CurrentPage { get; set; }
         public int PageCount { get; set; }
@@ -22,13 +20,12 @@ namespace Birder.Helpers
         }
     }
 
-    public class PagedResult<T> : PagedResultBase where T : class
-    {
-        public IList<T> Results { get; set; }
+public class PagedResult<T> : PagedResultBase where T : class
+{
+    public IList<T> Results { get; set; }
 
-        public PagedResult()
-        {
-            Results = new List<T>();
-        }
+    public PagedResult()
+    {
+        Results = new List<T>();
     }
 }

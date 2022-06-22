@@ -1,6 +1,5 @@
 ﻿using Birder.Data.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
@@ -17,12 +16,12 @@ namespace Birder.Data.Repository
         {
             if (!includeRelated)
             {
-                return await _dbContext.Observations
+                return await DbContext.Observations
                             .Include(au => au.ApplicationUser)
                                 .SingleOrDefaultAsync(m => m.ObservationId == id);
             }
 
-            return await _dbContext.Observations
+            return await DbContext.Observations
                 .Include(p => p.Position)
                 .Include(n => n.Notes)
                 .Include(au => au.ApplicationUser)

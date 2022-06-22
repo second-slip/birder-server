@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Threading.Tasks;
+using Birder.Infrastructure;
 using Xunit;
 
 namespace Birder.Tests.Services

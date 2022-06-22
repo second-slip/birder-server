@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace Birder.Services
+﻿namespace Birder.Services
 {
     //public interface IFileClient
     //{

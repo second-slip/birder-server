@@ -12,11 +12,11 @@ public interface IBirdThumbnailPhotoService
 
 public class BirdThumbnailPhotoService : IBirdThumbnailPhotoService
 {
-    private IMemoryCache _cache;
+    private readonly IMemoryCache _cache;
     private readonly ILogger _logger;
     private readonly IFlickrService _flickrService;
 
-    private const string defaultUrl = "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
+    private const string DefaultUrl = "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
 
     public BirdThumbnailPhotoService(IMemoryCache memoryCache
                                    , ILogger<BirdThumbnailPhotoService> logger
@@ -53,7 +53,7 @@ public class BirdThumbnailPhotoService : IBirdThumbnailPhotoService
             }
             catch (Exception ex)
             {
-                observation.ThumbnailUrl = defaultUrl;
+                observation.ThumbnailUrl = DefaultUrl;
                 string message = $"An error occurred setting the thumbnail url for birdId '{observation.BirdId}'.";
                 _logger.LogError(LoggingEvents.GetItem, ex, message);
             }

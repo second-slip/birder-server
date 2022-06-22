@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Birder.ViewModels
-{
-    public class XenoCantoResponse
+namespace Birder.ViewModels;
+public class XenoCantoResponse
     {
         [JsonPropertyName("numRecordings")]
         public string Qty { get; set; }
@@ -39,12 +38,9 @@ namespace Birder.ViewModels
         public string Full { get; set; }
     }
 
-    public class XenoCantoErrorResponse
-    {
-        [JsonPropertyName("code")]
-        public string Code { get; }
+public class XenoCantoErrorResponse
+{
+    [JsonPropertyName("code")] public string Code { get; }
 
-        [JsonPropertyName("message")]
-        public string Message { get; }
-    }
+    [JsonPropertyName("message")] public string Message { get; }
 }

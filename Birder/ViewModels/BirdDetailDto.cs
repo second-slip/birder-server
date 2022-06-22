@@ -1,5 +1,4 @@
 ﻿using Birder.Data.Model;
-using System;
 
 namespace Birder.ViewModels
 {

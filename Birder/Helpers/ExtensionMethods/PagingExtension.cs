@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using System;
-using System.Linq;
 
 namespace Birder.Helpers
 {
@@ -26,10 +24,10 @@ namespace Birder.Helpers
         }
 
         // var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper); 
-        public static PagedResult<U> GetPaged<T, U>(this IQueryable<T> query,
-                                            int page, int pageSize, IMapper _mapper) where U : class
+        public static PagedResult<TU> GetPaged<T, TU>(this IQueryable<T> query,
+                                            int page, int pageSize, IMapper mapper) where TU : class
         {
-            var result = new PagedResult<U>();
+            var result = new PagedResult<TU>();
             result.CurrentPage = page;
             result.PageSize = pageSize;
             result.RowCount = query.Count();
@@ -40,7 +38,7 @@ namespace Birder.Helpers
             var skip = (page - 1) * pageSize;
             result.Results = query.Skip(skip)
                                   .Take(pageSize)
-                                  .ProjectTo<U>(_mapper.ConfigurationProvider)
+                                  .ProjectTo<TU>(mapper.ConfigurationProvider)
                                   .ToList();
 
             return result;

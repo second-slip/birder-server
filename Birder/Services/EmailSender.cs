@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Birder.Infrastructure;
+using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System.Threading.Tasks;
 
 namespace Birder.Services
 {

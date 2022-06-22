@@ -1,5 +1,4 @@
-﻿
-namespace Birder.Data.Model
+﻿namespace Birder.Data.Model
 {
     public class ObservationTag
     {

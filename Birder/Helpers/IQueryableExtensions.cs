@@ -1,10 +1,8 @@
 ﻿using Birder.Data.Model;
-using Birder.ViewModels;
-using System.Linq;
 
 namespace Birder.Helpers
 {
-    public static class IQueryableExtensions
+    public static class QueryableExtensions
     {
         public static IQueryable<ObservationFeedDto> MapObservationToObservationFeedDto(this IQueryable<Observation> observations)
         {

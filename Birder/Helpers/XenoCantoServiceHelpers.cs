@@ -3,7 +3,7 @@
     public static class XenoCantoServiceHelpers
     {
         /// <summary>
-        /// Builds the recording url from various feilds of the response object 
+        /// Builds the recording url from various fields of the response object 
         /// </summary>
         /// <param name="baseUrl"></param>
         /// <param name="fileName"></param>

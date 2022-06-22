@@ -75,7 +75,7 @@ public class AuthenticationController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, "An unexpeceted error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, "An unexpected error occurred");
             return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
         }
     }

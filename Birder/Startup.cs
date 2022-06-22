@@ -5,6 +5,7 @@ using Azure.Storage.Queues;
 using Birder.Data;
 using Birder.Data.Model;
 using Birder.Data.Repository;
+using Birder.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +27,7 @@ namespace Birder
 
         public IConfiguration Configuration { get; }
 
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        readonly string _myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -131,7 +132,7 @@ namespace Birder
 
             services.AddCors(options =>
             {
-               options.AddPolicy(MyAllowSpecificOrigins,
+               options.AddPolicy(_myAllowSpecificOrigins,
                builder =>
                {
                    builder.WithOrigins(baseUrl);
@@ -153,7 +154,7 @@ namespace Birder
 
             app.UseRouting();
 
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors(_myAllowSpecificOrigins);
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

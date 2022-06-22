@@ -1,16 +1,12 @@
 ﻿using Newtonsoft.Json;
-using System;
 
-namespace Birder.Templates
+namespace Birder.Templates;
+
+public class ResetPasswordEmailDto
 {
-    public class ResetPasswordEmailDto
-    {
-        public string Email { get; set; }
+    public string Email { get; set; }
 
-        [JsonProperty("username")]
-        public string Username { get; set; }
+    [JsonProperty("username")] public string Username { get; set; }
 
-        [JsonProperty("url")]
-        public Uri Url { get; set; }
-    }
+    [JsonProperty("url")] public Uri Url { get; set; }
 }

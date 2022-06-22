@@ -1,8 +1,5 @@
 ﻿using Birder.Data.Model;
-using Birder.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Birder.Helpers
 {

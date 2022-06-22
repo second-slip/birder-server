@@ -1,9 +1,5 @@
 ﻿using Birder.Data.Model;
-using Birder.Helpers;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
@@ -23,7 +19,7 @@ namespace Birder.Data.Repository
         {
             var result = new QueryResult<TweetDay>();
 
-            var query = _dbContext.TweetDays
+            var query = DbContext.TweetDays
 
                 .Include(u => u.Bird)
                 .Where(d => d.DisplayDay <= date)
@@ -43,14 +39,14 @@ namespace Birder.Data.Repository
 
         public async Task<TweetDay> GetTweetOfTheDayAsync(DateTime date)
         {
-            var tweet = await (from td in _dbContext.TweetDays
+            var tweet = await (from td in DbContext.TweetDays
                                    .Include(b => b.Bird)
                                where (td.DisplayDay == date)
                                select td).FirstOrDefaultAsync();
 
             if (tweet == null)
             {
-                tweet = await (from td in _dbContext.TweetDays
+                tweet = await (from td in DbContext.TweetDays
                                .Include(b => b.Bird)
                          select td).FirstOrDefaultAsync();
             }

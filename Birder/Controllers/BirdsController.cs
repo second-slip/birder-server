@@ -11,7 +11,7 @@ namespace Birder.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class BirdsController : ControllerBase
     {
-        private IMemoryCache _cache;
+        private readonly IMemoryCache _cache;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly IBirdRepository _birdRepository;

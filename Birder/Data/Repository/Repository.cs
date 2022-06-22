@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Birder.Data.Repository
 {
@@ -21,10 +18,10 @@ namespace Birder.Data.Repository
 
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly ApplicationDbContext _dbContext;
+        protected readonly ApplicationDbContext DbContext;
         public Repository(ApplicationDbContext dbContext)
         {
-            _dbContext = dbContext;
+            DbContext = dbContext;
         }
 
         public async Task<TEntity> GetAsync(int id)
@@ -32,7 +29,7 @@ namespace Birder.Data.Repository
             // Here we are working with a DbContext, not PlutoContext. So we don't have DbSets 
             // such as Courses or Authors, and we need to use the generic Set() method to access them.
             //return Context.Set<TEntity>().Find(id);
-            return await _dbContext.Set<TEntity>().FindAsync(id);
+            return await DbContext.Set<TEntity>().FindAsync(id);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -49,37 +46,37 @@ namespace Birder.Data.Repository
             // I didn't change it because I wanted the code to look like the videos. But feel free to change
             // this on your own.
             //return Context.Set<TEntity>().ToList();
-            return await _dbContext.Set<TEntity>().ToListAsync();
+            return await DbContext.Set<TEntity>().ToListAsync();
         }
 
         public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbContext.Set<TEntity>().Where(predicate).ToListAsync();
+            return await DbContext.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
         public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            return await DbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
 
         public void Add(TEntity entity)
         {
-            _dbContext.Set<TEntity>().Add(entity);
+            DbContext.Set<TEntity>().Add(entity);
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
-            _dbContext.Set<TEntity>().AddRange(entities);
+            DbContext.Set<TEntity>().AddRange(entities);
         }
 
         public void Remove(TEntity entity)
         {
-            _dbContext.Set<TEntity>().Remove(entity);
+            DbContext.Set<TEntity>().Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
-            _dbContext.Set<TEntity>().RemoveRange(entities);
+            DbContext.Set<TEntity>().RemoveRange(entities);
         }
     }
 }
