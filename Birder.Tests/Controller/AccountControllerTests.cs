@@ -71,7 +71,7 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(um => um.CreateAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                            .ThrowsAsync(new InvalidOperationException());
 
-            var testModel = new RegisterViewModel() { };
+            var testModel = new RegisterViewModel();
 
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 

@@ -27,7 +27,7 @@ public class ListController : ControllerBase
 
             if (string.IsNullOrEmpty(username))
             {
-                string errorMessage = $"requesting username is null or empty";
+                string errorMessage = "requesting username is null or empty";
                 _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
                 return Unauthorized(errorMessage);
             }
@@ -36,7 +36,7 @@ public class ListController : ControllerBase
 
             if (viewModel is null)
             {
-                string errorMessage = $"listService returned null";
+                string errorMessage = "listService returned null";
                 _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
                 return StatusCode(500, errorMessage);
             }
@@ -59,7 +59,7 @@ public class ListController : ControllerBase
 
             if (string.IsNullOrEmpty(username))
             {
-                string errorMessage = $"requesting username is null or empty";
+                string errorMessage = "requesting username is null or empty";
                 _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
                 return Unauthorized(errorMessage);
             }
@@ -68,7 +68,7 @@ public class ListController : ControllerBase
 
             if (viewModel is null)
             {
-                string errorMessage = $"listService returned null";
+                string errorMessage = "listService returned null";
                 _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
                 return StatusCode(500, errorMessage);
             }

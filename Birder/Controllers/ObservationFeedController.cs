@@ -30,7 +30,7 @@ public class ObservationFeedController : ControllerBase
             if (publicObservations is null)
             {
                 _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
-                return StatusCode(500, $"Public observations object is null");
+                return StatusCode(500, "Public observations object is null");
             }
 
             return Ok(publicObservations);
@@ -52,7 +52,7 @@ public class ObservationFeedController : ControllerBase
             if (requestingUserAndNetwork is null)
             {
                 _logger.LogWarning(LoggingEvents.GetItemNotFound, "Requesting user not found");
-                return StatusCode(500, $"requesting user not found");
+                return StatusCode(500, "requesting user not found");
             }
 
             var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUserAndNetwork.Following);
@@ -64,7 +64,7 @@ public class ObservationFeedController : ControllerBase
             if (networkObservations is null)
             {
                 _logger.LogWarning(LoggingEvents.GetListNotFound, "Network observations list is null");
-                return StatusCode(500, $"Network observations object is null");
+                return StatusCode(500, "Network observations object is null");
             }
 
             return Ok(networkObservations);
@@ -86,7 +86,7 @@ public class ObservationFeedController : ControllerBase
             if (userObservations is null)
             {
                 _logger.LogWarning(LoggingEvents.GetListNotFound, "User Observations list was null at GetObservationsFeedAsync()");
-                return StatusCode(500, $"User observations object is null");
+                return StatusCode(500, "User observations object is null");
             }
 
             return Ok(userObservations);

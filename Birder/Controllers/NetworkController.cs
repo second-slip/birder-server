@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Birder.Data.Model;
 using Birder.Data.Repository;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace Birder.Controllers;
@@ -71,7 +70,7 @@ public class NetworkController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
             return StatusCode(500, "an unexpected error occurred");
         }
     }
@@ -92,18 +91,18 @@ public class NetworkController : ControllerBase
             if (requestedUser is null)
             {
                 _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
-                return StatusCode(500, $"requested user not found");
+                return StatusCode(500, "requested user not found");
             }
 
             var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowerViewModel>>(requestedUser.Followers);
 
             var requesterUsername = User.Identity.Name;
 
-            if (requestedUser is null)
-            {
-                _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
-                return StatusCode(500, $"requested user not found");
-            }
+            // if (requestedUser is null)
+            // {
+            //     _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
+            //     return StatusCode(500, $"requested user not found");
+            // }
 
             if (requesterUsername.Equals(requestedUsername))
             {
@@ -122,7 +121,7 @@ public class NetworkController : ControllerBase
                 if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
-                    return StatusCode(500, $"requesting user not found");
+                    return StatusCode(500, "requesting user not found");
                 }
 
                 UserNetworkHelpers.SetupFollowersCollection(requestingUser, model);
@@ -132,7 +131,7 @@ public class NetworkController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
             return StatusCode(500, "an unexpected error occurred");
         }
     }
@@ -174,7 +173,7 @@ public class NetworkController : ControllerBase
                 if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
-                    return StatusCode(500, $"requesting user not found");
+                    return StatusCode(500, "requesting user not found");
                 }
 
                 UserNetworkHelpers.SetupFollowingCollection(requestingUser, model);
@@ -184,7 +183,7 @@ public class NetworkController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
             return StatusCode(500, "an unexpected error occurred");
         }
     }
@@ -222,7 +221,7 @@ public class NetworkController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
             return StatusCode(500, "an unexpected error occurred");
         }
     }
@@ -243,7 +242,7 @@ public class NetworkController : ControllerBase
             if (requestingUser is null)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
-                return StatusCode(500, $"requesting user not found");
+                return StatusCode(500, "requesting user not found");
             }
 
             var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
@@ -255,7 +254,7 @@ public class NetworkController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
             return StatusCode(500, "an unexpected error occurred");
         }
     }
@@ -298,7 +297,7 @@ public class NetworkController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
             return StatusCode(500, "an unexpected error occurred");
         }
     }
@@ -341,7 +340,7 @@ public class NetworkController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, $"an unexpected error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
             return StatusCode(500, "an unexpected error occurred");
         }
     }
