@@ -98,12 +98,6 @@ public class NetworkController : ControllerBase
 
             var requesterUsername = User.Identity.Name;
 
-            // if (requestedUser is null)
-            // {
-            //     _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
-            //     return StatusCode(500, $"requested user not found");
-            // }
-
             if (requesterUsername.Equals(requestedUsername))
             {
                 // Own profile requested...

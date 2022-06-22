@@ -1,9 +1,8 @@
-﻿namespace Birder.Data.Model
+﻿namespace Birder.Data.Model;
+
+public enum PrivacyLevel
 {
-    public enum PrivacyLevel
-    {
-        Public = 0,
-        Private = 1,
-        Network = 2
-    }
+    Public = 0,
+    Private = 1,
+    Network = 2
 }
