@@ -3,42 +3,39 @@ using Birder.Data.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
+namespace Birder.Services;
 
-namespace Birder.Services
+public interface IObservationsAnalysisService
 {
-    public interface IObservationsAnalysisService
+    Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate);
+}
+
+public class ObservationsAnalysisService : IObservationsAnalysisService
+{
+    private readonly ApplicationDbContext _dbContext;
+    public ObservationsAnalysisService(ApplicationDbContext dbContext)
     {
-        Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate);
+        _dbContext = dbContext;
     }
 
-    public class ObservationsAnalysisService: IObservationsAnalysisService
+    public async Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate)
     {
-        private readonly ApplicationDbContext _dbContext;
-        public ObservationsAnalysisService(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        if (predicate is null)
+            throw new ArgumentException("The argument is null or empty", nameof(predicate));
 
-        public async Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate)
-        {
-            if (predicate is null)
-                throw new ArgumentException("The argument is null or empty", nameof(predicate));
+        var model = new ObservationAnalysisViewModel();
 
-            var model = new ObservationAnalysisViewModel();
+        var query = _dbContext.Observations
+            .Include(au => au.ApplicationUser)
+            .AsNoTracking()
+            .AsQueryable();
 
-            var query = _dbContext.Observations
-                .Include(y => y.Bird)
-                .Include(au => au.ApplicationUser)
-                .AsNoTracking()
-                .AsQueryable();
+        query = query.Where(predicate);
 
-            query = query.Where(predicate);
+        model.TotalObservationsCount = await query.CountAsync();
 
-            model.TotalObservationsCount = await query.CountAsync();
+        model.UniqueSpeciesCount = await query.Select(i => i.BirdId).Distinct().CountAsync();
 
-            model.UniqueSpeciesCount = await query.Select(i => i.BirdId).Distinct().CountAsync();
-
-            return model;
-        }
+        return model;
     }
 }
