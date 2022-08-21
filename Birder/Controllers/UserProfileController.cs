@@ -62,6 +62,7 @@ public class UserProfileController : ControllerBase
                 requestedUserProfileViewModel.ObservationCount = await _observationsAnalysisService.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == requestedUsername);
             }
 
+            //return Ok(requestedUser);
             return Ok(requestedUserProfileViewModel);
         }
         catch (Exception ex)

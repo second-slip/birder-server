@@ -21,9 +21,9 @@ public static class UserManagerExtensionMethods
 
         return await userManager.Users
             .Include(x => x.Followers)
-            .ThenInclude(x => x.Follower)
+                .ThenInclude(x => x.Follower)
             .Include(y => y.Following)
-            .ThenInclude(r => r.ApplicationUser)
+                .ThenInclude(r => r.ApplicationUser)
             .Where(x => x.UserName == username)
             .AsSplitQuery() // see: https://docs.microsoft.com/en-gb/ef/core/querying/single-split-queries
             .FirstOrDefaultAsync();
