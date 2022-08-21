@@ -1,43 +1,51 @@
 ﻿using Birder.Data.Model;
 
-namespace Birder.ViewModels
+namespace Birder.ViewModels;
+/// <summary>
+/// A view model containing nearly all Bird information.  
+/// Primarily used in the Bird Detail view.
+/// </summary>
+public class BirdDetailDto
 {
-    /// <summary>
-    /// A view model containing nearly all Bird information.  
-    /// Primarily used in the Bird Detail view.
-    /// </summary>
-    public class BirdDetailDto
-    {
-        public int BirdId { get; set; }
+    public int BirdId { get; set; }
 
-        public string Class { get; set; }
+    public string Class { get; set; }
 
-        public string Order { get; set; }
+    public string Order { get; set; }
 
-        public string Family { get; set; }
+    public string Family { get; set; }
 
-        public string Genus { get; set; }
+    public string Genus { get; set; }
 
-        public string Species { get; set; }
+    public string Species { get; set; }
 
-        public string EnglishName { get; set; }
+    public string EnglishName { get; set; }
 
-        public string InternationalName { get; set; }
+    public string InternationalName { get; set; }
 
-        public string Category { get; set; }
+    public string Category { get; set; }
 
-        public string PopulationSize { get; set; }
+    public string PopulationSize { get; set; }
 
-        public string BtoStatusInBritain { get; set; }
+    public string BtoStatusInBritain { get; set; }
 
-        public string ThumbnailUrl { get; set; }
+    public string ThumbnailUrl { get; set; }
 
-        public DateTime CreationDate { get; set; }
+    public DateTime CreationDate { get; set; } //?
 
-        public DateTime LastUpdateDate { get; set; }
+    public DateTime LastUpdateDate { get; set; } //?
 
-        public ConservationStatus BirdConservationStatus { get; set; }
+    public ConservationStatus BirdConservationStatus { get; set; } // only relevant parts...
 
-        public string BirderStatus { get; set; }
-    }
+    /*
+
+    public string ConservationList { get; set; }
+
+    public string ConservationListColourCode { get; set; }
+
+    public string Description { get; set; }
+
+    */
+
+    public string BirderStatus { get; set; }
 }
