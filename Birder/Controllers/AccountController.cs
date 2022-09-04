@@ -26,7 +26,7 @@ public class AccountController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost, Route("Register")]
+    [HttpPost, Route("register")]
     [AllowAnonymous]
     public async Task<IActionResult> PostRegisterAsync([FromBody] RegisterViewModel model)
     {
@@ -100,7 +100,7 @@ public class AccountController : ControllerBase
         }
     }
 
-    [HttpPost, Route("ResendEmailConfirmation")]
+    [HttpPost, Route("resend-email-confirmation")]
     [AllowAnonymous]
     public async Task<IActionResult> PostResendConfirmEmailMessageAsync(UserEmailDto model)
     {
@@ -182,7 +182,7 @@ public class AccountController : ControllerBase
         }
     }
 
-    [HttpPost, Route("ResetPassword")]
+    [HttpPost, Route("reset-password")]
     [AllowAnonymous]
     public async Task<IActionResult> PostResetPasswordAsync(ResetPasswordViewModel model)
     {

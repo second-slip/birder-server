@@ -28,7 +28,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost, Route("login")]
-    public async Task<IActionResult> Login([FromBody] LoginViewModel loginViewModel)
+    public async Task<IActionResult> Login(LoginViewModel loginViewModel)  // [FromBody] removed
     {
         try
         {
