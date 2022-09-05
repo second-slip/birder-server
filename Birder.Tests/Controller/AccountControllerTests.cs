@@ -135,9 +135,9 @@ namespace Birder.Tests.Controller
             var result = await controller.PostRegisterAsync(testModel);
 
             // Assert
-            var objectResult = Assert.IsType<OkResult>(result);
+            var objectResult = Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(objectResult);
-            Assert.True(objectResult is OkResult);
+            Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
 
             //var expected = "New user successfully created";
@@ -267,7 +267,7 @@ namespace Birder.Tests.Controller
 
             // Act
             var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
-            
+
             // Assert
             var objectResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.NotNull(objectResult);
@@ -401,7 +401,7 @@ namespace Birder.Tests.Controller
             var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
 
             // Assert
-            var objectResult = Assert.IsType<OkResult>(result);
+            var objectResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
         }
 
@@ -431,7 +431,7 @@ namespace Birder.Tests.Controller
             var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
 
             // Assert
-            Assert.IsType<OkResult>(result);
+            Assert.IsType<OkObjectResult>(result);
             //Assert.NotNull(objectResult);
             //Assert.True(objectResult is OResult);
             //Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
@@ -510,8 +510,10 @@ namespace Birder.Tests.Controller
             var result = await controller.PostRequestPasswordResetAsync(testModel);
 
             // Assert
-            var objectResult = Assert.IsType<OkResult>(result);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            var expected = "An error occurred";
+            objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -530,8 +532,10 @@ namespace Birder.Tests.Controller
             var result = await controller.PostRequestPasswordResetAsync(testModel);
 
             // Assert
-            var objectResult = Assert.IsType<OkResult>(result);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            var expected = "An error occurred";
+            objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -554,13 +558,13 @@ namespace Birder.Tests.Controller
 
             var controller = new AccountController(_systemClock.Object, urlService, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-            var testModel = new UserEmailDto() { };
+            var testModel = new UserEmailDto() { Email = "TestEmail" };
 
             // Act
             var result = await controller.PostRequestPasswordResetAsync(testModel);
 
             // Assert
-            Assert.IsType<OkResult>(result);
+            Assert.IsType<OkObjectResult>(result);
             //Assert.NotNull(objectResult);
             //Assert.True(objectResult is OkObjectResult);
             //Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
@@ -646,7 +650,7 @@ namespace Birder.Tests.Controller
             var result = await controller.PostResetPasswordAsync(testModel);
 
             // Assert
-            var objectResult = Assert.IsType<OkResult>(result);
+            var objectResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
         }
 
@@ -696,14 +700,14 @@ namespace Birder.Tests.Controller
             var result = await controller.PostResetPasswordAsync(testModel);
 
             // Assert
-            Assert.IsType<OkResult>(result);
+            var objectResult = Assert.IsType<OkObjectResult>(result);
             //Assert.NotNull(objectResult);
             //Assert.True(objectResult is OkObjectResult);
             //Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
 
-            //var expected = "Password was successfully changed";
+            var expected = new { success = true };
             //objectResult.Value.Should().BeOfType<string>();
-            //objectResult.Value.Should().BeEquivalentTo(expected);
+            objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
         #endregion
@@ -719,10 +723,10 @@ namespace Birder.Tests.Controller
 
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-            string username = null;
+            var model = new UsernameDto() { Username = null };
 
             // Act
-            var result = await controller.GetIsUsernameAvailableAsync(username);
+            var result = await controller.GetIsUsernameTakenAsync(model);
 
             // Assert
             var objectResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -730,7 +734,7 @@ namespace Birder.Tests.Controller
             Assert.True(objectResult is BadRequestObjectResult);
             Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
 
-            var expected = "An unexpected error occurred";
+            var expected = "An error occurred";
             objectResult.Value.Should().BeOfType<string>();
             objectResult.Value.Should().BeEquivalentTo(expected);
         }
@@ -745,10 +749,10 @@ namespace Birder.Tests.Controller
 
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-            string username = "testUser";
+            var model = new UsernameDto() { Username = "testUser" };
 
             // Act
-            var result = await controller.GetIsUsernameAvailableAsync(username);
+            var result = await controller.GetIsUsernameTakenAsync(model);
 
             // Assert
             var objectResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -772,10 +776,11 @@ namespace Birder.Tests.Controller
 
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-            string username = "testUser";
+            //string username = "testUser";
+            var model = new UsernameDto() { Username = "testUser" };
 
             // Act
-            var result = await controller.GetIsUsernameAvailableAsync(username);
+            var result = await controller.GetIsUsernameTakenAsync(model);
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -783,8 +788,7 @@ namespace Birder.Tests.Controller
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
 
-            var expected = false;
-            objectResult.Value.Should().BeOfType<bool>();
+            var expected = new { usernameTaken = true };
             objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
@@ -798,10 +802,11 @@ namespace Birder.Tests.Controller
 
             var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-            string username = "testUser";
+            var model = new UsernameDto() { Username = "testUser" };
+            //string username = "testUser";
 
             // Act
-            var result = await controller.GetIsUsernameAvailableAsync(username);
+            var result = await controller.GetIsUsernameTakenAsync(model);
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -809,8 +814,7 @@ namespace Birder.Tests.Controller
             Assert.True(objectResult is OkObjectResult);
             Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
 
-            var expected = true;
-            objectResult.Value.Should().BeOfType<bool>();
+            var expected = new { usernameTaken = false };
             objectResult.Value.Should().BeEquivalentTo(expected);
         }
 
@@ -832,5 +836,5 @@ namespace Birder.Tests.Controller
             return user;
         }
     }
-    
+
 }
