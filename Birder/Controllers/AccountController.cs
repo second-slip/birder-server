@@ -28,7 +28,7 @@ public class AccountController : ControllerBase
 
     [HttpPost, Route("register")]
     [AllowAnonymous]
-    public async Task<IActionResult> PostRegisterAsync([FromBody] RegisterViewModel model)
+    public async Task<IActionResult> PostRegisterAsync(RegisterViewModel model) // [FromBody] removed
     {
         try
         {
@@ -50,7 +50,7 @@ public class AccountController : ControllerBase
                 var url = _urlService.GetConfirmEmailUrl(newUser.UserName, code);
                 var templateData = new { username = newUser.UserName, url = url };
                 await _emailSender.SendTemplateEmail("d-882e4b133cae40268364c8a929e55ea9", newUser.Email, templateData);
-                return Ok(); //ToDo: Is this adequate?  Created reponse?
+                return Ok(new { success = true }); //ToDo: Is this adequate?  Created reponse?
             }
 
             ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
@@ -116,7 +116,7 @@ public class AccountController : ControllerBase
             if (user.EmailConfirmed)
             {
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, "User email is already confirmed");
-                return Ok();
+                return Ok(new { success = true });
             }
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -128,7 +128,7 @@ public class AccountController : ControllerBase
             // await _emailSender.SendEmailConfirmationEmailAsync(templateData);
             await _emailSender.SendTemplateEmail("d-882e4b133cae40268364c8a929e55ea9", user.Email, templateData);
 
-            return Ok();
+            return Ok(new { success = true });
         }
         catch (Exception ex)
         {
@@ -189,14 +189,14 @@ public class AccountController : ControllerBase
         try
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null)
+            if (user is null)
             {
-                return Ok(); // Don't reveal that the user does not exist
+                return Ok(new { success = true }); // Don't reveal that the user does not exist
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return Ok();
+                return Ok(new { success = true });
             }
 
             ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
