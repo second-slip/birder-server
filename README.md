@@ -6,7 +6,7 @@ Birder is a social network-style platform for logging, sharing, and analysing bi
 
 ### Technical information
 
-Birder is an ASP.NET 6 REST API.
+Birder is an ASP.NET 7 REST API.
 The client respository is [birder-client](https://github.com/WinthorpeCross/birder-client).
 
 > **Note**
