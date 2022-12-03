@@ -15,7 +15,7 @@ public class ObservationDto
     public DateTime LastUpdateDate { get; set; }
     public int BirdId { get; set; }
     public BirdSummaryViewModel Bird { get; set; }
-    public int ObservationPositionId { get; set; } // check if this needed
+    // public int ObservationPositionId { get; set; } // check if this needed
     public ObservationPositionDto Position { get; set; }
     public UserViewModel User { get; set; }
     public List<ObservationNoteDto> Notes { get; set; }
