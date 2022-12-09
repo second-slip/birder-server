@@ -190,6 +190,9 @@ public class ManageController : ControllerBase
     //    }
     //}
 
+
+
+    // ToDo: Should this be a patch?
     [HttpPost, Route("Location")]
     public async Task<IActionResult> SetLocationAsync(SetLocationViewModel model)
     {
