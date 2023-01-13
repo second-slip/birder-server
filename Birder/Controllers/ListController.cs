@@ -29,7 +29,7 @@ public class ListController : ControllerBase
             {
                 string errorMessage = "requesting username is null or empty";
                 _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
-                return Unauthorized(errorMessage);
+                return StatusCode(500, errorMessage);
             }
 
             var viewModel = await _listService.GetTopObservationsAsync(username, _systemClock.GetToday.AddDays(-30));
@@ -61,7 +61,7 @@ public class ListController : ControllerBase
             {
                 string errorMessage = "requesting username is null or empty";
                 _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
-                return Unauthorized(errorMessage);
+                return StatusCode(500, errorMessage);
             }
 
             var viewModel = await _listService.GetLifeListsAsync(a => a.ApplicationUser.UserName == username);
