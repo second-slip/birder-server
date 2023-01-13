@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,14 +13,16 @@ public interface IAuthenticationTokenService
 
 public class AuthenticationTokenService : IAuthenticationTokenService
 {
-    private readonly IConfiguration _configuration;
     private readonly ISystemClockService _systemClock;
 
-    public AuthenticationTokenService(IConfiguration configuration, ISystemClockService systemClock)
+    public AuthenticationTokenService(ISystemClockService systemClock
+    , IOptions<AuthConfigOptions> optionsAccessor)
     {
-        _configuration = configuration;
+        Options = optionsAccessor.Value;
         _systemClock = systemClock;
     }
+
+    public AuthConfigOptions Options { get; }
 
     public AuthenticationResultDto CreateToken(List<Claim> claims)
     {
@@ -33,13 +35,12 @@ public class AuthenticationTokenService : IAuthenticationTokenService
             throw new ArgumentException($"The argument is null or empty", nameof(claims));
         }
 
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["TokenKey"]));
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Options.TokenKey));
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-        var baseUrl = string.Concat(_configuration["Scheme"], _configuration["Domain"]);
 
         var tokenOptions = new JwtSecurityToken(
-            issuer: baseUrl,
-            audience: baseUrl,
+            issuer: Options.BaseUrl,
+            audience: Options.BaseUrl,
             claims: claims,
             expires: _systemClock.GetNow.AddDays(2),
             signingCredentials: signinCredentials);

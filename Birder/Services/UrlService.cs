@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Web;
 
@@ -13,12 +13,12 @@ public interface IUrlService
 
 public class UrlService : IUrlService
 {
-    private readonly IConfiguration _configuration;
-
-    public UrlService(IConfiguration configuration)
+    public UrlService(IOptions<AuthConfigOptions> optionsAccessor)
     {
-        _configuration = configuration;
+        Options = optionsAccessor.Value;
     }
+
+    public AuthConfigOptions Options { get; }
 
     public Uri GetConfirmEmailUrl(string username, string code)
     {
@@ -28,15 +28,13 @@ public class UrlService : IUrlService
                     {"code", code }
                 };
 
-        var url = string.Concat(_configuration["Scheme"], _configuration["Domain"], "/api/Account/ConfirmEmail");
-
+        var url = string.Concat(Options.BaseUrl, "/api/Account/ConfirmEmail");
         return new Uri(QueryHelpers.AddQueryString(url, queryParams));
     }
 
     public Uri GetResetPasswordUrl(string code)
     {
-        var url = string.Concat(_configuration["Scheme"], _configuration["Domain"], "/reset-password/", HttpUtility.UrlEncode(code));
-
+        var url = string.Concat(Options.BaseUrl, "/reset-password/", HttpUtility.UrlEncode(code));
         return new Uri(url);
     }
 }

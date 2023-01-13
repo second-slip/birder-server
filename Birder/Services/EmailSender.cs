@@ -1,5 +1,4 @@
-﻿using Birder.Infrastructure;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
