@@ -24,7 +24,7 @@ namespace Birder.Services
         {
             string formattedSearchTerm = XenoCantoServiceHelpers.FormatSearchTerm(species);
             string url = XenoCantoServiceHelpers.BuildXenoCantoApiUrl(formattedSearchTerm);
-            var forecasts = new List<RecordingViewModel>();
+            var recordings = new List<RecordingViewModel>();
 
             var client = _httpFactory.CreateClient("XenoCantoClient");
             var response = await client.GetAsync(url);
@@ -33,12 +33,12 @@ namespace Birder.Services
             {
                 var jsonOpts = new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, PropertyNameCaseInsensitive = true };
                 var contentStream = await response.Content.ReadAsStreamAsync();
-                var openWeatherResponse = await JsonSerializer.DeserializeAsync<XenoCantoResponse>(contentStream, jsonOpts);
-                
+                var xenoCantoResponse = await JsonSerializer.DeserializeAsync<XenoCantoResponse>(contentStream, jsonOpts);
+
                 int index = 0;
-                foreach (var forecast in openWeatherResponse.Recordings)
+                foreach (var forecast in xenoCantoResponse.Recordings)
                 {
-                    forecasts.Add(new RecordingViewModel
+                    recordings.Add(new RecordingViewModel
                     {
                         Id = index,
                         Url = XenoCantoServiceHelpers.BuildRecordingUrl(forecast.Sono.Small, forecast.FileName),
@@ -47,7 +47,7 @@ namespace Birder.Services
                     index++;
                 }
 
-                return forecasts;
+                return recordings;
             }
             else
             {
