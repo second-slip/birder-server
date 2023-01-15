@@ -1,28 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Birder.Services;
 using Birder.ViewModels;
-using Microsoft.Extensions.Configuration;
-using Moq;
+using Microsoft.Extensions.Options;
 using Xunit;
 
 namespace Birder.Tests.Controller;
 
 public class AuthenticationTokenServiceTests
 {
-    private readonly Mock<IConfiguration> _config;
+    IOptions<AuthConfigOptions> testOptions = Options.Create<AuthConfigOptions>(new AuthConfigOptions()
+    { BaseUrl = "we", TokenKey = "fgjiorgjivjbrihgnvrHeij45lk45lmf" });
 
     public AuthenticationTokenServiceTests()
     {
-        // _logger = new Mock<ILogger<AuthenticationController>>();
-        _config = new Mock<IConfiguration>();
-        _config.SetupGet(x => x[It.Is<string>(s => s == "Scheme")]).Returns("https://");
-        _config.SetupGet(x => x[It.Is<string>(s => s == "Domain")]).Returns("localhost:99999");
-        // _config.SetupGet(x => x[It.Is<string>(s => s == "FlickrApiKey")]).Returns("ggjh");
-        // _config.SetupGet(x => x[It.Is<string>(s => s == "MapApiKey")]).Returns("fjfgjn");
-        _config.SetupGet(x => x[It.Is<string>(s => s == "TokenKey")]).Returns("fjfgdfdfeTTjn3wq");
+        // // _logger = new Mock<ILogger<AuthenticationController>>();
+        // _config = new Mock<IConfiguration>();
+        // _config.SetupGet(x => x[It.Is<string>(s => s == "AuthConfig:BaseUrl")]).Returns("https://localhost:99999");
+        // // _config.SetupGet(x => x[It.Is<string>(s => s == "Domain")]).Returns("localhost:99999");
+        // // _config.SetupGet(x => x[It.Is<string>(s => s == "FlickrApiKey")]).Returns("ggjh");
+        // // _config.SetupGet(x => x[It.Is<string>(s => s == "MapApiKey")]).Returns("fjfgjn");
+        // _config.SetupGet(x => x[It.Is<string>(s => s == "AuthConfig:TokenKey")]).Returns("fjfgdfdfeTTjn3wq");
     }
 
     [Fact]
@@ -30,15 +29,15 @@ public class AuthenticationTokenServiceTests
     {
         // Arrange
         var systemClock = new SystemClockService();
-        var service = new AuthenticationTokenService(_config.Object, systemClock);
+        var service = new AuthenticationTokenService(systemClock, testOptions);
 
         var expectedClaims = new List<Claim>
         {
-            new Claim("ExampleClaim", "Example"),
+            new Claim("ExampleClaim", "Example")
         };
 
         var result = service.CreateToken(expectedClaims);
-        
+
         Assert.NotNull(result.AuthenticationToken);
         Assert.NotEmpty(result.AuthenticationToken);
         Assert.Equal(result.FailureReason, AuthenticationFailureReason.None);
@@ -50,7 +49,7 @@ public class AuthenticationTokenServiceTests
     {
         // Arrange
         var systemClock = new SystemClockService();
-        var service = new AuthenticationTokenService(_config.Object, systemClock);
+        var service = new AuthenticationTokenService(systemClock, testOptions);
 
         // Assert
         Assert.Throws<ArgumentException>(

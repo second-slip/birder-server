@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Birder.Infrastructure;
 using Xunit;
+using Birder.ViewModels;
 
 namespace Birder.Tests.Services
 {

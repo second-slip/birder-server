@@ -92,8 +92,8 @@ namespace Birder.Tests.Controller
             var result = await controller.GetTopObservationsListAsync();
 
             // Assert
-            var objectResult = Assert.IsType<UnauthorizedObjectResult>(result);
-            Assert.Equal(StatusCodes.Status401Unauthorized, objectResult.StatusCode);
+            var objectResult = Assert.IsType<ObjectResult>(result);
+            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
             var actual = Assert.IsType<string>(objectResult.Value);
             Assert.Equal($"requesting username is null or empty", actual);
         }

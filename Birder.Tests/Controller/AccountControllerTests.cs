@@ -7,8 +7,8 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -22,6 +22,9 @@ namespace Birder.Tests.Controller
         private readonly Mock<ISystemClockService> _systemClock;
         private readonly Mock<IEmailSender> _emailSender;
         private readonly Mock<IUrlService> _urlService;
+
+            IOptions<AuthConfigOptions> testOptions = Options.Create<AuthConfigOptions>(new AuthConfigOptions()
+    { BaseUrl = "http://localhost:55722", TokenKey = "fgjiorgjivjbrihgnvrHeij45lk45lmf" });
 
         public AccountControllerTests()
         {
@@ -417,11 +420,12 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(um => um.GenerateEmailConfirmationTokenAsync(It.IsAny<ApplicationUser>()))
                             .ReturnsAsync(testCode);
 
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Development.json")
-                    .Build();
+            // var config = new ConfigurationBuilder()
+            //     .AddJsonFile("appsettings.Development.json")
+            //         .Build();
 
-            var urlService = new UrlService(config);
+
+            var urlService = new UrlService(testOptions);
 
             var controller = new AccountController(_systemClock.Object, urlService, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
@@ -550,11 +554,10 @@ namespace Birder.Tests.Controller
             mockUserManager.Setup(um => um.GeneratePasswordResetTokenAsync(It.IsAny<ApplicationUser>()))
                             .ReturnsAsync(testCode);
 
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.Development.json")
-                    .Build();
 
-            var urlService = new UrlService(config);
+
+
+            var urlService = new UrlService(testOptions);
 
             var controller = new AccountController(_systemClock.Object, urlService, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
