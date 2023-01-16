@@ -6,6 +6,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Birder.Tests.Services
@@ -16,7 +17,7 @@ namespace Birder.Tests.Services
         #region GetUrlForObservations tests
 
         [Fact]
-        public void GetUrlForObservations_NullArgument_ReturnsNullReferenceException()
+        public async Task GetUrlForObservations_NullArgument_ReturnsNullReferenceException()
         {
             // Arrange
             var mockCache = new Mock<IMemoryCache>();
@@ -26,15 +27,15 @@ namespace Birder.Tests.Services
             var service = new BirdThumbnailPhotoService(mockCache.Object, mockLogger.Object, mockFlickrService.Object);
 
             // Act
-            var ex = Assert.Throws<ArgumentNullException>(() =>
-            service.GetThumbnailUrl(null));
+            var ex = await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await service.GetThumbnailUrl(null));
 
             // Assert
             Assert.Equal("The observations collection is null (Parameter 'observations')", ex.Message);
         }
 
         [Fact]
-        public void GetUrlForObservations_OnFlickrServiceError_ReturnsDefaultUrl()
+        public async Task GetUrlForObservations_OnFlickrServiceError_ReturnsDefaultUrl()
         {
             // Arrange
             var mockCache = new Mock<IMemoryCache>();
@@ -49,7 +50,7 @@ namespace Birder.Tests.Services
             var observations = new List<ObservationFeedDto> { new ObservationFeedDto() { } };
 
             // Act
-            var result = service.GetThumbnailUrl(observations);
+            var result = await service.GetThumbnailUrl(observations);
 
             // Assert
             Assert.IsAssignableFrom<IEnumerable<ObservationFeedDto>>(result);
@@ -57,7 +58,7 @@ namespace Birder.Tests.Services
         }
 
         [Fact]
-        public void GetUrlForObservations_OnFlickrServiceSuccess_ReturnsUrl()
+        public async Task GetUrlForObservations_OnFlickrServiceSuccess_ReturnsUrl()
         {
             // Arrange
             const string expected = "https://testUrl.png";
@@ -65,14 +66,14 @@ namespace Birder.Tests.Services
             var mockLogger = new Mock<ILogger<BirdThumbnailPhotoService>>();
             var mockFlickrService = new Mock<IFlickrService>();
             mockFlickrService.Setup(serve => serve.GetThumbnailUrl(It.IsAny<string>()))
-                .Returns(expected);
+                .ReturnsAsync(expected);
 
             var service = new BirdThumbnailPhotoService(concreteCache, mockLogger.Object, mockFlickrService.Object);
 
             var observations = new List<ObservationFeedDto> { new ObservationFeedDto() { } };
 
             // Act
-            var result = service.GetThumbnailUrl(observations);
+            var result = await service.GetThumbnailUrl(observations);
 
             // Assert
             Assert.IsAssignableFrom<IEnumerable<ObservationFeedDto>>(result);

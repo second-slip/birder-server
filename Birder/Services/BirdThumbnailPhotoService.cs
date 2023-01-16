@@ -5,7 +5,7 @@ namespace Birder.Services;
 
 public interface IBirdThumbnailPhotoService
 {
-    IEnumerable<ObservationFeedDto> GetThumbnailUrl(IEnumerable<ObservationFeedDto> observations);
+    Task<IEnumerable<ObservationFeedDto>> GetThumbnailUrl(IEnumerable<ObservationFeedDto> observations);
 }
 
 // potentially use a distributed cache to limit hits on the external API?
@@ -32,7 +32,7 @@ public class BirdThumbnailPhotoService : IBirdThumbnailPhotoService
     /// </summary>
     /// <param name="observations"></param>
     /// <returns></returns>
-    public IEnumerable<ObservationFeedDto> GetThumbnailUrl(IEnumerable<ObservationFeedDto> observations)
+    public async Task<IEnumerable<ObservationFeedDto>> GetThumbnailUrl(IEnumerable<ObservationFeedDto> observations)
     {
         if (observations is null)
             throw new ArgumentNullException(nameof(observations), "The observations collection is null");
@@ -47,7 +47,7 @@ public class BirdThumbnailPhotoService : IBirdThumbnailPhotoService
                 }
                 else
                 {
-                    observation.ThumbnailUrl = _flickrService.GetThumbnailUrl(observation.Species);
+                    observation.ThumbnailUrl = await _flickrService.GetThumbnailUrl(observation.Species);
                     AddResponseToCache(observation.BirdId, observation.ThumbnailUrl);
                 }
             }

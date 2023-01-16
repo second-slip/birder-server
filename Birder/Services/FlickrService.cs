@@ -1,60 +1,62 @@
-﻿using FlickrNet;
-using Microsoft.Extensions.Configuration;
+﻿using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
+using System.Net.Http;
+using System.Text.Json;
+using Microsoft.Extensions.Options;
+using Birder.Infrastructure.CustomExceptions;
 
-namespace Birder.Services
+namespace Birder.Services;
+
+public interface IFlickrService
 {
-    // ToDo: Refactor this without the FlickerNet package (see XenoCantoService for an example
-    public interface IFlickrService
+    Task<string> GetThumbnailUrl(string queryString);
+}
+
+public class FlickrService : IFlickrService
+{
+    private readonly IHttpClientFactory _httpFactory;
+    private FlickrOptions _options { get; }
+
+    public FlickrService(IOptions<FlickrOptions> optionsAccessor, IHttpClientFactory httpFactory)
     {
-        PhotoCollection GetFlickrPhotoCollection(string queryString);
-        string GetThumbnailUrl(string queryString);
+        _options = optionsAccessor.Value;
+        _httpFactory = httpFactory;
     }
 
-    public class FlickrService : IFlickrService
+    public async Task<string> GetThumbnailUrl(string queryString)
     {
-        private readonly IConfiguration _config;
+        if (string.IsNullOrEmpty(queryString))
+            throw new ArgumentException("The argument is null or empty", nameof(queryString));
 
-        public FlickrService(IConfiguration config)
+        var encodedQuery = EncodeQueryParameter(queryString);
+        var url = BuildUrl(encodedQuery);
+
+        var client = _httpFactory.CreateClient("FlickrApiClient");
+        var response = await client.GetAsync(url);
+
+        if (response.IsSuccessStatusCode)
         {
-            _config = config;
-        }
+            var jsonOpts = new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, PropertyNameCaseInsensitive = true };
+            var contentStream = await response.Content.ReadAsStreamAsync();
+            var flickrResponse = await JsonSerializer.DeserializeAsync<FlickrResponse>(contentStream, jsonOpts);
 
-        public string GetThumbnailUrl(string queryString)
+            return flickrResponse.Photo.PhotoDetail.FirstOrDefault().Url;
+        }
+        else
         {
-            Flickr flickr = new Flickr(_config["FlickrApiKey"], _config["FlickrSecret"]);
-            {
-                var options = new PhotoSearchOptions
-                {
-                    Text = queryString,
-                    Page = 1,
-                    PerPage = 1,
-                    Extras = PhotoSearchExtras.SmallUrl,
-                    SafeSearch = SafetyLevel.Safe,
-                    MediaType = MediaType.Photos
-                };
-                PhotoCollection photos = flickr.PhotosSearch(options);
-                return photos.FirstOrDefault().LargeSquareThumbnailUrl;
-            }
-
-            // temp in dev to avoid hitting the API...
-            //return "https://farm1.staticflickr.com/908/28167626118_f9ed3a67cf_q.png";
+            // can deserialise the error respose object FlickrExceptionResponse, but I haven't...
+            throw new FlickrException(response.StatusCode, "Error response from FlickrApi: " + response.ReasonPhrase);
         }
+    }
 
-        public PhotoCollection GetFlickrPhotoCollection(string queryString)
-        {
-            // ToDo: Make asynchronous, if possible...
-            // ToDo: Implement disposable to use the using statement...
-            Flickr flickr = new Flickr(_config["FlickrApiKey"], _config["FlickrSecret"]);
-            {
-                var options = new PhotoSearchOptions
-                {
-                    Text = queryString,
-                    Extras = PhotoSearchExtras.AllUrls,
-                    SafeSearch = SafetyLevel.Safe,
-                    MediaType = MediaType.Photos
-                };
-                return flickr.PhotosSearch(options);
-            }
-        }
+    private string EncodeQueryParameter(string queryString)
+    {
+        return UrlEncoder.Default.Encode(queryString);
+    }
+
+    private string BuildUrl(string encodedQuery)
+    {
+        var url = $"https://api.flickr.com/services/rest/?api_key={_options.FlickrApiKey}&format=json&nojsoncallback=1&method=flickr.photos.search&per_page=1&page=1&extras=url_q&content_type=1&text={encodedQuery}";
+        return url;
     }
 }
