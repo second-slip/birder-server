@@ -1,12 +1,9 @@
 ﻿using Birder.Data;
-using Birder.Data.Model;
 using Birder.Services;
 using Birder.TestsHelpers;
 using Birder.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TestSupport.EfHelpers;
 using Xunit;

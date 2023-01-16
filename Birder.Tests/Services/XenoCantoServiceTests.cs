@@ -22,20 +22,31 @@ namespace Birder.Tests.Services
         public async Task Returns_A_Recording()
         {
             var clientFactory = ClientBuilder.XenoCantoClientFactory(XenoCantoResponses.OkResponse);
-            var sut = new XenoCantoService(clientFactory);
+            var service = new XenoCantoService(clientFactory);
 
-            var result = await sut.GetSpeciesRecordings("Branta canadensis");
+            var result = await service.GetSpeciesRecordings("Branta canadensis");
 
             Assert.IsType<List<RecordingViewModel>>(result);
+        }
+
+        [Fact]
+        public async Task Returns_ArgumentException_When_Argument_Is_Null_Or_Empty()
+        {
+            var clientFactory = ClientBuilder.XenoCantoClientFactory(XenoCantoResponses.OkResponse);
+            var service = new XenoCantoService(clientFactory);
+
+            // Act & Assert
+            var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetSpeciesRecordings(null));
+            Assert.Equal("The argument is null or empty (Parameter 'species')", ex.Message);
         }
 
         [Fact]
         public async Task Returns_Expected_Values_From_the_Api()
         {
             var clientFactory = ClientBuilder.XenoCantoClientFactory(XenoCantoResponses.OkResponse);
-            var sut = new XenoCantoService(clientFactory);
+            var service = new XenoCantoService(clientFactory);
 
-            var result = await sut.GetSpeciesRecordings("Branta canadensis");
+            var result = await service.GetSpeciesRecordings("Branta canadensis");
 
             Assert.Equal("//a/b/c/d/testFileName.mp3", result[0].Url);
             Assert.Equal(0, result[0].Id);
@@ -46,9 +57,9 @@ namespace Birder.Tests.Services
         {
             var clientFactory = ClientBuilder.XenoCantoClientFactory(XenoCantoResponses.NotFoundResponse,
                 HttpStatusCode.NotFound);
-            var sut = new XenoCantoService(clientFactory);
+            var service = new XenoCantoService(clientFactory);
 
-            var result = await Assert.ThrowsAsync<XenoCantoException>(() => sut.GetSpeciesRecordings("dnifihurvbfvije"));
+            var result = await Assert.ThrowsAsync<XenoCantoException>(() => service.GetSpeciesRecordings("dnifihurvbfvije"));
             Assert.Equal(404, (int)result.StatusCode);
         }
 
@@ -57,9 +68,9 @@ namespace Birder.Tests.Services
         {
             var clientFactory = ClientBuilder.XenoCantoClientFactory(XenoCantoResponses.InternalErrorResponse,
                 HttpStatusCode.InternalServerError);
-            var sut = new XenoCantoService(clientFactory);
+            var service = new XenoCantoService(clientFactory);
 
-            var result = await Assert.ThrowsAsync<XenoCantoException>(() => sut.GetSpeciesRecordings("Branta canadensis"));
+            var result = await Assert.ThrowsAsync<XenoCantoException>(() => service.GetSpeciesRecordings("Branta canadensis"));
             Assert.Equal(500, (int)result.StatusCode);
         }
     }

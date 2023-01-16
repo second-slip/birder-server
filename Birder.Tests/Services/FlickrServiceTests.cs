@@ -49,7 +49,7 @@ public class FlickrServiceTests
     [Fact]
     public async Task Returns_FlickrException_When_Called_With_Bad_Argument()
     {
-        var clientFactory = ClientBuilder.FlickrClientFactory(XenoCantoResponses.NotFoundResponse,
+        var clientFactory = ClientBuilder.FlickrClientFactory(FlickrResponses.NotFoundResponse,
             HttpStatusCode.NotFound);
         var service = new FlickrService(testOptions, clientFactory);
 
@@ -60,7 +60,7 @@ public class FlickrServiceTests
     [Fact]
     public async Task Returns_FlickrException_On_FlickrInternalError()
     {
-        var clientFactory = ClientBuilder.FlickrClientFactory(XenoCantoResponses.InternalErrorResponse,
+        var clientFactory = ClientBuilder.FlickrClientFactory(FlickrResponses.InternalErrorResponse,
             HttpStatusCode.InternalServerError);
         var service = new FlickrService(testOptions, clientFactory);
 

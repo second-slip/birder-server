@@ -23,8 +23,8 @@ namespace Birder.Tests.Controller
         private readonly Mock<IEmailSender> _emailSender;
         private readonly Mock<IUrlService> _urlService;
 
-            IOptions<AuthConfigOptions> testOptions = Options.Create<AuthConfigOptions>(new AuthConfigOptions()
-    { BaseUrl = "http://localhost:55722", TokenKey = "fgjiorgjivjbrihgnvrHeij45lk45lmf" });
+        IOptions<AuthConfigOptions> testOptions = Options.Create<AuthConfigOptions>(new AuthConfigOptions()
+        { BaseUrl = "http://localhost:55722", TokenKey = "fgjiorgjivjbrihgnvrHeij45lk45lmf" });
 
         public AccountControllerTests()
         {

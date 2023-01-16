@@ -4,70 +4,68 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
-namespace Birder.Services
+namespace Birder.Services;
+public interface IObservationQueryService
 {
-    public interface IObservationQueryService
+    Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
+    Task<IEnumerable<ObservationFeedDto>> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
+}
+public class ObservationQueryService : IObservationQueryService
+{
+    private readonly ApplicationDbContext _dbContext;
+    private readonly IBirdThumbnailPhotoService _profilePhotosService;
+
+    public ObservationQueryService(ApplicationDbContext dbContext, IBirdThumbnailPhotoService profilePhotosService)
     {
-        Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
-        Task<IEnumerable<ObservationFeedDto>> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
+        _dbContext = dbContext;
+        _profilePhotosService = profilePhotosService;
     }
-    public class ObservationQueryService : IObservationQueryService
+
+    public async Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
     {
-        private readonly ApplicationDbContext _dbContext;
-        private readonly IBirdThumbnailPhotoService _profilePhotosService;
+        var result = new ObservationsPagedDto();
 
-        public ObservationQueryService(ApplicationDbContext dbContext, IBirdThumbnailPhotoService profilePhotosService)
-        {
-            _dbContext = dbContext;
-            _profilePhotosService = profilePhotosService;
-        }
+        var query = _dbContext.Observations
+            .AsNoTracking()
+            .Where(predicate)
+            .MapObservationToObservationViewDto()
+            .AsQueryable();
 
-        public async Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
-        {
-            var result = new ObservationsPagedDto();
+        query = query.OrderByDescending(d => d.ObservationDateTime);
 
-            var query = _dbContext.Observations
-                .AsNoTracking()
-                .Where(predicate)
-                .MapObservationToObservationViewDto()
-                .AsQueryable();
+        result.TotalItems = await query.CountAsync();
 
-            query = query.OrderByDescending(d => d.ObservationDateTime);
+        query = query.ApplyPaging(pageIndex, pageSize);
 
-            result.TotalItems = await query.CountAsync();
+        result.Items = await query.ToListAsync();
 
-            query = query.ApplyPaging(pageIndex, pageSize);
+        return result;
+    }
 
-            result.Items = await query.ToListAsync();
+    public async Task<IEnumerable<ObservationFeedDto>> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
+    {
+        //var result = new ObservationFeedPagedDto();
 
-            return result;
-        }
+        var query = _dbContext.Observations
+            .AsNoTracking()
+            .Where(predicate)
+            .MapObservationToObservationFeedDto()
+            // .AsSplitQuery()
+            .AsQueryable();
 
-        public async Task<IEnumerable<ObservationFeedDto>> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
-        {
-            //var result = new ObservationFeedPagedDto();
+        //query = query.ApplyFiltering(queryObj);
 
-            var query = _dbContext.Observations
-                .AsNoTracking()
-                .Where(predicate)
-                .MapObservationToObservationFeedDto()
-                // .AsSplitQuery()
-                .AsQueryable();
+        query = query.OrderByDescending(d => d.ObservationDateTime);
 
-            //query = query.ApplyFiltering(queryObj);
+        //result.TotalItems = await query.CountAsync();
 
-            query = query.OrderByDescending(d => d.ObservationDateTime);
+        query = query.ApplyPaging(pageIndex, pageSize);
 
-            //result.TotalItems = await query.CountAsync();
+        // result.Items = await query.ToListAsync();
+        var result = await query.ToListAsync();
 
-            query = query.ApplyPaging(pageIndex, pageSize);
+        await _profilePhotosService.GetThumbnailUrl(result);
 
-            // result.Items = await query.ToListAsync();
-            var result = await query.ToListAsync();
-
-            _profilePhotosService.GetThumbnailUrl(result);
-
-            return result;
-        }
+        return result;
     }
 }
