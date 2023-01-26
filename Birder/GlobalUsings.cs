@@ -15,3 +15,5 @@ global using Microsoft.Extensions.Logging;
 global using Birder.Helpers;
 global using Birder.Services;
 global using Birder.ViewModels;
+
+global using Birder.Data.Model;

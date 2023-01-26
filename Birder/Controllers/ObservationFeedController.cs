@@ -1,6 +1,4 @@
-﻿using Birder.Data.Model;
-
-namespace Birder.Controllers;
+﻿namespace Birder.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -29,8 +27,8 @@ public class ObservationFeedController : ControllerBase
 
             if (publicObservations is null)
             {
-                _logger.LogWarning(LoggingEvents.GetListNotFound, "Observations list is null");
-                return StatusCode(500, "Public observations object is null");
+                _logger.LogWarning(LoggingEvents.GetListNotFound, "observations list is null");
+                return StatusCode(500, "an unexpected error occurred");
             }
 
             return Ok(publicObservations);
@@ -38,11 +36,11 @@ public class ObservationFeedController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the observations feed");
-            return StatusCode(500, "An unexpected error occurred");
+            return StatusCode(500, "an unexpected error occurred");
         }
     }
 
-    [HttpGet, Route("NetworkFeed")]
+    [HttpGet, Route("network")]
     public async Task<IActionResult> GetNetworkFeedAsync(int pageIndex, int pageSize) //, ObservationFeedFilter filter)
     {
         try
@@ -64,7 +62,7 @@ public class ObservationFeedController : ControllerBase
             if (networkObservations is null)
             {
                 _logger.LogWarning(LoggingEvents.GetListNotFound, "Network observations list is null");
-                return StatusCode(500, "Network observations object is null");
+                return StatusCode(500, "an unexpected error occurred");
             }
 
             return Ok(networkObservations);
@@ -72,11 +70,11 @@ public class ObservationFeedController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the observations feed");
-            return StatusCode(500, "An unexpected error occurred");
+            return StatusCode(500, "an unexpected error occurred");
         }
     }
 
-    [HttpGet, Route("UserFeed")]
+    [HttpGet, Route("user")]
     public async Task<IActionResult> GetUserFeedAsync(int pageIndex, int pageSize)
     {
         try
@@ -94,7 +92,7 @@ public class ObservationFeedController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the observations feed");
-            return StatusCode(500, "An unexpected error occurred");
+            return StatusCode(500, "an unexpected error occurred");
         }
     }
 }

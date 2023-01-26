@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Birder.Data.Model;
 
 namespace Birder.Controllers;
 
@@ -24,8 +23,7 @@ public class UserProfileController : ControllerBase
         _observationsAnalysisService = observationsAnalysisService;
     }
 
-    // todo: unit tests...
-
+    // todo: create QueryObject
     [HttpGet]
     public async Task<IActionResult> GetUserProfileAsync(string requestedUsername)
     {
