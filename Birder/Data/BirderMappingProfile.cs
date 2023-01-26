@@ -61,7 +61,11 @@ public class BirderMappingProfile : Profile
             .ReverseMap();
 
         CreateMap<ApplicationUser, UserProfileViewModel>()
-            .ReverseMap();
+            .ForPath(x => x.User.UserName, y => y.MapFrom(x => x.UserName))
+            .ForPath(x => x.User.Avatar, y => y.MapFrom(x => x.Avatar))
+            .ForPath(x => x.FollowersCount, y => y.MapFrom(x => x.Followers.Count))
+            .ForPath(x => x.FollowingCount, y => y.MapFrom(x => x.Following.Count));
+            //.ReverseMap();
 
         //CreateMap<ApplicationUser, UserNetworkDto>()
         //  .ForMember(x => x.Followers, y => y.MapFrom(x => x.Followers))

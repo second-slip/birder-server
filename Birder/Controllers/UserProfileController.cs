@@ -24,10 +24,11 @@ public class UserProfileController : ControllerBase
         _observationsAnalysisService = observationsAnalysisService;
     }
 
+    // todo: unit tests...
+
     [HttpGet]
     public async Task<IActionResult> GetUserProfileAsync(string requestedUsername)
     {
-        // ToDo: make new query object
         if (string.IsNullOrEmpty(requestedUsername))
         {
             _logger.LogError(LoggingEvents.GetItem, "requestedUsername argument is null or empty at GetUserProfileAsync action");
@@ -46,29 +47,25 @@ public class UserProfileController : ControllerBase
 
             var requestedUserProfileViewModel = _mapper.Map<ApplicationUser, UserProfileViewModel>(requestedUser);
 
-            requestedUserProfileViewModel.FollowersCount = requestedUser.Followers.Count;
-
-            requestedUserProfileViewModel.FollowingCount = requestedUser.Following.Count;
 
             if (requestedUsername.Equals(User.Identity.Name))
             {
                 // Own profile requested...
-                requestedUserProfileViewModel.IsOwnProfile = true;
+                requestedUserProfileViewModel.User.IsOwnProfile = true;
             }
             else
             {
                 // Other user's profile requested...
-                requestedUserProfileViewModel.IsFollowing = UserNetworkHelpers.UpdateIsFollowingProperty(User.Identity.Name, requestedUser.Followers);
+                requestedUserProfileViewModel.User.IsFollowing = UserNetworkHelpers.UpdateIsFollowingProperty(User.Identity.Name, requestedUser.Followers);
                 requestedUserProfileViewModel.ObservationCount = await _observationsAnalysisService.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == requestedUsername);
             }
 
-            //return Ok(requestedUser);
             return Ok(requestedUserProfileViewModel);
         }
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.Exception, ex, "Error at GetUserProfileAsync");
-            return StatusCode(500, "There was an error getting the user profile");
+            return StatusCode(500, "an unexpected error occurred");
         }
     }
 }

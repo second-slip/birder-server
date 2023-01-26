@@ -18,7 +18,7 @@ public class ListController : ControllerBase
         _listService = listService;
     }
 
-    [HttpGet, Route("TopObservationsList")]
+    [HttpGet, Route("top")]
     public async Task<IActionResult> GetTopObservationsListAsync()
     {
         try
