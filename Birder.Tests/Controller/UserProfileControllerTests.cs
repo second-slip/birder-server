@@ -1,21 +1,5 @@
 ﻿using AutoMapper;
-using Birder.Controllers;
-using Birder.Data;
-using Birder.Data.Model;
-using Birder.Services;
-using Birder.TestsHelpers;
-using Birder.ViewModels;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Moq;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using TestSupport.EfHelpers;
-using Xunit;
-using Xunit.Extensions.AssertExtensions;
-using System.Linq.Expressions;
 
 namespace Birder.Tests.Controller;
 
