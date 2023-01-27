@@ -23,12 +23,12 @@ public class ObservationQueryService : IObservationQueryService
 
     public async Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
     {
-        var result = new ObservationsPagedDto();
+        var result = new ObservationsPagedDto(); // use -->>> ObservationFeedDto
 
         var query = _dbContext.Observations
             .AsNoTracking()
             .Where(predicate)
-            .MapObservationToObservationViewDto()
+            .MapObservationToObservationViewDto() // use -->>> ObservationFeedDto
             .AsQueryable();
 
         query = query.OrderByDescending(d => d.ObservationDateTime);

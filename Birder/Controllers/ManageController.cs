@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Birder.Data.Model;
 
 namespace Birder.Controllers;
 
@@ -74,25 +73,6 @@ public class ManageController : ControllerBase
                     ModelState.AddModelError("Username", $"Unexpected error occurred setting username for user with ID '{user.Id}'.");
                     return BadRequest(ModelState);
                 }
-
-                // Save Avatar with new username ========> use user id instead 
-                // 
-                //var file = await _fileClient.GetFile(StorageContainers.Avatar, userName);
-                //if (file != null)
-                //{
-                //    await _fileClient.SaveFile(StorageContainers.Avatar, model.UserName, file);
-                //    await file.DisposeAsync();
-                //    await _fileClient.DeleteFile(StorageContainers.Avatar, userName);
-                //}
-
-                //var avatarUrl = await _fileClient.GetFileUrl(StorageContainers.Avatar, model.UserName);
-
-                //if (string.IsNullOrEmpty(avatarUrl))
-                //{
-                //    avatarUrl = "https://img.icons8.com/color/96/000000/user.png";
-                //}
-
-                //user.Avatar = avatarUrl;
             }
 
             var viewModel = new EmailConfirmationRequiredDto();
@@ -129,67 +109,6 @@ public class ManageController : ControllerBase
             return BadRequest("There was an error updating the user");
         }
     }
-
-    // ToDo: MOVE TO SEPARATE CONTROLLER (or handle in client side?)
-
-    //[HttpPost, Route("UploadAvatar")]
-    //public async Task<IActionResult> PostAvatarAsync([FromForm(Name = "file")] IFormFile file)
-    //{
-    //    try
-    //    {
-    //        if (file == null)
-    //        {
-    //            _logger.LogError(LoggingEvents.UpdateItem, "IFormFile argument is null at PostAvatar()");
-    //            return BadRequest("An error occurred");
-    //        }
-
-    //        string[] supportedTypes = new[] { "jpg", "jpeg", "png", "bmp" };
-    //        var fileExt = Path.GetExtension(file.FileName).Substring(1);
-    //        if (!supportedTypes.Contains(fileExt))
-    //        {
-    //            string message = $"IFormFile is not a supported image type. Type: {fileExt}";
-    //            _logger.LogError(LoggingEvents.UpdateItem, message);
-    //            return BadRequest(message);
-    //        }
-
-    //        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-    //        if (user == null)
-    //        {
-    //            _logger.LogError(LoggingEvents.GetItemNotFound, $"User with id '{User.Identity.Name}' not found");
-    //            return NotFound("User not found");
-    //        }
-
-    //        await _fileClient.DeleteFile(StorageContainers.Avatar, user.UserName);
-
-    //        using (var fileStream = file.OpenReadStream())
-    //        {
-    //            await _fileClient.SaveFile(StorageContainers.Avatar, user.UserName, fileStream);
-    //        }
-
-    //        var avatarUrl = await _fileClient.GetFileUrl(StorageContainers.Avatar, user.UserName);
-
-    //        if (string.IsNullOrEmpty(avatarUrl))
-    //        {
-    //            avatarUrl = "https://img.icons8.com/color/96/000000/user.png";
-    //        }
-
-    //        if (user.Avatar != avatarUrl)
-    //        {
-    //            user.Avatar = avatarUrl;
-    //            var setAvatar = await _userManager.UpdateAsync(user);
-    //            if (!setAvatar.Succeeded)
-    //                throw new ApplicationException($"Unexpected error occurred setting the avatar for user with ID '{user.Id}'.");
-    //        }
-
-    //        return Ok();
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "PostAvatar()");
-    //        return BadRequest("An unexpected error occurred");
-    //    }
-    //}
-
 
 
     // ToDo: Should this be a patch?

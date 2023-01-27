@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Birder.Data.Model;
 using Birder.Data.Repository;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
@@ -97,7 +96,6 @@ public class BirdsController : ControllerBase
                 return StatusCode(500, $"bird repository returned null");
             }
 
-            //return Ok(bird);
             return Ok(_mapper.Map<Bird, BirdDetailDto>(bird));
         }
         catch (Exception ex)
