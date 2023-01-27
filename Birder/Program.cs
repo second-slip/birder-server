@@ -1,5 +1,4 @@
 ﻿using Birder.Data;
-using Birder.Data.Model;
 using Birder.Data.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
