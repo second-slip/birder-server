@@ -61,7 +61,7 @@ public class ObservationFeedController : ControllerBase
 
             if (networkObservations is null)
             {
-                _logger.LogWarning(LoggingEvents.GetListNotFound, "Network observations list is null");
+                _logger.LogWarning(LoggingEvents.GetListNotFound, "network observations list is null");
                 return StatusCode(500, "an unexpected error occurred");
             }
 
@@ -79,12 +79,14 @@ public class ObservationFeedController : ControllerBase
     {
         try
         {
-            var userObservations = await _observationQueryService.GetPagedObservationsFeedAsync(o => o.ApplicationUser.UserName == User.Identity.Name, pageIndex, pageSize);
+            var username = User.Identity.Name; //  info: removed null check as should be authenticated & authorised
+
+            var userObservations = await _observationQueryService.GetPagedObservationsFeedAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
 
             if (userObservations is null)
             {
                 _logger.LogWarning(LoggingEvents.GetListNotFound, "User Observations list was null at GetObservationsFeedAsync()");
-                return StatusCode(500, "User observations object is null");
+                return StatusCode(500, "an unexpected error occurred");
             }
 
             return Ok(userObservations);

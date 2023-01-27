@@ -2,12 +2,12 @@
 
 namespace Birder.Tests.Controller;
 
-public class Request_Public_Records
+public class Request_Public_Feed
 {
     private readonly Mock<ILogger<ObservationFeedController>> _logger;
     private readonly Mock<IObservationQueryService> _mockService;
 
-    public Request_Public_Records()
+    public Request_Public_Feed()
     {
         _logger = new Mock<ILogger<ObservationFeedController>>();
         _mockService = new Mock<IObservationQueryService>();
@@ -19,8 +19,8 @@ public class Request_Public_Records
         // Arrange
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         var mockObsRepo = new Mock<IObservationQueryService>();
-        var model = new List<ObservationFeedDto>() { new ObservationFeedDto() };
 
+        var model = new List<ObservationFeedDto>() { new ObservationFeedDto() };
         mockObsRepo.SetupSequence(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync(model);
 

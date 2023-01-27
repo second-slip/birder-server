@@ -32,7 +32,7 @@ public class FlickrServiceTests
         var result = await service.GetThumbnailUrl("Branta canadensis");
 
         Assert.IsType<string>(result);
-        Assert.Equal(result, "https://www.hello.com");
+        Assert.Equal("https://www.hello.com", result);
     }
 
     [Fact]

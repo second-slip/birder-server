@@ -16,7 +16,7 @@ global using System.Threading.Tasks;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Identity;
-
+global using Microsoft.AspNetCore.Http;
 global using Microsoft.Extensions.Logging;
 
 // project specific

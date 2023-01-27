@@ -40,7 +40,7 @@ public class AuthenticationTokenServiceTests
 
         Assert.NotNull(result.AuthenticationToken);
         Assert.NotEmpty(result.AuthenticationToken);
-        Assert.Equal(result.FailureReason, AuthenticationFailureReason.None);
+        Assert.Equal(AuthenticationFailureReason.None, result.FailureReason);
     }
 
 
