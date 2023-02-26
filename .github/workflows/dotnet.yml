@@ -25,5 +25,5 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      #working-directory: ./birder.tests
+      working-directory: ./birder.tests
       run: dotnet test --no-build --verbosity normal
