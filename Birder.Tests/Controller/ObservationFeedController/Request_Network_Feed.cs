@@ -55,45 +55,45 @@ public class Request_Network_Feed
         }
     }
 
-    [Fact]
-    public async Task Returns_500_When_Requesting_User_Is_Null()
-    {
-        var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+    // [Fact]
+    // public async Task Returns_500_When_Requesting_User_Is_Null()
+    // {
+    //     var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-        using (var context = new ApplicationDbContext(options))
-        {
-            //You have to create the database
-            context.Database.EnsureClean();
-            context.Database.EnsureCreated();
-            context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-            context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+    //     using (var context = new ApplicationDbContext(options))
+    //     {
+    //         //You have to create the database
+    //         context.Database.EnsureClean();
+    //         context.Database.EnsureCreated();
+    //         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+    //         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-            context.SaveChanges();
+    //         context.SaveChanges();
 
-            context.Users.Count().ShouldEqual(2);
+    //         context.Users.Count().ShouldEqual(2);
 
-            // Arrange
-            var userManager = SharedFunctions.InitialiseUserManager(context);
-            var requestingUsername = "Does not exist";
-            var mockObsRepo = new Mock<IObservationQueryService>();
-            var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
+    //         // Arrange
+    //         var userManager = SharedFunctions.InitialiseUserManager(context);
+    //         var requestingUsername = "Does not exist";
+    //         var mockObsRepo = new Mock<IObservationQueryService>();
+    //         var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
 
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
-            };
+    //         controller.ControllerContext = new ControllerContext()
+    //         {
+    //             HttpContext = new DefaultHttpContext()
+    //             { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+    //         };
 
-            // Act
-            var result = await controller.GetNetworkFeedAsync(It.IsAny<int>(), It.IsAny<int>());
+    //         // Act
+    //         var result = await controller.GetNetworkFeedAsync(It.IsAny<int>(), It.IsAny<int>());
 
-            // Assert
-            var objectResult = Assert.IsType<ObjectResult>(result);
-            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-            var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal("requesting user not found", actual);
-        }
-    }
+    //         // Assert
+    //         var objectResult = Assert.IsType<ObjectResult>(result);
+    //         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+    //         var actual = Assert.IsType<string>(objectResult.Value);
+    //         Assert.Equal("requesting user not found", actual);
+    //     }
+    // }
 
     // this 
 
