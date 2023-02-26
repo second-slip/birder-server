@@ -81,11 +81,28 @@ namespace Birder.Tests.Controller
         //    Assert.Equal("Invalid modelstate", actual);
         //}
 
+        [Fact]
+        public void TestSqlDatabaseEnsureCleanOk()
+        {
+            //SETUP
+            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+            using var context = new ApplicationDbContext(options);
+
+            context.Database.EnsureClean();
+
+            //Rest of test is left out
+        }
+
 
         [Fact]
         public async Task PostUnfollowUserAsync_ReturnsNotFound_WhenRequestingUserIsNullFromRepository()
         {
+            //var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+                        //SETUP
             var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+            //using var context = new ApplicationDbContext(options);
+
+            // context.Database.EnsureClean();
 
             using (var context = new ApplicationDbContext(options))
             {

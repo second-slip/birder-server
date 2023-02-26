@@ -67,7 +67,8 @@ namespace Birder.Tests.Controller
         [Fact]
         public async Task GetNetworkSummaryAsync_Returns_500_When_User_Is_Null()
         {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+            var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+            //  this.CreateUniqueClassOptions<ApplicationDbContext>();
 
             using (var context = new ApplicationDbContext(options))
             {

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace Birder.Tests.Controller;
+﻿namespace Birder.Tests.Controller;
 
 public class Request_Network_Feed
 {
