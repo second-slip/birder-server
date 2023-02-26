@@ -1,16 +1,7 @@
-﻿using Birder.Data;
-using Birder.Data.Model;
-using Birder.ViewModels;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Moq;
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace Birder.TestsHelpers
