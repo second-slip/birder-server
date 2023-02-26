@@ -1,297 +1,321 @@
 ﻿using AutoMapper;
-using Birder.Controllers;
-using Birder.Data;
-using Birder.Data.Model;
 using Birder.Data.Repository;
-using Birder.TestsHelpers;
-using Birder.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Moq;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using TestSupport.EfHelpers;
-using Xunit;
-using Xunit.Extensions.AssertExtensions;
 
-namespace Birder.Tests.Controller
+namespace Birder.Tests.Controller;
+
+public class PostUnfollowUserAsyncTests
 {
-    public class PostUnfollowUserAsyncTests
+    private readonly IMapper _mapper;
+    private readonly Mock<ILogger<NetworkController>> _logger;
+    //private readonly UserManager<ApplicationUser> userManager;
+
+    public PostUnfollowUserAsyncTests()
     {
-        private readonly IMapper _mapper;
-        private readonly Mock<ILogger<NetworkController>> _logger;
-        //private readonly UserManager<ApplicationUser> userManager;
-
-        public PostUnfollowUserAsyncTests()
+        //// remove after refactor.....
+        //userManager = SharedFunctions.InitialiseUserManager();
+        ////
+        var mappingConfig = new MapperConfiguration(cfg =>
         {
-            //// remove after refactor.....
-            //userManager = SharedFunctions.InitialiseUserManager();
-            ////
-            var mappingConfig = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new BirderMappingProfile());
-            });
-            _mapper = mappingConfig.CreateMapper();
-            _logger = new Mock<ILogger<NetworkController>>();
-        }
+            cfg.AddProfile(new BirderMappingProfile());
+        });
+        _mapper = mappingConfig.CreateMapper();
+        _logger = new Mock<ILogger<NetworkController>>();
+    }
 
-        #region Unfollow action tests
+    #region Unfollow action tests
 
-        //[Fact]
-        //public async Task PostUnfollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
-        //{
-        //    // Arrange
-        //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-        //    var mockRepo = new Mock<INetworkRepository>();
+    //[Fact]
+    //public async Task PostUnfollowUserAsync_ReturnsBadRequest_WhenModelStateIsInvalid()
+    //{
+    //    // Arrange
+    //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+    //    var mockRepo = new Mock<INetworkRepository>();
 
-        //    var mockUnitOfWork = new Mock<IUnitOfWork>();
+    //    var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-        //    var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
+    //    var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, mockUserManager.Object);
 
-        //    controller.ControllerContext = new ControllerContext()
-        //    {
-        //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
-        //    };
+    //    controller.ControllerContext = new ControllerContext()
+    //    {
+    //        HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
+    //    };
 
-        //    //Add model error
-        //    controller.ModelState.AddModelError("Test", "This is a test model error");
+    //    //Add model error
+    //    controller.ModelState.AddModelError("Test", "This is a test model error");
 
-        //    // Act
-        //    var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel("Test User"));
+    //    // Act
+    //    var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel("Test User"));
 
-        //    var modelState = controller.ModelState;
-        //    Assert.Equal(1, modelState.ErrorCount);
-        //    Assert.True(modelState.ContainsKey("Test"));
-        //    Assert.True(modelState["Test"].Errors.Count == 1);
-        //    Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
+    //    var modelState = controller.ModelState;
+    //    Assert.Equal(1, modelState.ErrorCount);
+    //    Assert.True(modelState.ContainsKey("Test"));
+    //    Assert.True(modelState["Test"].Errors.Count == 1);
+    //    Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
 
-        //    // test response
-        //    var objectResult = result as ObjectResult;
-        //    Assert.NotNull(objectResult);
-        //    Assert.IsType<BadRequestObjectResult>(result);
-        //    Assert.True(objectResult is BadRequestObjectResult);
-        //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-        //    //
-        //    var actual = Assert.IsType<string>(objectResult.Value);
+    //    // test response
+    //    var objectResult = result as ObjectResult;
+    //    Assert.NotNull(objectResult);
+    //    Assert.IsType<BadRequestObjectResult>(result);
+    //    Assert.True(objectResult is BadRequestObjectResult);
+    //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+    //    //
+    //    var actual = Assert.IsType<string>(objectResult.Value);
 
-        //    //Assert.Contains("This is a test model error", "This is a test model error");
-        //    Assert.Equal("Invalid modelstate", actual);
-        //}
+    //    //Assert.Contains("This is a test model error", "This is a test model error");
+    //    Assert.Equal("Invalid modelstate", actual);
+    //}
 
-        [Fact]
-        public void TestSqlDatabaseEnsureCleanOk()
+
+    [Fact]
+    public async Task PostUnfollowUserAsync_ReturnsNotFound_WhenRequestingUserIsNullFromRepository()
+    {
+        //var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+        //SETUP
+        var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+        //using var context = new ApplicationDbContext(options);
+
+        // context.Database.EnsureClean();
+
+        using (var context = new ApplicationDbContext(options))
         {
-            //SETUP
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
-            using var context = new ApplicationDbContext(options);
-
+            //You have to create the database
             context.Database.EnsureClean();
+            context.Database.EnsureCreated();
+            //context.SeedDatabaseFourBooks();
 
-            //Rest of test is left out
-        }
+            //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
+            context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+            context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-        [Fact]
-        public async Task PostUnfollowUserAsync_ReturnsNotFound_WhenRequestingUserIsNullFromRepository()
-        {
-            //var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
-                        //SETUP
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
-            //using var context = new ApplicationDbContext(options);
+            context.SaveChanges();
 
-            // context.Database.EnsureClean();
+            context.Users.Count().ShouldEqual(2);
+            // Arrange
+            //*******************
+            var userManager = SharedFunctions.InitialiseUserManager(context);
+            //**
+            var mockRepo = new Mock<INetworkRepository>();
 
-            using (var context = new ApplicationDbContext(options))
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+
+            string requestingUser = "This requested user does not exist";
+
+            string userToUnfollow = "This requested user does not exist";
+
+            controller.ControllerContext = new ControllerContext()
             {
-                //You have to create the database
-                context.Database.EnsureClean();
-                context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
+            };
 
-                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+            // Act
+            var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
-                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
-                context.SaveChanges();
-
-                context.Users.Count().ShouldEqual(2);
-                // Arrange
-                //*******************
-                var userManager = SharedFunctions.InitialiseUserManager(context);
-                //**
-                var mockRepo = new Mock<INetworkRepository>();
-
-                var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-                string requestingUser = "This requested user does not exist";
-
-                string userToUnfollow = "This requested user does not exist";
-
-                controller.ControllerContext = new ControllerContext()
-                {
-                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
-                };
-
-                // Act
-                var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
-
-                // Assert
-                var objectResult = result as ObjectResult;
-                Assert.NotNull(objectResult);
-                Assert.IsType<NotFoundObjectResult>(result);
-                Assert.True(objectResult is NotFoundObjectResult);
-                Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
-                var actual = Assert.IsType<string>(objectResult.Value);
-                Assert.Equal("Requesting user not found", actual);
-            }
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.True(objectResult is NotFoundObjectResult);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal("Requesting user not found", actual);
         }
+    }
 
-        [Fact]
-        public async Task PostUnfollowUserAsync_ReturnsNotFound_WhenUserToFollowIsNullFromRepository()
+    [Fact]
+    public async Task PostUnfollowUserAsync_ReturnsNotFound_WhenUserToFollowIsNullFromRepository()
+    {
+        var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+
+        using (var context = new ApplicationDbContext(options))
         {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+            //You have to create the database
+            context.Database.EnsureClean();
+            context.Database.EnsureCreated();
+            //context.SeedDatabaseFourBooks();
 
-            using (var context = new ApplicationDbContext(options))
+            //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+
+            context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+            context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+
+            context.SaveChanges();
+
+            context.Users.Count().ShouldEqual(2);
+
+            // Arrange
+            //*******************
+            var userManager = SharedFunctions.InitialiseUserManager(context);
+            //**
+            var mockRepo = new Mock<INetworkRepository>();
+            //mockRepo.Setup(x => x.GetUserAndNetworkAsync(It.IsAny<string>()))
+            //        .Returns(Task.FromResult<ApplicationUser>(null));
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+
+            string requestingUser = "testUser1";
+
+            string userToUnfollow = "This requested user does not exist";
+
+            controller.ControllerContext = new ControllerContext()
             {
-                //You have to create the database
-                context.Database.EnsureClean();
-                context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
+            };
 
-                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+            // Act
+            var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
-                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
-                context.SaveChanges();
-
-                context.Users.Count().ShouldEqual(2);
-
-                // Arrange
-                //*******************
-                var userManager = SharedFunctions.InitialiseUserManager(context);
-                //**
-                var mockRepo = new Mock<INetworkRepository>();
-                //mockRepo.Setup(x => x.GetUserAndNetworkAsync(It.IsAny<string>()))
-                //        .Returns(Task.FromResult<ApplicationUser>(null));
-
-                var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-                string requestingUser = "testUser1";
-
-                string userToUnfollow = "This requested user does not exist";
-
-                controller.ControllerContext = new ControllerContext()
-                {
-                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
-                };
-
-                // Act
-                var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
-
-                // Assert
-                var objectResult = result as ObjectResult;
-                Assert.NotNull(objectResult);
-                Assert.IsType<NotFoundObjectResult>(result);
-                Assert.True(objectResult is NotFoundObjectResult);
-                Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
-                var actual = Assert.IsType<string>(objectResult.Value);
-                Assert.Equal("User to Unfollow not found", actual);
-            }
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.True(objectResult is NotFoundObjectResult);
+            Assert.Equal(StatusCodes.Status404NotFound, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal("User to Unfollow not found", actual);
         }
+    }
 
-        [Fact]
-        public async Task PostUnfollowUserAsync_ReturnsBadRequest_FollowerAndToFollowAreEqual()
+    [Fact]
+    public async Task PostUnfollowUserAsync_ReturnsBadRequest_FollowerAndToFollowAreEqual()
+    {
+        var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+
+        using (var context = new ApplicationDbContext(options))
         {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+            //You have to create the database
+            context.Database.EnsureClean();
+            context.Database.EnsureCreated();
+            //context.SeedDatabaseFourBooks();
 
-            using (var context = new ApplicationDbContext(options))
+            //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+
+            context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+            context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+
+            context.SaveChanges();
+
+            context.Users.Count().ShouldEqual(2);
+
+            // Arrange
+            //*******************
+            var userManager = SharedFunctions.InitialiseUserManager(context);
+            //**
+            var mockRepo = new Mock<INetworkRepository>();
+
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+
+            var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+
+            string requestingUser = "testUser1";
+
+            string userToUnfollow = requestingUser;
+
+            controller.ControllerContext = new ControllerContext()
             {
-                //You have to create the database
-                context.Database.EnsureClean();
-                context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
+                HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
+            };
 
-                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+            // Act
+            var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
-                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
-                context.SaveChanges();
-
-                context.Users.Count().ShouldEqual(2);
-
-                // Arrange
-                //*******************
-                var userManager = SharedFunctions.InitialiseUserManager(context);
-                //**
-                var mockRepo = new Mock<INetworkRepository>();
-
-                var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-                string requestingUser = "testUser1";
-
-                string userToUnfollow = requestingUser;
-
-                controller.ControllerContext = new ControllerContext()
-                {
-                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
-                };
-
-                // Act
-                var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
-
-                // Assert
-                var objectResult = result as ObjectResult;
-                Assert.NotNull(objectResult);
-                Assert.IsType<BadRequestObjectResult>(result);
-                Assert.True(objectResult is BadRequestObjectResult);
-                Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-                var actual = Assert.IsType<string>(objectResult.Value);
-                Assert.Equal("Trying to unfollow yourself", actual);
-            }
+            // Assert
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.True(objectResult is BadRequestObjectResult);
+            Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+            var actual = Assert.IsType<string>(objectResult.Value);
+            Assert.Equal("Trying to unfollow yourself", actual);
         }
+    }
 
-        [Fact]
-        public async Task PostUnfollowUserAsync_Returns_500_On_Internal_Error()
+    [Fact]
+    public async Task PostUnfollowUserAsync_Returns_500_On_Internal_Error()
+    {
+        //var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+
+        //using (var context = new ApplicationDbContext(options))
+        //{
+        //    //You have to create the database
+        //    context.Database.EnsureClean();
+        //    context.Database.EnsureCreated();
+        //    //context.SeedDatabaseFourBooks();
+
+        //    //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+
+        //    context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+        //    context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+
+        //    context.SaveChanges();
+
+        //    context.Users.Count().ShouldEqual(2);
+
+        //    // Arrange
+        UserManager<ApplicationUser> userManager = null; //to cause internal error
+        var mockRepo = new Mock<INetworkRepository>();
+        mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
+            .Verifiable();
+
+        var mockUnitOfWork = new Mock<IUnitOfWork>();
+        mockUnitOfWork.Setup(x => x.CompleteAsync())
+            .ThrowsAsync(new InvalidOperationException());
+
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+
+        string requestingUser = "testUser1";
+
+        string userToUnfollow = "testUser2";
+
+        controller.ControllerContext = new ControllerContext()
         {
-            //var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+            HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
+        };
 
-            //using (var context = new ApplicationDbContext(options))
-            //{
-            //    //You have to create the database
-            //    context.Database.EnsureClean();
-            //    context.Database.EnsureCreated();
-            //    //context.SeedDatabaseFourBooks();
+        // Act
+        var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
-            //    //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+        // Assert
+        var objectResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+        Assert.Equal($"an unexpected error occurred", objectResult.Value);
+    }
 
-            //    context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-            //    context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+    [Fact]
+    public async Task PostUnfollowUserAsync_ReturnsOkObject_WhenRequestIsValid()
+    {
+        var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            //    context.SaveChanges();
+        using (var context = new ApplicationDbContext(options))
+        {
+            //You have to create the database
+            context.Database.EnsureClean();
+            context.Database.EnsureCreated();
+            //context.SeedDatabaseFourBooks();
 
-            //    context.Users.Count().ShouldEqual(2);
+            //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
-            //    // Arrange
-            UserManager<ApplicationUser> userManager = null; //to cause internal error
+            context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+            context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+
+            context.SaveChanges();
+
+            context.Users.Count().ShouldEqual(2);
+
+            // Arrange
+            //*******************
+            var userManager = SharedFunctions.InitialiseUserManager(context);
+            //**
             var mockRepo = new Mock<INetworkRepository>();
             mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
                 .Verifiable();
 
             var mockUnitOfWork = new Mock<IUnitOfWork>();
-            mockUnitOfWork.Setup(x => x.CompleteAsync())
-                .ThrowsAsync(new InvalidOperationException());
+            mockUnitOfWork.Setup(x => x.CompleteAsync()).Returns(Task.CompletedTask);
 
             var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
 
@@ -308,70 +332,17 @@ namespace Birder.Tests.Controller
             var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
 
             // Assert
-            var objectResult = Assert.IsType<ObjectResult>(result);
-            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-            Assert.Equal($"an unexpected error occurred", objectResult.Value);
+            var objectResult = result as ObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.IsType<OkObjectResult>(result);
+            Assert.True(objectResult is OkObjectResult);
+            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+            Assert.IsType<NetworkUserViewModel>(objectResult.Value);
+
+            var model = objectResult.Value as NetworkUserViewModel;
+            Assert.Equal(userToUnfollow, model.UserName);
         }
-
-        [Fact]
-        public async Task PostUnfollowUserAsync_ReturnsOkObject_WhenRequestIsValid()
-        {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
-
-            using (var context = new ApplicationDbContext(options))
-            {
-                //You have to create the database
-                context.Database.EnsureClean();
-                context.Database.EnsureCreated();
-                //context.SeedDatabaseFourBooks();
-
-                //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-
-                context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-                context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
-                context.SaveChanges();
-
-                context.Users.Count().ShouldEqual(2);
-
-                // Arrange
-                //*******************
-                var userManager = SharedFunctions.InitialiseUserManager(context);
-                //**
-                var mockRepo = new Mock<INetworkRepository>();
-                mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
-                    .Verifiable();
-
-                var mockUnitOfWork = new Mock<IUnitOfWork>();
-                mockUnitOfWork.Setup(x => x.CompleteAsync()).Returns(Task.CompletedTask);
-
-                var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-                string requestingUser = "testUser1";
-
-                string userToUnfollow = "testUser2";
-
-                controller.ControllerContext = new ControllerContext()
-                {
-                    HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
-                };
-
-                // Act
-                var result = await controller.PostUnfollowUserAsync(SharedFunctions.GetTestNetworkUserViewModel(userToUnfollow));
-
-                // Assert
-                var objectResult = result as ObjectResult;
-                Assert.NotNull(objectResult);
-                Assert.IsType<OkObjectResult>(result);
-                Assert.True(objectResult is OkObjectResult);
-                Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-                Assert.IsType<NetworkUserViewModel>(objectResult.Value);
-
-                var model = objectResult.Value as NetworkUserViewModel;
-                Assert.Equal(userToUnfollow, model.UserName);
-            }
-        }
-
-        #endregion
     }
+
+    #endregion
 }
