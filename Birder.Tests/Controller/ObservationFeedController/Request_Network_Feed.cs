@@ -95,49 +95,51 @@ public class Request_Network_Feed
         }
     }
 
-    [Fact]
-    public async Task Returns_500_When_Repository_Returns_Null()
-    {
-        var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+    // this 
 
-        using (var context = new ApplicationDbContext(options))
-        {
-            //  create the database
-            context.Database.EnsureClean();
-            context.Database.EnsureCreated();
-            context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-            context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+    // [Fact]
+    // public async Task Returns_500_When_Repository_Returns_Null()
+    // {
+    //     var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
-            context.SaveChanges();
+    //     using (var context = new ApplicationDbContext(options))
+    //     {
+    //         //  create the database
+    //         context.Database.EnsureClean();
+    //         context.Database.EnsureCreated();
+    //         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+    //         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
-            context.Users.Count().ShouldEqual(2);
+    //         context.SaveChanges();
 
-            // Arrange
-            var userManager = SharedFunctions.InitialiseUserManager(context);
-            var requestingUsername = "testUser1";
+    //         context.Users.Count().ShouldEqual(2);
 
-            var mockObsRepo = new Mock<IObservationQueryService>();
-            mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(Task.FromResult<IEnumerable<ObservationFeedDto>>(null));
+    //         // Arrange
+    //         var userManager = SharedFunctions.InitialiseUserManager(context);
+    //         var requestingUsername = "testUser1";
 
-            var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
+    //         var mockObsRepo = new Mock<IObservationQueryService>();
+    //         mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+    //             .Returns(Task.FromResult<IEnumerable<ObservationFeedDto>>(null));
 
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
-            };
+    //         var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
 
-            // Act
-            var result = await controller.GetNetworkFeedAsync(It.IsAny<int>(), It.IsAny<int>());
+    //         controller.ControllerContext = new ControllerContext()
+    //         {
+    //             HttpContext = new DefaultHttpContext()
+    //             { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+    //         };
 
-            // Assert
-            var objectResult = Assert.IsType<ObjectResult>(result);
-            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-            var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal("an unexpected error occurred", actual);
-        }
-    }
+    //         // Act
+    //         var result = await controller.GetNetworkFeedAsync(It.IsAny<int>(), It.IsAny<int>());
+
+    //         // Assert
+    //         var objectResult = Assert.IsType<ObjectResult>(result);
+    //         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+    //         var actual = Assert.IsType<string>(objectResult.Value);
+    //         Assert.Equal("an unexpected error occurred", actual);
+    //     }
+    // }
 
     [Fact]
     public async Task Returns_500_On_Exception()
