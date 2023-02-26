@@ -27,7 +27,7 @@ namespace Birder.Tests.HelpersTests
             {
                 // Arrange
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
 
                 var userManager = SharedFunctions.InitialiseUserManager(context);
 
@@ -49,7 +49,7 @@ namespace Birder.Tests.HelpersTests
                 string usernameToFollow = "User2";
 
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();
 
                 context.Users.Add(SharedFunctions.CreateUser(usernameToAct));

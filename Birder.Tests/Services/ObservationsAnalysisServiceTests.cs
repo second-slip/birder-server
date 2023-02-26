@@ -27,7 +27,7 @@ namespace Birder.Tests.Services
             {
                 //You have to create the database
                 context.CreateEmptyViaDelete();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
 
                 context.Users.Add(SharedFunctions.CreateUser(testUsername));
 
@@ -70,7 +70,7 @@ namespace Birder.Tests.Services
             {
                 //You have to create the database
                 context.CreateEmptyViaDelete();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
 
                 context.Users.Add(SharedFunctions.CreateUser(testUsername));
 
@@ -113,7 +113,7 @@ namespace Birder.Tests.Services
             {
                 //You have to create the database
                 context.CreateEmptyViaDelete();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
 
                 context.Users.Add(SharedFunctions.CreateUser(testUsername));
 
@@ -155,7 +155,7 @@ namespace Birder.Tests.Services
             {
                 // Arrange
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
 
                 var service = new ObservationsAnalysisService(context);
 

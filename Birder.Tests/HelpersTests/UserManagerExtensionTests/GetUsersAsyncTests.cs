@@ -33,7 +33,7 @@ namespace Birder.Tests.HelpersTests
                 string usernameToFollow = "TestUser2";
 
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
                 context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
@@ -65,7 +65,7 @@ namespace Birder.Tests.HelpersTests
                 string followerUsername = "TestUser2";
 
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
                 context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
@@ -120,7 +120,7 @@ namespace Birder.Tests.HelpersTests
                 string usernameToFollow = "TestUser2";
 
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
                 context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
@@ -152,7 +152,7 @@ namespace Birder.Tests.HelpersTests
                 string usernameToFollow = "TestUser2";
 
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
                 context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
@@ -197,7 +197,7 @@ namespace Birder.Tests.HelpersTests
                 string usernameToFollow = "TestUser2";
 
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
                 context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
@@ -232,7 +232,7 @@ namespace Birder.Tests.HelpersTests
                 string usernameToFollow = "TestUser2";
 
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
                 //context.SeedDatabaseFourBooks();  // int number of users?
 
                 context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
@@ -264,7 +264,7 @@ namespace Birder.Tests.HelpersTests
             {
                 // Arrange
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
                 //IEnumerable<string> followersNotBeingFollowed;
 
                 var userManager = SharedFunctions.InitialiseUserManager(context);

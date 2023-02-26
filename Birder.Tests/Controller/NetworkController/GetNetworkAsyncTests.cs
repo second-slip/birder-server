@@ -74,7 +74,7 @@ namespace Birder.Tests.Controller
             {
                 //You have to create the database
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
                 context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
@@ -113,7 +113,7 @@ namespace Birder.Tests.Controller
             {
                 //You have to create the database
                 context.Database.EnsureClean();
-                context.Database.EnsureCreated();
+                //context.Database.EnsureCreated();
 
                 //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 

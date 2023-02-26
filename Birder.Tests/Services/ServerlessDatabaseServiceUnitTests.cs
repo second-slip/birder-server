@@ -16,7 +16,7 @@ namespace Birder.Tests.Services
             //SETUP
             var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
             using var context = new ApplicationDbContext(options);
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
 
             context.ChangeTracker.Clear(); //NEW LINE ADDED
 
@@ -43,7 +43,7 @@ namespace Birder.Tests.Services
         //    using (var context = new ApplicationDbContext(options))
         //    {
         //        context.CreateEmptyViaDelete();
-        //        context.Database.EnsureCreated();
+        //        //context.Database.EnsureCreated();
 
         //        // N.b. ConservationStatus are added in ApplicationDbContext.cs
         //        context.ConservationStatuses.Count().ShouldEqual(5);

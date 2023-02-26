@@ -52,7 +52,7 @@ public class UserProfileControllerTests
         {
             // create the database
             context.Database.EnsureClean();
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
 
             context.Users.Add(SharedFunctions.CreateUser("testUser1"));
             context.Users.Add(SharedFunctions.CreateUser("testUser2"));
@@ -97,7 +97,7 @@ public class UserProfileControllerTests
         {
             // create the database
             context.Database.EnsureClean();
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
 
             context.Users.Add(SharedFunctions.CreateUser("testUser1"));
             context.Users.Add(SharedFunctions.CreateUser("testUser2"));
@@ -141,7 +141,7 @@ public class UserProfileControllerTests
         {
             //create the database
             context.Database.EnsureClean();
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
 
             context.Users.Add(SharedFunctions.CreateUser("testUser1"));
             context.Users.Add(SharedFunctions.CreateUser("testUser2"));
@@ -192,7 +192,7 @@ public class UserProfileControllerTests
         {
             // create the database
             context.Database.EnsureClean();
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
 
             context.Users.Add(SharedFunctions.CreateUser("testUser1"));
             context.Users.Add(SharedFunctions.CreateUser("testUser2"));

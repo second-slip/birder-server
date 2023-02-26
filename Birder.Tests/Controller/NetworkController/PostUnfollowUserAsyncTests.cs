@@ -80,7 +80,7 @@ public class PostUnfollowUserAsyncTests
         {
             //You have to create the database
             context.Database.EnsureClean();
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
             //context.SeedDatabaseFourBooks();
 
             //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
@@ -133,7 +133,7 @@ public class PostUnfollowUserAsyncTests
         {
             //You have to create the database
             context.Database.EnsureClean();
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
             //context.SeedDatabaseFourBooks();
 
             //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
@@ -189,7 +189,7 @@ public class PostUnfollowUserAsyncTests
         {
             //You have to create the database
             context.Database.EnsureClean();
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
             //context.SeedDatabaseFourBooks();
 
             //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
@@ -243,7 +243,7 @@ public class PostUnfollowUserAsyncTests
         //{
         //    //You have to create the database
         //    context.Database.EnsureClean();
-        //    context.Database.EnsureCreated();
+        //    //context.Database.EnsureCreated();
         //    //context.SeedDatabaseFourBooks();
 
         //    //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
@@ -294,7 +294,7 @@ public class PostUnfollowUserAsyncTests
         {
             //You have to create the database
             context.Database.EnsureClean();
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
             //context.SeedDatabaseFourBooks();
 
             //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
