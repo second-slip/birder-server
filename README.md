@@ -1,6 +1,9 @@
 # Birder
 Birder is a social network-style platform for logging, sharing, and analysing bird observations. Ultimately, the aim is to feed the data to an algorithm which will help with species identification. 
 
+[![.NET CI](https://github.com/WinthorpeCross/birder-server/actions/workflows/dotnet.yml/badge.svg)](https://github.com/WinthorpeCross/birder-server/actions/workflows/dotnet.yml)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/WinthorpeCross/birder-server/dotnet.yml)
+
 
 > **Warning**
 > Major refactor is in progress
