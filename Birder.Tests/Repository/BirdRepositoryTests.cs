@@ -1,46 +1,89 @@
-﻿using Birder.Data;
-using Birder.Data.Model;
-using Birder.Data.Repository;
+﻿using Birder.Data.Repository;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using TestSupport.EfHelpers;
-using Xunit;
 
-namespace Birder.Tests.Repository
+namespace Birder.Tests.Repository;
+
+public class BirdRepositoryTests
 {
-    public class BirdRepositoryTests
+    [Theory]
+    [InlineData(5)]
+    [InlineData(25)]
+    [InlineData(10)]
+    public async Task GetBirdsAsync_PageSizeTheory_ReturnsPageSize(int pageSize)
     {
-        [Theory]
-        [InlineData(5)]
-        [InlineData(25)]
-        [InlineData(10)]
-        public async Task GetBirdsAsync_PageSizeTheory_ReturnsPageSize(int pageSize)
+        // Arrange
+        //var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+        //var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+        //var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        //    .UseSqlite(connection)
+        //    .Options;
+
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+        using var context = new ApplicationDbContext(options);
+        context.Database.EnsureCreated();
+
+        context.ChangeTracker.Clear(); //NEW LINE ADDED
+
+        //using (var context = new ApplicationDbContext(options))
+        //{
+        context.Database.OpenConnection();
+        //context.Database.EnsureCreated();
+
+
+        for (int i = 1; i < 30; i++)
         {
-            // Arrange
-            //var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-            //var connection = new SqliteConnection(connectionStringBuilder.ToString());
+            Random r = new Random();
+            context.Birds.Add(new Bird()
+            {
+                BirdId = i,
+                Class = $"Class {i}",
+                Order = $"Order {i}",
+                Family = $"Family {i}",
+                Genus = $"Genus {i}",
+                Species = $"Species {i}",
+                EnglishName = $"Name {i}",
+                ConservationStatusId = r.Next(1, 3),
+                CreationDate = DateTime.Now,
+                LastUpdateDate = DateTime.Now
+            });
+        }
 
-            //var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            //    .UseSqlite(connection)
-            //    .Options;
+        context.SaveChanges();
+        //}
 
-            var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-            using var context = new ApplicationDbContext(options);
-            context.Database.EnsureCreated();
+        //using (var context = new ApplicationDbContext(options))
+        //{
+        var birdRepository = new BirdRepository(context);
 
-            context.ChangeTracker.Clear(); //NEW LINE ADDED
+        // Act
+        var birds = await birdRepository.GetBirdsAsync(1, pageSize, BirderStatus.Common);
 
-            //using (var context = new ApplicationDbContext(options))
-            //{
+        // Assert
+        Assert.Equal(pageSize, birds.Items.Count());
+        Assert.IsType<ConservationStatus>(birds.Items.First().BirdConservationStatus);
+    }
+
+    [Theory]
+    [InlineData(5)]
+    [InlineData(25)]
+    [InlineData(10)]
+    public async Task GetBirdsAsync_PageIndexIsZero_ReturnsPageSize(int pageSize)
+    {
+        // Arrange
+        var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+        var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseSqlite(connection)
+            .Options;
+
+        using (var context = new ApplicationDbContext(options))
+        {
             context.Database.OpenConnection();
-            //context.Database.EnsureCreated();
-
-            //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-            //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-            //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
+            context.Database.EnsureCreated();
+            //context.Database.EnsureClean();
 
             for (int i = 1; i < 30; i++)
             {
@@ -61,155 +104,94 @@ namespace Birder.Tests.Repository
             }
 
             context.SaveChanges();
-            //}
+        }
 
-            //using (var context = new ApplicationDbContext(options))
-            //{
+        using (var context = new ApplicationDbContext(options))
+        {
             var birdRepository = new BirdRepository(context);
 
             // Act
-            var birds = await birdRepository.GetBirdsAsync(1, pageSize, BirderStatus.Common);
+            var birds = await birdRepository.GetBirdsAsync(0, pageSize, BirderStatus.Common);
 
             // Assert
             Assert.Equal(pageSize, birds.Items.Count());
             Assert.IsType<ConservationStatus>(birds.Items.First().BirdConservationStatus);
         }
+    }
 
-        [Theory]
-        [InlineData(5)]
-        [InlineData(25)]
-        [InlineData(10)]
-        public async Task GetBirdsAsync_PageIndexIsZero_ReturnsPageSize(int pageSize)
+    [Fact]
+    public async Task GetBirdsAsync_PageSizeIsZero_ReturnsDefaultPageSize()
+    {
+        // Arrange
+        var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+        var connection = new SqliteConnection(connectionStringBuilder.ToString());
+
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseSqlite(connection)
+            .Options;
+
+        using (var context = new ApplicationDbContext(options))
         {
-            // Arrange
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+            context.Database.OpenConnection();
+            context.Database.EnsureCreated();
 
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlite(connection)
-                .Options;
 
-            using (var context = new ApplicationDbContext(options))
+            for (int i = 1; i < 30; i++)
             {
-                context.Database.OpenConnection();
-                context.Database.EnsureCreated();
-                //context.Database.EnsureClean();
-
-                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-
-                for (int i = 1; i < 30; i++)
+                Random r = new Random();
+                context.Birds.Add(new Bird()
                 {
-                    Random r = new Random();
-                    context.Birds.Add(new Bird()
-                    {
-                        BirdId = i,
-                        Class = $"Class {i}",
-                        Order = $"Order {i}",
-                        Family = $"Family {i}",
-                        Genus = $"Genus {i}",
-                        Species = $"Species {i}",
-                        EnglishName = $"Name {i}",
-                        ConservationStatusId = r.Next(1, 3),
-                        CreationDate = DateTime.Now,
-                        LastUpdateDate = DateTime.Now
-                    });
-                }
-
-                context.SaveChanges();
+                    BirdId = i,
+                    Class = $"Class {i}",
+                    Order = $"Order {i}",
+                    Family = $"Family {i}",
+                    Genus = $"Genus {i}",
+                    Species = $"Species {i}",
+                    EnglishName = $"Name {i}",
+                    ConservationStatusId = r.Next(1, 3),
+                    CreationDate = DateTime.Now,
+                    LastUpdateDate = DateTime.Now
+                });
             }
 
-            using (var context = new ApplicationDbContext(options))
-            {
-                var birdRepository = new BirdRepository(context);
-
-                // Act
-                var birds = await birdRepository.GetBirdsAsync(0, pageSize, BirderStatus.Common);
-
-                // Assert
-                Assert.Equal(pageSize, birds.Items.Count());
-                Assert.IsType<ConservationStatus>(birds.Items.First().BirdConservationStatus);
-            }
+            context.SaveChanges();
         }
 
-        [Fact]
-        public async Task GetBirdsAsync_PageSizeIsZero_ReturnsDefaultPageSize()
+        using (var context = new ApplicationDbContext(options))
         {
-            // Arrange
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-            var connection = new SqliteConnection(connectionStringBuilder.ToString());
+            var birdRepository = new BirdRepository(context);
 
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlite(connection)
-                .Options;
+            // Act
+            var birds = await birdRepository.GetBirdsAsync(1, 0, BirderStatus.Common);
 
-            using (var context = new ApplicationDbContext(options))
-            {
-                context.Database.OpenConnection();
-                context.Database.EnsureCreated();
-                //context.Database.EnsureClean();
-                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-                //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
-
-                for (int i = 1; i < 30; i++)
-                {
-                    Random r = new Random();
-                    context.Birds.Add(new Bird()
-                    {
-                        BirdId = i,
-                        Class = $"Class {i}",
-                        Order = $"Order {i}",
-                        Family = $"Family {i}",
-                        Genus = $"Genus {i}",
-                        Species = $"Species {i}",
-                        EnglishName = $"Name {i}",
-                        ConservationStatusId = r.Next(1, 3),
-                        CreationDate = DateTime.Now,
-                        LastUpdateDate = DateTime.Now
-                    });
-                }
-
-                context.SaveChanges();
-            }
-
-            using (var context = new ApplicationDbContext(options))
-            {
-                var birdRepository = new BirdRepository(context);
-
-                // Act
-                var birds = await birdRepository.GetBirdsAsync(1, 0, BirderStatus.Common);
-
-                // Assert
-                Assert.Equal(10, birds.Items.Count());
-                Assert.IsType<ConservationStatus>(birds.Items.First().BirdConservationStatus);
-            }
+            // Assert
+            Assert.Equal(10, birds.Items.Count());
+            Assert.IsType<ConservationStatus>(birds.Items.First().BirdConservationStatus);
         }
+    }
 
-        [Fact]
-        public async Task GetBird_EmptyId_ThrowsArgumentException()
+    [Fact]
+    public async Task GetBird_EmptyId_ThrowsArgumentException()
+    {
+        // Arrange
+        var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+        var connection = new SqliteConnection(connectionStringBuilder.ToString());
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseSqlite(connection)
+            .Options;
+
+        using (var context = new ApplicationDbContext(options))
         {
-            // Arrange
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-            var connection = new SqliteConnection(connectionStringBuilder.ToString());
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlite(connection)
-                .Options;
+            context.Database.OpenConnection();
+            context.Database.EnsureCreated();
+            //context.Database.EnsureClean();
 
-            using (var context = new ApplicationDbContext(options))
-            {
-                context.Database.OpenConnection();
-                context.Database.EnsureCreated();
-                //context.Database.EnsureClean();
+            var authorRepository = new BirdRepository(context);
 
-                var authorRepository = new BirdRepository(context);
-
-                // Assert
-                await Assert.ThrowsAsync<ArgumentException>(
-                    // Act      
-                    () => authorRepository.GetBirdAsync(0));
-            }
+            // Assert
+            await Assert.ThrowsAsync<ArgumentException>(
+                // Act      
+                () => authorRepository.GetBirdAsync(0));
         }
     }
 }
