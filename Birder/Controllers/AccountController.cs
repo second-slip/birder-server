@@ -152,13 +152,13 @@ public class AccountController : ControllerBase
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user is null)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, $"User with email '{model.Email}' was not found at forgot password");
+                _logger.LogError(LoggingEvents.GetItemNotFound, $"User not found at forgot password");
                 return Ok(new { success = true }); // user does not exist, but don't reveal that the user does not exist
             }
 
             if (user.EmailConfirmed == false)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, $"Forgot password request when email '{model.Email}' is not confirmed");
+                _logger.LogError(LoggingEvents.GetItemNotFound, $"User's email is not confirmed");
                 return Ok(new { success = true }); // email is not confirmed
             }
 
