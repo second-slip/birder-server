@@ -144,44 +144,44 @@ public class Request_Network_Feed
     [Fact]
     public async Task Returns_500_On_Exception()
     {
-        var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
 
-        using (var context = new ApplicationDbContext(options))
+        using var context = new ApplicationDbContext(options);
+        //You have to create the database
+        //context.Database.EnsureClean();
+        context.Database.EnsureCreated();
+        ////context.Database.EnsureCreated();
+        context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+        context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+
+        context.SaveChanges();
+
+        context.Users.Count().ShouldEqual(2);
+
+        // Arrange
+        var userManager = SharedFunctions.InitialiseUserManager(context);
+        var requestingUsername = "testUser1";
+
+        var mockObsRepo = new Mock<IObservationQueryService>();
+        mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+            .ThrowsAsync(new InvalidOperationException());
+
+        var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
+
+        controller.ControllerContext = new ControllerContext()
         {
-            //  create the database
-            context.Database.EnsureClean();
-            ////context.Database.EnsureCreated();
-            context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-            context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+            HttpContext = new DefaultHttpContext()
+            { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+        };
 
-            context.SaveChanges();
+        // Act
+        var result = await controller.GetNetworkFeedAsync(It.IsAny<int>(), It.IsAny<int>());
 
-            context.Users.Count().ShouldEqual(2);
+        // Assert
+        var objectResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+        var actual = Assert.IsType<string>(objectResult.Value);
+        Assert.Equal($"an unexpected error occurred", actual);
 
-            // Arrange
-            var userManager = SharedFunctions.InitialiseUserManager(context);
-            var requestingUsername = "testUser1";
-
-            var mockObsRepo = new Mock<IObservationQueryService>();
-            mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                .ThrowsAsync(new InvalidOperationException());
-
-            var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
-            };
-
-            // Act
-            var result = await controller.GetNetworkFeedAsync(It.IsAny<int>(), It.IsAny<int>());
-
-            // Assert
-            var objectResult = Assert.IsType<ObjectResult>(result);
-            Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-            var actual = Assert.IsType<string>(objectResult.Value);
-            Assert.Equal($"an unexpected error occurred", actual);
-        }
     }
 }
