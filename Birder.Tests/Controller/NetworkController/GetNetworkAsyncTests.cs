@@ -73,8 +73,9 @@ namespace Birder.Tests.Controller
             using (var context = new ApplicationDbContext(options))
             {
                 //You have to create the database
-                context.Database.EnsureClean();
-                //context.Database.EnsureCreated();
+                //context.Database.EnsureClean();
+                context.Database.EnsureCreated();
+
                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
                 context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
@@ -107,13 +108,14 @@ namespace Birder.Tests.Controller
         [Fact]
         public async Task GetNetworkSummaryAsync_Returns_Ok()
         {
-            var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+            var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+            //var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
 
             using (var context = new ApplicationDbContext(options))
             {
                 //You have to create the database
-                context.Database.EnsureClean();
-                //context.Database.EnsureCreated();
+                //context.Database.EnsureClean();
+                context.Database.EnsureCreated();
 
                 //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 

@@ -16,7 +16,7 @@ namespace Birder.Tests.Services
             //SETUP
             var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
             using var context = new ApplicationDbContext(options);
-            //context.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
             context.ChangeTracker.Clear(); //NEW LINE ADDED
 

@@ -29,7 +29,7 @@ namespace Birder.Tests.Repository
 
             var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
             using var context = new ApplicationDbContext(options);
-            //context.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
             context.ChangeTracker.Clear(); //NEW LINE ADDED
 
@@ -92,7 +92,8 @@ namespace Birder.Tests.Repository
             using (var context = new ApplicationDbContext(options))
             {
                 context.Database.OpenConnection();
-                //context.Database.EnsureCreated();
+                context.Database.EnsureCreated();
+                //context.Database.EnsureClean();
 
                 //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
                 //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
@@ -146,8 +147,8 @@ namespace Birder.Tests.Repository
             using (var context = new ApplicationDbContext(options))
             {
                 context.Database.OpenConnection();
-                //context.Database.EnsureCreated();
-
+                context.Database.EnsureCreated();
+                //context.Database.EnsureClean();
                 //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 1, ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
                 //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 2, ConservationList = "Amber", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
                 //context.ConservationStatuses.Add(new ConservationStatus() { ConservationStatusId = 3, ConservationList = "Green", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
@@ -199,7 +200,8 @@ namespace Birder.Tests.Repository
             using (var context = new ApplicationDbContext(options))
             {
                 context.Database.OpenConnection();
-                //context.Database.EnsureCreated();
+                context.Database.EnsureCreated();
+                //context.Database.EnsureClean();
 
                 var authorRepository = new BirdRepository(context);
 
