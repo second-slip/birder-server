@@ -1,6 +1,4 @@
-﻿using Birder.Data.Model;
-
-namespace Birder.Controllers;
+﻿namespace Birder.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
