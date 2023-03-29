@@ -3,6 +3,8 @@ Birder is a social network-style platform for logging, sharing, and analysing bi
 
 [![Known Vulnerabilities](https://snyk.io/test/github/WinthorpeCross/birder-server/badge.svg)](https://snyk.io/test/github/WinthorpeCross/birder-server)
 
+![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/WinthorpeCross/birder-server)
+
 > **Warning**
 > Major refactor is in progress
 
