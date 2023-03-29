@@ -1,7 +1,7 @@
 # Birder
 Birder is a social network-style platform for logging, sharing, and analysing bird observations. Ultimately, the aim is to feed the data to an algorithm which will help with species identification. 
 
-![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/WinthorpeCross/birder-server)
+[![Known Vulnerabilities](https://snyk.io/test/github/WinthorpeCross/birder-server/badge.svg)](https://snyk.io/test/github/WinthorpeCross/birder-server)
 
 > **Warning**
 > Major refactor is in progress
