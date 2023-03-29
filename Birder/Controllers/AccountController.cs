@@ -125,7 +125,6 @@ public class AccountController : ControllerBase
 
             var templateData = new { username = user.UserName, url = url };
 
-            // await _emailSender.SendEmailConfirmationEmailAsync(templateData);
             await _emailSender.SendTemplateEmail("d-882e4b133cae40268364c8a929e55ea9", user.Email, templateData);
 
             return Ok(new { success = true });
@@ -220,8 +219,6 @@ public class AccountController : ControllerBase
             {
                 _logger.LogError($"Username null or empty at {nameof(GetIsUsernameTakenAsync)}");
                 return BadRequest("An error occurred");
-                // _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred in is username available.");
-                // throw new ArgumentException("null or empty argument was passed to GetIsUsernameTakenAsync()", username);
             }
 
             if (await _userManager.FindByNameAsync(model.Username) != null)
@@ -248,8 +245,6 @@ public class AccountController : ControllerBase
             {
                 _logger.LogError($"Email null or empty at {nameof(GetIsEmailTakenAsync)}");
                 return BadRequest("An error occurred");
-                // _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred in is username available.");
-                // throw new ArgumentException("null or empty argument was passed to GetIsUsernameTakenAsync()", username);
             }
 
             if (await _userManager.FindByEmailAsync(model.Email) != null)
