@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using TestSupport.EfHelpers;
 
 namespace Birder.Tests.Controller;
 
@@ -47,10 +47,7 @@ public class UserProfileControllerTests
     public async Task Returns_500_When_User_Is_Null()
     {
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
 
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
@@ -86,17 +83,12 @@ public class UserProfileControllerTests
     [Fact]
     public async Task Returns_500_When_Exception_Is_Raised()
     {
-
-
         var mockService = new Mock<IObservationsAnalysisService>();
         mockService.Setup(obs => obs.GetObservationsSummaryAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
             .ThrowsAsync(new InvalidOperationException());
 
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
 
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
@@ -134,21 +126,15 @@ public class UserProfileControllerTests
     [Fact]
     public async Task Returns_Ok_With_Own_Profile()
     {
-
         var mockService = new Mock<IObservationsAnalysisService>();
 
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
 
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
         context.SaveChanges();
-
         context.Users.Count().ShouldEqual(2);
 
         // Arrange
@@ -177,23 +163,19 @@ public class UserProfileControllerTests
 
         var model = objectResult.Value as UserProfileViewModel;
         Assert.Equal(requestedUsername, model.User.UserName);
-
     }
 
     [Fact]
     public async Task Returns_Ok_With_Other_User_Profile()
     {
-        // var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+        
         var countModel = new ObservationAnalysisViewModel { TotalObservationsCount = 2, UniqueSpeciesCount = 2 };
         var mockService = new Mock<IObservationsAnalysisService>();
         mockService.Setup(serve => serve.GetObservationsSummaryAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
                     .ReturnsAsync(countModel);
 
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
 
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
@@ -229,6 +211,5 @@ public class UserProfileControllerTests
         var model = objectResult.Value as UserProfileViewModel;
         Assert.Equal(requestedUsername, model.User.UserName);
         Assert.Equal(countModel, model.ObservationCount);
-
     }
 }

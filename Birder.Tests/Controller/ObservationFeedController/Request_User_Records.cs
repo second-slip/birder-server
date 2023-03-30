@@ -104,9 +104,9 @@
 
 //             using (var context = new ApplicationDbContext(options))
 //             {
-//                 //You have to create the database
+//                 
 //                 context.Database.EnsureClean();
-//                 //context.Database.EnsureCreated();
+//                 
 
 //                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
 //                 context.Users.Add(SharedFunctions.CreateUser("testUser2"));
@@ -152,9 +152,9 @@
 
 //             using (var context = new ApplicationDbContext(options))
 //             {
-//                 //You have to create the database
+//                 
 //                 context.Database.EnsureClean();
-//                 //context.Database.EnsureCreated();
+//                 
 
 //                 context.Users.Add(SharedFunctions.CreateUser("testUser1"));
 //                 context.Users.Add(SharedFunctions.CreateUser("testUser2"));

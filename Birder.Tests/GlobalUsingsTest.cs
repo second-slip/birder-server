@@ -2,7 +2,7 @@
 global using Moq;
 global using Xunit;
 global using Birder.TestsHelpers;
-global using TestSupport.EfHelpers;
+//global using TestSupport.EfHelpers;  --> removed this global to make it explicit where this library is used
 global using Xunit.Extensions.AssertExtensions;
 
 global using System;

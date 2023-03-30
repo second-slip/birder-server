@@ -1,4 +1,6 @@
-﻿namespace Birder.Tests.Controller;
+﻿using TestSupport.EfHelpers;
+
+namespace Birder.Tests.Controller;
 
 public class Request_Network_Feed
 {
@@ -14,45 +16,42 @@ public class Request_Network_Feed
     [Fact]
     public async Task Returns_OkResult_With_Network_Records()
     {
-        var options = this.CreateUniqueClassOptions<ApplicationDbContext>();
+        // when handling Network object, need to use sql database not sqlite in-memory
+        var options = this.CreateUniqueMethodOptions<ApplicationDbContext>();
+        using var context = new ApplicationDbContext(options);
+        context.Database.EnsureClean();
 
-        using (var context = new ApplicationDbContext(options))
+        context.Users.Add(SharedFunctions.CreateUser("testUser1"));
+        context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+
+        context.SaveChanges();
+
+        context.Users.Count().ShouldEqual(2);
+
+        // Arrange
+        var userManager = SharedFunctions.InitialiseUserManager(context);
+        var requestingUsername = "testUser1";
+        var mockObsRepo = new Mock<IObservationQueryService>();
+
+        var model = new List<ObservationFeedDto>() { new ObservationFeedDto() };
+        mockObsRepo.SetupSequence(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
+            .ReturnsAsync(model);
+
+        var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
+
+        controller.ControllerContext = new ControllerContext()
         {
-            //You have to create the database
-            context.Database.EnsureClean();
-            ////context.Database.EnsureCreated();
-            context.Users.Add(SharedFunctions.CreateUser("testUser1"));
-            context.Users.Add(SharedFunctions.CreateUser("testUser2"));
+            HttpContext = new DefaultHttpContext()
+            { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
+        };
 
-            context.SaveChanges();
+        // Act
+        var result = await controller.GetNetworkFeedAsync(It.IsAny<int>(), It.IsAny<int>());
 
-            context.Users.Count().ShouldEqual(2);
-
-            // Arrange
-            var userManager = SharedFunctions.InitialiseUserManager(context);
-            var requestingUsername = "testUser1";
-            var mockObsRepo = new Mock<IObservationQueryService>();
-
-            var model = new List<ObservationFeedDto>() { new ObservationFeedDto() };
-            mockObsRepo.SetupSequence(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(model);
-
-            var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
-
-            controller.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext()
-                { User = SharedFunctions.GetTestClaimsPrincipal(requestingUsername) }
-            };
-
-            // Act
-            var result = await controller.GetNetworkFeedAsync(It.IsAny<int>(), It.IsAny<int>());
-
-            // Assert
-            var objectResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-            Assert.IsAssignableFrom<List<ObservationFeedDto>>(objectResult.Value);
-        }
+        // Assert
+        var objectResult = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+        Assert.IsAssignableFrom<List<ObservationFeedDto>>(objectResult.Value);
     }
 
     // [Fact]
@@ -62,9 +61,9 @@ public class Request_Network_Feed
 
     //     using (var context = new ApplicationDbContext(options))
     //     {
-    //         //You have to create the database
+    //         
     //         context.Database.EnsureClean();
-    //         //context.Database.EnsureCreated();
+    //         
     //         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
     //         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
@@ -106,7 +105,7 @@ public class Request_Network_Feed
     //     {
     //         //  create the database
     //         context.Database.EnsureClean();
-    //         //context.Database.EnsureCreated();
+    //         
     //         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
     //         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
@@ -145,17 +144,13 @@ public class Request_Network_Feed
     public async Task Returns_500_On_Exception()
     {
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
-        ////context.Database.EnsureCreated();
+        //
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
 
         context.SaveChanges();
-
         context.Users.Count().ShouldEqual(2);
 
         // Arrange
@@ -182,6 +177,5 @@ public class Request_Network_Feed
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
         var actual = Assert.IsType<string>(objectResult.Value);
         Assert.Equal($"an unexpected error occurred", actual);
-
     }
 }

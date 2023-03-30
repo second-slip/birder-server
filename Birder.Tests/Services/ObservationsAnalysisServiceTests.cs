@@ -1,41 +1,29 @@
-﻿namespace Birder.Tests.Services;
+﻿using TestSupport.EfHelpers;
+
+namespace Birder.Tests.Services;
 
 public class ObservationsAnalysisServiceTests
 {
-
     public ObservationsAnalysisServiceTests() { }
-
 
     [Fact]
     public async Task GetObservationsSummaryAsync_ReturnsViewModel_WithOneMatchInDb()
     {
         var testUsername = "TestUser1";
-        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
 
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
-        //context.Database.EnsureCreated();
 
         context.Users.Add(SharedFunctions.CreateUser(testUsername));
-
         context.SaveChanges();
-
         context.Users.Count().ShouldEqual(1);
-
         context.Birds.Add(SharedFunctions.GetBird(context.ConservationStatuses.FirstOrDefault()));
-
         context.SaveChanges();
-
         context.Birds.Count().ShouldEqual(1);
-
         context.Observations.Add(SharedFunctions.GetObservation(context.ApplicationUser.FirstOrDefault(), context.Birds.FirstOrDefault()));
-
         context.SaveChanges();
-
         context.Observations.Count().ShouldEqual(1);
-
 
         var service = new ObservationsAnalysisService(context);
 
@@ -46,36 +34,23 @@ public class ObservationsAnalysisServiceTests
         actual.ShouldBeType<ObservationAnalysisViewModel>();
         actual.TotalObservationsCount.ShouldEqual(1);
         actual.UniqueSpeciesCount.ShouldEqual(1);
-
     }
 
     [Fact]
     public async Task GetObservationsSummaryAsync_ReturnsEmptyViewModel_WithNoMatchesInDb()
     {
         var testUsername = "TestUser1";
-        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
 
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
 
         context.Users.Add(SharedFunctions.CreateUser(testUsername));
-
         context.SaveChanges();
-
         context.Users.Count().ShouldEqual(1);
-
         context.Birds.Add(SharedFunctions.GetBird(context.ConservationStatuses.FirstOrDefault()));
-
         context.SaveChanges();
-
         context.Birds.Count().ShouldEqual(1);
-
-        //context.Observations.Add(SharedFunctions.GetObservation(context.ApplicationUser.FirstOrDefault(), context.Birds.FirstOrDefault()));
-
-        //context.SaveChanges();
-
         context.Observations.Count().ShouldEqual(0);
 
 
@@ -88,38 +63,24 @@ public class ObservationsAnalysisServiceTests
         actual.ShouldBeType<ObservationAnalysisViewModel>();
         actual.TotalObservationsCount.ShouldEqual(0);
         actual.UniqueSpeciesCount.ShouldEqual(0);
-
     }
 
     [Fact]
     public async Task GetObservationsSummaryAsync_ReturnsEmptyViewModel_WhenUserDoesNotExist()
     {
         var testUsername = "TestUser1";
-        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
 
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
 
         context.Users.Add(SharedFunctions.CreateUser(testUsername));
-
         context.SaveChanges();
-
         context.Users.Count().ShouldEqual(1);
-
         context.Birds.Add(SharedFunctions.GetBird(context.ConservationStatuses.FirstOrDefault()));
-
         context.SaveChanges();
-
         context.Birds.Count().ShouldEqual(1);
-
-        //context.Observations.Add(SharedFunctions.GetObservation(context.ApplicationUser.FirstOrDefault(), context.Birds.FirstOrDefault()));
-
-        //context.SaveChanges();
-
         context.Observations.Count().ShouldEqual(0);
-
 
         var service = new ObservationsAnalysisService(context);
 
@@ -137,10 +98,7 @@ public class ObservationsAnalysisServiceTests
     public async Task GetObservationsSummaryAsync_ReturnsException_WhenArgumentIsNull()
     {
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
 
         var service = new ObservationsAnalysisService(context);

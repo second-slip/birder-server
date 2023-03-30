@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Birder.Data.Repository;
 using Microsoft.Extensions.Logging.Abstractions;
+using TestSupport.EfHelpers;
 
 namespace Birder.Tests.Controller;
 
@@ -23,16 +24,12 @@ public class GetNetworkAsyncTests
     public async Task GetNetworkSummaryAsync_Returns_500_On_Internal_Error()
     {
         // Arrange
-        UserManager<ApplicationUser> userManager = null; //to cause internal error
-
-        var mockRepo = new Mock<INetworkRepository>();
-
-        var mockUnitOfWork = new Mock<IUnitOfWork>();
-
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, new NullLogger<NetworkController>(), mockRepo.Object, userManager);
-
         string requesterUsername = "testUser1";
 
+        UserManager<ApplicationUser> userManager = null; //to cause internal error
+        var mockRepo = new Mock<INetworkRepository>();
+        var mockUnitOfWork = new Mock<IUnitOfWork>();
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, new NullLogger<NetworkController>(), mockRepo.Object, userManager);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
@@ -50,30 +47,22 @@ public class GetNetworkAsyncTests
     [Fact]
     public async Task GetNetworkSummaryAsync_Returns_500_When_User_Is_Null()
     {
-        // var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-        //  this.CreateUniqueClassOptions<ApplicationDbContext>();
+        // Arrange
+        string requesterUsername = "This requested user does not exist";
 
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
 
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
         context.SaveChanges();
         context.Users.Count().ShouldEqual(2);
 
-        // Arrange
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var mockRepo = new Mock<INetworkRepository>();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-        string requesterUsername = "This requested user does not exist";
-
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
@@ -92,32 +81,22 @@ public class GetNetworkAsyncTests
     [Fact]
     public async Task GetNetworkSummaryAsync_Returns_Ok()
     {
+        // Arrange
+        string requesterUsername = "testUser1";
+
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
-
-        //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
         context.SaveChanges();
-
         context.Users.Count().ShouldEqual(2);
 
-        // Arrange
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var mockRepo = new Mock<INetworkRepository>();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-        //string requestedUsername = "Tenko";
-
-        string requesterUsername = "testUser1";
-
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }

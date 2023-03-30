@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Birder.Data.Repository;
+using TestSupport.EfHelpers;
 
 namespace Birder.Tests.Controller;
 
@@ -7,11 +8,9 @@ public class GetSearchNetworkAsyncTests
 {
     private readonly IMapper _mapper;
     private readonly Mock<ILogger<NetworkController>> _logger;
-    //private readonly UserManager<ApplicationUser> _userManager;
 
     public GetSearchNetworkAsyncTests()
     {
-        //_userManager = SharedFunctions.InitialiseUserManager();
         var mappingConfig = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new BirderMappingProfile());
@@ -24,19 +23,17 @@ public class GetSearchNetworkAsyncTests
     public async Task GetSearchNetworkAsync_Returns_500_On_Internal_Error()
     {
         // Arrange
+        string requesterUsername = "username";
+        string searchCriterion = "testUser2";
+
         UserManager<ApplicationUser> userManager = null; //to cause internal error
         var mockRepo = new Mock<INetworkRepository>();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
-        string requesterUsername = "username";
-
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
         };
-
-        string searchCriterion = "testUser2";
 
         // Act
         var result = await controller.GetSearchNetworkAsync(searchCriterion);
@@ -50,36 +47,27 @@ public class GetSearchNetworkAsyncTests
     [Fact]
     public async Task GetSearchNetworkAsync_ReturnsOkWithNetworkListViewModelCollection_WhenSuccessful()
     {
+        // Arrange
+        string searchCriterion = "testUser2";
+
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
-
-        //context.ConservationStatuses.Add(new ConservationStatus { ConservationList = "Red", Description = "", CreationDate = DateTime.Now, LastUpdateDate = DateTime.Now });
 
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
         context.SaveChanges();
-
         context.Users.Count().ShouldEqual(2);
 
         // Arrange
         var userManager = SharedFunctions.InitialiseUserManager(context);
-
         var mockUnitOfWork = new Mock<IUnitOfWork>();
-
         var mockRepo = new Mock<INetworkRepository>();
         var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("testUser1") }
         };
-
-        string searchCriterion = "testUser2";
 
         // Act
         var result = await controller.GetSearchNetworkAsync(searchCriterion);
@@ -98,27 +86,20 @@ public class GetSearchNetworkAsyncTests
     [InlineData("")]
     public async Task GetSearchNetworkAsync_ReturnsBadRequestWithstringObject_WhenStringArgumentIsNullOrEmpty(string searchCriterion)
     {
+        // Arrange
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
+
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
         context.SaveChanges();
-
         context.Users.Count().ShouldEqual(2);
 
-        // Arrange
         var userManager = SharedFunctions.InitialiseUserManager(context);
-        // Arrange
         var mockUnitOfWork = new Mock<IUnitOfWork>();
-
         var mockRepo = new Mock<INetworkRepository>();
         var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
@@ -137,37 +118,29 @@ public class GetSearchNetworkAsyncTests
         Assert.Equal("No search criterion", objectResult.Value);
     }
 
-
     [Fact]
     public async Task GetSearchNetworkAsync_ReturnsNotFoundWithstringObject_WhenRepositoryReturnsNullUser()
     {
-        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+        // Arrange
+        string searchCriterion = "Test string";
 
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
+
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
-
         context.SaveChanges();
-
         context.Users.Count().ShouldEqual(2);
 
-        // Arrange
         var userManager = SharedFunctions.InitialiseUserManager(context);
-        // Arrange
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         var mockRepo = new Mock<INetworkRepository>();
-
         var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
-
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
         };
-
-        string searchCriterion = "Test string";
 
         // Act
         var result = await controller.GetSearchNetworkAsync(searchCriterion);
@@ -179,6 +152,5 @@ public class GetSearchNetworkAsyncTests
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
         Assert.IsType<string>(objectResult.Value);
         Assert.Equal("requesting user not found", objectResult.Value);
-
     }
 }

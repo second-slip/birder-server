@@ -1,4 +1,4 @@
-﻿using Xunit.Extensions.AssertExtensions;
+﻿using TestSupport.EfHelpers;
 
 namespace Birder.Tests.HelpersTests;
 
@@ -38,56 +38,48 @@ public class GetUsersAsyncTests
         actual.ShouldBeEmpty();
     }
 
-    // [Fact]
-    // public async Task GetUsersAsync_OneFollowerNotFollowed_ReturnsOneUser()
-    // {
-    //     var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+    [Fact]
+    public async Task GetUsersAsync_OneFollowerNotFollowed_ReturnsOneUser()
+    {
+        // Arrange
+        string requestingUsername = "TestUser1";
+        string followerUsername = "TestUser2";
+        IEnumerable<string> followersNotBeingFollowed = new List<string> { followerUsername };
 
-    //     using var context = new ApplicationDbContext(options);
-    //     
-    //     
-    //     context.Database.EnsureCreated();
-    //     // Arrange
-    //     string requestingUsername = "TestUser1";
-    //     string followerUsername = "TestUser2";
+        // when handling Network object, need to use sql database not sqlite in-memory
+        var options = this.CreateUniqueMethodOptions<ApplicationDbContext>();
+        using var context = new ApplicationDbContext(options);
+        context.Database.EnsureClean();
 
+        context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
+        context.Users.Add(SharedFunctions.CreateUser(followerUsername));
+        context.SaveChanges();
+        context.Users.Count().ShouldEqual(2);
 
-    //     
-    //     //context.SeedDatabaseFourBooks();  // int number of users?
+        var userManager = SharedFunctions.InitialiseUserManager(context);
+        var requestingUser = await userManager.FindByNameAsync(requestingUsername);
+        var follower = await userManager.FindByNameAsync(followerUsername);
 
-    //     context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
-    //     context.Users.Add(SharedFunctions.CreateUser(followerUsername));
-    //     context.SaveChanges();
-    //     context.Users.Count().ShouldEqual(2);
+        // follower follows userToTest
+        context.Network.Add(new Network()
+        {
+            ApplicationUser = requestingUser,
+            ApplicationUserId = requestingUser.Id,
+            Follower = follower,
+            FollowerId = follower.Id
+        });
 
-    //     var userManager = SharedFunctions.InitialiseUserManager(context);
+        context.SaveChanges();
+        context.Network.Count().ShouldEqual(1);
 
-    //     var requestingUser = await userManager.FindByNameAsync(requestingUsername);
-    //     var follower = await userManager.FindByNameAsync(followerUsername);
+        // Act
+        var actual = await userManager.GetUsersAsync(user => followersNotBeingFollowed.Contains(user.UserName));
 
-    //     // follower follows userToTest
-    //     context.Network.Add(new Network()
-    //     {
-    //         ApplicationUser = requestingUser,
-    //         ApplicationUserId = requestingUser.Id,
-    //         Follower = follower,
-    //         FollowerId = follower.Id
-    //     });
-
-    //     context.SaveChanges();
-    //     context.Network.Count().ShouldEqual(1);
-
-    //     IEnumerable<string> followersNotBeingFollowed = new List<string> { followerUsername };
-
-    //     // Act
-    //     var actual = await userManager.GetUsersAsync(user => followersNotBeingFollowed.Contains(user.UserName));
-
-    //     // Assert
-    //     actual.ShouldBeType<List<ApplicationUser>>();
-    //     actual.Count().ShouldEqual(1);
-    //     actual.FirstOrDefault().UserName.ShouldEqual(followerUsername);
-
-    // }
+        // Assert
+        actual.ShouldBeType<List<ApplicationUser>>();
+        actual.Count().ShouldEqual(1);
+        actual.FirstOrDefault().UserName.ShouldEqual(followerUsername);
+    }
 
     #endregion
 
@@ -182,7 +174,6 @@ public class GetUsersAsyncTests
         context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
         context.SaveChanges();
         context.Users.Count().ShouldEqual(2);
-
 
         var userManager = SharedFunctions.InitialiseUserManager(context);
 

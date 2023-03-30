@@ -1,57 +1,50 @@
-﻿using Birder.Helpers;
-using Birder.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
+﻿namespace Birder.Tests.HelpersTests;
 
-namespace Birder.Tests.HelpersTests
+public class GetAddedNotesTests
 {
-    public class GetAddedNotesTests
+    [Theory, MemberData(nameof(NullArgumentTestData))]
+    public void GetAddedNotes_ReturnsNullReferenceException_WhenEitherOrBothArgumentaAreNull(List<ObservationNoteDto> notes)
     {
-        [Theory, MemberData(nameof(NullArgumentTestData))]
-        public void GetAddedNotes_ReturnsNullReferenceException_WhenEitherOrBothArgumentaAreNull(List<ObservationNoteDto> notes)
+        // Act & Assert
+        var ex = Assert.Throws<NullReferenceException>(() => ObservationNotesHelper.GetAddedNotes(notes));
+        Assert.Equal("The notes collection is null", ex.Message);
+    }
+
+    [Theory, MemberData(nameof(ZeroResultTestData))]
+    public void GeAddedNotes_ReturnsZeroResult_WhenAppropriate(List<ObservationNoteDto> notes)
+    {
+        //Act
+        var result = ObservationNotesHelper.GetAddedNotes(notes);
+
+        // Assert
+        Assert.IsAssignableFrom<IEnumerable<ObservationNoteDto>>(result);
+        Assert.Empty(result);
+    }
+
+    [Theory, MemberData(nameof(MultipleResultsTestData))]
+    public void GetAddedNotes_ReturnsMultipleResults_WhenAppropriate(List<ObservationNoteDto> notes)
+    {
+        //Act
+        var result = ObservationNotesHelper.GetAddedNotes(notes);
+
+        // Assert
+        Assert.IsAssignableFrom<IEnumerable<ObservationNoteDto>>(result);
+        Assert.Equal(2, result.Count());
+        var deleted1 = result.Where(t => t.Id == 0).FirstOrDefault();
+        Assert.Contains(deleted1, result);
+
+        var deleted2 = result.Where(t => t.Id == 0).FirstOrDefault();
+        Assert.Contains(deleted2, result);
+    }
+
+
+    // test scenarios which should return an empty collection
+    public static IEnumerable<object[]> MultipleResultsTestData
+    {
+        get
         {
-            // Act & Assert
-            var ex = Assert.Throws<NullReferenceException>(() => ObservationNotesHelper.GetAddedNotes(notes));
-            Assert.Equal("The notes collection is null", ex.Message);
-        }
-
-        [Theory, MemberData(nameof(ZeroResultTestData))]
-        public void GeAddedNotes_ReturnsZeroResult_WhenAppropriate(List<ObservationNoteDto> notes)
-        {
-            //Act
-            var result = ObservationNotesHelper.GetAddedNotes(notes);
-
-            // Assert
-            Assert.IsAssignableFrom<IEnumerable<ObservationNoteDto>>(result);
-            Assert.Empty(result);
-        }
-
-        [Theory, MemberData(nameof(MultipleResultsTestData))]
-        public void GetAddedNotes_ReturnsMultipleResults_WhenAppropriate(List<ObservationNoteDto> notes)
-        {
-            //Act
-            var result = ObservationNotesHelper.GetAddedNotes(notes);
-
-            // Assert
-            Assert.IsAssignableFrom<IEnumerable<ObservationNoteDto>>(result);
-            Assert.Equal(2, result.Count());
-            var deleted1 = result.Where(t => t.Id == 0).FirstOrDefault();
-            Assert.Contains(deleted1, result);
-
-            var deleted2 = result.Where(t => t.Id == 0).FirstOrDefault();
-            Assert.Contains(deleted2, result);
-        }
-
-
-        // test scenarios which should return an empty collection
-        public static IEnumerable<object[]> MultipleResultsTestData
-        {
-            get
+            return new[]
             {
-                return new[]
-                {
                     // all new
                     new object[] {
                         new List<ObservationNoteDto>()
@@ -101,16 +94,16 @@ namespace Birder.Tests.HelpersTests
                         }
                     }
                 };
-            }
         }
- 
-        // test scenarios which should return an empty collection
-        public static IEnumerable<object[]> ZeroResultTestData
+    }
+
+    // test scenarios which should return an empty collection
+    public static IEnumerable<object[]> ZeroResultTestData
+    {
+        get
         {
-            get
+            return new[]
             {
-                return new[]
-                {
                     // empty collection
                     new object[] { new List<ObservationNoteDto>() },
                     // no items with id == 0
@@ -132,18 +125,17 @@ namespace Birder.Tests.HelpersTests
                         }
                     }
                 };
-            }
         }
+    }
 
-        public static IEnumerable<object[]> NullArgumentTestData
+    public static IEnumerable<object[]> NullArgumentTestData
+    {
+        get
         {
-            get
+            return new[]
             {
-                return new[]
-                {
                     new object[] { null },
                 };
-            }
         }
     }
 }

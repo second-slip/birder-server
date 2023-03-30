@@ -190,7 +190,7 @@ namespace Birder.TestsHelpers
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 SecurityStamp = new Guid().ToString("D"),
-                Avatar = ""
+                Avatar = "",               
             };
 
             user.PasswordHash = PassGenerate(user);

@@ -1,13 +1,6 @@
-﻿using Birder.Data.Model;
-using Birder.Helpers;
-using Birder.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
+﻿
+namespace Birder.Tests.HelpersTests;
 
-namespace Birder.Tests.HelpersTests
-{
     public class UserNetworkHelpersTests
     {
         [Fact]
@@ -369,4 +362,3 @@ namespace Birder.Tests.HelpersTests
             return list;
         }
     }
-}

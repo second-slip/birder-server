@@ -1,4 +1,6 @@
-﻿namespace Birder.Tests.Services;
+﻿using TestSupport.EfHelpers;
+
+namespace Birder.Tests.Services;
 
 public class ServerlessDatabaseServiceUnitTests
 {
@@ -8,8 +10,6 @@ public class ServerlessDatabaseServiceUnitTests
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
-
-        context.ChangeTracker.Clear(); //NEW LINE ADDED
 
         // N.b. ConservationStatus are added in ApplicationDbContext.cs
         context.ConservationStatuses.Count().ShouldEqual(5);
