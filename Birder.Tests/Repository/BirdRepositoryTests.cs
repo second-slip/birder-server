@@ -1,9 +1,6 @@
 ﻿using Birder.Data.Repository;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 
 namespace Birder.Tests.Repository;
-
 public class BirdRepositoryTests
 {
     [Theory]
@@ -13,24 +10,9 @@ public class BirdRepositoryTests
     public async Task GetBirdsAsync_PageSizeTheory_ReturnsPageSize(int pageSize)
     {
         // Arrange
-        //var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-        //var connection = new SqliteConnection(connectionStringBuilder.ToString());
-
-        //var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //    .UseSqlite(connection)
-        //    .Options;
-
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
-
-        //context.ChangeTracker.Clear(); //NEW LINE ADDED
-
-        //using (var context = new ApplicationDbContext(options))
-        //{
-        context.Database.OpenConnection();
-        //context.Database.EnsureCreated();
-
 
         for (int i = 1; i < 30; i++)
         {
@@ -51,13 +33,9 @@ public class BirdRepositoryTests
         }
 
         context.SaveChanges();
-        //}
-
-        //using (var context = new ApplicationDbContext(options))
-        //{
-        var birdRepository = new BirdRepository(context);
 
         // Act
+        var birdRepository = new BirdRepository(context);
         var birds = await birdRepository.GetBirdsAsync(1, pageSize, BirderStatus.Common);
 
         // Assert
@@ -71,25 +49,8 @@ public class BirdRepositoryTests
     [InlineData(10)]
     public async Task GetBirdsAsync_PageIndexIsZero_ReturnsPageSize(int pageSize)
     {
-        // Arrange
-        // var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-        // var connection = new SqliteConnection(connectionStringBuilder.ToString());
-
-        // var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //     .UseSqlite(connection)
-        //     .Options;
-
-        // using (var context = new ApplicationDbContext(options))
-        // {
-        //     context.Database.OpenConnection();
-        //     context.Database.EnsureCreated();
-        //     //context.Database.EnsureClean();
-
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
 
         for (int i = 1; i < 30; i++)
@@ -111,44 +72,23 @@ public class BirdRepositoryTests
         }
 
         context.SaveChanges();
-        // }
-
-        // using (var context = new ApplicationDbContext(options))
-        // {
-        var birdRepository = new BirdRepository(context);
 
         // Act
+        var birdRepository = new BirdRepository(context);
         var birds = await birdRepository.GetBirdsAsync(0, pageSize, BirderStatus.Common);
 
         // Assert
         Assert.Equal(pageSize, birds.Items.Count());
         Assert.IsType<ConservationStatus>(birds.Items.First().BirdConservationStatus);
-
     }
 
     [Fact]
     public async Task GetBirdsAsync_PageSizeIsZero_ReturnsDefaultPageSize()
     {
         // Arrange
-        // var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-        // var connection = new SqliteConnection(connectionStringBuilder.ToString());
-
-        // var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //     .UseSqlite(connection)
-        //     .Options;
-
-        // using (var context = new ApplicationDbContext(options))
-        // {
-        //     context.Database.OpenConnection();
-        //     context.Database.EnsureCreated();
-
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
-
 
         for (int i = 1; i < 30; i++)
         {
@@ -169,13 +109,9 @@ public class BirdRepositoryTests
         }
 
         context.SaveChanges();
-        // }
-
-        // using (var context = new ApplicationDbContext(options))
-        // {
-        var birdRepository = new BirdRepository(context);
 
         // Act
+        var birdRepository = new BirdRepository(context);
         var birds = await birdRepository.GetBirdsAsync(1, 0, BirderStatus.Common);
 
         // Assert
@@ -188,24 +124,9 @@ public class BirdRepositoryTests
     public async Task GetBird_EmptyId_ThrowsArgumentException()
     {
         // Arrange
-        // var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-        // var connection = new SqliteConnection(connectionStringBuilder.ToString());
-        // var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //     .UseSqlite(connection)
-        //     .Options;
-
-        // using (var context = new ApplicationDbContext(options))
-        // {
-        //     context.Database.OpenConnection();
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
-
         using var context = new ApplicationDbContext(options);
-        //You have to create the database
-        //context.Database.EnsureClean();
         context.Database.EnsureCreated();
-
-        context.Database.EnsureCreated();
-        //context.Database.EnsureClean();
 
         var authorRepository = new BirdRepository(context);
 
