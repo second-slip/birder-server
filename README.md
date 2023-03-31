@@ -4,6 +4,8 @@ Birder is a social network-style platform for logging, sharing, and analysing bi
 [![.NET CI](https://github.com/WinthorpeCross/birder-server/actions/workflows/dotnet.yml/badge.svg)](https://github.com/WinthorpeCross/birder-server/actions/workflows/dotnet.yml)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/WinthorpeCross/birder-server/dotnet.yml)
 
+[![codecov](https://codecov.io/gh/WinthorpeCross/birder-server/branch/master/graph/badge.svg?token=OCD78ZYJ6Y)](https://codecov.io/gh/WinthorpeCross/birder-server)
+
 
 > **Warning**
 > Major refactor is in progress
