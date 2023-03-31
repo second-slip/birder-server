@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+	<DataCollectionRunSettings>
+		<DataCollectors>
+			<DataCollector friendlyName="XPlat code coverage">
+				<Configuration>
+					<Format>lcov,cobertura</Format>
+					<CodeCoverage>
+						<Attributes>
+							<Exclude>
+								<!-- Don't forget "Attribute" at the end of the name -->
+								<!-- <Attribute>^System\.Diagnostics\.DebuggerHiddenAttribute$</Attribute><Attribute>^System\.Diagnostics\.DebuggerNonUserCodeAttribute$</Attribute><Attribute>^System\.CodeDom\.Compiler\.GeneratedCodeAttribute$</Attribute> -->
+								<Attribute>^System\.Diagnostics\.CodeAnalysis\.ExcludeFromCodeCoverageAttribute$</Attribute>
+							</Exclude>
+						</Attributes>
+						<!-- <Functions>
+							<Exclude>
+								<Function>^Migrations\..*</Function>
+								<Function>.*\.Migrations\..*</Function>
+                                <Function>^Birder\.Migrations\..*</Function>
+							</Exclude>
+						</Functions> -->
+					</CodeCoverage>
+				</Configuration>
+			</DataCollector>
+		</DataCollectors>
+	</DataCollectionRunSettings>
+</RunSettings>
+
+<!-- C:\Users\user\source\repos\birder-server\Birder\Data\Migrations -->
