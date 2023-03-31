@@ -100,7 +100,7 @@ namespace Birder.TestsHelpers
 
         public static UserManager<ApplicationUser> InitialiseUserManager()
         {
-            var connectionstring = "Server=(localdb)\\mssqllocaldb;Database=Birder;Trusted_Connection=True;MultipleActiveResultSets=true";
+            var connectionstring = "Server=(localdb)\\mssqllocaldb;Database=Birder;Trusted_Connection=True;MultipleActiveResultSets=true;Connection Timeout=60";
 
             //var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             //optionsBuilder.UseSqlServer(connectionstring);
