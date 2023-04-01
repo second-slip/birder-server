@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using Birder.Services;
-using Birder.ViewModels;
 using Microsoft.Extensions.Options;
-using Xunit;
 
 namespace Birder.Tests.Controller;
 

@@ -1,58 +1,53 @@
-﻿using Birder.Services;
-using System;
-using Xunit;
+﻿namespace Birder.Tests.Services;
 
-namespace Birder.Tests.Services
+public class SystemClockServiceTests
 {
-    public class SystemClockServiceTests
+    private readonly ISystemClockService _systemClockService;
+
+    public SystemClockServiceTests()
     {
-        private readonly ISystemClockService _systemClockService;
+        _systemClockService = new SystemClockService();
+    }
 
-        public SystemClockServiceTests()
-        {
-            _systemClockService = new SystemClockService();
-        }
+    // Just testing out-of-the-box functionality here!
+    [Fact]
+    public void GetNowTest()
+    {
+        //Arrange
+        //var service = new SystemClockService();
+        var expected = DateTime.UtcNow;
 
-        // Just testing out-of-the-box functionality here!
-        [Fact]
-        public void GetNowTest()
-        {
-            //Arrange
-            //var service = new SystemClockService();
-            var expected = DateTime.UtcNow;
+        //Act
+        var actual = _systemClockService.GetNow;
 
-            //Act
-            var actual = _systemClockService.GetNow;
+        //Assert
+        Assert.Equal(expected, actual, TimeSpan.FromSeconds(1));
+    }
 
-            //Assert
-            Assert.Equal(expected, actual, TimeSpan.FromSeconds(1));
-        }
+    // Just testing out-of-the-box functionality here!
+    [Fact]
+    public void GetTodayTest()
+    {
+        //Arrange
+        var expected = DateTime.Today;
 
-        // Just testing out-of-the-box functionality here!
-        [Fact]
-        public void GetTodayTest()
-        {
-            //Arrange
-            var expected = DateTime.Today;
+        //Act
+        var actual = _systemClockService.GetToday;
 
-            //Act
-            var actual = _systemClockService.GetToday;
+        //Assert
+        Assert.Equal(expected, actual);
+    }
 
-            //Assert
-            Assert.Equal(expected, actual);
-        }
+    [Fact]
+    public void GetEndOfTodayTest()
+    {
+        //Arrange
+        var expected = DateTime.Today.Date.AddDays(1).AddTicks(-1);
 
-        [Fact]
-        public void GetEndOfTodayTest()
-        {
-            //Arrange
-            var expected = DateTime.Today.Date.AddDays(1).AddTicks(-1);
+        //Act
+        var actual = _systemClockService.GetEndOfToday;
 
-            //Act
-            var actual = _systemClockService.GetEndOfToday;
-
-            //Assert
-            Assert.Equal(expected, actual);
-        }
+        //Assert
+        Assert.Equal(expected, actual);
     }
 }
