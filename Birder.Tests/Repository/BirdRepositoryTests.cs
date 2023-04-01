@@ -1,7 +1,7 @@
-﻿using Birder.Data.Repository;
-using TestSupport.EfHelpers;
+﻿using TestSupport.EfHelpers;
 
 namespace Birder.Tests.Repository;
+
 public class BirdRepositoryTests
 {
     [Theory]

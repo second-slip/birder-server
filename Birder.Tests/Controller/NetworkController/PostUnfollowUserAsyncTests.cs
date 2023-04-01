@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Birder.Data.Repository;
 using TestSupport.EfHelpers;
 
 namespace Birder.Tests.Controller;

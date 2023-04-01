@@ -25,5 +25,6 @@ global using Birder.Helpers;
 global using Birder.Services;
 global using Birder.ViewModels;
 global using Birder.Controllers;
+global using Birder.Data.Repository;
 
 global using Birder.Data.Model;

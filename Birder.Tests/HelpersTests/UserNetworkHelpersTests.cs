@@ -1,5 +1,4 @@
-﻿
-namespace Birder.Tests.HelpersTests;
+﻿namespace Birder.Tests.HelpersTests;
 
     public class UserNetworkHelpersTests
     {

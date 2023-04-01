@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using Birder.Data.Repository;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Birder.Tests.Controller;
 
 public class TweetsControllerTests
 {
-    private IMemoryCache _cache; // Mock<IMemoryCache> _cache;
+    private IMemoryCache _cache;
     private readonly IMapper _mapper;
     private readonly Mock<ILogger<TweetsController>> _logger;
     private readonly Mock<ISystemClockService> _systemClock;

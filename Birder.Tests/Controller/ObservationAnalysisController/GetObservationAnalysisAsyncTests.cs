@@ -1,6 +1,4 @@
-﻿using Birder.Data.Repository;
-
-namespace Birder.Tests.Controller;
+﻿namespace Birder.Tests.Controller;
 
 public class GetObservationAnalysisAsyncTests
 {

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Birder.Data.Repository;
 using Microsoft.Extensions.Logging.Abstractions;
 using TestSupport.EfHelpers;
 
