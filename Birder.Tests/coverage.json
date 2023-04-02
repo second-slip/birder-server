@@ -237,7 +237,7 @@
           },
           "Branches": []
         },
-        "System.Collections.Generic.IEnumerable`1<Birder.ViewModels.BirdSummaryViewModel> Birder.ViewModels.BirdsListDto::get_Items()": {
+        "System.Collections.Generic.IEnumerable`1<Birder.ViewModels.BirdSummaryDto> Birder.ViewModels.BirdsListDto::get_Items()": {
           "Lines": {
             "8": 2
           },
@@ -245,57 +245,57 @@
         }
       }
     },
-    "C:\\Users\\user\\source\\repos\\birder-server\\Birder\\ViewModels\\BirdSummaryViewModel.cs": {
-      "Birder.ViewModels.BirdSummaryViewModel": {
-        "System.Int32 Birder.ViewModels.BirdSummaryViewModel::get_BirdId()": {
+    "C:\\Users\\user\\source\\repos\\birder-server\\Birder\\ViewModels\\BirdSummaryDto.cs": {
+      "Birder.ViewModels.BirdSummaryDto": {
+        "System.Int32 Birder.ViewModels.BirdSummaryDto::get_BirdId()": {
           "Lines": {
             "9": 76
           },
           "Branches": []
         },
-        "System.String Birder.ViewModels.BirdSummaryViewModel::get_Species()": {
+        "System.String Birder.ViewModels.BirdSummaryDto::get_Species()": {
           "Lines": {
             "11": 41
           },
           "Branches": []
         },
-        "System.String Birder.ViewModels.BirdSummaryViewModel::get_EnglishName()": {
+        "System.String Birder.ViewModels.BirdSummaryDto::get_EnglishName()": {
           "Lines": {
             "13": 41
           },
           "Branches": []
         },
-        "System.String Birder.ViewModels.BirdSummaryViewModel::get_PopulationSize()": {
+        "System.String Birder.ViewModels.BirdSummaryDto::get_PopulationSize()": {
           "Lines": {
             "15": 41
           },
           "Branches": []
         },
-        "System.String Birder.ViewModels.BirdSummaryViewModel::get_BtoStatusInBritain()": {
+        "System.String Birder.ViewModels.BirdSummaryDto::get_BtoStatusInBritain()": {
           "Lines": {
             "17": 41
           },
           "Branches": []
         },
-        "System.String Birder.ViewModels.BirdSummaryViewModel::get_ThumbnailUrl()": {
+        "System.String Birder.ViewModels.BirdSummaryDto::get_ThumbnailUrl()": {
           "Lines": {
             "19": 41
           },
           "Branches": []
         },
-        "System.String Birder.ViewModels.BirdSummaryViewModel::get_ConservationStatus()": {
+        "System.String Birder.ViewModels.BirdSummaryDto::get_ConservationStatus()": {
           "Lines": {
             "21": 41
           },
           "Branches": []
         },
-        "System.String Birder.ViewModels.BirdSummaryViewModel::get_ConservationListColourCode()": {
+        "System.String Birder.ViewModels.BirdSummaryDto::get_ConservationListColourCode()": {
           "Lines": {
             "23": 41
           },
           "Branches": []
         },
-        "System.String Birder.ViewModels.BirdSummaryViewModel::get_BirderStatus()": {
+        "System.String Birder.ViewModels.BirdSummaryDto::get_BirderStatus()": {
           "Lines": {
             "25": 41
           },
@@ -649,7 +649,7 @@
           },
           "Branches": []
         },
-        "Birder.ViewModels.BirdSummaryViewModel Birder.ViewModels.ObservationEditDto::get_Bird()": {
+        "Birder.ViewModels.BirdSummaryDto Birder.ViewModels.ObservationEditDto::get_Bird()": {
           "Lines": {
             "15": 25
           },
@@ -695,7 +695,7 @@
           },
           "Branches": []
         },
-        "Birder.ViewModels.BirdSummaryViewModel Birder.ViewModels.ObservationAddDto::get_Bird()": {
+        "Birder.ViewModels.BirdSummaryDto Birder.ViewModels.ObservationAddDto::get_Bird()": {
           "Lines": {
             "13": 9
           },
@@ -753,7 +753,7 @@
           },
           "Branches": []
         },
-        "Birder.ViewModels.BirdSummaryViewModel Birder.ViewModels.ObservationDto::get_Bird()": {
+        "Birder.ViewModels.BirdSummaryDto Birder.ViewModels.ObservationDto::get_Bird()": {
           "Lines": {
             "17": 10
           },
@@ -1171,7 +1171,7 @@
           },
           "Branches": []
         },
-        "Birder.ViewModels.BirdSummaryViewModel Birder.ViewModels.TweetDayViewModel::get_Bird()": {
+        "Birder.ViewModels.BirdSummaryDto Birder.ViewModels.TweetDayViewModel::get_Bird()": {
           "Lines": {
             "16": 31
           },

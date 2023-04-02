@@ -1,6 +1,4 @@
-﻿using Birder.Data.Model;
-
-namespace Birder.Helpers;
+﻿namespace Birder.Helpers;
 public static class QueryableExtensions
 {
     public static IQueryable<ObservationFeedDto> MapObservationToObservationFeedDto(this IQueryable<Observation> observations)
@@ -39,6 +37,11 @@ public static class QueryableExtensions
             LastUpdateDate = o.LastUpdateDate
         });
     }
+
+    // public static IQueryable<BirdSummaryDto> MapBirdToBirdSummaryDto(this IQueryable<Bird> bird)
+    // {
+        
+    // }
 
 
 

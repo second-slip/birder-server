@@ -425,7 +425,7 @@ public class PutObservationAsyncTests
         return new ObservationEditDto()
         {
             ObservationId = id,
-            Bird = new BirdSummaryViewModel() { BirdId = birdId },
+            Bird = new BirdSummaryDto() { BirdId = birdId },
             BirdId = birdId,
             Notes = new List<ObservationNoteDto>(),
             Position = new ObservationPositionDto() { }
@@ -437,7 +437,7 @@ public class PutObservationAsyncTests
         return new ObservationEditDto()
         {
             ObservationId = id,
-            Bird = new BirdSummaryViewModel() { BirdId = birdId },
+            Bird = new BirdSummaryDto() { BirdId = birdId },
             BirdId = birdId,
             Position = new ObservationPositionDto() { }
         };

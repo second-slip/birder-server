@@ -1,5 +1,4 @@
-﻿using Birder.Data.Model;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace Birder.Data.Repository;
@@ -18,6 +17,8 @@ public class BirdRepository : IBirdRepository
         _dbContext = dbContext;
     }
 
+
+    // -----> BirdDetailDto
     public Task<Bird> GetBirdAsync(int id)
     {
         if (id == 0)
@@ -32,6 +33,7 @@ public class BirdRepository : IBirdRepository
                 select b).FirstOrDefaultAsync();
     }
 
+    // -----> BirdSummaryDto
     public async Task<IEnumerable<Bird>> GetBirdsDdlAsync()
     {
         return await _dbContext.Birds
@@ -42,6 +44,9 @@ public class BirdRepository : IBirdRepository
                 .ToListAsync();
     }
 
+
+
+    // -------> BirdSummaryDto
     public async Task<QueryResult<Bird>> GetBirdsAsync(int pageIndex, int pageSize, BirderStatus speciesFilter)
     {
         var result = new QueryResult<Bird>();

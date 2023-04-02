@@ -55,7 +55,7 @@ public class BirdsController : ControllerBase
     {
         try
         {
-            if (_cache.TryGetValue(CacheEntries.BirdsSummaryList, out IEnumerable<BirdSummaryViewModel> birdsCache))
+            if (_cache.TryGetValue(CacheEntries.BirdsSummaryList, out IEnumerable<BirdSummaryDto> birdsCache))
             {
                 return Ok(birdsCache);
             }
@@ -69,7 +69,7 @@ public class BirdsController : ControllerBase
                     return StatusCode(500, $"bird repository returned null");
                 }
 
-                var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryViewModel>>(birds);
+                var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryDto>>(birds);
 
                 _cache.Set(CacheEntries.BirdsSummaryList, viewModel, TimeSpan.FromDays(1));
 

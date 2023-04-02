@@ -676,7 +676,7 @@ public class ObservationControllerTests
         return new ObservationDto()
         {
             ObservationId = id,
-            Bird = new BirdSummaryViewModel() { BirdId = birdId },
+            Bird = new BirdSummaryDto() { BirdId = birdId },
             BirdId = birdId,
         };
     }
@@ -686,7 +686,7 @@ public class ObservationControllerTests
         return new ObservationDto()
         {
             ObservationId = id,
-            Bird = new BirdSummaryViewModel() { BirdId = birdId },
+            Bird = new BirdSummaryDto() { BirdId = birdId },
             BirdId = birdId,
         };
     }

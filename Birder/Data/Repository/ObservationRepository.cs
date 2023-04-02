@@ -1,5 +1,4 @@
-﻿using Birder.Data.Model;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Birder.Data.Repository
 {

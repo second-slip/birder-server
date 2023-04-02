@@ -13,7 +13,7 @@ public class TweetDayViewModel
 
         public DateTime LastUpdateDate { get; set; }
 
-        public BirdSummaryViewModel Bird { get; set; }
+        public BirdSummaryDto Bird { get; set; }
     }
 
 public class TweetArchiveDto

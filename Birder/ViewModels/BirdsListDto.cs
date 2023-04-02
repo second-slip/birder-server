@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Birder.ViewModels
+namespace Birder.ViewModels;
+
+public class BirdsListDto
 {
-    public class BirdsListDto
-    {
-        public int TotalItems { get; set; }
-        public IEnumerable<BirdSummaryViewModel> Items { get; set; }
-    }
+    public int TotalItems { get; set; }
+    public IEnumerable<BirdSummaryDto> Items { get; set; }
 }

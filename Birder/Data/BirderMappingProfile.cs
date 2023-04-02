@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
-using Birder.Data.Model;
+
 using System.Collections.Generic;
 
 namespace Birder.Data;
@@ -78,7 +78,7 @@ public class BirderMappingProfile : Profile
         CreateMap<Bird, BirdDetailDto>()
             .ReverseMap();
 
-        CreateMap<Bird, BirdSummaryViewModel>()
+        CreateMap<Bird, BirdSummaryDto>()
             .ForMember(a => a.ConservationStatus, b => b.MapFrom(a => a.BirdConservationStatus.ConservationList))
             .ForMember(a => a.ConservationListColourCode,
                 b => b.MapFrom(a => a.BirdConservationStatus.ConservationListColourCode))

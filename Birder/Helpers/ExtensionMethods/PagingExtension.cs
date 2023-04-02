@@ -23,7 +23,7 @@ namespace Birder.Helpers
             return result;
         }
 
-        // var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryViewModel>(1, 5, _mapper); 
+        // var viewModel = _birdRepository.GetBirdSummaryList(BirderStatus.Common).GetPaged<Bird, BirdSummaryDto>(1, 5, _mapper); 
         public static PagedResult<TU> GetPaged<T, TU>(this IQueryable<T> query,
                                             int page, int pageSize, IMapper mapper) where TU : class
         {

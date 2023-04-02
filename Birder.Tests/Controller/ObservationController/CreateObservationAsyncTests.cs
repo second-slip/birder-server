@@ -37,7 +37,7 @@ public class CreateObservationAsyncTests
     //    var model = new ObservationAddDto()
     //    {
     //        //ObservationId = id,
-    //        Bird = new BirdSummaryViewModel() { BirdId = birdId },
+    //        Bird = new BirdSummaryDto() { BirdId = birdId },
     //        BirdId = birdId,
     //        Position = new ObservationPositionDto() { }
     //    };
@@ -93,7 +93,7 @@ public class CreateObservationAsyncTests
         var model = new ObservationAddDto()
         {
             //ObservationId = id,
-            Bird = new BirdSummaryViewModel() { BirdId = birdId },
+            Bird = new BirdSummaryDto() { BirdId = birdId },
             BirdId = birdId,
             Position = new ObservationPositionDto() { }
         };
@@ -148,7 +148,7 @@ public class CreateObservationAsyncTests
         var model = new ObservationAddDto()
         {
             //ObservationId = id,
-            Bird = new BirdSummaryViewModel() { BirdId = birdId },
+            Bird = new BirdSummaryDto() { BirdId = birdId },
             BirdId = birdId,
             Position = new ObservationPositionDto() { }
         };
@@ -203,7 +203,7 @@ public class CreateObservationAsyncTests
         var model = new ObservationAddDto()
         {
             //ObservationId = id,
-            Bird = new BirdSummaryViewModel() { BirdId = birdId },
+            Bird = new BirdSummaryDto() { BirdId = birdId },
             BirdId = birdId,
             Position = new ObservationPositionDto() { }
         };
@@ -268,7 +268,7 @@ public class CreateObservationAsyncTests
         var model = new ObservationAddDto()
         {
             //ObservationId = id,
-            Bird = new BirdSummaryViewModel() { BirdId = birdId },
+            Bird = new BirdSummaryDto() { BirdId = birdId },
             BirdId = birdId,
             Position = new ObservationPositionDto() { }
         };
@@ -342,7 +342,7 @@ public class CreateObservationAsyncTests
         return new ObservationDto()
         {
             ObservationId = id,
-            Bird = new BirdSummaryViewModel() { BirdId = birdId },
+            Bird = new BirdSummaryDto() { BirdId = birdId },
             BirdId = birdId,
             Position = new ObservationPositionDto() { }
         };

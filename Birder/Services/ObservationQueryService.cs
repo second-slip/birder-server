@@ -1,5 +1,4 @@
 ﻿using Birder.Data;
-using Birder.Data.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Collections.Generic;

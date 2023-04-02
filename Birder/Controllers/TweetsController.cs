@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Birder.Data.Model;
+
 using Birder.Data.Repository;
 using Microsoft.Extensions.Caching.Memory;
 

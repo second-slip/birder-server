@@ -12,7 +12,7 @@ public class ObservationEditDto
 
     public DateTime ObservationDateTime { get; set; }
     public int BirdId { get; set; }
-    public BirdSummaryViewModel Bird { get; set; }
+    public BirdSummaryDto Bird { get; set; }
     public ObservationPositionDto Position { get; set; }
     public UserViewModel User { get; set; }
     public List<ObservationNoteDto> Notes { get; set; }

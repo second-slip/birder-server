@@ -41,7 +41,7 @@ public class BirdsControllerTests
     }
 
     [Fact]
-    public async Task GetBirds_ReturnsOkObjectResult_WithBirdSummaryViewModel()
+    public async Task GetBirds_ReturnsOkObjectResult_WithBirdSummaryDto()
     {
         // Arrange
         var mockRepo = new Mock<IBirdRepository>();

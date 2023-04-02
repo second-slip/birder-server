@@ -1,4 +1,4 @@
-﻿using Birder.Data.Model;
+﻿
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
