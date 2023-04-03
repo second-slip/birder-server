@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-
-using Birder.Data.Repository;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Birder.Controllers;

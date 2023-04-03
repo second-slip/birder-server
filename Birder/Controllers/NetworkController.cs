@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 
-using Birder.Data.Repository;
 using System.Collections.Generic;
 
 namespace Birder.Controllers;

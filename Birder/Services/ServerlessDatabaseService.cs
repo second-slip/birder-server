@@ -1,5 +1,4 @@
-﻿using Birder.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Birder.Services
 {
