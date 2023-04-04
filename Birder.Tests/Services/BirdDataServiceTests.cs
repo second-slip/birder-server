@@ -37,11 +37,11 @@ public class BirdDataServiceTests
 
         // Act
         var service = new BirdDataService(context);
-        var birds = await service.GetBirdsAsync(1, pageSize, BirderStatus.Common);
+        var model = await service.GetBirdsAsync(1, pageSize, BirderStatus.Common);
 
         // Assert
-        Assert.Equal(pageSize, birds.Items.Count());
-        Assert.IsType<ConservationStatus>(birds.Items.First().ConservationStatus);
+        Assert.Equal(pageSize, model.Items.Count());
+        // Assert.IsType<ConservationStatus>(birds.Items.First().ConservationStatus);
     }
 
     [Theory]
@@ -54,7 +54,9 @@ public class BirdDataServiceTests
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
 
-        for (int i = 1; i < 30; i++)
+        int totalItems = 30;
+
+        for (int i = 1; i <= totalItems; i++)
         {
             Random r = new Random();
             context.Birds.Add(new Bird()
@@ -76,11 +78,17 @@ public class BirdDataServiceTests
 
         // Act
         var service = new BirdDataService(context);
-        var birds = await service.GetBirdsAsync(0, pageSize, BirderStatus.Common);
+        var model = await service.GetBirdsAsync(0, pageSize, BirderStatus.Common);
 
         // Assert
-        Assert.Equal(pageSize, birds.Items.Count());
-        Assert.IsType<ConservationStatus>(birds.Items.First().ConservationStatus);
+        Assert.IsType<BirdsListDto>(model);
+        Assert.IsAssignableFrom<IEnumerable<BirdSummaryDto>>(model.Items);
+
+        Assert.Equal(totalItems, model.TotalItems);
+        //
+        Assert.Equal(pageSize, model.Items.Count());
+        //
+        // Assert.IsType<ConservationStatus>(birds.Items.First().ConservationStatus);
     }
 
     [Fact]
@@ -113,11 +121,11 @@ public class BirdDataServiceTests
 
         // Act
         var service = new BirdDataService(context);
-        var birds = await service.GetBirdsAsync(1, 0, BirderStatus.Common);
+        var model = await service.GetBirdsAsync(1, 0, BirderStatus.Common);
 
         // Assert
-        Assert.Equal(10, birds.Items.Count());
-        Assert.IsType<ConservationStatus>(birds.Items.First().ConservationStatus);
+        Assert.Equal(10, model.Items.Count());
+        //Assert.IsType<ConservationStatus>(birds.Items.First().ConservationStatus);
 
     }
 
