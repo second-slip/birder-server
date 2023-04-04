@@ -1,8 +1,8 @@
 ﻿using TestSupport.EfHelpers;
 
-namespace Birder.Tests.Repository;
+namespace Birder.Tests.Services;
 
-public class BirdRepositoryTests
+public class BirdDataServiceTests
 {
     [Theory]
     [InlineData(5)]
@@ -36,12 +36,12 @@ public class BirdRepositoryTests
         context.SaveChanges();
 
         // Act
-        var birdRepository = new BirdRepository(context);
-        var birds = await birdRepository.GetBirdsAsync(1, pageSize, BirderStatus.Common);
+        var service = new BirdDataService(context);
+        var birds = await service.GetBirdsAsync(1, pageSize, BirderStatus.Common);
 
         // Assert
         Assert.Equal(pageSize, birds.Items.Count());
-        Assert.IsType<ConservationStatus>(birds.Items.First().BirdConservationStatus);
+        Assert.IsType<ConservationStatus>(birds.Items.First().ConservationStatus);
     }
 
     [Theory]
@@ -75,12 +75,12 @@ public class BirdRepositoryTests
         context.SaveChanges();
 
         // Act
-        var birdRepository = new BirdRepository(context);
-        var birds = await birdRepository.GetBirdsAsync(0, pageSize, BirderStatus.Common);
+        var service = new BirdDataService(context);
+        var birds = await service.GetBirdsAsync(0, pageSize, BirderStatus.Common);
 
         // Assert
         Assert.Equal(pageSize, birds.Items.Count());
-        Assert.IsType<ConservationStatus>(birds.Items.First().BirdConservationStatus);
+        Assert.IsType<ConservationStatus>(birds.Items.First().ConservationStatus);
     }
 
     [Fact]
@@ -112,12 +112,12 @@ public class BirdRepositoryTests
         context.SaveChanges();
 
         // Act
-        var birdRepository = new BirdRepository(context);
-        var birds = await birdRepository.GetBirdsAsync(1, 0, BirderStatus.Common);
+        var service = new BirdDataService(context);
+        var birds = await service.GetBirdsAsync(1, 0, BirderStatus.Common);
 
         // Assert
         Assert.Equal(10, birds.Items.Count());
-        Assert.IsType<ConservationStatus>(birds.Items.First().BirdConservationStatus);
+        Assert.IsType<ConservationStatus>(birds.Items.First().ConservationStatus);
 
     }
 
@@ -129,11 +129,11 @@ public class BirdRepositoryTests
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
 
-        var authorRepository = new BirdRepository(context);
+        var service = new BirdDataService(context);
 
         // Assert
         await Assert.ThrowsAsync<ArgumentException>(
             // Act      
-            () => authorRepository.GetBirdAsync(0));
+            () => service.GetBirdAsync(0));
     }
 }

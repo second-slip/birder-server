@@ -38,10 +38,44 @@ public static class QueryableExtensions
         });
     }
 
-    // public static IQueryable<BirdSummaryDto> MapBirdToBirdSummaryDto(this IQueryable<Bird> bird)
-    // {
-        
-    // }
+    public static IQueryable<BirdSummaryDto> MapBirdToBirdSummaryDto(this IQueryable<Bird> birds)
+    {
+        return birds.Select(b => new BirdSummaryDto
+        {
+            BirdId = b.BirdId,
+            Species = b.Species,
+            EnglishName = b.EnglishName,
+            PopulationSize = b.PopulationSize,
+            BtoStatusInBritain = b.BtoStatusInBritain,
+            ThumbnailUrl = b.ThumbnailUrl,
+            ConservationStatus = b.BirdConservationStatus.ConservationList,
+            ConservationListColourCode = b.BirdConservationStatus.ConservationListColourCode,
+            BirderStatus = b.BirderStatus
+        });
+    }
+
+    public static IQueryable<BirdDetailDto> MapBirdToBirdDetailDto(this IQueryable<Bird> bird)
+    {
+        return bird.Select(b => new BirdDetailDto
+        {
+            BirdId = b.BirdId,
+            Class = b.Class,
+            Order = b.Order,
+            Family = b.Family,
+            Genus = b.Genus,
+            Species = b.Species,
+            EnglishName = b.EnglishName,
+            InternationalName = b.InternationalName,
+            Category = b.Category,
+            PopulationSize = b.PopulationSize,
+            BtoStatusInBritain = b.BtoStatusInBritain,
+            ThumbnailUrl = b.ThumbnailUrl,
+            CreationDate = b.CreationDate,
+            LastUpdateDate = b.LastUpdateDate,
+            BirdConservationStatus = b.BirdConservationStatus,
+            BirderStatus = b.BirderStatus
+        });
+    }
 
 
 

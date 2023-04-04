@@ -346,7 +346,7 @@ public class PutObservationAsyncTests
         mockUnitOfWork.Setup(w => w.CompleteAsync())
             .Returns(Task.CompletedTask);
         var mockBirdRepo = new Mock<IBirdRepository>();
-        mockBirdRepo.Setup(b => b.GetBirdAsync(It.IsAny<int>()))
+        mockBirdRepo.Setup(b => b.GetAsync(It.IsAny<int>()))
             .ReturnsAsync(GetTestBird(birdId));
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))

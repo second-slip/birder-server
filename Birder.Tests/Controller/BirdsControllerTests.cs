@@ -1,24 +1,16 @@
-﻿using AutoMapper;
-using Birder.Data.Repository;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 
 namespace Birder.Tests.Controller;
 
 public class BirdsControllerTests
 {
     private IMemoryCache _cache;
-    private readonly IMapper _mapper;
     private readonly Mock<ILogger<BirdsController>> _logger;
 
     public BirdsControllerTests()
     {
         _cache = new MemoryCache(new MemoryCacheOptions());
         _logger = new Mock<ILogger<BirdsController>>();
-        var mappingConfig = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new BirderMappingProfile());
-        });
-        _mapper = mappingConfig.CreateMapper();
     }
 
     #region GetBirds (Collection) tests
@@ -27,11 +19,11 @@ public class BirdsControllerTests
     public async Task GetBirds_ReturnsOkObjectResult_WithABirdsObject()
     {
         // Arrange
-        var mockRepo = new Mock<IBirdRepository>();
-        mockRepo.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>()))
+        var mockService = new Mock<IBirdDataService>();
+        mockService.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>()))
              .ReturnsAsync(GetQueryResult(30));
 
-        var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
@@ -44,12 +36,12 @@ public class BirdsControllerTests
     public async Task GetBirds_ReturnsOkObjectResult_WithBirdSummaryDto()
     {
         // Arrange
-        var mockRepo = new Mock<IBirdRepository>();
-        mockRepo.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>()))
+        var mockService = new Mock<IBirdDataService>();
+        mockService.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>()))
         //.ReturnsAsync(GetTestBirds());
         .ReturnsAsync(GetQueryResult(30));
 
-        var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
@@ -66,11 +58,11 @@ public class BirdsControllerTests
     public async Task GetBirds_ReturnsNotFoundResult_WhenRepositoryReturnsNull()
     {
         // Arrange
-        var mockRepo = new Mock<IBirdRepository>();
-        mockRepo.Setup(repo => repo.GetBirdsDdlAsync())
-             .Returns(Task.FromResult<IEnumerable<Bird>>(null));
+        var mockService = new Mock<IBirdDataService>();
+        mockService.Setup(repo => repo.GetBirdsListAsync())
+             .Returns(Task.FromResult<IEnumerable<BirdSummaryDto>>(null));
 
-        var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>());
@@ -79,18 +71,18 @@ public class BirdsControllerTests
         Assert.IsType<ObjectResult>(result);
         var objectResult = result as ObjectResult;
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        Assert.Equal($"bird repository returned null", objectResult.Value);
+        Assert.Equal($"bird service returned null", objectResult.Value);
     }
 
     [Fact]
     public async Task GetBirds_ReturnsBadRequestResult_WhenExceptionIsRaised()
     {
         // Arrange
-        var mockRepo = new Mock<IBirdRepository>();
-        mockRepo.Setup(repo => repo.GetBirdsAsync(1, 25, BirderStatus.Common))
+        var mockService = new Mock<IBirdDataService>();
+        mockService.Setup(repo => repo.GetBirdsAsync(1, 25, BirderStatus.Common))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
@@ -110,11 +102,11 @@ public class BirdsControllerTests
     public async Task GetBird_ReturnsOkObjectResult_WithABirdObject()
     {
         // Arrange
-        var mockRepo = new Mock<IBirdRepository>();
-        mockRepo.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
+        var mockService = new Mock<IBirdDataService>();
+        mockService.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
              .ReturnsAsync(GetTestBird());
 
-        var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(It.IsAny<int>());
@@ -128,11 +120,11 @@ public class BirdsControllerTests
     {
         // Arrange
         var birdId = 1;
-        var mockRepo = new Mock<IBirdRepository>();
-        mockRepo.Setup(repo => repo.GetBirdAsync(birdId))
+        var mockService = new Mock<IBirdDataService>();
+        mockService.Setup(repo => repo.GetBirdAsync(birdId))
              .ReturnsAsync(GetTestBird());
 
-        var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(birdId);
@@ -150,11 +142,11 @@ public class BirdsControllerTests
     public async Task GetBird_ReturnsNotFoundResult_WhenRepositoryReturnsNull()
     {
         // Arrange
-        var mockRepo = new Mock<IBirdRepository>();
-        mockRepo.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
-             .Returns(Task.FromResult<Bird>(null));
+        var mockService = new Mock<IBirdDataService>();
+        mockService.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
+             .Returns(Task.FromResult<BirdDetailDto>(null));
 
-        var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(It.IsAny<int>());
@@ -163,18 +155,18 @@ public class BirdsControllerTests
         Assert.IsType<ObjectResult>(result);
         var objectResult = result as ObjectResult;
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        Assert.Equal($"bird repository returned null", objectResult.Value);
+        Assert.Equal($"bird service returned null", objectResult.Value);
     }
 
     [Fact]
     public async Task GetBird_ReturnsBadRequestResult_WhenExceptionIsRaised()
     {
         // Arrange
-        var mockRepo = new Mock<IBirdRepository>();
-        mockRepo.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
+        var mockService = new Mock<IBirdDataService>();
+        mockService.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new BirdsController(_mapper, _cache, _logger.Object, mockRepo.Object);
+        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(It.IsAny<int>());
@@ -189,9 +181,9 @@ public class BirdsControllerTests
 
     #endregion
 
-    private QueryResult<Bird> GetQueryResult(int length)
+    private BirdsListDto GetQueryResult(int length)
     {
-        var result = new QueryResult<Bird>();
+        var result = new BirdsListDto();
         //var bird = new Bird() { BirdId = 1 };
 
         result.TotalItems = length;
@@ -201,9 +193,9 @@ public class BirdsControllerTests
     }
     #region BirdRepository mock methods
 
-    private Bird GetTestBird()
+    private BirdDetailDto GetTestBird()
     {
-        var bird = new Bird
+        var bird = new BirdDetailDto
         {
             BirdId = 1,
             Class = "",
@@ -220,63 +212,59 @@ public class BirdsControllerTests
             //SongUrl = "",
             CreationDate = DateTime.Now.AddDays(-4),
             LastUpdateDate = DateTime.Now.AddDays(-4),
-            ConservationStatusId = 0,
-            Observations = null,
+            // ConservationStatusId = 0,
+            // Observations = null,
             BirdConservationStatus = null,
             BirderStatus = BirderStatus.Common,
-            TweetDay = null
+            // TweetDay = null
         };
 
         return bird;
     }
-    private IEnumerable<Bird> GetTestBirds()
+    private IEnumerable<BirdSummaryDto> GetTestBirds()
     {
-        var birds = new List<Bird>();
-        birds.Add(new Bird
+        var birds = new List<BirdSummaryDto>();
+        birds.Add(new BirdSummaryDto
         {
             BirdId = 1,
-            Class = "",
-            Order = "",
-            Family = "",
-            Genus = "",
+            // Class = "",
+            // Order = "",
+            // Family = "",
+            // Genus = "",
             Species = "",
             EnglishName = "Test species 1",
-            InternationalName = "",
-            Category = "",
+            // InternationalName = "",
+            // Category = "",
             PopulationSize = "",
             BtoStatusInBritain = "",
             ThumbnailUrl = "",
             //SongUrl = "",
-            CreationDate = DateTime.Now.AddDays(-4),
-            LastUpdateDate = DateTime.Now.AddDays(-4),
-            ConservationStatusId = 0,
-            Observations = null,
-            BirdConservationStatus = null,
-            BirderStatus = BirderStatus.Common,
-            TweetDay = null
+            // CreationDate = DateTime.Now.AddDays(-4),
+            // LastUpdateDate = DateTime.Now.AddDays(-4),
+            // ConservationStatusId = 0,
+            // Observations = null,
+            ConservationListColourCode = "",
+            ConservationStatus = "",
+            //BirdConservationStatus = null,
+            BirderStatus = BirderStatus.Common
+            // TweetDay = null
+
+
+            //ConservationStatus = b.BirdConservationStatus.ConservationList,
+            //ConservationListColourCode = b.BirdConservationStatus.ConservationListColourCode,
         });
-        birds.Add(new Bird
+        birds.Add(new BirdSummaryDto
         {
             BirdId = 2,
-            Class = "",
-            Order = "",
-            Family = "",
-            Genus = "",
             Species = "",
             EnglishName = "Test species 2",
-            InternationalName = "",
-            Category = "",
             PopulationSize = "",
             BtoStatusInBritain = "",
             ThumbnailUrl = "",
             //SongUrl = "",
-            CreationDate = DateTime.Now.AddDays(-4),
-            LastUpdateDate = DateTime.Now.AddDays(-4),
-            ConservationStatusId = 0,
-            Observations = null,
-            BirdConservationStatus = null,
-            BirderStatus = BirderStatus.Common,
-            TweetDay = null
+            ConservationListColourCode = "",
+            ConservationStatus = "",
+            BirderStatus = BirderStatus.Common
         });
 
         return birds;

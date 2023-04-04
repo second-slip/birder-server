@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-
-
 using System.Collections.Generic;
 
 namespace Birder.Controllers;
@@ -78,7 +76,8 @@ public class ObservationController : ControllerBase
                 return StatusCode(500, "requesting user not found");
             }
 
-            var observedBirdSpecies = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
+            // var observedBirdSpecies = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
+            var observedBirdSpecies = await _birdRepository.GetAsync(model.Bird.BirdId);
 
             if (observedBirdSpecies is null)
             {
@@ -157,7 +156,8 @@ public class ObservationController : ControllerBase
 
             _mapper.Map<ObservationEditDto, Observation>(model, observation);
 
-            var bird = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
+            // var bird = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
+            var bird = await _birdRepository.GetAsync(model.Bird.BirdId);
             if (bird is null)
             {
                 string message = $"The observed bird could not be found for observation with id '{model.ObservationId}'.";

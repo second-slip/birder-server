@@ -156,7 +156,7 @@ public class CreateObservationAsyncTests
 
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         var mockBirdRepo = new Mock<IBirdRepository>();
-        mockBirdRepo.Setup(b => b.GetBirdAsync(It.IsAny<int>()))
+        mockBirdRepo.Setup(b => b.GetAsync(It.IsAny<int>()))
             .Returns(Task.FromResult<Bird>(null));
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
@@ -211,7 +211,7 @@ public class CreateObservationAsyncTests
 
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         var mockBirdRepo = new Mock<IBirdRepository>();
-        mockBirdRepo.Setup(b => b.GetBirdAsync(It.IsAny<int>()))
+        mockBirdRepo.Setup(b => b.GetAsync(It.IsAny<int>()))
             .ReturnsAsync(GetTestBird(birdId));
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
@@ -278,7 +278,7 @@ public class CreateObservationAsyncTests
         mockUnitOfWork.Setup(w => w.CompleteAsync())
             .Returns(Task.CompletedTask);
         var mockBirdRepo = new Mock<IBirdRepository>();
-        mockBirdRepo.Setup(b => b.GetBirdAsync(It.IsAny<int>()))
+        mockBirdRepo.Setup(b => b.GetAsync(It.IsAny<int>()))
             .ReturnsAsync(GetTestBird(birdId));
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))

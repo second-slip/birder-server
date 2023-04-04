@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Birder.Data.Repository;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 
 namespace Birder.Controllers;
@@ -11,19 +9,16 @@ namespace Birder.Controllers;
 public class BirdsController : ControllerBase
 {
     private readonly IMemoryCache _cache;
-    private readonly IMapper _mapper;
     private readonly ILogger _logger;
-    private readonly IBirdRepository _birdRepository;
+    private readonly IBirdDataService _service;
 
-    public BirdsController(IMapper mapper
-                         , IMemoryCache memoryCache
+    public BirdsController(IMemoryCache memoryCache
                          , ILogger<BirdsController> logger
-                         , IBirdRepository birdRepository)
+                         , IBirdDataService service)
     {
-        _mapper = mapper;
         _logger = logger;
         _cache = memoryCache;
-        _birdRepository = birdRepository;
+        _service = service;
     }
 
     [HttpGet]
@@ -31,17 +26,15 @@ public class BirdsController : ControllerBase
     {
         try
         {
-            var birds = await _birdRepository.GetBirdsAsync(pageIndex, pageSize, speciesFilter);
+            var model = await _service.GetBirdsAsync(pageIndex, pageSize, speciesFilter);
 
-            if (birds is null)
+            if (model is null)
             {
                 _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                return StatusCode(500, $"bird repository returned null");
+                return StatusCode(500, $"bird service returned null");
             }
 
-            var viewModel = _mapper.Map<QueryResult<Bird>, BirdsListDto>(birds);
-
-            return Ok(viewModel);
+            return Ok(model);
         }
         catch (Exception ex)
         {
@@ -51,7 +44,7 @@ public class BirdsController : ControllerBase
     }
 
     [HttpGet, Route("BirdsList")]
-    public async Task<IActionResult> GetBirdsDdlAsync() //BirderStatus filter)
+    public async Task<IActionResult> GetBirdsDdlAsync()
     {
         try
         {
@@ -61,19 +54,17 @@ public class BirdsController : ControllerBase
             }
             else
             {
-                var birds = await _birdRepository.GetBirdsDdlAsync();
+                var model = await _service.GetBirdsListAsync();
 
-                if (birds is null)
+                if (model is null)
                 {
                     _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                    return StatusCode(500, $"bird repository returned null");
+                    return StatusCode(500, $"bird service returned null");
                 }
 
-                var viewModel = _mapper.Map<IEnumerable<Bird>, IEnumerable<BirdSummaryDto>>(birds);
+                _cache.Set(CacheEntries.BirdsSummaryList, model, TimeSpan.FromDays(1));
 
-                _cache.Set(CacheEntries.BirdsSummaryList, viewModel, TimeSpan.FromDays(1));
-
-                return Ok(viewModel);
+                return Ok(model);
             }
         }
         catch (Exception ex)
@@ -88,15 +79,15 @@ public class BirdsController : ControllerBase
     {
         try
         {
-            var bird = await _birdRepository.GetBirdAsync(id);
+            var model = await _service.GetBirdAsync(id);
 
-            if (bird is null)
+            if (model is null)
             {
                 _logger.LogWarning(LoggingEvents.GetItemNotFound, "GetBird({ID}) NOT FOUND", id);
-                return StatusCode(500, $"bird repository returned null");
+                return StatusCode(500, $"bird service returned null");
             }
 
-            return Ok(_mapper.Map<Bird, BirdDetailDto>(bird));
+            return Ok(model);
         }
         catch (Exception ex)
         {

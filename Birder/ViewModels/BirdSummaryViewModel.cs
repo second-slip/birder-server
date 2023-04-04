@@ -22,5 +22,5 @@ public class BirdSummaryDto
 
     public string ConservationListColourCode { get; set; }
 
-    public string BirderStatus { get; set; }
+    public BirderStatus BirderStatus { get; set; }
 }

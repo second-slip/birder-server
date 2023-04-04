@@ -58,6 +58,7 @@ builder.Services.AddScoped<ITweetDayRepository, TweetDayRepository>();
 builder.Services.AddScoped<IServerlessDatabaseService, ServerlessDatabaseService>();
 builder.Services.AddScoped<IListService, ListService>();
 builder.Services.AddScoped<IObservationQueryService, ObservationQueryService>();
+builder.Services.AddScoped<IBirdDataService, BirdDataService>();
 
 builder.Services.AddScoped<IObservationsAnalysisService, ObservationsAnalysisService>();
 

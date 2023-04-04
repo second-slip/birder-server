@@ -47,5 +47,5 @@ public class BirdDetailDto
 
     */
 
-    public string BirderStatus { get; set; }
+    public BirderStatus BirderStatus { get; set; }
 }
