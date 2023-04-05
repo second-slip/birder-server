@@ -65,7 +65,7 @@ public class BirderMappingProfile : Profile
             .ForPath(x => x.User.Avatar, y => y.MapFrom(x => x.Avatar))
             .ForPath(x => x.FollowersCount, y => y.MapFrom(x => x.Followers.Count))
             .ForPath(x => x.FollowingCount, y => y.MapFrom(x => x.Following.Count));
-            //.ReverseMap();
+        //.ReverseMap();
 
         //CreateMap<ApplicationUser, UserNetworkDto>()
         //  .ForMember(x => x.Followers, y => y.MapFrom(x => x.Followers))
@@ -75,9 +75,7 @@ public class BirderMappingProfile : Profile
         CreateMap<ApplicationUser, ManageProfileViewModel>()
             .ReverseMap();
 
-        CreateMap<Bird, BirdDetailDto>()
-            .ReverseMap();
-
+        // this mapping proile is used by Observation and Tweet objects
         CreateMap<Bird, BirdSummaryDto>()
             .ForMember(a => a.ConservationStatus, b => b.MapFrom(a => a.BirdConservationStatus.ConservationList))
             .ForMember(a => a.ConservationListColourCode,
@@ -85,8 +83,11 @@ public class BirderMappingProfile : Profile
             .ForMember(a => a.BirderStatus, b => b.MapFrom(a => a.BirderStatus))
             .ReverseMap();
 
-        CreateMap<QueryResult<Bird>, BirdsListDto>()
-            .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
+        // CreateMap<QueryResult<Bird>, BirdsListDto>()
+        //     .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
+
+        // CreateMap<Bird, BirdDetailDto>()
+        //     .ReverseMap();
 
         CreateMap<TweetDay, TweetDayViewModel>()
             .ForMember(d => d.Bird, m => m.MapFrom(d => d.Bird))
