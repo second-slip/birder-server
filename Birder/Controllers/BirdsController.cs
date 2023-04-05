@@ -54,7 +54,7 @@ public class BirdsController : ControllerBase
             }
             else
             {
-                var model = await _service.GetBirdsListAsync();
+                var model = await _service.GetBirdsDropDownListAsync();
 
                 if (model is null)
                 {

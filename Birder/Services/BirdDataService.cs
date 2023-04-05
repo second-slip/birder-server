@@ -6,7 +6,7 @@ namespace Birder.Services;
 public interface IBirdDataService
 {
     Task<BirdsListDto> GetBirdsAsync(int pageIndex, int pageSize, BirderStatus speciesFilter);
-    Task<IEnumerable<BirdSummaryDto>> GetBirdsListAsync();
+    Task<IEnumerable<BirdSummaryDto>> GetBirdsDropDownListAsync();
     Task<BirdDetailDto> GetBirdAsync(int id);
 }
 
@@ -21,8 +21,6 @@ public class BirdDataService : IBirdDataService
 
     public async Task<BirdsListDto> GetBirdsAsync(int pageIndex, int pageSize, BirderStatus speciesFilter)
     {
-        var result = new BirdsListDto();
-
         var query = _dbContext.Birds
             .MapBirdToBirdSummaryDto()
             .AsNoTracking()
@@ -36,6 +34,8 @@ public class BirdDataService : IBirdDataService
         query = query.OrderBy(s => s.BirderStatus)
                      .ThenBy(n => n.EnglishName);
 
+        var result = new BirdsListDto();
+
         result.TotalItems = await query.CountAsync();
 
         query = query.ApplyPaging(pageIndex, pageSize);
@@ -45,7 +45,7 @@ public class BirdDataService : IBirdDataService
         return result;
     }
 
-    public async Task<IEnumerable<BirdSummaryDto>> GetBirdsListAsync()
+    public async Task<IEnumerable<BirdSummaryDto>> GetBirdsDropDownListAsync()
     {
         var query = _dbContext.Birds
             .MapBirdToBirdSummaryDto()

@@ -59,7 +59,7 @@ public class BirdsControllerTests
     {
         // Arrange
         var mockService = new Mock<IBirdDataService>();
-        mockService.Setup(repo => repo.GetBirdsListAsync())
+        mockService.Setup(repo => repo.GetBirdsDropDownListAsync())
              .Returns(Task.FromResult<IEnumerable<BirdSummaryDto>>(null));
 
         var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
