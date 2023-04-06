@@ -42,8 +42,6 @@ public class ObservationQueryService : IObservationQueryService
 
     public async Task<IEnumerable<ObservationFeedDto>> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
     {
-        //var result = new ObservationFeedPagedDto();
-
         var query = _dbContext.Observations
             .AsNoTracking()
             .Where(predicate)
@@ -54,12 +52,8 @@ public class ObservationQueryService : IObservationQueryService
         //query = query.ApplyFiltering(queryObj);
 
         query = query.OrderByDescending(d => d.ObservationDateTime);
-
-        //result.TotalItems = await query.CountAsync();
-
         query = query.ApplyPaging(pageIndex, pageSize);
 
-        // result.Items = await query.ToListAsync();
         var result = await query.ToListAsync();
 
         await _profilePhotosService.GetThumbnailUrl(result);
