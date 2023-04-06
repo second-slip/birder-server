@@ -136,7 +136,7 @@ public class BirdDataServiceTests
     }
 
 
-    // GetBird()
+    // GetBirdAsync()
 
     [Theory]
     [InlineData(1, 10)]

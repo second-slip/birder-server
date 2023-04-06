@@ -41,9 +41,6 @@ public class TweetDataService : ITweetDataService
 
         var result = await query.FirstOrDefaultAsync();
 
-        // test this explicitly.....................................
-        // .........................................................
-
         if (result is null)
         {
             query = _dbContext.TweetDays

@@ -62,8 +62,7 @@ public class TweetDataSericeTests
         Assert.IsAssignableFrom<IEnumerable<TweetDayDto>>(model);
     }
 
-
-    // ....................................................
+    // GetTweetOfTheDayAsync tests
     [Theory]
     [InlineData(10)]
     [InlineData(20)]
@@ -97,7 +96,7 @@ public class TweetDataSericeTests
         Assert.Equal(DateTime.Today, model.DisplayDay);
     }
 
-        [Theory]
+    [Theory]
     [InlineData(10)]
     [InlineData(20)]
     [InlineData(30)]
