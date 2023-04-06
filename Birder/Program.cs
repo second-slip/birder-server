@@ -46,19 +46,19 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
 // AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-// Custom services
+// custom services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IBirdRepository, BirdRepository>();
 builder.Services.AddScoped<IObservationRepository, ObservationRepository>();
 builder.Services.AddScoped<IObservationPositionRepository, ObservationPositionRepository>();
 builder.Services.AddScoped<IObservationNoteRepository, ObservationNoteRepository>();
 builder.Services.AddScoped<INetworkRepository, NetworkRepository>();
-builder.Services.AddScoped<ITweetDayRepository, TweetDayRepository>();
 
 builder.Services.AddScoped<IServerlessDatabaseService, ServerlessDatabaseService>();
 builder.Services.AddScoped<IListService, ListService>();
 builder.Services.AddScoped<IObservationQueryService, ObservationQueryService>();
 builder.Services.AddScoped<IBirdDataService, BirdDataService>();
+builder.Services.AddScoped<ITweetDataService, TweetDataService>();
 
 builder.Services.AddScoped<IObservationsAnalysisService, ObservationsAnalysisService>();
 

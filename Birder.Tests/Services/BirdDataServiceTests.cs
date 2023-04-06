@@ -83,7 +83,7 @@ public class BirdDataServiceTests
         var model = await service.GetBirdsAsync(1, pageSize, BirderStatus.Common);
 
         // Assert
-        var expectedPageSize = 10; // default
+        var expectedPageSize = 10; // default set in ApplyPaging
         Assert.Equal(expectedPageSize, model.Items.Count());
         Assert.IsType<BirdsListDto>(model);
         Assert.IsAssignableFrom<IEnumerable<BirdSummaryDto>>(model.Items);
@@ -134,8 +134,6 @@ public class BirdDataServiceTests
         Assert.IsAssignableFrom<IEnumerable<BirdSummaryDto>>(model);
         Assert.Equal(totalItems, model.Count());
     }
-
-
 
 
     // GetBird()

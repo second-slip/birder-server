@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 
 namespace Birder.Controllers;
 
@@ -8,23 +7,20 @@ namespace Birder.Controllers;
 [Authorize(AuthenticationSchemes = "Bearer")]
 public class TweetsController : ControllerBase
 {
-    private readonly IMemoryCache _cache;
-    private readonly IMapper _mapper;
-    private readonly ILogger _logger;
     private readonly ISystemClockService _systemClock;
-    private readonly ITweetDayRepository _tweetDayRepository;
+    private readonly ITweetDataService _service;
+    private readonly IMemoryCache _cache;
+    private readonly ILogger _logger;
 
-    public TweetsController(ITweetDayRepository tweetDayRepository,
-                            IMemoryCache memoryCache,
+    public TweetsController(IMemoryCache memoryCache,
                             ILogger<TweetsController> logger,
                             ISystemClockService systemClock,
-                            IMapper mapper)
+                            ITweetDataService service)
     {
         _cache = memoryCache;
-        _mapper = mapper;
         _logger = logger;
         _systemClock = systemClock;
-        _tweetDayRepository = tweetDayRepository;
+        _service = service;
     }
 
     [HttpGet]
@@ -33,24 +29,22 @@ public class TweetsController : ControllerBase
     {
         try
         {
-            if (_cache.TryGetValue(nameof(TweetDayViewModel), out TweetDayViewModel tweetDayCache))
+            if (_cache.TryGetValue(nameof(TweetDayDto), out TweetDayDto tweetDayCache))
             {
                 return Ok(tweetDayCache);
             }
 
-            var tweet = await _tweetDayRepository.GetTweetOfTheDayAsync(_systemClock.GetToday);
+            var model = await _service.GetTweetOfTheDayAsync(_systemClock.GetToday);
 
-            if (tweet is null)
+            if (model is null)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting tweet with date: {Date}", _systemClock.GetToday);
-                return StatusCode(500, $"tweets repository returned null");
+                return StatusCode(500, $"tweets service returned null");
             }
 
-            var viewModel = _mapper.Map<TweetDay, TweetDayViewModel>(tweet);
+            _cache.Set(nameof(TweetDayDto), model, _systemClock.GetEndOfToday);
 
-            _cache.Set(nameof(TweetDayViewModel), viewModel, _systemClock.GetEndOfToday);
-
-            return Ok(viewModel);
+            return Ok(model);
         }
         catch (Exception ex)
         {
@@ -65,17 +59,15 @@ public class TweetsController : ControllerBase
     {
         try
         {
-            var tweets = await _tweetDayRepository.GetTweetArchiveAsync(pageIndex, pageSize, _systemClock.GetToday);
+            var model = await _service.GetTweetArchiveAsync(pageIndex, pageSize, _systemClock.GetToday);
 
-            if (tweets is null)
+            if (model is null)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting the tweets archive");
-                return StatusCode(500, $"tweets repository returned null");
+                return StatusCode(500, $"tweets service returned null");
             }
-            //ToDo: To be refactored
-            var viewModel = _mapper.Map<QueryResult<TweetDay>, TweetArchiveDto>(tweets);
 
-            return Ok(viewModel.Items);
+            return Ok(model);
         }
         catch (Exception ex)
         {

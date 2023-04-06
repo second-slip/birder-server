@@ -77,6 +77,22 @@ public static class QueryableExtensions
         });
     }
 
+    public static IQueryable<TweetDayDto> MapTweetDaytoDto(this IQueryable<TweetDay> tweet)
+    {
+       return tweet.Select(t => new TweetDayDto
+        {
+            TweetDayId = t.TweetDayId,
+            SongUrl = t.SongUrl,
+            DisplayDay = t.DisplayDay,
+            CreationDate = t.CreationDate,
+            LastUpdateDate = t.LastUpdateDate,
+            BirdId = t.Bird.BirdId,
+            Species = t.Bird.Species,
+            EnglishName = t.Bird.EnglishName
+        });
+    }
+    
+
 
 
     //  public static IQueryable<Vehicle> ApplyFiltering(this IQueryable<Vehicle> query, VehicleQuery queryObj)
