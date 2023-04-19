@@ -56,6 +56,7 @@ public class AuthenticationController : ControllerBase
 
             if (result.Succeeded)
             {
+                // todo: move to a static method/helper?
                 var claims = new List<Claim>
                     {
                         new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),

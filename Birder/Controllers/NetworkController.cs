@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-
 using System.Collections.Generic;
 
 namespace Birder.Controllers;
@@ -16,10 +15,10 @@ public class NetworkController : ControllerBase
     private readonly UserManager<ApplicationUser> _userManager;
 
     public NetworkController(IMapper mapper
-                            , IUnitOfWork unitOfWork
-                            , ILogger<NetworkController> logger
-                            , INetworkRepository networkRepository
-                            , UserManager<ApplicationUser> userManager)
+                           , IUnitOfWork unitOfWork
+                           , ILogger<NetworkController> logger
+                           , INetworkRepository networkRepository
+                           , UserManager<ApplicationUser> userManager)
     {
         _mapper = mapper;
         _logger = logger;
@@ -244,6 +243,7 @@ public class NetworkController : ControllerBase
             if (requestingUser is null)
             {
                 _logger.LogError(LoggingEvents.UpdateItem, "Requesting user not found");
+                // 500 error and change message
                 return NotFound("Requesting user not found");
             }
 
@@ -252,11 +252,13 @@ public class NetworkController : ControllerBase
             if (userToFollow is null)
             {
                 _logger.LogError(LoggingEvents.UpdateItem, "User to follow not found");
+                // 500 error and change message
                 return NotFound("User to follow not found");
             }
 
             if (requestingUser == userToFollow)
             {
+                // logger
                 return BadRequest("Trying to follow yourself");
             }
 
@@ -287,6 +289,7 @@ public class NetworkController : ControllerBase
             if (requestingUser is null)
             {
                 _logger.LogError(LoggingEvents.UpdateItem, "Requesting user not found");
+                // 500 error and change message
                 return NotFound("Requesting user not found");
             }
 
@@ -295,11 +298,13 @@ public class NetworkController : ControllerBase
             if (userToUnfollow is null)
             {
                 _logger.LogError(LoggingEvents.UpdateItem, "User to Unfollow not found");
+                // 500 error and change message
                 return NotFound("User to Unfollow not found");
             }
 
             if (requestingUser == userToUnfollow)
             {
+                // logger
                 return BadRequest("Trying to unfollow yourself");
             }
 
