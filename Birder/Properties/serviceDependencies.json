@@ -11,6 +11,9 @@
     "storage1": {
       "type": "storage",
       "connectionId": "StorageConnection"
+    },
+    "apis1": {
+      "type": "apis"
     }
   }
 }

@@ -2,7 +2,8 @@
 
 namespace Birder.Controllers;
 
-[Route("api/[controller]")]
+//[Route("api/[controller]")]
+[Route("/")]
 [ApiController]
 public class HomeController : ControllerBase
 {
