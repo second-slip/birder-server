@@ -13,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 // builder.Logging.AddConsole //
 
 //Add Services
+builder.Services.AddSwaggerGen();
+
+
 builder.Services.AddMemoryCache();
 
 builder.Services.AddControllers()
@@ -106,14 +109,14 @@ builder.Services.AddAuthentication(options =>
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(MyAllowSpecificOrigins,
-        builder =>
-        {
-            builder.WithOrigins(authConfig.BaseUrl);
-        });
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(MyAllowSpecificOrigins,
+//        builder =>
+//        {
+//            builder.WithOrigins(authConfig.BaseUrl);
+//        });
+//});
 // services.AddAzureClients(builder =>
 // {
 //     builder.AddBlobServiceClient(Configuration["ConnectionStrings:StorageConnection:blob"], preferMsi: true);
@@ -125,11 +128,18 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseSwagger();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwaggerUI();
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseCors(MyAllowSpecificOrigins);
+//app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthentication();
 app.UseAuthorization();
