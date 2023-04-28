@@ -15,6 +15,15 @@ var builder = WebApplication.CreateBuilder(args);
 //Add Services
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureSwaggerGen(setup =>
+{
+    setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Weather Forecasts",
+        Version = "v1"
+    });
+});
+
 
 builder.Services.AddMemoryCache();
 

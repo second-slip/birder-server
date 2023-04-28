@@ -2,7 +2,7 @@
 	
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
-		<Nullable>enable</Nullable>
+		<!-- <Nullable>enable</Nullable> -->
 		<ImplicitUsings>enable</ImplicitUsings>
 		<BuildServerSideRenderer>false</BuildServerSideRenderer>
 		<UserSecretsId>ead41ccc-1a3c-4e9b-b173-a50392209612</UserSecretsId>
