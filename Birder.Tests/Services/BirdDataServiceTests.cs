@@ -80,7 +80,7 @@ public class BirdDataServiceTests
 
         // Act
         var service = new BirdDataService(context);
-        var model = await service.GetBirdsAsync(1, pageSize, BirderStatus.Common);
+        var model = await service.GetBirdsAsync(pageIndex, pageSize, BirderStatus.Common);
 
         // Assert
         var expectedPageSize = 10; // default set in ApplyPaging
