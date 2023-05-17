@@ -9,10 +9,16 @@ using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add logging
-// builder.Logging.AddConsole //
+builder.Services.AddMemoryCache();
 
-//Add Services
+builder.Services.AddControllers()
+                .AddNewtonsoftJson(options =>
+        {
+            options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        });
+
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.ConfigureSwaggerGen(setup =>
@@ -23,16 +29,6 @@ builder.Services.ConfigureSwaggerGen(setup =>
         Version = "v1"
     });
 });
-
-
-builder.Services.AddMemoryCache();
-
-builder.Services.AddControllers()
-                .AddNewtonsoftJson(options =>
-        {
-            options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        });
 
 var connectionStrings = builder.Configuration.GetRequiredSection("ConnectionStrings").Get<ConnectionStringsOptions>();
 
@@ -55,46 +51,40 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
         .AddDefaultTokenProviders()
         .AddSignInManager<SignInManager<ApplicationUser>>();
 
-// AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddHttpClient();
 
 // custom services
+// move to separate method for clarity?  AddCustomServices(WebApplicationBuilder builder)
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IBirdRepository, BirdRepository>();
 builder.Services.AddScoped<IObservationRepository, ObservationRepository>();
 builder.Services.AddScoped<IObservationPositionRepository, ObservationPositionRepository>();
 builder.Services.AddScoped<IObservationNoteRepository, ObservationNoteRepository>();
 builder.Services.AddScoped<INetworkRepository, NetworkRepository>();
-
 builder.Services.AddScoped<IServerlessDatabaseService, ServerlessDatabaseService>();
 builder.Services.AddScoped<IListService, ListService>();
 builder.Services.AddScoped<IObservationQueryService, ObservationQueryService>();
 builder.Services.AddScoped<IBirdDataService, BirdDataService>();
 builder.Services.AddScoped<ITweetDataService, TweetDataService>();
-
 builder.Services.AddScoped<IObservationsAnalysisService, ObservationsAnalysisService>();
-
 builder.Services.AddScoped<IFlickrService, FlickrService>();
 builder.Services.AddScoped<IBirdThumbnailPhotoService, BirdThumbnailPhotoService>();
-
 builder.Services.AddScoped<IAuthenticationTokenService, AuthenticationTokenService>();
+builder.Services.AddScoped<IXenoCantoService, XenoCantoService>();
 
 builder.Services.AddSingleton<ISystemClockService, SystemClockService>();
 builder.Services.AddSingleton<IUrlService, UrlService>();
 
-builder.Services.AddHttpClient();
-builder.Services.AddScoped<IXenoCantoService, XenoCantoService>();
-
 builder.Services.AddTransient<IEmailSender, EmailSender>();
-
 
 // .................
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 builder.Services.Configure<AuthConfigOptions>(builder.Configuration.GetSection(AuthConfigOptions.AuthConfig));
 builder.Services.Configure<FlickrOptions>(builder.Configuration.GetSection(FlickrOptions.Flickr));
 
-var authConfig = builder.Configuration.GetRequiredSection("AuthConfig").Get<AuthConfigOptions>();
 
+var authConfig = builder.Configuration.GetRequiredSection("AuthConfig").Get<AuthConfigOptions>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -116,7 +106,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+//var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 //builder.Services.AddCors(options =>
 //{
@@ -137,20 +127,22 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var app = builder.Build();
 
-app.UseSwagger();
+// app.UseSwagger();
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
+// app.UseStaticFiles(); ????
+// app.UseRouting(); ????
 
-//app.UseCors(MyAllowSpecificOrigins);
+// app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();
