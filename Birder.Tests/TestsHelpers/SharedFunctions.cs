@@ -89,7 +89,7 @@ public static class SharedFunctions
 
     public static UserManager<ApplicationUser> InitialiseUserManager()
     {
-        var connectionstring = "Server=(localdb)\\mssqllocaldb;Database=Birder;Trusted_Connection=True;MultipleActiveResultSets=true;Connection Timeout=60";
+        var connectionstring = "Server=(localdb)\\mssqllocaldb;Database=Birder;Trusted_Connection=True;MultipleActiveResultSets=true;Connection Timeout=90";
 
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
         optionsBuilder.UseSqlServer(connectionstring);
