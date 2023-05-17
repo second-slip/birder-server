@@ -1,4 +1,5 @@
-﻿using TestSupport.EfHelpers;
+﻿using Microsoft.EntityFrameworkCore;
+using TestSupport.EfHelpers;
 
 namespace Birder.Tests.Controller;
 
@@ -18,8 +19,11 @@ public class Request_Network_Feed
     {
         // when handling Network object, need to use sql database not sqlite in-memory
         var options = this.CreateUniqueMethodOptions<ApplicationDbContext>();
+
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureClean();
+        //temporary increase timeout only for one Context instance.
+        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(3));
 
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
         context.Users.Add(SharedFunctions.CreateUser("testUser2"));

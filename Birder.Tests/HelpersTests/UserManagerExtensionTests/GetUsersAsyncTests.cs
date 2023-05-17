@@ -1,4 +1,5 @@
-﻿using TestSupport.EfHelpers;
+﻿using Microsoft.EntityFrameworkCore;
+using TestSupport.EfHelpers;
 
 namespace Birder.Tests.HelpersTests;
 
@@ -18,6 +19,8 @@ public class GetUsersAsyncTests
 
 
         context.Database.EnsureCreated();
+        //temporary increase timeout only for one Context instance.
+        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(3));
         // Arrange
         string requestingUsername = "TestUser1";
         string usernameToFollow = "TestUser2";
@@ -50,6 +53,8 @@ public class GetUsersAsyncTests
         var options = this.CreateUniqueMethodOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureClean();
+        //temporary increase timeout only for one Context instance.
+        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(3));
 
         context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
         context.Users.Add(SharedFunctions.CreateUser(followerUsername));
@@ -100,6 +105,8 @@ public class GetUsersAsyncTests
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
+        //temporary increase timeout only for one Context instance.
+        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(3));
 
         context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
         context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
@@ -128,6 +135,8 @@ public class GetUsersAsyncTests
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
+        //temporary increase timeout only for one Context instance.
+        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(3));
 
         context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
         context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
@@ -169,6 +178,8 @@ public class GetUsersAsyncTests
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
+        //temporary increase timeout only for one Context instance.
+        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(3));
 
         context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
         context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
@@ -199,6 +210,8 @@ public class GetUsersAsyncTests
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
+        //temporary increase timeout only for one Context instance.
+        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(3));
 
         context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
         context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));

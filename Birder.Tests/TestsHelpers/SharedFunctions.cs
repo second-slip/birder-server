@@ -87,28 +87,28 @@ public static class SharedFunctions
                 null);
     }
 
-    public static UserManager<ApplicationUser> InitialiseUserManager()
-    {
-        var connectionstring = "Server=(localdb)\\mssqllocaldb;Database=Birder;Trusted_Connection=True;MultipleActiveResultSets=true;Connection Timeout=90";
+    // public static UserManager<ApplicationUser> InitialiseUserManager()
+    // {
+    //     var connectionstring = "Server=(localdb)\\mssqllocaldb;Database=Birder;Trusted_Connection=True;MultipleActiveResultSets=true;Connection Timeout=90";
 
-        var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        optionsBuilder.UseSqlServer(connectionstring);
+    //     var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+    //     optionsBuilder.UseSqlServer(connectionstring);
 
 
-        ApplicationDbContext dbContext = new ApplicationDbContext(optionsBuilder.Options);
+    //     ApplicationDbContext dbContext = new ApplicationDbContext(optionsBuilder.Options);
 
-        UserStore<ApplicationUser> _userStore = new UserStore<ApplicationUser>(dbContext, null);
-        return new UserManager<ApplicationUser>(
-                _userStore,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null);
-    }
+    //     UserStore<ApplicationUser> _userStore = new UserStore<ApplicationUser>(dbContext, null);
+    //     return new UserManager<ApplicationUser>(
+    //             _userStore,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //             null,
+    //             null);
+    // }
 
     public static NetworkUserViewModel GetTestNetworkUserViewModel(string username)
     {
