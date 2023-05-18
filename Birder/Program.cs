@@ -135,8 +135,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// REMOVE.................................
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "birder-server v1"));
+
 app.UseHttpsRedirection();
-// app.UseStaticFiles(); ????
+
 // app.UseRouting(); ????
 
 // app.UseCors(MyAllowSpecificOrigins);
