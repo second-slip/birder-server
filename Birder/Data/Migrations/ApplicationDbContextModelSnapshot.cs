@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    //[ExcludeFromCodeCoverageAttribute]
+    [ExcludeFromCodeCoverageAttribute]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

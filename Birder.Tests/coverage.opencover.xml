@@ -2,9 +2,9 @@
 <CoverageSession>
   <Summary numSequencePoints="2242" visitedSequencePoints="1526" numBranchPoints="278" visitedBranchPoints="209" sequenceCoverage="68.06" branchCoverage="75.17" maxCyclomaticComplexity="655" minCyclomaticComplexity="655" visitedClasses="120" numClasses="176" visitedMethods="304" numMethods="446" />
   <Modules>
-    <Module hash="7E377D2E-EA43-4F13-99EB-D457F79DCA8F">
+    <Module hash="06479AD5-135B-4EDB-BBF1-137853075EAF">
       <ModulePath>Birder.dll</ModulePath>
-      <ModuleTime>2023-05-18T04:09:41</ModuleTime>
+      <ModuleTime>2023-05-18T04:54:23</ModuleTime>
       <ModuleName>Birder</ModuleName>
       <Files>
         <File uid="1" fullPath="C:\Users\user\source\repos\birder-server\Birder\Program.cs" />

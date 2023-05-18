@@ -12,7 +12,7 @@ namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20210322203725_indexes")]
-    //[ExcludeFromCodeCoverageAttribute]
+    [ExcludeFromCodeCoverageAttribute]
     partial class indexes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

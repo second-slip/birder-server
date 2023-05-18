@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <RunSettings>
-	<DataCollectionRunSettings>
-		<DataCollectors>
-			<DataCollector friendlyName="XPlat code coverage">
-				<Configuration>
-					<Format>lcov,cobertura</Format>
-					<CodeCoverage>
-						<Attributes>
-							<Exclude>
-								<!-- Don't forget "Attribute" at the end of the name -->
-								<!-- <Attribute>^System\.Diagnostics\.DebuggerHiddenAttribute$</Attribute><Attribute>^System\.Diagnostics\.DebuggerNonUserCodeAttribute$</Attribute><Attribute>^System\.CodeDom\.Compiler\.GeneratedCodeAttribute$</Attribute> -->
-								<!-- <Attribute>^System\.Diagnostics\.CodeAnalysis\.ExcludeFromCodeCoverageAttribute$</Attribute> -->
-							</Exclude>
-						</Attributes>
-						<!-- <Functions>
-							<Exclude>
-								<Function>^Migrations\..*</Function>
-								<Function>.*\.Migrations\..*</Function>
-                                <Function>^Birder\.Migrations\..*</Function>
-							</Exclude>
-						</Functions> -->
-					</CodeCoverage>
-				</Configuration>
-			</DataCollector>
-		</DataCollectors>
-	</DataCollectionRunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>json,cobertura,lcov,teamcity,opencover</Format>          
+          <Exclude>[coverlet.*.tests?]*,[*]Coverlet.Core*</Exclude> <!-- [Assembly-Filter]Type-Filter -->
+          <Include>[coverlet.*]*,[*]Coverlet.Core*</Include> <!-- [Assembly-Filter]Type-Filter -->
+          <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
+          <!-- <ExcludeByFile>**/Data/Migrations/*.cs,**/Data/Migrations/**/*.cs,</ExcludeByFile> Globbing filter -->
+          <!-- <IncludeDirectory>../dir1/,../dir2/,</IncludeDirectory> -->
+          <SingleHit>false</SingleHit>
+          <UseSourceLink>true</UseSourceLink>
+          <!-- <IncludeTestAssembly>true</IncludeTestAssembly> -->
+          <SkipAutoProps>true</SkipAutoProps>
+          <DeterministicReport>false</DeterministicReport>
+          <ExcludeAssembliesWithoutSources>MissingAll,MissingAny,None</ExcludeAssembliesWithoutSources>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
 </RunSettings>
-
-<!-- C:\Users\user\source\repos\birder-server\Birder\Data\Migrations -->
