@@ -12,7 +12,7 @@ namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20201127215703_initial")]
-    [ExcludeFromCodeCoverageAttribute]
+    //[ExcludeFromCodeCoverageAttribute]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

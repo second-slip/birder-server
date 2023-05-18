@@ -12,7 +12,7 @@ namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20210216211838_location-pop-added")]
-    [ExcludeFromCodeCoverageAttribute]
+    //[ExcludeFromCodeCoverageAttribute]
     partial class locationpopadded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
