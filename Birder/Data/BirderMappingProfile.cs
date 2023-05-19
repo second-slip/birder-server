@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 
-using System.Collections.Generic;
-
 namespace Birder.Data;
 
 public class BirderMappingProfile : Profile

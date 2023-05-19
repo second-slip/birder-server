@@ -5,9 +5,7 @@ namespace Birder.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    { }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     public DbSet<Observation> Observations { get; set; }
     public DbSet<Bird> Birds { get; set; }
@@ -32,7 +30,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<ObservationNote>().ToTable("ObservationNote");
         builder.Entity<TweetDay>().ToTable("TweetDay");
 
-        //Add SQL indexes to any property you sort or filter on.
+        // add SQL indexes (sort & filter on these)
         builder.Entity<Observation>().HasIndex(i => i.ApplicationUserId);
         builder.Entity<Observation>().HasIndex(d => d.ObservationDateTime);
         //builder.Entity<Observation>().HasIndex(p => p.SelectedPrivacyLevel);
@@ -69,7 +67,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(a => a.Following)
             .HasForeignKey(l => l.FollowerId)
             .OnDelete(DeleteBehavior.NoAction);
-
 
 
         builder.Entity<ConservationStatus>().HasData(new ConservationStatus
