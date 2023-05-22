@@ -18,3 +18,4 @@ global using Birder.ViewModels;
 global using Birder.Data;
 global using Birder.Data.Model;
 global using Birder.Data.Repository;
+global using Birder.Infrastructure.Configuration;

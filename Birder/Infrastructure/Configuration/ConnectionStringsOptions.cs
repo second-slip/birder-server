@@ -1,4 +1,4 @@
-namespace Birder.ViewModels;
+namespace Birder.Infrastructure.Configuration;
 
 public class ConnectionStringsOptions
 {
