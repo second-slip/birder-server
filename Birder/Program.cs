@@ -19,13 +19,14 @@ builder.Services.AddControllers()
         });
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.ConfigureSwaggerGen(setup =>
 {
     setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
-        Title = "Weather Forecasts",
+        Title = "Birder",
         Version = "v1"
     });
 });
@@ -39,7 +40,6 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
         {
             options.SignIn.RequireConfirmedEmail = true;
             options.User.RequireUniqueEmail = true;
-            // Password settings: require any eight letters or numbers
             options.Password.RequireDigit = true;
             options.Password.RequiredLength = 8;
             options.Password.RequiredUniqueChars = 2;
@@ -126,8 +126,6 @@ builder.Services.AddAuthentication(options =>
 
 
 var app = builder.Build();
-
-// app.UseSwagger();
 
 if (app.Environment.IsDevelopment())
 {
