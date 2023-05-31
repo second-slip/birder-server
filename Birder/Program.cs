@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿#define Managed // Certificate
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -6,17 +8,32 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
+using Azure.Identity;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+#if Managed
+if (builder.Environment.IsProduction())
+{
+    builder.Configuration.AddAzureKeyVault(
+        new Uri($"https://{builder.Configuration["KeyVaultName"]}.vault.azure.net/"),
+        new DefaultAzureCredential());
+}
+// </snippet_Managed>
+
+#endif
+
+
 
 builder.Services.AddMemoryCache();
 
 builder.Services.AddControllers()
                 .AddNewtonsoftJson(options =>
-        {
-            options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        });
+                {
+                    options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -86,7 +103,8 @@ builder.Services.Configure<FlickrOptions>(builder.Configuration.GetSection(Flick
 
 var authConfig = builder.Configuration.GetRequiredSection("AuthConfig").Get<AuthConfigOptions>();
 
-builder.Services.AddAuthentication(options =>
+builder.Services
+.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -148,5 +166,20 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/", (IConfiguration config) =>
+    string.Join(
+        Environment.NewLine,
+        "SecretName (Name in Key Vault: 'SecretName')",
+        @"Obtained from configuration with config[""SecretName""]",
+        $"Value: {config["SendGridUser"]}",
+        "",
+        "Section:SecretName (Name in Key Vault: 'Section--SecretName')",
+        @"Obtained from configuration with config[""Section:SecretName""]",
+        $"Value: {config["AuthConfig:BaseUrl"]}",
+        "",
+        "Section:SecretName (Name in Key Vault: 'Section--SecretName')",
+        @"Obtained from configuration with config.GetSection(""Section"")[""SecretName""]",
+        $"Value: {config.GetSection("AuthConfig")["TokenKey"]}"));
 
 app.Run();

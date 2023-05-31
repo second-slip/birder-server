@@ -1,7 +1,5 @@
 ﻿using Birder.Infrastructure.CustomExceptions;
 using System.Text.Json.Serialization;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text.Json;
 
 namespace Birder.Services;
@@ -43,7 +41,7 @@ public class XenoCantoService : IXenoCantoService
                 recordings.Add(new RecordingViewModel
                 {
                     Id = index,
-                    Url = XenoCantoServiceHelpers.BuildRecordingUrl(forecast.Sono.Small, forecast.FileName),
+                    Url = XenoCantoServiceHelpers.BuildRecordingUrl(forecast.Sono.Small, forecast.FileName)
                 });
 
                 index++;
