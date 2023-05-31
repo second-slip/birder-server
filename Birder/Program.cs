@@ -1,14 +1,10 @@
 ﻿#define Managed // Certificate
 
+using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-
-using Azure.Identity;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +19,6 @@ if (builder.Environment.IsProduction())
 // </snippet_Managed>
 
 #endif
-
 
 
 builder.Services.AddMemoryCache();
@@ -180,6 +175,6 @@ app.MapGet("/", (IConfiguration config) =>
         "",
         "Section:SecretName (Name in Key Vault: 'Section--SecretName')",
         @"Obtained from configuration with config.GetSection(""Section"")[""SecretName""]",
-        $"Value: {config.GetSection("AuthConfig")["TokenKey"]}"));
+        $"Value: {config.GetSection("ConnectionStrings")["DefaultConnection"]}"));
 
 app.Run();
