@@ -1,6 +1,4 @@
-﻿#define Managed // Certificate
-
-using Azure.Identity;
+﻿using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -9,17 +7,12 @@ using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#if Managed
 if (builder.Environment.IsProduction())
 {
     builder.Configuration.AddAzureKeyVault(
         new Uri($"https://{builder.Configuration["KeyVaultName"]}.vault.azure.net/"),
         new DefaultAzureCredential());
 }
-// </snippet_Managed>
-
-#endif
-
 
 builder.Services.AddMemoryCache();
 
@@ -38,7 +31,7 @@ builder.Services.ConfigureSwaggerGen(setup =>
 {
     setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
-        Title = "Birder",
+        Title = "birder-server",
         Version = "v1"
     });
 });
@@ -90,7 +83,6 @@ builder.Services.AddSingleton<IUrlService, UrlService>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-// .................
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 builder.Services.Configure<AuthConfigOptions>(builder.Configuration.GetSection(AuthConfigOptions.AuthConfig));
 builder.Services.Configure<FlickrOptions>(builder.Configuration.GetSection(FlickrOptions.Flickr));
@@ -142,17 +134,13 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
+
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "birder-server v1"));
 }
 
-// REMOVE.................................
-app.UseSwagger();
-app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "birder-server v1"));
-
 app.UseHttpsRedirection();
-
-// app.UseRouting(); ????
 
 // app.UseCors(MyAllowSpecificOrigins);
 
@@ -162,19 +150,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/", (IConfiguration config) =>
+app.MapGet("/", (ISystemClockService date) =>
     string.Join(
         Environment.NewLine,
-        "SecretName (Name in Key Vault: 'SecretName')",
-        @"Obtained from configuration with config[""SecretName""]",
-        $"Value: {config["SendGridUser"]}",
-        "",
-        "Section:SecretName (Name in Key Vault: 'Section--SecretName')",
-        @"Obtained from configuration with config[""Section:SecretName""]",
-        $"Value: {config["AuthConfig:BaseUrl"]}",
-        "",
-        "Section:SecretName (Name in Key Vault: 'Section--SecretName')",
-        @"Obtained from configuration with config.GetSection(""Section"")[""SecretName""]",
-        $"Value: {config.GetSection("ConnectionStrings")["DefaultConnection"]}"));
+        "birder-server API",
+        "https://github.com/winthorpecross/birder-server",
+        $"{date.GetNow}",
+        $"\u00A9 Birder {date.GetNow.Year}"));
 
 app.Run();
