@@ -1,23 +1,14 @@
-﻿using System.Security.Claims;
-
-namespace Birder.Tests.Controller;
+﻿namespace Birder.Tests.Controller;
 
 public class AuthenticationControllerTests
 {
-    private readonly Mock<ILogger<AuthenticationController>> _logger;
-
-    public AuthenticationControllerTests()
-    {
-        _logger = new Mock<ILogger<AuthenticationController>>();
-        //_config = new Mock<IConfiguration>();
-        // _config.SetupGet(x => x[It.Is<string>(s => s == "Scheme")]).Returns("https://");
-        // _config.SetupGet(x => x[It.Is<string>(s => s == "TokenKey")]).Returns("fjfgdfdfeTTjn3wq");
-    }
+    public AuthenticationControllerTests() { }
 
     [Fact]
     public async Task Returns_OkObjectResult_With_Dto()
     {
         // Arrange
+        Mock<ILogger<AuthenticationController>> loggerMock = new();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                     .ReturnsAsync(GetValidTestUser());
@@ -27,15 +18,16 @@ public class AuthenticationControllerTests
                         .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Success));
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
-        var expected = new AuthenticationResultDto()
-        {
-            AuthenticationToken = "test token",
-            FailureReason = AuthenticationFailureReason.None
-        };
-        mockAuthenticationTokenService.Setup(x => x.CreateToken(It.IsAny<List<Claim>>()))
+        var expected = "test token";
+        // new AuthenticationResultDto()
+        // {
+        //     AuthenticationToken = "test token",
+        //     FailureReason = AuthenticationFailureReason.None
+        // };
+        mockAuthenticationTokenService.Setup(x => x.CreateToken(It.IsAny<ApplicationUser>()))
         .Returns(expected);
 
-        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
+        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, loggerMock.Object, mockAuthenticationTokenService.Object);
 
         var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
 
@@ -50,7 +42,7 @@ public class AuthenticationControllerTests
         Assert.IsType<AuthenticationResultDto>(objectResult.Value);
         var returnModel = objectResult.Value as AuthenticationResultDto;
         Assert.Equal(AuthenticationFailureReason.None, returnModel.FailureReason);
-        Assert.Equal(returnModel.AuthenticationToken, expected.AuthenticationToken);
+        Assert.Equal(returnModel.AuthenticationToken, expected);
         Assert.NotNull(returnModel.AuthenticationToken);
     }
 
@@ -58,6 +50,7 @@ public class AuthenticationControllerTests
     public async Task Returns_500_And_Other_Status_When_Login_Is_Unsuccessful_For_Any_Other_Reason()
     {
         // Arrange
+        Mock<ILogger<AuthenticationController>> loggerMock = new();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                     .ReturnsAsync(GetValidTestUser());
@@ -68,7 +61,7 @@ public class AuthenticationControllerTests
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
 
-        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
+        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, loggerMock.Object, mockAuthenticationTokenService.Object);
 
         var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
 
@@ -92,6 +85,7 @@ public class AuthenticationControllerTests
     public async Task Returns_500_And_LockedOut_Status_When_User_Is_Locked_Out()
     {
         // Arrange
+        Mock<ILogger<AuthenticationController>> loggerMock = new();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                     .ReturnsAsync(GetValidTestUser());
@@ -102,7 +96,7 @@ public class AuthenticationControllerTests
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
 
-        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
+        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, loggerMock.Object, mockAuthenticationTokenService.Object);
 
         var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
 
@@ -126,6 +120,7 @@ public class AuthenticationControllerTests
     public async Task Returns_500_And_EmailConfirmationRequired_Status_When_User_Email_Not_Confirmed()
     {
         // Arrange
+        Mock<ILogger<AuthenticationController>> loggerMock = new();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                         .ReturnsAsync(GetTestUserWithEmailNotConfirmed());
@@ -134,7 +129,7 @@ public class AuthenticationControllerTests
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
 
-        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
+        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, loggerMock.Object, mockAuthenticationTokenService.Object);
 
         var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
 
@@ -158,6 +153,7 @@ public class AuthenticationControllerTests
     public async Task Returns_500_And_Other_Status_When_User_Is_Null()
     {
         // Arrange
+        Mock<ILogger<AuthenticationController>> loggerMock = new();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
                         .Returns(Task.FromResult<ApplicationUser>(null));
@@ -166,7 +162,7 @@ public class AuthenticationControllerTests
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
 
-        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
+        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, loggerMock.Object, mockAuthenticationTokenService.Object);
 
         var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
 
@@ -186,74 +182,43 @@ public class AuthenticationControllerTests
         Assert.Null(expectedToken.AuthenticationToken);
     }
 
-    //[Fact]
-    //public async Task Returns_500_And_Other_Status_When_ModelState_Is_Invalid()
-    //{
-    //    // Arrange
-    //    var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-
-    //    var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
-
-    //    var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, _systemClock, _config.Object);
-
-    //    //Add model error
-    //    controller.ModelState.AddModelError("Test", "This is a test model error");
-
-    //    var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
-
-    //    // Act
-    //    var result = await controller.Login(model);
-
-    //    // Assert
-    //    var modelState = controller.ModelState;
-    //    Assert.Equal(1, modelState.ErrorCount);
-    //    Assert.True(modelState.ContainsKey("Test"));
-    //    Assert.True(modelState["Test"].Errors.Count == 1);
-    //    Assert.Equal("This is a test model error", modelState["Test"].Errors[0].ErrorMessage);
-
-    //    Assert.IsType<BadRequestObjectResult>(result);
-    //    var objectResult = result as ObjectResult;
-    //    Assert.NotNull(objectResult);
-    //    Assert.True(objectResult is BadRequestObjectResult);
-    //    Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-    //    Assert.IsType<AuthenticationResultDto>(objectResult.Value);
-
-    //    var returnModel = objectResult.Value as AuthenticationResultDto;
-    //    Assert.Equal(AuthenticationFailureReason.Other, returnModel.FailureReason);
-    //    Assert.Null(returnModel.AuthenticationToken);
-    //}
-
     [Fact]
-    public async Task Returns_500_And_Exception_Status_When_Exception_Is_Raised()
+    public async Task Returns_500_And_Logs_Error_When_InvalidOperationException_Is_Raised()
     {
         // Arrange
+        Mock<ILogger<AuthenticationController>> loggerMock = new();
+
+        var expectedExceptionMessage = "InvalidOperationException thrown";
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         mockUserManager.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>()))
-            .ThrowsAsync(new InvalidOperationException());
-
+            .ThrowsAsync(new InvalidOperationException(expectedExceptionMessage));
         var mockSignInManager = SharedFunctions.InitialiseMockSignInManager(mockUserManager);
-
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
-
-        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, _logger.Object, mockAuthenticationTokenService.Object);
-
-        var model = new LoginViewModel() { UserName = "", Password = "", RememberMe = false };
+        var controller = new AuthenticationController(mockUserManager.Object, mockSignInManager.Object, loggerMock.Object, mockAuthenticationTokenService.Object);
 
         // Act
-        var result = await controller.Login(model);
+        var result = await controller.Login(new LoginViewModel() { UserName = "", Password = "", RememberMe = false });
 
         // Assert
-        Assert.IsType<ObjectResult>(result);
-        var objectResult = result as ObjectResult;
+        var objectResult = Assert.IsType<ObjectResult>(result);
         Assert.NotNull(objectResult);
         Assert.True(objectResult is ObjectResult);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
         Assert.IsType<AuthenticationResultDto>(objectResult.Value);
 
-        var returnModel = objectResult.Value as AuthenticationResultDto;
+        var returnModel = Assert.IsType<AuthenticationResultDto>(objectResult.Value); //objectResult.Value as AuthenticationResultDto;
         Assert.Equal(AuthenticationFailureReason.Other, returnModel.FailureReason);
         Assert.Null(returnModel.AuthenticationToken);
+
+        loggerMock.Verify(x => x.Log(
+           It.Is<LogLevel>(l => l == LogLevel.Error),
+           It.IsAny<EventId>(),
+           It.Is<It.IsAnyType>((o, t) => string.Equals(expectedExceptionMessage, o.ToString(), StringComparison.InvariantCultureIgnoreCase)),
+           It.IsAny<InvalidOperationException>(),
+           It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+           Times.Once);
     }
+
 
 
 

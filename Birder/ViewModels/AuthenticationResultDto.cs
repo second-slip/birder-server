@@ -2,9 +2,9 @@
 {
     public class AuthenticationResultDto
     {
-        public string AuthenticationToken { get; set; }
+        public string AuthenticationToken { get; set; } = null!;
 
-        public AuthenticationFailureReason FailureReason { get; set; }
+        public AuthenticationFailureReason FailureReason { get; set; } = AuthenticationFailureReason.None;
     }
 
     public enum AuthenticationFailureReason

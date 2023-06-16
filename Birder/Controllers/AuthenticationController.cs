@@ -1,9 +1,4 @@
-﻿
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-
-namespace Birder.Controllers;
+﻿namespace Birder.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -13,7 +8,7 @@ public class AuthenticationController : ControllerBase
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IAuthenticationTokenService _authenticationTokenService;
-    private readonly ILogger _logger;
+        private readonly ILogger _logger;
 
     public AuthenticationController(UserManager<ApplicationUser> userManager
                                     , SignInManager<ApplicationUser> signInManager
@@ -21,7 +16,6 @@ public class AuthenticationController : ControllerBase
                                     , IAuthenticationTokenService authenticationTokenService)
     {
         _logger = logger;
-        _authenticationTokenService = authenticationTokenService;
         _userManager = userManager;
         _signInManager = signInManager;
         _authenticationTokenService = authenticationTokenService;
@@ -56,27 +50,24 @@ public class AuthenticationController : ControllerBase
 
             if (result.Succeeded)
             {
-                // todo: move to a static method/helper?
-                var claims = new List<Claim>
-                    {
-                        new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                        new Claim("ImageUrl", user.Avatar),
-                        new Claim("Lat", user.DefaultLocationLatitude.ToString()),
-                        new Claim("Lng", user.DefaultLocationLongitude.ToString()),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    };
+                // var model = _authenticationTokenService.CreateToken(claims);
+                var token = _authenticationTokenService.CreateToken(user);
+                
+                var viewModel = new AuthenticationResultDto()
+                {
+                    FailureReason = AuthenticationFailureReason.None,
+                    AuthenticationToken = token
+                };
 
-                var model = _authenticationTokenService.CreateToken(claims);
-
-                return Ok(model);
+                return Ok(viewModel);
             }
 
-            _logger.LogWarning(LoggingEvents.GenerateItems, "Other authentication failure");
+            _logger.LogWarning(LoggingEvents.GenerateItems, "other authentication failure");
             return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, "An unexpected error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, ex.Message);
             return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.Other });
         }
     }

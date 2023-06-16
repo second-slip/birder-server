@@ -1,56 +1,78 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.Collections.Generic;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Birder.Services;
-
 public interface IAuthenticationTokenService
 {
-    AuthenticationResultDto CreateToken(List<Claim> claims);
+    String CreateToken(ApplicationUser user);
 }
 
 public class AuthenticationTokenService : IAuthenticationTokenService
 {
-    private readonly ISystemClockService _systemClock;
+    private const int ExpirationHours = 48;
+    private AuthConfigOptions Options { get; }
 
-    public AuthenticationTokenService(ISystemClockService systemClock
-    , IOptions<AuthConfigOptions> optionsAccessor)
+    public AuthenticationTokenService(IOptions<AuthConfigOptions> optionsAccessor)
     {
         Options = optionsAccessor.Value;
-        _systemClock = systemClock;
     }
 
-    public AuthConfigOptions Options { get; }
-
-    public AuthenticationResultDto CreateToken(List<Claim> claims)
+    public string CreateToken(ApplicationUser user)
     {
-        if (claims is null)
-        {
-            throw new ArgumentException($"The argument is null or empty", nameof(claims));
-        }
-        if (!claims.Any())
-        {
-            throw new ArgumentException($"The argument is null or empty", nameof(claims));
-        }
+        var token = CreateJwtToken(
+            CreateClaims(user),
+            CreateSigningCredentials(),
+            CalculateTokenExpiry()
+        );
 
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Options.TokenKey));
-        var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+        var tokenHandler = new JwtSecurityTokenHandler();
+        return tokenHandler.WriteToken(token);
+    }
 
-        var tokenOptions = new JwtSecurityToken(
+    private DateTime CalculateTokenExpiry()
+    {
+        var expiration = DateTime.UtcNow.AddHours(ExpirationHours);
+        return expiration;
+    }
+
+    private JwtSecurityToken CreateJwtToken(List<Claim> claims, SigningCredentials credentials,
+        DateTime expiration) =>
+        new(
             issuer: Options.BaseUrl,
             audience: Options.BaseUrl,
             claims: claims,
-            expires: _systemClock.GetNow.AddDays(2),
-            signingCredentials: signinCredentials);
+            expires: expiration,
+            signingCredentials: credentials
+            );
 
-        var viewModel = new AuthenticationResultDto()
+    private List<Claim> CreateClaims(ApplicationUser user)
+    {
+        try
         {
-            FailureReason = AuthenticationFailureReason.None,
-            AuthenticationToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions)
-        };
+            var claims = new List<Claim>
+                {
+                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim("ImageUrl", user.Avatar),
+                    new Claim("Lat", user.DefaultLocationLatitude.ToString()),
+                    new Claim("Lng", user.DefaultLocationLongitude.ToString())
+                };
 
-        return viewModel;
+            return claims;
+        }
+        catch (Exception e)
+        {
+            throw new InvalidOperationException("error creating claims collection", e);
+        }
+    }
+    private SigningCredentials CreateSigningCredentials()
+    {
+        return new SigningCredentials(
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Options.TokenKey)),
+            SecurityAlgorithms.HmacSha256
+        );
     }
 }
