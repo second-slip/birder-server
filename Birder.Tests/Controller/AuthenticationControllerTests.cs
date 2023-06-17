@@ -19,11 +19,7 @@ public class AuthenticationControllerTests
 
         var mockAuthenticationTokenService = new Mock<IAuthenticationTokenService>();
         var expected = "test token";
-        // new AuthenticationResultDto()
-        // {
-        //     AuthenticationToken = "test token",
-        //     FailureReason = AuthenticationFailureReason.None
-        // };
+
         mockAuthenticationTokenService.Setup(x => x.CreateToken(It.IsAny<ApplicationUser>()))
         .Returns(expected);
 
@@ -221,10 +217,7 @@ public class AuthenticationControllerTests
 
 
 
-
     #region Mock methods
-
-
 
     private ApplicationUser GetTestUserWithEmailNotConfirmed()
     {

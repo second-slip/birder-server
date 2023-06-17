@@ -34,8 +34,7 @@ public class ObservationQueryController : ControllerBase
         }
         catch (Exception ex)
         {
-            string message = $"An error occurred getting Observations with birdId '{birdId}'.";
-            _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
+            _logger.LogError(LoggingEvents.GetListNotFound, ex, ex.Message);
             return StatusCode(500, "an unexpected error occurred");
         }
     }
@@ -58,8 +57,7 @@ public class ObservationQueryController : ControllerBase
         }
         catch (Exception ex)
         {
-            string message = $"An error occurred getting observations with username '{username}'.";
-            _logger.LogError(LoggingEvents.GetListNotFound, ex, message);
+            _logger.LogError(LoggingEvents.GetListNotFound, ex, ex.Message);
             return StatusCode(500, "an unexpected error occurred");
         }
     }

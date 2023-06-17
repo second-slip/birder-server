@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Birder.Helpers;
+﻿namespace Birder.Helpers;
 public abstract class PagedResultBase
     {
         public int CurrentPage { get; set; }
