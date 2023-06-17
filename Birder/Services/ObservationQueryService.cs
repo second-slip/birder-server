@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Collections.Generic;
+
 
 namespace Birder.Services;
 public interface IObservationQueryService
@@ -21,12 +21,12 @@ public class ObservationQueryService : IObservationQueryService
 
     public async Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
     {
-        var result = new ObservationsPagedDto(); // use -->>> ObservationFeedDto
+        var result = new ObservationsPagedDto();
 
         var query = _dbContext.Observations
             .AsNoTracking()
             .Where(predicate)
-            .MapObservationToObservationViewDto() // use -->>> ObservationFeedDto
+            .MapObservationToObservationViewDto()
             .AsQueryable();
 
         query = query.OrderByDescending(d => d.ObservationDateTime);

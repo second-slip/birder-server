@@ -6,22 +6,22 @@
 public class ObservationQueryController : ControllerBase
 {
     private readonly ILogger _logger;
-    private readonly IObservationQueryService _observationQueryService;
+    private readonly IObservationQueryService _service;
 
     public ObservationQueryController(ILogger<ObservationQueryController> logger
-                        , IObservationQueryService observationQueryService)
+                        , IObservationQueryService service)
     {
         _logger = logger;
-        _observationQueryService = observationQueryService;
+        _service = service;
     }
 
 
-    [HttpGet, Route("Species")]
+    [HttpGet, Route("species")]
     public async Task<IActionResult> GetObservationsByBirdSpeciesAsync(int birdId, int pageIndex, int pageSize)
     {
         try
         {
-            var viewModel = await _observationQueryService.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
+            var viewModel = await _service.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
 
             if (viewModel is null)
             {
@@ -39,12 +39,12 @@ public class ObservationQueryController : ControllerBase
         }
     }
 
-    [HttpGet, Route("User")]
+    [HttpGet, Route("user")]
     public async Task<IActionResult> GetObservationsByUserAsync(string username, int pageIndex, int pageSize)
     {
         try
         {
-            var viewModel = await _observationQueryService.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
+            var viewModel = await _service.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
 
             if (viewModel is null)
             {
