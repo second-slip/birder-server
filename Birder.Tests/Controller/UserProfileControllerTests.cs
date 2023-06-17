@@ -168,7 +168,7 @@ public class UserProfileControllerTests
     [Fact]
     public async Task Returns_Ok_With_Other_User_Profile()
     {
-        
+
         var countModel = new ObservationAnalysisViewModel { TotalObservationsCount = 2, UniqueSpeciesCount = 2 };
         var mockService = new Mock<IObservationsAnalysisService>();
         mockService.Setup(serve => serve.GetObservationsSummaryAsync(It.IsAny<Expression<Func<Observation, bool>>>()))

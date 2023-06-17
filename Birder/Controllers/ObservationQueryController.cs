@@ -18,6 +18,12 @@ public class ObservationQueryController : ControllerBase
     [HttpGet, Route("species")]
     public async Task<IActionResult> GetObservationsByBirdSpeciesAsync(int birdId, int pageIndex, int pageSize)
     {
+        if (birdId == 0)
+        {
+            _logger.LogError(LoggingEvents.InvalidOrMissingArgument, $"{nameof(birdId)} argument is 0");
+            return BadRequest("birdId is zero");
+        }
+
         try
         {
             var model = await _service.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
@@ -40,6 +46,12 @@ public class ObservationQueryController : ControllerBase
     [HttpGet, Route("user")]
     public async Task<IActionResult> GetObservationsByUserAsync(string username, int pageIndex, int pageSize)
     {
+        if (string.IsNullOrEmpty(username))
+        {
+            _logger.LogError(LoggingEvents.InvalidOrMissingArgument, $"{nameof(username)} argument is null or empty");
+            return BadRequest("username is null or empty");
+        }
+
         try
         {
             var model = await _service.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
