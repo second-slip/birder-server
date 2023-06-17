@@ -105,6 +105,6 @@ public class ObservationsAnalysisServiceTests
 
         // Act & Assert
         var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetObservationsSummaryAsync(null));
-        Assert.Equal("The argument is null or empty (Parameter 'predicate')", ex.Message);
+        Assert.Equal("method argument is null or empty (Parameter 'predicate')", ex.Message);
     }
 }

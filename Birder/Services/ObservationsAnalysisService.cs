@@ -19,9 +19,7 @@ public class ObservationsAnalysisService : IObservationsAnalysisService
     public async Task<ObservationAnalysisViewModel> GetObservationsSummaryAsync(Expression<Func<Observation, bool>> predicate)
     {
         if (predicate is null)
-            throw new ArgumentException("The argument is null or empty", nameof(predicate));
-
-        var model = new ObservationAnalysisViewModel();
+            throw new ArgumentException("method argument is null or empty", nameof(predicate));
 
         var query = _dbContext.Observations
             .Include(au => au.ApplicationUser)
@@ -30,9 +28,9 @@ public class ObservationsAnalysisService : IObservationsAnalysisService
 
         query = query.Where(predicate);
 
+        var model = new ObservationAnalysisViewModel();
         model.TotalObservationsCount = await query.CountAsync();
-
-        model.UniqueSpeciesCount = await query.Select(i => i.BirdId).Distinct().CountAsync();
+        model.UniqueSpeciesCount = await query.Select(b => b.BirdId).Distinct().CountAsync();
 
         return model;
     }

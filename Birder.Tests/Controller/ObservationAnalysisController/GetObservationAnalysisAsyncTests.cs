@@ -89,9 +89,11 @@ public class GetObservationAnalysisAsyncTests
         var result = await controller.GetObservationAnalysisAsync(requstedUsername);
 
         // Assert
-        Assert.IsType<BadRequestObjectResult>(result);
-        var objectResult = result as ObjectResult;
-        Assert.Equal("requestedUsername is missing", objectResult.Value);
+
+                var objectResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+        var actual = Assert.IsType<string>(objectResult.Value);
+        Assert.Equal("requesting username is null or empty", objectResult.Value);
     }
 
     #endregion

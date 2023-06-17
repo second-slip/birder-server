@@ -15,22 +15,20 @@ public class ObservationQueryController : ControllerBase
         _service = service;
     }
 
-
     [HttpGet, Route("species")]
     public async Task<IActionResult> GetObservationsByBirdSpeciesAsync(int birdId, int pageIndex, int pageSize)
     {
         try
         {
-            var viewModel = await _service.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
+            var model = await _service.GetPagedObservationsAsync(cs => cs.BirdId == birdId, pageIndex, pageSize);
 
-            if (viewModel is null)
+            if (model is null)
             {
-                string message = $"Observations with birdId '{birdId}' was not found.";
-                _logger.LogWarning(LoggingEvents.GetListNotFound, message);
-                return StatusCode(500, message);
+                _logger.LogWarning(LoggingEvents.GetListNotFound, $"null object returned by ${nameof(IObservationQueryService)}");
+                return StatusCode(500, "an unexpected error occurred");
             }
 
-            return Ok(viewModel);
+            return Ok(model);
         }
         catch (Exception ex)
         {
@@ -44,16 +42,15 @@ public class ObservationQueryController : ControllerBase
     {
         try
         {
-            var viewModel = await _service.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
+            var model = await _service.GetPagedObservationsAsync(o => o.ApplicationUser.UserName == username, pageIndex, pageSize);
 
-            if (viewModel is null)
+            if (model is null)
             {
-                string message = $"Observations with username '{username}' was not found.";
-                _logger.LogWarning(LoggingEvents.GetListNotFound, message);
-                return StatusCode(500, message);
+                _logger.LogWarning(LoggingEvents.GetListNotFound, $"null object returned by ${nameof(IObservationQueryService)}");
+                return StatusCode(500, "an unexpected error occurred");
             }
 
-            return Ok(viewModel);
+            return Ok(model);
         }
         catch (Exception ex)
         {

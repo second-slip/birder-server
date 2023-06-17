@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Microsoft.Extensions.Options;
 
 namespace Birder.Tests.Services;
