@@ -29,6 +29,10 @@
 		<ProjectReference Include="..\Birder\Birder.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+    	<Content Include="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+		    	<Content Include="appsettings.development.json" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Update="BirderDictionaryDefinitionExample.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
