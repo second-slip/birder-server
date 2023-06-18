@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Birder.Tests; /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+namespace Birder.Integration.Tests; /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 public class BasicTests : IClassFixture<WebApplicationFactory<Program>>
 {
