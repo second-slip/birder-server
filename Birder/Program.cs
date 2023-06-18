@@ -159,3 +159,5 @@ app.MapGet("/", (ISystemClockService date) =>
         $"\u00A9 Birder {date.GetNow.Year}"));
 
 app.Run();
+
+public partial class Program { }
