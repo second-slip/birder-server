@@ -1,14 +1,14 @@
-﻿namespace Birder.Tests.Controller;
+namespace Birder.Tests.Controller;
 
-public class GetObservationAnalysisAsyncTests
+public class GetObservationCountAsyncTests
 {
     [Fact]
-    public async Task GetObservationAnalysisAsync_ReturnsOkObjectResult_WithOkResult()
+    public async Task GetObservationCountAsync_On_Success_Returns_200()
     {
         // Arrange
         Mock<ILogger<ObservationAnalysisController>> loggerMock = new();
-        var mockService = new Mock<IObservationsAnalysisService>();
 
+        var mockService = new Mock<IObservationsAnalysisService>();
         mockService.Setup(serve => serve.GetObservationsSummaryAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
             .ReturnsAsync(new ObservationAnalysisViewModel { TotalObservationsCount = 2, UniqueSpeciesCount = 2 });
 
@@ -20,28 +20,34 @@ public class GetObservationAnalysisAsyncTests
         };
 
         // Act
-        var result = await controller.GetObservationAnalysisAsync("test");
+        var result = await controller.GetObservationCountAsync();
 
         // Assert
         var objectResult = Assert.IsType<OkObjectResult>(result);
-        var actualObs = Assert.IsType<ObservationAnalysisViewModel>(objectResult.Value);
         Assert.True(objectResult is OkObjectResult);
         Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-        Assert.IsType<ObservationAnalysisViewModel>(objectResult.Value);
+        var actualObs = Assert.IsType<ObservationAnalysisViewModel>(objectResult.Value);
         Assert.Equal(2, actualObs.TotalObservationsCount);
-        Assert.Equal(2, actualObs.UniqueSpeciesCount);
+
+        loggerMock.Verify(x => x.Log(
+            It.IsAny<LogLevel>(),
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((v, t) => true),
+            It.IsAny<Exception>(),
+            It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+            Times.Never);
     }
 
 
     [Fact]
-    public async Task GetObservationAnalysisAsync_ReturnsBadRequestResult_WhenExceptionIsRaised()
+    public async Task GetObservationCountAsync_On_Exception_Returns_500()
     {
         // Arrange
         Mock<ILogger<ObservationAnalysisController>> loggerMock = new();
-        var mockService = new Mock<IObservationsAnalysisService>();
 
+        var mockService = new Mock<IObservationsAnalysisService>();
         mockService.Setup(serve => serve.GetObservationsSummaryAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
-                  .ThrowsAsync(new InvalidOperationException());
+                        .ThrowsAsync(new InvalidOperationException());
 
         var controller = new ObservationAnalysisController(loggerMock.Object, mockService.Object);
 
@@ -51,41 +57,58 @@ public class GetObservationAnalysisAsyncTests
         };
 
         // Act
-        var result = await controller.GetObservationAnalysisAsync("test");
+        var result = await controller.GetObservationCountAsync();
 
         // Assert
-        Assert.IsType<ObjectResult>(result);
-        var objectResult = result as ObjectResult;
-        Assert.Equal("an unexpected error occurred", objectResult.Value);
+        var expectedResponseObject = "an unexpected error occurred";
+        var objectResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+        var actual = Assert.IsType<string>(objectResult.Value);
+        Assert.Equal(expectedResponseObject, actual);
+
+        loggerMock.Verify(x => x.Log(
+           It.Is<LogLevel>(l => l == LogLevel.Error),
+           It.IsAny<EventId>(),
+           It.Is<It.IsAnyType>((v, t) => true),//It.Is<It.IsAnyType>((o, t) => string.Equals(expectedExceptionMessage, o.ToString(), StringComparison.InvariantCultureIgnoreCase)),
+           It.IsAny<Exception>(),
+           It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+           Times.Once);
     }
 
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    public async Task GetObservationAnalysisAsync_ReturnsBadRequest_WhenArgument_Is_Invalid(string requstedUsername)
+    [Fact]
+    public async Task GetObservationCountAsync_When_Claim_IS_Null_Returns_500()
     {
         // Arrange
         Mock<ILogger<ObservationAnalysisController>> loggerMock = new();
-        var mockService = new Mock<IObservationsAnalysisService>();
 
+        var mockService = new Mock<IObservationsAnalysisService>();
         mockService.Setup(serve => serve.GetObservationsSummaryAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
-                  .ThrowsAsync(new InvalidOperationException());
+                        .ThrowsAsync(new InvalidOperationException());
 
         var controller = new ObservationAnalysisController(loggerMock.Object, mockService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
-            HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+            HttpContext = new DefaultHttpContext() { User = null }
         };
 
         // Act
-        var result = await controller.GetObservationAnalysisAsync(requstedUsername);
+        var result = await controller.GetObservationCountAsync();
 
         // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        var expectedResponseObject = "an unexpected error occurred";
+        var objectResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
         var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal("requestedUsername is null or empty", objectResult.Value);
+        Assert.Equal(expectedResponseObject, actual);
+
+        loggerMock.Verify(x => x.Log(
+           It.Is<LogLevel>(l => l == LogLevel.Error),
+           It.IsAny<EventId>(),
+           It.Is<It.IsAnyType>((o, t) => string.Equals("requesting username is null or empty", o.ToString(), StringComparison.InvariantCultureIgnoreCase)),
+           It.IsAny<Exception>(),
+           It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+           Times.Once);
     }
 
     [Fact]
@@ -100,8 +123,13 @@ public class GetObservationAnalysisAsyncTests
 
         var controller = new ObservationAnalysisController(loggerMock.Object, mockService.Object);
 
+        controller.ControllerContext = new ControllerContext()
+        {
+            HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal() }
+        };
+
         // Act
-        var result = await controller.GetObservationAnalysisAsync("requstedUsername");
+        var result = await controller.GetObservationCountAsync();
 
         // Assert
         var expectedResponseObject = "an unexpected error occurred";

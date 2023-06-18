@@ -25,11 +25,18 @@ public class ObservationAnalysisController : ControllerBase
             _logger.LogError(LoggingEvents.GetListNotFound, "requesting username is null or empty");
             return StatusCode(500, "an unexpected error occurred");
         }
-        
+
         try
         {
-            var viewModel = await _service.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == requestingUsername);
-            return Ok(viewModel);
+            var model = await _service.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == requestingUsername);
+
+            if (model is null)
+            {
+                _logger.LogWarning(LoggingEvents.GetListNotFound, $"null object returned by ${nameof(IObservationsAnalysisService)}");
+                return StatusCode(500, "an unexpected error occurred");
+            }
+
+            return Ok(model);
         }
         catch (Exception ex)
         {
@@ -44,13 +51,20 @@ public class ObservationAnalysisController : ControllerBase
         if (string.IsNullOrEmpty(requestedUsername))
         {
             _logger.LogError(LoggingEvents.InvalidOrMissingArgument, $"{nameof(requestedUsername)} argument is null or empty");
-            return StatusCode(500, "requesting username is null or empty");
+            return BadRequest($"{nameof(requestedUsername)} is null or empty");
         }
 
         try
         {
-            var viewModel = await _service.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == requestedUsername);
-            return Ok(viewModel);
+            var model = await _service.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == requestedUsername);
+
+            if (model is null)
+            {
+                _logger.LogWarning(LoggingEvents.GetListNotFound, $"null object returned by ${nameof(IObservationsAnalysisService)}");
+                return StatusCode(500, "an unexpected error occurred");
+            }
+
+            return Ok(model);
         }
         catch (Exception ex)
         {
