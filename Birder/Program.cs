@@ -84,8 +84,9 @@ builder.Services.AddSingleton<IUrlService, UrlService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
-builder.Services.Configure<AuthConfigOptions>(builder.Configuration.GetSection(AuthConfigOptions.AuthConfig));
 builder.Services.Configure<FlickrOptions>(builder.Configuration.GetSection(FlickrOptions.Flickr));
+builder.Services.Configure<AuthConfigOptions>(builder.Configuration.GetSection(AuthConfigOptions.AuthConfig));
+
 
 
 var authConfig = builder.Configuration.GetRequiredSection("AuthConfig").Get<AuthConfigOptions>();
