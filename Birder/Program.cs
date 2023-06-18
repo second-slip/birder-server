@@ -88,8 +88,9 @@ builder.Services.Configure<FlickrOptions>(builder.Configuration.GetSection(Flick
 builder.Services.Configure<AuthConfigOptions>(builder.Configuration.GetSection(AuthConfigOptions.AuthConfig));
 
 
-
-var authConfig = builder.Configuration.GetRequiredSection("AuthConfig").Get<AuthConfigOptions>();
+// fault
+// var authConfig = builder.Configuration.GetRequiredSection("AuthConfig").Get<AuthConfigOptions>();
+var authConfig = builder.Configuration.GetSection("AuthConfig").Get<AuthConfigOptions>();
 
 builder.Services
 .AddAuthentication(options =>
