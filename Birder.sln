@@ -6,6 +6,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Birder", "Birder\Birder.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Birder.Tests", "Birder.Tests\Birder.Tests.csproj", "{62101230-16AA-4A7B-A7CB-62EB4C443CEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "birder.integration.tests", "birder.integration.tests\birder.integration.tests.csproj", "{9985A0F7-FFDF-4A0C-B0E6-C0D8BA0B174F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{62101230-16AA-4A7B-A7CB-62EB4C443CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62101230-16AA-4A7B-A7CB-62EB4C443CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62101230-16AA-4A7B-A7CB-62EB4C443CEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9985A0F7-FFDF-4A0C-B0E6-C0D8BA0B174F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9985A0F7-FFDF-4A0C-B0E6-C0D8BA0B174F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9985A0F7-FFDF-4A0C-B0E6-C0D8BA0B174F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9985A0F7-FFDF-4A0C-B0E6-C0D8BA0B174F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

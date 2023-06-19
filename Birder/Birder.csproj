@@ -16,7 +16,7 @@
 	</ItemGroup> -->
 
 	<ItemGroup>
-     	<InternalsVisibleTo Include="Birder.Tests" />
+     	<InternalsVisibleTo Include="birder.integration.tests" />
 	</ItemGroup>
 	
 	<ItemGroup>

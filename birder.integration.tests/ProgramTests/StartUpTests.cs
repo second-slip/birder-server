@@ -1,14 +1,10 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Configuration;
+namespace birder.integration.tests;
 
-namespace Birder.Integration.Tests; /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-public class BasicTests : IClassFixture<WebApplicationFactory<Program>>
+public class StartUpTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _factory;
 
-    public BasicTests(WebApplicationFactory<Program> factory)
+    public StartUpTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
     }
@@ -26,7 +22,7 @@ public class BasicTests : IClassFixture<WebApplicationFactory<Program>>
 
         // Assert
         response.EnsureSuccessStatusCode(); // Status Code 200-299
-        Assert.Equal("text/plain; charset=utf-8", response.Content.Headers.ContentType.ToString());
+        Assert.Equal("text/plain; charset=utf-8", response.Content.Headers.ContentType?.ToString());
     }
 
     [Theory]
