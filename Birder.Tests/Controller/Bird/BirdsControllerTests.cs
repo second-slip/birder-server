@@ -1,15 +1,11 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-
-namespace Birder.Tests.Controller;
+﻿namespace Birder.Tests.Controller;
 
 public class BirdsControllerTests
 {
-    private IMemoryCache _cache;
     private readonly Mock<ILogger<BirdsController>> _logger;
 
     public BirdsControllerTests()
     {
-        _cache = new MemoryCache(new MemoryCacheOptions());
         _logger = new Mock<ILogger<BirdsController>>();
     }
 
@@ -23,7 +19,7 @@ public class BirdsControllerTests
         mockService.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>()))
              .ReturnsAsync(GetQueryResult(30));
 
-        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
+        var controller = new BirdsController(_logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
@@ -41,7 +37,7 @@ public class BirdsControllerTests
         //.ReturnsAsync(GetTestBirds());
         .ReturnsAsync(GetQueryResult(30));
 
-        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
+        var controller = new BirdsController(_logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
@@ -59,10 +55,10 @@ public class BirdsControllerTests
     {
         // Arrange
         var mockService = new Mock<IBirdDataService>();
-        mockService.Setup(repo => repo.GetBirdsDropDownListAsync())
-             .Returns(Task.FromResult<IEnumerable<BirdSummaryDto>>(null));
+        mockService.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>()))
+             .Returns(Task.FromResult<BirdsListDto>(null));
 
-        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
+        var controller = new BirdsController(_logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>());
@@ -82,7 +78,7 @@ public class BirdsControllerTests
         mockService.Setup(repo => repo.GetBirdsAsync(1, 25, BirderStatus.Common))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
+        var controller = new BirdsController(_logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
@@ -106,7 +102,7 @@ public class BirdsControllerTests
         mockService.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
              .ReturnsAsync(GetTestBird());
 
-        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
+        var controller = new BirdsController(_logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(It.IsAny<int>());
@@ -124,7 +120,7 @@ public class BirdsControllerTests
         mockService.Setup(repo => repo.GetBirdAsync(birdId))
              .ReturnsAsync(GetTestBird());
 
-        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
+        var controller = new BirdsController(_logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(birdId);
@@ -146,7 +142,7 @@ public class BirdsControllerTests
         mockService.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
              .Returns(Task.FromResult<BirdDetailDto>(null));
 
-        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
+        var controller = new BirdsController(_logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(It.IsAny<int>());
@@ -166,7 +162,7 @@ public class BirdsControllerTests
         mockService.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new BirdsController(_cache, _logger.Object, mockService.Object);
+        var controller = new BirdsController(_logger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(It.IsAny<int>());

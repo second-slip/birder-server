@@ -6,7 +6,7 @@ namespace Birder.Services;
 public interface IBirdDataService
 {
     Task<BirdsListDto> GetBirdsAsync(int pageIndex, int pageSize, BirderStatus speciesFilter);
-    Task<IEnumerable<BirdSummaryDto>> GetBirdsDropDownListAsync();
+    Task<IReadOnlyList<BirdSummaryDto>> GetBirdsDropDownListAsync();
     Task<BirdDetailDto> GetBirdAsync(int id);
 }
 
@@ -45,7 +45,7 @@ public class BirdDataService : IBirdDataService
         return result;
     }
 
-    public async Task<IEnumerable<BirdSummaryDto>> GetBirdsDropDownListAsync()
+    public async Task<IReadOnlyList<BirdSummaryDto>> GetBirdsDropDownListAsync()
     {
         var query = _dbContext.Birds
             .MapBirdToBirdSummaryDto()

@@ -1,22 +1,17 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-
-namespace Birder.Controllers;
+﻿namespace Birder.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(AuthenticationSchemes = "Bearer")]
 public class BirdsController : ControllerBase
 {
-    private readonly IMemoryCache _cache;
     private readonly ILogger _logger;
     private readonly IBirdDataService _service;
 
-    public BirdsController(IMemoryCache memoryCache
-                         , ILogger<BirdsController> logger
+    public BirdsController(ILogger<BirdsController> logger
                          , IBirdDataService service)
     {
         _logger = logger;
-        _cache = memoryCache;
         _service = service;
     }
 
@@ -42,36 +37,6 @@ public class BirdsController : ControllerBase
         }
     }
 
-    [HttpGet, Route("BirdsList")]
-    public async Task<IActionResult> GetBirdsDdlAsync()
-    {
-        try
-        {
-            if (_cache.TryGetValue(CacheEntries.BirdsSummaryList, out IEnumerable<BirdSummaryDto> birdsCache))
-            {
-                return Ok(birdsCache);
-            }
-            else
-            {
-                var model = await _service.GetBirdsDropDownListAsync();
-
-                if (model is null)
-                {
-                    _logger.LogWarning(LoggingEvents.GetListNotFound, "Birds list is null");
-                    return StatusCode(500, $"bird service returned null");
-                }
-
-                _cache.Set(CacheEntries.BirdsSummaryList, model, TimeSpan.FromDays(1));
-
-                return Ok(model);
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred getting the birds list");
-            return StatusCode(500, "an unexpected error occurred");
-        }
-    }
 
     [HttpGet, Route("Bird")]
     public async Task<IActionResult> GetBirdAsync(int id)

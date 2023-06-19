@@ -77,6 +77,7 @@ builder.Services.AddScoped<IFlickrService, FlickrService>();
 builder.Services.AddScoped<IBirdThumbnailPhotoService, BirdThumbnailPhotoService>();
 builder.Services.AddScoped<IAuthenticationTokenService, AuthenticationTokenService>();
 builder.Services.AddScoped<IXenoCantoService, XenoCantoService>();
+builder.Services.AddScoped<ICachedBirdsDdlService, CachedBirdsDdlService>();
 
 builder.Services.AddSingleton<ISystemClockService, SystemClockService>();
 builder.Services.AddSingleton<IUrlService, UrlService>();
@@ -159,7 +160,28 @@ app.MapGet("/", (ISystemClockService date) =>
         $"{date.GetNow}",
         $"\u00A9 Birder {date.GetNow.Year}"));
 
+app.MapGet("/api/birds-list", GetBirdsDdlAsync)
+    .RequireAuthorization();
+
 app.Run();
+
+
+
+static async Task<IResult> GetBirdsDdlAsync(ICachedBirdsDdlService service, ILogger<Program> logger)
+{
+    try
+    {
+        var model = await service.GetAll();
+        if (model is null) return TypedResults.NotFound();
+        return TypedResults.Ok(model);
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(LoggingEvents.GetListNotFound, ex, ex.Message);
+        return TypedResults.StatusCode(500);
+    }
+}
+
 
 [ExcludeFromCodeCoverageAttribute]
 public partial class Program { }
