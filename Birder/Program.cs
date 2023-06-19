@@ -1,4 +1,6 @@
-﻿using Azure.Identity;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -161,4 +163,5 @@ app.MapGet("/", (ISystemClockService date) =>
 
 app.Run();
 
+[ExcludeFromCodeCoverageAttribute]
 public partial class Program { }
