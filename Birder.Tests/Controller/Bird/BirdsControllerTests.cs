@@ -2,24 +2,18 @@
 
 public class BirdsControllerTests
 {
-    private readonly Mock<ILogger<BirdsController>> _logger;
-
-    public BirdsControllerTests()
-    {
-        _logger = new Mock<ILogger<BirdsController>>();
-    }
-
     #region GetBirds (Collection) tests
 
     [Fact]
     public async Task GetBirds_ReturnsOkObjectResult_WithABirdsObject()
     {
         // Arrange
+        var mockLogger = new Mock<ILogger<BirdsController>>();
         var mockService = new Mock<IBirdDataService>();
         mockService.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>()))
              .ReturnsAsync(GetQueryResult(30));
 
-        var controller = new BirdsController(_logger.Object, mockService.Object);
+        var controller = new BirdsController(mockLogger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
@@ -32,12 +26,13 @@ public class BirdsControllerTests
     public async Task GetBirds_ReturnsOkObjectResult_WithBirdSummaryDto()
     {
         // Arrange
+        var mockLogger = new Mock<ILogger<BirdsController>>();
         var mockService = new Mock<IBirdDataService>();
         mockService.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>()))
         //.ReturnsAsync(GetTestBirds());
         .ReturnsAsync(GetQueryResult(30));
 
-        var controller = new BirdsController(_logger.Object, mockService.Object);
+        var controller = new BirdsController(mockLogger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
@@ -54,11 +49,12 @@ public class BirdsControllerTests
     public async Task GetBirds_ReturnsNotFoundResult_WhenRepositoryReturnsNull()
     {
         // Arrange
+        var mockLogger = new Mock<ILogger<BirdsController>>();
         var mockService = new Mock<IBirdDataService>();
         mockService.Setup(repo => repo.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>()))
              .Returns(Task.FromResult<BirdsListDto>(null));
 
-        var controller = new BirdsController(_logger.Object, mockService.Object);
+        var controller = new BirdsController(mockLogger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>());
@@ -74,11 +70,12 @@ public class BirdsControllerTests
     public async Task GetBirds_ReturnsBadRequestResult_WhenExceptionIsRaised()
     {
         // Arrange
+        var mockLogger = new Mock<ILogger<BirdsController>>();
         var mockService = new Mock<IBirdDataService>();
         mockService.Setup(repo => repo.GetBirdsAsync(1, 25, BirderStatus.Common))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new BirdsController(_logger.Object, mockService.Object);
+        var controller = new BirdsController(mockLogger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
@@ -98,11 +95,12 @@ public class BirdsControllerTests
     public async Task GetBird_ReturnsOkObjectResult_WithABirdObject()
     {
         // Arrange
+        var mockLogger = new Mock<ILogger<BirdsController>>();
         var mockService = new Mock<IBirdDataService>();
         mockService.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
              .ReturnsAsync(GetTestBird());
 
-        var controller = new BirdsController(_logger.Object, mockService.Object);
+        var controller = new BirdsController(mockLogger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(It.IsAny<int>());
@@ -115,12 +113,13 @@ public class BirdsControllerTests
     public async Task GetBird_ReturnsOkObjectResult_WithBirdDetailViewModel()
     {
         // Arrange
+        var mockLogger = new Mock<ILogger<BirdsController>>();
         var birdId = 1;
         var mockService = new Mock<IBirdDataService>();
         mockService.Setup(repo => repo.GetBirdAsync(birdId))
              .ReturnsAsync(GetTestBird());
 
-        var controller = new BirdsController(_logger.Object, mockService.Object);
+        var controller = new BirdsController(mockLogger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(birdId);
@@ -138,11 +137,12 @@ public class BirdsControllerTests
     public async Task GetBird_ReturnsNotFoundResult_WhenRepositoryReturnsNull()
     {
         // Arrange
+        var mockLogger = new Mock<ILogger<BirdsController>>();
         var mockService = new Mock<IBirdDataService>();
         mockService.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
              .Returns(Task.FromResult<BirdDetailDto>(null));
 
-        var controller = new BirdsController(_logger.Object, mockService.Object);
+        var controller = new BirdsController(mockLogger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(It.IsAny<int>());
@@ -158,11 +158,12 @@ public class BirdsControllerTests
     public async Task GetBird_ReturnsBadRequestResult_WhenExceptionIsRaised()
     {
         // Arrange
+        var mockLogger = new Mock<ILogger<BirdsController>>();
         var mockService = new Mock<IBirdDataService>();
         mockService.Setup(repo => repo.GetBirdAsync(It.IsAny<int>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new BirdsController(_logger.Object, mockService.Object);
+        var controller = new BirdsController(mockLogger.Object, mockService.Object);
 
         // Act
         var result = await controller.GetBirdAsync(It.IsAny<int>());
@@ -183,7 +184,7 @@ public class BirdsControllerTests
         //var bird = new Bird() { BirdId = 1 };
 
         result.TotalItems = length;
-        result.Items = GetTestBirds();
+        result.Items = SharedFunctions.GetTestBirds();
 
         return result;
     }
@@ -205,65 +206,13 @@ public class BirdsControllerTests
             PopulationSize = "",
             BtoStatusInBritain = "",
             ThumbnailUrl = "",
-            //SongUrl = "",
             CreationDate = DateTime.Now.AddDays(-4),
             LastUpdateDate = DateTime.Now.AddDays(-4),
-            // ConservationStatusId = 0,
-            // Observations = null,
             BirdConservationStatus = null,
-            BirderStatus = BirderStatus.Common,
-            // TweetDay = null
+            BirderStatus = BirderStatus.Common
         };
 
         return bird;
-    }
-    private IEnumerable<BirdSummaryDto> GetTestBirds()
-    {
-        var birds = new List<BirdSummaryDto>();
-        birds.Add(new BirdSummaryDto
-        {
-            BirdId = 1,
-            // Class = "",
-            // Order = "",
-            // Family = "",
-            // Genus = "",
-            Species = "",
-            EnglishName = "Test species 1",
-            // InternationalName = "",
-            // Category = "",
-            PopulationSize = "",
-            BtoStatusInBritain = "",
-            ThumbnailUrl = "",
-            //SongUrl = "",
-            // CreationDate = DateTime.Now.AddDays(-4),
-            // LastUpdateDate = DateTime.Now.AddDays(-4),
-            // ConservationStatusId = 0,
-            // Observations = null,
-            ConservationListColourCode = "",
-            ConservationStatus = "",
-            //BirdConservationStatus = null,
-            BirderStatus = BirderStatus.Common
-            // TweetDay = null
-
-
-            //ConservationStatus = b.BirdConservationStatus.ConservationList,
-            //ConservationListColourCode = b.BirdConservationStatus.ConservationListColourCode,
-        });
-        birds.Add(new BirdSummaryDto
-        {
-            BirdId = 2,
-            Species = "",
-            EnglishName = "Test species 2",
-            PopulationSize = "",
-            BtoStatusInBritain = "",
-            ThumbnailUrl = "",
-            //SongUrl = "",
-            ConservationListColourCode = "",
-            ConservationStatus = "",
-            BirderStatus = BirderStatus.Common
-        });
-
-        return birds;
     }
 
     #endregion

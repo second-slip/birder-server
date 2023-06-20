@@ -10,7 +10,7 @@ public class CachedBirdsDdlServiceTests
         // Arrange
         const string cacheKey = CachedBirdsDdlService.CacheKey;
         var cache = new MemoryCache(new MemoryCacheOptions());
-        var expectedResponseObject = new List<BirdSummaryDto>();
+        var expectedResponseObject = SharedFunctions.GetTestBirds();
 
         var mockService = new Mock<IBirdDataService>();
         mockService.Setup(b => b.GetBirdsDropDownListAsync())
@@ -36,7 +36,7 @@ public class CachedBirdsDdlServiceTests
         // Arrange
         const string cacheKey = CachedBirdsDdlService.CacheKey;
         var cache = new MemoryCache(new MemoryCacheOptions());
-        var expectedResponseObject = new List<BirdSummaryDto>();
+        var expectedResponseObject = SharedFunctions.GetTestBirds();
         var options = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromDays(1));
         //
         cache.Set(cacheKey, expectedResponseObject, options);
@@ -65,7 +65,7 @@ public class CachedBirdsDdlServiceTests
         //Arrange
         const string cacheKey = CachedBirdsDdlService.CacheKey;
         var cache = new MemoryCache(new MemoryCacheOptions());
-        var expectedResponseObject = new List<BirdSummaryDto>();
+        var expectedResponseObject = SharedFunctions.GetTestBirds();
 
         var mockService = new Mock<IBirdDataService>();
         mockService.Setup(b => b.GetBirdsDropDownListAsync())

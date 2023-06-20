@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 
@@ -44,6 +43,38 @@ public static class SharedFunctions
             CreationDate = DateTime.Now,
             LastUpdateDate = DateTime.Now,
         };
+    }
+
+    public static List<BirdSummaryDto> GetTestBirds()
+    {
+        var birds = new List<BirdSummaryDto>();
+
+        birds.Add(new BirdSummaryDto
+        {
+            BirdId = 1,
+            Species = "",
+            EnglishName = "Test species 1",
+            PopulationSize = "",
+            BtoStatusInBritain = "",
+            ThumbnailUrl = "",
+            ConservationListColourCode = "",
+            ConservationStatus = "",
+            BirderStatus = BirderStatus.Common
+        });
+        birds.Add(new BirdSummaryDto
+        {
+            BirdId = 2,
+            Species = "",
+            EnglishName = "Test species 2",
+            PopulationSize = "",
+            BtoStatusInBritain = "",
+            ThumbnailUrl = "",
+            ConservationListColourCode = "",
+            ConservationStatus = "",
+            BirderStatus = BirderStatus.Common
+        });
+
+        return birds;
     }
 
     public static ClaimsPrincipal GetTestClaimsPrincipal()
