@@ -53,7 +53,6 @@ public class ObservationsAnalysisServiceTests
         context.Birds.Count().ShouldEqual(1);
         context.Observations.Count().ShouldEqual(0);
 
-
         var service = new ObservationsAnalysisService(context);
 
         // Act or change

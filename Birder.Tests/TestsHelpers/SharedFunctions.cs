@@ -23,8 +23,8 @@ public static class SharedFunctions
             HasPhotos = true,
             CreationDate = DateTime.Now,
             LastUpdateDate = DateTime.Now,
-            ObservationDateTime = DateTime.Now
-
+            ObservationDateTime = DateTime.Now,
+            Position = new ObservationPosition(),
         };
     }
 

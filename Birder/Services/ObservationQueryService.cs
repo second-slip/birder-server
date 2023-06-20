@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-
 namespace Birder.Services;
 public interface IObservationQueryService
 {
@@ -21,15 +20,17 @@ public class ObservationQueryService : IObservationQueryService
 
     public async Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
     {
-        var result = new ObservationsPagedDto();
+        if (predicate is null)
+            throw new ArgumentException("method argument is null or empty", nameof(predicate));
 
         var query = _dbContext.Observations
             .AsNoTracking()
             .Where(predicate)
             .MapObservationToObservationViewDto()
+            .OrderByDescending(d => d.ObservationDateTime)
             .AsQueryable();
 
-        query = query.OrderByDescending(d => d.ObservationDateTime);
+        var result = new ObservationsPagedDto();
 
         result.TotalItems = await query.CountAsync();
 
@@ -42,14 +43,15 @@ public class ObservationQueryService : IObservationQueryService
 
     public async Task<IEnumerable<ObservationFeedDto>> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)
     {
+        if (predicate is null)
+            throw new ArgumentException("method argument is null or empty", nameof(predicate));
+
         var query = _dbContext.Observations
             .AsNoTracking()
             .Where(predicate)
             .MapObservationToObservationFeedDto()
             // .AsSplitQuery()
             .AsQueryable();
-
-        //query = query.ApplyFiltering(queryObj);
 
         query = query.OrderByDescending(d => d.ObservationDateTime);
         query = query.ApplyPaging(pageIndex, pageSize);
