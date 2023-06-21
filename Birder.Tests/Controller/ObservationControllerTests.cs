@@ -664,12 +664,6 @@ public class ObservationControllerTests
     #endregion
 
 
-
-    private Bird GetTestBird(int birdId)
-    {
-        return new Bird() { BirdId = birdId };
-    }
-
     private ObservationDto GetTestObservationViewModel(int id, int birdId)
     {
         return new ObservationDto()
@@ -707,40 +701,5 @@ public class ObservationControllerTests
             ApplicationUser = user,
             ObservationDateTime = _systemClock.GetNow
         };
-    }
-
-    private QueryResult<Observation> GetQueryResult(int length, Bird bird)
-    {
-        var result = new QueryResult<Observation>();
-        //var bird = new Bird() { BirdId = 1 };
-
-        result.TotalItems = length;
-        result.Items = GetTestObservations(length, bird);
-
-        return result;
-    }
-
-    private IEnumerable<Observation> GetTestObservations(int length, Bird bird)
-    {
-        var observations = new List<Observation>();
-        for (int i = 0; i < length; i++)
-        {
-            observations.Add(new Observation
-            {
-                ObservationId = i,
-                Quantity = 1,
-                HasPhotos = false,
-                SelectedPrivacyLevel = PrivacyLevel.Public,
-                ObservationDateTime = DateTime.Now.AddDays(-4),
-                CreationDate = DateTime.Now.AddDays(-4),
-                LastUpdateDate = DateTime.Now.AddDays(-4),
-                ApplicationUserId = "",
-                BirdId = bird.BirdId,
-                Bird = bird,
-                ApplicationUser = null,
-                ObservationTags = null
-            });
-        }
-        return observations;
     }
 }

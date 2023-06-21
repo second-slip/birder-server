@@ -31,9 +31,6 @@ public class BirderMappingProfile : Profile
             .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count))
             .ForMember(a => a.UniqueSpeciesCount, b => b.MapFrom(a => a.Select(i => i.BirdId).Distinct().Count()));
 
-        CreateMap<QueryResult<Observation>, ObservationFeedPagedDto>()
-            .ForMember(a => a.Items, b => b.MapFrom(a => a.Items));
-
         CreateMap<ApplicationUser, UserViewModel>()
             .ForMember(x => x.UserName, y => y.MapFrom(x => x.UserName))
             .ForMember(x => x.Avatar, y => y.MapFrom(x => x.Avatar))
