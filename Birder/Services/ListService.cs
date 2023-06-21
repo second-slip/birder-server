@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
 using System.Linq.Expressions;
 
 namespace Birder.Services;
-
 public interface IListService
 {
-    Task<IEnumerable<LifeListViewModel>> GetLifeListsAsync(Expression<Func<Observation, bool>> predicate);
+    Task<IEnumerable<LifeListViewModel>> GetLifeListAsync(Expression<Func<Observation, bool>> predicate);
     Task<TopObservationsAnalysisViewModel> GetTopObservationsAsync(string username, DateTime startDate);
 }
 
@@ -18,10 +16,10 @@ public class ListService : IListService
         _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<LifeListViewModel>> GetLifeListsAsync(Expression<Func<Observation, bool>> predicate)
+    public async Task<IEnumerable<LifeListViewModel>> GetLifeListAsync(Expression<Func<Observation, bool>> predicate)
     {
         if (predicate is null)
-            throw new ArgumentException("The argument is null or empty", nameof(predicate));
+            throw new ArgumentException("method argument is null or empty", nameof(predicate));
 
         var query = await _dbContext.Observations
                  .AsNoTracking()
@@ -46,12 +44,10 @@ public class ListService : IListService
     }
 
     // ToDo: split this into two?
-    // Yes
-
     public async Task<TopObservationsAnalysisViewModel> GetTopObservationsAsync(string username, DateTime startDate)
     {
         if (string.IsNullOrEmpty(username))
-            throw new ArgumentException("The argument is null or empty", nameof(username));
+            throw new ArgumentException("method argument is null or empty", nameof(username));
 
         var viewModel = new TopObservationsAnalysisViewModel();
 

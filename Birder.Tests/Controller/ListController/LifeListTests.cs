@@ -16,7 +16,7 @@ public class LifeListTests
     {
         // Arrange
         var mockListService = new Mock<IListService>();
-        mockListService.Setup(obs => obs.GetLifeListsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+        mockListService.Setup(obs => obs.GetLifeListAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
                 .ReturnsAsync(new List<LifeListViewModel>());
 
         var controller = new ListController(_logger.Object, _systemClock, mockListService.Object);
@@ -41,7 +41,7 @@ public class LifeListTests
     {
         // Arrange
         var mockListService = new Mock<IListService>();
-        mockListService.Setup(obs => obs.GetLifeListsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+        mockListService.Setup(obs => obs.GetLifeListAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
             .ThrowsAsync(new InvalidOperationException());
 
         var controller = new ListController(_logger.Object, _systemClock, mockListService.Object);
@@ -91,7 +91,7 @@ public class LifeListTests
     {
         // Arrange
         var mockListService = new Mock<IListService>();
-        mockListService.Setup(obs => obs.GetLifeListsAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
+        mockListService.Setup(obs => obs.GetLifeListAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
                 .Returns(Task.FromResult<IEnumerable<LifeListViewModel>>(null));
 
         var controller = new ListController(_logger.Object, _systemClock, mockListService.Object);

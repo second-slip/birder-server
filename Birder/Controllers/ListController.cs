@@ -1,4 +1,4 @@
-﻿namespace Birder.Controllers;  // .NET6 / C#10 top-level statement
+﻿namespace Birder.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -64,7 +64,7 @@ public class ListController : ControllerBase
                 return StatusCode(500, errorMessage);
             }
 
-            var viewModel = await _listService.GetLifeListsAsync(a => a.ApplicationUser.UserName == username);
+            var viewModel = await _listService.GetLifeListAsync(a => a.ApplicationUser.UserName == username);
 
             if (viewModel is null)
             {

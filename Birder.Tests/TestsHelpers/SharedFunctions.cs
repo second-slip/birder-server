@@ -28,6 +28,21 @@ public static class SharedFunctions
         };
     }
 
+    public static Observation GetObservationWithCustomObservationDate(ApplicationUser user, Bird bird, DateTime observationDateTime)
+    {
+        return new Observation
+        {
+            ApplicationUser = user,
+            Bird = bird,
+            SelectedPrivacyLevel = PrivacyLevel.Public,
+            HasPhotos = true,
+            CreationDate = DateTime.Now,
+            LastUpdateDate = DateTime.Now,
+            ObservationDateTime = observationDateTime,
+            Position = new ObservationPosition(),
+        };
+    }
+
     public static Bird GetBird(ConservationStatus status)
     {
         return new Bird

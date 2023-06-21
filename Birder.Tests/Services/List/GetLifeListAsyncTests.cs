@@ -2,10 +2,10 @@ using TestSupport.EfHelpers;
 
 namespace Birder.Tests.Services;
 
-public class GetPagedObservationsAsyncTests
+public class GetLifeListAsyncTests
 {
     [Fact]
-    public async Task GetPagedObservationsAsync_Retrieves_Data____()
+    public async Task GetLifeList_Retrieves_Data____()
     {
         var testUsername = "TestUser1";
         var mockService = new Mock<IBirdThumbnailPhotoService>();
@@ -23,38 +23,32 @@ public class GetPagedObservationsAsyncTests
         context.Birds.Count().ShouldEqual(1);
 
         context.Observations.Add(SharedFunctions.GetObservation(context.ApplicationUser.FirstOrDefault(), context.Birds.FirstOrDefault()));
-        context.SaveChanges();
-        // context.Observations.Count().ShouldEqual(1);
         context.Observations.Add(SharedFunctions.GetObservation(context.ApplicationUser.FirstOrDefault(), context.Birds.FirstOrDefault()));
         context.SaveChanges();
         context.Observations.Count().ShouldEqual(2);
 
-        var service = new ObservationQueryService(context, mockService.Object);
+        var service = new ListService(context);
 
         // Act
-        var actual = await service.GetPagedObservationsAsync(x =>
-                    x.ApplicationUser.UserName == testUsername, 1, 10);
+        var actual = await service.GetLifeListAsync(x => x.ApplicationUser.UserName == testUsername);
 
         // Assert
-        actual.ShouldBeType<ObservationsPagedDto>();
-        actual.TotalItems.ShouldEqual(2);
-        Assert.IsAssignableFrom<IEnumerable<ObservationViewDto>>(actual.Items);
-        actual.Items.Count().ShouldEqual(2);
+        Assert.IsAssignableFrom<IEnumerable<LifeListViewModel>>(actual);
+        actual.Count().ShouldEqual(1); // one species
+        actual.First().Count.ShouldEqual(2); // two observations of the same species
     }
 
     [Fact]
-    public async Task GetPagedObservationsAsync_When_Argument_Is_Null_Returns_Argument_Exception()
+    public async Task GetLifeListAsync_When_Argument_Is_Null_Returns_Argument_Exception()
     {
-        var mockService = new Mock<IBirdThumbnailPhotoService>();
-
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
 
-        var service = new ObservationQueryService(context, mockService.Object);
+        var service = new ListService(context);
 
         // Act & Assert
-        var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetPagedObservationsAsync(null, 1, 10));
+        var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetLifeListAsync(null));
         Assert.Equal("method argument is null or empty (Parameter 'predicate')", ex.Message);
     }
 }

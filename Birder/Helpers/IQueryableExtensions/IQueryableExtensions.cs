@@ -80,7 +80,7 @@ public static class QueryableExtensions
 
     public static IQueryable<TweetDayDto> MapTweetDaytoDto(this IQueryable<TweetDay> tweet)
     {
-       return tweet.Select(t => new TweetDayDto
+        return tweet.Select(t => new TweetDayDto
         {
             TweetDayId = t.TweetDayId,
             SongUrl = t.SongUrl,
