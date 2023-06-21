@@ -16,12 +16,12 @@ public class ObservationRepository : Repository<Observation>, IObservationReposi
     {
         if (!includeRelated)
         {
-            return await DbContext.Observations
+            return await _dbContext.Observations
                         .Include(au => au.ApplicationUser)
                             .SingleOrDefaultAsync(m => m.ObservationId == id);
         }
 
-        return await DbContext.Observations
+        return await _dbContext.Observations
             .Include(p => p.Position)
             .Include(n => n.Notes)
             .Include(au => au.ApplicationUser)

@@ -1,4 +1,5 @@
 ﻿namespace Birder.Data.Repository;
+
 public interface IUnitOfWork
 {
     Task CompleteAsync();
