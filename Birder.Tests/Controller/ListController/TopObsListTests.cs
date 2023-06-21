@@ -2,24 +2,17 @@
 
 public class TopObsListTests
 {
-    private readonly Mock<ILogger<ListController>> _logger;
-    private readonly ISystemClockService _systemClock;
-
-    public TopObsListTests()
-    {
-        _systemClock = new SystemClockService();
-        _logger = new Mock<ILogger<ListController>>();
-    }
-
     [Fact]
     public async Task Returns_Ok_With_Viewmodel()
     {
         // Arrange
+        Mock<ILogger<ListController>> loggerMock = new();
+        var _systemClock = new SystemClockService();
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>(), It.IsAny<DateTime>()))
                 .ReturnsAsync(new TopObservationsAnalysisViewModel());
 
-        var controller = new ListController(_logger.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -40,11 +33,13 @@ public class TopObsListTests
     public async Task Returns_500_When_Exception_Is_Raised()
     {
         // Arrange
+        Mock<ILogger<ListController>> loggerMock = new();
+        var _systemClock = new SystemClockService();
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>(), It.IsAny<DateTime>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new ListController(_logger.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -66,9 +61,11 @@ public class TopObsListTests
     public async Task Returns_Unauthorised_When_Username_Is_Empty()
     {
         // Arrange
+        Mock<ILogger<ListController>> loggerMock = new();
+        var _systemClock = new SystemClockService();
         var mockListService = new Mock<IListService>();
 
-        var controller = new ListController(_logger.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -80,21 +77,21 @@ public class TopObsListTests
         var result = await controller.GetTopObservationsListAsync();
 
         // Assert
-        var objectResult = Assert.IsType<ObjectResult>(result);
-        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal($"requesting username is null or empty", actual);
+        var objectResult = Assert.IsType<BadRequestResult>(result);
+        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
     }
 
     [Fact]
     public async Task Returns_500_When_Repository_Returns_Null()
     {
         // Arrange
+        Mock<ILogger<ListController>> loggerMock = new();
+        var _systemClock = new SystemClockService();
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult<TopObservationsAnalysisViewModel>(null));
 
-        var controller = new ListController(_logger.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -109,6 +106,6 @@ public class TopObsListTests
         var objectResult = Assert.IsType<ObjectResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
         var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal($"listService returned null", actual);
+        Assert.Equal("an unexpected error occurred", actual);
     }
 }

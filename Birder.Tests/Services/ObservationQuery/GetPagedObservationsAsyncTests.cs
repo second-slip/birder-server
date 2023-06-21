@@ -23,8 +23,6 @@ public class GetPagedObservationsAsyncTests
         context.Birds.Count().ShouldEqual(1);
 
         context.Observations.Add(SharedFunctions.GetObservation(context.ApplicationUser.FirstOrDefault(), context.Birds.FirstOrDefault()));
-        context.SaveChanges();
-        // context.Observations.Count().ShouldEqual(1);
         context.Observations.Add(SharedFunctions.GetObservation(context.ApplicationUser.FirstOrDefault(), context.Birds.FirstOrDefault()));
         context.SaveChanges();
         context.Observations.Count().ShouldEqual(2);

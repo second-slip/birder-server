@@ -27,25 +27,23 @@ public class ListController : ControllerBase
 
             if (string.IsNullOrEmpty(username))
             {
-                string errorMessage = "requesting username is null or empty";
-                _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
-                return StatusCode(500, errorMessage);
+                _logger.LogError(LoggingEvents.GetListNotFound, "requesting username is null or empty");
+                return BadRequest();
             }
 
             var viewModel = await _listService.GetTopObservationsAsync(username, _systemClock.GetToday.AddDays(-30));
 
             if (viewModel is null)
             {
-                string errorMessage = "listService returned null";
-                _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
-                return StatusCode(500, errorMessage);
+                _logger.LogError(LoggingEvents.GetListNotFound, "listService returned null");
+                return StatusCode(500, "an unexpected error occurred");
             }
 
             return Ok(viewModel);
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.GetListNotFound, ex, "an exception was raised");
+            _logger.LogError(LoggingEvents.GetListNotFound, ex, ex.Message);
             return StatusCode(500, "an unexpected error occurred");
         }
     }
@@ -59,25 +57,23 @@ public class ListController : ControllerBase
 
             if (string.IsNullOrEmpty(username))
             {
-                string errorMessage = "requesting username is null or empty";
-                _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
-                return StatusCode(500, errorMessage);
+                _logger.LogError(LoggingEvents.GetListNotFound, "requesting username is null or empty");
+                return BadRequest();
             }
 
             var viewModel = await _listService.GetLifeListAsync(a => a.ApplicationUser.UserName == username);
 
             if (viewModel is null)
             {
-                string errorMessage = "listService returned null";
-                _logger.LogError(LoggingEvents.GetListNotFound, errorMessage);
-                return StatusCode(500, errorMessage);
+                _logger.LogError(LoggingEvents.GetListNotFound, "listService returned null");
+                return StatusCode(500, "an unexpected error occurred");
             }
 
             return Ok(viewModel);
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.GetListNotFound, ex, "an exception was raised");
+            _logger.LogError(LoggingEvents.GetListNotFound, ex, ex.Message);
             return StatusCode(500, "an unexpected error occurred");
         }
     }
