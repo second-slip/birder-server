@@ -11,23 +11,22 @@ public class ObservationRepository : Repository<Observation>, IObservationReposi
 {
     public ObservationRepository(ApplicationDbContext dbContext) : base(dbContext) { }
 
-    // todo: move to ObservationQueryService
     public async Task<Observation> GetObservationAsync(int id, bool includeRelated)
     {
         if (!includeRelated)
         {
             return await _dbContext.Observations
-                        .Include(au => au.ApplicationUser)
-                            .SingleOrDefaultAsync(m => m.ObservationId == id);
+                .Include(au => au.ApplicationUser)
+                .SingleOrDefaultAsync(m => m.ObservationId == id);
         }
 
         return await _dbContext.Observations
+            .Include(au => au.ApplicationUser)
             .Include(p => p.Position)
             .Include(n => n.Notes)
-            .Include(au => au.ApplicationUser)
             .Include(b => b.Bird)
             .Include(ot => ot.ObservationTags)
                 .ThenInclude(t => t.Tag)
-                    .SingleOrDefaultAsync(m => m.ObservationId == id);
+            .SingleOrDefaultAsync(m => m.ObservationId == id);
     }
 }

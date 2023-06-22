@@ -17,12 +17,13 @@ public interface IRepository<TEntity> where TEntity : class
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
-    private DbSet<TEntity> _entities;
     protected readonly ApplicationDbContext _dbContext;
+    protected readonly DbSet<TEntity> _entities;
+
     public Repository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
-        _entities = _dbContext.Set<TEntity>();
+        _entities = dbContext.Set<TEntity>();
     }
 
     public async Task<TEntity> GetAsync(int id)
