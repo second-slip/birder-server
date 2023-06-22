@@ -56,7 +56,7 @@ public static class SharedFunctions
             Species = "",
             EnglishName = "",
             CreationDate = DateTime.Now,
-            LastUpdateDate = DateTime.Now,
+            LastUpdateDate = DateTime.Now
         };
     }
 
