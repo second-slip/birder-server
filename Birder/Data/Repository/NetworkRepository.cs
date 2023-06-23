@@ -21,6 +21,7 @@ public class NetworkRepository : INetworkRepository
         loggedinUser.Following.Remove(userToUnfollow.Followers.FirstOrDefault());
     }
 
+    [Obsolete]
     public async Task<IEnumerable<Network>> GetFollowing(ApplicationUser user)
     {
         var following = await _dbContext.Network
@@ -34,6 +35,7 @@ public class NetworkRepository : INetworkRepository
         return following;
     }
 
+    [Obsolete]
     public async Task<IEnumerable<Network>> GetFollowers(ApplicationUser user)
     {
         var followers = await _dbContext.Network

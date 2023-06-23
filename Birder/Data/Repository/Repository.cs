@@ -18,7 +18,7 @@ public interface IRepository<TEntity> where TEntity : class
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
     protected readonly ApplicationDbContext _dbContext;
-    protected readonly DbSet<TEntity> _entities;
+    private readonly DbSet<TEntity> _entities;
 
     public Repository(ApplicationDbContext dbContext)
     {
