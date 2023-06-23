@@ -16,12 +16,12 @@ public class NetworkRepository : INetworkRepository
         userToFollow.Followers.Add(new Network { Follower = loggedinUser });
     }
 
-    public void UnFollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow)
+    public void Unfollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow)
     {
-        loggedinUser.Following.Remove(userToUnfollow.Followers.FirstOrDefault());
+        var record = userToUnfollow.Followers.Where(i => i.ApplicationUser == userToUnfollow).FirstOrDefault(); 
+        loggedinUser.Following.Remove(record); 
     }
 
-    [Obsolete]
     public async Task<IEnumerable<Network>> GetFollowing(ApplicationUser user)
     {
         var following = await _dbContext.Network
@@ -35,7 +35,6 @@ public class NetworkRepository : INetworkRepository
         return following;
     }
 
-    [Obsolete]
     public async Task<IEnumerable<Network>> GetFollowers(ApplicationUser user)
     {
         var followers = await _dbContext.Network
@@ -53,7 +52,7 @@ public class NetworkRepository : INetworkRepository
 public interface INetworkRepository
 {
     void Follow(ApplicationUser loggedinUser, ApplicationUser userToFollow);
-    void UnFollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow);
+    void Unfollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow);
     Task<IEnumerable<Network>> GetFollowers(ApplicationUser user);
     Task<IEnumerable<Network>> GetFollowing(ApplicationUser user);
 }

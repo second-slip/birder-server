@@ -308,7 +308,7 @@ public class NetworkController : ControllerBase
                 return BadRequest("Trying to unfollow yourself");
             }
 
-            _networkRepository.UnFollow(requestingUser, userToUnfollow);
+            _networkRepository.Unfollow(requestingUser, userToUnfollow);
 
             await _unitOfWork.CompleteAsync();
 
