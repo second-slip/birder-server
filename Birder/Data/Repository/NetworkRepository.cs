@@ -1,5 +1,11 @@
 ﻿namespace Birder.Data.Repository;
 
+public interface INetworkRepository
+{
+    void Follow(ApplicationUser loggedinUser, ApplicationUser userToFollow);
+    void Unfollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow);
+}
+
 public class NetworkRepository : INetworkRepository
 {
     private readonly ApplicationDbContext _dbContext;
@@ -29,38 +35,30 @@ public class NetworkRepository : INetworkRepository
         var record = userToUnfollow.Followers.Where(i => i.ApplicationUser == userToUnfollow).FirstOrDefault();
         loggedinUser.Following.Remove(record);
     }
-
-    // public async Task<IEnumerable<Network>> GetFollowing(ApplicationUser user)
-    // {
-    //     var following = await _dbContext.Network
-    //         .AsQueryable()
-    //         .AsNoTracking()
-    //         .Include(x => x.Follower)
-    //             .ThenInclude(x => x.Followers)
-    //         .Where(x => x.Follower == user)
-    //         .ToListAsync();
-
-    //     return following;
-    // }
-
-    // public async Task<IEnumerable<Network>> GetFollowers(ApplicationUser user)
-    // {
-    //     var followers = await _dbContext.Network
-    //         .AsQueryable()
-    //         .AsNoTracking()
-    //         .Include(x => x.ApplicationUser)
-    //             .ThenInclude(x => x.Following)
-    //         .Where(x => x.ApplicationUser == user)
-    //         .ToListAsync();
-
-    //     return followers;
-    // }
 }
 
-public interface INetworkRepository
-{
-    void Follow(ApplicationUser loggedinUser, ApplicationUser userToFollow);
-    void Unfollow(ApplicationUser loggedinUser, ApplicationUser userToUnfollow);
-    // Task<IEnumerable<Network>> GetFollowers(ApplicationUser user);
-    // Task<IEnumerable<Network>> GetFollowing(ApplicationUser user);
-}
+// public async Task<IEnumerable<Network>> GetFollowing(ApplicationUser user)
+// {
+//     var following = await _dbContext.Network
+//         .AsQueryable()
+//         .AsNoTracking()
+//         .Include(x => x.Follower)
+//             .ThenInclude(x => x.Followers)
+//         .Where(x => x.Follower == user)
+//         .ToListAsync();
+
+//     return following;
+// }
+
+// public async Task<IEnumerable<Network>> GetFollowers(ApplicationUser user)
+// {
+//     var followers = await _dbContext.Network
+//         .AsQueryable()
+//         .AsNoTracking()
+//         .Include(x => x.ApplicationUser)
+//             .ThenInclude(x => x.Following)
+//         .Where(x => x.ApplicationUser == user)
+//         .ToListAsync();
+
+//     return followers;
+// }
