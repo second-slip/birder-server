@@ -91,7 +91,8 @@ public class ManageController : ControllerBase
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var url = _urlService.GetConfirmEmailUrl(model.UserName, code);
                     var templateData = new { username = user.UserName, url = url };
-                    await _emailSender.SendTemplateEmail("d-fc1571171e23463bb311870984664506", model.Email, templateData);
+                    var msg = _emailSender.CreateMailMessage("d-fc1571171e23463bb311870984664506", model.Email, templateData);
+                    await _emailSender.SendMessageAsync(msg);
                     viewModel.IsEmailConfirmationRequired = true;
                 }
             }

@@ -47,7 +47,9 @@ public class AccountController : ControllerBase
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 var url = _urlService.GetConfirmEmailUrl(newUser.UserName, code);
                 var templateData = new { username = newUser.UserName, url = url };
-                await _emailSender.SendTemplateEmail("d-882e4b133cae40268364c8a929e55ea9", newUser.Email, templateData);
+                var msg = _emailSender.CreateMailMessage("d-882e4b133cae40268364c8a929e55ea9", newUser.Email, templateData);
+                await _emailSender.SendMessageAsync(msg);
+
                 return Ok(new { success = true }); //ToDo: Is this adequate?  Created reponse?
             }
 
@@ -123,8 +125,8 @@ public class AccountController : ControllerBase
 
             var templateData = new { username = user.UserName, url = url };
 
-            await _emailSender.SendTemplateEmail("d-882e4b133cae40268364c8a929e55ea9", user.Email, templateData);
-
+            var msg = _emailSender.CreateMailMessage("d-882e4b133cae40268364c8a929e55ea9", user.Email, templateData);
+            await _emailSender.SendMessageAsync(msg);
             return Ok(new { success = true });
         }
         catch (Exception ex)
@@ -169,7 +171,10 @@ public class AccountController : ControllerBase
             //var templateData = new ResetPasswordEmailDto { Email = model.Email, Url = url, Username = user.UserName };
             var templateData = new { username = user.UserName, url = url };
             //await _emailSender.SendResetPasswordEmailAsync(templateData);
-            await _emailSender.SendTemplateEmail("d-37733c23b2eb4c339a011dfadbd42b91", model.Email, templateData);
+            var msg = _emailSender.CreateMailMessage("d-37733c23b2eb4c339a011dfadbd42b91", model.Email, templateData);
+
+            await _emailSender.SendMessageAsync(msg);
+
             return Ok(new { success = true });
         }
         catch (Exception ex)

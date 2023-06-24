@@ -19,7 +19,8 @@ public class MessageController : ControllerBase
         try
         {
             var templateModel = new { name = model.Name, email = model.Email, message = model.Message };
-            await _emailSender.SendTemplateEmail("d-55cc650c1ace438d81e5aa53df1aaf4d", "andrew-stuart-cross@outlook.com", templateModel);
+            var msg = _emailSender.CreateMailMessage("d-55cc650c1ace438d81e5aa53df1aaf4d", "andrew-stuart-cross@outlook.com", templateModel);
+            await _emailSender.SendMessageAsync(msg);
             return Ok(model);
         }
         catch (Exception ex)
