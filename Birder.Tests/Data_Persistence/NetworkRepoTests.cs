@@ -144,4 +144,96 @@ public class NetworkRepoTests
         Assert.Empty(p);
         indUser3.Followers.ShouldBeEmpty();
     }
+
+    [Fact]
+    public async Task Follow_When_LoggedinUser_Is_Null_Returns_Argument_Exception()
+    {
+        // Arrange
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+        using var context = new ApplicationDbContext(options);
+        context.Database.EnsureCreated();
+
+        context.Users.Add(SharedFunctions.CreateUser("depUser"));
+        context.SaveChanges();
+        context.Users.Count().ShouldEqual(1);
+
+        var userManager = SharedFunctions.InitialiseUserManager(context);
+
+        var user = await userManager.GetUserWithNetworkAsync("depUser");
+
+        var service = new NetworkRepository(context);
+
+        // Act & Assert
+        var ex = Assert.Throws<ArgumentException>(() => service.Follow(null, user));
+        Assert.Equal("method argument is null or empty (Parameter 'loggedinUser')", ex.Message);
+    }
+
+    [Fact]
+    public async Task Follow_When_UserToFollow_Is_Null_Returns_Argument_Exception()
+    {
+        // Arrange
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+        using var context = new ApplicationDbContext(options);
+        context.Database.EnsureCreated();
+
+        context.Users.Add(SharedFunctions.CreateUser("depUser"));
+        context.SaveChanges();
+        context.Users.Count().ShouldEqual(1);
+
+        var userManager = SharedFunctions.InitialiseUserManager(context);
+
+        var user = await userManager.GetUserWithNetworkAsync("depUser");
+
+        var service = new NetworkRepository(context);
+
+        // Act & Assert
+        var ex = Assert.Throws<ArgumentException>(() => service.Follow(user, null));
+        Assert.Equal("method argument is null or empty (Parameter 'userToFollow')", ex.Message);
+    }
+
+        [Fact]
+    public async Task Unfollow_When_LoggedinUser_Is_Null_Returns_Argument_Exception()
+    {
+        // Arrange
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+        using var context = new ApplicationDbContext(options);
+        context.Database.EnsureCreated();
+
+        context.Users.Add(SharedFunctions.CreateUser("depUser"));
+        context.SaveChanges();
+        context.Users.Count().ShouldEqual(1);
+
+        var userManager = SharedFunctions.InitialiseUserManager(context);
+
+        var user = await userManager.GetUserWithNetworkAsync("depUser");
+
+        var service = new NetworkRepository(context);
+
+        // Act & Assert
+        var ex = Assert.Throws<ArgumentException>(() => service.Unfollow(null, user));
+        Assert.Equal("method argument is null or empty (Parameter 'loggedinUser')", ex.Message);
+    }
+
+    [Fact]
+    public async Task Unfollow_When_UserToFollow_Is_Null_Returns_Argument_Exception()
+    {
+        // Arrange
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+        using var context = new ApplicationDbContext(options);
+        context.Database.EnsureCreated();
+
+        context.Users.Add(SharedFunctions.CreateUser("depUser"));
+        context.SaveChanges();
+        context.Users.Count().ShouldEqual(1);
+
+        var userManager = SharedFunctions.InitialiseUserManager(context);
+
+        var user = await userManager.GetUserWithNetworkAsync("depUser");
+
+        var service = new NetworkRepository(context);
+
+        // Act & Assert
+        var ex = Assert.Throws<ArgumentException>(() => service.Unfollow(user, null));
+        Assert.Equal("method argument is null or empty (Parameter 'userToUnfollow')", ex.Message);
+    }
 }
