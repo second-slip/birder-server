@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 
-
 namespace Birder.Controllers;
 
 [Route("api/[controller]")]
@@ -13,18 +12,21 @@ public class NetworkController : ControllerBase
     private readonly IUnitOfWork _unitOfWork;
     private readonly INetworkRepository _networkRepository;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IUserNetworkHelpers _networkHelpers;
 
     public NetworkController(IMapper mapper
                            , IUnitOfWork unitOfWork
                            , ILogger<NetworkController> logger
                            , INetworkRepository networkRepository
-                           , UserManager<ApplicationUser> userManager)
+                           , UserManager<ApplicationUser> userManager
+                           , IUserNetworkHelpers networkHelpers)
     {
         _mapper = mapper;
         _logger = logger;
         _unitOfWork = unitOfWork;
         _userManager = userManager;
         _networkRepository = networkRepository;
+        _networkHelpers = networkHelpers;
     }
 
     [HttpGet]
@@ -71,7 +73,7 @@ public class NetworkController : ControllerBase
             if (requestedUser is null)
             {
                 _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
-                return StatusCode(500, "requested user not found");
+                return StatusCode(500);
             }
 
             var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowerViewModel>>(requestedUser.Followers);
@@ -82,7 +84,7 @@ public class NetworkController : ControllerBase
             {
                 // Own profile requested...
 
-                UserNetworkHelpers.SetupFollowersCollection(requestedUser, model);
+                _networkHelpers.SetupFollowersCollection(requestedUser, model);
 
                 return Ok(model);
             }
@@ -95,10 +97,10 @@ public class NetworkController : ControllerBase
                 if (requestingUser is null)
                 {
                     _logger.LogError(LoggingEvents.GetItem, $"Username '{requesterUsername}' not found at GetUserProfileAsync action");
-                    return StatusCode(500, "requesting user not found");
+                    return StatusCode(500);
                 }
 
-                UserNetworkHelpers.SetupFollowersCollection(requestingUser, model);
+                _networkHelpers.SetupFollowersCollection(requestingUser, model);
 
                 return Ok(model);
             }
@@ -106,7 +108,7 @@ public class NetworkController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
-            return StatusCode(500, "an unexpected error occurred");
+            return StatusCode(500);
         }
     }
 
@@ -136,7 +138,7 @@ public class NetworkController : ControllerBase
             if (requesterUsername.Equals(requestedUsername))
             {
                 // Own profile requested...
-                UserNetworkHelpers.SetupFollowingCollection(requestedUser, model);
+                _networkHelpers.SetupFollowingCollection(requestedUser, model);
                 return Ok(model);
             }
             else
@@ -150,7 +152,7 @@ public class NetworkController : ControllerBase
                     return StatusCode(500, "requesting user not found");
                 }
 
-                UserNetworkHelpers.SetupFollowingCollection(requestingUser, model);
+                _networkHelpers.SetupFollowingCollection(requestingUser, model);
 
                 return Ok(model);
             }
@@ -158,7 +160,7 @@ public class NetworkController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
-            return StatusCode(500, "an unexpected error occurred");
+            return StatusCode(500);
         }
     }
 
@@ -171,32 +173,30 @@ public class NetworkController : ControllerBase
 
             if (requestingUser is null)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, "The user was not found");
-                return StatusCode(500, "requesting user not found");
+                _logger.LogError(LoggingEvents.GetItemNotFound, "UserManager returned null");
+                return StatusCode(500);
             }
 
-            var followersNotBeingFollowed = UserNetworkHelpers.GetFollowersNotBeingFollowedUserNames(requestingUser);
+            var followersNotBeingFollowed = _networkHelpers.GetFollowersNotBeingFollowedUserNames(requestingUser);
 
             if (followersNotBeingFollowed.Any())
             {
-                // ToDo: needs to be paged or Take(x)
-                //var users = await _userManager.GetFollowersNotFollowedAsync(followersNotBeingFollowed);
                 var users = await _userManager.GetUsersAsync(user => followersNotBeingFollowed.Contains(user.UserName));
-                return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
+                var model = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
+                return Ok(model);
             }
             else
             {
-                // ToDo: needs to be paged or Take(x)
-                var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
-                //var users = await _userManager.GetSuggestedBirdersToFollowAsync(requestingUser.UserName, followingUsernamesList);
+                var followingUsernamesList = _networkHelpers.GetFollowingUserNames(requestingUser.Following);
                 var users = await _userManager.GetUsersAsync(user => !followingUsernamesList.Contains(user.UserName) && user.UserName != requestingUser.UserName);
-                return Ok(_mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users));
+                var model = _mapper.Map<IEnumerable<ApplicationUser>, IEnumerable<NetworkUserViewModel>>(users);
+                return Ok(model);
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
-            return StatusCode(500, "an unexpected error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, ex.Message);
+            return StatusCode(500);
         }
     }
 
@@ -219,7 +219,7 @@ public class NetworkController : ControllerBase
                 return StatusCode(500, "requesting user not found");
             }
 
-            var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUser.Following);
+            var followingUsernamesList = _networkHelpers.GetFollowingUserNames(requestingUser.Following);
             followingUsernamesList.Add(requestingUser.UserName);
 
             //var users = await _SearchBirdersToFollowAsync(searchCriterion, followingUsernamesList);
@@ -268,7 +268,7 @@ public class NetworkController : ControllerBase
 
             var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToFollow);
 
-            viewModel.IsFollowing = UserNetworkHelpers.UpdateIsFollowing(viewModel.UserName, requestingUser.Following);
+            viewModel.IsFollowing = _networkHelpers.UpdateIsFollowing(viewModel.UserName, requestingUser.Following);
 
             return Ok(viewModel);
         }
@@ -313,8 +313,7 @@ public class NetworkController : ControllerBase
             await _unitOfWork.CompleteAsync();
 
             var viewModel = _mapper.Map<ApplicationUser, NetworkUserViewModel>(userToUnfollow);
-
-            viewModel.IsFollowing = UserNetworkHelpers.UpdateIsFollowing(viewModel.UserName, requestingUser.Following);
+            viewModel.IsFollowing = _networkHelpers.UpdateIsFollowing(viewModel.UserName, requestingUser.Following);
 
             return Ok(viewModel);
         }

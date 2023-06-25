@@ -1,8 +1,19 @@
 ﻿namespace Birder.Helpers;
 
-public static class UserNetworkHelpers
+public interface IUserNetworkHelpers
 {
-    public static List<string> GetFollowersUserNames(ICollection<Network> followers)
+    List<string> GetFollowersUserNames(ICollection<Network> followers);
+    List<string> GetFollowingUserNames(ICollection<Network> following);
+    IEnumerable<string> GetFollowersNotBeingFollowedUserNames(ApplicationUser loggedinUser);
+    bool UpdateIsFollowing(string requestingUsername, ICollection<Network> requestedUsersFollowing);
+    bool UpdateIsFollowingProperty(string requestingUsername, ICollection<Network> requestedUsersFollowers);
+    IEnumerable<FollowingViewModel> SetupFollowingCollection(ApplicationUser requestingUser, IEnumerable<FollowingViewModel> following);
+    IEnumerable<FollowerViewModel> SetupFollowersCollection(ApplicationUser requestingUser, IEnumerable<FollowerViewModel> followers);
+}
+
+public class UserNetworkHelpers : IUserNetworkHelpers
+{
+    public List<string> GetFollowersUserNames(ICollection<Network> followers)
     {
         if (followers is null)
             throw new NullReferenceException("The followers collection is null");
@@ -11,7 +22,7 @@ public static class UserNetworkHelpers
                 select user.Follower.UserName).ToList();
     }
 
-    public static List<string> GetFollowingUserNames(ICollection<Network> following)
+    public List<string> GetFollowingUserNames(ICollection<Network> following)
     {
         if (following is null)
             throw new NullReferenceException("The following collection is null");
@@ -20,7 +31,7 @@ public static class UserNetworkHelpers
                 select user.ApplicationUser.UserName).ToList();
     }
 
-    public static IEnumerable<string> GetFollowersNotBeingFollowedUserNames(ApplicationUser loggedinUser)
+    public IEnumerable<string> GetFollowersNotBeingFollowedUserNames(ApplicationUser loggedinUser)
     {
         if (loggedinUser is null)
             throw new NullReferenceException("The user is null");
@@ -32,7 +43,7 @@ public static class UserNetworkHelpers
         return followersUsernamesList.Except(followingUsernamesList);
     }
 
-    public static bool UpdateIsFollowing(string requestingUsername, ICollection<Network> requestedUsersFollowing)
+    public bool UpdateIsFollowing(string requestingUsername, ICollection<Network> requestedUsersFollowing)
     {
         if (string.IsNullOrEmpty(requestingUsername))
             throw new ArgumentNullException(nameof(requestingUsername), "The requestingUsername is null");
@@ -43,7 +54,7 @@ public static class UserNetworkHelpers
         return requestedUsersFollowing.Any(cus => cus.ApplicationUser.UserName == requestingUsername);
     }
 
-    public static bool UpdateIsFollowingProperty(string requestingUsername, ICollection<Network> requestedUsersFollowers)
+    public bool UpdateIsFollowingProperty(string requestingUsername, ICollection<Network> requestedUsersFollowers)
     {
         if (string.IsNullOrEmpty(requestingUsername))
             throw new ArgumentNullException(nameof(requestingUsername), "The requestingUsername is null");
@@ -54,8 +65,7 @@ public static class UserNetworkHelpers
         return requestedUsersFollowers.Any(cus => cus.Follower.UserName == requestingUsername);
     }
 
-
-    public static IEnumerable<FollowingViewModel> SetupFollowingCollection(ApplicationUser requestingUser, IEnumerable<FollowingViewModel> following)
+    public IEnumerable<FollowingViewModel> SetupFollowingCollection(ApplicationUser requestingUser, IEnumerable<FollowingViewModel> following)
     {
         if (following is null)
             throw new ArgumentNullException(nameof(following), "The following collection is null");
@@ -72,8 +82,7 @@ public static class UserNetworkHelpers
         return following;
     }
 
-
-    public static IEnumerable<FollowerViewModel> SetupFollowersCollection(ApplicationUser requestingUser, IEnumerable<FollowerViewModel> followers)
+    public IEnumerable<FollowerViewModel> SetupFollowersCollection(ApplicationUser requestingUser, IEnumerable<FollowerViewModel> followers)
     {
         if (followers is null)
             throw new ArgumentNullException(nameof(followers), "The followers collection is null");

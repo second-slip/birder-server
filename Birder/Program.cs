@@ -81,6 +81,7 @@ builder.Services.AddScoped<ICachedBirdsDdlService, CachedBirdsDdlService>();
 
 builder.Services.AddSingleton<ISystemClockService, SystemClockService>();
 builder.Services.AddSingleton<IUrlService, UrlService>();
+builder.Services.AddSingleton<IUserNetworkHelpers, UserNetworkHelpers>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 

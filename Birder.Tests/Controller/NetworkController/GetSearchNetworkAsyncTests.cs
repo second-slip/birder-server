@@ -28,7 +28,8 @@ public class GetSearchNetworkAsyncTests
         UserManager<ApplicationUser> userManager = null; //to cause internal error
         var mockRepo = new Mock<INetworkRepository>();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        var mockHelper = new Mock<IUserNetworkHelpers>();
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager, mockHelper.Object);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
@@ -61,8 +62,11 @@ public class GetSearchNetworkAsyncTests
         // Arrange
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var mockUnitOfWork = new Mock<IUnitOfWork>();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
+        mockHelper.Setup(i => i.GetFollowingUserNames(It.IsAny<ICollection<Network>>()))
+          .Returns(new List<string>());
         var mockRepo = new Mock<INetworkRepository>();
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager, mockHelper.Object);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("testUser1") }
@@ -74,7 +78,7 @@ public class GetSearchNetworkAsyncTests
         // Assert
         var objectResult = result as ObjectResult;
         Assert.NotNull(objectResult);
-        Assert.IsType<OkObjectResult>(result);
+        //Assert.IsType<OkObjectResult>(result);
         Assert.True(objectResult is OkObjectResult);
         Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
         Assert.IsType<List<NetworkUserViewModel>>(objectResult.Value);
@@ -97,8 +101,9 @@ public class GetSearchNetworkAsyncTests
 
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var mockUnitOfWork = new Mock<IUnitOfWork>();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var mockRepo = new Mock<INetworkRepository>();
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager, mockHelper.Object);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }
@@ -134,8 +139,9 @@ public class GetSearchNetworkAsyncTests
 
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var mockUnitOfWork = new Mock<IUnitOfWork>();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var mockRepo = new Mock<INetworkRepository>();
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager, mockHelper.Object);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal("example name") }

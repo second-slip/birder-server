@@ -11,16 +11,19 @@ public class UserProfileController : ControllerBase
     private readonly ILogger _logger;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IObservationsAnalysisService _observationsAnalysisService;
+    private readonly IUserNetworkHelpers _networkHelpers;
 
     public UserProfileController(IMapper mapper
                         , ILogger<UserProfileController> logger
                         , UserManager<ApplicationUser> userManager
-                        , IObservationsAnalysisService observationsAnalysisService)
+                        , IObservationsAnalysisService observationsAnalysisService
+                        , IUserNetworkHelpers networkHelpers)
     {
         _mapper = mapper;
         _logger = logger;
         _userManager = userManager;
         _observationsAnalysisService = observationsAnalysisService;
+                _networkHelpers = networkHelpers;
     }
 
     // todo: create QueryObject
@@ -54,7 +57,7 @@ public class UserProfileController : ControllerBase
             else
             {
                 // Other user's profile requested...
-                requestedUserProfileViewModel.User.IsFollowing = UserNetworkHelpers.UpdateIsFollowingProperty(User.Identity.Name, requestedUser.Followers);
+                requestedUserProfileViewModel.User.IsFollowing = _networkHelpers.UpdateIsFollowingProperty(User.Identity.Name, requestedUser.Followers);
                 requestedUserProfileViewModel.ObservationCount = await _observationsAnalysisService.GetObservationsSummaryAsync(x => x.ApplicationUser.UserName == requestedUsername);
             }
 

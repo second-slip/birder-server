@@ -17,12 +17,13 @@ public class Request_Public_Feed
         // Arrange
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         var mockObsRepo = new Mock<IObservationQueryService>();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
 
         var model = new List<ObservationFeedDto>() { new ObservationFeedDto() };
         mockObsRepo.SetupSequence(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync(model);
 
-        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object);
+        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object, mockHelper.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -43,12 +44,13 @@ public class Request_Public_Feed
     public async Task Returns_500_When_Repository_Returns_Null()
     {
         // Arrange
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         var mockObsRepo = new Mock<IObservationQueryService>();
         mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
             .Returns(Task.FromResult<IEnumerable<ObservationFeedDto>>(null));
 
-        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object);
+        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object, mockHelper.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -69,12 +71,13 @@ public class Request_Public_Feed
     [Fact]
     public async Task Returns_500_When_Exception_Is_Raised()
     {
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         var mockObsRepo = new Mock<IObservationQueryService>();
         mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object);
+        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object, mockHelper.Object);
 
         controller.ControllerContext = new ControllerContext()
         {

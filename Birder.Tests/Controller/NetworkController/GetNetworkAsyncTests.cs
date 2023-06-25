@@ -24,11 +24,12 @@ public class GetNetworkAsyncTests
     {
         // Arrange
         string requesterUsername = "testUser1";
+        var mockHelper = new Mock<IUserNetworkHelpers>();
 
         UserManager<ApplicationUser> userManager = null; //to cause internal error
         var mockRepo = new Mock<INetworkRepository>();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, new NullLogger<NetworkController>(), mockRepo.Object, userManager);
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, new NullLogger<NetworkController>(), mockRepo.Object, userManager, mockHelper.Object);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
@@ -58,10 +59,12 @@ public class GetNetworkAsyncTests
         context.SaveChanges();
         context.Users.Count().ShouldEqual(2);
 
+        var mockHelper = new Mock<IUserNetworkHelpers>();
+
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var mockRepo = new Mock<INetworkRepository>();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager, mockHelper.Object);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
@@ -92,10 +95,12 @@ public class GetNetworkAsyncTests
         context.SaveChanges();
         context.Users.Count().ShouldEqual(2);
 
+        var mockHelper = new Mock<IUserNetworkHelpers>();
+
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var mockRepo = new Mock<INetworkRepository>();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager, mockHelper.Object);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }

@@ -37,7 +37,8 @@ public class PostFollowUserAsyncTests
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var mockRepo = new Mock<INetworkRepository>();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        var mockHelper = new Mock<IUserNetworkHelpers>();
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager, mockHelper.Object);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
@@ -78,7 +79,8 @@ public class PostFollowUserAsyncTests
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var mockRepo = new Mock<INetworkRepository>();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        var mockHelper = new Mock<IUserNetworkHelpers>();
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager, mockHelper.Object);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
@@ -117,7 +119,8 @@ public class PostFollowUserAsyncTests
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var mockRepo = new Mock<INetworkRepository>();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        var mockHelper = new Mock<IUserNetworkHelpers>();
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager, mockHelper.Object);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }
@@ -149,10 +152,11 @@ public class PostFollowUserAsyncTests
             .Verifiable();
 
         var mockUnitOfWork = new Mock<IUnitOfWork>();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         mockUnitOfWork.Setup(x => x.CompleteAsync())
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager, mockHelper.Object);
 
 
 
@@ -191,9 +195,10 @@ public class PostFollowUserAsyncTests
         mockRepo.Setup(repo => repo.Follow(It.IsAny<ApplicationUser>(), It.IsAny<ApplicationUser>()))
             .Verifiable();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         mockUnitOfWork.Setup(x => x.CompleteAsync()).Returns(Task.CompletedTask);
 
-        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager);
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, _logger.Object, mockRepo.Object, userManager, mockHelper.Object);
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser) }

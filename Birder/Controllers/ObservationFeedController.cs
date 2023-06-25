@@ -8,14 +8,17 @@ public class ObservationFeedController : ControllerBase
     private readonly ILogger _logger;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IObservationQueryService _observationQueryService;
+    private readonly IUserNetworkHelpers _networkHelpers;
 
     public ObservationFeedController(ILogger<ObservationFeedController> logger
                                    , UserManager<ApplicationUser> userManager
-                                   , IObservationQueryService observationQueryService)
+                                   , IObservationQueryService observationQueryService
+                                   , IUserNetworkHelpers networkHelpers)
     {
         _logger = logger;
         _userManager = userManager;
         _observationQueryService = observationQueryService;
+                _networkHelpers = networkHelpers;
     }
 
     [HttpGet]
@@ -53,7 +56,7 @@ public class ObservationFeedController : ControllerBase
                 return StatusCode(500, "requesting user not found");
             }
 
-            var followingUsernamesList = UserNetworkHelpers.GetFollowingUserNames(requestingUserAndNetwork.Following);
+            var followingUsernamesList = _networkHelpers.GetFollowingUserNames(requestingUserAndNetwork.Following);
 
             followingUsernamesList.Add(requestingUserAndNetwork.UserName);
 

@@ -16,13 +16,14 @@ public class Request_User_Feed
     {
         // Arrange
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var mockObsRepo = new Mock<IObservationQueryService>();
 
         var model = new List<ObservationFeedDto>() { new ObservationFeedDto() };
         mockObsRepo.SetupSequence(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync(model);
 
-        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object);
+        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object, mockHelper.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -44,11 +45,12 @@ public class Request_User_Feed
     {
         // Arrange
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var mockObsRepo = new Mock<IObservationQueryService>();
         mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object);
+        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object, mockHelper.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -71,11 +73,12 @@ public class Request_User_Feed
     {
         // Arrange
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var mockObsRepo = new Mock<IObservationQueryService>();
         mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
             .Returns(Task.FromResult<IEnumerable<ObservationFeedDto>>(null));
 
-        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object);
+        var controller = new ObservationFeedController(_logger.Object, mockUserManager.Object, mockObsRepo.Object, mockHelper.Object);
 
         controller.ControllerContext = new ControllerContext()
         {

@@ -25,9 +25,10 @@ public class UserProfileControllerTests
     {
         // Arrange
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var mockService = new Mock<IObservationsAnalysisService>();
 
-        var controller = new UserProfileController(_mapper, _logger.Object, mockUserManager.Object, mockService.Object);
+        var controller = new UserProfileController(_mapper, _logger.Object, mockUserManager.Object, mockService.Object, mockHelper.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -46,6 +47,7 @@ public class UserProfileControllerTests
     [Fact]
     public async Task Returns_500_When_User_Is_Null()
     {
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
@@ -60,7 +62,7 @@ public class UserProfileControllerTests
         // Arrange
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var mockService = new Mock<IObservationsAnalysisService>();
-        var controller = new UserProfileController(_mapper, _logger.Object, userManager, mockService.Object);
+        var controller = new UserProfileController(_mapper, _logger.Object, userManager, mockService.Object, mockHelper.Object);
 
         string requestedUsername = "This requested user does not exist";
 
@@ -83,6 +85,7 @@ public class UserProfileControllerTests
     [Fact]
     public async Task Returns_500_When_Exception_Is_Raised()
     {
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var mockService = new Mock<IObservationsAnalysisService>();
         mockService.Setup(obs => obs.GetObservationsSummaryAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
             .ThrowsAsync(new InvalidOperationException());
@@ -101,7 +104,7 @@ public class UserProfileControllerTests
         // Arrange
         var userManager = SharedFunctions.InitialiseUserManager(context);
 
-        var controller = new UserProfileController(_mapper, _logger.Object, userManager, mockService.Object);
+        var controller = new UserProfileController(_mapper, _logger.Object, userManager, mockService.Object, mockHelper.Object);
 
         string requestedUsername = "testUser2";
 
@@ -127,6 +130,7 @@ public class UserProfileControllerTests
     public async Task Returns_Ok_With_Own_Profile()
     {
         var mockService = new Mock<IObservationsAnalysisService>();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
 
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
@@ -139,7 +143,7 @@ public class UserProfileControllerTests
 
         // Arrange
         var userManager = SharedFunctions.InitialiseUserManager(context);
-        var controller = new UserProfileController(_mapper, _logger.Object, userManager, mockService.Object);
+        var controller = new UserProfileController(_mapper, _logger.Object, userManager, mockService.Object, mockHelper.Object);
 
         string requestedUsername = "testUser1";
 
@@ -168,7 +172,7 @@ public class UserProfileControllerTests
     [Fact]
     public async Task Returns_Ok_With_Other_User_Profile()
     {
-
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var countModel = new ObservationAnalysisViewModel { TotalObservationsCount = 2, UniqueSpeciesCount = 2 };
         var mockService = new Mock<IObservationsAnalysisService>();
         mockService.Setup(serve => serve.GetObservationsSummaryAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
@@ -187,7 +191,7 @@ public class UserProfileControllerTests
 
         // Arrange
         var userManager = SharedFunctions.InitialiseUserManager(context);
-        var controller = new UserProfileController(_mapper, _logger.Object, userManager, mockService.Object);
+        var controller = new UserProfileController(_mapper, _logger.Object, userManager, mockService.Object, mockHelper.Object);
 
         string requestedUsername = "testUser2";
 

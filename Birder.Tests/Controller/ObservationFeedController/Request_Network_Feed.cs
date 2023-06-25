@@ -36,12 +36,15 @@ public class Request_Network_Feed
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var requestingUsername = "testUser1";
         var mockObsRepo = new Mock<IObservationQueryService>();
+        var mockHelper = new Mock<IUserNetworkHelpers>();
+        mockHelper.Setup(i => i.GetFollowingUserNames(It.IsAny<ICollection<Network>>()))
+                  .Returns(new List<string>());
 
         var model = new List<ObservationFeedDto>() { new ObservationFeedDto() };
         mockObsRepo.SetupSequence(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync(model);
 
-        var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
+        var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object, mockHelper.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -158,6 +161,7 @@ public class Request_Network_Feed
         context.Users.Count().ShouldEqual(2);
 
         // Arrange
+        var mockHelper = new Mock<IUserNetworkHelpers>();
         var userManager = SharedFunctions.InitialiseUserManager(context);
         var requestingUsername = "testUser1";
 
@@ -165,7 +169,7 @@ public class Request_Network_Feed
         mockObsRepo.Setup(obs => obs.GetPagedObservationsFeedAsync(It.IsAny<Expression<Func<Observation, bool>>>(), It.IsAny<int>(), It.IsAny<int>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object);
+        var controller = new ObservationFeedController(_logger.Object, userManager, mockObsRepo.Object, mockHelper.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
