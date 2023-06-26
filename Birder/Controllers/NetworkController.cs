@@ -62,8 +62,8 @@ public class NetworkController : ControllerBase
     {
         if (string.IsNullOrEmpty(requestedUsername))
         {
-            _logger.LogError(LoggingEvents.GetListNotFound, "The search criterion is null or empty");
-            return BadRequest("No search criterion");
+            _logger.LogError(LoggingEvents.GetListNotFound, $"{nameof(requestedUsername)} method argument is null or empty");
+            return BadRequest();
         }
 
         try
@@ -72,7 +72,7 @@ public class NetworkController : ControllerBase
 
             if (requestedUser is null)
             {
-                _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
+                _logger.LogError(LoggingEvents.GetItemNotFound, "UserManager returned null");
                 return StatusCode(500);
             }
 
@@ -83,15 +83,12 @@ public class NetworkController : ControllerBase
             if (requesterUsername.Equals(requestedUsername))
             {
                 // Own profile requested...
-
                 _networkHelpers.SetupFollowersCollection(requestedUser, model);
-
                 return Ok(model);
             }
             else
             {
                 // Other user's profile requested...
-
                 var requestingUser = await _userManager.GetUserWithNetworkAsync(requesterUsername);
 
                 if (requestingUser is null)
@@ -101,13 +98,12 @@ public class NetworkController : ControllerBase
                 }
 
                 _networkHelpers.SetupFollowersCollection(requestingUser, model);
-
                 return Ok(model);
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, ex.Message);
             return StatusCode(500);
         }
     }
@@ -117,8 +113,8 @@ public class NetworkController : ControllerBase
     {
         if (string.IsNullOrEmpty(requestedUsername))
         {
-            _logger.LogError(LoggingEvents.GetListNotFound, "The search criterion is null or empty");
-            return BadRequest("No search criterion");
+            _logger.LogError(LoggingEvents.GetListNotFound, $"{nameof(requestedUsername)} method argument is null or empty");
+            return BadRequest();
         }
 
         try
@@ -127,8 +123,8 @@ public class NetworkController : ControllerBase
 
             if (requestedUser is null)
             {
-                _logger.LogError(LoggingEvents.GetItem, $"Username '{requestedUsername}' not found at GetUserProfileAsync action");
-                return NotFound("Requested user not found");
+                _logger.LogError(LoggingEvents.GetItemNotFound, "UserManager returned null");
+                return StatusCode(500);
             }
 
             var model = _mapper.Map<ICollection<Network>, IEnumerable<FollowingViewModel>>(requestedUser.Following);
@@ -153,13 +149,12 @@ public class NetworkController : ControllerBase
                 }
 
                 _networkHelpers.SetupFollowingCollection(requestingUser, model);
-
                 return Ok(model);
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.Exception, ex, "an unexpected error occurred");
+            _logger.LogError(LoggingEvents.Exception, ex, ex.Message);
             return StatusCode(500);
         }
     }
