@@ -99,7 +99,7 @@ public class GetNetworkSuggestionsAsyncTests
 
 
     [Fact]
-    public async Task GetNetworkSuggestionsAsync____________________()
+    public async Task GetNetworkSuggestionsAsync_When_Followers_Not_Followed_returns_200()
     {
         // Arrange
         string requesterUsername = "username";
@@ -108,9 +108,22 @@ public class GetNetworkSuggestionsAsyncTests
 
         var mockHelper = new Mock<IUserNetworkHelpers>();
         mockHelper.Setup(i => i.GetFollowersNotBeingFollowedUserNames(It.IsAny<ApplicationUser>()))
-          .Returns(new List<string>());
+            .Returns(new List<string>());
+        mockHelper.Setup(i => i.GetFollowingUserNames(It.IsAny<ICollection<Network>>()))
+            .Returns(new List<string>());
 
-        UserManager<ApplicationUser> userManager = null; //to cause internal error
+
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+        using var context = new ApplicationDbContext(options);
+        context.Database.EnsureCreated();
+
+        context.Users.Add(SharedFunctions.CreateUser(requesterUsername));
+        context.SaveChanges();
+        context.Users.Count().ShouldEqual(1);
+
+        var userManager = SharedFunctions.InitialiseUserManager(context);
+
+
         var mockRepo = new Mock<INetworkRepository>();
         var mockUnitOfWork = new Mock<IUnitOfWork>();
         var controller = new NetworkController(_mapper, mockUnitOfWork.Object, loggerMock.Object, mockRepo.Object, userManager, mockHelper.Object);
@@ -123,15 +136,69 @@ public class GetNetworkSuggestionsAsyncTests
         var result = await controller.GetNetworkSuggestionsAsync();
 
         // Assert
-        var objectResult = Assert.IsType<StatusCodeResult>(result);
-        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+        var objectResult = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+        Assert.IsType<List<NetworkUserViewModel>>(objectResult.Value);
 
         loggerMock.Verify(x => x.Log(
-            It.Is<LogLevel>(l => l == LogLevel.Error),
+            It.IsAny<LogLevel>(),
             It.IsAny<EventId>(),
-            It.Is<It.IsAnyType>((v, t) => true),//It.Is<It.IsAnyType>((o, t) => string.Equals(expectedExceptionMessage, o.ToString(), StringComparison.InvariantCultureIgnoreCase)),
+            It.Is<It.IsAnyType>((v, t) => true),
             It.IsAny<Exception>(),
             It.IsAny<Func<It.IsAnyType, Exception, string>>()),
-            Times.Once);
+            Times.Never);
+
+        mockHelper.Verify(x => x.GetFollowersNotBeingFollowedUserNames(It.IsAny<ApplicationUser>()), Times.Once);
+        mockHelper.Verify(x => x.GetFollowingUserNames(It.IsAny<ICollection<Network>>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task GetNetworkSuggestionsAsync_When_All_Followers_Followed_returns_200()
+    {
+        // Arrange
+        string requesterUsername = "username";
+
+        Mock<ILogger<NetworkController>> loggerMock = new();
+
+        var mockHelper = new Mock<IUserNetworkHelpers>();
+        mockHelper.Setup(i => i.GetFollowersNotBeingFollowedUserNames(It.IsAny<ApplicationUser>()))
+            .Returns(new List<string> { "test", "test2" });
+
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+        using var context = new ApplicationDbContext(options);
+        context.Database.EnsureCreated();
+
+        context.Users.Add(SharedFunctions.CreateUser(requesterUsername));
+        context.SaveChanges();
+        context.Users.Count().ShouldEqual(1);
+
+        var userManager = SharedFunctions.InitialiseUserManager(context);
+
+        var mockRepo = new Mock<INetworkRepository>();
+        var mockUnitOfWork = new Mock<IUnitOfWork>();
+        var controller = new NetworkController(_mapper, mockUnitOfWork.Object, loggerMock.Object, mockRepo.Object, userManager, mockHelper.Object);
+        controller.ControllerContext = new ControllerContext()
+        {
+            HttpContext = new DefaultHttpContext() { User = SharedFunctions.GetTestClaimsPrincipal(requesterUsername) }
+        };
+
+        // Act
+        var result = await controller.GetNetworkSuggestionsAsync();
+
+        // Assert
+        var objectResult = Assert.IsType<OkObjectResult>(result);
+        Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
+        Assert.IsType<List<NetworkUserViewModel>>(objectResult.Value);
+
+        loggerMock.Verify(x => x.Log(
+            It.IsAny<LogLevel>(),
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((v, t) => true),
+            It.IsAny<Exception>(),
+            It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+            Times.Never);
+
+        mockHelper.Verify(x => x.GetFollowersNotBeingFollowedUserNames(It.IsAny<ApplicationUser>()), Times.Once);
+        mockHelper.Verify(x => x.GetFollowingUserNames(It.IsAny<ICollection<Network>>()), Times.Never);
     }
 }

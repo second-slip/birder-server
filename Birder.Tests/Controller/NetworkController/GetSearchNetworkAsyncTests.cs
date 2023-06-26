@@ -78,7 +78,7 @@ public class GetSearchNetworkAsyncTests
         // Assert
         var objectResult = result as ObjectResult;
         Assert.NotNull(objectResult);
-        //Assert.IsType<OkObjectResult>(result);
+        Assert.IsType<OkObjectResult>(result);
         Assert.True(objectResult is OkObjectResult);
         Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
         Assert.IsType<List<NetworkUserViewModel>>(objectResult.Value);
