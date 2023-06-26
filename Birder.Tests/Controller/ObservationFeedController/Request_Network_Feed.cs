@@ -23,7 +23,7 @@ public class Request_Network_Feed
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureClean();
         //temporary increase timeout only for one Context instance.
-        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(3));
+        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
 
         context.Users.Add(SharedFunctions.CreateUser("testUser1"));
         context.Users.Add(SharedFunctions.CreateUser("testUser2"));
