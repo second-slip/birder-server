@@ -1,4 +1,5 @@
 ﻿using Azure.Identity;
+using Birder.MinApiEndpoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -153,35 +154,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/", (ISystemClockService date) =>
-    string.Join(
-        Environment.NewLine,
-        "birder-server API",
-        "https://github.com/winthorpecross/birder-server",
-        $"{date.GetNow}",
-        $"\u00A9 Birder {date.GetNow.Year}"));
+app.MapGet("/", GeneralEndpoints.ServerInfo);
 
-app.MapGet("/api/birds-list", GetBirdsDdlAsync)
+app.MapGet("/api/birds-list", BirdEndpoints.GetBirdsDdlAsync)
     .RequireAuthorization();
 
 app.Run();
-
-
-
-static async Task<IResult> GetBirdsDdlAsync(ICachedBirdsDdlService service, ILogger<Program> logger)
-{
-    try
-    {
-        var model = await service.GetAll();
-        if (model is null) return TypedResults.NotFound();
-        return TypedResults.Ok(model);
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(LoggingEvents.GetListNotFound, ex, ex.Message);
-        return TypedResults.StatusCode(500);
-    }
-}
 
 
 [ExcludeFromCodeCoverageAttribute]

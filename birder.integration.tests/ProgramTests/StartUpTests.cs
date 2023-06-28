@@ -1,4 +1,4 @@
-namespace birder.integration.tests;
+// namespace birder.integration.tests;
 
 // public class StartUpTests : IClassFixture<WebApplicationFactory<Program>>
 // {
