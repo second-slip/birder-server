@@ -4,7 +4,7 @@ namespace Birder.Tests.Services;
 
 public class AuthenticationTokenServiceTests
 {
-    IOptions<AuthConfigOptions> testOptions = Options.Create<AuthConfigOptions>(new AuthConfigOptions()
+    IOptions<ConfigOptions> testOptions = Options.Create<ConfigOptions>(new ConfigOptions()
     { BaseUrl = "we", TokenKey = "fgjiorgjivjbrihgnvrHeij45lk45lmf" });
 
     public AuthenticationTokenServiceTests() { }

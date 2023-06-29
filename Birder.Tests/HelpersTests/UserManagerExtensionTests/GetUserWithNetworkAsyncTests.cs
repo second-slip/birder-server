@@ -1,4 +1,5 @@
-﻿using TestSupport.EfHelpers;
+﻿using Microsoft.EntityFrameworkCore;
+using TestSupport.EfHelpers;
 
 namespace Birder.Tests.HelpersTests;
 public class GetUserWithNetworkAsyncTests
@@ -32,6 +33,8 @@ public class GetUserWithNetworkAsyncTests
         var options = this.CreateUniqueMethodOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureClean();
+        
+        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
 
         context.Users.Add(SharedFunctions.CreateUser(usernameToAct));
         context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));

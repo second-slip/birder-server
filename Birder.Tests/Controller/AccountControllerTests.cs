@@ -10,7 +10,7 @@ public class AccountControllerTests
     private readonly Mock<IEmailSender> _emailSender;
     private readonly Mock<IUrlService> _urlService;
 
-    IOptions<AuthConfigOptions> testOptions = Options.Create<AuthConfigOptions>(new AuthConfigOptions()
+    IOptions<ConfigOptions> testOptions = Options.Create<ConfigOptions>(new ConfigOptions()
     { BaseUrl = "http://localhost:55722", TokenKey = "fgjiorgjivjbrihgnvrHeij45lk45lmf" });
 
     public AccountControllerTests()

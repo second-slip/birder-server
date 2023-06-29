@@ -1,8 +1,9 @@
 namespace Birder.Infrastructure.Configuration;
 
-public class AuthConfigOptions
+public class ConfigOptions
 {
-    public const string AuthConfig = "AuthConfig";
+    public const string Config = "Config";
     public string BaseUrl { get; set; }
     public string TokenKey { get; set; }
+    public string DevMail { get; set; }
 }

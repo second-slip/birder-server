@@ -13,12 +13,12 @@ public interface IUrlService
 
 public class UrlService : IUrlService
 {
-    public UrlService(IOptions<AuthConfigOptions> optionsAccessor)
+    public UrlService(IOptions<ConfigOptions> optionsAccessor)
     {
         Options = optionsAccessor.Value;
     }
 
-    public AuthConfigOptions Options { get; }
+    public ConfigOptions Options { get; }
 
     public Uri GetConfirmEmailUrl(string username, string code)
     {

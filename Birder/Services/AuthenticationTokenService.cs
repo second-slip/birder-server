@@ -13,9 +13,9 @@ public interface IAuthenticationTokenService
 public class AuthenticationTokenService : IAuthenticationTokenService
 {
     private const int ExpirationHours = 48;
-    private AuthConfigOptions Options { get; }
+    private ConfigOptions Options { get; }
 
-    public AuthenticationTokenService(IOptions<AuthConfigOptions> optionsAccessor)
+    public AuthenticationTokenService(IOptions<ConfigOptions> optionsAccessor)
     {
         Options = optionsAccessor.Value;
     }

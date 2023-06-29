@@ -1,6 +1,5 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
-using System.Net.Http;
 using System.Text.Json;
 using Microsoft.Extensions.Options;
 using Birder.Infrastructure.CustomExceptions;

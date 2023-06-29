@@ -1,4 +1,5 @@
-﻿using SendGrid.Helpers.Mail;
+﻿using Microsoft.Extensions.Options;
+using SendGrid.Helpers.Mail;
 
 namespace Birder.Tests.Controller;
 
@@ -8,13 +9,15 @@ public class MessageControllerTests
     public async Task Returns_200_When_Ok()
     {
         // Arrange
+        IOptions<ConfigOptions> testOptions = Options.Create<ConfigOptions>(new ConfigOptions()
+        { BaseUrl = "http://localhost:55722", TokenKey = "fgjiorgjivjbrihgnvrHeij45lk45lmf", DevMail = "a@b.com" });
+
         Mock<ILogger<MessageController>> loggerMock = new();
         var mockService = new Mock<IEmailSender>();
         mockService.Setup(a => a.CreateMailMessage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<object>()))
             .Returns(new SendGridMessage());
-        //.Returns(Task.CompletedTask);
 
-        var controller = new MessageController(mockService.Object, loggerMock.Object);
+        var controller = new MessageController(mockService.Object, loggerMock.Object, testOptions);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -26,21 +29,23 @@ public class MessageControllerTests
         var result = await controller.PostContactMessageAsync(new ContactFormDto());
 
         // Assert
-        var objectResult = Assert.IsType<OkObjectResult>(result);
-        Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-        var actual = Assert.IsType<ContactFormDto>(objectResult.Value);
+        var objectResult = Assert.IsType<NoContentResult>(result);
+        Assert.Equal(StatusCodes.Status204NoContent, objectResult.StatusCode);
     }
 
     [Fact]
     public async Task Returns_500_When_Exception_Is_Raised()
     {
         // Arrange
+        IOptions<ConfigOptions> testOptions = Options.Create<ConfigOptions>(new ConfigOptions()
+        { BaseUrl = "http://localhost:55722", TokenKey = "fgjiorgjivjbrihgnvrHeij45lk45lmf", DevMail = "a@b.com" });
+
         Mock<ILogger<MessageController>> loggerMock = new();
         var mockService = new Mock<IEmailSender>();
         mockService.Setup(a => a.CreateMailMessage(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<object>()))
             .Throws(new InvalidOperationException());
 
-        var controller = new MessageController(mockService.Object, loggerMock.Object);
+        var controller = new MessageController(mockService.Object, loggerMock.Object, testOptions);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -52,9 +57,7 @@ public class MessageControllerTests
         var result = await controller.PostContactMessageAsync(new ContactFormDto());
 
         // Assert
-        var objectResult = Assert.IsType<ObjectResult>(result);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal($"an unexpected error occurred", actual);
     }
 }
