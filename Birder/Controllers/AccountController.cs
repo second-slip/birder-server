@@ -47,7 +47,7 @@ public class AccountController : ControllerBase
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 var url = _urlService.GetConfirmEmailUrl(newUser.UserName, code);
                 var templateData = new { username = newUser.UserName, url = url };
-                var msg = _emailSender.CreateMailMessage("d-882e4b133cae40268364c8a929e55ea9", newUser.Email, templateData);
+                var msg = _emailSender.CreateMailMessage(SendGridTemplateId.ConfirmEmail, newUser.Email, templateData);
                 await _emailSender.SendMessageAsync(msg);
 
                 return Ok(new { success = true }); //ToDo: Is this adequate?  Created reponse?
@@ -125,7 +125,7 @@ public class AccountController : ControllerBase
 
             var templateData = new { username = user.UserName, url = url };
 
-            var msg = _emailSender.CreateMailMessage("d-882e4b133cae40268364c8a929e55ea9", user.Email, templateData);
+            var msg = _emailSender.CreateMailMessage(SendGridTemplateId.ConfirmEmail, user.Email, templateData);
             await _emailSender.SendMessageAsync(msg);
             return Ok(new { success = true });
         }
@@ -162,17 +162,9 @@ public class AccountController : ControllerBase
             }
 
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-
             var url = _urlService.GetResetPasswordUrl(code);
-
-            //    message.SetTemplateId("d-37733c23b2eb4c339a011dfadbd42b91");
-            //    message.SetTemplateData(new ConfirmEmailDto { Username = accountDetails.Username, Url = accountDetails.Url });
-
-            //var templateData = new ResetPasswordEmailDto { Email = model.Email, Url = url, Username = user.UserName };
             var templateData = new { username = user.UserName, url = url };
-            //await _emailSender.SendResetPasswordEmailAsync(templateData);
-            var msg = _emailSender.CreateMailMessage("d-37733c23b2eb4c339a011dfadbd42b91", model.Email, templateData);
-
+            var msg = _emailSender.CreateMailMessage(SendGridTemplateId.PasswordResetRequest, model.Email, templateData);
             await _emailSender.SendMessageAsync(msg);
 
             return Ok(new { success = true });
