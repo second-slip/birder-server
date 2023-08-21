@@ -1,4 +1,5 @@
 ﻿namespace Birder.Services;
+
 public interface ISystemClockService
 {
     DateTime GetNow { get; }
