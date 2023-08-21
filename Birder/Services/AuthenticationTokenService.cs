@@ -34,6 +34,7 @@ public class AuthenticationTokenService : IAuthenticationTokenService
 
     private DateTime CalculateTokenExpiry()
     {
+        // todo: use systemclock abstraction here....
         var expiration = DateTime.UtcNow.AddHours(ExpirationHours);
         return expiration;
     }

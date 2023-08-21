@@ -87,15 +87,9 @@ public class ObservationController : ControllerBase
                 return StatusCode(500, message);
             }
 
-            // date from client model is already Utc....
-            // model.ObservationDateTime = model.ObservationDateTime.ToLocalTime();
-            // var x = model.ObservationDateTime;
-            // var y = model.ObservationDateTime = model.ObservationDateTime.ToLocalTime();
-            // var z = model.ObservationDateTime = model.ObservationDateTime.ToUniversalTime();
-
             var observation = _mapper.Map<ObservationAddDto, Observation>(model);
 
-            DateTime createdDate = _systemClock.GetNow;
+            var createdDate = _systemClock.GetNow;
 
             observation.ApplicationUser = requestingUser;
             observation.Bird = observedBirdSpecies;
@@ -149,11 +143,7 @@ public class ObservationController : ControllerBase
                 return Unauthorized("Requesting user is not allowed to edit this observation");
             }
 
-            // date from client model is already Utc....
-            // model.ObservationDateTime = model.ObservationDateTime.ToLocalTime();
-            // var x = model.ObservationDateTime;
-            // var y = model.ObservationDateTime = model.ObservationDateTime.ToLocalTime();
-            // var z = model.ObservationDateTime = model.ObservationDateTime.ToUniversalTime();
+
 
             _mapper.Map<ObservationEditDto, Observation>(model, observation);
 
