@@ -7,8 +7,11 @@ public class GeneralEnpointTests
     [Fact]
     public void ServerInfo_Returns_String_Result()
     {
+        // Arrange 
+        var _systemClock = new SystemClockService();
+
         // Act
-        var result = GeneralEndpoints.ServerInfo();
+        var result = GeneralEndpoints.ServerInfo(_systemClock);
 
         // Assert
         Assert.IsType<string>(result);
