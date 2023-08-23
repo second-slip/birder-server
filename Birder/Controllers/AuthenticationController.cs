@@ -8,7 +8,7 @@ public class AuthenticationController : ControllerBase
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IAuthenticationTokenService _authenticationTokenService;
-        private readonly ILogger _logger;
+    private readonly ILogger _logger;
 
     public AuthenticationController(UserManager<ApplicationUser> userManager
                                     , SignInManager<ApplicationUser> signInManager
@@ -50,7 +50,6 @@ public class AuthenticationController : ControllerBase
 
             if (result.Succeeded)
             {
-                // var model = _authenticationTokenService.CreateToken(claims);
                 var token = _authenticationTokenService.CreateToken(user);
                 
                 var viewModel = new AuthenticationResultDto()

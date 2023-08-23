@@ -64,7 +64,7 @@ public class TweetsController : ControllerBase
             if (model is null)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, "An error occurred getting the tweets archive");
-                return StatusCode(500, $"tweets service returned null");
+                return StatusCode(500, "tweets service returned null");
             }
 
             return Ok(model);

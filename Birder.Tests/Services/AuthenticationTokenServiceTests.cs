@@ -13,10 +13,14 @@ public class AuthenticationTokenServiceTests
     public void CreateToken_Returns_AuthenticationResultDto_On_Success()
     {
         // Arrange
-        var service = new AuthenticationTokenService(testOptions);
+        var mock = new Mock<ISystemClockService>();
+        mock.SetupGet(x => x.GetNow).Returns(DateTime.UtcNow);
+        var service = new AuthenticationTokenService(testOptions, mock.Object);
 
+        // Act
         var result = service.CreateToken(GetValidTestUser());
 
+        // Assert
         string.IsNullOrEmpty(result).ShouldBeFalse();
 
         Assert.NotNull(result);
@@ -41,8 +45,8 @@ public class AuthenticationTokenServiceTests
     public void CreateToken_NullOrEmptyClaims_ThrowsArgumentException()
     {
         // Arrange
-        var systemClock = new SystemClockService();
-        var service = new AuthenticationTokenService(testOptions);
+        var mock = new Mock<ISystemClockService>();
+        var service = new AuthenticationTokenService(testOptions, mock.Object);
 
         // Assert
         var ex = Assert.Throws<InvalidOperationException>(

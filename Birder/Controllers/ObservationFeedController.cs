@@ -18,7 +18,7 @@ public class ObservationFeedController : ControllerBase
         _logger = logger;
         _userManager = userManager;
         _observationQueryService = observationQueryService;
-                _networkHelpers = networkHelpers;
+        _networkHelpers = networkHelpers;
     }
 
     [HttpGet]

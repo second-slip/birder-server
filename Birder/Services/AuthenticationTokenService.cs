@@ -5,9 +5,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Birder.Services;
+
 public interface IAuthenticationTokenService
 {
-    String CreateToken(ApplicationUser user);
+    string CreateToken(ApplicationUser user);
 }
 
 public class AuthenticationTokenService : IAuthenticationTokenService
@@ -15,9 +16,12 @@ public class AuthenticationTokenService : IAuthenticationTokenService
     private const int ExpirationHours = 48;
     private ConfigOptions Options { get; }
 
-    public AuthenticationTokenService(IOptions<ConfigOptions> optionsAccessor)
+    private readonly ISystemClockService _systemClock;
+
+    public AuthenticationTokenService(IOptions<ConfigOptions> optionsAccessor, ISystemClockService systemClock)
     {
         Options = optionsAccessor.Value;
+        _systemClock = systemClock;
     }
 
     public string CreateToken(ApplicationUser user)
@@ -34,8 +38,7 @@ public class AuthenticationTokenService : IAuthenticationTokenService
 
     private DateTime CalculateTokenExpiry()
     {
-        // todo: use systemclock abstraction here....
-        var expiration = DateTime.UtcNow.AddHours(ExpirationHours);
+        var expiration = _systemClock.GetNow.AddHours(ExpirationHours);
         return expiration;
     }
 
