@@ -6,12 +6,10 @@ public class TweetsControllerTests
 {
     private IMemoryCache _cache;
     private readonly Mock<ILogger<TweetsController>> _logger;
-    private readonly Mock<ISystemClockService> _systemClock;
 
     public TweetsControllerTests()
     {
         _cache = new MemoryCache(new MemoryCacheOptions()); // new Mock<IMemoryCache>();
-        _systemClock = new Mock<ISystemClockService>();
         _logger = new Mock<ILogger<TweetsController>>();
     }
 
@@ -19,6 +17,7 @@ public class TweetsControllerTests
     public async Task GetTweetArchive_ReturnsNotFoundResult_WhenRepoReturnsNull()
     {
         // Arrange
+        var _systemClock = new Mock<ISystemClockService>();
         var service = new Mock<ITweetDataService>();
         service.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<DateTime>()))
             .Returns(Task.FromResult<IEnumerable<TweetDayDto>>(null));
@@ -39,6 +38,7 @@ public class TweetsControllerTests
     public async Task GetTweetArchive_ReturnsBadRequestResult_WhenExceptionIsRaised()
     {
         // Arrange
+        var _systemClock = new Mock<ISystemClockService>();
         var service = new Mock<ITweetDataService>();
         service.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<DateTime>()))
             .ThrowsAsync(new InvalidOperationException());
@@ -59,6 +59,7 @@ public class TweetsControllerTests
     public async Task GetTweetArchiveAsync_ReturnsOkObjectResult_WithObject()
     {
         // Arrange
+        var _systemClock = new Mock<ISystemClockService>();
         var service = new Mock<ITweetDataService>();
 
         service.Setup(repo => repo.GetTweetArchiveAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<DateTime>()))
@@ -86,6 +87,7 @@ public class TweetsControllerTests
     public async Task Get_ReturnsOkObjectResult_WithViewModel()
     {
         // Arrange
+        var _systemClock = new Mock<ISystemClockService>();
         var service = new Mock<ITweetDataService>();
 
         service.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
@@ -108,6 +110,7 @@ public class TweetsControllerTests
     public async Task GetTweetDay_ReturnsNotFoundResult_WhenTweetIsNull()
     {
         // Arrange
+        var _systemClock = new Mock<ISystemClockService>();
         var service = new Mock<ITweetDataService>();
         service.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
             .Returns(Task.FromResult<TweetDayDto>(null));
@@ -128,6 +131,7 @@ public class TweetsControllerTests
     public async Task GetTweetDay_ReturnsBadRequestResult_WhenExceptionIsRaised()
     {
         // Arrange
+        var _systemClock = new Mock<ISystemClockService>();
         var service = new Mock<ITweetDataService>();
         service.Setup(repo => repo.GetTweetOfTheDayAsync(It.IsAny<DateTime>()))
             .ThrowsAsync(new InvalidOperationException());

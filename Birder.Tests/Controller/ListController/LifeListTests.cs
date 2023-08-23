@@ -7,12 +7,12 @@ public class LifeListTests
     {
         // Arrange
         Mock<ILogger<ListController>> loggerMock = new();
-        var _systemClock = new SystemClockService();
+        var _systemClock = new Mock<ISystemClockService>();
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetLifeListAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
                 .ReturnsAsync(new List<LifeListViewModel>());
 
-        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -34,12 +34,12 @@ public class LifeListTests
     {
         // Arrange
         Mock<ILogger<ListController>> loggerMock = new();
-        var _systemClock = new SystemClockService();
+        var _systemClock = new Mock<ISystemClockService>();
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetLifeListAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -62,10 +62,10 @@ public class LifeListTests
     {
         // Arrange
         Mock<ILogger<ListController>> loggerMock = new();
-        var _systemClock = new SystemClockService();
+        var _systemClock = new Mock<ISystemClockService>();
         var mockListService = new Mock<IListService>();
 
-        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -86,12 +86,12 @@ public class LifeListTests
     {
         // Arrange
         Mock<ILogger<ListController>> loggerMock = new();
-        var _systemClock = new SystemClockService();
+        var _systemClock = new Mock<ISystemClockService>();
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetLifeListAsync(It.IsAny<Expression<Func<Observation, bool>>>()))
                 .Returns(Task.FromResult<IEnumerable<LifeListViewModel>>(null));
 
-        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {

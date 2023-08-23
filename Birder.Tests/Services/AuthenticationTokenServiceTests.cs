@@ -25,7 +25,7 @@ public class AuthenticationTokenServiceTests
 
         Assert.NotNull(result);
         Assert.NotEmpty(result);
-        Assert.IsType<String>(result);
+        Assert.IsType<string>(result);
     }
 
     private ApplicationUser GetValidTestUser()

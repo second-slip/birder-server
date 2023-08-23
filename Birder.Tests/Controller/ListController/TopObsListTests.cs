@@ -7,12 +7,13 @@ public class TopObsListTests
     {
         // Arrange
         Mock<ILogger<ListController>> loggerMock = new();
-        var _systemClock = new SystemClockService();
+        var _systemClock = new Mock<ISystemClockService>();
+        _systemClock.SetupGet(x => x.GetToday).Returns(DateTime.Today);
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>(), It.IsAny<DateTime>()))
                 .ReturnsAsync(new TopObservationsAnalysisViewModel());
 
-        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -34,12 +35,12 @@ public class TopObsListTests
     {
         // Arrange
         Mock<ILogger<ListController>> loggerMock = new();
-        var _systemClock = new SystemClockService();
+        var _systemClock = new Mock<ISystemClockService>();
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>(), It.IsAny<DateTime>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -62,10 +63,10 @@ public class TopObsListTests
     {
         // Arrange
         Mock<ILogger<ListController>> loggerMock = new();
-        var _systemClock = new SystemClockService();
+        var _systemClock = new Mock<ISystemClockService>();
         var mockListService = new Mock<IListService>();
 
-        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -86,12 +87,12 @@ public class TopObsListTests
     {
         // Arrange
         Mock<ILogger<ListController>> loggerMock = new();
-        var _systemClock = new SystemClockService();
+        var _systemClock = new Mock<ISystemClockService>();
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult<TopObservationsAnalysisViewModel>(null));
 
-        var controller = new ListController(loggerMock.Object, _systemClock, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
