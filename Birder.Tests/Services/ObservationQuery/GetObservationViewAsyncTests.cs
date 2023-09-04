@@ -48,7 +48,7 @@ public class GetObservationViewAsyncTests
         actual.Notes.ShouldNotBeNull();
     }
 
-        [Fact]
+    [Fact]
     public async Task GetObservationViewAsync_When_Argument_Is_Zero_Returns_Argument_Exception()
     {
         // Arrange

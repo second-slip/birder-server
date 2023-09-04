@@ -158,6 +158,60 @@ public class ObservationControllerTests
         Assert.Equal(requestingUser.UserName, actualObs.User.UserName);
     }
 
+    [Fact]
+    public async Task GetObservationAsync_Returns_400_When_Id_Argument_Is_Zero()
+    {
+        //Arrange
+        Mock<ILogger<ObservationController>> loggerMock = new();
+        var mappingConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new BirderMappingProfile());
+            });
+        var mapper = mappingConfig.CreateMapper();
+
+        var requestingUser = GetUser("Any");
+
+        var mockUnitOfWork = new Mock<IUnitOfWork>();
+        var mockBirdRepo = new Mock<IBirdRepository>();
+        var mockUserManager = SharedFunctions.InitialiseMockUserManager();
+        var mockObsRepo = new Mock<IObservationRepository>();
+        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>()));
+        var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
+        var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
+
+        var controller = new ObservationController(
+             mapper
+            , _systemClock
+            , mockUnitOfWork.Object
+            , mockBirdRepo.Object
+            , loggerMock.Object
+            , mockUserManager.Object
+            , mockObsRepo.Object
+            , mockObsPositionRepo.Object
+            , mockObsNotesRepo.Object);
+
+        controller.ControllerContext = new ControllerContext()
+        {
+            HttpContext = new DefaultHttpContext()
+            { User = SharedFunctions.GetTestClaimsPrincipal(requestingUser.UserName) }
+        };
+
+        // Act
+        var result = await controller.GetObservationAsync(0);
+
+        // Assert
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
+        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+        loggerMock.Verify(x => x.Log(
+           It.Is<LogLevel>(l => l == LogLevel.Error),
+           It.IsAny<EventId>(),
+           It.Is<It.IsAnyType>((v, t) => true),//It.Is<It.IsAnyType>((o, t) => string.Equals("birdId argument is 0", o.ToString(), StringComparison.InvariantCultureIgnoreCase)),
+           It.IsAny<Exception>(),
+           It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+           Times.Once);
+    }
+
     #endregion
 
 

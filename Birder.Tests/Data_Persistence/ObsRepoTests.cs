@@ -257,4 +257,19 @@ public class ObsRepoTests
         // Assert
         Assert.Null(actual);
     }
+
+    [Fact]
+    public async Task GetObservationViewAsync_When_Argument_Is_Zero_Returns_Argument_Exception()
+    {
+        // Arrange
+        var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+        using var context = new ApplicationDbContext(options);
+        context.Database.EnsureCreated();
+
+        var service = new ObservationRepository(context);
+
+        // Act & Assert
+        var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetObservationAsync(0));
+        Assert.Equal("method argument is invalid (zero) (Parameter 'id')", ex.Message);
+    }
 }
