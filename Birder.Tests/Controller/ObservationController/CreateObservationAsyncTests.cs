@@ -1,19 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Birder.Tests.Controller;
 
 public class CreateObservationAsyncTests
 {
-    private IMemoryCache _cache;
     private readonly IMapper _mapper;
     private readonly Mock<ILogger<ObservationController>> _logger;
     private readonly ISystemClockService _systemClock;
 
     public CreateObservationAsyncTests()
     {
-        _cache = new MemoryCache(new MemoryCacheOptions());
         _logger = new Mock<ILogger<ObservationController>>();
         var mappingConfig = new MapperConfiguration(cfg =>
         {

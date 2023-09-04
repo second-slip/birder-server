@@ -3,16 +3,17 @@ using TestSupport.EfHelpers;
 
 namespace Birder.Tests.Services;
 
-public class GetPagedObservationsAsyncTests
+public class GetObservationViewAsyncTests
 {
     [Fact]
-    public async Task GetPagedObservationsAsync_Retrieves_Data____()
+    public async Task GetObservationViewAsync_Returns_GetObservationView_Dto()
     {
+        // Arrange
         var mappingConfig = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new BirderMappingProfile());
             });
-        var _mapper = mappingConfig.CreateMapper();
+        var mapper = mappingConfig.CreateMapper();
 
         var testUsername = "TestUser1";
         var mockService = new Mock<IBirdThumbnailPhotoService>();
@@ -34,27 +35,28 @@ public class GetPagedObservationsAsyncTests
         context.SaveChanges();
         context.Observations.Count().ShouldEqual(2);
 
-        var service = new ObservationQueryService(_mapper, context, mockService.Object);
+        var service = new ObservationQueryService(mapper, context, mockService.Object);
 
         // Act
-        var actual = await service.GetPagedObservationsAsync(x =>
-                    x.ApplicationUser.UserName == testUsername, 1, 10);
+        var actual = await service.GetObservationViewAsync(1);
 
         // Assert
-        actual.ShouldBeType<ObservationsPagedDto>();
-        actual.TotalItems.ShouldEqual(2);
-        Assert.IsAssignableFrom<IEnumerable<ObservationViewDto>>(actual.Items);
-        actual.Items.Count().ShouldEqual(2);
+        actual.ShouldBeType<ObservationViewDto>();
+
+        actual.Username.ShouldEqual("TestUser1");
+        actual.Position.ShouldNotBeNull();
+        actual.Notes.ShouldNotBeNull();
     }
 
-    [Fact]
-    public async Task GetPagedObservationsAsync_When_Argument_Is_Null_Returns_Argument_Exception()
+        [Fact]
+    public async Task GetObservationViewAsync_When_Argument_Is_Zero_Returns_Argument_Exception()
     {
+        // Arrange
         var mappingConfig = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new BirderMappingProfile());
-        });
-        var _mapper = mappingConfig.CreateMapper();
+            {
+                cfg.AddProfile(new BirderMappingProfile());
+            });
+        var mapper = mappingConfig.CreateMapper();
 
         var mockService = new Mock<IBirdThumbnailPhotoService>();
 
@@ -62,10 +64,10 @@ public class GetPagedObservationsAsyncTests
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
 
-        var service = new ObservationQueryService(_mapper, context, mockService.Object);
+        var service = new ObservationQueryService(mapper, context, mockService.Object);
 
         // Act & Assert
-        var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetPagedObservationsAsync(null, 1, 10));
-        Assert.Equal("method argument is null or empty (Parameter 'predicate')", ex.Message);
+        var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetObservationViewAsync(0));
+        Assert.Equal("method argument is invalid (zero) (Parameter 'id')", ex.Message);
     }
 }

@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace Birder.Services;
 public interface IObservationQueryService
 {
-    Task<ObservationViewDto> GetObservationAsync(int id);
+    Task<ObservationViewDto> GetObservationViewAsync(int id);
     Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
     Task<IEnumerable<ObservationFeedDto>> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
 }
@@ -23,11 +23,11 @@ public class ObservationQueryService : IObservationQueryService
         _profilePhotosService = profilePhotosService;
     }
 
-    public async Task<ObservationViewDto> GetObservationAsync(int id)
+    public async Task<ObservationViewDto> GetObservationViewAsync(int id)
     {
-        // todo: implement guard
-        // if id == 0)
-        //     d
+        if (id == 0)
+            throw new ArgumentException("method argument is invalid (zero)", nameof(id));
+
         // var query = _dbContext.Observations
         //     .AsNoTracking()
         //     .Where(o => o.ObservationId == id)
@@ -35,11 +35,10 @@ public class ObservationQueryService : IObservationQueryService
         //     .AsQueryable();
 
         var query = _dbContext.Observations
-    .AsNoTracking()
-    .Where(o => o.ObservationId == id)
-    // .MapObservationToObservationViewDto()
-    .ProjectTo<ObservationViewDto>(_mapper.ConfigurationProvider)
-    .AsQueryable();
+            .AsNoTracking()
+            .Where(o => o.ObservationId == id)
+            .ProjectTo<ObservationViewDto>(_mapper.ConfigurationProvider)
+            .AsQueryable();
 
         return await query.SingleOrDefaultAsync();
     }

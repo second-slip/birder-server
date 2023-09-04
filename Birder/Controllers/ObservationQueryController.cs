@@ -28,7 +28,7 @@ public class ObservationQueryController : ControllerBase
 
         try
         {
-            var observation = await _service.GetObservationAsync(id);
+            var observation = await _service.GetObservationViewAsync(id);
 
             if (observation is null)
             {
