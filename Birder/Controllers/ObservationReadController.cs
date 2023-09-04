@@ -3,14 +3,12 @@
 [Route("api/[controller]")]
 [ApiController]
 [Authorize(AuthenticationSchemes = "Bearer")]
-public class ObservationQueryController : ControllerBase
+public class ObservationReadController : ControllerBase
 {
     private readonly ILogger _logger;
     private readonly IObservationQueryService _service;
 
-    // todo: perhaps change to observation read?
-
-    public ObservationQueryController(ILogger<ObservationQueryController> logger
+    public ObservationReadController(ILogger<ObservationReadController> logger
                         , IObservationQueryService service)
     {
         _logger = logger;

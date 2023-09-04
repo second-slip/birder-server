@@ -8,7 +8,7 @@ public class ObsQueryControllerTests
     {
         // Arrange
         const int BIRD_ID = 1001;
-        Mock<ILogger<ObservationQueryController>> loggerMock = new();
+        Mock<ILogger<ObservationReadController>> loggerMock = new();
 
         var expectedResponseObject = new ObservationsPagedDto();
         var mockService = new Mock<IObservationQueryService>();
@@ -16,7 +16,7 @@ public class ObsQueryControllerTests
                                                                   It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(expectedResponseObject);
 
-        var controller = new ObservationQueryController(loggerMock.Object, mockService.Object);
+        var controller = new ObservationReadController(loggerMock.Object, mockService.Object);
 
         // Act
         var result = await controller.GetObservationsByBirdSpeciesAsync(BIRD_ID, It.IsAny<int>(), It.IsAny<int>());
@@ -40,7 +40,7 @@ public class ObsQueryControllerTests
     {
         // Arrange
         const int BIRD_ID = 1001;
-        Mock<ILogger<ObservationQueryController>> loggerMock = new();
+        Mock<ILogger<ObservationReadController>> loggerMock = new();
 
         var expectedResponseObject = "an unexpected error occurred";
 
@@ -49,7 +49,7 @@ public class ObsQueryControllerTests
                                                                   It.IsAny<int>(), It.IsAny<int>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new ObservationQueryController(loggerMock.Object, mockService.Object);
+        var controller = new ObservationReadController(loggerMock.Object, mockService.Object);
 
         // Act
         var result = await controller.GetObservationsByBirdSpeciesAsync(BIRD_ID, It.IsAny<int>(), It.IsAny<int>());
@@ -74,7 +74,7 @@ public class ObsQueryControllerTests
     {
         // Arrange
         const int BIRD_ID = 1001;
-        Mock<ILogger<ObservationQueryController>> loggerMock = new();
+        Mock<ILogger<ObservationReadController>> loggerMock = new();
 
         var expectedResponseObject = "an unexpected error occurred";
 
@@ -83,7 +83,7 @@ public class ObsQueryControllerTests
                                                                   It.IsAny<int>(), It.IsAny<int>()))
             .Returns(Task.FromResult<ObservationsPagedDto>(null));
 
-        var controller = new ObservationQueryController(loggerMock.Object, mockService.Object);
+        var controller = new ObservationReadController(loggerMock.Object, mockService.Object);
 
         // Act
         var result = await controller.GetObservationsByBirdSpeciesAsync(BIRD_ID, It.IsAny<int>(), It.IsAny<int>());
@@ -108,7 +108,7 @@ public class ObsQueryControllerTests
     {
         // Arrange
         const int BIRD_ID_IS_ZERO = 0;
-        Mock<ILogger<ObservationQueryController>> loggerMock = new();
+        Mock<ILogger<ObservationReadController>> loggerMock = new();
 
         var expectedResponseObject = "birdId is zero";
 
@@ -117,7 +117,7 @@ public class ObsQueryControllerTests
                                                                   It.IsAny<int>(), It.IsAny<int>()))
             .Returns(Task.FromResult<ObservationsPagedDto>(null));
 
-        var controller = new ObservationQueryController(loggerMock.Object, mockService.Object);
+        var controller = new ObservationReadController(loggerMock.Object, mockService.Object);
 
         // Act
         var result = await controller.GetObservationsByBirdSpeciesAsync(BIRD_ID_IS_ZERO, It.IsAny<int>(), It.IsAny<int>());
@@ -142,7 +142,7 @@ public class ObsQueryControllerTests
     {
         // Arrange
         const string USERNAME = "USERNAME";
-        Mock<ILogger<ObservationQueryController>> loggerMock = new();
+        Mock<ILogger<ObservationReadController>> loggerMock = new();
 
         var expectedResponseObject = new ObservationsPagedDto();
         var mockService = new Mock<IObservationQueryService>();
@@ -150,7 +150,7 @@ public class ObsQueryControllerTests
                                                                   It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(expectedResponseObject);
 
-        var controller = new ObservationQueryController(loggerMock.Object, mockService.Object);
+        var controller = new ObservationReadController(loggerMock.Object, mockService.Object);
 
         // Act
         var result = await controller.GetObservationsByUserAsync(USERNAME, It.IsAny<int>(), It.IsAny<int>());
@@ -174,7 +174,7 @@ public class ObsQueryControllerTests
     {
         // Arrange
         const string USERNAME = "USERNAME";
-        Mock<ILogger<ObservationQueryController>> loggerMock = new();
+        Mock<ILogger<ObservationReadController>> loggerMock = new();
 
         var expectedResponseObject = "an unexpected error occurred";
 
@@ -183,7 +183,7 @@ public class ObsQueryControllerTests
                                                                   It.IsAny<int>(), It.IsAny<int>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new ObservationQueryController(loggerMock.Object, mockService.Object);
+        var controller = new ObservationReadController(loggerMock.Object, mockService.Object);
 
         // Act
         var result = await controller.GetObservationsByUserAsync(USERNAME, It.IsAny<int>(), It.IsAny<int>());
@@ -208,7 +208,7 @@ public class ObsQueryControllerTests
     {
         // Arrange
         const string USERNAME = "USERNAME";
-        Mock<ILogger<ObservationQueryController>> loggerMock = new();
+        Mock<ILogger<ObservationReadController>> loggerMock = new();
 
         var expectedResponseObject = "an unexpected error occurred";
 
@@ -218,7 +218,7 @@ public class ObsQueryControllerTests
                                                                   It.IsAny<int>(), It.IsAny<int>()))
             .Returns(Task.FromResult<ObservationsPagedDto>(null));
 
-        var controller = new ObservationQueryController(loggerMock.Object, mockService.Object);
+        var controller = new ObservationReadController(loggerMock.Object, mockService.Object);
 
         // Act
         var result = await controller.GetObservationsByUserAsync(USERNAME, It.IsAny<int>(), It.IsAny<int>());
@@ -244,7 +244,7 @@ public class ObsQueryControllerTests
     public async Task GetObservationsByUserAsync_When_Username_Is_NULL_Or_Empty_Returns_400(string username)
     {
         // Arrange
-        Mock<ILogger<ObservationQueryController>> loggerMock = new();
+        Mock<ILogger<ObservationReadController>> loggerMock = new();
 
         var expectedResponseObject = "username is null or empty";
 
@@ -253,7 +253,7 @@ public class ObsQueryControllerTests
                                                                   It.IsAny<int>(), It.IsAny<int>()))
             .Returns(Task.FromResult<ObservationsPagedDto>(null));
 
-        var controller = new ObservationQueryController(loggerMock.Object, mockService.Object);
+        var controller = new ObservationReadController(loggerMock.Object, mockService.Object);
 
         // Act
         var result = await controller.GetObservationsByUserAsync(username, It.IsAny<int>(), It.IsAny<int>());
