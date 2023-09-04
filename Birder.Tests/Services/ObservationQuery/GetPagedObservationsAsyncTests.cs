@@ -1,3 +1,4 @@
+using AutoMapper;
 using TestSupport.EfHelpers;
 
 namespace Birder.Tests.Services;
@@ -7,6 +8,12 @@ public class GetPagedObservationsAsyncTests
     [Fact]
     public async Task GetPagedObservationsAsync_Retrieves_Data____()
     {
+                var mappingConfig = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new BirderMappingProfile());
+        });
+        var _mapper = mappingConfig.CreateMapper();
+        
         var testUsername = "TestUser1";
         var mockService = new Mock<IBirdThumbnailPhotoService>();
 
@@ -27,7 +34,7 @@ public class GetPagedObservationsAsyncTests
         context.SaveChanges();
         context.Observations.Count().ShouldEqual(2);
 
-        var service = new ObservationQueryService(context, mockService.Object);
+        var service = new ObservationQueryService(_mapper, context, mockService.Object);
 
         // Act
         var actual = await service.GetPagedObservationsAsync(x =>
@@ -43,13 +50,19 @@ public class GetPagedObservationsAsyncTests
     [Fact]
     public async Task GetPagedObservationsAsync_When_Argument_Is_Null_Returns_Argument_Exception()
     {
+                var mappingConfig = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new BirderMappingProfile());
+        });
+        var _mapper = mappingConfig.CreateMapper();
+
         var mockService = new Mock<IBirdThumbnailPhotoService>();
 
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
 
-        var service = new ObservationQueryService(context, mockService.Object);
+        var service = new ObservationQueryService(_mapper, context, mockService.Object);
 
         // Act & Assert
         var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetPagedObservationsAsync(null, 1, 10));

@@ -88,6 +88,14 @@ public class BirderMappingProfile : Profile
         CreateMap<ObservationPosition, ObservationPositionDto>()
             .ReverseMap();
 
+        CreateMap<Observation, ObservationViewDto>()
+            .ForMember(p => p.Position, p => p.MapFrom(p => p.Position))
+            .ForMember(n => n.Notes, d => d.MapFrom(n => n.Notes))
+            .ForMember(u => u.Username, au => au.MapFrom(u => u.ApplicationUser.UserName))
+            .ForMember(u => u.Species, au => au.MapFrom(b => b.Bird.Species))
+            .ForMember(u => u.EnglishName, au => au.MapFrom(b => b.Bird.EnglishName))
+            .ReverseMap();
+
         CreateMap<ObservationNoteDto, ObservationNote>()
             .EqualityComparison((odto, o) => odto.Id == o.Id)
             .ForMember(n => n.NoteType, b => b.MapFrom(i => i.NoteType))

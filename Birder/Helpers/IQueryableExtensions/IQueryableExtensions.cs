@@ -1,4 +1,8 @@
-﻿namespace Birder.Helpers;
+﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
+using AutoMapper.QueryableExtensions;
+
+namespace Birder.Helpers;
 
 public static class QueryableExtensions
 {
@@ -13,8 +17,8 @@ public static class QueryableExtensions
             Species = o.Bird.Species,
             EnglishName = o.Bird.EnglishName,
             ThumbnailUrl = o.Bird.ThumbnailUrl,
-            Latitude = o.Position.Latitude,
-            Longitude = o.Position.Longitude,
+            Latitude = o.Position.Latitude, //not rqd?
+            Longitude = o.Position.Longitude, //not rqd?
             FormattedAddress = o.Position.FormattedAddress,
             ShortAddress = o.Position.ShortAddress,
             Username = o.ApplicationUser.UserName,
@@ -34,6 +38,9 @@ public static class QueryableExtensions
             Species = o.Bird.Species,
             EnglishName = o.Bird.EnglishName,
             Username = o.ApplicationUser.UserName,
+            // Position = o.Position,
+            // Notes = o.Notes.ToList(), // todo: temporary, remove
+            // NotesCount = o.Notes.Count,
             CreationDate = o.CreationDate,
             LastUpdateDate = o.LastUpdateDate
         });

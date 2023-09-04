@@ -35,7 +35,7 @@ public class ObservationControllerTests
         var mockBirdRepo = new Mock<IBirdRepository>();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>()))
                    .Returns(Task.FromResult<Observation>(null));
         var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
         var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
@@ -63,10 +63,10 @@ public class ObservationControllerTests
         // Assert
         string expectedMessage = $"Observation with id '{id}' was not found.";
 
-        var objectResult = Assert.IsType<ObjectResult>(result);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal($"Observation with id '{id}' was not found.", actual);
+        // var actual = Assert.IsType<string>(objectResult.Value);
+        // Assert.Equal($"Observation with id '{id}' was not found.", actual);
     }
 
     [Theory]
@@ -82,7 +82,7 @@ public class ObservationControllerTests
         var mockBirdRepo = new Mock<IBirdRepository>();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>()))
                    .ThrowsAsync(new InvalidOperationException());
         var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
         var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
@@ -108,10 +108,9 @@ public class ObservationControllerTests
         var result = await controller.GetObservationAsync(id);
 
         // Assert
-        var objectResult = Assert.IsType<ObjectResult>(result);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal("an unexpected error occurred", actual);
+
     }
 
     [Theory]
@@ -127,7 +126,7 @@ public class ObservationControllerTests
         var mockBirdRepo = new Mock<IBirdRepository>();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>()))
                    .ReturnsAsync(GetTestObservation(id, requestingUser));
         var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
         var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
@@ -474,7 +473,7 @@ public class ObservationControllerTests
         var mockBirdRepo = new Mock<IBirdRepository>();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>()))
             .Returns(Task.FromResult<Observation>(null));
         var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
         var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
@@ -520,7 +519,7 @@ public class ObservationControllerTests
         var mockBirdRepo = new Mock<IBirdRepository>();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>()))
             .ReturnsAsync(GetTestObservation(0, new ApplicationUser { UserName = "Someone else" }));
         var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
         var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
@@ -568,7 +567,7 @@ public class ObservationControllerTests
         var mockBirdRepo = new Mock<IBirdRepository>();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>()))
                    .Throws(new InvalidOperationException());
         var mockObjectValidator = new Mock<IObjectModelValidator>();
         mockObjectValidator.Setup(o => o.Validate(It.IsAny<ActionContext>(),
@@ -622,7 +621,7 @@ public class ObservationControllerTests
         var mockBirdRepo = new Mock<IBirdRepository>();
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>()))
             .ReturnsAsync(GetTestObservation(id, requestingUser));
         var mockObjectValidator = new Mock<IObjectModelValidator>();
         mockObjectValidator.Setup(o => o.Validate(It.IsAny<ActionContext>(),

@@ -140,7 +140,7 @@ public class PutObservationAsyncTests
         //mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
         //                .ReturnsAsync(requestingUser);
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>()))
             .Returns(Task.FromResult<Observation>(null));
         var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
         var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
@@ -190,7 +190,7 @@ public class PutObservationAsyncTests
         //mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
         //                .ReturnsAsync(requestingUser);
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>()))
             .Returns(Task.FromResult<Observation>(null));
         var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
         var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
@@ -240,7 +240,7 @@ public class PutObservationAsyncTests
         //mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
         //                .ReturnsAsync(requestingUser);
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>()))
             .ReturnsAsync(GetTestObservation(0, new ApplicationUser { UserName = "Someone else" }));
         var mockObsPositionRepo = new Mock<IObservationPositionRepository>();
         var mockObsNotesRepo = new Mock<IObservationNoteRepository>();
@@ -292,7 +292,7 @@ public class PutObservationAsyncTests
         //mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
         //                .ReturnsAsync(requestingUser);
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(o => o.GetObservationAsync(It.IsAny<int>()))
                    .Throws(new InvalidOperationException());
         var mockObjectValidator = new Mock<IObjectModelValidator>();
         mockObjectValidator.Setup(o => o.Validate(It.IsAny<ActionContext>(),
@@ -352,7 +352,7 @@ public class PutObservationAsyncTests
         mockUserManager.Setup(um => um.FindByNameAsync(It.IsAny<string>()))
                         .ReturnsAsync(requestingUser);
         var mockObsRepo = new Mock<IObservationRepository>();
-        mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>(), It.IsAny<bool>()))
+        mockObsRepo.Setup(obs => obs.GetObservationAsync(It.IsAny<int>()))
             .ReturnsAsync(GetTestObservation(id, requestingUser));
         var mockObjectValidator = new Mock<IObjectModelValidator>();
         mockObjectValidator.Setup(o => o.Validate(It.IsAny<ActionContext>(),

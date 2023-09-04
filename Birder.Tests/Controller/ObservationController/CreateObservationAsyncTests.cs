@@ -94,7 +94,7 @@ public class CreateObservationAsyncTests
         {
             //ObservationId = id,
             Bird = new BirdSummaryDto() { BirdId = birdId },
-            BirdId = birdId,
+            // BirdId = birdId,
             Position = new ObservationPositionDto() { }
         };
         var requestingUser = GetUser("Any");
@@ -149,7 +149,7 @@ public class CreateObservationAsyncTests
         {
             //ObservationId = id,
             Bird = new BirdSummaryDto() { BirdId = birdId },
-            BirdId = birdId,
+            // BirdId = birdId,
             Position = new ObservationPositionDto() { }
         };
         var requestingUser = GetUser("Any");
@@ -191,7 +191,7 @@ public class CreateObservationAsyncTests
         var objectResult = Assert.IsType<ObjectResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
         var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal($"Bird species with id '{model.BirdId}' was not found.", actual);
+        Assert.Equal($"Bird species with id '{model.Bird.BirdId}' was not found.", actual);
     }
 
     [Fact]
@@ -204,7 +204,7 @@ public class CreateObservationAsyncTests
         {
             //ObservationId = id,
             Bird = new BirdSummaryDto() { BirdId = birdId },
-            BirdId = birdId,
+            // BirdId = birdId,
             Position = new ObservationPositionDto() { }
         };
         var requestingUser = GetUser("Any");
@@ -269,7 +269,7 @@ public class CreateObservationAsyncTests
         {
             //ObservationId = id,
             Bird = new BirdSummaryDto() { BirdId = birdId },
-            BirdId = birdId,
+            // BirdId = birdId,
             Position = new ObservationPositionDto() { }
         };
         var requestingUser = GetUser("Any");
@@ -322,11 +322,11 @@ public class CreateObservationAsyncTests
         var result = await controller.CreateObservationAsync(model);
 
         // Assert
-        var objectResult = Assert.IsType<CreatedAtActionResult>(result);
-        Assert.Equal("CreateObservationAsync", objectResult.ActionName);
-        Assert.Equal(StatusCodes.Status201Created, objectResult.StatusCode);
+        var objectResult = Assert.IsType<OkObjectResult>(result);
+        // Assert.Equal("CreateObservationAsync", objectResult.ActionName);
+        Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
         var actual = Assert.IsType<ObservationDto>(objectResult.Value);
-        Assert.Equal(model.BirdId, actual.BirdId);
+        // Assert.Equal(model.BirdId, actual.BirdId);
     }
 
     #endregion

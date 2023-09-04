@@ -1,3 +1,4 @@
+using AutoMapper;
 using TestSupport.EfHelpers;
 
 namespace Birder.Tests.Services;
@@ -7,6 +8,13 @@ public class GetPagedObservationsFeedAsyncTests
     [Fact]
     public async Task GetPagedObservationsFeedAsync________________ReturnsViewModel_WithOneMatchInDb()
     {
+        var mappingConfig = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new BirderMappingProfile());
+        });
+        var _mapper = mappingConfig.CreateMapper();
+
+        
         var testUsername = "TestUser1";
         Mock<ILogger<BirdThumbnailPhotoService>> loggerMock = new();
         Mock<FlickrService> j = new();
@@ -34,7 +42,7 @@ public class GetPagedObservationsFeedAsyncTests
         context.SaveChanges();
         context.Observations.Count().ShouldEqual(2);
 
-        var service = new ObservationQueryService(context, mockService.Object);
+        var service = new ObservationQueryService(_mapper, context, mockService.Object);
 
         // Act
         var actual = await service.GetPagedObservationsFeedAsync(x =>
@@ -48,13 +56,19 @@ public class GetPagedObservationsFeedAsyncTests
     [Fact]
     public async Task GetPagedObservationsFeedAsync_When_Argument_Is_Null_Returns_Argument_Exception()
     {
+                var mappingConfig = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new BirderMappingProfile());
+        });
+        var _mapper = mappingConfig.CreateMapper();
+
         var mockService = new Mock<IBirdThumbnailPhotoService>();
 
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
 
-        var service = new ObservationQueryService(context, mockService.Object);
+        var service = new ObservationQueryService(_mapper, context, mockService.Object);
 
         // Act & Assert
         var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetPagedObservationsFeedAsync(null, 1, 10));

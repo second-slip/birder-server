@@ -1,21 +1,47 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Birder.Services;
 public interface IObservationQueryService
 {
+    Task<ObservationViewDto> GetObservationAsync(int id);
     Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
     Task<IEnumerable<ObservationFeedDto>> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
 }
 public class ObservationQueryService : IObservationQueryService
 {
+    private readonly IMapper _mapper;
     private readonly ApplicationDbContext _dbContext;
     private readonly IBirdThumbnailPhotoService _profilePhotosService;
 
-    public ObservationQueryService(ApplicationDbContext dbContext, IBirdThumbnailPhotoService profilePhotosService)
+    public ObservationQueryService(IMapper mapper, ApplicationDbContext dbContext, IBirdThumbnailPhotoService profilePhotosService)
     {
+        _mapper = mapper;
         _dbContext = dbContext;
         _profilePhotosService = profilePhotosService;
+    }
+
+    public async Task<ObservationViewDto> GetObservationAsync(int id)
+    {
+        // todo: implement guard
+        // if id == 0)
+        //     d
+        // var query = _dbContext.Observations
+        //     .AsNoTracking()
+        //     .Where(o => o.ObservationId == id)
+        //     .MapObservationToObservationViewDto()
+        //     .AsQueryable();
+
+        var query = _dbContext.Observations
+    .AsNoTracking()
+    .Where(o => o.ObservationId == id)
+    // .MapObservationToObservationViewDto()
+    .ProjectTo<ObservationViewDto>(_mapper.ConfigurationProvider)
+    .AsQueryable();
+
+        return await query.SingleOrDefaultAsync();
     }
 
     public async Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize)

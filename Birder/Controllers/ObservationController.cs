@@ -1,4 +1,5 @@
 ﻿// todo: This Controller is due for a major refactor...
+// todo: refactor notes to separate Controller / 
 
 using AutoMapper;
 
@@ -43,24 +44,28 @@ public class ObservationController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetObservationAsync(int id)
     {
+        if (id == 0)
+        {
+            _logger.LogError(LoggingEvents.InvalidOrMissingArgument, $"{nameof(id)} argument is 0");
+            return StatusCode(400);
+        }
+
         try
         {
-            var observation = await _observationRepository.GetObservationAsync(id, true);
+            var observation = await _observationRepository.GetObservationAsync(id);
 
             if (observation is null)
             {
-                string message = $"Observation with id '{id}' was not found.";
-                _logger.LogWarning(LoggingEvents.GetItemNotFound, message);
-                return StatusCode(500, message);
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, $"observation with id '{id}' was not found.");
+                return StatusCode(500);
             }
 
             return Ok(_mapper.Map<Observation, ObservationDto>(observation));
         }
         catch (Exception ex)
         {
-            string message = $"An error occurred getting observation with id '{id}'.";
-            _logger.LogError(LoggingEvents.GetItemNotFound, ex, message);
-            return StatusCode(500, "an unexpected error occurred");
+            _logger.LogError(LoggingEvents.GetItemNotFound, ex, $"an error occurred getting observation with id '{id}'.");
+            return StatusCode(500);
         }
     }
 
@@ -77,12 +82,11 @@ public class ObservationController : ControllerBase
                 return StatusCode(500, "requesting user not found");
             }
 
-            // var observedBirdSpecies = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
             var observedBirdSpecies = await _birdRepository.GetAsync(model.Bird.BirdId);
 
             if (observedBirdSpecies is null)
             {
-                string message = $"Bird species with id '{model.BirdId}' was not found.";
+                string message = $"Bird species with id '{model.Bird.BirdId}' was not found.";
                 _logger.LogError(LoggingEvents.GetItem, message);
                 return StatusCode(500, message);
             }
@@ -105,10 +109,10 @@ public class ObservationController : ControllerBase
 
             _observationPositionRepository.Add(observation.Position);
             _observationRepository.Add(observation);
-            _observationNoteRepository.AddRange(observation.Notes);
+            _observationNoteRepository.AddRange(observation.Notes); // todo: remove when Notes are managed separately
             await _unitOfWork.CompleteAsync();
 
-            return CreatedAtAction(nameof(CreateObservationAsync), _mapper.Map<Observation, ObservationDto>(observation));
+            return Ok(_mapper.Map<Observation, ObservationDto>(observation));
         }
         catch (Exception ex)
         {
@@ -128,7 +132,8 @@ public class ObservationController : ControllerBase
                 return BadRequest("An error occurred (id)");
             }
 
-            var observation = await _observationRepository.GetObservationAsync(id, false);
+            var observation = await _observationRepository.GetObservationAsync(id); //, false);
+
             if (observation is null)
             {
                 string message = $"observation with id '{model.ObservationId}' was not found.";
@@ -142,8 +147,6 @@ public class ObservationController : ControllerBase
             {
                 return Unauthorized("Requesting user is not allowed to edit this observation");
             }
-
-
 
             _mapper.Map<ObservationEditDto, Observation>(model, observation);
 
@@ -159,6 +162,7 @@ public class ObservationController : ControllerBase
             observation.Bird = bird;
 
             var position = await _observationPositionRepository.SingleOrDefaultAsync(o => o.ObservationId == observation.ObservationId);
+
             if (position is null)
             {
                 string message = $"The position could not be found for observation with id '{model.ObservationId}'.";
@@ -220,7 +224,7 @@ public class ObservationController : ControllerBase
     {
         try
         {
-            var observation = await _observationRepository.GetObservationAsync(id, false);
+            var observation = await _observationRepository.GetObservationAsync(id); //, false);
 
             if (observation is null)
             {
