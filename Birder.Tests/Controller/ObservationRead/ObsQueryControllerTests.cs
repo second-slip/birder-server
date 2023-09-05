@@ -2,7 +2,6 @@ namespace Birder.Tests.Controller;
 
 public class ObsQueryControllerTests
 {
-
     [Fact]
     public async Task GetObservationsByBirdSpeciesAsync_On_Success_Returns_200()
     {

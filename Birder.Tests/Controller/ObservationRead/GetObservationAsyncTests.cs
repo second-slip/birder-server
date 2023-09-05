@@ -93,7 +93,7 @@ public class GetObservationAsyncTests
     }
 
     [Fact]
-    public async Task GetObservationAsync_When_BirdId_Is_Zero_Returns_400()
+    public async Task GetObservationAsync_When_Id_Is_Zero_Returns_400()
     {
         // Arrange
         const int OBSERVATION_ID_IS_ZERO = 0;
