@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -166,10 +167,8 @@ public class PutObservationAsyncTests
         var result = await controller.PutObservationAsync(id, model);
 
         // Assert
-        var objectResult = Assert.IsType<ObjectResult>(result);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal($"observation with id '{model.ObservationId}' was not found.", actual);
     }
 
     [Theory]
@@ -216,10 +215,8 @@ public class PutObservationAsyncTests
         var result = await controller.PutObservationAsync(id, model);
 
         // Assert
-        var objectResult = Assert.IsType<ObjectResult>(result);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal($"observation with id '{model.ObservationId}' was not found.", actual);
     }
 
     [Theory]
@@ -266,12 +263,9 @@ public class PutObservationAsyncTests
         var result = await controller.PutObservationAsync(id, model);
 
         // Assert
-        string expectedMessage = "Requesting user is not allowed to edit this observation";
 
-        var objectResult = Assert.IsType<UnauthorizedObjectResult>(result);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status401Unauthorized, objectResult.StatusCode);
-        var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal(expectedMessage, actual);
     }
 
     [Theory]
@@ -325,10 +319,8 @@ public class PutObservationAsyncTests
         var result = await controller.PutObservationAsync(id, model);
 
         // Assert
-        var objectResult = Assert.IsType<ObjectResult>(result);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal("an unexpected error occurred", actual);
     }
 
     [Theory]
@@ -394,11 +386,10 @@ public class PutObservationAsyncTests
         var result = await controller.PutObservationAsync(id, model);
 
         // Assert
-        var objectResult = Assert.IsType<OkObjectResult>(result);
+        var objectResult = Assert.IsType<ObjectResult>(result);
         Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-        var actual = Assert.IsType<ObservationEditDto>(objectResult.Value);
-        Assert.Equal(model.ObservationId, actual.ObservationId);
-        Assert.Equal(model.BirdId, actual.Bird.BirdId);
+        var expected = new { observationId = id };
+        objectResult.Value.Should().BeEquivalentTo(expected);
     }
 
     #endregion
@@ -420,25 +411,22 @@ public class PutObservationAsyncTests
     }
 
 
-    private ObservationEditDto GetTestObservationEditViewModel(int id, int birdId)
+    private ObservationUpdateDto GetTestObservationEditViewModel(int id, int birdId)
     {
-        return new ObservationEditDto()
+        return new ObservationUpdateDto()
         {
             ObservationId = id,
             Bird = new BirdSummaryDto() { BirdId = birdId },
-            BirdId = birdId,
-            Notes = new List<ObservationNoteDto>(),
             Position = new ObservationPositionDto() { }
         };
     }
 
-    private ObservationEditDto GetTestObservationEditViewModel(int id, int birdId, ApplicationUser user)
+    private ObservationUpdateDto GetTestObservationEditViewModel(int id, int birdId, ApplicationUser user)
     {
-        return new ObservationEditDto()
+        return new ObservationUpdateDto()
         {
             ObservationId = id,
             Bird = new BirdSummaryDto() { BirdId = birdId },
-            BirdId = birdId,
             Position = new ObservationPositionDto() { }
         };
     }

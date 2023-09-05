@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Birder.Services;
+
 public interface IObservationQueryService
 {
     Task<ObservationViewDto> GetObservationViewAsync(int id);
+    Task<ObservationUpdateDto> GetObservationUpdateModelAsync(int id);
     Task<ObservationsPagedDto> GetPagedObservationsAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
     Task<IEnumerable<ObservationFeedDto>> GetPagedObservationsFeedAsync(Expression<Func<Observation, bool>> predicate, int pageIndex, int pageSize);
 }
@@ -38,6 +40,20 @@ public class ObservationQueryService : IObservationQueryService
             .AsNoTracking()
             .Where(o => o.ObservationId == id)
             .ProjectTo<ObservationViewDto>(_mapper.ConfigurationProvider)
+            .AsQueryable();
+
+        return await query.SingleOrDefaultAsync();
+    }
+
+    public async Task<ObservationUpdateDto> GetObservationUpdateModelAsync(int id)
+    {
+        if (id == 0)
+            throw new ArgumentException("method argument is invalid (zero)", nameof(id));
+
+        var query = _dbContext.Observations
+            .AsNoTracking()
+            .Where(o => o.ObservationId == id)
+            .ProjectTo<ObservationUpdateDto>(_mapper.ConfigurationProvider)
             .AsQueryable();
 
         return await query.SingleOrDefaultAsync();

@@ -7,25 +7,16 @@ public class BirderMappingProfile : Profile
 {
     public BirderMappingProfile()
     {
-        CreateMap<Observation, ObservationDto>()
-            .ForMember(a => a.Position, b => b.MapFrom(a => a.Position))
-            .ForMember(a => a.User, b => b.MapFrom(a => a.ApplicationUser));
+        // CreateMap<Observation, ObservationDto>()
+        //     .ForMember(a => a.Position, b => b.MapFrom(a => a.Position))
+        //     .ForMember(a => a.User, b => b.MapFrom(a => a.ApplicationUser));
 
-        CreateMap<ObservationDto, Observation>()
-            .ForMember(a => a.Position, b => b.MapFrom(a => a.Position))
-            .ForMember(a => a.ApplicationUser, b => b.Ignore())
-            .ForMember(a => a.CreationDate, b => b.Ignore());
+        // CreateMap<ObservationDto, Observation>()
+        //     .ForMember(a => a.Position, b => b.MapFrom(a => a.Position))
+        //     .ForMember(a => a.ApplicationUser, b => b.Ignore())
+        //     .ForMember(a => a.CreationDate, b => b.Ignore());
 
-        CreateMap<Observation, ObservationAddDto>()
-            .ReverseMap();
 
-        CreateMap<ObservationEditDto, Observation>()
-            .ForMember(a => a.Position, b => b.Ignore())
-            .ForMember(a => a.ApplicationUser, b => b.Ignore())
-            .ForMember(a => a.BirdId, b => b.Ignore())
-            .ForMember(a => a.Bird, b => b.Ignore())
-            .ForMember(a => a.Notes, b => b.Ignore())
-            .ReverseMap();
 
         CreateMap<List<Observation>, ObservationAnalysisViewModel>()
             .ForMember(a => a.TotalObservationsCount, b => b.MapFrom(a => a.Count))
@@ -87,6 +78,26 @@ public class BirderMappingProfile : Profile
 
         CreateMap<ObservationPosition, ObservationPositionDto>()
             .ReverseMap();
+
+        CreateMap<Observation, ObservationCreateDto>()
+            .ReverseMap();
+
+        CreateMap<ObservationUpdateDto, Observation>()
+            .ForMember(a => a.Position, b => b.Ignore())
+            .ForMember(a => a.ApplicationUser, b => b.Ignore())
+            .ForMember(a => a.BirdId, b => b.Ignore())
+            .ForMember(a => a.Bird, b => b.Ignore());
+        // .ForMember(a => a.Notes, b => b.Ignore())
+        // .ReverseMap();
+
+        // from Observation to UpdateModel
+        CreateMap<Observation, ObservationUpdateDto>()
+            .ForMember(a => a.Position, b => b.Ignore())
+            .ForMember(p => p.Position, p => p.MapFrom(p => p.Position))
+            // .ForMember(a => a.ApplicationUser, b => b.Ignore())
+            .ForMember(u => u.Username, au => au.MapFrom(u => u.ApplicationUser.UserName))
+            .ForMember(a => a.Bird, d => d.MapFrom(n => n.Bird)); //b => b.Ignore())
+
 
         CreateMap<Observation, ObservationViewDto>()
             .ForMember(p => p.Position, p => p.MapFrom(p => p.Position))

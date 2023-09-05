@@ -1,7 +1,4 @@
-﻿// todo: This Controller is due for a major refactor...
-// todo: refactor notes to separate Controller / 
-
-using AutoMapper;
+﻿using AutoMapper;
 
 namespace Birder.Controllers;
 
@@ -41,8 +38,127 @@ public class ObservationController : ControllerBase
         _observationNoteRepository = observationNoteRepository;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetObservationAsync(int id)
+    [HttpPost, Route("Create")]
+    public async Task<IActionResult> CreateObservationAsync(ObservationCreateDto model)
+    {
+        try
+        {
+            var observation = _mapper.Map<ObservationCreateDto, Observation>(model);
+
+            var requestingUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (requestingUser is null)
+            {
+                _logger.LogError(LoggingEvents.GetItem, "requesting user not found");
+                return StatusCode(500);
+            }
+            observation.ApplicationUser = requestingUser;
+
+            var observedBirdSpecies = await _birdRepository.GetAsync(model.Bird.BirdId);
+
+            if (observedBirdSpecies is null)
+            {
+                _logger.LogError(LoggingEvents.GetItem, $"Bird species with id '{model.Bird.BirdId}' was not found.");
+                return StatusCode(500);
+            }
+            observation.Bird = observedBirdSpecies;
+
+            var createdDate = _systemClock.GetNow;
+            observation.CreationDate = createdDate;
+            observation.LastUpdateDate = createdDate;
+
+            if (!TryValidateModel(observation, nameof(observation))) // rerun validation on observation model
+            {
+                _logger.LogError(LoggingEvents.UpdateItem, "Observation model state is invalid: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
+                return StatusCode(500);
+            }
+
+            _observationPositionRepository.Add(observation.Position);
+            _observationRepository.Add(observation);
+            await _unitOfWork.CompleteAsync();
+
+            return StatusCode(201, new { observationId = observation.ObservationId });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(LoggingEvents.GetListNotFound, ex, "an error occurred creating an observation.");
+            return StatusCode(500, "an unexpected error occurred");
+        }
+    }
+
+    // todo: this needs to be EXTENSIVELY TESTED -- well mapping profile does
+    [HttpPut, Route("update")]
+    public async Task<IActionResult> PutObservationAsync(int id, ObservationUpdateDto model)
+    {
+        if (id != model.ObservationId)
+        {
+            _logger.LogError(LoggingEvents.UpdateItem, $"Id '{id}' not equal to model id '{model.ObservationId}'");
+            return BadRequest("An error occurred (id)");
+        }
+
+        try
+        {
+            var observation = await _observationRepository.GetObservationAsync(id); //, false);
+
+            if (observation is null)
+            {
+                _logger.LogError(LoggingEvents.UpdateItem, $"observation with id '{model.ObservationId}' was not found.");
+                return StatusCode(500);
+            }
+
+            var username = User.Identity.Name;
+
+            if (username != observation.ApplicationUser.UserName)
+            {
+                _logger.LogError(LoggingEvents.UpdateItem, $"unauthorised user (not record owner) tried to update the record with id: '{model.ObservationId}'"); // perhaps record requesting user id?
+                return StatusCode(401);
+            }
+
+            _mapper.Map<ObservationUpdateDto, Observation>(model, observation);
+
+            var bird = await _birdRepository.GetAsync(model.Bird.BirdId);
+            if (bird is null)
+            {
+                _logger.LogError(LoggingEvents.UpdateItem, $"the observed bird could not be found for observation with id '{model.ObservationId}'.");
+                return StatusCode(500);
+            }
+
+            observation.Bird = bird;
+
+            var position = await _observationPositionRepository.SingleOrDefaultAsync(o => o.ObservationId == observation.ObservationId);
+
+            if (position is null)
+            {
+                _logger.LogError(LoggingEvents.UpdateItem, $"the position could not be found for observation with id '{model.ObservationId}'.");
+                return StatusCode(500);
+            }
+
+            position.Latitude = model.Position.Latitude;
+            position.Longitude = model.Position.Longitude;
+            position.FormattedAddress = model.Position.FormattedAddress;
+            position.ShortAddress = model.Position.ShortAddress;
+
+            observation.LastUpdateDate = _systemClock.GetNow;
+
+            if (!TryValidateModel(observation, nameof(observation)))
+            {
+                _logger.LogError(LoggingEvents.UpdateItemNotFound, "observation has an invalid model state: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState), id);
+                return StatusCode(500);
+            }
+
+            await _unitOfWork.CompleteAsync();
+
+            return StatusCode(200, new { observationId = observation.ObservationId });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "an error occurred updating (PUT) observation with id: {ID}", id);
+            return StatusCode(500);
+        }
+    }
+
+    [HttpDelete, Route("delete")]
+    public async Task<IActionResult> DeleteObservationAsync(int id)
     {
         if (id == 0)
         {
@@ -56,204 +172,31 @@ public class ObservationController : ControllerBase
 
             if (observation is null)
             {
-                _logger.LogWarning(LoggingEvents.GetItemNotFound, $"observation with id '{id}' was not found.");
+                _logger.LogError(LoggingEvents.UpdateItem, $"observation with id '{id}' was not found");
                 return StatusCode(500);
-            }
-
-            return Ok(_mapper.Map<Observation, ObservationDto>(observation));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(LoggingEvents.GetItemNotFound, ex, $"an error occurred getting observation with id '{id}'.");
-            return StatusCode(500);
-        }
-    }
-
-    [HttpPost, Route("Create")]
-    public async Task<IActionResult> CreateObservationAsync(ObservationAddDto model)
-    {
-        try
-        {
-            var requestingUser = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            if (requestingUser is null)
-            {
-                _logger.LogError(LoggingEvents.GetItem, "requesting user not found");
-                return StatusCode(500, "requesting user not found");
-            }
-
-            var observedBirdSpecies = await _birdRepository.GetAsync(model.Bird.BirdId);
-
-            if (observedBirdSpecies is null)
-            {
-                string message = $"Bird species with id '{model.Bird.BirdId}' was not found.";
-                _logger.LogError(LoggingEvents.GetItem, message);
-                return StatusCode(500, message);
-            }
-
-            var observation = _mapper.Map<ObservationAddDto, Observation>(model);
-
-            var createdDate = _systemClock.GetNow;
-
-            observation.ApplicationUser = requestingUser;
-            observation.Bird = observedBirdSpecies;
-            observation.CreationDate = createdDate;
-            observation.LastUpdateDate = createdDate;
-
-            //rerun validation on observation model
-            if (!TryValidateModel(observation, nameof(observation)))
-            {
-                _logger.LogError(LoggingEvents.UpdateItem, "Observation model state is invalid: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                return StatusCode(500, "observation ModelState is invalid");
-            }
-
-            _observationPositionRepository.Add(observation.Position);
-            _observationRepository.Add(observation);
-            _observationNoteRepository.AddRange(observation.Notes); // todo: remove when Notes are managed separately
-            await _unitOfWork.CompleteAsync();
-
-            return Ok(_mapper.Map<Observation, ObservationDto>(observation));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(LoggingEvents.GetListNotFound, ex, "An error occurred creating an observation.");
-            return StatusCode(500, "an unexpected error occurred");
-        }
-    }
-
-    [HttpPut, Route("Update")]
-    public async Task<IActionResult> PutObservationAsync(int id, ObservationEditDto model)
-    {
-        try
-        {
-            if (id != model.ObservationId)
-            {
-                _logger.LogError(LoggingEvents.UpdateItem, $"Id '{id}' not equal to model id '{model.ObservationId}'");
-                return BadRequest("An error occurred (id)");
-            }
-
-            var observation = await _observationRepository.GetObservationAsync(id); //, false);
-
-            if (observation is null)
-            {
-                string message = $"observation with id '{model.ObservationId}' was not found.";
-                _logger.LogError(LoggingEvents.UpdateItem, message);
-                return StatusCode(500, message);
-            }
-
-            var username = User.Identity.Name;
-
-            if (username != observation.ApplicationUser.UserName)
-            {
-                return Unauthorized("Requesting user is not allowed to edit this observation");
-            }
-
-            _mapper.Map<ObservationEditDto, Observation>(model, observation);
-
-            // var bird = await _birdRepository.GetBirdAsync(model.Bird.BirdId);
-            var bird = await _birdRepository.GetAsync(model.Bird.BirdId);
-            if (bird is null)
-            {
-                string message = $"The observed bird could not be found for observation with id '{model.ObservationId}'.";
-                _logger.LogError(LoggingEvents.UpdateItem, message);
-                return StatusCode(500, message);
-            }
-
-            observation.Bird = bird;
-
-            var position = await _observationPositionRepository.SingleOrDefaultAsync(o => o.ObservationId == observation.ObservationId);
-
-            if (position is null)
-            {
-                string message = $"The position could not be found for observation with id '{model.ObservationId}'.";
-                _logger.LogError(LoggingEvents.UpdateItem, message);
-                return StatusCode(500, message);
-            }
-
-            position.Latitude = model.Position.Latitude;
-            position.Longitude = model.Position.Longitude;
-            position.FormattedAddress = model.Position.FormattedAddress;
-            position.ShortAddress = model.Position.ShortAddress;
-
-            // ToDo: separate ObservationNotesController to handle this stuff.  
-            // ...need to redesign UI first...
-            var notes = await _observationNoteRepository.FindAsync(x => x.Observation.ObservationId == id);
-
-            var notesDeleted = ObservationNotesHelper.GetDeletedNotes(notes, model.Notes);
-            if (notesDeleted.Any())
-            {
-                _observationNoteRepository.RemoveRange(notesDeleted);
-            }
-
-            var notesAdded = ObservationNotesHelper.GetAddedNotes(model.Notes);
-            if (notesAdded.Any())
-            {
-                var added = _mapper.Map(notesAdded, new List<ObservationNote>());
-                added.ForEach(a => a.Observation = observation);
-                _observationNoteRepository.AddRange(added);
-            }
-
-            // ToDo: is the condition necessary here?
-            if (notes.Any())
-            {
-                _mapper.Map<List<ObservationNoteDto>, IEnumerable<ObservationNote>>(model.Notes, notes);
-            }
-
-            observation.LastUpdateDate = _systemClock.GetNow;
-
-            if (!TryValidateModel(observation, nameof(observation)))
-            {
-                _logger.LogError(LoggingEvents.UpdateItemNotFound, "Observation has an invalid model state: " + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState), id);
-                return StatusCode(500, "observation ModelState is invalid");
-            }
-
-            await _unitOfWork.CompleteAsync();
-
-            return Ok(_mapper.Map<Observation, ObservationEditDto>(observation));
-
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred updating (PUT) observation with id: {ID}", id);
-            return StatusCode(500, "an unexpected error occurred");
-        }
-    }
-
-    [HttpDelete, Route("Delete")]
-    public async Task<IActionResult> DeleteObservationAsync(int id)
-    {
-        try
-        {
-            var observation = await _observationRepository.GetObservationAsync(id); //, false);
-
-            if (observation is null)
-            {
-                string message = $"Observation with id '{id}' was not found";
-                _logger.LogError(LoggingEvents.UpdateItem, message);
-                return StatusCode(500, message);
             }
 
             var requesterUsername = User.Identity.Name;
 
             if (requesterUsername != observation.ApplicationUser.UserName)
             {
-                return Unauthorized("Requesting user is not allowed to delete this observation");
+                _logger.LogError(LoggingEvents.UpdateItem, $"unauthorised user (not record owner) tried to DELETE the record with id: '{observation.ObservationId}'"); // perhaps record requesting user id?
+                return StatusCode(401);
             }
 
             var notes = await _observationNoteRepository.FindAsync(x => x.Observation.ObservationId == id);
-
             _observationNoteRepository.RemoveRange(notes);
 
             _observationRepository.Remove(observation);
 
             await _unitOfWork.CompleteAsync();
 
-            return Ok(id);
+            return StatusCode(200, new { observationId = observation.ObservationId });
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"An error occurred updating observation with id: {id}");
-            return StatusCode(500, "an unexpected error occurred");
+            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an error occurred updating observation with id: {id}");
+            return StatusCode(500);
         }
     }
 }

@@ -26,15 +26,43 @@ public class ObservationReadController : ControllerBase
 
         try
         {
-            var observation = await _service.GetObservationViewAsync(id);
+            var model = await _service.GetObservationViewAsync(id);
 
-            if (observation is null)
+            if (model is null)
             {
                 _logger.LogWarning(LoggingEvents.GetItemNotFound, $"observation with id '{id}' was not found.");
                 return StatusCode(500);
             }
 
-            return Ok(observation);
+            return Ok(model);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(LoggingEvents.GetItemNotFound, ex, $"an error occurred getting observation with id '{id}'.");
+            return StatusCode(500);
+        }
+    }
+
+    [HttpGet, Route("update")]
+    public async Task<IActionResult> GetObservationUpdateDtoAsync(int id)
+    {
+        if (id == 0)
+        {
+            _logger.LogError(LoggingEvents.InvalidOrMissingArgument, $"{nameof(id)} argument is 0");
+            return StatusCode(400);
+        }
+
+        try
+        {
+            var model = await _service.GetObservationUpdateModelAsync(id);
+
+            if (model is null)
+            {
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, $"observation with id '{id}' was not found.");
+                return StatusCode(500);
+            }
+
+            return Ok(model);
         }
         catch (Exception ex)
         {

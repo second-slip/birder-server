@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Birder.Tests.Controller;
@@ -31,7 +32,7 @@ public class CreateObservationAsyncTests
     //    //Arrange
     //    int birdId = 1;
     //    //var model = GetTestObservationViewModel(id, birdId);
-    //    var model = new ObservationAddDto()
+    //    var model = new ObservationCreateDto()
     //    {
     //        //ObservationId = id,
     //        Bird = new BirdSummaryDto() { BirdId = birdId },
@@ -87,7 +88,7 @@ public class CreateObservationAsyncTests
         //Arrange
         int birdId = 1;
         //var model = GetTestObservationViewModel(id, birdId);
-        var model = new ObservationAddDto()
+        var model = new ObservationCreateDto()
         {
             //ObservationId = id,
             Bird = new BirdSummaryDto() { BirdId = birdId },
@@ -128,10 +129,8 @@ public class CreateObservationAsyncTests
         var result = await controller.CreateObservationAsync(model);
 
         // Assert
-        var objectResult = Assert.IsType<ObjectResult>(result);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal("requesting user not found", actual);
     }
 
     [Theory]
@@ -142,7 +141,7 @@ public class CreateObservationAsyncTests
     {
         //Arrange
         //var model = GetTestObservationViewModel(id, birdId);
-        var model = new ObservationAddDto()
+        var model = new ObservationCreateDto()
         {
             //ObservationId = id,
             Bird = new BirdSummaryDto() { BirdId = birdId },
@@ -185,10 +184,8 @@ public class CreateObservationAsyncTests
         var result = await controller.CreateObservationAsync(model);
 
         // Assert
-        var objectResult = Assert.IsType<ObjectResult>(result);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        var actual = Assert.IsType<string>(objectResult.Value);
-        Assert.Equal($"Bird species with id '{model.Bird.BirdId}' was not found.", actual);
     }
 
     [Fact]
@@ -197,7 +194,7 @@ public class CreateObservationAsyncTests
         //Arrange
         int birdId = 1;
         //var model = GetTestObservationViewModel(id, birdId);
-        var model = new ObservationAddDto()
+        var model = new ObservationCreateDto()
         {
             //ObservationId = id,
             Bird = new BirdSummaryDto() { BirdId = birdId },
@@ -256,13 +253,11 @@ public class CreateObservationAsyncTests
 
     [Theory]
     [InlineData(1)]
-    //[InlineData(2, 1)]
-    //[InlineData(3, 1)]
     public async Task CreateObservationAsync_ReturnsOkWithObservationViewModel_OnSuccess(int birdId)
     {
         //Arrange
         //var model = GetTestObservationViewModel(id, birdId);
-        var model = new ObservationAddDto()
+        var model = new ObservationCreateDto()
         {
             //ObservationId = id,
             Bird = new BirdSummaryDto() { BirdId = birdId },
@@ -319,11 +314,11 @@ public class CreateObservationAsyncTests
         var result = await controller.CreateObservationAsync(model);
 
         // Assert
-        var objectResult = Assert.IsType<OkObjectResult>(result);
-        // Assert.Equal("CreateObservationAsync", objectResult.ActionName);
-        Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-        var actual = Assert.IsType<ObservationDto>(objectResult.Value);
-        // Assert.Equal(model.BirdId, actual.BirdId);
+        var objectResult = Assert.IsType<ObjectResult>(result);
+        Assert.Equal(StatusCodes.Status201Created, objectResult.StatusCode);
+        var expected = new { observationId = 0 };
+        objectResult.Value.Should().BeEquivalentTo(expected);
+
     }
 
     #endregion
@@ -334,47 +329,11 @@ public class CreateObservationAsyncTests
         return new Bird() { BirdId = birdId };
     }
 
-    private ObservationDto GetTestObservationViewModel(int id, int birdId)
-    {
-        return new ObservationDto()
-        {
-            ObservationId = id,
-            Bird = new BirdSummaryDto() { BirdId = birdId },
-            BirdId = birdId,
-            Position = new ObservationPositionDto() { }
-        };
-    }
-
     private ApplicationUser GetUser(string username)
     {
         return new ApplicationUser()
         {
             UserName = username
         };
-    }
-
-
-    private IEnumerable<Observation> GetTestObservations(int length, Bird bird)
-    {
-        var observations = new List<Observation>();
-        for (int i = 0; i < length; i++)
-        {
-            observations.Add(new Observation
-            {
-                ObservationId = i,
-                Quantity = 1,
-                HasPhotos = false,
-                SelectedPrivacyLevel = PrivacyLevel.Public,
-                ObservationDateTime = DateTime.Now.AddDays(-4),
-                CreationDate = DateTime.Now.AddDays(-4),
-                LastUpdateDate = DateTime.Now.AddDays(-4),
-                ApplicationUserId = "",
-                BirdId = bird.BirdId,
-                Bird = bird,
-                ApplicationUser = null,
-                ObservationTags = null
-            });
-        }
-        return observations;
     }
 }
