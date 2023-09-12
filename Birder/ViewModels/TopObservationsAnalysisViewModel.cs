@@ -1,6 +1,4 @@
-﻿
-
-namespace Birder.ViewModels
+﻿namespace Birder.ViewModels
 {
     public class TopObservationsAnalysisViewModel
     {

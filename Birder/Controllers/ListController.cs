@@ -25,26 +25,29 @@ public class ListController : ControllerBase
         {
             var username = User.Identity.Name;
 
-            if (string.IsNullOrEmpty(username))
-            {
-                _logger.LogError(LoggingEvents.GetListNotFound, "requesting username is null or empty");
-                return BadRequest();
-            }
+            // request synchonously as Entity Framework Core does not support multiple parallel operations being run on the same DbContext instance. 
+            // todo: conside two separate actions here.  Not a good idea to return both lists, automatically
+            var topObservations = await _listService.GetTopObservationsAsync(username);
+            var topMonthlyObservations = await _listService.GetTopObservationsAsync(username, _systemClock.GetToday.AddDays(-30));
 
-            var viewModel = await _listService.GetTopObservationsAsync(username, _systemClock.GetToday.AddDays(-30));
-
-            if (viewModel is null)
+            if (topObservations is null || topMonthlyObservations is null)
             {
                 _logger.LogError(LoggingEvents.GetListNotFound, "listService returned null");
-                return StatusCode(500, "an unexpected error occurred");
+                return StatusCode(500);
             }
+
+            var viewModel = new TopObservationsAnalysisViewModel()
+            {
+                TopObservations = topObservations,
+                TopMonthlyObservations = topMonthlyObservations
+            };
 
             return Ok(viewModel);
         }
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.GetListNotFound, ex, ex.Message);
-            return StatusCode(500, "an unexpected error occurred");
+            return StatusCode(500);
         }
     }
 

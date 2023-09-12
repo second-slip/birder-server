@@ -5,7 +5,8 @@ namespace Birder.Services;
 public interface IListService
 {
     Task<IEnumerable<LifeListViewModel>> GetLifeListAsync(Expression<Func<Observation, bool>> predicate);
-    Task<TopObservationsAnalysisViewModel> GetTopObservationsAsync(string username, DateTime startDate);
+    Task<List<TopObservationsViewModel>> GetTopObservationsAsync(string username);
+    Task<List<TopObservationsViewModel>> GetTopObservationsAsync(string username, DateTime startDate);
 }
 
 public class ListService : IListService
@@ -43,16 +44,13 @@ public class ListService : IListService
         return query;
     }
 
-    // ToDo: split this into two?
-    public async Task<TopObservationsAnalysisViewModel> GetTopObservationsAsync(string username, DateTime startDate)
+    // All time (no date filter)
+    public async Task<List<TopObservationsViewModel>> GetTopObservationsAsync(string username)
     {
         if (string.IsNullOrEmpty(username))
             throw new ArgumentException("method argument is null or empty", nameof(username));
 
-        var viewModel = new TopObservationsAnalysisViewModel();
-
-        // All time (no date filter)
-        viewModel.TopObservations = await _dbContext.Observations
+        var model = await _dbContext.Observations
                  .AsNoTracking()
                  .Where(a => a.ApplicationUser.UserName == username)
                  .GroupBy(b => new { b.Bird.BirdId, b.Bird.EnglishName })
@@ -67,8 +65,16 @@ public class ListService : IListService
                  .AsQueryable()
                  .ToListAsync();
 
-        // Last 30 days
-        viewModel.TopMonthlyObservations = await _dbContext.Observations
+        return model;
+    }
+
+    // Last 30 days
+    public async Task<List<TopObservationsViewModel>> GetTopObservationsAsync(string username, DateTime startDate)
+    {
+        if (string.IsNullOrEmpty(username))
+            throw new ArgumentException("method argument is null or empty", nameof(username));
+
+        var model = await _dbContext.Observations
                  .AsNoTracking()
                  .Where(a => a.ApplicationUser.UserName == username && a.ObservationDateTime >= startDate)
                  .GroupBy(b => new { b.Bird.BirdId, b.Bird.EnglishName })
@@ -83,6 +89,6 @@ public class ListService : IListService
                  .AsQueryable()
                  .ToListAsync();
 
-        return viewModel;
+        return model;
     }
 }
