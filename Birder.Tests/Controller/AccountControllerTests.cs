@@ -713,10 +713,10 @@ public class AccountControllerTests
 
         var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-        var model = new UsernameDto() { Username = null };
+        var username = "";
 
         // Act
-        var result = await controller.GetIsUsernameTakenAsync(model);
+        var result = await controller.GetIsUsernameTakenAsync(username);
 
         // Assert
         var objectResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -739,10 +739,10 @@ public class AccountControllerTests
 
         var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-        var model = new UsernameDto() { Username = "testUser" };
+        var username = "testUser";
 
         // Act
-        var result = await controller.GetIsUsernameTakenAsync(model);
+        var result = await controller.GetIsUsernameTakenAsync(username);
 
         // Assert
         var objectResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -766,11 +766,10 @@ public class AccountControllerTests
 
         var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-        //string username = "testUser";
-        var model = new UsernameDto() { Username = "testUser" };
+        var username = "testUser";
 
         // Act
-        var result = await controller.GetIsUsernameTakenAsync(model);
+        var result = await controller.GetIsUsernameTakenAsync(username);
 
         // Assert
         var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -792,11 +791,11 @@ public class AccountControllerTests
 
         var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
 
-        var model = new UsernameDto() { Username = "testUser" };
+        var username = "testUser";
         //string username = "testUser";
 
         // Act
-        var result = await controller.GetIsUsernameTakenAsync(model);
+        var result = await controller.GetIsUsernameTakenAsync(username);
 
         // Assert
         var objectResult = Assert.IsType<OkObjectResult>(result);

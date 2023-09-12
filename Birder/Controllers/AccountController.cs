@@ -26,7 +26,7 @@ public class AccountController : ControllerBase
 
     [HttpPost, Route("register")]
     [AllowAnonymous]
-    public async Task<IActionResult> PostRegisterAsync(RegisterViewModel model) // [FromBody] removed
+    public async Task<IActionResult> PostRegisterAsync(RegisterViewModel model)
     {
         try
         {
@@ -59,8 +59,8 @@ public class AccountController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in new user registration.");
-            return BadRequest("An error occurred");
+            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(PostRegisterAsync)}.");
+            return StatusCode(500);
         }
     }
 
@@ -70,17 +70,17 @@ public class AccountController : ControllerBase
     {
         try
         {
-            if (string.IsNullOrEmpty(username) || code == null)
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(code))
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, $"Null arguments passed to ConfirmEmailAsync: username = {username}; code = {code}.");
-                return BadRequest("An error occurred");
+                _logger.LogError(LoggingEvents.GetItemNotFound, $"null arguments passed to method: {nameof(GetConfirmEmailAsync)}");
+                return StatusCode(500);
             }
 
             var user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, $"User with username '{username}' not found");
-                return NotFound("User not found");
+                _logger.LogError(LoggingEvents.GetItemNotFound, $"user with username '{username}' not found");
+                return StatusCode(500);
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
@@ -88,15 +88,15 @@ public class AccountController : ControllerBase
             {
                 ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                return BadRequest("An error occurred");
+                return StatusCode(500);
             }
 
-            return Redirect("/confirmed-email");
+            return Redirect("/confirmed-email"); //??
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in email confirmation.");
-            return BadRequest("An error occurred");
+            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(GetConfirmEmailAsync)}.");
+            return StatusCode(500);
         }
     }
 
@@ -104,13 +104,14 @@ public class AccountController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> PostResendConfirmEmailMessageAsync(UserEmailDto model)
     {
+        //?
         try
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, "User Not found");
-                return NotFound("User not found");
+                return StatusCode(500);
             }
 
             if (user.EmailConfirmed)
@@ -120,19 +121,17 @@ public class AccountController : ControllerBase
             }
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
             var url = _urlService.GetConfirmEmailUrl(user.UserName, code);
-
             var templateData = new { username = user.UserName, url = url };
-
             var msg = _emailSender.CreateMailMessage(SendGridTemplateId.ConfirmEmail, user.Email, templateData);
             await _emailSender.SendMessageAsync(msg);
+
             return Ok(new { success = true });
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in resend email confirmation.");
-            return BadRequest("An error occurred");
+            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(PostResendConfirmEmailMessageAsync)}.");
+            return StatusCode(500);
         }
     }
 
@@ -171,8 +170,8 @@ public class AccountController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in forgot password.");
-            return BadRequest("An error occurred");
+            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(PostRequestPasswordResetAsync)}.");
+            return StatusCode(500);
         }
     }
 
@@ -187,6 +186,7 @@ public class AccountController : ControllerBase
             {
                 return Ok(new { success = true }); // Don't reveal that the user does not exist
             }
+
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
@@ -195,28 +195,28 @@ public class AccountController : ControllerBase
 
             ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
             _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-            return BadRequest("An error occurred");
+            return StatusCode(500);
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in forgot password.");
-            return BadRequest("An error occurred");
+            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(PostResetPasswordAsync)}.");
+            return StatusCode(500);
         }
     }
 
     [HttpGet, Route("check-username")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetIsUsernameTakenAsync(UsernameDto model)
+    public async Task<IActionResult> GetIsUsernameTakenAsync(string username)
     {
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            _logger.LogError($"Email null or empty at {nameof(GetIsEmailTakenAsync)}");
+            return BadRequest("An error occurred");
+        }
+
         try
         {
-            if (string.IsNullOrEmpty(model.Username))
-            {
-                _logger.LogError($"Username null or empty at {nameof(GetIsUsernameTakenAsync)}");
-                return BadRequest("An error occurred");
-            }
-
-            if (await _userManager.FindByNameAsync(model.Username) != null)
+            if (await _userManager.FindByNameAsync(username) != null)
             {
                 return Ok(new { usernameTaken = true }); //$"Username '{username}' is already taken..."
             }
@@ -225,36 +225,33 @@ public class AccountController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, "An error occurred in is username available.");
-            return BadRequest("An unexpected error occurred");
+            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(GetIsUsernameTakenAsync)}.");
+            return StatusCode(500);
         }
     }
 
     [HttpGet, Route("check-email")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetIsEmailTakenAsync(UserEmailDto model)
+    public async Task<IActionResult> GetIsEmailTakenAsync(string email)
     {
-        // obsolete as model validation is done by default
-        // need an integration test to check if request with invalid model returns 400 response
-        // if (string.IsNullOrEmpty(model.Email))
-        // {
-        //     _logger.LogError($"Email null or empty at {nameof(GetIsEmailTakenAsync)}");
-        //     return BadRequest("An error occurred");
-        // }
+        if (!RegexUtilities.IsValidEmail(email))
+        {
+            _logger.LogError($"invalid email paramater supplied at action: {nameof(GetIsEmailTakenAsync)}");
+            return StatusCode(400);
+        }
 
         try
         {
-
-            if (await _userManager.FindByEmailAsync(model.Email) != null)
+            if (await _userManager.FindByEmailAsync(email) != null)
             {
-                return Ok(new { emailTaken = true }); //$"Email is already taken..."
+                return Ok(new { emailTaken = true });
             }
 
-            return Ok(new { emailTaken = false }); //$"Email is not taken..."
+            return Ok(new { emailTaken = false });
         }
         catch (Exception ex)
         {
-            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"An error occurred at {nameof(GetIsEmailTakenAsync)}.");
+            _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(GetIsEmailTakenAsync)}.");
             return StatusCode(500);
         }
     }

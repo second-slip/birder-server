@@ -134,8 +134,8 @@ public class GetAddedNotesTests
         {
             return new[]
             {
-                    new object[] { null },
-                };
+                new object[] { null },
+            };
         }
     }
 }
