@@ -66,6 +66,8 @@ public class TopObsListTests
         Mock<ILogger<ListController>> loggerMock = new();
         var _systemClock = new Mock<ISystemClockService>();
         var mockListService = new Mock<IListService>();
+        mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult<List<TopObservationsViewModel>>(null));
         mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>(), It.IsAny<DateTime>()))
                 .Returns(Task.FromResult<List<TopObservationsViewModel>>(null));
 
