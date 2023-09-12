@@ -255,7 +255,7 @@ public class AccountController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"An error occurred at {nameof(GetIsEmailTakenAsync)}.");
-            return BadRequest("An unexpected error occurred");
+            return StatusCode(500);
         }
     }
 }
