@@ -6,14 +6,15 @@ public class TopObsListTests
     public async Task Returns_Ok_With_Viewmodel()
     {
         // Arrange
+        const string TEST_USERNAME = "non_null_or_empty_string";
         Mock<ILogger<ListController>> loggerMock = new();
         var _systemClock = new Mock<ISystemClockService>();
         _systemClock.SetupGet(x => x.GetToday).Returns(DateTime.Today);
         var mockListService = new Mock<IListService>();
-        mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>()))
+        mockListService.Setup(obs => obs.GetTopObservationsAsync(TEST_USERNAME))
             .ReturnsAsync(new List<TopObservationsViewModel>());
 
-        mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>(), It.IsAny<DateTime>()))
+        mockListService.Setup(obs => obs.GetTopObservationsAsync(TEST_USERNAME, It.IsAny<DateTime>()))
                 .ReturnsAsync(new List<TopObservationsViewModel>());
 
         var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
@@ -21,7 +22,7 @@ public class TopObsListTests
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext()
-            { User = SharedFunctions.GetTestClaimsPrincipal("test_username") }
+            { User = SharedFunctions.GetTestClaimsPrincipal(TEST_USERNAME) }
         };
 
         // Act
@@ -37,10 +38,11 @@ public class TopObsListTests
     public async Task Returns_500_When_Exception_Is_Raised()
     {
         // Arrange
+        const string TEST_USERNAME = "non_null_or_empty_string";
         Mock<ILogger<ListController>> loggerMock = new();
         var _systemClock = new Mock<ISystemClockService>();
         var mockListService = new Mock<IListService>();
-        mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>(), It.IsAny<DateTime>()))
+        mockListService.Setup(obs => obs.GetTopObservationsAsync(TEST_USERNAME, It.IsAny<DateTime>()))
             .ThrowsAsync(new InvalidOperationException());
 
         var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
@@ -48,7 +50,7 @@ public class TopObsListTests
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext()
-            { User = SharedFunctions.GetTestClaimsPrincipal("test_username") }
+            { User = SharedFunctions.GetTestClaimsPrincipal(TEST_USERNAME) }
         };
 
         // Act
@@ -63,12 +65,13 @@ public class TopObsListTests
     public async Task Returns_500_When_Repository_Returns_Null()
     {
         // Arrange
+        const string TEST_USERNAME = "non_null_or_empty_string";
         Mock<ILogger<ListController>> loggerMock = new();
         var _systemClock = new Mock<ISystemClockService>();
         var mockListService = new Mock<IListService>();
-        mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>()))
+        mockListService.Setup(obs => obs.GetTopObservationsAsync(TEST_USERNAME))
                 .Returns(Task.FromResult<List<TopObservationsViewModel>>(null));
-        mockListService.Setup(obs => obs.GetTopObservationsAsync(It.IsAny<string>(), It.IsAny<DateTime>()))
+        mockListService.Setup(obs => obs.GetTopObservationsAsync(TEST_USERNAME, It.IsAny<DateTime>()))
                 .Returns(Task.FromResult<List<TopObservationsViewModel>>(null));
 
         var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
@@ -76,7 +79,7 @@ public class TopObsListTests
         controller.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext()
-            { User = SharedFunctions.GetTestClaimsPrincipal("test_username") }
+            { User = SharedFunctions.GetTestClaimsPrincipal(TEST_USERNAME) }
         };
 
         // Act
