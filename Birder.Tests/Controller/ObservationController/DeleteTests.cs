@@ -69,10 +69,10 @@ public class ObservationControllerTests
     }
 
     [Theory]
-    [InlineData(1, 1)]
-    [InlineData(2, 1)]
-    [InlineData(3, 2)]
-    public async Task DeleteObservationAsync_ReturnsUnauthorised_WhenRequestingUserIsNotObservationOwner(int id, int birdId)
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    public async Task DeleteObservationAsync_ReturnsUnauthorised_WhenRequestingUserIsNotObservationOwner(int id)
     {
         //Arrange
         var requestingUser = GetUser("Any");
