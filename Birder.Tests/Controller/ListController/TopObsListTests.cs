@@ -8,8 +8,8 @@ public class TopObsListTests
         // Arrange
         const string TEST_USERNAME = "non_null_or_empty_string";
         Mock<ILogger<ListController>> loggerMock = new();
-        var _systemClock = new Mock<ISystemClockService>();
-        _systemClock.SetupGet(x => x.GetToday).Returns(DateTime.Today);
+        var systemClock = new Mock<ISystemClockService>();
+        systemClock.SetupGet(x => x.GetToday).Returns(DateTime.Today);
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetTopObservationsAsync(TEST_USERNAME))
             .ReturnsAsync(new List<TopObservationsViewModel>());
@@ -17,7 +17,7 @@ public class TopObsListTests
         mockListService.Setup(obs => obs.GetTopObservationsAsync(TEST_USERNAME, It.IsAny<DateTime>()))
                 .ReturnsAsync(new List<TopObservationsViewModel>());
 
-        var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, systemClock.Object, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -40,12 +40,12 @@ public class TopObsListTests
         // Arrange
         const string TEST_USERNAME = "non_null_or_empty_string";
         Mock<ILogger<ListController>> loggerMock = new();
-        var _systemClock = new Mock<ISystemClockService>();
+        var systemClock = new Mock<ISystemClockService>();
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetTopObservationsAsync(TEST_USERNAME, It.IsAny<DateTime>()))
             .ThrowsAsync(new InvalidOperationException());
 
-        var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, systemClock.Object, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
@@ -66,15 +66,18 @@ public class TopObsListTests
     {
         // Arrange
         const string TEST_USERNAME = "non_null_or_empty_string";
+        DateTime TEST_DATE = DateTime.Today;
         Mock<ILogger<ListController>> loggerMock = new();
-        var _systemClock = new Mock<ISystemClockService>();
+        var systemClock = new Mock<ISystemClockService>();
+        systemClock.SetupGet(x => x.GetToday).Returns(TEST_DATE);
+            
         var mockListService = new Mock<IListService>();
         mockListService.Setup(obs => obs.GetTopObservationsAsync(TEST_USERNAME))
                 .Returns(Task.FromResult<List<TopObservationsViewModel>>(null));
-        mockListService.Setup(obs => obs.GetTopObservationsAsync(TEST_USERNAME, It.IsAny<DateTime>()))
+        mockListService.Setup(obs => obs.GetTopObservationsAsync(TEST_USERNAME, TEST_DATE))
                 .Returns(Task.FromResult<List<TopObservationsViewModel>>(null));
 
-        var controller = new ListController(loggerMock.Object, _systemClock.Object, mockListService.Object);
+        var controller = new ListController(loggerMock.Object, systemClock.Object, mockListService.Object);
 
         controller.ControllerContext = new ControllerContext()
         {
