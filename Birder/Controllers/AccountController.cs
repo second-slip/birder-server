@@ -234,13 +234,16 @@ public class AccountController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> GetIsEmailTakenAsync(UserEmailDto model)
     {
+        // obsolete as model validation is done by default
+        // need an integration test to check if request with invalid model returns 400 response
+        // if (string.IsNullOrEmpty(model.Email))
+        // {
+        //     _logger.LogError($"Email null or empty at {nameof(GetIsEmailTakenAsync)}");
+        //     return BadRequest("An error occurred");
+        // }
+
         try
         {
-            if (string.IsNullOrEmpty(model.Email))
-            {
-                _logger.LogError($"Email null or empty at {nameof(GetIsEmailTakenAsync)}");
-                return BadRequest("An error occurred");
-            }
 
             if (await _userManager.FindByEmailAsync(model.Email) != null)
             {

@@ -26,7 +26,7 @@ public class ListController : ControllerBase
             var username = User.Identity.Name;
 
             // request synchonously as Entity Framework Core does not support multiple parallel operations being run on the same DbContext instance. 
-            // todo: conside two separate actions here.  Not a good idea to return both lists, automatically
+            // todo: consider separate actions.  Not a good idea to return both lists, automatically
             var topObservations = await _listService.GetTopObservationsAsync(username);
             var topMonthlyObservations = await _listService.GetTopObservationsAsync(username, _systemClock.GetToday.AddDays(-30));
 
