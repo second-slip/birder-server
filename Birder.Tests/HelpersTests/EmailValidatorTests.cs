@@ -77,6 +77,10 @@ public class EmailValidatorTests
             return new[]
             {
                 new object[] { "a@b.com" },
+                new object[] { "fggre@b.co" },
+                new object[] { "A@AND.CO.UK" },
+                new object[] { "zsdffv@j.org.uk" },
+                new object[] { "AESTDNdmrjcm@b.com" }
             };
         }
     }

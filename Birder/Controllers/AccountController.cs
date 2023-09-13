@@ -1,4 +1,6 @@
-﻿namespace Birder.Controllers;
+﻿using System.Net.Mime;
+
+namespace Birder.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -60,7 +62,7 @@ public class AccountController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(PostRegisterAsync)}.");
-            return StatusCode(500);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -73,14 +75,14 @@ public class AccountController : ControllerBase
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(code))
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, $"null arguments passed to method: {nameof(GetConfirmEmailAsync)}");
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             var user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, $"user with username '{username}' not found");
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
@@ -88,7 +90,7 @@ public class AccountController : ControllerBase
             {
                 ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
                 _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             return Redirect("/confirmed-email"); //??
@@ -96,7 +98,7 @@ public class AccountController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(GetConfirmEmailAsync)}.");
-            return StatusCode(500);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -111,7 +113,7 @@ public class AccountController : ControllerBase
             if (user == null)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, "User Not found");
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             if (user.EmailConfirmed)
@@ -131,7 +133,7 @@ public class AccountController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(PostResendConfirmEmailMessageAsync)}.");
-            return StatusCode(500);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -171,7 +173,7 @@ public class AccountController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(PostRequestPasswordResetAsync)}.");
-            return StatusCode(500);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -195,49 +197,57 @@ public class AccountController : ControllerBase
 
             ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
             _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-            return StatusCode(500);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(PostResetPasswordAsync)}.");
-            return StatusCode(500);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
     [HttpGet, Route("check-username")]
     [AllowAnonymous]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetIsUsernameTakenAsync(string username)
     {
         if (string.IsNullOrWhiteSpace(username))
         {
             _logger.LogError($"Email null or empty at {nameof(GetIsEmailTakenAsync)}");
-            return BadRequest("An error occurred");
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
 
         try
         {
             if (await _userManager.FindByNameAsync(username) != null)
             {
-                return Ok(new { usernameTaken = true }); //$"Username '{username}' is already taken..."
+                return Ok(new { usernameTaken = true });
             }
 
-            return Ok(new { usernameTaken = false }); //$"Username '{username}' is available..."
+            return Ok(new { usernameTaken = false });
         }
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(GetIsUsernameTakenAsync)}.");
-            return StatusCode(500);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
     [HttpGet, Route("check-email")]
     [AllowAnonymous]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetIsEmailTakenAsync(string email)
     {
         if (!RegexUtilities.IsValidEmail(email))
         {
             _logger.LogError($"invalid email paramater supplied at action: {nameof(GetIsEmailTakenAsync)}");
-            return StatusCode(400);
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
 
         try
@@ -252,7 +262,7 @@ public class AccountController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.UpdateItemNotFound, ex, $"an unexpected error occurred at method: {nameof(GetIsEmailTakenAsync)}.");
-            return StatusCode(500);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }

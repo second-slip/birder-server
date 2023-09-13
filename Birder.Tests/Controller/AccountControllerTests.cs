@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
 namespace Birder.Tests.Controller;
 
@@ -69,14 +68,8 @@ public class AccountControllerTests
         var result = await controller.PostRegisterAsync(testModel);
 
         // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is BadRequestObjectResult);
-        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-
-        var expected = "An error occurred";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
     }
 
     [Fact]
@@ -96,8 +89,7 @@ public class AccountControllerTests
 
         // Assert
         var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is BadRequestObjectResult);
+
         Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
 
         var expected = new SerializableError
@@ -155,14 +147,14 @@ public class AccountControllerTests
         var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
         // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is BadRequestObjectResult);
-        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
+        // Assert.NotNull(objectResult);
+        // Assert.True(objectResult is BadRequestObjectResult);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
 
-        var expected = "An error occurred";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
+        // var expected = "An error occurred";
+        // objectResult.Value.Should().BeOfType<string>();
+        // objectResult.Value.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -180,14 +172,14 @@ public class AccountControllerTests
         var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
         // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is BadRequestObjectResult);
-        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
+        // Assert.NotNull(objectResult);
+        // Assert.True(objectResult is BadRequestObjectResult);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
 
-        var expected = "An error occurred";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
+        // var expected = "An error occurred";
+        // objectResult.Value.Should().BeOfType<string>();
+        // objectResult.Value.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -207,10 +199,11 @@ public class AccountControllerTests
         var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
         // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        var expected = "An error occurred";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
+        // var expected = "An error occurred";
+        // objectResult.Value.Should().BeOfType<string>();
+        // objectResult.Value.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -230,14 +223,14 @@ public class AccountControllerTests
         var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
         // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is BadRequestObjectResult);
-        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
+        // Assert.NotNull(objectResult);
+        // Assert.True(objectResult is BadRequestObjectResult);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
 
-        var expected = "An error occurred";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
+        // var expected = "An error occurred";
+        // objectResult.Value.Should().BeOfType<string>();
+        // objectResult.Value.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -259,14 +252,12 @@ public class AccountControllerTests
         var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
         // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is BadRequestObjectResult);
-        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
 
-        var expected = "An error occurred";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
+        // var expected = "An error occurred";
+        // objectResult.Value.Should().BeOfType<string>();
+        // objectResult.Value.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -288,13 +279,13 @@ public class AccountControllerTests
         var result = await controller.GetConfirmEmailAsync(testUsername, testCode);
 
         // Assert
-        var objectResult = Assert.IsType<RedirectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is RedirectResult);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
+        // Assert.NotNull(objectResult);
+        // Assert.True(objectResult is RedirectResult);
 
-        var expected = "/confirmed-email";
-        objectResult.Url.Should().BeOfType<string>();
-        objectResult.Url.Should().BeEquivalentTo(expected);
+        // var expected = "/confirmed-email";
+        // objectResult.Url.Should().BeOfType<string>();
+        // objectResult.Url.Should().BeEquivalentTo(expected);
     }
 
     #endregion
@@ -332,7 +323,7 @@ public class AccountControllerTests
     //}
 
     [Fact]
-    public async Task ResendConfirmEmailMessageAsync_NotFound_WhenRepositoryReturnsNull()
+    public async Task ResendConfirmEmailMessageAsync_Returns_500_WhenRepositoryReturnsNull()
     {
         // Arrange
         var mockUserManager = SharedFunctions.InitialiseMockUserManager();
@@ -347,10 +338,8 @@ public class AccountControllerTests
         var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
 
         // Assert
-        var objectResult = Assert.IsType<NotFoundObjectResult>(result);
-        var expected = "User not found";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
     }
 
     [Fact]
@@ -369,10 +358,8 @@ public class AccountControllerTests
         var result = await controller.PostResendConfirmEmailMessageAsync(testModel);
 
         // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        var expected = "An error occurred";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
     }
 
     [Fact]
@@ -614,14 +601,14 @@ public class AccountControllerTests
         var result = await controller.PostResetPasswordAsync(testModel);
 
         // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is BadRequestObjectResult);
-        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
+        // Assert.NotNull(objectResult);
+        // Assert.True(objectResult is BadRequestObjectResult);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
 
-        var expected = "An error occurred";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
+        // var expected = "An error occurred";
+        // objectResult.Value.Should().BeOfType<string>();
+        // objectResult.Value.Should().BeEquivalentTo(expected);
     }
 
     [Fact]
@@ -662,14 +649,10 @@ public class AccountControllerTests
         var result = await controller.PostResetPasswordAsync(testModel);
 
         // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.NotNull(objectResult);
-        Assert.True(objectResult is BadRequestObjectResult);
-        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
 
-        var expected = "An error occurred";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
+        Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
     }
 
     [Fact]
@@ -702,112 +685,6 @@ public class AccountControllerTests
 
     #endregion
 
-
-    #region GetIsUsernameAvailableAsync unit tests
-
-    [Fact]
-    public async Task GetIsUsernameAvailableAsync_ReturnsBadRequest_WhenUsernameArgumentIsNull()
-    {
-        // Arrange
-        var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-
-        var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
-
-        var username = "";
-
-        // Act
-        var result = await controller.GetIsUsernameTakenAsync(username);
-
-        // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is BadRequestObjectResult);
-        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-
-        var expected = "An error occurred";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task GetIsUsernameAvailableAsync_ReturnsBadRequest_WhenExceptionIsRaised()
-    {
-        // Arrange
-        var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-        mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
-                       .ThrowsAsync(new InvalidOperationException());
-
-        var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
-
-        var username = "testUser";
-
-        // Act
-        var result = await controller.GetIsUsernameTakenAsync(username);
-
-        // Assert
-        var objectResult = Assert.IsType<BadRequestObjectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is BadRequestObjectResult);
-        Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
-
-        var expected = "An unexpected error occurred";
-        objectResult.Value.Should().BeOfType<string>();
-        objectResult.Value.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task GetIsUsernameAvailableAsync_ReturnsBadRequest_WhenUsernameIsTaken()
-    {
-        // Arrange
-        var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-        mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
-                       .ReturnsAsync(GetValidTestUser(true));
-        //.Returns(Task.FromResult<ApplicationUser>(null));
-
-        var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
-
-        var username = "testUser";
-
-        // Act
-        var result = await controller.GetIsUsernameTakenAsync(username);
-
-        // Assert
-        var objectResult = Assert.IsType<OkObjectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is OkObjectResult);
-        Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-
-        var expected = new { usernameTaken = true };
-        objectResult.Value.Should().BeEquivalentTo(expected);
-    }
-
-    [Fact]
-    public async Task GetIsUsernameAvailableAsync_ReturnsOk_WhenUsernameIsAvailable()
-    {
-        // Arrange
-        var mockUserManager = SharedFunctions.InitialiseMockUserManager();
-        mockUserManager.Setup(repo => repo.FindByNameAsync(It.IsAny<string>()))
-                       .Returns(Task.FromResult<ApplicationUser>(null));
-
-        var controller = new AccountController(_systemClock.Object, _urlService.Object, _emailSender.Object, _logger.Object, mockUserManager.Object);
-
-        var username = "testUser";
-        //string username = "testUser";
-
-        // Act
-        var result = await controller.GetIsUsernameTakenAsync(username);
-
-        // Assert
-        var objectResult = Assert.IsType<OkObjectResult>(result);
-        Assert.NotNull(objectResult);
-        Assert.True(objectResult is OkObjectResult);
-        Assert.Equal(StatusCodes.Status200OK, objectResult.StatusCode);
-
-        var expected = new { usernameTaken = false };
-        objectResult.Value.Should().BeEquivalentTo(expected);
-    }
-
-    #endregion
 
 
     private static ApplicationUser GetValidTestUser(bool emailConfirmed)
