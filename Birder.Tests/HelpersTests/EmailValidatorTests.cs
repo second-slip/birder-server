@@ -2,12 +2,11 @@ namespace Birder.Tests.HelpersTests;
 
 public class EmailValidatorTests
 {
-
     [Theory, MemberData(nameof(Null_Empty_Whitespace_String_Test_Data))]
     public void IsEmailValid_Returns_False_When_Null_Empty_Whitspace(string email)
     {
         //Act
-        var result = RegexUtilities.IsValidEmail(email);
+        var result = RegexHelpers.IsValidEmail(email);
 
         // Assert
         Assert.False(result);
@@ -17,7 +16,7 @@ public class EmailValidatorTests
     public void IsEmailValid_Returns_False_When_Not_Valid_Email_Pattern(string email)
     {
         //Act
-        var result = RegexUtilities.IsValidEmail(email);
+        var result = RegexHelpers.IsValidEmail(email);
 
         // Assert
         Assert.False(result);
@@ -27,7 +26,7 @@ public class EmailValidatorTests
     public void IsEmailValid_Returns_True_When_Valid_Email_Pattern(string email)
     {
         //Act
-        var result = RegexUtilities.IsValidEmail(email);
+        var result = RegexHelpers.IsValidEmail(email);
 
         // Assert
         Assert.True(result);

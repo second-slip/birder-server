@@ -3,8 +3,40 @@ using System.Text.RegularExpressions;
 
 namespace Birder.Helpers;
 
-public class RegexUtilities
+public class RegexHelpers
 {
+    public static bool IsValidUsername(string username)
+    {
+        if (string.IsNullOrWhiteSpace(username))
+            return false;
+
+        // username should be min 5 and max 20 Chars
+        var length = username.Length;
+
+        // use long way as easier to read!
+        // if ((length <5) || (length > 20))
+        //     return false;
+
+        if (length < 5)
+            return false;
+
+        if (length > 20)
+            return false;
+
+
+        try
+        {
+            return Regex.IsMatch(username,
+                @"^(?=.*[a-zA-Z])[a-zA-Z0-9]+$",
+                RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+        }
+        catch (RegexMatchTimeoutException)
+        {
+            return false;
+        }
+    }
+
+
     public static bool IsValidEmail(string email)
     {
         if (string.IsNullOrWhiteSpace(email))

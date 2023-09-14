@@ -79,7 +79,7 @@ public class AccountController : ControllerBase
             }
 
             var user = await _userManager.FindByNameAsync(username);
-            if (user == null)
+            if (user is null)
             {
                 _logger.LogError(LoggingEvents.GetItemNotFound, $"user with username '{username}' not found");
                 return StatusCode(StatusCodes.Status500InternalServerError);
@@ -214,9 +214,9 @@ public class AccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetIsUsernameTakenAsync(string username)
     {
-        if (string.IsNullOrWhiteSpace(username))
+        if (!RegexHelpers.IsValidUsername(username))
         {
-            _logger.LogError($"Email null or empty at {nameof(GetIsEmailTakenAsync)}");
+            _logger.LogError($"invalid username paramater supplied at action: {nameof(GetIsUsernameTakenAsync)}");
             return StatusCode(StatusCodes.Status400BadRequest);
         }
 
@@ -244,7 +244,7 @@ public class AccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetIsEmailTakenAsync(string email)
     {
-        if (!RegexUtilities.IsValidEmail(email))
+        if (!RegexHelpers.IsValidEmail(email))
         {
             _logger.LogError($"invalid email paramater supplied at action: {nameof(GetIsEmailTakenAsync)}");
             return StatusCode(StatusCodes.Status400BadRequest);
