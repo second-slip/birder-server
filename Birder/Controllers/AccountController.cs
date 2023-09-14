@@ -57,7 +57,7 @@ public class AccountController : ControllerBase
 
             ModelStateErrorsExtensions.AddIdentityErrors(ModelState, result);
             _logger.LogError(LoggingEvents.UpdateItemNotFound, "Invalid model state:" + ModelStateErrorsExtensions.GetModelStateErrorMessages(ModelState));
-            return BadRequest(ModelState);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
         catch (Exception ex)
         {
