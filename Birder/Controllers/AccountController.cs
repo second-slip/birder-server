@@ -112,19 +112,18 @@ public class AccountController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> PostResendConfirmEmailMessageAsync(UserEmailDto model)
     {
-        //?
         try
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null)
+            if (user is null)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, "User Not found");
+                _logger.LogError(LoggingEvents.GetItemNotFound, $"user with email '{model.Email}' not found");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             if (user.EmailConfirmed)
             {
-                _logger.LogError(LoggingEvents.UpdateItemNotFound, "User email is already confirmed");
+                _logger.LogWarning(LoggingEvents.UpdateItemNotFound, $"user with email '{model.Email}' is already confirmed");
                 return Ok(new { success = true });
             }
 
@@ -149,22 +148,16 @@ public class AccountController : ControllerBase
     {
         try
         {
-            if (string.IsNullOrEmpty(model.Email))
-            {
-                _logger.LogError($"Email null or empty at {nameof(PostRequestPasswordResetAsync)}");
-                return BadRequest("An error occurred");
-            }
-
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user is null)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, $"User not found at forgot password");
+                _logger.LogError(LoggingEvents.GetItemNotFound, $"user with email '{model.Email}' not found");
                 return Ok(new { success = true }); // user does not exist, but don't reveal that the user does not exist
             }
 
             if (user.EmailConfirmed == false)
             {
-                _logger.LogError(LoggingEvents.GetItemNotFound, $"User's email is not confirmed");
+                _logger.LogError(LoggingEvents.GetItemNotFound, $"user with email '{model.Email}' has not confirmed their email");
                 return Ok(new { success = true }); // email is not confirmed
             }
 
