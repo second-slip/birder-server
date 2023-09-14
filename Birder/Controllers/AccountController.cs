@@ -70,14 +70,20 @@ public class AccountController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> GetConfirmEmailAsync(string username, string code)
     {
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            _logger.LogError(LoggingEvents.GetItemNotFound, $"action argument invalid: {nameof(username)}");
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+
+        if (string.IsNullOrWhiteSpace(code))
+        {
+            _logger.LogError(LoggingEvents.GetItemNotFound, $"action argument invalid: {nameof(code)}");
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+
         try
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(code))
-            {
-                _logger.LogError(LoggingEvents.GetItemNotFound, $"null arguments passed to method: {nameof(GetConfirmEmailAsync)}");
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
             var user = await _userManager.FindByNameAsync(username);
             if (user is null)
             {
@@ -93,7 +99,7 @@ public class AccountController : ControllerBase
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return Redirect("/confirmed-email"); //??
+            return Redirect("/confirmed-email");
         }
         catch (Exception ex)
         {
