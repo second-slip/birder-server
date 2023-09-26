@@ -6,7 +6,7 @@ namespace Birder.Services;
 
 public interface IEmailSender
 {
-    Task SendMessageAsync(SendGridMessage mailMessage);
+    Task<bool> SendMessageAsync(SendGridMessage mailMessage);
     SendGridMessage CreateMailMessage(string templateId, string recipient, object model);
 }
 
@@ -19,11 +19,25 @@ public class EmailSender : IEmailSender
         Options = optionsAccessor.Value;
     }
 
-    public async Task SendMessageAsync(SendGridMessage mailMessage)
+    public async Task<bool> SendMessageAsync(SendGridMessage mailMessage)
     {
         var options = new SendGridClientOptions { ApiKey = Options.SendGridKey, HttpErrorAsException = true };
         var client = new SendGridClient(options);
-        await client.SendEmailAsync(mailMessage);
+
+        var response = await client.SendEmailAsync(mailMessage); // await client.SendEmailAsync(mailMessage);
+        if (response.IsSuccessStatusCode)
+        {
+            return true;
+        }
+
+        // try again...
+        var secondResponse = await client.SendEmailAsync(mailMessage);
+        if (secondResponse.IsSuccessStatusCode)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public SendGridMessage CreateMailMessage(string templateId, string recipient, object model)

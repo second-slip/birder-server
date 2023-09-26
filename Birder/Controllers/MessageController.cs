@@ -24,8 +24,16 @@ public class MessageController : ControllerBase
         {
             var templateModel = new { name = model.Name, email = model.Email, message = model.Message };
             var msg = _emailSender.CreateMailMessage(SendGridTemplateId.ContactForm, _options.DevMail, templateModel);
-            await _emailSender.SendMessageAsync(msg);
-            return NoContent();
+            
+            var success = await _emailSender.SendMessageAsync(msg);
+            if (success == true)
+            {
+                return Ok(new { success = true });
+            }
+            else
+            {
+                return Ok(new { success = false }); // ok?
+            }
         }
         catch (Exception ex)
         {
