@@ -130,8 +130,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("https://birder-server.azurewebsites.net",
-                            "https://www.birder-server.azurewebsites.net");
+                          policy.WithOrigins("https://andrewstuartcross.co.uk",
+                            "https://www.andrewstuartcross.co.uk",
+                             "http://andrewstuartcross.co.uk",
+                            "http://www.andrewstuartcross.co.uk")
+                                .AllowAnyMethod()
+                                .AllowAnyHeader();
                       });
 });
 
