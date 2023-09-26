@@ -115,7 +115,7 @@ builder.Services
             };
         });
 
-//var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 //builder.Services.AddCors(options =>
 //{
@@ -125,6 +125,17 @@ builder.Services
 //            builder.WithOrigins(authConfig.BaseUrl);
 //        });
 //});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("https://birder-server.azurewebsites.net",
+                            "https://www.birder-server.azurewebsites.net");
+                      });
+});
+
+
 // services.AddAzureClients(builder =>
 // {
 //     builder.AddBlobServiceClient(Configuration["ConnectionStrings:StorageConnection:blob"], preferMsi: true);
@@ -146,7 +157,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// app.UseCors(MyAllowSpecificOrigins);
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthentication();
 

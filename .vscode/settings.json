@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/e6aaf9b8-b6a6-45ff-a225-12f1fd2c5f96/resourceGroups/Birder/providers/Microsoft.Web/sites/birder-server",
+    "appService.deploySubpath": "Birder\\bin\\publish"
+}
