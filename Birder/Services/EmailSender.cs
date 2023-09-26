@@ -40,7 +40,7 @@ public class EmailSender : IEmailSender
         var message = new SendGridMessage();
         message.SetTemplateId(templateId);
         message.SetTemplateData(model);
-        message.SetFrom("noreply@birderweb.com", "Birder Administrator");
+        message.SetFrom("andrew-stuart-cross@outlook.com", "Birder Administrator");
         message.AddTo(new EmailAddress(recipient));
         message.SetClickTracking(false, false); // Disable click tracking: see https://sendgrid.com/docs/User_Guide/Settings/tracking.html
 
