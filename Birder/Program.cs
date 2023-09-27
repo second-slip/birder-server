@@ -131,11 +131,9 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy.WithOrigins("https://andrewstuartcross.co.uk",
-                            "https://www.andrewstuartcross.co.uk",
-                             "http://andrewstuartcross.co.uk",
-                            "http://www.andrewstuartcross.co.uk")
-                                .AllowAnyMethod()
-                                .AllowAnyHeader();
+                            "https://www.andrewstuartcross.co.uk")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
                       });
 });
 
