@@ -24,14 +24,14 @@ public class EmailSender : IEmailSender
         var options = new SendGridClientOptions { ApiKey = Options.SendGridKey, HttpErrorAsException = true };
         var client = new SendGridClient(options);
 
-        var response = await client.SendEmailAsync(mailMessage); // await client.SendEmailAsync(mailMessage);
+        var response = await client.SendEmailAsync(mailMessage).ConfigureAwait(false); // await client.SendEmailAsync(mailMessage);
         if (response.IsSuccessStatusCode)
         {
             return true;
         }
 
         // try again...
-        var secondResponse = await client.SendEmailAsync(mailMessage);
+        var secondResponse = await client.SendEmailAsync(mailMessage).ConfigureAwait(false);
         if (secondResponse.IsSuccessStatusCode)
         {
             return true;
@@ -51,12 +51,14 @@ public class EmailSender : IEmailSender
         if (model is null)
             throw new ArgumentException($"The argument is null", nameof(model));
 
-        var message = new SendGridMessage();
-        message.SetTemplateId(templateId);
-        message.SetTemplateData(model);
-        message.SetFrom("andrew-stuart-cross@outlook.com", "Birder Administrator");
-        message.AddTo(new EmailAddress(recipient));
-        message.SetClickTracking(false, false); // Disable click tracking: see https://sendgrid.com/docs/User_Guide/Settings/tracking.html
+        var message = MailHelper.CreateSingleTemplateEmail(new EmailAddress(Options.SendGridMail), new EmailAddress(recipient),templateId, model);// .CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+
+        // var message = new SendGridMessage();
+        // message.SetTemplateId(templateId);
+        // message.SetTemplateData(model);
+        // message.SetFrom("andrew-stuart-cross@outlook.com", "Birder Administrator");
+        // message.AddTo(new EmailAddress(recipient));
+        message.SetClickTracking(true, true); // Disable click tracking: see https://sendgrid.com/docs/User_Guide/Settings/tracking.html
 
         return message;
     }
