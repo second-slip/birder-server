@@ -12,26 +12,26 @@ public interface IEmailSender
 
 public class EmailSender : IEmailSender
 {
-    public AuthMessageSenderOptions Options { get; }
+    private ConfigOptions _options { get; }
+    private ISendGridClient _sendGridClient;
 
-    public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
+    public EmailSender(IOptions<ConfigOptions> optionsAccessor,
+    ISendGridClient sendGridClient)
     {
-        Options = optionsAccessor.Value;
+        _options = optionsAccessor.Value;
+        _sendGridClient = sendGridClient;
     }
 
     public async Task<bool> SendMessageAsync(SendGridMessage mailMessage)
     {
-        var options = new SendGridClientOptions { ApiKey = Options.SendGridKey, HttpErrorAsException = true };
-        var client = new SendGridClient(options);
-
-        var response = await client.SendEmailAsync(mailMessage).ConfigureAwait(false); // await client.SendEmailAsync(mailMessage);
+        var response = await _sendGridClient.SendEmailAsync(mailMessage).ConfigureAwait(false); // await client.SendEmailAsync(mailMessage);
         if (response.IsSuccessStatusCode)
         {
             return true;
         }
 
         // try again...
-        var secondResponse = await client.SendEmailAsync(mailMessage).ConfigureAwait(false);
+        var secondResponse = await _sendGridClient.SendEmailAsync(mailMessage).ConfigureAwait(false);
         if (secondResponse.IsSuccessStatusCode)
         {
             return true;
@@ -51,13 +51,7 @@ public class EmailSender : IEmailSender
         if (model is null)
             throw new ArgumentException($"The argument is null", nameof(model));
 
-        var message = MailHelper.CreateSingleTemplateEmail(new EmailAddress(Options.SendGridMail), new EmailAddress(recipient),templateId, model);// .CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-
-        // var message = new SendGridMessage();
-        // message.SetTemplateId(templateId);
-        // message.SetTemplateData(model);
-        // message.SetFrom("andrew-stuart-cross@outlook.com", "Birder Administrator");
-        // message.AddTo(new EmailAddress(recipient));
+        var message = MailHelper.CreateSingleTemplateEmail(new EmailAddress(_options.SendGridMail), new EmailAddress(recipient), templateId, model);
         message.SetClickTracking(true, true); // Disable click tracking: see https://sendgrid.com/docs/User_Guide/Settings/tracking.html
 
         return message;
