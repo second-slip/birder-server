@@ -60,10 +60,8 @@ public class BirdsControllerTests
         var result = await controller.GetBirdsAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<BirderStatus>());
 
         // Assert
-        Assert.IsType<ObjectResult>(result);
-        var objectResult = result as ObjectResult;
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        Assert.Equal($"bird service returned null", objectResult.Value);
     }
 
     [Fact]
@@ -81,10 +79,8 @@ public class BirdsControllerTests
         var result = await controller.GetBirdsAsync(1, 25, BirderStatus.Common);
 
         // Assert
-        Assert.IsType<ObjectResult>(result);
-        var objectResult = result as ObjectResult;
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        Assert.Equal("an unexpected error occurred", objectResult.Value);
     }
 
     #endregion
@@ -148,10 +144,8 @@ public class BirdsControllerTests
         var result = await controller.GetBirdAsync(It.IsAny<int>());
 
         // Assert
-        Assert.IsType<ObjectResult>(result);
-        var objectResult = result as ObjectResult;
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        Assert.Equal($"bird service returned null", objectResult.Value);
     }
 
     [Fact]
@@ -169,10 +163,8 @@ public class BirdsControllerTests
         var result = await controller.GetBirdAsync(It.IsAny<int>());
 
         // Assert
-        Assert.IsType<ObjectResult>(result);
-        var objectResult = result as ObjectResult;
+        var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status500InternalServerError, objectResult.StatusCode);
-        Assert.Equal("an unexpected error occurred", objectResult.Value);
     }
 
 

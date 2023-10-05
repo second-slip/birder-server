@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using SendGrid.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,6 +59,8 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
         .AddSignInManager<SignInManager<ApplicationUser>>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
 builder.Services.AddHttpClient();
 
 // custom services
@@ -86,13 +89,11 @@ builder.Services.AddSingleton<IUserNetworkHelpers, UserNetworkHelpers>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 builder.Services.Configure<FlickrOptions>(builder.Configuration.GetSection(FlickrOptions.Flickr));
 builder.Services.Configure<ConfigOptions>(builder.Configuration.GetSection(ConfigOptions.Config));
 
-
-// fault
 var authConfig = builder.Configuration.GetRequiredSection("Config").Get<ConfigOptions>();
+builder.Services.AddSendGrid(options => { options.ApiKey = authConfig.SendGridKey; options.HttpErrorAsException = true; });
 
 builder.Services
        .AddAuthentication(options =>
