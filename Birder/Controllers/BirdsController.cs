@@ -25,7 +25,7 @@ public class BirdsController : ControllerBase
             if (model is null)
             {
                 _logger.LogWarning(LoggingEvents.GetListNotFound, "birds list was null");
-                return StatusCode(500, $"bird service returned null");
+                return StatusCode(500);
             }
 
             return Ok(model);
@@ -33,10 +33,9 @@ public class BirdsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.GetListNotFound, ex, "an error occurred getting the birds list");
-            return StatusCode(500, "an unexpected error occurred");
+            return StatusCode(500);
         }
     }
-
 
     [HttpGet, Route("Bird")]
     public async Task<IActionResult> GetBirdAsync(int id)
@@ -48,7 +47,7 @@ public class BirdsController : ControllerBase
             if (model is null)
             {
                 _logger.LogWarning(LoggingEvents.GetItemNotFound, "GetBird({id}) returned null", id);
-                return StatusCode(500, $"bird service returned null");
+                return StatusCode(500);
             }
 
             return Ok(model);
@@ -56,7 +55,7 @@ public class BirdsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(LoggingEvents.GetItemNotFound, ex, "an error occurred getting bird with {id}", id);
-            return StatusCode(500, "an unexpected error occurred");
+            return StatusCode(500);
         }
     }
 }
