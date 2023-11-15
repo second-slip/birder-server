@@ -106,7 +106,6 @@ public class PostFollowUserAsyncTests
         string requestingUser = "testUser1";
         string userToFollow = requestingUser;
 
-
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
