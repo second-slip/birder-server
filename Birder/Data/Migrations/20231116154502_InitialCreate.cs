@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -195,12 +196,14 @@ namespace Birder.Migrations
                 name: "Network",
                 columns: table => new
                 {
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FollowerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    NetworkId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    FollowerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Network", x => new { x.ApplicationUserId, x.FollowerId });
+                    table.PrimaryKey("PK_Network", x => x.NetworkId);
                     table.ForeignKey(
                         name: "FK_Network_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
@@ -423,6 +426,13 @@ namespace Birder.Migrations
                 name: "IX_Bird_ConservationStatusId",
                 table: "Bird",
                 column: "ConservationStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Network_ApplicationUserId_FollowerId",
+                table: "Network",
+                columns: new[] { "ApplicationUserId", "FollowerId" },
+                unique: true,
+                filter: "[ApplicationUserId] IS NOT NULL AND [FollowerId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Network_FollowerId",

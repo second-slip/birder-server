@@ -12,8 +12,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231116131221_index-network")]
-    partial class indexnetwork
+    [Migration("20231116154502_InitialCreate")]
+    [ExcludeFromCodeCoverageAttribute]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
