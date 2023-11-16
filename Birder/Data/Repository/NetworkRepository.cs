@@ -34,6 +34,7 @@ public class NetworkRepository : INetworkRepository
 
         var record = userToUnfollow.Followers.Where(i => i.ApplicationUser == userToUnfollow).FirstOrDefault();
         loggedinUser.Following.Remove(record);
+        userToUnfollow.Followers.Remove(record);
     }
 }
 

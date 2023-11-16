@@ -1,6 +1,6 @@
 # birder-server
 
-This is the ASP.NET 7 REST API for the Birder website.
+This is the ASP.NET 8 REST API for the Birder website.
 
 [![.NET CI](https://github.com/andrew-stuart-cross/birder-server/actions/workflows/dotnet.yml/badge.svg)](https://github.com/andrew-stuart-cross/birder-server/actions/workflows/dotnet.yml)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/andrew-stuart-cross/birder-server/dotnet.yml)
