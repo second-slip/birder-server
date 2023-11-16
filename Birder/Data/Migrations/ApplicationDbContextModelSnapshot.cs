@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
+    [ExcludeFromCodeCoverageAttribute]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

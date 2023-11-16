@@ -13,6 +13,7 @@ namespace Birder.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20231116154502_InitialCreate")]
+    [ExcludeFromCodeCoverageAttribute]
     partial class InitialCreate
     {
         /// <inheritdoc />
