@@ -53,8 +53,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         //        .WithMany(t => t.ObservationTags)
         //        .HasForeignKey(ot => ot.TagId);
 
+        // builder.Entity<Network>()
+        //     // .HasNoKey();
+        //     .HasKey(k => new { k.ApplicationUserId, k.FollowerId });
+
         builder.Entity<Network>()
-            .HasKey(k => new { k.ApplicationUserId, k.FollowerId });
+            .HasIndex(i => new { i.ApplicationUserId, i.FollowerId })
+            .IsUnique();
 
         builder.Entity<Network>()
             .HasOne(l => l.ApplicationUser)
@@ -67,6 +72,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(a => a.Following)
             .HasForeignKey(l => l.FollowerId)
             .OnDelete(DeleteBehavior.NoAction);
+
 
 
         builder.Entity<ConservationStatus>().HasData(new ConservationStatus
