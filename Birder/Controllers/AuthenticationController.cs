@@ -36,7 +36,7 @@ public class AuthenticationController : ControllerBase
 
             if (user.EmailConfirmed == false)
             {
-                _logger.LogInformation("EmailNotConfirmed", "You cannot login until you confirm your email.");
+                _logger.LogInformation("You cannot login until you confirm your email.");
                 return StatusCode(500, new AuthenticationResultDto() { FailureReason = AuthenticationFailureReason.EmailConfirmationRequired });
             }
 
