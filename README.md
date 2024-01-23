@@ -2,9 +2,11 @@
 
 This is the ASP.NET 8 REST API for the Birder website.
 
-[![.NET CI](https://github.com/andrew-stuart-cross/birder-server/actions/workflows/dotnet.yml/badge.svg)](https://github.com/andrew-stuart-cross/birder-server/actions/workflows/dotnet.yml)
+[![.NET](https://github.com/andrew-stuart-cross/birder-server/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/andrew-stuart-cross/birder-server/actions/workflows/dotnet.yml)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/andrew-stuart-cross/birder-server/dotnet.yml)
 [![codecov](https://codecov.io/gh/andrew-stuart-cross/birder-server/branch/master/graph/badge.svg?token=OCD78ZYJ6Y)](https://codecov.io/gh/andrew-stuart-cross/birder-server)
+[![publish](https://github.com/andrew-stuart-cross/birder-server/actions/workflows/publish-app.yml/badge.svg?branch=master)](https://github.com/andrew-stuart-cross/birder-server/actions/workflows/publish-app.yml)
+
 <!-- dotnet badge not supported -->
 <!-- [![Known Vulnerabilities](https://snyk.io/test/github/andrew-stuart-cross/birder-server/badge.svg)](https://snyk.io/test/github/andrew-stuart-cross/birder-server) -->
 
