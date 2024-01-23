@@ -5,14 +5,14 @@ on:
     branches: [ working ]
 
 env:
-  AZURE_WEBAPP_NAME: DotNetWeb
+  AZURE_WEBAPP_NAME: birder-server
   AZURE_WEBAPP_PACKAGE_PATH: '.' # Set this to the path to your web app project, defaults to the repository root:
   DOTNET_VERSION: 8.0.x #'6.0.401' # The .NET SDK version to use
 
 jobs:
   publish:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest # ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
