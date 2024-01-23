@@ -32,9 +32,10 @@ public class GetUserWithNetworkAsyncTests
         // when handling Network object, need to use sql database not sqlite in-memory
         var options = this.CreateUniqueMethodOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
+
         context.Database.EnsureClean();
         
-        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
+        // //context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
 
         context.Users.Add(SharedFunctions.CreateUser(usernameToAct));
         context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));

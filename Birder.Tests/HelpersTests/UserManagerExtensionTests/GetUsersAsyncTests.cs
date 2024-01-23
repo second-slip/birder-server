@@ -20,7 +20,7 @@ public class GetUsersAsyncTests
 
         context.Database.EnsureCreated();
         //temporary increase timeout only for one Context instance.
-        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
+        //context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
         // Arrange
         string requestingUsername = "TestUser1";
         string usernameToFollow = "TestUser2";
@@ -54,7 +54,7 @@ public class GetUsersAsyncTests
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureClean();
         //temporary increase timeout only for one Context instance.
-        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
+        //context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
 
         context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
         context.Users.Add(SharedFunctions.CreateUser(followerUsername));
@@ -106,7 +106,7 @@ public class GetUsersAsyncTests
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
         //temporary increase timeout only for one Context instance.
-        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
+        //context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
 
         context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
         context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
@@ -136,7 +136,7 @@ public class GetUsersAsyncTests
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
         //temporary increase timeout only for one Context instance.
-        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
+        //context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
 
         context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
         context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
@@ -179,7 +179,7 @@ public class GetUsersAsyncTests
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
         //temporary increase timeout only for one Context instance.
-        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
+        //context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
 
         context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
         context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));
@@ -211,7 +211,7 @@ public class GetUsersAsyncTests
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
         //temporary increase timeout only for one Context instance.
-        context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
+        //context.Database.SetCommandTimeout(TimeSpan.FromMinutes(1));
 
         context.Users.Add(SharedFunctions.CreateUser(requestingUsername));
         context.Users.Add(SharedFunctions.CreateUser(usernameToFollow));

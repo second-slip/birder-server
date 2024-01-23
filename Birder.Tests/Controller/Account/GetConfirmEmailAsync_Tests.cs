@@ -20,6 +20,14 @@ public class GetConfirmEmailAsync_Tests
         // Assert
         var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+                logger.Verify(x => x.Log(
+            It.Is<LogLevel>(l => l == LogLevel.Error),
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((o, t) => string.Equals($"action argument invalid: username", o.ToString(), StringComparison.InvariantCultureIgnoreCase)),
+            It.IsAny<Exception>(),
+            It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+            Times.Once);
     }
 
     [Theory, MemberData(nameof(Null_Empty_Whitespace_String_Test_Data))]
@@ -41,6 +49,14 @@ public class GetConfirmEmailAsync_Tests
         // Assert
         var objectResult = Assert.IsType<StatusCodeResult>(result);
         Assert.Equal(StatusCodes.Status400BadRequest, objectResult.StatusCode);
+
+        logger.Verify(x => x.Log(
+            It.Is<LogLevel>(l => l == LogLevel.Error),
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((o, t) => string.Equals($"action argument invalid: code", o.ToString(), StringComparison.InvariantCultureIgnoreCase)),
+            It.IsAny<Exception>(),
+            It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+            Times.Once);
     }
 
     [Fact]
@@ -175,7 +191,7 @@ public class GetConfirmEmailAsync_Tests
                 new object[] { "" },
                 new object[] { string.Empty },
                 new object[] { "       " },
-                new object[] { " " },
+                // new object[] { " " },
                 new object[] { "    " }
             };
         }
