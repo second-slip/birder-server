@@ -5,7 +5,7 @@ on:
     branches: [ working ]
 
 env:
-  AZURE_WEBAPP_NAME: Birder
+  AZURE_WEBAPP_NAME: birder-server
   AZURE_WEBAPP_PACKAGE_PATH: '.' # Set this to the path to your web app project, defaults to the repository root:
   DOTNET_VERSION: 8.0.x #'6.0.401' # The .NET SDK version to use
 
@@ -40,6 +40,6 @@ jobs:
     - uses: azure/webapps-deploy@v2
       name: Deploy
       with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        app-name: birder-server
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
         package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/birder-server'
