@@ -8,7 +8,7 @@ public class GeneralEndpoints
 
         var text = string.Join(
             Environment.NewLine,
-            "birder-server API v1.6",
+            "birder-server API v1.6 XXXX1",
             "https://github.com/andrew-stuart-cross/birder-server",
             $"{date}",
             $"\u00A9 Birder {date.Year}");
