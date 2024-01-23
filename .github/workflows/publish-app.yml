@@ -1,3 +1,5 @@
+# Birder\bin\publish
+# deploying Deploying "Birder\bin\publish" instead of selected folder "Birder". Use "appService.deploySubpath" to change this behavior.
 name: publish
 
 on:
@@ -42,4 +44,4 @@ jobs:
       with:
         app-name: birder-server
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/Birder'
+        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/Birder/bin/publish'
