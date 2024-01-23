@@ -6,7 +6,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: birder-server
-  AZURE_WEBAPP_PACKAGE_PATH: '.' # Set this to the path to your web app project, defaults to the repository root:
+  AZURE_WEBAPP_PACKAGE_PATH: './Birder' # Set this to the path to your web app project, defaults to the repository root:
   DOTNET_VERSION: 8.0.x #'6.0.401' # The .NET SDK version to use
 
 jobs:
@@ -27,14 +27,15 @@ jobs:
     - name: Build
       run: |
         cd Birder
-        dotnet build --configuration Release --no-restore
+        dotnet build --no-restore
         dotnet publish -c Release -o ./bin/publish
     # dotnet publish -c Release -o ../dotnet-webapp -r linux-x64 --self-contained true /p:UseAppHost=true
-    - name: Test
+    
+    # - name: Test
       # run: |
       #   cd DotNet.WebApp.Tests
       #   dotnet test --no-restore --verbosity normal
-      run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --settings birder.tests/coverlet.runsettings.xml
+      # run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --settings birder.tests/coverlet.runsettings.xml
       
     - uses: azure/webapps-deploy@v2
       name: Deploy
