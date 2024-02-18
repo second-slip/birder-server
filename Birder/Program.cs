@@ -1,11 +1,11 @@
-﻿using Azure.Identity;
+﻿using AutoMapper;
+using Azure.Identity;
 using Birder.MinApiEndpoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using SendGrid.Extensions.DependencyInjection;
-using System.Diagnostics.CodeAnalysis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,7 +58,13 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
         .AddDefaultTokenProviders()
         .AddSignInManager<SignInManager<ApplicationUser>>();
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+var configuration = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile<BirderMappingProfile>();
+});
+
+builder.Services.AddSingleton(configuration);
 
 
 builder.Services.AddHttpClient();
