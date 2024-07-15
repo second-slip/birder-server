@@ -10,7 +10,7 @@ public class GeneralEndpoints
             Environment.NewLine,
             "birder-server API v1.9",
             "ASP.NET 8",
-            "https://github.com/andrew-stuart-cross/birder-server",
+            "https://github.com/second-slip/birder-server",
             $"{date}",
             $"\u00A9 Birder {date.Year}");
 
