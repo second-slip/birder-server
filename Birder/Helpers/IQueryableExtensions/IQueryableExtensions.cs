@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using AutoMapper.EquivalencyExpression;
-using AutoMapper.QueryableExtensions;
-
-namespace Birder.Helpers;
+﻿namespace Birder.Helpers;
 
 public static class QueryableExtensions
 {
