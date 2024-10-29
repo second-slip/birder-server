@@ -63,31 +63,7 @@ builder.Services.AddAutoMapper(typeof(BirderMappingProfile));
 
 builder.Services.AddHttpClient();
 
-// custom services
-// move to separate method for clarity?  AddCustomServices(WebApplicationBuilder builder)
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IBirdRepository, BirdRepository>();
-builder.Services.AddScoped<IObservationRepository, ObservationRepository>();
-builder.Services.AddScoped<IObservationPositionRepository, ObservationPositionRepository>();
-builder.Services.AddScoped<IObservationNoteRepository, ObservationNoteRepository>();
-builder.Services.AddScoped<INetworkRepository, NetworkRepository>();
-builder.Services.AddScoped<IServerlessDatabaseService, ServerlessDatabaseService>();
-builder.Services.AddScoped<IListService, ListService>();
-builder.Services.AddScoped<IObservationQueryService, ObservationQueryService>();
-builder.Services.AddScoped<IBirdDataService, BirdDataService>();
-builder.Services.AddScoped<ITweetDataService, TweetDataService>();
-builder.Services.AddScoped<IObservationsAnalysisService, ObservationsAnalysisService>();
-builder.Services.AddScoped<IFlickrService, FlickrService>();
-builder.Services.AddScoped<IBirdThumbnailPhotoService, BirdThumbnailPhotoService>();
-builder.Services.AddScoped<IAuthenticationTokenService, AuthenticationTokenService>();
-builder.Services.AddScoped<IXenoCantoService, XenoCantoService>();
-builder.Services.AddScoped<ICachedBirdsDdlService, CachedBirdsDdlService>();
-
-builder.Services.AddSingleton<ISystemClockService, SystemClockService>();
-builder.Services.AddSingleton<IUrlService, UrlService>();
-builder.Services.AddSingleton<IUserNetworkHelpers, UserNetworkHelpers>();
-
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+RegisterCustomServices(builder);
 
 builder.Services.Configure<FlickrOptions>(builder.Configuration.GetSection(FlickrOptions.Flickr));
 builder.Services.Configure<ConfigOptions>(builder.Configuration.GetSection(ConfigOptions.Config));
@@ -184,6 +160,33 @@ app.MapGet("/api/birds-list", BirdEndpoints.GetBirdsDdlAsync)
 
 app.Run();
 
+
+static void RegisterCustomServices(WebApplicationBuilder builder)
+{
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+    builder.Services.AddScoped<IBirdRepository, BirdRepository>();
+    builder.Services.AddScoped<IObservationRepository, ObservationRepository>();
+    builder.Services.AddScoped<IObservationPositionRepository, ObservationPositionRepository>();
+    builder.Services.AddScoped<IObservationNoteRepository, ObservationNoteRepository>();
+    builder.Services.AddScoped<INetworkRepository, NetworkRepository>();
+    builder.Services.AddScoped<IServerlessDatabaseService, ServerlessDatabaseService>();
+    builder.Services.AddScoped<IListService, ListService>();
+    builder.Services.AddScoped<IObservationQueryService, ObservationQueryService>();
+    builder.Services.AddScoped<IBirdDataService, BirdDataService>();
+    builder.Services.AddScoped<ITweetDataService, TweetDataService>();
+    builder.Services.AddScoped<IObservationsAnalysisService, ObservationsAnalysisService>();
+    builder.Services.AddScoped<IFlickrService, FlickrService>();
+    builder.Services.AddScoped<IBirdThumbnailPhotoService, BirdThumbnailPhotoService>();
+    builder.Services.AddScoped<IAuthenticationTokenService, AuthenticationTokenService>();
+    builder.Services.AddScoped<IXenoCantoService, XenoCantoService>();
+    builder.Services.AddScoped<ICachedBirdsDdlService, CachedBirdsDdlService>();
+
+    builder.Services.AddSingleton<ISystemClockService, SystemClockService>();
+    builder.Services.AddSingleton<IUrlService, UrlService>();
+    builder.Services.AddSingleton<IUserNetworkHelpers, UserNetworkHelpers>();
+
+    builder.Services.AddTransient<IEmailSender, EmailSender>();
+}
 
 [ExcludeFromCodeCoverageAttribute]
 public partial class Program { }
