@@ -12,7 +12,7 @@ public class GeneralEndpoints
             "ASP.NET 8",
             "https://github.com/second-slip/birder-server",
             $"{date}",
-            $"\u00A9 Birder {date.Year}");
+            $"\u00A9 Birder 2020 - {date.Year}");
 
         return text;
     }

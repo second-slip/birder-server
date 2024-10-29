@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Azure.Identity;
+﻿using Azure.Identity;
 using Birder.MinApiEndpoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -60,14 +59,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
         .AddDefaultTokenProviders()
         .AddSignInManager<SignInManager<ApplicationUser>>();
 
-// builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-var configuration = new MapperConfiguration(cfg =>
-{
-    cfg.AddProfile<BirderMappingProfile>();
-});
-
-builder.Services.AddSingleton(configuration);
-
+builder.Services.AddAutoMapper(typeof(BirderMappingProfile));
 
 builder.Services.AddHttpClient();
 
