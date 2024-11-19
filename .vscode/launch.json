@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Birder/bin/Debug/net7.0/Birder.dll",
+            "program": "${workspaceFolder}/Birder/bin/Debug/net9.0/Birder.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Birder",
             "stopAtEntry": false,

@@ -9,7 +9,7 @@ on:
 env:
   AZURE_WEBAPP_NAME: birder-server
   AZURE_WEBAPP_PACKAGE_PATH: '.'
-  DOTNET_VERSION: 8.0.x
+  DOTNET_VERSION: 9.0.x
 
 jobs:
   publish:
