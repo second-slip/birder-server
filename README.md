@@ -1,6 +1,6 @@
 # birder-server
 
-This is the ASP.NET 8 REST API for the Birder website.
+This is the ASP.NET 9 REST API for the Birder website.
 
 [![.NET](https://github.com/second-slip/birder-server/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/second-slip/birder-server/actions/workflows/dotnet.yml)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/second-slip/birder-server/dotnet.yml)
@@ -12,4 +12,4 @@ This is the ASP.NET 8 REST API for the Birder website.
 
 Birder is a social network-style platform for logging, sharing, and analysing bird observations. Ultimately, the aim is to feed the data to an algorithm which will help with species identification. 
 
-The complementary client respository is [birder-client](https://github.com/second-slip/birder-client).
+The complementary client repository is [birder-client](https://github.com/second-slip/birder-client).
