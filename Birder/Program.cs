@@ -64,7 +64,30 @@ builder.Services.AddAutoMapper(typeof(BirderMappingProfile));
 
 builder.Services.AddHttpClient();
 
-RegisterCustomServices(builder);
+// RegisterCustomServices(builder);
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+    builder.Services.AddScoped<IBirdRepository, BirdRepository>();
+    builder.Services.AddScoped<IObservationRepository, ObservationRepository>();
+    builder.Services.AddScoped<IObservationPositionRepository, ObservationPositionRepository>();
+    builder.Services.AddScoped<IObservationNoteRepository, ObservationNoteRepository>();
+    builder.Services.AddScoped<INetworkRepository, NetworkRepository>();
+    builder.Services.AddScoped<IServerlessDatabaseService, ServerlessDatabaseService>();
+    builder.Services.AddScoped<IListService, ListService>();
+    builder.Services.AddScoped<IObservationQueryService, ObservationQueryService>();
+    builder.Services.AddScoped<IBirdDataService, BirdDataService>();
+    builder.Services.AddScoped<ITweetDataService, TweetDataService>();
+    builder.Services.AddScoped<IObservationsAnalysisService, ObservationsAnalysisService>();
+    builder.Services.AddScoped<IFlickrService, FlickrService>();
+    builder.Services.AddScoped<IBirdThumbnailPhotoService, BirdThumbnailPhotoService>();
+    builder.Services.AddScoped<IAuthenticationTokenService, AuthenticationTokenService>();
+    builder.Services.AddScoped<IXenoCantoService, XenoCantoService>();
+    builder.Services.AddScoped<ICachedBirdsDdlService, CachedBirdsDdlService>();
+
+    builder.Services.AddSingleton<ISystemClockService, SystemClockService>();
+    builder.Services.AddSingleton<IUrlService, UrlService>();
+    builder.Services.AddSingleton<IUserNetworkHelpers, UserNetworkHelpers>();
+
+    builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.Configure<FlickrOptions>(builder.Configuration.GetSection(FlickrOptions.Flickr));
 builder.Services.Configure<ConfigOptions>(builder.Configuration.GetSection(ConfigOptions.Config));
@@ -135,14 +158,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "birder-server v1"));
 }
 
-// app.UseExceptionHandler(exceptionHandlerApp
-//     => exceptionHandlerApp.Run(async context
-//         => await Results.Problem()
-//                      .ExecuteAsync(context)));
+app.UseExceptionHandler(exceptionHandlerApp
+    => exceptionHandlerApp.Run(async context
+        => await Results.Problem()
+                     .ExecuteAsync(context)));
 
-// app.UseStatusCodePages(async statusCodeContext
-//    => await Results.Problem(statusCode: statusCodeContext.HttpContext.Response.StatusCode)
-//                 .ExecuteAsync(statusCodeContext.HttpContext));
+app.UseStatusCodePages(async statusCodeContext
+   => await Results.Problem(statusCode: statusCodeContext.HttpContext.Response.StatusCode)
+                .ExecuteAsync(statusCodeContext.HttpContext));
 
 app.UseHttpsRedirection();
 
@@ -162,32 +185,32 @@ app.MapGet("/api/birds-list", BirdEndpoints.GetBirdsDdlAsync)
 app.Run();
 
 
-static void RegisterCustomServices(WebApplicationBuilder builder)
-{
-    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-    builder.Services.AddScoped<IBirdRepository, BirdRepository>();
-    builder.Services.AddScoped<IObservationRepository, ObservationRepository>();
-    builder.Services.AddScoped<IObservationPositionRepository, ObservationPositionRepository>();
-    builder.Services.AddScoped<IObservationNoteRepository, ObservationNoteRepository>();
-    builder.Services.AddScoped<INetworkRepository, NetworkRepository>();
-    builder.Services.AddScoped<IServerlessDatabaseService, ServerlessDatabaseService>();
-    builder.Services.AddScoped<IListService, ListService>();
-    builder.Services.AddScoped<IObservationQueryService, ObservationQueryService>();
-    builder.Services.AddScoped<IBirdDataService, BirdDataService>();
-    builder.Services.AddScoped<ITweetDataService, TweetDataService>();
-    builder.Services.AddScoped<IObservationsAnalysisService, ObservationsAnalysisService>();
-    builder.Services.AddScoped<IFlickrService, FlickrService>();
-    builder.Services.AddScoped<IBirdThumbnailPhotoService, BirdThumbnailPhotoService>();
-    builder.Services.AddScoped<IAuthenticationTokenService, AuthenticationTokenService>();
-    builder.Services.AddScoped<IXenoCantoService, XenoCantoService>();
-    builder.Services.AddScoped<ICachedBirdsDdlService, CachedBirdsDdlService>();
+// static void RegisterCustomServices(WebApplicationBuilder builder)
+// {
+//     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//     builder.Services.AddScoped<IBirdRepository, BirdRepository>();
+//     builder.Services.AddScoped<IObservationRepository, ObservationRepository>();
+//     builder.Services.AddScoped<IObservationPositionRepository, ObservationPositionRepository>();
+//     builder.Services.AddScoped<IObservationNoteRepository, ObservationNoteRepository>();
+//     builder.Services.AddScoped<INetworkRepository, NetworkRepository>();
+//     builder.Services.AddScoped<IServerlessDatabaseService, ServerlessDatabaseService>();
+//     builder.Services.AddScoped<IListService, ListService>();
+//     builder.Services.AddScoped<IObservationQueryService, ObservationQueryService>();
+//     builder.Services.AddScoped<IBirdDataService, BirdDataService>();
+//     builder.Services.AddScoped<ITweetDataService, TweetDataService>();
+//     builder.Services.AddScoped<IObservationsAnalysisService, ObservationsAnalysisService>();
+//     builder.Services.AddScoped<IFlickrService, FlickrService>();
+//     builder.Services.AddScoped<IBirdThumbnailPhotoService, BirdThumbnailPhotoService>();
+//     builder.Services.AddScoped<IAuthenticationTokenService, AuthenticationTokenService>();
+//     builder.Services.AddScoped<IXenoCantoService, XenoCantoService>();
+//     builder.Services.AddScoped<ICachedBirdsDdlService, CachedBirdsDdlService>();
 
-    builder.Services.AddSingleton<ISystemClockService, SystemClockService>();
-    builder.Services.AddSingleton<IUrlService, UrlService>();
-    builder.Services.AddSingleton<IUserNetworkHelpers, UserNetworkHelpers>();
+//     builder.Services.AddSingleton<ISystemClockService, SystemClockService>();
+//     builder.Services.AddSingleton<IUrlService, UrlService>();
+//     builder.Services.AddSingleton<IUserNetworkHelpers, UserNetworkHelpers>();
 
-    builder.Services.AddTransient<IEmailSender, EmailSender>();
-}
+//     builder.Services.AddTransient<IEmailSender, EmailSender>();
+// }
 
 [ExcludeFromCodeCoverageAttribute]
 public partial class Program { }
