@@ -144,7 +144,7 @@ if (app.Environment.IsDevelopment())
 //    => await Results.Problem(statusCode: statusCodeContext.HttpContext.Response.StatusCode)
 //                 .ExecuteAsync(statusCodeContext.HttpContext));
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
 
