@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using SendGrid.Extensions.DependencyInjection;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 if (builder.Environment.IsProduction())
