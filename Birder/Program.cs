@@ -135,16 +135,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "birder-server v1"));
 }
 
-app.UseExceptionHandler(exceptionHandlerApp
-    => exceptionHandlerApp.Run(async context
-        => await Results.Problem()
-                     .ExecuteAsync(context)));
+// app.UseExceptionHandler(exceptionHandlerApp
+//     => exceptionHandlerApp.Run(async context
+//         => await Results.Problem()
+//                      .ExecuteAsync(context)));
 
-app.UseStatusCodePages(async statusCodeContext
-   => await Results.Problem(statusCode: statusCodeContext.HttpContext.Response.StatusCode)
-                .ExecuteAsync(statusCodeContext.HttpContext));
+// app.UseStatusCodePages(async statusCodeContext
+//    => await Results.Problem(statusCode: statusCodeContext.HttpContext.Response.StatusCode)
+//                 .ExecuteAsync(statusCodeContext.HttpContext));
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
 
