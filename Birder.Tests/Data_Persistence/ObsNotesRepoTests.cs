@@ -436,7 +436,7 @@ public class ObsNotesRepoTests
     }
 
     [Fact]
-    public async void RemoveRange_Should_Remove_Entities()
+    public async Task RemoveRange_Should_Remove_Entities()
     {
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);

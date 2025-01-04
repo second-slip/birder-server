@@ -160,6 +160,14 @@ app.MapGet("/", GeneralEndpoints.ServerInfo);
 app.MapGet("/api/birds-list", BirdEndpoints.GetBirdsDdlAsync)
    .RequireAuthorization();
 
+var birdsGroup = app.MapGroup("api/birds"); // MapGroup API
+
+birdsGroup.MapGet("", BirdEndpoints.GetBirdsAsync)
+    .RequireAuthorization();
+
+birdsGroup.MapGet("/bird", BirdEndpoints.GetBirdAsync)
+    .RequireAuthorization();
+
 app.Run();
 
 
