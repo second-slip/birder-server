@@ -13,3 +13,7 @@ This is the ASP.NET 9 REST API for the Birder website.
 Birder is a social network-style platform for logging, sharing, and analysing bird observations. Ultimately, the aim is to feed the data to an algorithm which will help with species identification. 
 
 The complementary client repository is [birder-client](https://github.com/second-slip/birder-client).
+
+
+### What's happening?
+- conversion from controller-based API to minimal API design.
