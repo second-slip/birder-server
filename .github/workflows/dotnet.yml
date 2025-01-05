@@ -12,7 +12,7 @@ on:
 jobs:
   build:
 
-    runs-on: windows-latest #ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -26,9 +26,8 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --settings birder.tests/coverlet.runsettings.xml
-    # - name: Codecov
-      # uses: codecov/codecov-action@v3
+
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4
       with:
-        token: ${{ secrets.CODECOV_TOKEN }} # required
+        token: ${{ secrets.CODECOV_TOKEN }}
