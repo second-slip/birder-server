@@ -1,14 +1,14 @@
 ﻿namespace Birder.ViewModels
 {
-    public class LifeListViewModel
+    public readonly record struct LifeListViewModel
     {
-        public int BirdId { get; set; }
-        public string EnglishName { get; set; }
-        public string Species { get; set; }
-        public string PopulationSize { get; set; }
-        public string BtoStatusInBritain { get; set; }
-        public string ConservationStatus { get; set; }
-        public string ConservationListColourCode { get; set; }
-        public int Count { get; set; }
+        public int BirdId { get; init; }
+        public string EnglishName { get; init; }
+        public string Species { get; init; }
+        public string PopulationSize { get; init; }
+        public string BtoStatusInBritain { get; init; }
+        public string ConservationStatus { get; init; }
+        public string ConservationListColourCode { get; init; }
+        public int Count { get; init; }
     }
 }

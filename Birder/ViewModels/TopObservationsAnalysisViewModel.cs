@@ -1,15 +1,11 @@
 ﻿namespace Birder.ViewModels
 {
-    public class TopObservationsAnalysisViewModel
-    {
-        public IEnumerable<TopObservationsViewModel> TopObservations { get; set; }
-        public IEnumerable<TopObservationsViewModel> TopMonthlyObservations { get; set; }
-    }
+    // public sealed record TopObservationsViewModel
+    // {
+    //     public int BirdId { get; init; }
+    //     public string Name { get; init; }
+    //     public int Count { get; init; }
+    // }
 
-    public class TopObservationsViewModel
-    {
-        public int BirdId { get; set; }
-        public string Name { get; set; }
-        public int Count { get; set; }
-    }
+    public readonly record struct TopObservationsViewModel(int BirdId, string Name, int Count);
 }
