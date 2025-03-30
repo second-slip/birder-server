@@ -160,13 +160,25 @@ app.MapGet("/", GeneralEndpoints.ServerInfo);
 app.MapGet("/api/birds-list", BirdEndpoints.GetBirdsDdlAsync)
    .RequireAuthorization();
 
-var birdsGroup = app.MapGroup("api/birds"); // MapGroup API
+var birdsGroup = app.MapGroup("api/birds");
 
 birdsGroup.MapGet("", BirdEndpoints.GetBirdsAsync)
     .RequireAuthorization();
 
 birdsGroup.MapGet("/bird", BirdEndpoints.GetBirdAsync)
     .RequireAuthorization();
+
+var listGroup = app.MapGroup("api/list");
+
+listGroup.MapGet("/top", ListEndpoints.GetTopObservationsAsync)
+    .RequireAuthorization();
+
+listGroup.MapGet("/top-date-filter", ListEndpoints.GetTopObservationsWithDateFilterAsync)
+    .RequireAuthorization();
+
+listGroup.MapGet("/life", ListEndpoints.GetLifeListAsync)
+    .RequireAuthorization();
+
 
 app.Run();
 

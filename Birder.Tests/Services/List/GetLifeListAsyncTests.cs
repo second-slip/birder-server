@@ -9,6 +9,7 @@ public class GetLifeListAsyncTests
     {
         var testUsername = "TestUser1";
         var mockService = new Mock<IBirdThumbnailPhotoService>();
+        var clockService = new SystemClockService();
 
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
@@ -27,7 +28,7 @@ public class GetLifeListAsyncTests
         context.SaveChanges();
         context.Observations.Count().ShouldEqual(2);
 
-        var service = new ListService(context);
+        var service = new ListService(context, clockService);
 
         // Act
         var actual = await service.GetLifeListAsync(x => x.ApplicationUser.UserName == testUsername);
@@ -41,11 +42,12 @@ public class GetLifeListAsyncTests
     [Fact]
     public async Task GetLifeListAsync_When_Argument_Is_Null_Returns_Argument_Exception()
     {
+        var clockService = new SystemClockService();
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
 
-        var service = new ListService(context);
+        var service = new ListService(context, clockService);
 
         // Act & Assert
         var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetLifeListAsync(null));

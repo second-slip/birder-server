@@ -9,6 +9,7 @@ public class GetTopObservationsAsyncTests
     {
         var testUsername = "TestUser1";
         var mockService = new Mock<IBirdThumbnailPhotoService>();
+        var clockService = new SystemClockService();
 
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
@@ -28,7 +29,7 @@ public class GetTopObservationsAsyncTests
         context.SaveChanges();
         context.Observations.Count().ShouldEqual(2);
 
-        var service = new ListService(context);
+        var service = new ListService(context, clockService);
 
         // Act
         var actual = await service.GetTopObservationsAsync(testUsername);
@@ -43,6 +44,7 @@ public class GetTopObservationsAsyncTests
     {
         var testUsername = "TestUser1";
         var mockService = new Mock<IBirdThumbnailPhotoService>();
+        var clockService = new SystemClockService();
 
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
@@ -62,10 +64,10 @@ public class GetTopObservationsAsyncTests
         context.SaveChanges();
         context.Observations.Count().ShouldEqual(2);
 
-        var service = new ListService(context);
+        var service = new ListService(context, clockService);
 
         // Act
-        var actual = await service.GetTopObservationsAsync(testUsername, DateTime.UtcNow.AddDays(-30));
+        var actual = await service.GetTopObservationsAsync(testUsername, -30);
 
         // Assert
         actual.Count().ShouldEqual(1);
@@ -76,10 +78,12 @@ public class GetTopObservationsAsyncTests
     public async Task GetTopObservationsAsync_Returns_Argument_Exception_When_Usename_Argument_Is_Null_()
     {
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
+        var clockService = new SystemClockService();
+
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
 
-        var service = new ListService(context);
+        var service = new ListService(context, clockService);
 
         // Act & Assert
         var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetTopObservationsAsync(null));
@@ -89,14 +93,15 @@ public class GetTopObservationsAsyncTests
     [Fact]
     public async Task GetTopObservationsAsync_Date_Overload_Returns_Argument_Exception_When_Usename_Argument_Is_Null_()
     {
+        var clockService = new SystemClockService();
         var options = SqliteInMemory.CreateOptions<ApplicationDbContext>();
         using var context = new ApplicationDbContext(options);
         context.Database.EnsureCreated();
 
-        var service = new ListService(context);
+        var service = new ListService(context, clockService);
 
         // Act & Assert
-        var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetTopObservationsAsync(null, It.IsAny<DateTime>()));
+        var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetTopObservationsAsync(null, It.IsAny<int>()));
         Assert.Equal("method argument is null or empty (Parameter 'username')", ex.Message);
     }
 }

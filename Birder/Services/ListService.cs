@@ -4,20 +4,22 @@ using System.Linq.Expressions;
 namespace Birder.Services;
 public interface IListService
 {
-    Task<IEnumerable<LifeListViewModel>> GetLifeListAsync(Expression<Func<Observation, bool>> predicate);
-    Task<List<TopObservationsViewModel>> GetTopObservationsAsync(string username);
-    Task<List<TopObservationsViewModel>> GetTopObservationsAsync(string username, DateTime startDate);
+    Task<IReadOnlyList<LifeListViewModel>> GetLifeListAsync(Expression<Func<Observation, bool>> predicate);
+    Task<IReadOnlyList<TopObservationsViewModel>> GetTopObservationsAsync(string username);
+    Task<IReadOnlyList<TopObservationsViewModel>> GetTopObservationsAsync(string username, int days);
 }
 
 public class ListService : IListService
 {
     private readonly ApplicationDbContext _dbContext;
-    public ListService(ApplicationDbContext dbContext)
+    private readonly ISystemClockService _systemClock;
+    public ListService(ApplicationDbContext dbContext, ISystemClockService systemClock)
     {
         _dbContext = dbContext;
+        _systemClock = systemClock;
     }
 
-    public async Task<IEnumerable<LifeListViewModel>> GetLifeListAsync(Expression<Func<Observation, bool>> predicate)
+    public async Task<IReadOnlyList<LifeListViewModel>> GetLifeListAsync(Expression<Func<Observation, bool>> predicate)
     {
         if (predicate is null)
             throw new ArgumentException("method argument is null or empty", nameof(predicate));
@@ -44,8 +46,7 @@ public class ListService : IListService
         return query;
     }
 
-    // All time (no date filter)
-    public async Task<List<TopObservationsViewModel>> GetTopObservationsAsync(string username)
+    public async Task<IReadOnlyList<TopObservationsViewModel>> GetTopObservationsAsync(string username)
     {
         if (string.IsNullOrEmpty(username))
             throw new ArgumentException("method argument is null or empty", nameof(username));
@@ -68,15 +69,14 @@ public class ListService : IListService
         return model;
     }
 
-    // Last 30 days
-    public async Task<List<TopObservationsViewModel>> GetTopObservationsAsync(string username, DateTime startDate)
+    public async Task<IReadOnlyList<TopObservationsViewModel>> GetTopObservationsAsync(string username, int days)
     {
         if (string.IsNullOrEmpty(username))
             throw new ArgumentException("method argument is null or empty", nameof(username));
 
         var model = await _dbContext.Observations
                  .AsNoTracking()
-                 .Where(a => a.ApplicationUser.UserName == username && a.ObservationDateTime >= startDate)
+                 .Where(a => a.ApplicationUser.UserName == username && a.ObservationDateTime >= _systemClock.GetToday.AddDays(days))
                  .GroupBy(b => new { b.Bird.BirdId, b.Bird.EnglishName })
                  .Select(b => new TopObservationsViewModel
                  {
