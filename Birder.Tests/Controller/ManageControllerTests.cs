@@ -9,12 +9,15 @@ public class ManageControllerTests
     private readonly Mock<IEmailSender> _emailSender;
     private readonly Mock<ILogger<ManageController>> _logger;
 
+    // private readonly ILoggerFactory _loggerFactory;
+
     public ManageControllerTests()
     {
-        var mappingConfig = new MapperConfiguration(cfg =>
+                var loggerFactory = LoggerFactory.Create(builder =>
         {
-            cfg.AddProfile(new BirderMappingProfile());
+            builder.AddConsole(); // Add a console logger
         });
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
         _mapper = mappingConfig.CreateMapper();
         _logger = new Mock<ILogger<ManageController>>();
         _urlService = new Mock<IUrlService>();

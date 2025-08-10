@@ -11,10 +11,16 @@ public class GetNetworkAsyncTests
 
     public GetNetworkAsyncTests()
     {
-        var mappingConfig = new MapperConfiguration(cfg =>
+        // private readonly ILoggerFactory _loggerFactory;
+                        var loggerFactory = LoggerFactory.Create(builder =>
         {
-            cfg.AddProfile(new BirderMappingProfile());
+            builder.AddConsole(); // Add a console logger
         });
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
+        // var mappingConfig = new MapperConfiguration(cfg =>
+        // {
+        //     cfg.AddProfile(new BirderMappingProfile());
+        // });
         _mapper = mappingConfig.CreateMapper();
         _logger = new Mock<ILogger<NetworkController>>();
     }

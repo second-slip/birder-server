@@ -7,13 +7,20 @@ public class GetSearchNetworkAsyncTests
 {
     private readonly IMapper _mapper;
     private readonly Mock<ILogger<NetworkController>> _logger;
+    
+    // private readonly ILoggerFactory _loggerFactory;
 
     public GetSearchNetworkAsyncTests()
     {
-        var mappingConfig = new MapperConfiguration(cfg =>
+                var loggerFactory = LoggerFactory.Create(builder =>
         {
-            cfg.AddProfile(new BirderMappingProfile());
+            builder.AddConsole(); // Add a console logger
         });
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
+        // var mappingConfig = new MapperConfiguration(cfg =>
+        // {
+        //     cfg.AddProfile(new BirderMappingProfile());
+        // });
         _mapper = mappingConfig.CreateMapper();
         _logger = new Mock<ILogger<NetworkController>>();
     }

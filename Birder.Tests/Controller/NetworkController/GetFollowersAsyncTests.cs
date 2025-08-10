@@ -6,13 +6,20 @@ namespace Birder.Tests.Controller;
 public class GetFollowersAsyncTests
 {
     private readonly IMapper _mapper;
+    private readonly Mock<ILogger<ManageController>> _logger;
+    // private readonly ILoggerFactory _loggerFactory;
 
     public GetFollowersAsyncTests()
     {
-        var mappingConfig = new MapperConfiguration(cfg =>
+                var loggerFactory = LoggerFactory.Create(builder =>
         {
-            cfg.AddProfile(new BirderMappingProfile());
+            builder.AddConsole(); // Add a console logger
         });
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
+        // var mappingConfig = new MapperConfiguration(cfg =>
+        // {
+        //     cfg.AddProfile(new BirderMappingProfile());
+        // });
         _mapper = mappingConfig.CreateMapper();
     }
 
@@ -138,7 +145,7 @@ public class GetFollowersAsyncTests
         mockHelper.Verify(x => x.SetupFollowersCollection(It.IsAny<ApplicationUser>(), It.IsAny<IEnumerable<FollowerViewModel>>()), Times.Once);
     }
 
-        [Fact]
+    [Fact]
     public async Task GetFollowersAsync_When_Other_Profile_Requested_Returns_200()
     {
         // Arrange

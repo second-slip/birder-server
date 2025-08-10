@@ -7,12 +7,20 @@ public class GetFollowingAsyncTests
 {
     private readonly IMapper _mapper;
 
+    // private readonly ILoggerFactory _loggerFactory;
+
     public GetFollowingAsyncTests()
     {
-        var mappingConfig = new MapperConfiguration(cfg =>
+        // private readonly ILoggerFactory _loggerFactory;
+                        var loggerFactory = LoggerFactory.Create(builder =>
         {
-            cfg.AddProfile(new BirderMappingProfile());
+            builder.AddConsole(); // Add a console logger
         });
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
+        // var mappingConfig = new MapperConfiguration(cfg =>
+        // {
+        //     cfg.AddProfile(new BirderMappingProfile());
+        // });
         _mapper = mappingConfig.CreateMapper();
     }
 
@@ -138,7 +146,7 @@ public class GetFollowingAsyncTests
         mockHelper.Verify(x => x.SetupFollowingCollection(It.IsAny<ApplicationUser>(), It.IsAny<IEnumerable<FollowingViewModel>>()), Times.Once);
     }
 
-        [Fact]
+    [Fact]
     public async Task GetFollowingAsync_When_Other_Profile_Requested_Returns_200()
     {
         // Arrange

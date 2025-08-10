@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -12,14 +11,22 @@ public class PutObservationAsyncTests
     private readonly Mock<ILogger<ObservationController>> _logger;
     private readonly ISystemClockService _systemClock;
 
+    // private readonly ILoggerFactory _loggerFactory;
+
     public PutObservationAsyncTests()
     {
+        var loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole(); // Add a console logger
+        });
         _cache = new MemoryCache(new MemoryCacheOptions());
         _logger = new Mock<ILogger<ObservationController>>();
-        var mappingConfig = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new BirderMappingProfile());
-        });
+        // private readonly ILoggerFactory _loggerFactory;
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
+        // var mappingConfig = new MapperConfiguration(cfg =>
+        // {
+        //     cfg.AddProfile(new BirderMappingProfile());
+        // });
         _mapper = mappingConfig.CreateMapper();
         _systemClock = new SystemClockService();
     }

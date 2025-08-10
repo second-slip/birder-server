@@ -5,14 +5,24 @@ namespace Birder.Tests.Services;
 
 public class GetObservationViewAsyncTests
 {
+    // private readonly ILoggerFactory _loggerFactory;
     [Fact]
     public async Task GetObservationViewAsync_Returns_GetObservationView_Dto()
     {
         // Arrange
-        var mappingConfig = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new BirderMappingProfile());
-            });
+        var loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole(); // Add a console logger
+        });
+
+        // var logger = loggerFactory.CreateLogger<Program>();
+        // logger.LogInformation("This is a log message.");
+        // private readonly ILoggerFactory _loggerFactory;
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
+        // var mappingConfig = new MapperConfiguration(cfg =>
+        //     {
+        //         cfg.AddProfile(new BirderMappingProfile());
+        //     });
         var mapper = mappingConfig.CreateMapper();
 
         var testUsername = "TestUser1";
@@ -51,11 +61,19 @@ public class GetObservationViewAsyncTests
     [Fact]
     public async Task GetObservationViewAsync_When_Argument_Is_Zero_Returns_Argument_Exception()
     {
-        // Arrange
-        var mappingConfig = new MapperConfiguration(cfg =>
+        var loggerFactory = LoggerFactory.Create(builder =>
             {
-                cfg.AddProfile(new BirderMappingProfile());
+                builder.AddConsole(); // Add a console logger
             });
+
+        // var logger = loggerFactory.CreateLogger<Program>();
+        // logger.LogInformation("This is a log message.");
+        // Arrange
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
+        // var mappingConfig = new MapperConfiguration(cfg =>
+        //     {
+        //         cfg.AddProfile(new BirderMappingProfile());
+        //     });
         var mapper = mappingConfig.CreateMapper();
 
         var mockService = new Mock<IBirdThumbnailPhotoService>();

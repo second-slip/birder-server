@@ -12,10 +12,15 @@ public class ObservationControllerTests
     public ObservationControllerTests()
     {
         _logger = new Mock<ILogger<ObservationController>>();
-        var mappingConfig = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new BirderMappingProfile());
-        });
+        var loggerFactory = LoggerFactory.Create(builder =>
+{
+builder.AddConsole(); // Add a console logger
+});
+        // var mappingConfig = new MapperConfiguration(cfg =>
+        // {
+        //     cfg.AddProfile(new BirderMappingProfile());
+        // });
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
         _mapper = mappingConfig.CreateMapper();
         _systemClock = new SystemClockService();
     }

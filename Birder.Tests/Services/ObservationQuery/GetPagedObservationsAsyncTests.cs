@@ -5,13 +5,20 @@ namespace Birder.Tests.Services;
 
 public class GetPagedObservationsAsyncTests
 {
+    // private readonly ILoggerFactory _loggerFactory;
+
     [Fact]
     public async Task GetPagedObservationsAsync_Retrieves_Data____()
     {
-        var mappingConfig = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new BirderMappingProfile());
-            });
+                        var loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole(); // Add a console logger
+        });
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
+        // var mappingConfig = new MapperConfiguration(cfg =>
+        //     {
+        //         cfg.AddProfile(new BirderMappingProfile());
+        //     });
         var _mapper = mappingConfig.CreateMapper();
 
         var testUsername = "TestUser1";
@@ -50,10 +57,15 @@ public class GetPagedObservationsAsyncTests
     [Fact]
     public async Task GetPagedObservationsAsync_When_Argument_Is_Null_Returns_Argument_Exception()
     {
-        var mappingConfig = new MapperConfiguration(cfg =>
+                        var loggerFactory = LoggerFactory.Create(builder =>
         {
-            cfg.AddProfile(new BirderMappingProfile());
+            builder.AddConsole(); // Add a console logger
         });
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
+        // var mappingConfig = new MapperConfiguration(cfg =>
+        // {
+        //     cfg.AddProfile(new BirderMappingProfile());
+        // });
         var _mapper = mappingConfig.CreateMapper();
 
         var mockService = new Mock<IBirdThumbnailPhotoService>();

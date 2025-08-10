@@ -7,14 +7,23 @@ public class UserProfileControllerTests
 {
     private readonly IMapper _mapper;
     private readonly Mock<ILogger<UserProfileController>> _logger;
+
     public UserProfileControllerTests()
     {
         _logger = new Mock<ILogger<UserProfileController>>();
-        var mappingConfig = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile(new BirderMappingProfile());
-        });
+
+        var loggerFactory = LoggerFactory.Create(builder =>
+{
+    builder.AddConsole(); // Add a console logger
+});
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
+        //new MapperConfiguration(cfg =>
+        // {
+        //     cfg.AddProfile(new BirderMappingProfile());
+        // }, loggerFactory);
         _mapper = mappingConfig.CreateMapper();
+
+        // var config = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
     }
 
 

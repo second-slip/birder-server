@@ -9,14 +9,23 @@ public class CreateObservationAsyncTests
     private readonly IMapper _mapper;
     private readonly Mock<ILogger<ObservationController>> _logger;
     private readonly ISystemClockService _systemClock;
+    
+    // private readonly ILoggerFactory _loggerFactory;
 
     public CreateObservationAsyncTests()
     {
         _logger = new Mock<ILogger<ObservationController>>();
-        var mappingConfig = new MapperConfiguration(cfg =>
+                var loggerFactory = LoggerFactory.Create(builder =>
         {
-            cfg.AddProfile(new BirderMappingProfile());
+            builder.AddConsole(); // Add a console logger
         });
+
+        // private readonly ILoggerFactory _loggerFactory;
+        var mappingConfig = new MapperConfiguration(cfg => cfg.AddProfile(new BirderMappingProfile()), loggerFactory);
+        // var mappingConfig = new MapperConfiguration(cfg =>
+        // {
+        //     cfg.AddProfile(new BirderMappingProfile());
+        // });
         _mapper = mappingConfig.CreateMapper();
         _systemClock = new SystemClockService();
     }
