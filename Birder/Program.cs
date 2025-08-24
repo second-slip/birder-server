@@ -60,12 +60,14 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
         .AddDefaultTokenProviders()
         .AddSignInManager<SignInManager<ApplicationUser>>();
 
-builder.Services.AddAutoMapper(typeof(BirderMappingProfile));
+builder.Services.Configure<ConfigOptions>(builder.Configuration.GetSection(ConfigOptions.Config));
+
+var autoMapper =  builder.Configuration.GetRequiredSection("AutoMapper").Get<AutoMapperOptions>();
+builder.Services.AddAutoMapper(cfg => cfg.LicenseKey = autoMapper.License, typeof(BirderMappingProfile));
 
 builder.Services.AddHttpClient();
 
 RegisterCustomServices(builder);
-
 
 builder.Services.Configure<FlickrOptions>(builder.Configuration.GetSection(FlickrOptions.Flickr));
 builder.Services.Configure<ConfigOptions>(builder.Configuration.GetSection(ConfigOptions.Config));
