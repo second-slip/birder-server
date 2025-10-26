@@ -23,11 +23,11 @@
 		<PackageReference Include="AutoMapper" Version="15.0.1" />
 		<PackageReference Include="AutoMapper.Collection.EntityFrameworkCore" Version="11.0.0" />
 		<PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.4.0" />
-		<PackageReference Include="Azure.Identity" Version="1.15.0" />
+		<PackageReference Include="Azure.Identity" Version="1.17.0" />
 		<PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.8.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.10" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.8" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.10" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
@@ -35,8 +35,8 @@
 			<!-- <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets> -->
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Azure" Version="1.12.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.10" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
 		<PackageReference Include="SendGrid" Version="9.29.3" />
 		<PackageReference Include="SendGrid.Extensions.DependencyInjection" Version="1.0.1" />
 		<PackageReference Include="System.Runtime.Caching" Version="9.0.8" />
