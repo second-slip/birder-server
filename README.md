@@ -1,6 +1,6 @@
 # birder-server
 
-This is the ASP.NET 9 REST API for the Birder website.
+This is the ASP.NET 10 REST API for the Birder website.
 
 [![.NET](https://github.com/second-slip/birder-server/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/second-slip/birder-server/actions/workflows/dotnet.yml)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/second-slip/birder-server/dotnet.yml)
