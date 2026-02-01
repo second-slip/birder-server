@@ -8,8 +8,8 @@ public class GeneralEndpoints
 
         var text = string.Join(
             Environment.NewLine,
-            "birder-server API v1.9",
-            "ASP.NET 9",
+            "birder-server API v2.0.0",
+            "ASP.NET 10",
             "https://github.com/second-slip/birder-server",
             $"{date}",
             $"\u00A9 Birder 2020 - {date.Year}");
